@@ -1,0 +1,32 @@
+description: >-
+  A dictionary with a data property that contains an array of
+  up to <code>limit</code> addresses. Each entry in the array is a separate
+  address object. The previous and next page of address entries can be retrieved
+  by calling the endpoint contained in the <code>previous_url</code> and
+  <code>next_url</code> fields in the API response respectively.<br>If no
+  more addresses are available beyond the current set of returned results,
+  the <code>next_url</code> field will be empty.
+
+headers:
+  ratelimit-limit:
+    $ref: '../../../shared/headers.yml#/ratelimit-limit'
+  ratelimit-remaining:
+    $ref: '../../../shared/headers.yml#/ratelimit-remaining'
+  ratelimit-reset:
+    $ref: '../../../shared/headers.yml#/ratelimit-reset'
+
+content:
+  application/json:
+    schema:
+      allOf:
+        - type: object
+          properties:
+            data:
+              type: array
+              description: list of addresses
+              items:
+                $ref: '../models/address.yml'
+        - $ref: '../../../shared/models/list.yml#/Count'
+        - $ref: '../../../shared/models/list.yml#/NextUrl'
+        - $ref: '../../../shared/models/list.yml#/PreviousUrl'
+        - $ref: '../../../shared/models/list.yml#/Object'

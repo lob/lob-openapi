@@ -1,0 +1,95 @@
+type: object
+
+required:
+  - address_country
+  - address_line1
+  - date_created
+  - date_modified
+  - deleted
+  - id
+  - metadata
+  - object
+
+properties:
+  id:
+    type: string
+    description: Unique identifier prefixed with <code>adr_</code>.
+
+  description:
+    type: string
+    description: Description
+
+  name:
+    type: string
+    description: Name
+
+  company:
+    type: string
+    description: Company
+
+  phone:
+    type: string
+    description: Phone
+
+  email:
+    type: string
+    description: Email
+
+  address_line1:
+    type: string
+    description: Address Line1
+
+  address_line2:
+    type: string
+    description: Address Line2
+    
+  address_city:
+    type: string
+    description: Address City
+    
+  address_state:
+    type: string
+    description: >
+      Will be returned as a 2 letter state short-name code if <code>address_country</code>
+      is <code>US</code>, otherwise will be returned as the full string.
+
+  address_zip:
+    type: string
+    description: Address Zip
+
+  address_country:
+    type: string
+    description: Will be returned as the full country name.
+
+  recipient_moved:
+    type: boolean
+    description: >
+      Only returned for accounts on certain <a href="https://dashboard.lob.com/#/settings/editions">Print
+      &amp; Mail Editions</a>. Value is <code>true</code> if the address was
+      altered because the recipient filed for a <a href="#ncoa">National Change
+      of Address (NCOA)</a>, <code>false</code> if the NCOA check was run but
+      no altered address was found, and <code>null</code> if the NCOA check
+      was not run. The NCOA check does not happen for non-US addresses, for
+      non-deliverable US addresses, or for addresses created before the NCOA
+      feature was added to your account.
+
+  metadata:
+    type: object
+    description: Metadata
+    properties: {}
+
+  date_created:
+    type: string
+    description: A timestamp in ISO 8601 format of the date the address was created.
+
+  date_modified:
+    type: string
+    description: A timestamp in ISO 8601 format of the date the address was last modified.
+
+  deleted:
+    type: boolean
+    description: Only returned if the address has been successfully deleted.
+
+  object:
+    type: string
+    description: Value is <code>address</code>.

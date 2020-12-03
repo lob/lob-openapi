@@ -1,0 +1,28 @@
+openapi: 3.0.3
+
+info:
+  title: Lob API
+  version: '2020-02-11'
+  description: >
+    The Lob API is organized around REST. Our API is designed to have predictable, 
+    resource-oriented URLs and uses HTTP response codes to indicate any API errors
+  license:
+    name: MIT
+    url: https://mit-license.org/
+  contact:
+    name: Lob Developer Experience
+    email: hilary@lob.com
+  termsOfService: https://www.lob.com/legal
+
+servers:
+  - url: https://api.lob.com/v1
+    description: production
+
+tags:
+  - name: Addresses
+    description: Content relevant to Addresses
+
+paths:
+  /addresses:
+    get:
+      $ref: resources/addresses/list_addresses.yml

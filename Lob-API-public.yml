@@ -21,7 +21,16 @@ servers:
 
 tags:
   - name: Addresses
-    description: Content relevant to Addresses
+    description: Content relevant to addresses
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+
+security:
+  - basicAuth: []
 
 paths:
   /addresses/{id}:

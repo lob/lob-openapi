@@ -1,12 +1,12 @@
 type: object
 
 required:
-  - address_country
+  - id
   - address_line1
+  - address_country
   - date_created
   - date_modified
   - deleted
-  - id
   - metadata
   - object
 
@@ -16,54 +16,110 @@ properties:
 
   description:
     type: string
-    description: Description
+    description: >
+      An internal description that identifies this resource. Must be
+      no longer than 255 characters.
+    maxLength: 255
+    nullable: true
+    example: Harry - Office
 
   name:
     type: string
-    description: Name
+    description: >
+      Either <code>name</code> or <code>company</code> is required,
+      you may also add both. Must be no longer than 40 characters.
+      If both <code>name</code> and <code>company</code> are provided,
+      they will be printed on two separate lines above the rest of the address.
+    maxLength: 40
+    nullable: true
+    example: HARRY ZHANG
 
   company:
     type: string
-    description: Company
+    description: >
+      Either <code>name</code> or <code>company</code> is required,
+      you may also add both. Must be no longer than 40 characters.
+      If both <code>name</code> and <code>company</code> are provided,
+      they will be printed on two separate lines above the rest of the address.
+      This field can be used for any secondary recipient information which is
+      not part of the actual mailing address (Company Name, Department,
+      Attention Line, etc).
+    maxLength: 40
+    nullable: true
+    example: LOB
 
   phone:
     type: string
-    description: Phone
+    description: Must be no longer than 40 characters.
+    maxLength: 40
+    nullable: true
+    example: "5555555555"
 
   email:
     type: string
-    description: Email
+    description: Must be no longer than 100 characters.
+    maxLength: 100
+    nullable: true
+    example: harry@lob.com
 
   address_line1:
     type: string
-    description: Address Line1
+    description: >
+      Must be no longer than 64 characters for US addresses or 200 characters
+      for international addresses.
+    maxLength: 200
+    example: 185 BERRY ST STE 6100
 
   address_line2:
     type: string
-    description: Address Line2
+    description: >
+      Must be no longer than 64 characters for US addresses or 200 characters
+      for international addresses.
+    maxLength: 200
+    nullable: true
+    example: null
 
   address_city:
     type: string
-    description: Address City
+    description: >
+      Required if address_country is US, otherwise optional.
+      Must be no longer than 200 characters.
+    maxLength: 200
+    nullable: true
+    example: SAN FRANCISCO
 
   address_state:
     type: string
     description: >
-      Will be returned as a 2 letter state short-name code if <code>address_country</code>
-      is <code>US</code>, otherwise will be returned as the full string.
+      Required as a 2 letter state short-name code if <code>address_country</code>
+      is <code>US</code>, otherwise optional and no longer than 200 characters.
+    maxLength: 200
+    nullable: true
+    example: CA
 
   address_zip:
     type: string
-    description: Address Zip
+    description: >
+      Required and must follow the ZIP format of <code>12345</code> or
+      ZIP+4 format of <code>12345-1234</code> if <code>address_country</code>
+      is <code>US</code>, otherwise optional and not any longer than 40 characters.
+    maxLength: 40
+    nullable: true
+    example: 94107-1741
 
   address_country:
     type: string
-    description: Will be returned as the full country name.
+    description: >
+      Must be a 2 letter country short-name code (ISO 3166). Defaults to <code>US</code>.
+    minLength: 2
+    maxLength: 2
+    example: US
 
   recipient_moved:
     type: boolean
     description: >
-      Only returned for accounts on certain <a href="https://dashboard.lob.com/#/settings/editions">Print
+      Only returned for accounts on certain
+      <a href="https://dashboard.lob.com/#/settings/editions">Print
       &amp; Mail Editions</a>. Value is <code>true</code> if the address was
       altered because the recipient filed for a <a href="#ncoa">National Change
       of Address (NCOA)</a>, <code>false</code> if the NCOA check was run but
@@ -71,6 +127,8 @@ properties:
       was not run. The NCOA check does not happen for non-US addresses, for
       non-deliverable US addresses, or for addresses created before the NCOA
       feature was added to your account.
+    nullable: true
+    example: false
 
   metadata:
     type: object
@@ -81,16 +139,20 @@ properties:
     type: string
     format: date-time
     description: A timestamp in ISO 8601 format of the date the address was created.
+    example: "2017-09-05T17:47:53.767Z"
 
   date_modified:
     type: string
     format: date-time
     description: A timestamp in ISO 8601 format of the date the address was last modified.
+    example: "2017-09-05T17:47:53.767Z"
 
   deleted:
     type: boolean
     description: Only returned if the address has been successfully deleted.
+    example: false
 
   object:
     type: string
     description: Value is <code>address</code>.
+    example: address

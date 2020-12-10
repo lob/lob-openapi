@@ -2,22 +2,62 @@
 
 Working in this repo until we get the first endpoint or two in place.
 
-## What's here and how to work with it
+## How the spec is organized
 
-* I found a Redoc preview VS Code extension! It also provides linting that
-  complements Spectral. Please install `42crunch.vscode-openapi` and uninstall
-  any of the previous preview extensions you may have had installed. To preview
-  the docs (and a great way to QA PRs), open `Lob-API-public.yml` and click on
-  the preview icon.
+Our spec is organized semantically, by *resource*, instead of syntactically, by OpenAPI element.
 
-* If you have the stoplight spectral extension installed (v0.2.4), it will run
-  as you type. I find it useful to install it as a CLI as well, as the VS Code
-  plugin can get confused.
+```
+.
+├── Lob-API-public.yml            # base file (metadata, tags, servers, ...)
+└── resources
+    ├── addresses                 # elements specific to addresses
+    │   ├── addresses.yml         # operations on /addresses
+    │   ├── address.yml           # operations on /addresses/{id}
+    │   ├── attributes
+    │   │   ├── adr_id.yml
+    │   │   └── ...
+    │   ├── models
+    │   │   └── address.yml
+    │   └── responses
+    │       ├── address.yml
+    │       └── all_addresses.yml
+    ├── postcards                 # elements specific to postcards
+    │   ├── postcards.yml         # operations on /postcards
+    │   ├── postcard.yml          # operations on /postcards/{id}
+    │   └── ...
+    └── shared                    # elements shared by multiple resources
+        ├── headers.yml
+        ├── parameters.yml
+        └── models
+            └── list.yml
+```
 
-* I am finding that the linting by vscode-openapi catches some things that
-  Spectral misses and vice-versa.
+## Style Guide and Linting
 
-* To produce a single file version of the spec in the traditional layout, run `make bundle`
+Our style guide is an extension of [Spectral's](https://meta.stoplight.io/docs/spectral/README.md) [OpenAPI ruleset](https://meta.stoplight.io/docs/spectral/docs/reference/openapi-rules.md). Spectral's ruleset goes beyond the OpenAPI v3 standard to incorporate a recommended set of best practices.
+
+Spectral runs in CI on push and pull request. You can also run Spectral locally using the Spectral CLI and/or via the [stoplight.spectral](https://marketplace.visualstudio.com/items?itemName=stoplight.spectral) VS Code extension.
+
+Additional linting is provided by [42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi). A second linter will be added to CI, as a backup to Spectral.
+
+## Previewing the spec as docs (aka QAing your work)
+
+To preview the spec using redoc:
+1. install [42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi) in VS Code
+2. go to `Settings => Extenstions => OpenAPI`
+3. set `Default Preview Renderer` to `redoc`
+4. open `Lob-API-public.yml`
+5. click on the preview icon at the upper right hand corner of the panel.
+
+* Drill down into the documentation to make sure that your examples are populating correctly.
+* Run the code samples to be sure they are correct.
+* Compare the response you get to the example response.
+
+## Compatibility with Community Tooling
+
+A lot of tooling for working with OpenAPI specs does not support the full specification. In particular, many tools do not support multiple files specs. To use such a tool, bundle the spec into a single file using `make bundle`.
+
+The tool used by `make bundle` can do much more than bundle a multiple file spec into a single file. It can convert specs between `YAML` and `JSON`, fully dereference a spec, and more.
 
 ## See Also
 

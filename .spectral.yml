@@ -2,3 +2,24 @@ extends: spectral:oas
 rules:
   operation-default-response: off
   operation-singular-tag: off
+
+  path-item-must-be-ref:
+    description: Path Item Object value must be a $ref
+    message: "{{description}}; {{property}} incorrect"
+    severity: error
+    resolved: false
+    given: $.paths.*
+    then:
+    - field: $ref
+      function: truthy
+
+  path-item-ref-must-be-file:
+    description: Path Item must $ref to a file in resources/<resource_name>/
+    message: "{{description}}; {{value}} incorrect"
+    severity: error
+    resolved: false
+    given: $.paths.*.$ref
+    then:
+      function: pattern
+      functionOptions:
+        match: "^resources\/[a-zA-Z]+\/[a-zA-Z-_]+.yml"

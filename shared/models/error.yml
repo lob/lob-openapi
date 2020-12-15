@@ -1,0 +1,19 @@
+type: object
+
+description: >-
+  Lob uses RESTful HTTP response codes to indicate success or failure of an
+  API request. In general, 2xx indicates success, 4xx indicate an input error,
+  and 5xx indicates an error on Lob's end.
+
+required:
+  - message
+  - status_code
+
+properties:
+  message:
+    type: string
+    description: A human-readable message with more details about the error
+    example: Rate limit exceeded. Please wait 5 seconds and try your request again.
+
+  status_code:
+    $ref: '../attributes/failure_status_code.yml'

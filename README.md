@@ -26,11 +26,18 @@ Our spec is organized semantically, by *resource*, instead of syntactically, by 
     │   ├── postcard.yml          # operations on /postcards/{id}
     │   └── ...
     └── shared                    # elements shared by multiple resources
-        ├── headers.yml
+        ├── headers
+            ├── rate-limiters.yml
+            ├── create-address.yml
+            └── ...
         ├── parameters.yml
         └── models
             └── list.yml
 ```
+
+## Creating a pull request
+
+Instead of branching off `lob/hackathon-spec-v1` direction, fork the repository and create a branch on your own forked repo. You can then push to that branch and submit PRs to the main repository.
 
 ## Style Guide and Linting
 
@@ -62,3 +69,5 @@ The tool used by `make bundle` can do much more than bundle a multiple file spec
 ## See Also
 
 The API tooling Notion page.
+
+[The Lob.com docs](https://docs.lob.com/#addresses)

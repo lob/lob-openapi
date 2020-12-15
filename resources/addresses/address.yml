@@ -20,3 +20,26 @@ get:
   responses:
     '200':
       $ref: responses/address.yml
+
+delete:
+  operationId: delete_address
+
+  summary: Deletes address with given id
+
+  description: >-
+    Deletes the details of an existing address. You need only supply
+    the unique customer identifier that was returned upon address creation.
+
+  tags:
+    - Addresses
+
+  parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        $ref: 'attributes/adr_id.yml#/id'
+
+  responses:
+    '200':
+      $ref: responses/address.yml

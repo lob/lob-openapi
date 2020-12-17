@@ -3,16 +3,14 @@ type: object
 required:
   - id
   - address_line1
-  - address_country
   - date_created
   - date_modified
   - deleted
-  - metadata
   - object
 
 properties:
   id:
-    $ref: '../attributes/adr_id.yml#/id'
+    $ref: '../attributes/adr_id.yml'
 
   description:
     type: string
@@ -114,6 +112,9 @@ properties:
     minLength: 2
     example: US
 
+  metadata:
+    $ref: '../../../shared/attributes/metadata.yml#/metadata'
+
   recipient_moved:
     type: boolean
     description: >
@@ -127,31 +128,14 @@ properties:
       non-deliverable US addresses, or for addresses created before the NCOA
       feature was added to your account.
     nullable: true
+    readOnly: true
     example: false
-
-  metadata:
-    type: object
-    description: Metadata
-    properties: {}
-
-  date_created:
-    type: string
-    format: date-time
-    description: A timestamp in ISO 8601 format of the date the address was created.
-    example: "2017-09-05T17:47:53.767Z"
-
-  date_modified:
-    type: string
-    format: date-time
-    description: A timestamp in ISO 8601 format of the date the address was last modified.
-    example: "2017-09-05T17:47:53.767Z"
 
   deleted:
-    type: boolean
-    description: Only returned if the address has been successfully deleted.
-    example: false
+    $ref: '../../../shared/attributes/deleted.yml#/deleted'
 
-  object:
-    type: string
-    description: Value is <code>address</code>.
-    example: address
+  date_created:
+    $ref: '../../../shared/attributes/timestamps.yml#/date_created'
+
+  date_modified:
+    $ref: '../../../shared/attributes/timestamps.yml#/date_modified'

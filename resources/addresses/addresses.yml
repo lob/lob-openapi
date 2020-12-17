@@ -19,3 +19,36 @@ get:
 
     default:
       $ref: '../../shared/responses/error.yml'
+
+post:
+  operationId: create_address
+
+  summary: Creates a new address object
+
+  description: >-
+    Creates a new address given information
+
+  tags:
+    - Addresses
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'models/address.yml'
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: 'models/address.yml'
+
+      multipart/form-data:
+        schema:
+          $ref: 'models/address.yml'
+
+  responses:
+    '200':
+      $ref: responses/address.yml
+
+    default:
+      $ref: '../../shared/responses/error.yml'

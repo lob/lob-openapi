@@ -1,14 +1,12 @@
-# hackathon-spec-v1
+# Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
-Working in this repo until we get the first endpoint or two in place.
-
-- [hackathon-spec-v1](#hackathon-spec-v1)
   - [How the spec is organized](#how-the-spec-is-organized)
   - [Style Guide and Linting](#style-guide-and-linting)
   - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
   - [Local Contract Testing](#local-contract-testing)
   - [Compatibility with Community Tooling](#compatibility-with-community-tooling)
   - [See Also](#see-also)
+
 ## How the spec is organized
 
 Our spec is organized semantically, by *resource*, instead of syntactically, by OpenAPI element.
@@ -41,11 +39,20 @@ Our spec is organized semantically, by *resource*, instead of syntactically, by 
 
 ## Style Guide and Linting
 
-Our style guide is an extension of [Spectral's](https://meta.stoplight.io/docs/spectral/README.md) [OpenAPI ruleset](https://meta.stoplight.io/docs/spectral/docs/reference/openapi-rules.md). Spectral's ruleset goes beyond the OpenAPI v3 standard to incorporate a recommended set of best practices.
+Our style guide is an extension of
+[Spectral's](https://meta.stoplight.io/docs/spectral/README.md) [OpenAPI
+ruleset](https://meta.stoplight.io/docs/spectral/docs/reference/openapi-rules.md). Spectral's
+ruleset goes beyond the OpenAPI v3 standard to incorporate a recommended set of
+best practices.
 
-Spectral runs in CI on push and pull request. You can also run Spectral locally using the Spectral CLI and/or via the [stoplight.spectral](https://marketplace.visualstudio.com/items?itemName=stoplight.spectral) VS Code extension.
+Spectral runs in CI on push and pull request. You can also run Spectral locally
+using the Spectral CLI and/or via the
+[stoplight.spectral](https://marketplace.visualstudio.com/items?itemName=stoplight.spectral)
+VS Code extension.
 
-Additional linting is provided by [42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi). A second linter will be added to CI, as a backup to Spectral.
+For those editing in VS Code, additional linting can be provided by
+[42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi). A second
+linter will be added to CI, as a backup to Spectral.
 
 ## Previewing the spec as docs (aka QAing your work)
 
@@ -63,30 +70,33 @@ To preview the spec using redoc:
 ## Local Contract Testing
 
 You can run [Prism](https://meta.stoplight.io/docs/prism/README.md) locally as a
-[validation proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy) to do
-contract testing when working on your code or reviewing PRs. (We plan to setup Prism to run contract tests
-using a test key as part of CI via a github action. In the interim, here's a quick intro to using Prism
-locally.)
+[validation
+proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy)
+to do contract testing when working on your code or reviewing PRs. (We plan to
+setup Prism to run contract tests using a test key as part of CI via a github
+action. In the interim, here's a quick intro to using Prism locally.)
 
-You can run Prism in a variety of ways, including via Docker. The instructions given here are for a local
-install via npm. Once you have installed Prism, in a terminal, run
+You can run Prism in a variety of ways, including via Docker. The instructions
+given here are for a local install via npm. Once you have installed Prism, in a
+terminal, run
 
 ```
-hilary-holz@brick:~/repos/hilary/hackathon-spec-v1$ prism proxy Lob-API-public.yml https://api.lob.com/v1
+$ prism proxy Lob-API-public.yml https://api.lob.com/v1
 [1:20:53 PM] › [CLI] …  awaiting  Starting Prism…
 [1:20:53 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/addresses/adr_D9V2vWn
 [1:20:53 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/addresses?Limit=55
 [1:20:53 PM] › [CLI] ▶  start     Prism is listening on http://127.0.0.1:4010
 ```
 
-Once Prism is listening, you can issue http requests to the proxy port, in this case `http://127.0.0.1:4010` using
-the client of your choice. I like [httpie](https://httpie.io/docs#main-features), a user friendly client.
+Once Prism is listening, you can issue http requests to the proxy port, in this
+case `http://127.0.0.1:4010` using the client of your choice. I like
+[httpie](https://httpie.io/docs#main-features), a user friendly client.
 
 ```
-hilary-holz@brick:~/repos/hilary/hackathon-spec-v1$ http -a $LOB_API_SECRET_TEST: -v GET http://127.0.0.1:4010/addresses Accept-Encoding:
+$ http -a $LOB_API_SECRET_TEST: -v GET http://127.0.0.1:4010/addresses Accept-Encoding:
 GET /addresses HTTP/1.1
 Accept: */*
-Authorization: Basic dGVzdF85NWI4ZjZiY2E5YzZlMjI1MGY5OWE4NWNlMDRjMGJjZGExODo=
+Authorization: Basic <REDACTED>
 Connection: keep-alive
 Host: 127.0.0.1:4010
 User-Agent: HTTPie/1.0.3
@@ -116,16 +126,26 @@ vary: origin,accept-encoding
 }
 ```
 
-The `Accept-Encoding:` header included in the request unsets the default header `Accept-Encoding: gzip, deflate`.
+The `Accept-Encoding:` header included in the request unsets `httpie`'s default
+header `Accept-Encoding: gzip, deflate`.
 
-Any contract violations will be returned in a `s1-violations` header, which will contain a JSON object with all violations found in the response. You can also use the `--errors` flag which will turn any request or response violation found into a [RFC7807](https://tools.ietf.org/html/rfc7807) machine readable error.
+Any contract violations will be returned in a `s1-violations` header, which will
+contain a JSON object with all violations found in the response. You can also
+use the `--errors` flag which will turn any request or response violation found
+into a [RFC7807](https://tools.ietf.org/html/rfc7807) machine readable error.
 
 ## Compatibility with Community Tooling
 
-A lot of tooling for working with OpenAPI specs does not support the full specification. In particular, many tools do not support multiple files specs. To use such a tool, bundle the spec into a single file using `make bundle`.
+A lot of tooling for working with OpenAPI specs does not support the full
+specification. In particular, many tools do not support multiple files specs. To
+use such a tool, bundle the spec into a single file using `make bundle`.
 
-The tool used by `make bundle` can do much more than bundle a multiple file spec into a single file. It can convert specs between `YAML` and `JSON`, fully dereference a spec, and more.
+The tool used by `make bundle` can do much more than bundle a multiple file spec
+into a single file. It can convert specs between `YAML` and `JSON`, fully
+dereference a spec, and more.
 
 ## See Also
 
 The API tooling Notion page.
+
+[The Lob.com API docs](https://docs.lob.com/)

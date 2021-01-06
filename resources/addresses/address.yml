@@ -1,3 +1,11 @@
+parameters:
+  - in: path
+    name: id
+    description: id of the address
+    required: true
+    schema:
+      $ref: 'attributes/adr_id.yml'
+
 get:
   operationId: get_address
 
@@ -10,17 +18,28 @@ get:
   tags:
     - Addresses
 
-  parameters:
-    - in: path
-      name: id
-      description: id of the address to retrieve
-      required: true
-      schema:
-        $ref: 'attributes/adr_id.yml'
-
   responses:
     '200':
       $ref: responses/address.yml
+
+    default:
+      $ref: '../../shared/responses/error.yml'
+
+delete:
+  operationId: delete_address
+
+  summary: Deletes address with given id
+
+  description: >-
+    Deletes the details of an existing address. You need only supply
+    the unique customer identifier that was returned upon address creation.
+
+  tags:
+    - Addresses
+
+  responses:
+    '200':
+      $ref: '../../shared/responses/deleted.yml'
 
     default:
       $ref: '../../shared/responses/error.yml'

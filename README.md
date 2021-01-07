@@ -70,8 +70,7 @@ To preview the spec using redoc:
 ## Local Contract Testing
 
 You can run [Prism](https://meta.stoplight.io/docs/prism/README.md) locally as a
-[validation
-proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy)
+[validation proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy)
 to do contract testing when working on your code or reviewing PRs. (We plan to
 setup Prism to run contract tests using a test key as part of CI via a github
 action. In the interim, here's a quick intro to using Prism locally.)
@@ -146,6 +145,7 @@ dereference a spec, and more.
 
 ## See Also
 
-The API tooling Notion page.
-
-[The Lob.com API docs](https://docs.lob.com/)
+* [Lob API documentation](https://docs.lob.com/)
+* [Lobsters](https://www.lob.com/careers) only
+  * [Notion: Lob API OpenAPI Project](https://www.notion.so/lob/Lob-API-v1-OpenAPI-spec-d6c3229d31bc45329d18e01905117fda)
+  * [Notion: OpenAPI tooling](https://www.notion.so/lob/OpenAPI-tooling-e17f5a864a4a48d1886dcd95b53cf694)

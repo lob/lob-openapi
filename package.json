@@ -1,0 +1,33 @@
+{
+  "name": "lob-openapi",
+  "version": "1.0.0",
+  "description": "Tooling for OpenAPI spec for Lob API",
+  "private": true,
+  "main": "",
+  "scripts": {
+    "proxy": "prism proxy --errors Lob-API-public.yml https://api.lob.com/v1",
+    "test": "tape './tests/**_test.js' | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lob/lob-openapi.git"
+  },
+  "keywords": [
+    "OpenAPI",
+    "Prism"
+  ],
+  "author": "engineering@lob.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lob/lob-openapi/issues"
+  },
+  "homepage": "https://github.com/lob/lob-openapi#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@stoplight/prism-cli": "^4.1.2",
+    "@stoplight/spectral": "^5.8.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.1.1"
+  }
+}

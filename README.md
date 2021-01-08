@@ -4,7 +4,7 @@
 - [Style Guide and linting](#style-guide-and-linting)
 - [Future proofing](#future-proofing)
 - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
-- [Local contract testing](#local-contract-testing)
+- [Contract testing](#contract-testing)
 - [Compatibility with community tooling](#compatibility-with-community-tooling)
 - [See also](#see-also)
 
@@ -71,20 +71,20 @@ To preview the spec using redoc:
 * Run the code samples to be sure they are correct.
 * Compare the response you get to the example response.
 
-## Local contract testing
+## Contract testing
 
-You can run [Prism](https://meta.stoplight.io/docs/prism/README.md) locally as a
-[validation proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy)
-to do contract testing when working on your code or reviewing PRs. (We plan to
-setup Prism to run contract tests using a test key as part of CI via a github
-action. In the interim, here's a quick intro to using Prism locally.)
+We use [Prism](https://meta.stoplight.io/docs/prism/README.md) for contract testing, using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). To run the existing tests, run `npm test`. To add
+tests, look in the `test/` directory for a file named for the resource with
+the endpoint in question. At present, the contract tests use the test user token listed on the
+developer docs website. An upcoming change will switch to pulling the access tokens from
+environment variables.
 
-You can run Prism in a variety of ways, including via Docker. The instructions
-given here are for a local install via npm. Once you have installed Prism, in a
-terminal, run
+The contract tests are not yet in CI, so be sure to run the contract tests when reviewing PRs!
+
+During development of the spec for existing endpoints, you can run Prism as a [validation proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy) by running `npm run proxy`.
 
 ```
-$ prism proxy Lob-API-public.yml https://api.lob.com/v1
+$ npm run proxy
 [1:20:53 PM] › [CLI] …  awaiting  Starting Prism…
 [1:20:53 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/addresses/adr_D9V2vWn
 [1:20:53 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/addresses?Limit=55
@@ -136,6 +136,9 @@ Any contract violations will be returned in a `s1-violations` header, which will
 contain a JSON object with all violations found in the response. You can also
 use the `--errors` flag which will turn any request or response violation found
 into a [RFC7807](https://tools.ietf.org/html/rfc7807) machine readable error.
+
+You can also run Prism as a mock server using the spec for new endpoints.
+Please see the Prism website until we encapsulate that mode in a `make` command.
 
 ## Compatibility with community tooling
 

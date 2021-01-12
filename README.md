@@ -1,11 +1,12 @@
 # Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
-  - [How the spec is organized](#how-the-spec-is-organized)
-  - [Style Guide and Linting](#style-guide-and-linting)
-  - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
-  - [Local Contract Testing](#local-contract-testing)
-  - [Compatibility with Community Tooling](#compatibility-with-community-tooling)
-  - [See Also](#see-also)
+- [How the spec is organized](#how-the-spec-is-organized)
+- [Style Guide and linting](#style-guide-and-linting)
+- [Future proofing](#future-proofing)
+- [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
+- [Local contract testing](#local-contract-testing)
+- [Compatibility with community tooling](#compatibility-with-community-tooling)
+- [See also](#see-also)
 
 ## How the spec is organized
 
@@ -37,7 +38,7 @@ Our spec is organized semantically, by *resource*, instead of syntactically, by 
             └── list.yml
 ```
 
-## Style Guide and Linting
+## Style Guide and linting
 
 Our style guide is an extension of
 [Spectral's](https://meta.stoplight.io/docs/spectral/README.md) [OpenAPI
@@ -54,6 +55,9 @@ For those editing in VS Code, additional linting can be provided by
 [42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi). A second
 linter will be added to CI, as a backup to Spectral.
 
+## Future proofing
+
+As of January 2021, OpenAPI v3.1 is in [rc1](https://www.openapis.org/blog) with final expected any day. 3.1 includes many [extremely useful changes](https://github.com/OAI/OpenAPI-Specification/releases/tag/3.1.0-rc0), including full JSON schema compatibility and the ability to extend discriminators with specification extensions. As we anticipate moving to v3.1 soon after release, we're working to minimize the changes we'll need to make. Some changes, like switching from `nullable` to `null`, are both unavoidable and easy. Others, like using `ReadOnly` and `WriteOnly` with `required`, can and should be avoided.
 ## Previewing the spec as docs (aka QAing your work)
 
 To preview the spec using redoc:
@@ -67,7 +71,7 @@ To preview the spec using redoc:
 * Run the code samples to be sure they are correct.
 * Compare the response you get to the example response.
 
-## Local Contract Testing
+## Local contract testing
 
 You can run [Prism](https://meta.stoplight.io/docs/prism/README.md) locally as a
 [validation proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy)
@@ -133,7 +137,7 @@ contain a JSON object with all violations found in the response. You can also
 use the `--errors` flag which will turn any request or response violation found
 into a [RFC7807](https://tools.ietf.org/html/rfc7807) machine readable error.
 
-## Compatibility with Community Tooling
+## Compatibility with community tooling
 
 A lot of tooling for working with OpenAPI specs does not support the full
 specification. In particular, many tools do not support multiple files specs. To
@@ -143,7 +147,7 @@ The tool used by `make bundle` can do much more than bundle a multiple file spec
 into a single file. It can convert specs between `YAML` and `JSON`, fully
 dereference a spec, and more.
 
-## See Also
+## See also
 
 * [Lob API documentation](https://docs.lob.com/)
 * [Lobsters](https://www.lob.com/careers) only

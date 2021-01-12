@@ -1,0 +1,111 @@
+type: object
+
+required:
+  - address_line1
+
+properties:
+  description:
+    type: string
+    description: >
+      An internal description that identifies this resource. Must be
+      no longer than 255 characters.
+    maxLength: 255
+    nullable: true
+    example: Harry - Office
+
+  name:
+    type: string
+    description: >
+      Either <code>name</code> or <code>company</code> is required,
+      you may also add both. Must be no longer than 40 characters.
+      If both <code>name</code> and <code>company</code> are provided,
+      they will be printed on two separate lines above the rest of the address.
+    maxLength: 40
+    nullable: true
+    example: HARRY ZHANG
+
+  company:
+    type: string
+    description: >
+      Either <code>name</code> or <code>company</code> is required,
+      you may also add both. Must be no longer than 40 characters.
+      If both <code>name</code> and <code>company</code> are provided,
+      they will be printed on two separate lines above the rest of the address.
+      This field can be used for any secondary recipient information which is
+      not part of the actual mailing address (Company Name, Department,
+      Attention Line, etc).
+    maxLength: 40
+    nullable: true
+    example: LOB
+
+  phone:
+    type: string
+    description: Must be no longer than 40 characters.
+    maxLength: 40
+    nullable: true
+    example: "5555555555"
+
+  email:
+    type: string
+    description: Must be no longer than 100 characters.
+    maxLength: 100
+    nullable: true
+    example: harry@lob.com
+
+  address_line1:
+    type: string
+    description: >
+      Must be no longer than 64 characters for US addresses or 200 characters
+      for international addresses.
+    maxLength: 200
+    example: 185 BERRY ST STE 6100
+
+  address_line2:
+    type: string
+    description: >
+      Must be no longer than 64 characters for US addresses or 200 characters
+      for international addresses.
+    maxLength: 200
+    nullable: true
+    example: null
+
+  address_city:
+    type: string
+    description: >
+      Required if address_country is US, otherwise optional.
+      Must be no longer than 200 characters.
+    maxLength: 200
+    nullable: true
+    example: SAN FRANCISCO
+
+  address_state:
+    type: string
+    description: >
+      Required as a 2 letter state short-name code if <code>address_country</code>
+      is <code>US</code>, otherwise optional and no longer than 200 characters.
+    maxLength: 200
+    nullable: true
+    example: CA
+
+  address_zip:
+    type: string
+    description: >
+      Required and must follow the ZIP format of <code>12345</code> or
+      ZIP+4 format of <code>12345-1234</code> if <code>address_country</code>
+      is <code>US</code>, otherwise optional and not any longer than 40 characters.
+    maxLength: 40
+    nullable: true
+    example: 94107-1741
+
+  address_country:
+    type: string
+    description: >
+      Must be a 2 letter country short-name code (ISO 3166). Defaults to <code>US</code>.
+    minLength: 2
+    example: US
+
+  send_date:
+    $ref: '../../../shared/attributes/send_date.yml'
+
+  metadata:
+    $ref: '../../../shared/models/metadata.yml'

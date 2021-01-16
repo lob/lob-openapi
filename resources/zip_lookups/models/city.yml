@@ -1,0 +1,56 @@
+type: object
+
+required:
+  - city
+  - state
+  - county
+  - county_fips
+  - preferred
+
+properties:
+  city:
+    type: string
+    description: >
+      The name of the city.
+    example: SAN FRANCISCO
+    readOnly: true
+
+  state:
+    type: string
+    description: >
+      The state as a two-letter abbreviation.
+    maxLength: 2
+    example: CA
+    readOnly: true
+
+  county:
+    type: string
+    description: >
+      The name of the county that contains this city.
+    example: US
+    readOnly: true
+
+  county_fips:
+    type: string
+    description: >
+      A 5-digit [FIPS county code](https://en.wikipedia.org/wiki/FIPS_county_code)
+      which uniquely identifies components[county]. It consists of a 2-digit state
+      code and a 3-digit county code.
+    maxLength: 5
+    minLength: 5
+    example: '06075'
+    readOnly: true
+    
+  preferred:
+    type: boolean
+    description: >
+      Indicates whether or not the city is the [USPS default city](https://en.wikipedia.org/wiki/ZIP_Code#ZIP_Codes_and_previous_zoning_lines)
+      (preferred city) of a ZIP code. There is only one preferred city per ZIP code,
+      which will always be in position 0 in the array of cities.
+    maxLength: 1
+    minLength: 1
+    example: true
+    readOnly: true
+
+  object:
+    $ref: '../../../shared/attributes/object.yml'

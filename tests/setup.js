@@ -17,9 +17,9 @@ const clientOptions = {
 
 const specFile = './Lob-API-public.yml';
 
-module.exports.setup = async () => {
+module.exports.setup = async (override = {}) => {
   const operations = await getHttpOperationsFromSpec(specFile);
-  return createClientFromOperations(operations, clientOptions);
+  return createClientFromOperations(operations, { ...clientOptions, ...override });
 }
 
 const testSecret = 'Basic dGVzdF8wZGM4ZDUxZTBhY2ZmY2IxODgwZTBmMTljNzliMmY1YjBjYzo='

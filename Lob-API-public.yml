@@ -22,6 +22,8 @@ servers:
 tags:
   - name: Addresses
     description: Content relevant to addresses
+  - name: Zip Lookups
+    description: Content relevant to US ZIP lookups
 
 components:
   securitySchemes:
@@ -38,3 +40,6 @@ paths:
 
   /addresses:
     $ref: resources/addresses/addresses.yml
+
+  /us_zip_lookups:
+    $ref: resources/zip_lookups/zip_lookups.yml

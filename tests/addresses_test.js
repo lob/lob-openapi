@@ -10,14 +10,13 @@ const adr_id = 'adr_43769b47aed248c2';
 
 // contract tests
 test('list addresses', async function(t) {
-  const client = await setup();
+  const response = await setup()
+    .then(client => client.get(resource_endpoint, { headers: authHeader }));
 
-  t.ok(client.get(resource_endpoint, { headers: authHeader }));
+  t.equal(response.status, 200);
 });
 
 test('create an address', async function(t) {
-  const client = await setup();
-
   const params = {
     description:     'Harry - Office',
     name:            'Harry Zhang',
@@ -31,18 +30,22 @@ test('create an address', async function(t) {
     address_zip:     '94107',
     address_country: 'US',
   }
+  const response = await setup()
+    .then(client => client.post(resource_endpoint, params, { headers: authHeader }));
 
-  t.ok(client.post(resource_endpoint, params, { headers: authHeader }));
+  t.equal(response.status, 200);
 });
 
 test('retrieve an address', async function(t) {
-  const client = await setup();
+  const response = await setup().
+    then(client => client.get(`${resource_endpoint}/${adr_id}`, { headers: authHeader }));
 
-  t.ok(client.get(`${resource_endpoint}/${adr_id}`, { headers: authHeader }));
+  t.equal(response.status, 200);
 });
 
 test('delete an address', async function(t) {
-  const client = await setup();
+  const response = await setup()
+    .then(client => client.delete(`${resource_endpoint}/${adr_id}`, { headers: authHeader }));
 
-  t.ok(client.delete(`${resource_endpoint}/${adr_id}`, { headers: authHeader }));
+  t.equal(response.status, 200);
 });

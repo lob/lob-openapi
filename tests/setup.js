@@ -22,5 +22,5 @@ module.exports.setup = async () => {
   return createClientFromOperations(operations, clientOptions);
 }
 
-const testSecret = 'BASIC dGVzdF8wZGM4ZDUxZTBhY2ZmY2IxODgwZTBmMTljNzliMmY1YjBjYzo='
+const testSecret = 'Basic dGVzdF8wZGM4ZDUxZTBhY2ZmY2IxODgwZTBmMTljNzliMmY1YjBjYzo='
 module.exports.authHeader = { Authorization: testSecret };

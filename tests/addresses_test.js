@@ -48,24 +48,20 @@ test("create, retrieve, then delete an address", async function (t) {
   const adr_id = response.data.id;
 
   // retrieve
-  response = await prism
-    .setup()
-    .then((client) =>
-      client.get(`${resource_endpoint}/${adr_id}`, {
-        headers: prism.authHeader,
-      })
-    );
+  response = await prism.setup().then((client) =>
+    client.get(`${resource_endpoint}/${adr_id}`, {
+      headers: prism.authHeader,
+    })
+  );
 
   t.equal(response.status, 200);
 
   // delete
-  response = await prism
-    .setup()
-    .then((client) =>
-      client.delete(`${resource_endpoint}/${adr_id}`, {
-        headers: prism.authHeader,
-      })
-    );
+  response = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${adr_id}`, {
+      headers: prism.authHeader,
+    })
+  );
 
   t.equal(response.status, 200);
 });

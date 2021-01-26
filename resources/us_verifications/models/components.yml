@@ -1,0 +1,220 @@
+type: object
+
+required:
+  - primary_number
+  - street_predirection
+  - street_name
+  - street_suffix
+  - street_postdirection
+  - secondary_designator
+  - secondary_number
+  - pmb_designator
+  - pmb_number
+  - extra_secondary_designator
+  - extra_secondary_number
+  - city
+  - state
+  - zip_code
+  - zip_code_plus_4
+  - zip_code_type
+  - delivery_point_barcode
+  - address_type
+  - record_type
+  - default_building_address
+  - county
+  - county_fips
+  - carrier_route
+  - carrier_route_type
+  - latitude
+  - longitude
+
+properties:
+  primary_number:
+    type: string
+    description: >
+      The numeric or alphanumeric part of an address preceding the
+      street name. Often the house, building, or PO Box number.
+    example: "185"
+    readOnly: true
+
+  street_predirection:
+    type: string
+    description: >
+      Geographic direction preceding a street name (<code>N</code>, <code>S</code>, <code>E</code>,
+      <code>W</code>, <code>NE</code>, <code>SW</code>, <code>SE</code>, <code>NW</code>).
+    example: ""
+    readOnly: true
+
+  street_name:
+    type: string
+    description: >
+      The name of the street.
+    example: BERRY
+    readOnly: true
+
+  street_suffix:
+    type: string
+    description: >
+      The standard USPS abbreviation for the street suffix (<code>ST</code>, <code>AVE</code>, <code>BLVD</code>, etc).
+    example: ST
+    readOnly: true
+
+  street_postdirection:
+    type: string
+    description: >
+      Geographic direction following a street name (<code>N</code>, <code>S</code>, <code>E</code>,
+      <code>W</code>, <code>NE</code>, <code>SW</code>, <code>SE</code>, <code>NW</code>).
+    example: ""
+    readOnly: true
+
+  secondary_designator:
+    type: string
+    description: >
+      The standard USPS abbreviation describing the <code>components[secondary_number]</code>
+      (<code>STE</code>, <code>APT</code>, <code>BLDG</code>, etc).
+    example: STE
+    readOnly: true
+
+  secondary_number:
+    type: string
+    description: >
+      Number of the apartment/unit/etc.
+    example: "6100"
+    readOnly: true
+
+  pmb_designator:
+    type: string
+    description: >
+      Designator of a [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency) private mailbox.
+    example: ""
+    readOnly: true
+
+  pmb_number:
+    type: string
+    description: >
+      Number of a [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency) private mailbox.
+    example: ""
+    readOnly: true
+
+  extra_secondary_designator:
+    type: string
+    description: >
+      An extra (often unnecessary) secondary designator provided with the input address.
+    example: ""
+    readOnly: true
+
+  extra_secondary_number:
+    type: string
+    description: >
+      An extra (often unnecessary) secondary number provided with the input address.
+    example: ""
+    readOnly: true
+
+  city:
+    $ref: "../../../shared/attributes/city.yml"
+
+  state:
+    $ref: "../../../shared/attributes/state.yml"
+
+  zip_code:
+    $ref: "../../../shared/attributes/zip_code.yml"
+
+  zip_code_plus_4:
+    type: string
+    description: >
+      The 4-digit ZIP add-on code.
+    example: "1728"
+    readOnly: true
+
+  zip_code_type:
+    $ref: "../../../shared/attributes/zip_code_type.yml"
+
+  delivery_point_barcode:
+    type: string
+    description: >
+      A 12-digit identifier that uniquely identifies a delivery point (location where mail can be sent and received).
+      It consists of the 5-digit ZIP code (<code>zip_code</code>), 4-digit ZIP+4 add-on (<code>zip_code_plus_4</code>),
+      2-digit delivery point, and 1-digit delivery point check digit.
+    example: "941071728506"
+    readOnly: true
+
+  address_type:
+    type: string
+    description: >
+      Uses USPS's Residential Delivery Indicator (RDI) to identify whether an address is classified as residential or
+      business. Possible values are:
+      * <code>residential</code> –– The address is residential or a PO Box.
+      * <code>commercial</code> –– The address is commercial.
+      * '' –– Not enough information provided to be determined.
+    example: commercial
+    readOnly: true
+
+  record_type:
+    type: string
+    description: >
+      A description of the type of address. Populated if a DPV match is made (<code>deliverability_analysis[dpv_confirmation]</code>
+      is <code>Y</code>, <code>S</code>, or <code>D</code>). For more detailed information about each record type, see [the appendix](https://docs.lob.com/#us_verification_details).
+      Will be one of:
+      * <code>street</code>
+      * <code>highrise</code>
+      * <code>firm</code>
+      * <code>po_box</code>
+      * <code>rural_route</code>
+      * <code>general_delivery</code>
+      * <code>''</code>
+    example: highrise
+    readOnly: true
+
+  default_building_address:
+    type: boolean
+    description: >
+      Designates whether or not the address is the default address for a building containing multiple delivery points.
+    example: false
+    readOnly: true
+
+  county:
+    $ref: "../../../shared/attributes/county.yml"
+
+  county_fips:
+    $ref: "../../../shared/attributes/county_fips.yml"
+
+  carrier_route:
+    type: string
+    description: >
+      A 4-character code assigned to a mail delivery route within a ZIP code.
+    example: C001
+    readOnly: true
+
+  carrier_route_type:
+    type: string
+    description: >
+      The type of <code>components[carrier_route]</code>. For more detailed information about each carrier route type,
+      see [the appendix](https://docs.lob.com/#us_verification_details). Possible values are:
+      * <code>city_delivery</code> –– City delivery (starts with "C").
+      * <code>rural_route</code> –– Rural route (starts with "R").
+      * <code>highway_contract</code> –– Highway contract route (starts with "H")
+      * <code>po_box</code> –– P.O. Box route (starts with "B").
+      * <code>general_delivery</code> –– General delivery (starts with "G").
+    example: city_delivery
+    readOnly: true
+
+  latitude:
+    type: string
+    description: >
+      A positive or negative decimal indicating the geographic latitude of the address, specifying the north-to-south position of a
+      location. This should be used with <code>longitude</code> to pinpoint locations on a map. Will not be returned for undeliverable addresses
+      or military addresses (state is <code>AA</code>, <code>AE</code>, or <code>AP</code>).
+    example: "37.77597542841264"
+    readOnly: true
+
+  longitude:
+    type: string
+    description: >
+      A positive or negative decimal indicating the geographic longitude of the address, specifying the north-to-south position of a
+      location. This should be used with <code>latitude</code> to pinpoint locations on a map. Will not be returned for undeliverable addresses
+      or military addresses (state is <code>AA</code>, <code>AE</code>, or <code>AP</code>).
+    example: "-122.3929557343685"
+    readOnly: true
+
+  object:
+    $ref: "../../../shared/attributes/object.yml"

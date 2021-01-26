@@ -24,22 +24,8 @@ allOf:
         readOnly: true
 
       zip_code_type:
-        type: string
-        enum:
-          - standard
-          - po_box
-          - unique
-          - military
-          - ""
-        description: >
-          A description of the ZIP code type.
-          * `standard` – The default ZIP code type. Used when none of the other types apply.
-          * `po_box` – The ZIP code contains only PO Boxes.
-          * `unique` – The ZIP code is uniquely assigned to a single organization (such as a government agency) that receives a large volume of mail.
-          * `military` – The ZIP code contains military addresses.
-          * `''` – A match could not be made with the provided inputs.
+        $ref: "../../../shared/attributes/zip_code_type.yml"
         readOnly: true
-        example: "standard"
 
       object:
         $ref: "../../../shared/attributes/object.yml"

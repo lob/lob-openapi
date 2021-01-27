@@ -1,11 +1,11 @@
 # Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
 - [How the spec is organized](#how-the-spec-is-organized)
+  - [Bundled spec](#bundled-spec)
 - [Style Guide and linting](#style-guide-and-linting)
 - [Future proofing](#future-proofing)
 - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
 - [Contract testing](#contract-testing)
-- [Compatibility with community tooling](#compatibility-with-community-tooling)
 - [See also](#see-also)
 
 ## How the spec is organized
@@ -38,6 +38,20 @@ Our spec is organized semantically, by *resource*, instead of syntactically, by 
             └── list.yml
 ```
 
+### Bundled spec
+
+A lot of tooling for working with OpenAPI specs does not support the full
+specification. In particular, many tools do not support multiple file specs.
+We maintain a single file 'bundled' version of the spec for use with such
+tools. The bundled version is generated as part of CI/CD, and can be found
+on github at `dist/Lob-API-bundled.yml` in each branch.
+
+You can also generate a bundled version locally at any time using `make bundle`.
+
+The CLI tool used by `make bundle` can do much more than bundle a multiple file spec
+into a single file. It can convert specs between `YAML` and `JSON`, fully
+dereference a spec, and more.
+
 ## Style Guide and linting
 
 Our style guide is an extension of
@@ -58,6 +72,7 @@ linter will be added to CI, as a backup to Spectral.
 ## Future proofing
 
 As of January 2021, OpenAPI v3.1 is in [rc1](https://www.openapis.org/blog) with final expected any day. 3.1 includes many [extremely useful changes](https://github.com/OAI/OpenAPI-Specification/releases/tag/3.1.0-rc0), including full JSON schema compatibility and the ability to extend discriminators with specification extensions. As we anticipate moving to v3.1 soon after release, we're working to minimize the changes we'll need to make. Some changes, like switching from `nullable` to `null`, are both unavoidable and easy. Others, like using `ReadOnly` and `WriteOnly` with `required`, can and should be avoided.
+
 ## Previewing the spec as docs (aka QAing your work)
 
 To preview the spec using redoc:
@@ -139,16 +154,6 @@ into a [RFC7807](https://tools.ietf.org/html/rfc7807) machine readable error.
 
 You can also run Prism as a mock server using the spec for new endpoints.
 Please see the Prism website until we encapsulate that mode in a `make` command.
-
-## Compatibility with community tooling
-
-A lot of tooling for working with OpenAPI specs does not support the full
-specification. In particular, many tools do not support multiple files specs. To
-use such a tool, bundle the spec into a single file using `make bundle`.
-
-The tool used by `make bundle` can do much more than bundle a multiple file spec
-into a single file. It can convert specs between `YAML` and `JSON`, fully
-dereference a spec, and more.
 
 ## See also
 

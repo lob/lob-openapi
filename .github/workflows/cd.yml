@@ -1,0 +1,27 @@
+name: CD
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.LOBOT_TOKEN }}
+
+      - name: bundle
+        uses: hilary/openapi-cli-bundle-action@v0.0.2
+        with:
+          base-spec:    './Lob-API-public.yml'
+          bundled-spec: 'dist/Lob-API-bundled.yml'
+
+      - name: commit & push bundle to branch
+        run: |
+          git config user.name lobot
+          git config user.email lobot@lob.com
+          git add --force dist/Lob-API-bundled.yml
+          git commit -m "update bundled spec"
+          git push

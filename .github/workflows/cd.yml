@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: checkout
@@ -19,9 +19,14 @@ jobs:
           bundled-spec: 'dist/Lob-API-bundled.yml'
 
       - name: commit & push bundle to branch
+        shell: bash
         run: |
-          git config user.name lobot
-          git config user.email lobot@lob.com
-          git add --force dist/Lob-API-bundled.yml
-          git commit -m "update bundled spec"
-          git push
+          git update-index -q --refresh
+          changes=$(git status --porcelain)
+          if [ ! -z ${changes} ]; then
+            git config user.name lobot
+            git config user.email lobot@lob.com
+            git add --force dist/Lob-API-bundled.yml
+            git commit -m "update bundled spec"
+            git push
+          fi

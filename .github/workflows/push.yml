@@ -1,11 +1,11 @@
-name: CD check
+name: CD_check
 
 on: push
 
 jobs:
   check:
     if: github.actor != 'lobot'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: checkout

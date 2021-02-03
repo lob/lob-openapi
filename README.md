@@ -2,6 +2,7 @@
 
 - [How the spec is organized](#how-the-spec-is-organized)
   - [Bundled spec](#bundled-spec)
+- [Contributing / Workflow](#contributing--workflow)
 - [Style Guide and linting](#style-guide-and-linting)
 - [Future proofing](#future-proofing)
 - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
@@ -51,6 +52,19 @@ You can also generate a bundled version locally at any time using `make bundle`.
 The CLI tool used by `make bundle` can do much more than bundle a multiple file spec
 into a single file. It can convert specs between `YAML` and `JSON`, fully
 dereference a spec, and more.
+
+## Contributing / Workflow
+
+To contribute, whether adding / modifying an endpoint or working on the tooling, start by making
+a branch. (As we build out the full tooling in the roadmap, everything will key off of the branch
+name, although that is not currently relevant.)
+
+This project uses CI/CD; as you push your branch to github, github actions will run tests and, if
+those tests pass, build release artifacts (bundled spec, postman collection, ...) and push them
+to your branch on github under the `dist/` directory. Because the CI/CD cycle on github pushes
+additional commits to your branch, you will either need to pull those commits or force push (`git push -f`)
+when pushing additional work to the branch. Don't be afraid to force push: the actions build each
+artifact anew on each push.
 
 ## Style Guide and linting
 

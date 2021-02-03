@@ -1,0 +1,620 @@
+openapi: 3.0.3
+info:
+  title: Lob API
+  version: '2020-02-11'
+  description: >
+    The Lob API is organized around REST. Our API is designed to have
+    predictable, resource-oriented URLs and uses HTTP response codes to indicate
+    any API errors
+  license:
+    name: MIT
+    url: 'https://mit-license.org/'
+  contact:
+    name: Lob Developer Experience
+    url: 'https://support.lob.com/'
+    email: engineering@lob.com
+  termsOfService: 'https://www.lob.com/legal'
+servers:
+  - url: 'https://api.lob.com/v1'
+    description: production
+tags:
+  - name: Addresses
+    description: Content relevant to addresses
+  - name: Zip Lookups
+    description: Content relevant to US ZIP lookups
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    adr_id:
+      type: string
+      description: Unique identifier prefixed with <code>adr_</code>.
+      readOnly: true
+      pattern: '^adr_[a-zA-Z0-9]+$'
+      example: adr_fa85158b26c3eb7c
+    failure_status_code:
+      type: integer
+      enum:
+        - 401
+        - 403
+        - 404
+        - 413
+        - 422
+        - 429
+        - 500
+      description: |
+        A conventional HTTP status code:
+          * 401 - Authorization error with your API key or account
+          * 403 - Forbidden error with your API key or account
+          * 404 - The requested item does not exist
+          * 413 - Payload too large
+          * 422 - The query or body parameters did not pass validation
+          * 429 - Too many requests have been sent with an API key in a given amount of time
+          * 500 - An internal server error occurred, please contact support@lob.com
+      example: 429
+    error:
+      type: object
+      description: >-
+        Lob uses RESTful HTTP response codes to indicate success or failure of
+        an API request. In general, 2xx indicates success, 4xx indicate an input
+        error, and 5xx indicates an error on Lob's end.
+      required:
+        - message
+        - status_code
+      properties:
+        message:
+          type: string
+          description: A human-readable message with more details about the error
+          example: >-
+            Rate limit exceeded. Please wait 5 seconds and try your request
+            again.
+        status_code:
+          $ref: '#/components/schemas/failure_status_code'
+    send_date:
+      type: string
+      description: >
+        A timestamp of the date on which a mailpiece will be dispatched for
+        production. Beyond this date, the mailpiece can't be cancelled.
+      format: date-time
+      example: '2017-09-05T17:47:53.967Z'
+    metadata:
+      type: object
+      description: >-
+        When creating any Lob object, you can include a metadata object with up
+        to 20 key-value pairs of custom data.
+      properties: {}
+      maxProperties: 20
+      example:
+        type: object
+        properties:
+          customer_id:
+            type: string
+            example: '987654'
+          campaign:
+            type: string
+            example: NEWYORK2015
+    address_writable:
+      type: object
+      required:
+        - address_line1
+      properties:
+        description:
+          type: string
+          description: >
+            An internal description that identifies this resource. Must be no
+            longer than 255 characters.
+          maxLength: 255
+          nullable: true
+          example: Harry - Office
+        name:
+          type: string
+          description: >
+            Either <code>name</code> or <code>company</code> is required, you
+            may also add both. Must be no longer than 40 characters. If both
+            <code>name</code> and <code>company</code> are provided, they will
+            be printed on two separate lines above the rest of the address.
+          maxLength: 40
+          nullable: true
+          example: HARRY ZHANG
+        company:
+          type: string
+          description: >
+            Either <code>name</code> or <code>company</code> is required, you
+            may also add both. Must be no longer than 40 characters. If both
+            <code>name</code> and <code>company</code> are provided, they will
+            be printed on two separate lines above the rest of the address. This
+            field can be used for any secondary recipient information which is
+            not part of the actual mailing address (Company Name, Department,
+            Attention Line, etc).
+          maxLength: 40
+          nullable: true
+          example: LOB
+        phone:
+          type: string
+          description: Must be no longer than 40 characters.
+          maxLength: 40
+          nullable: true
+          example: '5555555555'
+        email:
+          type: string
+          description: Must be no longer than 100 characters.
+          maxLength: 100
+          nullable: true
+          example: harry@lob.com
+        address_line1:
+          type: string
+          description: >
+            Must be no longer than 64 characters for US addresses or 200
+            characters for international addresses.
+          maxLength: 200
+          example: 185 BERRY ST STE 6100
+        address_line2:
+          type: string
+          description: >
+            Must be no longer than 64 characters for US addresses or 200
+            characters for international addresses.
+          maxLength: 200
+          nullable: true
+          example: null
+        address_city:
+          type: string
+          description: >
+            Required if address_country is US, otherwise optional. Must be no
+            longer than 200 characters.
+          maxLength: 200
+          nullable: true
+          example: SAN FRANCISCO
+        address_state:
+          type: string
+          description: >
+            Required as a 2 letter state short-name code if
+            <code>address_country</code> is <code>US</code>, otherwise optional
+            and no longer than 200 characters.
+          maxLength: 200
+          nullable: true
+          example: CA
+        address_zip:
+          type: string
+          description: >
+            Required and must follow the ZIP format of <code>12345</code> or
+            ZIP+4 format of <code>12345-1234</code> if
+            <code>address_country</code> is <code>US</code>, otherwise optional
+            and not any longer than 40 characters.
+          maxLength: 40
+          nullable: true
+          example: 94107-1741
+        address_country:
+          type: string
+          description: >
+            Must be a 2 letter country short-name code (ISO 3166). Defaults to
+            <code>US</code>.
+          minLength: 2
+          example: US
+        send_date:
+          $ref: '#/components/schemas/send_date'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    deleted:
+      type: boolean
+      description: Only returned if the address has been successfully deleted.
+      readOnly: true
+      example: false
+    date_created:
+      type: string
+      format: date-time
+      description: A timestamp in ISO 8601 format of the date the address was created.
+      readOnly: true
+      example: '2017-09-05T17:47:53.767Z'
+    date_modified:
+      type: string
+      format: date-time
+      description: >-
+        A timestamp in ISO 8601 format of the date the address was last
+        modified.
+      readOnly: true
+      example: '2017-09-05T17:47:53.767Z'
+    object:
+      type: string
+      description: Value is <code>address</code>.
+      readOnly: true
+      example: address
+    address:
+      allOf:
+        - $ref: '#/components/schemas/address_writable'
+        - type: object
+          required:
+            - id
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/adr_id'
+            recipient_moved:
+              type: boolean
+              description: >
+                Only returned for accounts on certain <a
+                href="https://dashboard.lob.com/#/settings/editions">Print &amp;
+                Mail Editions</a>. Value is <code>true</code> if the address was
+                altered because the recipient filed for a <a
+                href="#ncoa">National Change of Address (NCOA)</a>,
+                <code>false</code> if the NCOA check was run but no altered
+                address was found, and <code>null</code> if the NCOA check was
+                not run. The NCOA check does not happen for non-US addresses,
+                for non-deliverable US addresses, or for addresses created
+                before the NCOA feature was added to your account.
+              nullable: true
+              readOnly: true
+              example: false
+            deleted:
+              $ref: '#/components/schemas/deleted'
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            object:
+              $ref: '#/components/schemas/object'
+    list:
+      type: object
+      description: Multiple items returned in order
+      properties:
+        object:
+          type: string
+          description: What kind of resource does this list contain?
+          example: address
+        next_url:
+          type: string
+          description: Url of next page of items in list.
+          nullable: true
+          example: >-
+            https://api.lob.com/v1/addresses?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wN1QyMTo1OTo0Ni43NjRaIiwiaWRPZmZzZXQiOiJhZHJfODMwYmYwZWFiZGFhYTQwOSJ9
+        previous_url:
+          type: string
+          description: Url of previous page of items in list.
+          nullable: true
+          example: null
+        count:
+          type: integer
+          description: number of items in list
+          example: 2
+    zip5:
+      type: object
+      required:
+        - zip_code
+      properties:
+        zip_code:
+          type: string
+          description: A 5-digit ZIP code.
+          pattern: '^\d{5}$'
+          example: '94107'
+    zip_id:
+      type: string
+      description: Unique identifier prefixed with <code>us_zip_</code>.
+      readOnly: true
+      pattern: '^us_zip_[a-zA-Z0-9]+$'
+      example: us_zip_c7cb63d68f8d6
+    city:
+      type: object
+      required:
+        - city
+        - state
+        - county
+        - county_fips
+        - preferred
+      properties:
+        city:
+          type: string
+          description: |
+            The name of the city.
+          example: SAN FRANCISCO
+          readOnly: true
+        state:
+          type: string
+          description: |
+            The state as a two-letter abbreviation.
+          maxLength: 2
+          example: CA
+          readOnly: true
+        county:
+          type: string
+          description: |
+            The name of the county that contains this city.
+          example: US
+          readOnly: true
+        county_fips:
+          type: string
+          description: >
+            A 5-digit [FIPS county
+            code](https://en.wikipedia.org/wiki/FIPS_county_code) which uniquely
+            identifies components[county]. It consists of a 2-digit state code
+            and a 3-digit county code.
+          maxLength: 5
+          minLength: 5
+          example: '06075'
+          readOnly: true
+        preferred:
+          type: boolean
+          description: >
+            Indicates whether or not the city is the [USPS default
+            city](https://en.wikipedia.org/wiki/ZIP_Code#ZIP_Codes_and_previous_zoning_lines)
+            (preferred city) of a ZIP code. There is only one preferred city per
+            ZIP code, which will always be in position 0 in the array of cities.
+          maxLength: 1
+          minLength: 1
+          example: true
+          readOnly: true
+        object:
+          $ref: '#/components/schemas/object'
+    zip:
+      allOf:
+        - $ref: '#/components/schemas/zip5'
+        - type: object
+          required:
+            - id
+            - cities
+            - zip_code_type
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/zip_id'
+            cities:
+              type: array
+              items:
+                $ref: '#/components/schemas/city'
+              description: >
+                An array of city objects containing valid cities for the
+                <code>zip_code</code>. Multiple cities will be returned if more
+                than one city is associated with the input ZIP code.
+              readOnly: true
+            zip_code_type:
+              type: string
+              enum:
+                - standard
+                - po_box
+                - unique
+                - military
+                - ''
+              description: >
+                A description of the ZIP code type. * `standard` – The default
+                ZIP code type. Used when none of the other types apply. *
+                `po_box` – The ZIP code contains only PO Boxes. * `unique` – The
+                ZIP code is uniquely assigned to a single organization (such as
+                a government agency) that receives a large volume of mail. *
+                `military` – The ZIP code contains military addresses. * `''` –
+                A match could not be made with the provided inputs.
+              readOnly: true
+              example: standard
+            object:
+              $ref: '#/components/schemas/object'
+  responses:
+    error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    address:
+      description: Returns an address object if a valid identifier was provided.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/address'
+    deleted:
+      description: Returns true if the delete was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/adr_id'
+              deleted:
+                $ref: '#/components/schemas/deleted'
+    all_addresses:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        <code>limit</code> addresses. Each entry in the array is a separate
+        address object. The previous and next page of address entries can be
+        retrieved by calling the endpoint contained in the
+        <code>previous_url</code> and <code>next_url</code> fields in the API
+        response respectively.<br>If no more addresses are available beyond the
+        current set of returned results, the <code>next_url</code> field will be
+        empty.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of addresses
+                    items:
+                      $ref: '#/components/schemas/address'
+              - $ref: '#/components/schemas/list'
+    address_writable:
+      description: Echos the writable fields of a newly created address object.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/address_writable'
+    zip_lookups:
+      description: Returns a zip lookup object if a valid zip was provided.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/zip'
+  headers:
+    ratelimit-limit:
+      description: The rate limit for a given endpoint.
+      schema:
+        type: integer
+        example: 150
+    ratelimit-remaining:
+      description: The number of requests remaining in the current window.
+      schema:
+        type: integer
+        example: 100
+    ratelimit-reset:
+      description: >
+        The time at which the rate limit window resets in  <a
+        href="https://en.wikipedia.org/wiki/Unix_time">UTC epoch seconds</a>
+      schema:
+        type: integer
+        example: 1528749846
+  parameters:
+    limit:
+      in: query
+      name: Limit
+      required: false
+      description: How many results to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 10
+        maximum: 100
+        example: 10
+    idempotency:
+      in: header
+      name: Idempotency-Key
+      required: false
+      description: >
+        A string of no longer than 256 characters that uniquely identifies this
+        resource. For more help integrating idempotency keys, refer to our
+        [implementation guide](https://www.lob.com/guides#idempotent_request).
+      schema:
+        type: string
+        maxLength: 256
+        example: 026e7634-24d7-486c-a0bb-4a17fd0eebc5
+security:
+  - basicAuth: []
+paths:
+  '/addresses/{id}':
+    parameters:
+      - in: path
+        name: id
+        description: id of the address
+        required: true
+        schema:
+          $ref: '#/components/schemas/adr_id'
+    get:
+      operationId: get_address
+      summary: Retrieve address with given id
+      description: >-
+        Retrieves the details of an existing address. You need only supply the
+        unique customer identifier that was returned upon address creation.
+      tags:
+        - Addresses
+      responses:
+        '200':
+          $ref: '#/components/responses/address'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_address
+      summary: Deletes address with given id
+      description: >-
+        Deletes the details of an existing address. You need only supply the
+        unique customer identifier that was returned upon address creation.
+      tags:
+        - Addresses
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /addresses:
+    get:
+      operationId: list_addresses
+      summary: List all addresses
+      description: >-
+        Returns a list of your addresses. The addresses are returned sorted by
+        creation date, with the most recently created addresses appearing first.
+      tags:
+        - Addresses
+      parameters:
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_addresses'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_address
+      summary: Creates a new address object
+      description: Creates a new address given information
+      tags:
+        - Addresses
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/address_writable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/address_writable'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/address_writable'
+      responses:
+        '200':
+          $ref: '#/components/responses/address_writable'
+        default:
+          $ref: '#/components/responses/error'
+  /us_zip_lookups:
+    post:
+      operationId: zip_lookup
+      summary: Looks up information pertaining to a given ZIP code
+      description: Returns information about a ZIP code
+      tags:
+        - Zip Lookups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/zip5'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/zip5'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/zip5'
+      responses:
+        '200':
+          $ref: '#/components/responses/zip_lookups'
+        default:
+          $ref: '#/components/responses/error'

@@ -3,6 +3,7 @@
 const { getHttpOperationsFromSpec }  = require('@stoplight/prism-cli/dist/operations');
 const { createClientFromOperations } = require('@stoplight/prism-http/dist/client');
 const { URL }                        = require('url');
+const btoa                           = require('btoa');
 
 const lobUri = 'https://api.lob.com/v1';
 const clientOptions = {
@@ -22,5 +23,6 @@ module.exports.setup = async (override = {}) => {
   return createClientFromOperations(operations, { ...clientOptions, ...override });
 }
 
-const testSecret = 'Basic dGVzdF8wZGM4ZDUxZTBhY2ZmY2IxODgwZTBmMTljNzliMmY1YjBjYzo='
-module.exports.authHeader = { Authorization: testSecret };
+module.exports.authHeader = (token) => {
+  return { Authorization: `Basic ${btoa(`${token}:`)}` };
+}

@@ -102,11 +102,13 @@ To preview the spec using redoc:
 
 ## Contract testing
 
-We use [Prism](https://meta.stoplight.io/docs/prism/README.md) for contract testing, using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). To run the existing tests, run `npm test`. To add
-tests, look in the `test/` directory for a file named for the resource with
-the endpoint in question. At present, the contract tests use the test user token listed on the
-developer docs website. An upcoming change will switch to pulling the access tokens from
-environment variables.
+We use [Prism](https://meta.stoplight.io/docs/prism/README.md) for contract testing, using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). To run the existing tests locally:
+
+* add a valid Lob test token to your environment as `LOB_API_TEST_TOKEN`
+* run `npm test`.
+
+To add a test, look in the `tests/` directory for a file named for the resource with
+the endpoint in question.
 
 The contract tests are not yet in CI, so be sure to run the contract tests when reviewing PRs!
 

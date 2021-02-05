@@ -10,7 +10,7 @@ const clientOptions = {
   validateRequest: true,
   validateResponse: true,
   checkSecurity: false,
-  errors: true,
+  errors: false,
   baseurl: lobUri,
   upstream: new URL(lobUri),
 };

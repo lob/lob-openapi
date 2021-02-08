@@ -23,6 +23,12 @@ jobs:
           repo_token: ${{ github.token }}
           event_name: ${{ github.event_name }}
 
+      - name: run contract tests
+        uses: ./actions/contract_tests
+        continue-on-error: true
+        env:
+          LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
+
       - name: invoke build
         uses: benc-uk/workflow-dispatch@v1.1.0
         with:

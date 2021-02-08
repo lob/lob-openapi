@@ -16,3 +16,8 @@ jobs:
           file_glob: "./Lob-API-public.yml"
           repo_token: ${{ github.token }}
           event_name: ${{ github.event_name }}
+
+      - name: run contract tests
+        uses: ./actions/contract_tests
+        env:
+          LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}

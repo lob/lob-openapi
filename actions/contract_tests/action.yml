@@ -1,0 +1,21 @@
+name: Run contract tests in CI
+
+description: run contract tests using tape and Prism as a github action
+
+inputs:
+  installCommand:
+    description: npm or yarn command to use to install node modules
+    required: false
+    default: "NODE_ENV=development npm install --no-package-lock --ignore-scripts"
+
+  testCommand:
+    description: npm or yarn command to use to run tests
+    required: false
+    default: "npm test"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.installCommand }}
+    - ${{ inputs.testCommand }}

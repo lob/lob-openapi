@@ -1,4 +1,4 @@
-# Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
+# ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
 - [How the spec is organized](#how-the-spec-is-organized)
   - [Bundled spec](#bundled-spec)
@@ -118,7 +118,7 @@ We use [Prism](https://meta.stoplight.io/docs/prism/README.md) for contract test
 To add a test, look in the `tests/` directory for a file named for the resource with
 the endpoint in question.
 
-The contract tests are not yet in CI, so be sure to run the contract tests when reviewing PRs!
+The contract tests run on github whenever you push to github and/or open a pull request.
 
 During development of the spec for existing endpoints, you can run Prism as a [validation proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy) by running `npm run proxy`.
 

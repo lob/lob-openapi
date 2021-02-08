@@ -5,24 +5,34 @@ const { createClientFromOperations } = require('@stoplight/prism-http/dist/clien
 const { URL }                        = require('url');
 const btoa                           = require('btoa');
 
-const lobUri = 'https://api.lob.com/v1';
-const clientOptions = {
+const defaultClientOptions = {
   mock: false,
   validateRequest: true,
   validateResponse: true,
   checkSecurity: false,
   errors: false,
-  baseurl: lobUri,
-  upstream: new URL(lobUri),
 };
 
-const specFile = './Lob-API-public.yml';
-
-module.exports.setup = async (override = {}) => {
-  const operations = await getHttpOperationsFromSpec(specFile);
-  return createClientFromOperations(operations, { ...clientOptions, ...override });
+const configurePrism = (baseurl, options = {}) => {
+  let result = { ...defaultClientOptions, ...options };
+  result.baseurl = baseurl;
+  result.upstream = new URL(baseurl);
+  return result;
 }
 
-module.exports.authHeader = (token) => {
+const authHeader = (token) => {
   return { Authorization: `Basic ${btoa(`${token}:`)}` };
+}
+
+module.exports = class Prism {
+  constructor(specFile, baseurl, token, options = {}) {
+    this.specFile = specFile;
+    this.authHeader = authHeader(token);
+    this.options = configurePrism(baseurl, options);
+  }
+
+  async setup (override = {}) {
+    const operations = await getHttpOperationsFromSpec(this.specFile);
+    return createClientFromOperations(operations, { ...this.options, ...override });
+  }
 }

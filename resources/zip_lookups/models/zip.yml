@@ -1,5 +1,5 @@
 allOf:
-  - $ref: '../../../shared/models/zip5.yml'
+  - $ref: "../../../shared/models/zip5.yml"
 
   - type: object
 
@@ -11,12 +11,12 @@ allOf:
 
     properties:
       id:
-        $ref: '../attributes/zip_id.yml'
+        $ref: "../attributes/zip_id.yml"
 
       cities:
         type: array
         items:
-          $ref: 'city.yml'
+          $ref: "city.yml"
         description: >
           An array of city objects containing valid cities for the <code>zip_code</code>.
           Multiple cities will be returned if more than one city is associated with the
@@ -30,7 +30,7 @@ allOf:
           - po_box
           - unique
           - military
-          - ''
+          - ""
         description: >
           A description of the ZIP code type.
           * `standard` – The default ZIP code type. Used when none of the other types apply.
@@ -39,7 +39,7 @@ allOf:
           * `military` – The ZIP code contains military addresses.
           * `''` – A match could not be made with the provided inputs.
         readOnly: true
-        example: 'standard'
+        example: "standard"
 
       object:
-        $ref: '../../../shared/attributes/object.yml'
+        $ref: "../../../shared/attributes/object.yml"

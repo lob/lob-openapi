@@ -1,6 +1,5 @@
 extends: [[spectral:oas, all]]
 rules:
-
   path-item-must-be-ref:
     description: Path Item Object value must be a $ref
     message: "{{description}}; {{property}} incorrect"
@@ -8,8 +7,8 @@ rules:
     resolved: false
     given: $.paths.*
     then:
-    - field: $ref
-      function: truthy
+      - field: $ref
+        function: truthy
 
   path-item-ref-must-be-file:
     description: Path Item must $ref to a file in resources/<resource_name>/

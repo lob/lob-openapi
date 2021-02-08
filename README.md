@@ -3,7 +3,8 @@
 - [How the spec is organized](#how-the-spec-is-organized)
   - [Bundled spec](#bundled-spec)
 - [Contributing / Workflow](#contributing--workflow)
-- [Style Guide and linting](#style-guide-and-linting)
+- [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
+- [Readability](#readability)
 - [Future proofing](#future-proofing)
 - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
 - [Contract testing](#contract-testing)
@@ -11,7 +12,7 @@
 
 ## How the spec is organized
 
-Our spec is organized semantically, by *resource*, instead of syntactically, by OpenAPI element.
+Our spec is organized semantically, by _resource_, instead of syntactically, by OpenAPI element.
 
 ```
 .
@@ -66,9 +67,9 @@ additional commits to your branch, you will either need to pull those commits or
 when pushing additional work to the branch. Don't be afraid to force push: the actions build each
 artifact anew on each push.
 
-## Style Guide and linting
+## OpenAPI Style Guide and linting
 
-Our style guide is an extension of
+Our OpenAPI style guide is an extension of
 [Spectral's](https://meta.stoplight.io/docs/spectral/README.md) [OpenAPI
 ruleset](https://meta.stoplight.io/docs/spectral/docs/reference/openapi-rules.md). Spectral's
 ruleset goes beyond the OpenAPI v3 standard to incorporate a recommended set of
@@ -83,6 +84,12 @@ For those editing in VS Code, additional linting can be provided by
 [42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi). A second
 linter will be added to CI, as a backup to Spectral.
 
+## Readability
+
+We use [Prettier](https://prettier.io/) to ensure that all our code follows a consist format for
+maximum readability. The repo will setup a pre-commit githook that runs prettier before each commit,
+and CI will check that prettier has been run.
+
 ## Future proofing
 
 As of January 2021, OpenAPI v3.1 is in [rc1](https://www.openapis.org/blog) with final expected any day. 3.1 includes many [extremely useful changes](https://github.com/OAI/OpenAPI-Specification/releases/tag/3.1.0-rc0), including full JSON schema compatibility and the ability to extend discriminators with specification extensions. As we anticipate moving to v3.1 soon after release, we're working to minimize the changes we'll need to make. Some changes, like switching from `nullable` to `null`, are both unavoidable and easy. Others, like using `ReadOnly` and `WriteOnly` with `required`, can and should be avoided.
@@ -90,22 +97,23 @@ As of January 2021, OpenAPI v3.1 is in [rc1](https://www.openapis.org/blog) with
 ## Previewing the spec as docs (aka QAing your work)
 
 To preview the spec using redoc:
+
 1. install [42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi) in VS Code
 2. go to `Settings => Extenstions => OpenAPI`
 3. set `Default Preview Renderer` to `redoc`
 4. open `Lob-API-public.yml`
 5. click on the preview icon at the upper right hand corner of the panel.
 
-* Drill down into the documentation to make sure that your examples are populating correctly.
-* Run the code samples to be sure they are correct.
-* Compare the response you get to the example response.
+- Drill down into the documentation to make sure that your examples are populating correctly.
+- Run the code samples to be sure they are correct.
+- Compare the response you get to the example response.
 
 ## Contract testing
 
 We use [Prism](https://meta.stoplight.io/docs/prism/README.md) for contract testing, using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). To run the existing tests locally:
 
-* add a valid Lob test token to your environment as `LOB_API_TEST_TOKEN`
-* run `npm test`.
+- add a valid Lob test token to your environment as `LOB_API_TEST_TOKEN`
+- run `npm test`.
 
 To add a test, look in the `tests/` directory for a file named for the resource with
 the endpoint in question.
@@ -173,7 +181,7 @@ Please see the Prism website until we encapsulate that mode in a `make` command.
 
 ## See also
 
-* [Lob API documentation](https://docs.lob.com/)
-* [Lobsters](https://www.lob.com/careers) only
-  * [Notion: Lob API OpenAPI Project](https://www.notion.so/lob/Lob-API-v1-OpenAPI-spec-d6c3229d31bc45329d18e01905117fda)
-  * [Notion: OpenAPI tooling](https://www.notion.so/lob/OpenAPI-tooling-e17f5a864a4a48d1886dcd95b53cf694)
+- [Lob API documentation](https://docs.lob.com/)
+- [Lobsters](https://www.lob.com/careers) only
+  - [Notion: Lob API OpenAPI Project](https://www.notion.so/lob/Lob-API-v1-OpenAPI-spec-d6c3229d31bc45329d18e01905117fda)
+  - [Notion: OpenAPI tooling](https://www.notion.so/lob/OpenAPI-tooling-e17f5a864a4a48d1886dcd95b53cf694)

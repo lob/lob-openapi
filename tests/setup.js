@@ -1,9 +1,13 @@
-'use strict';
+"use strict";
 
-const { getHttpOperationsFromSpec }  = require('@stoplight/prism-cli/dist/operations');
-const { createClientFromOperations } = require('@stoplight/prism-http/dist/client');
-const { URL }                        = require('url');
-const btoa                           = require('btoa');
+const {
+  getHttpOperationsFromSpec,
+} = require("@stoplight/prism-cli/dist/operations");
+const {
+  createClientFromOperations,
+} = require("@stoplight/prism-http/dist/client");
+const { URL } = require("url");
+const btoa = require("btoa");
 
 const defaultClientOptions = {
   mock: false,
@@ -18,11 +22,11 @@ const configurePrism = (baseurl, options = {}) => {
   result.baseurl = baseurl;
   result.upstream = new URL(baseurl);
   return result;
-}
+};
 
 const authHeader = (token) => {
   return { Authorization: `Basic ${btoa(`${token}:`)}` };
-}
+};
 
 module.exports = class Prism {
   constructor(specFile, baseurl, token, options = {}) {
@@ -31,8 +35,11 @@ module.exports = class Prism {
     this.options = configurePrism(baseurl, options);
   }
 
-  async setup (override = {}) {
+  async setup(override = {}) {
     const operations = await getHttpOperationsFromSpec(this.specFile);
-    return createClientFromOperations(operations, { ...this.options, ...override });
+    return createClientFromOperations(operations, {
+      ...this.options,
+      ...override,
+    });
   }
-}
+};

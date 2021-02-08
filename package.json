@@ -5,6 +5,7 @@
   "private": true,
   "main": "",
   "scripts": {
+    "postinstall": "husky install",
     "proxy": "prism proxy --errors Lob-API-public.yml https://api.lob.com/v1",
     "test": "tape './tests/**_test.js' | tap-spec"
   },
@@ -22,15 +23,21 @@
     "url": "https://github.com/lob/lob-openapi/issues"
   },
   "homepage": "https://github.com/lob/lob-openapi#readme",
-  "dependencies": {
+  "devDependencies": {
     "@stoplight/prism-cli": "^4.1.2",
     "@stoplight/spectral": "^5.8.0",
-    "openapi-to-postmanv2": "^2.0.0"
-  },
-  "devDependencies": {
     "btoa": "^1.2.1",
+    "husky": "^5.0.9",
+    "openapi-to-postmanv2": "^2.0.0",
+    "prettier": "2.2.1",
+    "pretty-quick": "^3.1.0",
     "tap-spec": "^5.0.0",
     "tape": "^5.1.1",
     "tape-catch": "^1.0.6"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

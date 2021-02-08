@@ -4,7 +4,7 @@ parameters:
     description: id of the address
     required: true
     schema:
-      $ref: 'attributes/adr_id.yml'
+      $ref: "attributes/adr_id.yml"
 
 get:
   operationId: get_address
@@ -19,11 +19,11 @@ get:
     - Addresses
 
   responses:
-    '200':
+    "200":
       $ref: responses/address.yml
 
     default:
-      $ref: '../../shared/responses/error.yml'
+      $ref: "../../shared/responses/error.yml"
 
 delete:
   operationId: delete_address
@@ -38,8 +38,8 @@ delete:
     - Addresses
 
   responses:
-    '200':
-      $ref: '../../shared/responses/deleted.yml'
+    "200":
+      $ref: "../../shared/responses/deleted.yml"
 
     default:
-      $ref: '../../shared/responses/error.yml'
+      $ref: "../../shared/responses/error.yml"

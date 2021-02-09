@@ -25,7 +25,6 @@ test("lookup a US zip code", async function (t) {
   t.equal(response.status, 200);
 });
 
-// I could not figure out how to get t.throws to take an async function
 test("use an incorrectly formatted zip code", async function (t) {
   const response = await prism
     .setup()

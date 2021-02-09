@@ -12,7 +12,7 @@ future task.
 3. Include this action (the directory and all its files):
 
    - action.yml
-   - Dockerfile\_
+   - Dockerfile
    - entrypoint.sh
    - and the README.md
 

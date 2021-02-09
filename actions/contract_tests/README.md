@@ -11,12 +11,13 @@ future task.
    intend to run this action.
 3. Include this action (the directory and all its files):
 
-    - action.yml
-    - Dockerfile_
-    - entrypoint.sh
-    - and the README.md
+   - action.yml
+   - Dockerfile\_
+   - entrypoint.sh
+   - and the README.md
 
    in a directory in your repo, e.g., `/actions/contract_tests`
+
 4. In your workflow, include a step that
    uses the action. If you use `npm` and
    `npm test` to run your tests, you can
@@ -34,6 +35,6 @@ future task.
          uses: ./actions/contract_tests
          env:
            LOB_API_TEST_TOKEN: ${{ secrets.TEST_TOKEN_FROM_STEP_2 }}
-    ```
+   ```
 
 You can configure the installation and/or test commands used. Look in `action.yml` for details.

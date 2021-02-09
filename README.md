@@ -40,6 +40,9 @@ Our spec is organized semantically, by _resource_, instead of syntactically, by 
             └── list.yml
 ```
 
+Attribute: any property which is not of type `object` (for example, a `string` ID)
+Model: any property that is an object (for example, an address or a verification)
+
 ### Bundled spec
 
 A lot of tooling for working with OpenAPI specs does not support the full

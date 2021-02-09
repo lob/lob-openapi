@@ -1,0 +1,44 @@
+post:
+  operationId: verification
+
+  summary: Verify a US or US territory address with a live API key.
+
+  description: >-
+    Verify a US or US territory address with a live API key. The
+    address can be in components (e.g. <code>primary_line</code> is
+    "185 Berry Street", <code>zip_code</code> is "94107") or as a
+    single string (e.g. "185 Berry Street 94107"), but not as both.
+    Requests using a test API key validate required fields but
+    return empty values unless specific <code>primary_line</code>
+    values are provided.
+
+  tags:
+    - Zip Lookups
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - $ref: "models/multiple_components.yml"
+            - $ref: "models/single_line_address.yml"
+
+      application/x-www-form-urlencoded:
+        schema:
+          oneOf:
+            - $ref: "models/multiple_components.yml"
+            - $ref: "models/single_line_address.yml"
+
+      multipart/form-data:
+        schema:
+          oneOf:
+            - $ref: "models/multiple_components.yml"
+            - $ref: "models/single_line_address.yml"
+
+  responses:
+    "200":
+      $ref: responses/us_verifications.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

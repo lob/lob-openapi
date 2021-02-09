@@ -1,0 +1,65 @@
+description: Returns a US verification object.
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        recipient:
+          $ref: "../../../shared/attributes/recipient.yml"
+
+        primary_line:
+          $ref: "../../../shared/attributes/primary_line.yml"
+
+        secondary_line:
+          $ref: "../../../shared/attributes/secondary_line.yml"
+
+        urbanization:
+          $ref: "../../../shared/attributes/urbanization.yml"
+
+        last_line:
+          type: string
+          description: >
+            Combination of the following applicable <code>components</code>:
+            * <code>city</code>
+            * <code>state</code>
+            * <code>zip_code</code>
+            * <code>zip_code_plus_4</code>
+          example: "SAN FRANCISCO CA 94107"
+
+        deliverability:
+          type: string
+          description: >
+            Summarizes the deliverability of the <code>us_verification</code> object.
+            For full details, see the <code>deliverability_analysis</code> field. Possible values are:
+            * <code>deliverable</code> –– The address is deliverable by the USPS.
+            * <code>deliverable_unnecessary_unit</code> –– The address is deliverable, but the secondary
+                                                           unit information is unnecessary.
+            * <code>deliverable_incorrect_unit</code> –– The address is deliverable to the building's
+                                                        default address but the secondary unit provided may not exist.
+                                                        There is a chance the mail will not reach the intended recipient.
+            * <code>deliverable_missing_unit</code> –– The address is deliverable to the building's default address but
+                                                       is missing secondary unit information. There is a chance the mail
+                                                       will not reach the intended recipient.
+            * <code>undeliverable</code> –– The address is not deliverable according to the USPS.
+          example: "deliverable"
+
+        components:
+          $ref: "../models/components.yml"
+
+        deliverability_analysis:
+          $ref: "../models/deliverability_analysis.yml"
+
+        lob_confidence_score:
+          $ref: "../models/lob_confidence_score.yml"
+
+        object:
+          $ref: "../../../shared/attributes/object.yml"

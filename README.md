@@ -99,7 +99,10 @@ As of January 2021, OpenAPI v3.1 is in [rc1](https://www.openapis.org/blog) with
 
 ## Previewing the spec as docs (aka QAing your work)
 
-To preview the spec using redoc:
+While editing, you can generate a zero-dependency HTML file version of the
+documentation (`dist/Lob-API-static.html`) at any time locally by running `make redoc`.
+
+If you are editing with VS Code, you can view your changes on the fly using an extension:
 
 1. install [42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi) in VS Code
 2. go to `Settings => Extenstions => OpenAPI`
@@ -108,7 +111,7 @@ To preview the spec using redoc:
 5. click on the preview icon at the upper right hand corner of the panel.
 
 - Drill down into the documentation to make sure that your examples are populating correctly.
-- Run the code samples to be sure they are correct.
+- Run the examples to be sure they are correct.
 - Compare the response you get to the example response.
 
 ## Contract testing

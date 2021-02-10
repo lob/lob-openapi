@@ -12,3 +12,7 @@ clean:
 .PHONY: postman
 postman:
 	@scripts/postman.sh
+
+.PHONY: redoc
+redoc:
+	@scripts/redoc.sh

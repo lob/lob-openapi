@@ -99,8 +99,16 @@ As of January 2021, OpenAPI v3.1 is in [rc1](https://www.openapis.org/blog) with
 
 ## Previewing the spec as docs (aka QAing your work)
 
-While editing, you can generate a zero-dependency HTML file version of the
-documentation (`dist/Lob-API-static.html`) at any time locally by running `make redoc`.
+Each time a commit is pushed to github, we generate documentation for the
+API from the spec using [redoc](https://github.com/Redocly/redoc). The generated
+docs are pushed to `dist/Lob-API-static.html` in the branch. We're currently
+using bare bones redoc: no customizations, no styling, etc. The generated docs are
+provided so team members can use them for development and review and to get a sense
+of what redoc can do.
+
+In addition to the file generated on push to github, you can
+generate the same single file version of the documentation
+(`dist/Lob-API-static.html`) at any time locally by running `make redoc`.
 
 If you are editing with VS Code, you can view your changes on the fly using an extension:
 

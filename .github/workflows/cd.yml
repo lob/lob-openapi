@@ -18,15 +18,21 @@ jobs:
           base-spec: "./Lob-API-public.yml"
           bundled-spec: "dist/Lob-API-bundled.yml"
 
-      - name: commit & push bundle to branch
+      - name: build zero-dependency docs
+        uses: seeebiii/redoc-cli-github-action@v9
+        with:
+          args: "bundle Lob-API-public.yml -t actions/redoc/template.hbs -o dist/Lob-API-static.html"
+
+      - name: commit & push bundle, docs to branch
         shell: bash
         run: |
           git update-index -q --refresh
           changes=$(git status --porcelain)
-          if [ ! -z ${changes} ]; then
+          if [[ "${changes}" ]]; then
             git config user.name lobot
             git config user.email lobot@lob.com
             git add --force dist/Lob-API-bundled.yml
-            git commit -m "update bundled spec"
+            git add --force dist/Lob-API-static.html
+            git commit -m "update bundled spec, zero-dependency docs"
             git push
           fi

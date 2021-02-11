@@ -16,9 +16,9 @@ properties:
   name:
     type: string
     description: >
-      Either <code>name</code> or <code>company</code> is required,
+      Either `name` or `company` is required,
       you may also add both. Must be no longer than 40 characters.
-      If both <code>name</code> and <code>company</code> are provided,
+      If both `name` and `company` are provided,
       they will be printed on two separate lines above the rest of the address.
     maxLength: 40
     nullable: true
@@ -27,9 +27,9 @@ properties:
   company:
     type: string
     description: >
-      Either <code>name</code> or <code>company</code> is required,
+      Either `name` or `company` is required,
       you may also add both. Must be no longer than 40 characters.
-      If both <code>name</code> and <code>company</code> are provided,
+      If both `name` and `company` are provided,
       they will be printed on two separate lines above the rest of the address.
       This field can be used for any secondary recipient information which is
       not part of the actual mailing address (Company Name, Department,
@@ -81,8 +81,8 @@ properties:
   address_state:
     type: string
     description: >
-      Required as a 2 letter state short-name code if <code>address_country</code>
-      is <code>US</code>, otherwise optional and no longer than 200 characters.
+      Required as a 2 letter state short-name code if `address_country`
+      is `US`, otherwise optional and no longer than 200 characters.
     maxLength: 200
     nullable: true
     example: CA
@@ -90,9 +90,9 @@ properties:
   address_zip:
     type: string
     description: >
-      Required and must follow the ZIP format of <code>12345</code> or
-      ZIP+4 format of <code>12345-1234</code> if <code>address_country</code>
-      is <code>US</code>, otherwise optional and not any longer than 40 characters.
+      Required and must follow the ZIP format of `12345` or
+      ZIP+4 format of `12345-1234` if `address_country`
+      is `US`, otherwise optional and not any longer than 40 characters.
     maxLength: 40
     nullable: true
     example: 94107-1741
@@ -100,7 +100,7 @@ properties:
   address_country:
     type: string
     description: >
-      Must be a 2 letter country short-name code (ISO 3166). Defaults to <code>US</code>.
+      Must be a 2 letter country short-name code (ISO 3166). Defaults to `US`.
     minLength: 2
     example: US
 

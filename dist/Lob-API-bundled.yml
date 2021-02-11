@@ -12,7 +12,7 @@ info:
   contact:
     name: Lob Developer Experience
     url: 'https://support.lob.com/'
-    email: engineering@lob.com
+    email: lob-openapi@lob.com
   termsOfService: 'https://www.lob.com/legal'
 servers:
   - url: 'https://api.lob.com/v1'
@@ -296,6 +296,35 @@ components:
       pattern: '^us_zip_[a-zA-Z0-9]+$'
       example: us_zip_c7cb63d68f8d6
     city:
+      type: string
+      description: >
+        The name of the city. <code>city</code> and <code>state</code> are
+        required if no zip_code is passed.
+      example: SAN FRANCISCO
+    state:
+      type: string
+      description: >
+        The state as a two-letter abbreviation. <code>city</code> and
+        <code>state</code> are required if no zip_code is passed.
+      maxLength: 2
+      example: CA
+    county:
+      type: string
+      description: |
+        County name of the address city.
+      example: SAN FRANCISCO
+    county_fips:
+      type: string
+      description: >
+        A 5-digit [FIPS county
+        code](https://en.wikipedia.org/wiki/FIPS_county_code) which uniquely
+        identifies <code>components[county]</code>. It consists of a 2-digit
+        state code and a 3-digit county code.
+      maxLength: 5
+      minLength: 5
+      example: '06075'
+      readOnly: true
+    city-2:
       type: object
       required:
         - city
@@ -305,35 +334,16 @@ components:
         - preferred
       properties:
         city:
-          type: string
-          description: |
-            The name of the city.
-          example: SAN FRANCISCO
+          $ref: '#/components/schemas/city'
           readOnly: true
         state:
-          type: string
-          description: |
-            The state as a two-letter abbreviation.
-          maxLength: 2
-          example: CA
+          $ref: '#/components/schemas/state'
           readOnly: true
         county:
-          type: string
-          description: |
-            The name of the county that contains this city.
-          example: US
+          $ref: '#/components/schemas/county'
           readOnly: true
         county_fips:
-          type: string
-          description: >
-            A 5-digit [FIPS county
-            code](https://en.wikipedia.org/wiki/FIPS_county_code) which uniquely
-            identifies components[county]. It consists of a 2-digit state code
-            and a 3-digit county code.
-          maxLength: 5
-          minLength: 5
-          example: '06075'
-          readOnly: true
+          $ref: '#/components/schemas/county_fips'
         preferred:
           type: boolean
           description: >
@@ -347,6 +357,23 @@ components:
           readOnly: true
         object:
           $ref: '#/components/schemas/object'
+    zip_code_type:
+      type: string
+      enum:
+        - standard
+        - po_box
+        - unique
+        - military
+        - ''
+      description: >
+        A description of the ZIP code type. * `standard` – The default ZIP code
+        type. Used when none of the other types apply. * `po_box` – The ZIP code
+        contains only PO Boxes. * `unique` – The ZIP code is uniquely assigned
+        to a single organization (such as a government agency) that receives a
+        large volume of mail. * `military` – The ZIP code contains military
+        addresses. * `''` – A match could not be made with the provided inputs.
+      readOnly: true
+      example: standard
     zip:
       allOf:
         - $ref: '#/components/schemas/zip5'
@@ -362,32 +389,466 @@ components:
             cities:
               type: array
               items:
-                $ref: '#/components/schemas/city'
+                $ref: '#/components/schemas/city-2'
               description: >
                 An array of city objects containing valid cities for the
                 <code>zip_code</code>. Multiple cities will be returned if more
                 than one city is associated with the input ZIP code.
               readOnly: true
             zip_code_type:
-              type: string
-              enum:
-                - standard
-                - po_box
-                - unique
-                - military
-                - ''
-              description: >
-                A description of the ZIP code type. * `standard` – The default
-                ZIP code type. Used when none of the other types apply. *
-                `po_box` – The ZIP code contains only PO Boxes. * `unique` – The
-                ZIP code is uniquely assigned to a single organization (such as
-                a government agency) that receives a large volume of mail. *
-                `military` – The ZIP code contains military addresses. * `''` –
-                A match could not be made with the provided inputs.
+              $ref: '#/components/schemas/zip_code_type'
               readOnly: true
-              example: standard
             object:
               $ref: '#/components/schemas/object'
+    recipient:
+      type: string
+      description: |
+        The intended recipient, typically a person's or firm's name.
+      example: LOB.COM
+    primary_line:
+      type: string
+      description: >
+        The primary delivery line (usually the street address) of the address.
+        Combination of the following applicable <code>components</code>: *
+        <code>primary_number</code> * <code>street_predirection</code> *
+        <code>street_name</code> * <code>street_suffix</code> *
+        <code>street_postdirection</code> * <code>secondary_designator</code> *
+        <code>secondary_number</code> * <code>pmb_designator</code> *
+        <code>pmb_number</code>
+      example: 185 BERRY ST
+    secondary_line:
+      type: string
+      description: >
+        The secondary delivery line of the address. This field is typically
+        empty but may contain information if <code>primary_line</code> is too
+        long.
+      example: STE 6100
+    urbanization:
+      type: string
+      description: >
+        Only present for addresses in Puerto Rico. An urbanization refers to an
+        area, sector, or development within a city. See [USPS
+        documentation](https://pe.usps.com/text/pub28/28api_008.htm#:~:text=I51.,-4%20Urbanizations&text=In%20Puerto%20Rico%2C%20identical%20street,placed%20before%20the%20urbanization%20name.)
+        for clarification.
+    zip_code:
+      type: string
+      description: >
+        The 5-digit ZIP code. Required if <code>city</code> and
+        <code>state</code> are not passed in. If included, must be formatted as
+        a US ZIP or ZIP+4 (e.g. <code>2268</code>, <code>94107</code>,
+        <code>941072282</code>, <code>94107-2282</code>).
+      example: '94107'
+    multiple_components:
+      type: object
+      properties:
+        recipient:
+          $ref: '#/components/schemas/recipient'
+        primary_line:
+          $ref: '#/components/schemas/primary_line'
+        secondary_line:
+          $ref: '#/components/schemas/secondary_line'
+        urbanization:
+          $ref: '#/components/schemas/urbanization'
+        city:
+          $ref: '#/components/schemas/city'
+        state:
+          $ref: '#/components/schemas/state'
+        zip_code:
+          $ref: '#/components/schemas/zip_code'
+        object:
+          $ref: '#/components/schemas/object'
+    single_line_address:
+      type: object
+      properties:
+        address:
+          type: string
+          description: >
+            The entire address in one string. Does not support a recipient and
+            will error when other payload parameters are provided.
+          example: 185 Berry Street 94107
+        object:
+          $ref: '#/components/schemas/object'
+    components:
+      type: object
+      required:
+        - primary_number
+        - street_predirection
+        - street_name
+        - street_suffix
+        - street_postdirection
+        - secondary_designator
+        - secondary_number
+        - pmb_designator
+        - pmb_number
+        - extra_secondary_designator
+        - extra_secondary_number
+        - city
+        - state
+        - zip_code
+        - zip_code_plus_4
+        - zip_code_type
+        - delivery_point_barcode
+        - address_type
+        - record_type
+        - default_building_address
+        - county
+        - county_fips
+        - carrier_route
+        - carrier_route_type
+        - latitude
+        - longitude
+      properties:
+        primary_number:
+          type: string
+          description: >
+            The numeric or alphanumeric part of an address preceding the street
+            name. Often the house, building, or PO Box number.
+          example: '185'
+          readOnly: true
+        street_predirection:
+          type: string
+          description: >
+            Geographic direction preceding a street name (<code>N</code>,
+            <code>S</code>, <code>E</code>, <code>W</code>, <code>NE</code>,
+            <code>SW</code>, <code>SE</code>, <code>NW</code>).
+          example: ''
+          readOnly: true
+        street_name:
+          type: string
+          description: |
+            The name of the street.
+          example: BERRY
+          readOnly: true
+        street_suffix:
+          type: string
+          description: >
+            The standard USPS abbreviation for the street suffix
+            (<code>ST</code>, <code>AVE</code>, <code>BLVD</code>, etc).
+          example: ST
+          readOnly: true
+        street_postdirection:
+          type: string
+          description: >
+            Geographic direction following a street name (<code>N</code>,
+            <code>S</code>, <code>E</code>, <code>W</code>, <code>NE</code>,
+            <code>SW</code>, <code>SE</code>, <code>NW</code>).
+          example: ''
+          readOnly: true
+        secondary_designator:
+          type: string
+          description: >
+            The standard USPS abbreviation describing the
+            <code>components[secondary_number]</code> (<code>STE</code>,
+            <code>APT</code>, <code>BLDG</code>, etc).
+          example: STE
+          readOnly: true
+        secondary_number:
+          type: string
+          description: |
+            Number of the apartment/unit/etc.
+          example: '6100'
+          readOnly: true
+        pmb_designator:
+          type: string
+          description: >
+            Designator of a
+            [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
+            private mailbox.
+          example: ''
+          readOnly: true
+        pmb_number:
+          type: string
+          description: >
+            Number of a
+            [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
+            private mailbox.
+          example: ''
+          readOnly: true
+        extra_secondary_designator:
+          type: string
+          description: >
+            An extra (often unnecessary) secondary designator provided with the
+            input address.
+          example: ''
+          readOnly: true
+        extra_secondary_number:
+          type: string
+          description: >
+            An extra (often unnecessary) secondary number provided with the
+            input address.
+          example: ''
+          readOnly: true
+        city:
+          $ref: '#/components/schemas/city'
+        state:
+          $ref: '#/components/schemas/state'
+        zip_code:
+          $ref: '#/components/schemas/zip_code'
+        zip_code_plus_4:
+          type: string
+          description: |
+            The 4-digit ZIP add-on code.
+          example: '1728'
+          readOnly: true
+        zip_code_type:
+          $ref: '#/components/schemas/zip_code_type'
+        delivery_point_barcode:
+          type: string
+          description: >
+            A 12-digit identifier that uniquely identifies a delivery point
+            (location where mail can be sent and received). It consists of the
+            5-digit ZIP code (<code>zip_code</code>), 4-digit ZIP+4 add-on
+            (<code>zip_code_plus_4</code>), 2-digit delivery point, and 1-digit
+            delivery point check digit.
+          example: '941071728506'
+          readOnly: true
+        address_type:
+          type: string
+          description: >
+            Uses USPS's Residential Delivery Indicator (RDI) to identify whether
+            an address is classified as residential or business. Possible values
+            are: * <code>residential</code> –– The address is residential or a
+            PO Box. * <code>commercial</code> –– The address is commercial. * ''
+            –– Not enough information provided to be determined.
+          example: commercial
+          readOnly: true
+        record_type:
+          type: string
+          description: >
+            A description of the type of address. Populated if a DPV match is
+            made (<code>deliverability_analysis[dpv_confirmation]</code> is
+            <code>Y</code>, <code>S</code>, or <code>D</code>). For more
+            detailed information about each record type, see [the
+            appendix](https://docs.lob.com/#us_verification_details). Will be
+            one of: * <code>street</code> * <code>highrise</code> *
+            <code>firm</code> * <code>po_box</code> * <code>rural_route</code> *
+            <code>general_delivery</code> * <code>''</code>
+          example: highrise
+          readOnly: true
+        default_building_address:
+          type: boolean
+          description: >
+            Designates whether or not the address is the default address for a
+            building containing multiple delivery points.
+          example: false
+          readOnly: true
+        county:
+          $ref: '#/components/schemas/county'
+        county_fips:
+          $ref: '#/components/schemas/county_fips'
+        carrier_route:
+          type: string
+          description: >
+            A 4-character code assigned to a mail delivery route within a ZIP
+            code.
+          example: C001
+          readOnly: true
+        carrier_route_type:
+          type: string
+          description: >
+            The type of <code>components[carrier_route]</code>. For more
+            detailed information about each carrier route type, see [the
+            appendix](https://docs.lob.com/#us_verification_details). Possible
+            values are: * <code>city_delivery</code> –– City delivery (starts
+            with "C"). * <code>rural_route</code> –– Rural route (starts with
+            "R"). * <code>highway_contract</code> –– Highway contract route
+            (starts with "H") * <code>po_box</code> –– P.O. Box route (starts
+            with "B"). * <code>general_delivery</code> –– General delivery
+            (starts with "G").
+          example: city_delivery
+          readOnly: true
+        latitude:
+          type: string
+          description: >
+            A positive or negative decimal indicating the geographic latitude of
+            the address, specifying the north-to-south position of a location.
+            This should be used with <code>longitude</code> to pinpoint
+            locations on a map. Will not be returned for undeliverable addresses
+            or military addresses (state is <code>AA</code>, <code>AE</code>, or
+            <code>AP</code>).
+          example: '37.77597542841264'
+          readOnly: true
+        longitude:
+          type: string
+          description: >
+            A positive or negative decimal indicating the geographic longitude
+            of the address, specifying the north-to-south position of a
+            location. This should be used with <code>latitude</code> to pinpoint
+            locations on a map. Will not be returned for undeliverable addresses
+            or military addresses (state is <code>AA</code>, <code>AE</code>, or
+            <code>AP</code>).
+          example: '-122.3929557343685'
+          readOnly: true
+        object:
+          $ref: '#/components/schemas/object'
+    dpv_footnote:
+      type: string
+      enum:
+        - AA
+        - A1
+        - BB
+        - CC
+        - N1
+        - F1
+        - G1
+        - U1
+        - M1
+        - M3
+        - P1
+        - P3
+        - R1
+        - R7
+        - RR
+      readOnly: true
+      example: AA
+    deliverability_analysis:
+      type: object
+      required:
+        - dpv_confirmation
+        - dpv_cmra
+        - dpv_vacant
+        - dpv_active
+        - dpv_footnotes
+        - ews_match
+        - lacs_indicator
+        - lacs_return_code
+        - suite_return_code
+      properties:
+        dpv_confirmation:
+          type: string
+          description: >
+            Result of Delivery Point Validation (DPV), which determines whether
+            or not the address is deliverable by the USPS. Possible values are:
+            * <code>Y</code> –– The address is deliverable by the USPS. *
+            <code>S</code> –– The address is deliverable by removing the
+            provided secondary unit designator. This information may be
+            incorrect or unnecessary. * <code>D</code> –– The address is
+            deliverable to the building's default address but is missing a
+            secondary unit designator and/or number.
+                                There is a chance the mail will not reach the intended recipient.
+            * <code>N</code> –– The address is not deliverable according to the
+            USPS, but parts of the address are valid (such as the street and ZIP
+            code). * <code>''</code> –– This address is not deliverable. No
+            matching street could be found within the city or ZIP code.
+          example: 'Y'
+          readOnly: true
+        dpv_cmra:
+          type: string
+          description: >
+            Indicates whether or not the address is
+            [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency).
+            Possible values are: * <code>Y</code> –– Address is CMRA-authorized.
+            * <code>N</code> –– Address is not CMRA-authorized. *
+            <code>''</code> –– A DPV match is not made
+            (<code>deliverability_analysis[dpv_confirmation]</code> is
+            <code>N</code> or an empty string).
+          example: 'N'
+          readOnly: true
+        dpv_vacant:
+          type: string
+          description: >
+            Indicates that an address was once deliverable, but has become
+            vacant and is no longer receiving deliveries. Possible values are: *
+            <code>Y</code> –– Address is vacant. * <code>N</code> –– Address is
+            not vacant. * <code>''</code> –– A DPV match is not made
+            (<code>deliverability_analysis[dpv_confirmation]</code> is
+            <code>N</code> or an empty string).
+          example: 'N'
+          readOnly: true
+        dpv_active:
+          type: string
+          description: >
+            Corresponds to the USPS field <code>dpv_no_stat</code>. Indicates
+            that an address has been vacated in the recent past, and is no
+            longer receiving deliveries. If it's been unoccupied for 90+ days,
+            or temporarily vacant, this will be flagged. Possible values are: *
+            <code>Y</code> –– Address is active. * <code>N</code> –– Address is
+            not active. * <code>''</code> –– A DPV match is not made
+            (<code>deliverability_analysis[dpv_confirmation]</code> is
+            <code>N</code> or an empty string).
+          example: 'Y'
+          readOnly: true
+        dpv_footnotes:
+          type: array
+          description: >
+            An array of 2-character strings that gives more insight into how
+            <code>deliverability_analysis[dpv_confirmation]</code> was
+            determined. Will always include at least 1 string, and can include
+            up to 3.
+          items:
+            $ref: '#/components/schemas/dpv_footnote'
+          example:
+            - AA
+            - BB
+          readOnly: true
+        ews_match:
+          type: boolean
+          description: >
+            Indicates whether or not an address has been flagged in the [Early
+            Warning
+            System](https://docs.informatica.com/data-engineering/data-engineering-quality/10-4-0/address-validator-port-reference/postal-carrier-certification-data-ports/early-warning-system-return-code.html),
+            meaning the address is under development and not yet ready to
+            receive mail. However, it should become available in a few months.
+          example: false
+          readOnly: true
+        lacs_indicator:
+          type: string
+          description: >
+            Indicates whether this address has been converted by
+            [LACSLink](https://postalpro.usps.com/address-quality/lacslink).
+            Possible values are: * <code>Y</code> –– New address produced with a
+            matching record in LACSLink. * <code>N</code> –– New address could
+            not be produced with a matching record in LACSLink. *
+            <code>''</code> –– A DPV match is not made
+            (<code>deliverability_analysis[dpv_confirmation]</code> is
+            <code>N</code> or an empty string).
+          example: ''
+          readOnly: true
+        lacs_return_code:
+          type: string
+          description: |
+            Any return code associated with the LACSLink form of this address.
+          example: ''
+          readOnly: true
+        suite_return_code:
+          type: string
+          description: >
+            Any return code associated with the
+            [SuiteLink](https://postalpro.usps.com/address-quality-solutions/suitelink)
+            form of this address. Possible values are: * <code>A</code> –– A
+            SuiteLink match was found and secondary information was added. *
+            <code>00</code> –– A SuiteLink match could not be found and no
+            secondary information was added. * <code>''</code> –– SuiteLink
+            lookup was not attempted.
+          example: ''
+          readOnly: true
+        object:
+          $ref: '#/components/schemas/object'
+    lob_confidence_score:
+      type: object
+      required:
+        - score
+        - level
+      properties:
+        score:
+          type: number
+          format: float
+          description: >
+            A numerical score between 0 and 100 that represents the percentage
+            of mailpieces Lob has sent to this addresses that have been
+            delivered successfully. Will be <code>null</code> if no tracking
+            data exists for this address.
+          example: 100
+          default: null
+          readOnly: true
+        level:
+          type: string
+          description: |
+            The level of confidence in the score associated with this address.
+          example: high
+          readOnly: true
+        object:
+          $ref: '#/components/schemas/object'
   responses:
     error:
       description: Error
@@ -474,6 +935,65 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/zip'
+    us_verifications:
+      description: Returns a US verification object.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              recipient:
+                $ref: '#/components/schemas/recipient'
+              primary_line:
+                $ref: '#/components/schemas/primary_line'
+              secondary_line:
+                $ref: '#/components/schemas/secondary_line'
+              urbanization:
+                $ref: '#/components/schemas/urbanization'
+              last_line:
+                type: string
+                description: >
+                  Combination of the following applicable
+                  <code>components</code>: * <code>city</code> *
+                  <code>state</code> * <code>zip_code</code> *
+                  <code>zip_code_plus_4</code>
+                example: SAN FRANCISCO CA 94107
+              deliverability:
+                type: string
+                description: >
+                  Summarizes the deliverability of the
+                  <code>us_verification</code> object. For full details, see the
+                  <code>deliverability_analysis</code> field. Possible values
+                  are: * <code>deliverable</code> –– The address is deliverable
+                  by the USPS. * <code>deliverable_unnecessary_unit</code> ––
+                  The address is deliverable, but the secondary
+                                                                 unit information is unnecessary.
+                  * <code>deliverable_incorrect_unit</code> –– The address is
+                  deliverable to the building's
+                                                              default address but the secondary unit provided may not exist.
+                                                              There is a chance the mail will not reach the intended recipient.
+                  * <code>deliverable_missing_unit</code> –– The address is
+                  deliverable to the building's default address but
+                                                             is missing secondary unit information. There is a chance the mail
+                                                             will not reach the intended recipient.
+                  * <code>undeliverable</code> –– The address is not deliverable
+                  according to the USPS.
+                example: deliverable
+              components:
+                $ref: '#/components/schemas/components'
+              deliverability_analysis:
+                $ref: '#/components/schemas/deliverability_analysis'
+              lob_confidence_score:
+                $ref: '#/components/schemas/lob_confidence_score'
+              object:
+                $ref: '#/components/schemas/object'
   headers:
     ratelimit-limit:
       description: The rate limit for a given endpoint.
@@ -616,5 +1136,41 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/zip_lookups'
+        default:
+          $ref: '#/components/responses/error'
+  /us_verifications:
+    post:
+      operationId: verification
+      summary: Verify a US or US territory address with a live API key.
+      description: >-
+        Verify a US or US territory address with a live API key. The address can
+        be in components (e.g. <code>primary_line</code> is "185 Berry Street",
+        <code>zip_code</code> is "94107") or as a single string (e.g. "185 Berry
+        Street 94107"), but not as both. Requests using a test API key validate
+        required fields but return empty values unless specific
+        <code>primary_line</code> values are provided.
+      tags:
+        - Zip Lookups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components'
+                - $ref: '#/components/schemas/single_line_address'
+          application/x-www-form-urlencoded:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components'
+                - $ref: '#/components/schemas/single_line_address'
+          multipart/form-data:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components'
+                - $ref: '#/components/schemas/single_line_address'
+      responses:
+        '200':
+          $ref: '#/components/responses/us_verifications'
         default:
           $ref: '#/components/responses/error'

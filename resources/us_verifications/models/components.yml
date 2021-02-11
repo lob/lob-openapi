@@ -39,9 +39,18 @@ properties:
 
   street_predirection:
     type: string
+    enum:
+      - "N"
+      - "S"
+      - "E"
+      - "W"
+      - "NE"
+      - "SW"
+      - "SE"
+      - "NW"
     description: >
-      Geographic direction preceding a street name (<code>N</code>, <code>S</code>, <code>E</code>,
-      <code>W</code>, <code>NE</code>, <code>SW</code>, <code>SE</code>, <code>NW</code>).
+      Geographic direction preceding a street name (`N`, `S`, `E`,
+      `W`, `NE`, `SW`, `SE`, `NW`).
     example: ""
     readOnly: true
 
@@ -55,23 +64,32 @@ properties:
   street_suffix:
     type: string
     description: >
-      The standard USPS abbreviation for the street suffix (<code>ST</code>, <code>AVE</code>, <code>BLVD</code>, etc).
+      The standard USPS abbreviation for the street suffix (`ST`, `AVE`, `BLVD`, etc).
     example: ST
     readOnly: true
 
   street_postdirection:
     type: string
+    enum:
+      - "N"
+      - "S"
+      - "E"
+      - "W"
+      - "NE"
+      - "SW"
+      - "SE"
+      - "NW"
     description: >
-      Geographic direction following a street name (<code>N</code>, <code>S</code>, <code>E</code>,
-      <code>W</code>, <code>NE</code>, <code>SW</code>, <code>SE</code>, <code>NW</code>).
+      Geographic direction following a street name (`N`, `S`, `E`,
+      `W`, `NE`, `SW`, `SE`, `NW`).
     example: ""
     readOnly: true
 
   secondary_designator:
     type: string
     description: >
-      The standard USPS abbreviation describing the <code>components[secondary_number]</code>
-      (<code>STE</code>, <code>APT</code>, <code>BLDG</code>, etc).
+      The standard USPS abbreviation describing the `components[secondary_number]`
+      (`STE`, `APT`, `BLDG`, etc).
     example: STE
     readOnly: true
 
@@ -133,35 +151,47 @@ properties:
     type: string
     description: >
       A 12-digit identifier that uniquely identifies a delivery point (location where mail can be sent and received).
-      It consists of the 5-digit ZIP code (<code>zip_code</code>), 4-digit ZIP+4 add-on (<code>zip_code_plus_4</code>),
+      It consists of the 5-digit ZIP code (`zip_code`), 4-digit ZIP+4 add-on (`zip_code_plus_4`),
       2-digit delivery point, and 1-digit delivery point check digit.
     example: "941071728506"
     readOnly: true
 
   address_type:
     type: string
-    description: >
+    enum:
+      - residential
+      - commercial
+      - ""
+    description: |
       Uses USPS's Residential Delivery Indicator (RDI) to identify whether an address is classified as residential or
       business. Possible values are:
-      * <code>residential</code> –– The address is residential or a PO Box.
-      * <code>commercial</code> –– The address is commercial.
-      * '' –– Not enough information provided to be determined.
+      * `residential` –– The address is residential or a PO Box.
+      * `commercial` –– The address is commercial.
+      * `''` –– Not enough information provided to be determined.
     example: commercial
     readOnly: true
 
   record_type:
     type: string
-    description: >
-      A description of the type of address. Populated if a DPV match is made (<code>deliverability_analysis[dpv_confirmation]</code>
-      is <code>Y</code>, <code>S</code>, or <code>D</code>). For more detailed information about each record type, see [the appendix](https://docs.lob.com/#us_verification_details).
+    enum:
+      - street
+      - highrise
+      - firm
+      - po_box
+      - rural_route
+      - general_delivery
+      - ""
+    description: |
+      A description of the type of address. Populated if a DPV match is made (`deliverability_analysis[dpv_confirmation]`
+      is `Y`, `S`, or `D`). For more detailed information about each record type, see [the appendix](https://docs.lob.com/#us_verification_details).
       Will be one of:
-      * <code>street</code>
-      * <code>highrise</code>
-      * <code>firm</code>
-      * <code>po_box</code>
-      * <code>rural_route</code>
-      * <code>general_delivery</code>
-      * <code>''</code>
+      * `street`
+      * `highrise`
+      * `firm`
+      * `po_box`
+      * `rural_route`
+      * `general_delivery`
+      * `''`
     example: highrise
     readOnly: true
 
@@ -187,14 +217,19 @@ properties:
 
   carrier_route_type:
     type: string
-    description: >
-      The type of <code>components[carrier_route]</code>. For more detailed information about each carrier route type,
-      see [the appendix](https://docs.lob.com/#us_verification_details). Possible values are:
-      * <code>city_delivery</code> –– City delivery (starts with "C").
-      * <code>rural_route</code> –– Rural route (starts with "R").
-      * <code>highway_contract</code> –– Highway contract route (starts with "H")
-      * <code>po_box</code> –– P.O. Box route (starts with "B").
-      * <code>general_delivery</code> –– General delivery (starts with "G").
+    enum: 
+      - city_delivery
+      - rural_route
+      - highway_contract
+      - po_box
+      - general_delivery
+    description: |
+      The type of `components[carrier_route]`. For more detailed information about each carrier route type, see [the appendix](https://docs.lob.com/#us_verification_details). Possible values are:
+      * `city_delivery` –– City delivery (starts with "C").
+      * `rural_route` –– Rural route (starts with "R").
+      * `highway_contract` –– Highway contract route (starts with "H")
+      * `po_box` –– P.O. Box route (starts with "B").
+      * `general_delivery` –– General delivery (starts with "G").
     example: city_delivery
     readOnly: true
 
@@ -202,8 +237,8 @@ properties:
     type: string
     description: >
       A positive or negative decimal indicating the geographic latitude of the address, specifying the north-to-south position of a
-      location. This should be used with <code>longitude</code> to pinpoint locations on a map. Will not be returned for undeliverable addresses
-      or military addresses (state is <code>AA</code>, <code>AE</code>, or <code>AP</code>).
+      location. This should be used with `longitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
+      or military addresses (state is `AA`, `AE`, or `AP`).
     example: "37.77597542841264"
     readOnly: true
 
@@ -211,8 +246,8 @@ properties:
     type: string
     description: >
       A positive or negative decimal indicating the geographic longitude of the address, specifying the north-to-south position of a
-      location. This should be used with <code>latitude</code> to pinpoint locations on a map. Will not be returned for undeliverable addresses
-      or military addresses (state is <code>AA</code>, <code>AE</code>, or <code>AP</code>).
+      location. This should be used with `latitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
+      or military addresses (state is `AA`, `AE`, or `AP`).
     example: "-122.3929557343685"
     readOnly: true
 

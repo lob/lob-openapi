@@ -14,52 +14,70 @@ required:
 properties:
   dpv_confirmation:
     type: string
-    description: >
+    enum:
+      - "Y"
+      - "S"
+      - "D"
+      - "N"
+      - ""
+    description: |
       Result of Delivery Point Validation (DPV), which determines whether or not the address is deliverable by the USPS. Possible values are:
-      * <code>Y</code> –– The address is deliverable by the USPS.
-      * <code>S</code> –– The address is deliverable by removing the provided secondary unit designator. This information may be incorrect or unnecessary.
-      * <code>D</code> –– The address is deliverable to the building's default address but is missing a secondary unit designator and/or number.
+      * `Y` –– The address is deliverable by the USPS.
+      * `S` –– The address is deliverable by removing the provided secondary unit designator. This information may be incorrect or unnecessary.
+      * `D` –– The address is deliverable to the building's default address but is missing a secondary unit designator and/or number.
                           There is a chance the mail will not reach the intended recipient.
-      * <code>N</code> –– The address is not deliverable according to the USPS, but parts of the address are valid (such as the street and ZIP code).
-      * <code>''</code> –– This address is not deliverable. No matching street could be found within the city or ZIP code.
+      * `N` –– The address is not deliverable according to the USPS, but parts of the address are valid (such as the street and ZIP code).
+      * `''` –– This address is not deliverable. No matching street could be found within the city or ZIP code.
     example: "Y"
     readOnly: true
 
   dpv_cmra:
     type: string
-    description: >
+    enum:
+      - "Y"
+      - "N"
+      - ""
+    description: |
       Indicates whether or not the address is [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency). Possible values are:
-      * <code>Y</code> –– Address is CMRA-authorized.
-      * <code>N</code> –– Address is not CMRA-authorized.
-      * <code>''</code> –– A DPV match is not made (<code>deliverability_analysis[dpv_confirmation]</code> is <code>N</code> or an empty string).
+      * `Y` –– Address is CMRA-authorized.
+      * `N` –– Address is not CMRA-authorized.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "N"
     readOnly: true
 
   dpv_vacant:
     type: string
-    description: >
+    enum:
+      - "Y"
+      - "N"
+      - ""
+    description: |
       Indicates that an address was once deliverable, but has become vacant and is no longer receiving deliveries. Possible values are:
-      * <code>Y</code> –– Address is vacant.
-      * <code>N</code> –– Address is not vacant.
-      * <code>''</code> –– A DPV match is not made (<code>deliverability_analysis[dpv_confirmation]</code> is <code>N</code> or an empty string).
+      * `Y` –– Address is vacant.
+      * `N` –– Address is not vacant.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "N"
     readOnly: true
 
   dpv_active:
     type: string
+    enum:
+      - "Y"
+      - "N"
+      - ""
     description: >
-      Corresponds to the USPS field <code>dpv_no_stat</code>. Indicates that an address has been vacated in the recent past, and is
+      Corresponds to the USPS field `dpv_no_stat`. Indicates that an address has been vacated in the recent past, and is
       no longer receiving deliveries. If it's been unoccupied for 90+ days, or temporarily vacant, this will be flagged. Possible values are:
-      * <code>Y</code> –– Address is active.
-      * <code>N</code> –– Address is not active.
-      * <code>''</code> –– A DPV match is not made (<code>deliverability_analysis[dpv_confirmation]</code> is <code>N</code> or an empty string).
+      * `Y` –– Address is active.
+      * `N` –– Address is not active.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "Y"
     readOnly: true
 
   dpv_footnotes:
     type: array
     description: >
-      An array of 2-character strings that gives more insight into how <code>deliverability_analysis[dpv_confirmation]</code> was determined.
+      An array of 2-character strings that gives more insight into how `deliverability_analysis[dpv_confirmation]` was determined.
       Will always include at least 1 string, and can include up to 3.
     items:
       $ref: "../attributes/dpv_footnote.yml"
@@ -76,11 +94,15 @@ properties:
 
   lacs_indicator:
     type: string
-    description: >
+    enum:
+      - "Y"
+      - "N"
+      - ""
+    description: |
       Indicates whether this address has been converted by [LACSLink](https://postalpro.usps.com/address-quality/lacslink). Possible values are:
-      * <code>Y</code> –– New address produced with a matching record in LACSLink.
-      * <code>N</code> –– New address could not be produced with a matching record in LACSLink.
-      * <code>''</code> –– A DPV match is not made (<code>deliverability_analysis[dpv_confirmation]</code> is <code>N</code> or an empty string).
+      * `Y` –– New address produced with a matching record in LACSLink.
+      * `N` –– New address could not be produced with a matching record in LACSLink.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: ""
     readOnly: true
 
@@ -93,11 +115,15 @@ properties:
 
   suite_return_code:
     type: string
-    description: >
+    enum:
+      - "A"
+      - "00"
+      - ""
+    description: |
       Any return code associated with the [SuiteLink](https://postalpro.usps.com/address-quality-solutions/suitelink) form of this address. Possible values are:
-      * <code>A</code> –– A SuiteLink match was found and secondary information was added.
-      * <code>00</code> –– A SuiteLink match could not be found and no secondary information was added.
-      * <code>''</code> –– SuiteLink lookup was not attempted.
+      * `A` –– A SuiteLink match was found and secondary information was added.
+      * `00` –– A SuiteLink match could not be found and no secondary information was added.
+      * `''` –– SuiteLink lookup was not attempted.
     example: ""
     readOnly: true
 

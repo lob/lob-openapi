@@ -16,3 +16,7 @@ postman:
 .PHONY: redoc
 redoc:
 	@scripts/redoc.sh
+
+.PHONY: pretty
+pretty:
+	npx prettier --write .

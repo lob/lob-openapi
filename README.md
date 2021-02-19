@@ -1,5 +1,6 @@
 # ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
+- [What is this project?](#what-is-this-project)
 - [How the spec is organized](#how-the-spec-is-organized)
   - [Bundled spec](#bundled-spec)
 - [Contributing / Workflow](#contributing--workflow)
@@ -9,6 +10,11 @@
 - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
 - [Contract testing](#contract-testing)
 - [See also](#see-also)
+
+## What is this project?
+
+We're writing an OpenAPI v3 authored specification for the current [Lob API](https://docs.lob.com/).
+This repo contains the spec as well as a growing set of tooling for working with OpenAPI v3 specs.
 
 ## How the spec is organized
 
@@ -40,8 +46,8 @@ Our spec is organized semantically, by _resource_, instead of syntactically, by 
             └── list.yml
 ```
 
-Attribute: any property which is not of type `object` (for example, a `string` ID)
-Model: any property that is an object (for example, an address or a verification)
+- Attribute: any property which is not of type `object` (for example, a `string` ID)
+- Model: any property that is an object (for example, an address or a verification)
 
 ### Bundled spec
 
@@ -195,7 +201,8 @@ Please see the Prism website until we encapsulate that mode in a `make` command.
 
 ## See also
 
-- [Lob API documentation](https://docs.lob.com/)
+- [Lob API docs generated from this spec (DRAFT)](https://lob.github.io/lob-openapi/)
+- [Full Lob API documentation (LIVE)](https://docs.lob.com/)
 - [Lobsters](https://www.lob.com/careers) only
   - [Notion: Lob API OpenAPI Project](https://www.notion.so/lob/Lob-API-v1-OpenAPI-spec-d6c3229d31bc45329d18e01905117fda)
   - [Notion: OpenAPI tooling](https://www.notion.so/lob/OpenAPI-tooling-e17f5a864a4a48d1886dcd95b53cf694)

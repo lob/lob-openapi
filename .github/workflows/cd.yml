@@ -36,3 +36,11 @@ jobs:
             git commit -m "update bundled spec, zero-dependency docs"
             git push
           fi
+
+      - name: publish docs (main only)
+        if: ${{ github.ref == 'main' }}
+        uses: crazy-max/ghaction-github-pages@v2.2.0
+        with:
+          target_branch: gh-pages
+          build_dir: docs
+          jekyll: false

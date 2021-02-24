@@ -4,7 +4,11 @@
   "description": "Tooling for OpenAPI spec for Lob API",
   "private": true,
   "main": "",
+  "config": {
+    "--dynamic": "false"
+  },
   "scripts": {
+    "mock": "prism mock $npm_package_config_--dynamic Lob-API-public.yml",
     "postinstall": "husky install",
     "proxy": "prism proxy --errors Lob-API-public.yml https://api.lob.com/v1",
     "test": "tape './tests/**_test.js' | tap-spec"

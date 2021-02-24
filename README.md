@@ -1,8 +1,8 @@
 # ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
 - [What is this project?](#what-is-this-project)
-- [How the spec is organized](#how-the-spec-is-organized)
-  - [Bundled spec](#bundled-spec)
+- [Design](#design)
+- [Bundled spec](#bundled-spec)
 - [Contributing / Workflow](#contributing--workflow)
 - [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
 - [Readability](#readability)
@@ -16,40 +16,51 @@
 We're writing an OpenAPI v3 authored specification for the current [Lob API](https://docs.lob.com/).
 This repo contains the spec as well as a growing set of tooling for working with OpenAPI v3 specs.
 
-## How the spec is organized
+## Design
 
-Our spec is organized semantically, by _resource_, instead of syntactically, by OpenAPI element.
+Our spec is a multifile spec organized semantically, by _resource_, instead of syntactically, by OpenAPI element. Organizing the spec semantically reduces cognitive friction, helping developers reason from _interaction_ (endpoints) to data (and process) design. As developers from multiple teams work with the spec, the design surfaces business semantics rather than presenting the canonical wall-o-yaml (or json-schema) that typifies the traditional API spec.
 
 ```
 .
+.
 ├── Lob-API-public.yml            # base file (metadata, tags, servers, ...)
-└── resources
-    ├── addresses                 # elements specific to addresses
-    │   ├── addresses.yml         # operations on /addresses
-    │   ├── address.yml           # operations on /addresses/{id}
-    │   ├── attributes
-    │   │   ├── adr_id.yml
-    │   │   └── ...
-    │   ├── models
-    │   │   └── address.yml
-    │   └── responses
-    │       ├── address.yml
-    │       └── all_addresses.yml
-    ├── postcards                 # elements specific to postcards
-    │   ├── postcards.yml         # operations on /postcards
-    │   ├── postcard.yml          # operations on /postcards/{id}
-    │   └── ...
-    └── shared                    # elements shared by multiple resources
-        ├── headers.yml
-        ├── parameters.yml
-        └── models
-            └── list.yml
+├── resources
+│   ├── addresses                 # elements specific to addresses
+│   │   ├── addresses.yml         # operations on /addresses
+│   │   ├── address.yml           # operations on /addresses/{id}
+│   │   ├── attributes
+│   │   │   ├── adr_id.yml
+│   │   │   └── ...
+│   │   ├── models
+│   │   │   └── address.yml
+│   │   └── responses
+│   │       ├── address.yml
+│   │       └── all_addresses.yml
+│   └── postcards                 # elements specific to postcards
+│       ├── postcards.yml         # operations on /postcards
+│       ├── postcard.yml          # operations on /postcards/{id}
+│       └── ...
+├── shared                        # elements used by multiple resources
+│   ├── attributes                # properties not of type `object`
+│   ├── headers
+│   ├── models                    # properties of type `object`
+│   ├── parameters
+│   └── responses
+|
+├── Makefile                      # gnu make commands
+├── actions                       # private github actions or resources needed by actions
+│   ├── contract_tests
+│   └── redoc
+├── dist                          # contents created during CD by github actions
+├── scripts                       # scripts used by `Makefile`
+└── tests                         # contract tests
+    ├── setup.js                  # contract test framework
+    ├── addresses_test.js         # tests for addresses resource
+    ├── us_verifications.test.js  # tests for us_verifications resource...
+    └── ...
 ```
 
-- Attribute: any property which is not of type `object` (for example, a `string` ID)
-- Model: any property that is an object (for example, an address or a verification)
-
-### Bundled spec
+## Bundled spec
 
 A lot of tooling for working with OpenAPI specs does not support the full
 specification. In particular, many tools do not support multiple file specs.
@@ -68,6 +79,10 @@ dereference a spec, and more.
 To contribute, whether adding / modifying an endpoint or working on the tooling, start by making
 a branch. (As we build out the full tooling in the roadmap, everything will key off of the branch
 name, although that is not currently relevant.)
+
+If you are adding a new endpoint, keep your work in the branch until the feature is shipped in `lob-api` (talk to DevEx about details - we're working through this process and would like to discuss workflow details!) We're actively building out tooling to support API driven design at present. Take a look at the [mock](MOCKING.md) server documentation.
+
+Whether for a new or an existing endpoint, you'll want to add contract tests (discussed briefly below).
 
 This project uses CI/CD; as you push your branch to github, github actions will run tests and, if
 those tests pass, build release artifacts (bundled spec, postman collection, ...) and push them

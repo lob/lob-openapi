@@ -1,5 +1,15 @@
 type: object
 
+required:
+  - primary_line
+
+oneOf:
+  - required:
+      - city
+      - state
+  - required:
+      - zip_code
+
 properties:
   recipient:
     $ref: "../../../shared/attributes/recipient.yml"

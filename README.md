@@ -1,12 +1,12 @@
 # ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
 - [What is this project?](#what-is-this-project)
-- [How the spec is organized](#how-the-spec-is-organized)
-  - [Bundled spec](#bundled-spec)
+- [Design](#design)
+- [Bundled spec](#bundled-spec)
 - [Contributing / Workflow](#contributing--workflow)
 - [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
 - [Readability](#readability)
-- [Future proofing](#future-proofing)
+- [OAS v3.1 compatibility](#oas-v31-compatibility)
 - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
 - [Contract testing](#contract-testing)
 - [See also](#see-also)
@@ -16,40 +16,51 @@
 We're writing an OpenAPI v3 authored specification for the current [Lob API](https://docs.lob.com/).
 This repo contains the spec as well as a growing set of tooling for working with OpenAPI v3 specs.
 
-## How the spec is organized
+## Design
 
-Our spec is organized semantically, by _resource_, instead of syntactically, by OpenAPI element.
+Our spec is a multifile spec organized semantically, by _resource_, instead of syntactically, by OpenAPI element. Organizing the spec semantically reduces cognitive friction, helping developers reason from _interaction_ (endpoints) to data (and process) design. As developers from multiple teams work with the spec, the design surfaces business semantics rather than presenting the canonical wall-o-yaml (or json-schema) that typifies the traditional API spec.
 
 ```
 .
+.
 ├── Lob-API-public.yml            # base file (metadata, tags, servers, ...)
-└── resources
-    ├── addresses                 # elements specific to addresses
-    │   ├── addresses.yml         # operations on /addresses
-    │   ├── address.yml           # operations on /addresses/{id}
-    │   ├── attributes
-    │   │   ├── adr_id.yml
-    │   │   └── ...
-    │   ├── models
-    │   │   └── address.yml
-    │   └── responses
-    │       ├── address.yml
-    │       └── all_addresses.yml
-    ├── postcards                 # elements specific to postcards
-    │   ├── postcards.yml         # operations on /postcards
-    │   ├── postcard.yml          # operations on /postcards/{id}
-    │   └── ...
-    └── shared                    # elements shared by multiple resources
-        ├── headers.yml
-        ├── parameters.yml
-        └── models
-            └── list.yml
+├── resources
+│   ├── addresses                 # elements specific to addresses
+│   │   ├── addresses.yml         # operations on /addresses
+│   │   ├── address.yml           # operations on /addresses/{id}
+│   │   ├── attributes
+│   │   │   ├── adr_id.yml
+│   │   │   └── ...
+│   │   ├── models
+│   │   │   └── address.yml
+│   │   └── responses
+│   │       ├── address.yml
+│   │       └── all_addresses.yml
+│   └── postcards                 # elements specific to postcards
+│       ├── postcards.yml         # operations on /postcards
+│       ├── postcard.yml          # operations on /postcards/{id}
+│       └── ...
+├── shared                        # elements used by multiple resources
+│   ├── attributes                # properties not of type `object`
+│   ├── headers
+│   ├── models                    # properties of type `object`
+│   ├── parameters
+│   └── responses
+|
+├── Makefile                      # gnu make commands
+├── actions                       # private github actions or resources needed by actions
+│   ├── contract_tests
+│   └── redoc
+├── dist                          # contents created during CD by github actions
+├── scripts                       # scripts used by `Makefile`
+└── tests                         # contract tests
+    ├── setup.js                  # contract test framework
+    ├── addresses_test.js         # tests for addresses resource
+    ├── us_verifications.test.js  # tests for us_verifications resource...
+    └── ...
 ```
 
-- Attribute: any property which is not of type `object` (for example, a `string` ID)
-- Model: any property that is an object (for example, an address or a verification)
-
-### Bundled spec
+## Bundled spec
 
 A lot of tooling for working with OpenAPI specs does not support the full
 specification. In particular, many tools do not support multiple file specs.
@@ -69,6 +80,10 @@ To contribute, whether adding / modifying an endpoint or working on the tooling,
 a branch. (As we build out the full tooling in the roadmap, everything will key off of the branch
 name, although that is not currently relevant.)
 
+If you are adding a new endpoint, keep your work in the branch until the feature is shipped in `lob-api` (talk to DevEx about details - we're working through this process and would like to discuss workflow details!) We're actively building out tooling to support API driven design at present. Take a look at the [mock](MOCKING.md) server documentation.
+
+Whether for a new or an existing endpoint, you'll want to add contract tests (discussed briefly below).
+
 This project uses CI/CD; as you push your branch to github, github actions will run tests and, if
 those tests pass, build release artifacts (bundled spec, postman collection, ...) and push them
 to your branch on github under the `dist/` directory. Because the CI/CD cycle on github pushes
@@ -85,23 +100,23 @@ ruleset goes beyond the OpenAPI v3 standard to incorporate a recommended set of
 best practices.
 
 Spectral runs in CI on push and pull request. You can also run Spectral locally
-using the Spectral CLI and/or via the
+via `npm run lint`. VS Code users can use the
 [stoplight.spectral](https://marketplace.visualstudio.com/items?itemName=stoplight.spectral)
 VS Code extension.
-
-For those editing in VS Code, additional linting can be provided by
-[42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi). A second
-linter will be added to CI, as a backup to Spectral.
 
 ## Readability
 
 We use [Prettier](https://prettier.io/) to ensure that all our code follows a consist format for
-maximum readability. The repo will setup a pre-commit githook that runs prettier before each commit,
-and CI will check that prettier has been run.
+maximum readability. You can run `prettier` as you work via `npm run pretty` and/or through [editor integrations](https://prettier.io/docs/en/editors.html) for many major editors.
 
-## Future proofing
+In addition, a pre-commit githook runs `prettier --check .` (the same check run in CI).
 
-As of January 2021, OpenAPI v3.1 is in [rc1](https://www.openapis.org/blog) with final expected any day. 3.1 includes many [extremely useful changes](https://github.com/OAI/OpenAPI-Specification/releases/tag/3.1.0-rc0), including full JSON schema compatibility and the ability to extend discriminators with specification extensions. As we anticipate moving to v3.1 soon after release, we're working to minimize the changes we'll need to make. Some changes, like switching from `nullable` to `null`, are both unavoidable and easy. Others, like using `ReadOnly` and `WriteOnly` with `required`, can and should be avoided.
+## OAS v3.1 compatibility
+
+On February 15, 2021, the [OpenAPI Initiative](https://www.openapis.org/) published [OpenAPI v3.1](https://spec.openapis.org/oas/v3.1.0).
+OAS 3.1 includes many [extremely useful changes](https://github.com/OAI/OpenAPI-Specification/releases/tag/3.1.0-rc0), including full JSON schema compatibility and the ability to extend discriminators with specification extensions.
+
+We will move to v3.1 as soon as is practical. In the meantime, we're working to minimize the changes we'll need to make. Some changes, like switching from `nullable` to `null`, are both unavoidable and easy. Others, like using `ReadOnly` and `WriteOnly` with `required`, can and should be avoided.
 
 ## Previewing the spec as docs (aka QAing your work)
 
@@ -197,7 +212,7 @@ use the `--errors` flag which will turn any request or response violation found
 into a [RFC7807](https://tools.ietf.org/html/rfc7807) machine readable error.
 
 You can also run Prism as a mock server using the spec for new endpoints.
-Please see the Prism website until we encapsulate that mode in a `make` command.
+Mocking is discussed in depth in a separate [guide](MOCKING.md).
 
 ## See also
 

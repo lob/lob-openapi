@@ -3,6 +3,12 @@ type: object
 required:
   - address_line1
 
+oneOf:
+  - required:
+      - name
+  - required:
+      - company
+
 properties:
   description:
     $ref: "../../../shared/attributes/resource_description.yml"

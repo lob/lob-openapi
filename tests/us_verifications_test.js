@@ -88,6 +88,38 @@ test("errors when not given a primary line", async function (t) {
   t.end();
 });
 
+test("errors when given a city without state or zip", async function (t) {
+  const response = await prism
+    .setup({ errors: false })
+    .then((client) =>
+      client.post(
+        resource_endpoint,
+        { primary_line: primary_line, city: city },
+        { headers: prism.authHeader }
+      )
+    );
+
+  t.equal(response.status, 422);
+  t.match(response.data.error.message, /state/);
+  t.end();
+});
+
+test("errors when given a state without city or zip", async function (t) {
+  const response = await prism
+    .setup({ errors: false })
+    .then((client) =>
+      client.post(
+        resource_endpoint,
+        { primary_line: primary_line, state: state },
+        { headers: prism.authHeader }
+      )
+    );
+
+  t.equal(response.status, 422);
+  t.match(response.data.error.message, /city/);
+  t.end();
+});
+
 test("errors when given extraneous information alongside a single-line address", async function (t) {
   const response = await prism
     .setup({ errors: false })

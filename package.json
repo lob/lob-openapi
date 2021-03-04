@@ -5,12 +5,15 @@
   "private": true,
   "main": "",
   "config": {
-    "--dynamic": "false"
+    "--dynamic": "false",
+    "specfile": "Lob-API-public.yml"
   },
   "scripts": {
-    "mock": "prism mock $npm_package_config_--dynamic Lob-API-public.yml",
+    "lint": "spectral lint $npm_package_config_specfile",
+    "mock": "prism mock $npm_package_config_--dynamic $npm_package_config_specfile",
     "postinstall": "husky install",
-    "proxy": "prism proxy --errors Lob-API-public.yml https://api.lob.com/v1",
+    "pretty": "prettier --write .",
+    "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
     "test": "tape './tests/**_test.js' | tap-spec"
   },
   "repository": {

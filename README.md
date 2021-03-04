@@ -6,7 +6,7 @@
 - [Contributing / Workflow](#contributing--workflow)
 - [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
 - [Readability](#readability)
-- [Future proofing](#future-proofing)
+- [OAS v3.1 compatibility](#oas-v31-compatibility)
 - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
 - [Contract testing](#contract-testing)
 - [See also](#see-also)
@@ -100,23 +100,23 @@ ruleset goes beyond the OpenAPI v3 standard to incorporate a recommended set of
 best practices.
 
 Spectral runs in CI on push and pull request. You can also run Spectral locally
-using the Spectral CLI and/or via the
+via `npm run lint`. VS Code users can use the
 [stoplight.spectral](https://marketplace.visualstudio.com/items?itemName=stoplight.spectral)
 VS Code extension.
-
-For those editing in VS Code, additional linting can be provided by
-[42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi). A second
-linter will be added to CI, as a backup to Spectral.
 
 ## Readability
 
 We use [Prettier](https://prettier.io/) to ensure that all our code follows a consist format for
-maximum readability. The repo will setup a pre-commit githook that runs prettier before each commit,
-and CI will check that prettier has been run.
+maximum readability. You can run `prettier` as you work via `npm run pretty` and/or through [editor integrations](https://prettier.io/docs/en/editors.html) for many major editors.
 
-## Future proofing
+In addition, a pre-commit githook runs `prettier --check .` (the same check run in CI).
 
-As of January 2021, OpenAPI v3.1 is in [rc1](https://www.openapis.org/blog) with final expected any day. 3.1 includes many [extremely useful changes](https://github.com/OAI/OpenAPI-Specification/releases/tag/3.1.0-rc0), including full JSON schema compatibility and the ability to extend discriminators with specification extensions. As we anticipate moving to v3.1 soon after release, we're working to minimize the changes we'll need to make. Some changes, like switching from `nullable` to `null`, are both unavoidable and easy. Others, like using `ReadOnly` and `WriteOnly` with `required`, can and should be avoided.
+## OAS v3.1 compatibility
+
+On February 15, 2021, the [OpenAPI Initiative](https://www.openapis.org/) published [OpenAPI v3.1](https://spec.openapis.org/oas/v3.1.0).
+OAS 3.1 includes many [extremely useful changes](https://github.com/OAI/OpenAPI-Specification/releases/tag/3.1.0-rc0), including full JSON schema compatibility and the ability to extend discriminators with specification extensions.
+
+We will move to v3.1 as soon as is practical. In the meantime, we're working to minimize the changes we'll need to make. Some changes, like switching from `nullable` to `null`, are both unavoidable and easy. Others, like using `ReadOnly` and `WriteOnly` with `required`, can and should be avoided.
 
 ## Previewing the spec as docs (aka QAing your work)
 
@@ -212,7 +212,7 @@ use the `--errors` flag which will turn any request or response violation found
 into a [RFC7807](https://tools.ietf.org/html/rfc7807) machine readable error.
 
 You can also run Prism as a mock server using the spec for new endpoints.
-Please see the Prism website until we encapsulate that mode in a `make` command.
+Mocking is discussed in depth in a separate [guide](MOCKING.md).
 
 ## See also
 

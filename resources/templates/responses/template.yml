@@ -1,0 +1,35 @@
+description: Returns a template object
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      $ref: "../models/template.yml"
+    example:
+      id: "tmpl_c94e83ca2cd5121"
+      description: "Test Template"
+      versions:
+        - id: "vrsn_362184d96d9b0c9"
+          description: "Test Template"
+          html: "<html>HTML for {{name}}</html>"
+          date_created: "2017-11-07T22:56:10.962Z"
+          date_modified: "2017-11-07T22:56:10.962Z"
+          object: "version"
+      published_version:
+        id: "vrsn_362184d96d9b0c9"
+        description: "Test Template"
+        html: "<html>HTML for {{name}}</html>"
+        date_created: "2017-11-07T22:56:10.962Z"
+        date_modified: "2017-11-07T22:56:10.962Z"
+        object: "version"
+      metadata: {}
+      date_created: "2017-11-07T22:56:10.962Z"
+      date_modified: "2017-11-07T22:56:10.962Z"
+      object: "template"

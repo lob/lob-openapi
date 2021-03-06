@@ -1,0 +1,50 @@
+parameters:
+  - in: path
+    name: template_id
+    description: id of the template
+    required: true
+    schema:
+      $ref: "../attributes/tmpl_id.yml"
+
+  - in: path
+    name: template_version_id
+    description: id of the template_version
+    required: true
+    schema:
+      $ref: "attributes/vrsn_id.yml"
+
+get:
+  operationId: get_template_version
+
+  summary: Retrieve template version with given template and version ids.
+
+  description: >-
+    Retrieves the template version with the given template and version ids.
+
+  tags:
+    - Template_Versions
+
+  responses:
+    "200":
+      $ref: "responses/template_version.yml"
+
+    default:
+      $ref: "../../../shared/responses/error.yml"
+
+delete:
+  operationId: delete_template_version
+
+  summary: Deletes the template version with given template and version ids if possible.
+
+  description: >-
+    Permanently deletes a template version. A template's `published_version` can not be deleted.
+
+  tags:
+    - Template_Versions
+
+  responses:
+    "200":
+      $ref: "../../../shared/responses/deleted.yml"
+
+    default:
+      $ref: "../../../shared/responses/error.yml"

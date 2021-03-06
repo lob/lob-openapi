@@ -21,11 +21,22 @@ servers:
 
 tags:
   - name: Addresses
-    description: Content relevant to addresses
+    description: A frictionless address book for use with the print and mail API.
+
+  - name: Template_Versions
+    description: Versioning for your reusable HTML print and mail templates.
+
+  - name: Templates
+    description: Versioned, reusable HTML Templates for use with the print and mail API.
+
   - name: US Verifications
-    description: Content relevant to US verifications
+    description: >
+      Validate, automatically correct, and standardize the addresses in your
+      address book based on USPS's [Coding Accuracy Support System (CASS)](https://postalpro.usps.com/certifications/cass).
+
   - name: Zip Lookups
-    description: Content relevant to US ZIP lookups
+    description: >
+      Find a list of cities, states and associated information about a US ZIP code.
 
 components:
   securitySchemes:
@@ -37,14 +48,26 @@ security:
   - basicAuth: []
 
 paths:
-  /addresses/{id}:
+  /addresses/{address_id}:
     $ref: resources/addresses/address.yml
 
   /addresses:
     $ref: resources/addresses/addresses.yml
 
-  /us_zip_lookups:
-    $ref: resources/zip_lookups/zip_lookups.yml
+  /templates/{template_id}/versions/{template_version_id}:
+    $ref: resources/templates/template_versions/template_version.yml
+
+  /templates/{template_id}/versions:
+    $ref: resources/templates/template_versions/template_versions.yml
+
+  /templates/{template_id}:
+    $ref: resources/templates/template.yml
+
+  /templates:
+    $ref: resources/templates/templates.yml
 
   /us_verifications:
     $ref: resources/us_verifications/us_verifications.yml
+
+  /us_zip_lookups:
+    $ref: resources/zip_lookups/zip_lookups.yml

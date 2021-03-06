@@ -1,0 +1,45 @@
+parameters:
+  - in: path
+    name: template_id
+    description: id of the template
+    required: true
+    schema:
+      $ref: "attributes/tmpl_id.yml"
+
+get:
+  operationId: get_template
+
+  summary: Retrieve template with given id
+
+  description: >-
+    Retrieves the details of an existing template. You need only supply
+    the unique template identifier that was returned upon template creation.
+
+  tags:
+    - Templates
+
+  responses:
+    "200":
+      $ref: responses/template.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+delete:
+  operationId: delete_template
+
+  summary: Deletes template with given id
+
+  description: >-
+    Deletes the details of an existing template. You need only supply
+    the unique customer identifier that was returned upon template creation.
+
+  tags:
+    - Templates
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/error.yml"

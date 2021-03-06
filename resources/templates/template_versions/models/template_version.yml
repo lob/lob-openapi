@@ -1,0 +1,26 @@
+allOf:
+  - $ref: "template_version_writable.yml"
+
+  - type: object
+
+    required:
+      - id
+      - date_created
+      - date_modified
+      - object
+
+    properties:
+      id:
+        $ref: "../attributes/vrsn_id.yml"
+
+      date_created:
+        $ref: "../../../../shared/attributes/timestamps.yml#/date_created"
+
+      date_modified:
+        $ref: "../../../../shared/attributes/timestamps.yml#/date_modified"
+
+      deleted:
+        $ref: "../../../../shared/attributes/deleted.yml"
+
+      object:
+        $ref: "../../../../shared/attributes/object.yml"

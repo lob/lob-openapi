@@ -11,7 +11,7 @@ rules:
         function: truthy
 
   path-item-ref-must-be-file:
-    description: Path Item must $ref to a file in resources/<resource_name>/
+    description: Path Item must $ref to a file under resources/<resource_name>/
     message: "{{description}}; {{value}} incorrect"
     severity: error
     resolved: false
@@ -19,4 +19,4 @@ rules:
     then:
       function: pattern
       functionOptions:
-        match: "^resources\/[a-zA-Z-_]+\/[a-zA-Z-_]+.yml"
+        match: "^resources\/[a-zA-Z-_]+\/"

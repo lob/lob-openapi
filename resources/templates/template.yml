@@ -25,6 +25,43 @@ get:
     default:
       $ref: "../../shared/responses/error.yml"
 
+post:
+  operationId: update_template
+
+  summary: Update description and/or published version of a template.
+
+  description: >-
+    Updates the description and/or published version of the template with the
+    given id. To update the template's html, create a new version of the template.
+
+  tags:
+    - Templates
+
+  parameters:
+    - $ref: "../../shared/parameters/idempotency.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/template_update.yml"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/template_update.yml"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/template_update.yml"
+
+  responses:
+    "200":
+      $ref: responses/template.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
 delete:
   operationId: delete_template
 

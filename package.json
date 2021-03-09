@@ -14,7 +14,8 @@
     "postinstall": "husky install",
     "pretty": "prettier --write .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
-    "test": "tape './tests/**_test.js' | tap-spec"
+    "test": "tape './tests/**_test.js' | tap-spec",
+    "test-tv": "tape './tests/template_versions_test.js' | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "redoc": "^2.0.0-rc.48",
     "tap-spec": "^5.0.0",
     "tape": "^5.1.1",
-    "tape-catch": "^1.0.6"
+    "tape-catch": "^1.0.6",
+    "uuid": "^8.3.2"
   }
 }

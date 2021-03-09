@@ -17,66 +17,77 @@ prism
     client.post(
       "/templates",
       {
-        description: "Test Template",
-        html: "<html>HTML for {{name}}</html>",
+        description: "Test Template Versions",
+        html: "<html>HTML for other</html>",
       },
       { headers: prism.authHeader }
     )
   )
   .then((result) => {
-    const tmpl_id = result.data.id;
-    const resource_endpoint = `/templates/${tmpl_id}/versions`;
+    const tmpl_endpoint = `/templates/${result.data.id}`;
+    const resource_endpoint = `${tmpl_endpoint}/versions`;
 
-    // contract tests
-    test("list the template version", async function (t) {
-      const response = await prism
+    test("list, create, retrieve, update then delete a new template version", async function (t) {
+      // list version created when template was created
+      let response = await prism
         .setup()
         .then((client) =>
           client.get(resource_endpoint, { headers: prism.authHeader })
         );
 
       t.equal(response.status, 200);
-    });
 
-    test("create, retrieve, then delete a new template version", async function (t) {
-      const params = {
-        description: "Updated Template",
-        html: "<html>Updated HTML for {{name}}</html>",
-      };
-
-      // create
-      let response = await prism
-        .setup()
-        .then((client) =>
-          client.post(resource_endpoint, params, { headers: prism.authHeader })
-        );
+      // create new version
+      response = await prism.setup().then((client) =>
+        client.post(
+          resource_endpoint,
+          {
+            description: "Updated Template",
+            html: "<html>Updated HTML</html>",
+          },
+          { headers: prism.authHeader }
+        )
+      );
 
       t.equal(response.status, 200);
-      const vrsn_id = response.data.id;
+      const vrsn_endpoint = `${resource_endpoint}/${response.data.id}`;
 
       // retrieve
       response = await prism.setup().then((client) =>
-        client.get(`${resource_endpoint}/${vrsn_id}`, {
+        client.get(vrsn_endpoint, {
           headers: prism.authHeader,
         })
       );
+
+      t.equal(response.status, 200);
+
+      // update
+      response = await prism
+        .setup()
+        .then((client) =>
+          client.post(
+            vrsn_endpoint,
+            { description: "new description " },
+            { headers: prism.authHeader }
+          )
+        );
 
       t.equal(response.status, 200);
 
       // delete
       response = await prism.setup().then((client) =>
-        client.delete(`${resource_endpoint}/${vrsn_id}`, {
+        client.delete(vrsn_endpoint, {
           headers: prism.authHeader,
         })
       );
 
       t.equal(response.status, 200);
-    });
 
-    // clean up template too!
-    prism.setup().then((client) =>
-      client.delete(`${resource_endpoint}/${tmpl_id}`, {
-        headers: prism.authHeader,
-      })
-    );
+      // clean up template too!
+      prism.setup().then((client) =>
+        client.delete(tmpl_endpoint, {
+          headers: prism.authHeader,
+        })
+      );
+    });
   });

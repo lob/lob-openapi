@@ -31,6 +31,42 @@ get:
     default:
       $ref: "../../../shared/responses/error.yml"
 
+post:
+  operationId: update_template_version
+
+  summary: Updates the template version with given template and version ids.
+
+  description: >-
+    Retrieves the template version with the given template and version ids.
+
+  tags:
+    - Template_Versions
+
+  parameters:
+    - $ref: "../../../shared/parameters/idempotency.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/template_version_updatable.yml"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/template_version_updatable.yml"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/template_version_updatable.yml"
+
+  responses:
+    "200":
+      $ref: "responses/template_version.yml"
+
+    default:
+      $ref: "../../../shared/responses/error.yml"
+
 delete:
   operationId: delete_template_version
 

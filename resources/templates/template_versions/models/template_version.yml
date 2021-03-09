@@ -13,6 +13,22 @@ allOf:
       id:
         $ref: "../attributes/vrsn_id.yml"
 
+      suggest_json_editor:
+        type: boolean
+        description: >
+          Used by frontend, true if the template uses advanced features.
+
+      engine:
+        type: string
+        description: >
+          The engine used to combine html template with merge variables.
+            * legacy - Lob's original engine
+            * handlebars
+        enum:
+          - legacy
+          - handlebars
+        nullable: true
+
       date_created:
         $ref: "../../../../shared/attributes/timestamps.yml#/date_created"
 

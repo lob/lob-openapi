@@ -1,0 +1,18 @@
+description: >-
+  List of all certificates. Will to add wording about plans for the future.
+
+content:
+  application/json:
+    schema:
+      type: object
+      description: List of certificates with number in list.
+      properties:
+        data:
+          type: array
+          description: list of certificates
+          items:
+            $ref: "../models/certificate.yml"
+        count:
+          $ref: "../../../shared/attributes/count.yml"
+        object:
+          $ref: "../../../shared/attributes/object.yml"

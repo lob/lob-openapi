@@ -2,23 +2,17 @@ type: object
 description: Multiple items returned in order
 properties:
   object:
-    type: string
-    description: What kind of resource does this list contain?
-    example: address
+    $ref: "../attributes/object.yml"
 
   next_url:
     type: string
     description: Url of next page of items in list.
     nullable: true
-    example: https://api.lob.com/v1/addresses?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wN1QyMTo1OTo0Ni43NjRaIiwiaWRPZmZzZXQiOiJhZHJfODMwYmYwZWFiZGFhYTQwOSJ9
 
   previous_url:
     type: string
     description: Url of previous page of items in list.
     nullable: true
-    example: null
 
   count:
-    type: integer
-    description: number of items in list
-    example: 2
+    $ref: "../attributes/count.yml"

@@ -1,0 +1,45 @@
+parameters:
+  - in: path
+    name: id
+    description: id of the certificate
+    required: true
+    schema:
+      $ref: "attributes/cert_id.yml"
+
+get:
+  operationId: get_certificate
+
+  summary: Retrieve certificate with given id
+
+  description: >-
+    Retrieves the details of an existing certificate. You need only supply
+    the unique customer identifier that was returned upon certificate creation.
+
+  tags:
+    - Certificates
+
+  responses:
+    "200":
+      $ref: responses/certificate.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+delete:
+  operationId: delete_certificate
+
+  summary: Deletes certificate with given id
+
+  description: >-
+    Deletes the details of an existing certificate. You need only supply
+    the unique customer identifier that was returned upon certificate creation.
+
+  tags:
+    - Certificates
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/error.yml"

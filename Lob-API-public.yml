@@ -32,6 +32,9 @@ tags:
   - name: Templates
     description: Versioned, reusable HTML Templates for use with the print and mail API.
 
+  - name: Certificates
+    description: Will [TODO] write a good description
+
   - name: US Verifications
     description: >
       Validate, automatically correct, and standardize the addresses in your
@@ -74,6 +77,12 @@ paths:
 
   /templates:
     $ref: resources/templates/templates.yml
+
+  /certificates/{id}:
+    $ref: resources/certificates/certificate.yml
+
+  /certificates:
+    $ref: resources/certificates/certificates.yml
 
   /us_verifications:
     $ref: resources/us_verifications/us_verifications.yml

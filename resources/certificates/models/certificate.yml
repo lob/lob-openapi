@@ -1,0 +1,34 @@
+allOf:
+  - $ref: "certificate_writable.yml"
+
+  - type: object
+
+    required:
+      - id
+      - date_created
+      - date_modified
+      - object
+
+    properties:
+      id:
+        $ref: "../attributes/cert_id.yml"
+
+      account_id:
+        type: string
+        description: Foreign key to accounts table
+        readOnly: true
+
+      deleted:
+        $ref: "../../../shared/attributes/deleted.yml"
+
+      date_created:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+      date_modified:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+      date_deleted:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_deleted"
+
+      object:
+        $ref: "../../../shared/attributes/object.yml"

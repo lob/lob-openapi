@@ -1,0 +1,28 @@
+type: object
+
+required:
+  - cert
+  - name
+
+properties:
+  description:
+    type: string
+    description: >
+      An internal description that identifies this resource. Must be
+      no longer than 255 characters.
+    maxLength: 255
+    nullable: true
+
+  name:
+    type: string
+    description: >
+      Short, friendly name of the certificate.
+    maxLength: 255
+    nullable: true
+
+  cert:
+    type: string
+    description: >
+      Public X509 certificate.
+    maxLength: 20000
+    nullable: true

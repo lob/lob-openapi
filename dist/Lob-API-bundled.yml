@@ -101,6 +101,11 @@ components:
       type: object
       required:
         - address_line1
+      oneOf:
+        - required:
+            - name
+        - required:
+            - company
       properties:
         description:
           type: string
@@ -447,6 +452,14 @@ components:
       example: '94107'
     multiple_components:
       type: object
+      required:
+        - primary_line
+      oneOf:
+        - required:
+            - city
+            - state
+        - required:
+            - zip_code
       properties:
         recipient:
           $ref: '#/components/schemas/recipient'
@@ -466,6 +479,8 @@ components:
           $ref: '#/components/schemas/object'
     single_line_address:
       type: object
+      required:
+        - address
       properties:
         address:
           type: string

@@ -19,11 +19,20 @@ servers:
     description: production
 tags:
   - name: Addresses
-    description: Content relevant to addresses
+    description: A frictionless address book for use with the print and mail API.
+  - name: Template_Versions
+    description: Versioning for your reusable HTML print and mail templates.
+  - name: Templates
+    description: 'Versioned, reusable HTML Templates for use with the print and mail API.'
   - name: US Verifications
-    description: Content relevant to US verifications
+    description: >
+      Validate, automatically correct, and standardize the addresses in your
+      address book based on USPS's [Coding Accuracy Support System
+      (CASS)](https://postalpro.usps.com/certifications/cass).
   - name: Zip Lookups
-    description: Content relevant to US ZIP lookups
+    description: >
+      Find a list of cities, states and associated information about a US ZIP
+      code.
 components:
   securitySchemes:
     basicAuth:
@@ -74,6 +83,13 @@ components:
             again.
         status_code:
           $ref: '#/components/schemas/failure_status_code'
+    resource_description:
+      type: string
+      description: >
+        An internal description that identifies this resource. Must be no longer
+        than 255 characters.
+      maxLength: 255
+      nullable: true
     send_date:
       type: string
       description: >
@@ -103,13 +119,7 @@ components:
         - address_line1
       properties:
         description:
-          type: string
-          description: >
-            An internal description that identifies this resource. Must be no
-            longer than 255 characters.
-          maxLength: 255
-          nullable: true
-          example: Harry - Office
+          $ref: '#/components/schemas/resource_description'
         name:
           type: string
           description: >
@@ -277,134 +287,121 @@ components:
           type: integer
           description: number of items in list
           example: 2
-    zip5:
+    tmpl_id:
+      type: string
+      description: Unique identifier prefixed with `tmpl_`.
+      pattern: '^tmpl_[a-zA-Z0-9]+$'
+    vrsn_id:
+      type: string
+      description: Unique identifier prefixed with `vrsn_`.
+      pattern: '^vrsn_[a-zA-Z0-9]+$'
+    template_html:
+      type: string
+      description: >
+        An HTML string of less than 100,000 characters to be used as the
+        `published_version` of this template. For details, see our Guide to
+        designing HTML templates. Please see endpoint specific documentation for
+        any other product-specific HTML details.  Merge variables should not
+        include delimiting whitespace.  If there is a syntax error with your
+        variable names within your HTML, then an error will be thrown, e.g.
+        using a `{{#users}}` opening tag without the corresponding closing tag
+        `{{/users}}`.
+      maxLength: 100000
+    template_version_writable:
       type: object
       required:
-        - zip_code
+        - html
       properties:
-        zip_code:
-          type: string
-          description: A 5-digit ZIP code.
-          pattern: '^\d{5}$'
-          example: '94107'
-    zip_id:
-      type: string
-      description: Unique identifier prefixed with `us_zip_`.
-      readOnly: true
-      pattern: '^us_zip_[a-zA-Z0-9]+$'
-      example: us_zip_c7cb63d68f8d6
-    city:
-      type: string
-      description: >
-        The name of the city. `city` and `state` are required if no zip_code is
-        passed.
-      example: SAN FRANCISCO
-    state:
-      type: string
-      description: >
-        The state as a two-letter abbreviation. `city` and `state` are required
-        if no zip_code is passed.
-      maxLength: 2
-      example: CA
-    county:
-      type: string
-      description: |
-        County name of the address city.
-      example: SAN FRANCISCO
-    county_fips:
-      type: string
-      description: >
-        A 5-digit [FIPS county
-        code](https://en.wikipedia.org/wiki/FIPS_county_code) which uniquely
-        identifies `components[county]`. It consists of a 2-digit state code and
-        a 3-digit county code.
-      maxLength: 5
-      minLength: 5
-      example: '06075'
-      readOnly: true
-    city-2:
-      type: object
-      required:
-        - city
-        - state
-        - county
-        - county_fips
-        - preferred
-      properties:
-        city:
-          $ref: '#/components/schemas/city'
-          readOnly: true
-        state:
-          $ref: '#/components/schemas/state'
-          readOnly: true
-        county:
-          $ref: '#/components/schemas/county'
-          readOnly: true
-        county_fips:
-          $ref: '#/components/schemas/county_fips'
-        preferred:
-          type: boolean
-          description: >
-            Indicates whether or not the city is the [USPS default
-            city](https://en.wikipedia.org/wiki/ZIP_Code#ZIP_Codes_and_previous_zoning_lines)
-            (preferred city) of a ZIP code. There is only one preferred city per
-            ZIP code, which will always be in position 0 in the array of cities.
-          maxLength: 1
-          minLength: 1
-          example: true
-          readOnly: true
-        object:
-          $ref: '#/components/schemas/object'
-    zip_code_type:
-      type: string
-      enum:
-        - standard
-        - po_box
-        - unique
-        - military
-        - ''
-      description: >
-        A description of the ZIP code type.
-
-        * `standard` – The default ZIP code type. Used when none of the other
-        types apply.
-
-        * `po_box` – The ZIP code contains only PO Boxes.
-
-        * `unique` – The ZIP code is uniquely assigned to a single organization
-        (such as a government agency) that receives a large volume of mail.
-
-        * `military` – The ZIP code contains military addresses.
-
-        * `''` – A match could not be made with the provided inputs.
-      readOnly: true
-      example: standard
-    zip:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        html:
+          $ref: '#/components/schemas/template_html'
+    template_version:
       allOf:
-        - $ref: '#/components/schemas/zip5'
+        - $ref: '#/components/schemas/template_version_writable'
         - type: object
           required:
             - id
-            - cities
-            - zip_code_type
+            - date_created
+            - date_modified
             - object
           properties:
             id:
-              $ref: '#/components/schemas/zip_id'
-            cities:
-              type: array
-              items:
-                $ref: '#/components/schemas/city-2'
-              description: >
-                An array of city objects containing valid cities for the
-                `zip_code`. Multiple cities will be returned if more than one
-                city is associated with the input ZIP code.
-              readOnly: true
-            zip_code_type:
-              $ref: '#/components/schemas/zip_code_type'
-              readOnly: true
+              $ref: '#/components/schemas/vrsn_id'
+            suggest_json_editor:
+              type: boolean
+              description: |
+                Used by frontend, true if the template uses advanced features.
+            engine:
+              type: string
+              description: |
+                The engine used to combine html template with merge variables.
+                  * legacy - Lob's original engine
+                  * handlebars
+              enum:
+                - legacy
+                - handlebars
+              nullable: true
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            deleted:
+              $ref: '#/components/schemas/deleted'
             object:
               $ref: '#/components/schemas/object'
+    template_version_updatable:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+    template:
+      type: object
+      required:
+        - id
+        - versions
+        - published_version
+        - date_created
+        - date_modified
+        - object
+      properties:
+        id:
+          $ref: '#/components/schemas/tmpl_id'
+        versions:
+          type: array
+          description: >-
+            An array of all non-deleted version objects associated with the
+            template.
+          items:
+            $ref: '#/components/schemas/template_version'
+        published_version:
+          $ref: '#/components/schemas/template_version'
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+        object:
+          $ref: '#/components/schemas/object'
+    template_update:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        published_version:
+          $ref: '#/components/schemas/vrsn_id'
+    template_writable:
+      type: object
+      required:
+        - html
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        html:
+          $ref: '#/components/schemas/template_html'
+        metadata:
+          $ref: '#/components/schemas/metadata'
     recipient:
       type: string
       description: |
@@ -438,6 +435,19 @@ components:
         area, sector, or development within a city. See [USPS
         documentation](https://pe.usps.com/text/pub28/28api_008.htm#:~:text=I51.,-4%20Urbanizations&text=In%20Puerto%20Rico%2C%20identical%20street,placed%20before%20the%20urbanization%20name.)
         for clarification.
+    city:
+      type: string
+      description: >
+        The name of the city. `city` and `state` are required if no zip_code is
+        passed.
+      example: SAN FRANCISCO
+    state:
+      type: string
+      description: >
+        The state as a two-letter abbreviation. `city` and `state` are required
+        if no zip_code is passed.
+      maxLength: 2
+      example: CA
     zip_code:
       type: string
       description: >
@@ -475,6 +485,46 @@ components:
           example: 185 Berry Street 94107
         object:
           $ref: '#/components/schemas/object'
+    zip_code_type:
+      type: string
+      enum:
+        - standard
+        - po_box
+        - unique
+        - military
+        - ''
+      description: >
+        A description of the ZIP code type.
+
+        * `standard` – The default ZIP code type. Used when none of the other
+        types apply.
+
+        * `po_box` – The ZIP code contains only PO Boxes.
+
+        * `unique` – The ZIP code is uniquely assigned to a single organization
+        (such as a government agency) that receives a large volume of mail.
+
+        * `military` – The ZIP code contains military addresses.
+
+        * `''` – A match could not be made with the provided inputs.
+      readOnly: true
+      example: standard
+    county:
+      type: string
+      description: |
+        County name of the address city.
+      example: SAN FRANCISCO
+    county_fips:
+      type: string
+      description: >
+        A 5-digit [FIPS county
+        code](https://en.wikipedia.org/wiki/FIPS_county_code) which uniquely
+        identifies `components[county]`. It consists of a 2-digit state code and
+        a 3-digit county code.
+      maxLength: 5
+      minLength: 5
+      example: '06075'
+      readOnly: true
     components:
       type: object
       required:
@@ -527,7 +577,7 @@ components:
           description: >
             Geographic direction preceding a street name (`N`, `S`, `E`, `W`,
             `NE`, `SW`, `SE`, `NW`).
-          example: ''
+          example: 'N'
           readOnly: true
         street_name:
           type: string
@@ -557,7 +607,7 @@ components:
           description: >
             Geographic direction following a street name (`N`, `S`, `E`, `W`,
             `NE`, `SW`, `SE`, `NW`).
-          example: ''
+          example: 'N'
           readOnly: true
         secondary_designator:
           type: string
@@ -957,6 +1007,81 @@ components:
           readOnly: true
         object:
           $ref: '#/components/schemas/object'
+    zip5:
+      type: object
+      required:
+        - zip_code
+      properties:
+        zip_code:
+          type: string
+          description: A 5-digit ZIP code.
+          pattern: '^\d{5}$'
+          example: '94107'
+    zip_id:
+      type: string
+      description: Unique identifier prefixed with `us_zip_`.
+      readOnly: true
+      pattern: '^us_zip_[a-zA-Z0-9]+$'
+      example: us_zip_c7cb63d68f8d6
+    city-2:
+      type: object
+      required:
+        - city
+        - state
+        - county
+        - county_fips
+        - preferred
+      properties:
+        city:
+          $ref: '#/components/schemas/city'
+          readOnly: true
+        state:
+          $ref: '#/components/schemas/state'
+          readOnly: true
+        county:
+          $ref: '#/components/schemas/county'
+          readOnly: true
+        county_fips:
+          $ref: '#/components/schemas/county_fips'
+        preferred:
+          type: boolean
+          description: >
+            Indicates whether or not the city is the [USPS default
+            city](https://en.wikipedia.org/wiki/ZIP_Code#ZIP_Codes_and_previous_zoning_lines)
+            (preferred city) of a ZIP code. There is only one preferred city per
+            ZIP code, which will always be in position 0 in the array of cities.
+          maxLength: 1
+          minLength: 1
+          example: true
+          readOnly: true
+        object:
+          $ref: '#/components/schemas/object'
+    zip:
+      allOf:
+        - $ref: '#/components/schemas/zip5'
+        - type: object
+          required:
+            - id
+            - cities
+            - zip_code_type
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/zip_id'
+            cities:
+              type: array
+              items:
+                $ref: '#/components/schemas/city-2'
+              description: >
+                An array of city objects containing valid cities for the
+                `zip_code`. Multiple cities will be returned if more than one
+                city is associated with the input ZIP code.
+              readOnly: true
+            zip_code_type:
+              $ref: '#/components/schemas/zip_code_type'
+              readOnly: true
+            object:
+              $ref: '#/components/schemas/object'
   responses:
     error:
       description: Error
@@ -1029,8 +1154,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/address_writable'
-    zip_lookups:
-      description: Returns a zip lookup object if a valid zip was provided.
+          example:
+            id: adr_d3489cd64c791ab5
+            description: Harry - Office
+            name: HARRY ZHANG
+            company: LOB
+            phone: '5555555555'
+            email: harry@lob.com
+            address_line1: 185 BERRY ST STE 6100
+            address_city: SAN FRANCISCO
+            address_state: CA
+            address_zip: '94107'
+            address_country: UNITED STATES
+            metadata: {}
+            date_created: '2017-09-05T17:47:53.767Z'
+            date_modified: '2017-09-05T17:47:53.767Z'
+            object: address
+    template_version:
+      description: Returns the template version with the given template and version ids.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -1041,7 +1182,165 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/zip'
+            $ref: '#/components/schemas/template_version'
+          example:
+            id: vrsn_534e339882d2282
+            description: Second Version
+            html: '<html>Second HTML for {{name}}</html>'
+            date_created: '2017-11-09T04:49:38.016Z'
+            date_modified: '2017-11-09T04:49:38.016Z'
+            object: version
+    all_template_versions:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` template versions. Each entry in the array is a separate
+        template version object. The previous and next page of template versions
+        can be retrieved by calling the endpoint contained in the `previous_url`
+        and `next_url` fields in the API response respectively.<br>If no more
+        template versions are available beyond the current set of returned
+        results, the `next_url` field will be empty.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of template versions
+                    items:
+                      $ref: '#/components/schemas/template_version'
+              - $ref: '#/components/schemas/list'
+          example:
+            data:
+              - id: vrsn_4d6ff5d868bf630
+                description: Second Version
+                html: 'Second HTML for '
+                date_created: '2017-11-09T05:09:03.665Z'
+                date_modified: '2018-05-22T22:01:10.479Z'
+                object: version
+              - id: vrsn_2a17159c1911919
+                description: Test Template
+                html: 'HTML for '
+                date_created: '2017-11-09T05:08:40.004Z'
+                date_modified: '2018-05-22T22:01:11.309Z'
+                object: version
+            object: list
+            count: 2
+    template:
+      description: Returns a template object
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/template'
+          example:
+            id: tmpl_c94e83ca2cd5121
+            description: Test Template
+            versions:
+              - id: vrsn_362184d96d9b0c9
+                description: Test Template
+                html: '<html>HTML for {{name}}</html>'
+                date_created: '2017-11-07T22:56:10.962Z'
+                date_modified: '2017-11-07T22:56:10.962Z'
+                object: version
+            published_version:
+              id: vrsn_362184d96d9b0c9
+              description: Test Template
+              html: '<html>HTML for {{name}}</html>'
+              date_created: '2017-11-07T22:56:10.962Z'
+              date_modified: '2017-11-07T22:56:10.962Z'
+              object: version
+            metadata: {}
+            date_created: '2017-11-07T22:56:10.962Z'
+            date_modified: '2017-11-07T22:56:10.962Z'
+            object: template
+    all_templates:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` templates. Each entry in the array is a separate template. The
+        previous and next page of templates can be retrieved by calling the
+        endpoint contained in the `previous_url` and `next_url` fields in the
+        API response respectively.<br>If no more templates are available beyond
+        the current set of returned results, the `next_url` field will be empty.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of templates
+                    items:
+                      $ref: '#/components/schemas/template'
+              - $ref: '#/components/schemas/list'
+          example:
+            data:
+              - id: tmpl_d5a5a89da9106f8
+                description: Test Template
+                versions:
+                  - id: vrsn_232a02fb8224791
+                    description: Test Template
+                    html: 'HTML for '
+                    date_created: '2019-07-27T23:49:01.512Z'
+                    date_modified: '2019-07-27T23:49:01.512Z'
+                    object: version
+                published_version:
+                  id: vrsn_232a02fb8224791
+                  description: Test Template
+                  html: 'HTML for '
+                  date_created: '2019-07-27T23:49:01.512Z'
+                  date_modified: '2019-07-27T23:49:01.512Z'
+                  object: version
+                metadata: {}
+                date_created: '2019-07-27T23:49:01.511Z'
+                date_modified: '2019-07-27T23:49:01.511Z'
+                object: template
+              - id: tmpl_59b2150ae120887
+                description: Test Template
+                versions:
+                  - id: vrsn_2a7eb63ccb795b9
+                    description: Test Template
+                    html: 'HTML for '
+                    date_created: '2019-03-29T10:22:34.643Z'
+                    date_modified: '2019-03-29T10:22:34.643Z'
+                    object: version
+                published_version:
+                  id: vrsn_2a7eb63ccb795b9
+                  description: Test Template
+                  html: 'HTML for '
+                  date_created: '2019-03-29T10:22:34.643Z'
+                  date_modified: '2019-03-29T10:22:34.643Z'
+                  object: version
+                metadata: {}
+                date_created: '2019-03-29T10:22:34.642Z'
+                date_modified: '2019-03-29T10:22:34.642Z'
+                object: template
+            object: list
+            next_url: >-
+              https://api.lob.com/v1/templates?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wMy0yOVQxMDoyMjozNC42NDJaIiwiaWRPZmZzZXQiOiJ0bXBsXzU5YjIxNTBhZTEyMDg4NyJ9
+            count: 2
     us_verifications:
       description: Returns a US verification object.
       headers:
@@ -1113,6 +1412,19 @@ components:
                 $ref: '#/components/schemas/lob_confidence_score'
               object:
                 $ref: '#/components/schemas/object'
+    zip_lookups:
+      description: Returns a zip lookup object if a valid zip was provided.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/zip'
   headers:
     ratelimit-limit:
       description: The rate limit for a given endpoint.
@@ -1155,13 +1467,51 @@ components:
         type: string
         maxLength: 256
         example: 026e7634-24d7-486c-a0bb-4a17fd0eebc5
+    after:
+      in: query
+      name: after
+      description: >
+        A reference to a list entry used for paginating to the previous set of
+        entries. This field is pre-populated in the `previous_url` field in the
+        return response.
+      schema:
+        type: string
+    before:
+      in: query
+      name: before
+      description: >
+        A reference to a list entry used for paginating to the next set of
+        entries. This field is pre-populated in the `next_url` field in the
+        return response.
+      schema:
+        type: string
+    include:
+      in: query
+      name: include
+      description: >
+        Request that the response include the total count by specifying
+        `include[]=total_count`.
+      schema:
+        type: object
+      style: deepObject
+      explode: true
+    date_created:
+      in: query
+      name: date_created
+      description: >
+        Filter by ISO-8601 date or datetime, e.g. `{ gt: '2012-01-01', lt:
+        '2012-01-31T12:34:56Z' }` where `gt` is ›, `lt` is ‹, `gte` is ≥, and
+        `lte` is ≤.
+      schema:
+        type: string
+        format: date-time
 security:
   - basicAuth: []
 paths:
-  '/addresses/{id}':
+  '/addresses/{address_id}':
     parameters:
       - in: path
-        name: id
+        name: address_id
         description: id of the address
         required: true
         schema:
@@ -1233,28 +1583,238 @@ paths:
           $ref: '#/components/responses/address_writable'
         default:
           $ref: '#/components/responses/error'
-  /us_zip_lookups:
-    post:
-      operationId: zip_lookup
-      summary: Looks up information pertaining to a given ZIP code
-      description: Returns information about a ZIP code
+  '/templates/{template_id}/versions/{template_version_id}':
+    parameters:
+      - in: path
+        name: template_id
+        description: id of the template
+        required: true
+        schema:
+          $ref: '#/components/schemas/tmpl_id'
+      - in: path
+        name: template_version_id
+        description: id of the template_version
+        required: true
+        schema:
+          $ref: '#/components/schemas/vrsn_id'
+    get:
+      operationId: get_template_version
+      summary: Retrieve template version with given template and version ids.
+      description: Retrieves the template version with the given template and version ids.
       tags:
-        - Zip Lookups
+        - Template_Versions
+      responses:
+        '200':
+          $ref: '#/components/responses/template_version'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: update_template_version
+      summary: Updates the template version with given template and version ids.
+      description: Retrieves the template version with the given template and version ids.
+      tags:
+        - Template_Versions
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/zip5'
+              $ref: '#/components/schemas/template_version_updatable'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/zip5'
+              $ref: '#/components/schemas/template_version_updatable'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/zip5'
+              $ref: '#/components/schemas/template_version_updatable'
       responses:
         '200':
-          $ref: '#/components/responses/zip_lookups'
+          $ref: '#/components/responses/template_version'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_template_version
+      summary: >-
+        Deletes the template version with given template and version ids if
+        possible.
+      description: >-
+        Permanently deletes a template version. A template's `published_version`
+        can not be deleted.
+      tags:
+        - Template_Versions
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  '/templates/{template_id}/versions':
+    parameters:
+      - in: path
+        name: template_id
+        description: id of the template
+        required: true
+        schema:
+          $ref: '#/components/schemas/tmpl_id'
+    get:
+      operationId: list_template_versions
+      summary: List all template_versions
+      description: >
+        Returns a list of template versions for the passed `template_id`. The
+        template versions are sorted by creation date, with the most recently
+        created appearing first.
+      tags:
+        - Template_Versions
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_template_versions'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_template_version
+      summary: Creates a new template_version object
+      description: Creates a new template version attached to the specified template.
+      tags:
+        - Template_Versions
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/template_version_writable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/template_version_writable'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/template_version_writable'
+      responses:
+        '200':
+          $ref: '#/components/responses/template_version'
+        default:
+          $ref: '#/components/responses/error'
+  '/templates/{template_id}':
+    parameters:
+      - in: path
+        name: template_id
+        description: id of the template
+        required: true
+        schema:
+          $ref: '#/components/schemas/tmpl_id'
+    get:
+      operationId: get_template
+      summary: Retrieve template with given id
+      description: >-
+        Retrieves the details of an existing template. You need only supply the
+        unique template identifier that was returned upon template creation.
+      tags:
+        - Templates
+      responses:
+        '200':
+          $ref: '#/components/responses/template'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: update_template
+      summary: Update description and/or published version of a template.
+      description: >-
+        Updates the description and/or published version of the template with
+        the given id. To update the template's html, create a new version of the
+        template.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/template_update'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/template_update'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/template_update'
+      responses:
+        '200':
+          $ref: '#/components/responses/template'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_template
+      summary: Deletes template with given id
+      description: >-
+        Deletes the details of an existing template. You need only supply the
+        unique customer identifier that was returned upon template creation.
+      tags:
+        - Templates
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /templates:
+    get:
+      operationId: list_templates
+      summary: List all templates
+      description: >-
+        Returns a list of your templates. The templates are returned sorted by
+        creation date, with the most recently created templates appearing first.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+        - in: query
+          name: metadata
+          description: >
+            Filter by metadata key-value pair, e.g.
+            `metadata[customer_id]=987654`.
+          schema:
+            type: object
+          style: deepObject
+          explode: true
+      responses:
+        '200':
+          $ref: '#/components/responses/all_templates'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_template
+      summary: Creates a new template object
+      description: Creates a new template given information
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/template_writable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/template_writable'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/template_writable'
+      responses:
+        '200':
+          $ref: '#/components/responses/template'
         default:
           $ref: '#/components/responses/error'
   /us_verifications:
@@ -1290,5 +1850,29 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/us_verifications'
+        default:
+          $ref: '#/components/responses/error'
+  /us_zip_lookups:
+    post:
+      operationId: zip_lookup
+      summary: Looks up information pertaining to a given ZIP code
+      description: Returns information about a ZIP code
+      tags:
+        - Zip Lookups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/zip5'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/zip5'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/zip5'
+      responses:
+        '200':
+          $ref: '#/components/responses/zip_lookups'
         default:
           $ref: '#/components/responses/error'

@@ -38,7 +38,7 @@ jobs:
           fi
 
       - name: publish docs (main only)
-        if: ${{ github.ref == 'main' }}
+        if: github.ref == 'refs/head/main'
         uses: crazy-max/ghaction-github-pages@v2.2.0
         with:
           target_branch: gh-pages

@@ -1,0 +1,1893 @@
+openapi: 3.0.3
+info:
+  title: Lob API
+  version: '2020-02-11'
+  description: >
+    The Lob API is organized around REST. Our API is designed to have
+    predictable, resource-oriented URLs and uses HTTP response codes to indicate
+    any API errors
+  license:
+    name: MIT
+    url: 'https://mit-license.org/'
+  contact:
+    name: Lob Developer Experience
+    url: 'https://support.lob.com/'
+    email: lob-openapi@lob.com
+  termsOfService: 'https://www.lob.com/legal'
+servers:
+  - url: 'https://api.lob.com/v1'
+    description: production
+tags:
+  - name: Addresses
+    description: A frictionless address book for use with the print and mail API.
+  - name: Template_Versions
+    description: Versioning for your reusable HTML print and mail templates.
+  - name: Templates
+    description: 'Versioned, reusable HTML Templates for use with the print and mail API.'
+  - name: US Verifications
+    description: >
+      Validate, automatically correct, and standardize the addresses in your
+      address book based on USPS's [Coding Accuracy Support System
+      (CASS)](https://postalpro.usps.com/certifications/cass).
+  - name: Zip Lookups
+    description: >
+      Find a list of cities, states and associated information about a US ZIP
+      code.
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    adr_id:
+      type: string
+      description: Unique identifier prefixed with `adr_`.
+      readOnly: true
+      pattern: '^adr_[a-zA-Z0-9]+$'
+      example: adr_fa85158b26c3eb7c
+    failure_status_code:
+      type: integer
+      enum:
+        - 401
+        - 403
+        - 404
+        - 413
+        - 422
+        - 429
+        - 500
+      description: |
+        A conventional HTTP status code:
+          * 401 - Authorization error with your API key or account
+          * 403 - Forbidden error with your API key or account
+          * 404 - The requested item does not exist
+          * 413 - Payload too large
+          * 422 - The query or body parameters did not pass validation
+          * 429 - Too many requests have been sent with an API key in a given amount of time
+          * 500 - An internal server error occurred, please contact support@lob.com
+      example: 429
+    error:
+      type: object
+      description: >-
+        Lob uses RESTful HTTP response codes to indicate success or failure of
+        an API request. In general, 2xx indicates success, 4xx indicate an input
+        error, and 5xx indicates an error on Lob's end.
+      required:
+        - message
+        - status_code
+      properties:
+        message:
+          type: string
+          description: A human-readable message with more details about the error
+          example: >-
+            Rate limit exceeded. Please wait 5 seconds and try your request
+            again.
+        status_code:
+          $ref: '#/components/schemas/failure_status_code'
+    resource_description:
+      type: string
+      description: >
+        An internal description that identifies this resource. Must be no longer
+        than 255 characters.
+      maxLength: 255
+      nullable: true
+    send_date:
+      type: string
+      description: >
+        A timestamp of the date on which a mailpiece will be dispatched for
+        production. Beyond this date, the mailpiece can't be cancelled.
+      format: date-time
+      example: '2017-09-05T17:47:53.967Z'
+    metadata:
+      type: object
+      description: >-
+        When creating any Lob object, you can include a metadata object with up
+        to 20 key-value pairs of custom data.
+      properties: {}
+      maxProperties: 20
+      example:
+        type: object
+        properties:
+          customer_id:
+            type: string
+            example: '987654'
+          campaign:
+            type: string
+            example: NEWYORK2015
+    address_writable:
+      type: object
+      required:
+        - address_line1
+      oneOf:
+        - required:
+            - name
+        - required:
+            - company
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        name:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address.
+          maxLength: 40
+          nullable: true
+          example: HARRY ZHANG
+        company:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address. This field can be used for any secondary recipient
+            information which is not part of the actual mailing address (Company
+            Name, Department, Attention Line, etc).
+          maxLength: 40
+          nullable: true
+          example: LOB
+        phone:
+          type: string
+          description: Must be no longer than 40 characters.
+          maxLength: 40
+          nullable: true
+          example: '5555555555'
+        email:
+          type: string
+          description: Must be no longer than 100 characters.
+          maxLength: 100
+          nullable: true
+          example: harry@lob.com
+        address_line1:
+          type: string
+          description: >
+            Must be no longer than 64 characters for US addresses or 200
+            characters for international addresses.
+          maxLength: 200
+          example: 185 BERRY ST STE 6100
+        address_line2:
+          type: string
+          description: >
+            Must be no longer than 64 characters for US addresses or 200
+            characters for international addresses.
+          maxLength: 200
+          nullable: true
+          example: null
+        address_city:
+          type: string
+          description: >
+            Required if address_country is US, otherwise optional. Must be no
+            longer than 200 characters.
+          maxLength: 200
+          nullable: true
+          example: SAN FRANCISCO
+        address_state:
+          type: string
+          description: >
+            Required as a 2 letter state short-name code if `address_country` is
+            `US`, otherwise optional and no longer than 200 characters.
+          maxLength: 200
+          nullable: true
+          example: CA
+        address_zip:
+          type: string
+          description: >
+            Required and must follow the ZIP format of `12345` or ZIP+4 format
+            of `12345-1234` if `address_country` is `US`, otherwise optional and
+            not any longer than 40 characters.
+          maxLength: 40
+          nullable: true
+          example: 94107-1741
+        address_country:
+          type: string
+          description: >
+            Must be a 2 letter country short-name code (ISO 3166). Defaults to
+            `US`.
+          minLength: 2
+          example: US
+        send_date:
+          $ref: '#/components/schemas/send_date'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    deleted:
+      type: boolean
+      description: Only returned if the address has been successfully deleted.
+      readOnly: true
+      example: false
+    date_created:
+      type: string
+      format: date-time
+      description: A timestamp in ISO 8601 format of the date the address was created.
+      readOnly: true
+      example: '2017-09-05T17:47:53.767Z'
+    date_modified:
+      type: string
+      format: date-time
+      description: >-
+        A timestamp in ISO 8601 format of the date the address was last
+        modified.
+      readOnly: true
+      example: '2017-09-05T17:47:53.767Z'
+    object:
+      type: string
+      description: Value is `address`.
+      readOnly: true
+      example: address
+    address:
+      allOf:
+        - $ref: '#/components/schemas/address_writable'
+        - type: object
+          required:
+            - id
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/adr_id'
+            recipient_moved:
+              type: boolean
+              description: >
+                Only returned for accounts on certain <a
+                href="https://dashboard.lob.com/#/settings/editions">Print &amp;
+                Mail Editions</a>. Value is `true` if the address was altered
+                because the recipient filed for a <a href="#ncoa">National
+                Change of Address (NCOA)</a>, `false` if the NCOA check was run
+                but no altered address was found, and `null` if the NCOA check
+                was not run. The NCOA check does not happen for non-US
+                addresses, for non-deliverable US addresses, or for addresses
+                created before the NCOA feature was added to your account.
+              nullable: true
+              readOnly: true
+              example: false
+            deleted:
+              $ref: '#/components/schemas/deleted'
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            object:
+              $ref: '#/components/schemas/object'
+    list:
+      type: object
+      description: Multiple items returned in order
+      properties:
+        object:
+          type: string
+          description: What kind of resource does this list contain?
+          example: address
+        next_url:
+          type: string
+          description: Url of next page of items in list.
+          nullable: true
+          example: >-
+            https://api.lob.com/v1/addresses?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wN1QyMTo1OTo0Ni43NjRaIiwiaWRPZmZzZXQiOiJhZHJfODMwYmYwZWFiZGFhYTQwOSJ9
+        previous_url:
+          type: string
+          description: Url of previous page of items in list.
+          nullable: true
+          example: null
+        count:
+          type: integer
+          description: number of items in list
+          example: 2
+    tmpl_id:
+      type: string
+      description: Unique identifier prefixed with `tmpl_`.
+      pattern: '^tmpl_[a-zA-Z0-9]+$'
+    vrsn_id:
+      type: string
+      description: Unique identifier prefixed with `vrsn_`.
+      pattern: '^vrsn_[a-zA-Z0-9]+$'
+    template_html:
+      type: string
+      description: >
+        An HTML string of less than 100,000 characters to be used as the
+        `published_version` of this template. For details, see our Guide to
+        designing HTML templates. Please see endpoint specific documentation for
+        any other product-specific HTML details.  Merge variables should not
+        include delimiting whitespace.  If there is a syntax error with your
+        variable names within your HTML, then an error will be thrown, e.g.
+        using a `{{#users}}` opening tag without the corresponding closing tag
+        `{{/users}}`.
+      maxLength: 100000
+    template_version_writable:
+      type: object
+      required:
+        - html
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        html:
+          $ref: '#/components/schemas/template_html'
+    template_version:
+      allOf:
+        - $ref: '#/components/schemas/template_version_writable'
+        - type: object
+          required:
+            - id
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/vrsn_id'
+            suggest_json_editor:
+              type: boolean
+              description: |
+                Used by frontend, true if the template uses advanced features.
+            engine:
+              type: string
+              description: |
+                The engine used to combine html template with merge variables.
+                  * legacy - Lob's original engine
+                  * handlebars
+              enum:
+                - legacy
+                - handlebars
+              nullable: true
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            deleted:
+              $ref: '#/components/schemas/deleted'
+            object:
+              $ref: '#/components/schemas/object'
+    template_version_updatable:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+    template:
+      type: object
+      required:
+        - id
+        - versions
+        - published_version
+        - date_created
+        - date_modified
+        - object
+      properties:
+        id:
+          $ref: '#/components/schemas/tmpl_id'
+        versions:
+          type: array
+          description: >-
+            An array of all non-deleted version objects associated with the
+            template.
+          items:
+            $ref: '#/components/schemas/template_version'
+        published_version:
+          $ref: '#/components/schemas/template_version'
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+        object:
+          $ref: '#/components/schemas/object'
+    template_update:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        published_version:
+          $ref: '#/components/schemas/vrsn_id'
+    template_writable:
+      type: object
+      required:
+        - html
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        html:
+          $ref: '#/components/schemas/template_html'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    recipient:
+      type: string
+      description: |
+        The intended recipient, typically a person's or firm's name.
+      example: LOB.COM
+    primary_line:
+      type: string
+      description: |
+        The primary delivery line (usually the street address) of the address.
+        Combination of the following applicable `components`:
+        * `primary_number`
+        * `street_predirection`
+        * `street_name`
+        * `street_suffix`
+        * `street_postdirection`
+        * `secondary_designator`
+        * `secondary_number`
+        * `pmb_designator`
+        * `pmb_number`
+      example: 185 BERRY ST
+    secondary_line:
+      type: string
+      description: >
+        The secondary delivery line of the address. This field is typically
+        empty but may contain information if `primary_line` is too long.
+      example: STE 6100
+    urbanization:
+      type: string
+      description: >
+        Only present for addresses in Puerto Rico. An urbanization refers to an
+        area, sector, or development within a city. See [USPS
+        documentation](https://pe.usps.com/text/pub28/28api_008.htm#:~:text=I51.,-4%20Urbanizations&text=In%20Puerto%20Rico%2C%20identical%20street,placed%20before%20the%20urbanization%20name.)
+        for clarification.
+    city:
+      type: string
+      description: >
+        The name of the city. `city` and `state` are required if no zip_code is
+        passed.
+      example: SAN FRANCISCO
+    state:
+      type: string
+      description: >
+        The state as a two-letter abbreviation. `city` and `state` are required
+        if no zip_code is passed.
+      maxLength: 2
+      example: CA
+    zip_code:
+      type: string
+      description: >
+        The 5-digit ZIP code. Required if `city` and `state` are not passed in.
+        If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
+        `94107`, `941072282`, `94107-2282`).
+      example: '94107'
+    multiple_components:
+      type: object
+      required:
+        - primary_line
+      oneOf:
+        - required:
+            - city
+            - state
+        - required:
+            - zip_code
+      properties:
+        recipient:
+          $ref: '#/components/schemas/recipient'
+        primary_line:
+          $ref: '#/components/schemas/primary_line'
+        secondary_line:
+          $ref: '#/components/schemas/secondary_line'
+        urbanization:
+          $ref: '#/components/schemas/urbanization'
+        city:
+          $ref: '#/components/schemas/city'
+        state:
+          $ref: '#/components/schemas/state'
+        zip_code:
+          $ref: '#/components/schemas/zip_code'
+        object:
+          $ref: '#/components/schemas/object'
+    single_line_address:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          type: string
+          description: >
+            The entire address in one string. Does not support a recipient and
+            will error when other payload parameters are provided.
+          example: 185 Berry Street 94107
+        object:
+          $ref: '#/components/schemas/object'
+    zip_code_type:
+      type: string
+      enum:
+        - standard
+        - po_box
+        - unique
+        - military
+        - ''
+      description: >
+        A description of the ZIP code type.
+
+        * `standard` – The default ZIP code type. Used when none of the other
+        types apply.
+
+        * `po_box` – The ZIP code contains only PO Boxes.
+
+        * `unique` – The ZIP code is uniquely assigned to a single organization
+        (such as a government agency) that receives a large volume of mail.
+
+        * `military` – The ZIP code contains military addresses.
+
+        * `''` – A match could not be made with the provided inputs.
+      readOnly: true
+      example: standard
+    county:
+      type: string
+      description: |
+        County name of the address city.
+      example: SAN FRANCISCO
+    county_fips:
+      type: string
+      description: >
+        A 5-digit [FIPS county
+        code](https://en.wikipedia.org/wiki/FIPS_county_code) which uniquely
+        identifies `components[county]`. It consists of a 2-digit state code and
+        a 3-digit county code.
+      maxLength: 5
+      minLength: 5
+      example: '06075'
+      readOnly: true
+    components:
+      type: object
+      required:
+        - primary_number
+        - street_predirection
+        - street_name
+        - street_suffix
+        - street_postdirection
+        - secondary_designator
+        - secondary_number
+        - pmb_designator
+        - pmb_number
+        - extra_secondary_designator
+        - extra_secondary_number
+        - city
+        - state
+        - zip_code
+        - zip_code_plus_4
+        - zip_code_type
+        - delivery_point_barcode
+        - address_type
+        - record_type
+        - default_building_address
+        - county
+        - county_fips
+        - carrier_route
+        - carrier_route_type
+        - latitude
+        - longitude
+      properties:
+        primary_number:
+          type: string
+          description: >
+            The numeric or alphanumeric part of an address preceding the street
+            name. Often the house, building, or PO Box number.
+          example: '185'
+          readOnly: true
+        street_predirection:
+          type: string
+          enum:
+            - 'N'
+            - S
+            - E
+            - W
+            - NE
+            - SW
+            - SE
+            - NW
+            - ''
+          description: >
+            Geographic direction preceding a street name (`N`, `S`, `E`, `W`,
+            `NE`, `SW`, `SE`, `NW`).
+          example: 'N'
+          readOnly: true
+        street_name:
+          type: string
+          description: |
+            The name of the street.
+          example: BERRY
+          readOnly: true
+        street_suffix:
+          type: string
+          description: >
+            The standard USPS abbreviation for the street suffix (`ST`, `AVE`,
+            `BLVD`, etc).
+          example: ST
+          readOnly: true
+        street_postdirection:
+          type: string
+          enum:
+            - 'N'
+            - S
+            - E
+            - W
+            - NE
+            - SW
+            - SE
+            - NW
+            - ''
+          description: >
+            Geographic direction following a street name (`N`, `S`, `E`, `W`,
+            `NE`, `SW`, `SE`, `NW`).
+          example: 'N'
+          readOnly: true
+        secondary_designator:
+          type: string
+          description: >
+            The standard USPS abbreviation describing the
+            `components[secondary_number]` (`STE`, `APT`, `BLDG`, etc).
+          example: STE
+          readOnly: true
+        secondary_number:
+          type: string
+          description: |
+            Number of the apartment/unit/etc.
+          example: '6100'
+          readOnly: true
+        pmb_designator:
+          type: string
+          description: >
+            Designator of a
+            [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
+            private mailbox.
+          example: ''
+          readOnly: true
+        pmb_number:
+          type: string
+          description: >
+            Number of a
+            [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
+            private mailbox.
+          example: ''
+          readOnly: true
+        extra_secondary_designator:
+          type: string
+          description: >
+            An extra (often unnecessary) secondary designator provided with the
+            input address.
+          example: ''
+          readOnly: true
+        extra_secondary_number:
+          type: string
+          description: >
+            An extra (often unnecessary) secondary number provided with the
+            input address.
+          example: ''
+          readOnly: true
+        city:
+          $ref: '#/components/schemas/city'
+        state:
+          $ref: '#/components/schemas/state'
+        zip_code:
+          $ref: '#/components/schemas/zip_code'
+        zip_code_plus_4:
+          type: string
+          description: |
+            The 4-digit ZIP add-on code.
+          example: '1728'
+          readOnly: true
+        zip_code_type:
+          $ref: '#/components/schemas/zip_code_type'
+        delivery_point_barcode:
+          type: string
+          description: >
+            A 12-digit identifier that uniquely identifies a delivery point
+            (location where mail can be sent and received). It consists of the
+            5-digit ZIP code (`zip_code`), 4-digit ZIP+4 add-on
+            (`zip_code_plus_4`), 2-digit delivery point, and 1-digit delivery
+            point check digit.
+          example: '941071728506'
+          readOnly: true
+        address_type:
+          type: string
+          enum:
+            - residential
+            - commercial
+            - ''
+          description: >
+            Uses USPS's Residential Delivery Indicator (RDI) to identify whether
+            an address is classified as residential or
+
+            business. Possible values are:
+
+            * `residential` –– The address is residential or a PO Box.
+
+            * `commercial` –– The address is commercial.
+
+            * `''` –– Not enough information provided to be determined.
+          example: commercial
+          readOnly: true
+        record_type:
+          type: string
+          enum:
+            - street
+            - highrise
+            - firm
+            - po_box
+            - rural_route
+            - general_delivery
+            - ''
+          description: >
+            A description of the type of address. Populated if a DPV match is
+            made (`deliverability_analysis[dpv_confirmation]`
+
+            is `Y`, `S`, or `D`). For more detailed information about each
+            record type, see [the
+            appendix](https://docs.lob.com/#us_verification_details).
+
+            Will be one of:
+
+            * `street`
+
+            * `highrise`
+
+            * `firm`
+
+            * `po_box`
+
+            * `rural_route`
+
+            * `general_delivery`
+
+            * `''`
+          example: highrise
+          readOnly: true
+        default_building_address:
+          type: boolean
+          description: >
+            Designates whether or not the address is the default address for a
+            building containing multiple delivery points.
+          example: false
+          readOnly: true
+        county:
+          $ref: '#/components/schemas/county'
+        county_fips:
+          $ref: '#/components/schemas/county_fips'
+        carrier_route:
+          type: string
+          description: >
+            A 4-character code assigned to a mail delivery route within a ZIP
+            code.
+          example: C001
+          readOnly: true
+        carrier_route_type:
+          type: string
+          enum:
+            - city_delivery
+            - rural_route
+            - highway_contract
+            - po_box
+            - general_delivery
+          description: >
+            The type of `components[carrier_route]`. For more detailed
+            information about each carrier route type, see [the
+            appendix](https://docs.lob.com/#us_verification_details). Possible
+            values are:
+
+            * `city_delivery` –– City delivery (starts with "C").
+
+            * `rural_route` –– Rural route (starts with "R").
+
+            * `highway_contract` –– Highway contract route (starts with "H")
+
+            * `po_box` –– P.O. Box route (starts with "B").
+
+            * `general_delivery` –– General delivery (starts with "G").
+          example: city_delivery
+          readOnly: true
+        latitude:
+          type: string
+          description: >
+            A positive or negative decimal indicating the geographic latitude of
+            the address, specifying the north-to-south position of a location.
+            This should be used with `longitude` to pinpoint locations on a map.
+            Will not be returned for undeliverable addresses or military
+            addresses (state is `AA`, `AE`, or `AP`).
+          example: '37.77597542841264'
+          readOnly: true
+        longitude:
+          type: string
+          description: >
+            A positive or negative decimal indicating the geographic longitude
+            of the address, specifying the north-to-south position of a
+            location. This should be used with `latitude` to pinpoint locations
+            on a map. Will not be returned for undeliverable addresses or
+            military addresses (state is `AA`, `AE`, or `AP`).
+          example: '-122.3929557343685'
+          readOnly: true
+        object:
+          $ref: '#/components/schemas/object'
+    dpv_footnote:
+      type: string
+      enum:
+        - AA
+        - A1
+        - BB
+        - CC
+        - N1
+        - F1
+        - G1
+        - U1
+        - M1
+        - M3
+        - P1
+        - P3
+        - R1
+        - R7
+        - RR
+      readOnly: true
+      example: AA
+    deliverability_analysis:
+      type: object
+      required:
+        - dpv_confirmation
+        - dpv_cmra
+        - dpv_vacant
+        - dpv_active
+        - dpv_footnotes
+        - ews_match
+        - lacs_indicator
+        - lacs_return_code
+        - suite_return_code
+      properties:
+        dpv_confirmation:
+          type: string
+          enum:
+            - 'Y'
+            - S
+            - D
+            - 'N'
+            - ''
+          description: >
+            Result of Delivery Point Validation (DPV), which determines whether
+            or not the address is deliverable by the USPS. Possible values are:
+
+            * `Y` –– The address is deliverable by the USPS.
+
+            * `S` –– The address is deliverable by removing the provided
+            secondary unit designator. This information may be incorrect or
+            unnecessary.
+
+            * `D` –– The address is deliverable to the building's default
+            address but is missing a secondary unit designator and/or number.
+                                There is a chance the mail will not reach the intended recipient.
+            * `N` –– The address is not deliverable according to the USPS, but
+            parts of the address are valid (such as the street and ZIP code).
+
+            * `''` –– This address is not deliverable. No matching street could
+            be found within the city or ZIP code.
+          example: 'Y'
+          readOnly: true
+        dpv_cmra:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+            - ''
+          description: >
+            Indicates whether or not the address is
+            [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency).
+            Possible values are:
+
+            * `Y` –– Address is CMRA-authorized.
+
+            * `N` –– Address is not CMRA-authorized.
+
+            * `''` –– A DPV match is not made
+            (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
+            string).
+          example: 'N'
+          readOnly: true
+        dpv_vacant:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+            - ''
+          description: >
+            Indicates that an address was once deliverable, but has become
+            vacant and is no longer receiving deliveries. Possible values are:
+
+            * `Y` –– Address is vacant.
+
+            * `N` –– Address is not vacant.
+
+            * `''` –– A DPV match is not made
+            (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
+            string).
+          example: 'N'
+          readOnly: true
+        dpv_active:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+            - ''
+          description: >
+            Corresponds to the USPS field `dpv_no_stat`. Indicates that an
+            address has been vacated in the recent past, and is no longer
+            receiving deliveries. If it's been unoccupied for 90+ days, or
+            temporarily vacant, this will be flagged. Possible values are: * `Y`
+            –– Address is active. * `N` –– Address is not active. * `''` –– A
+            DPV match is not made (`deliverability_analysis[dpv_confirmation]`
+            is `N` or an empty string).
+          example: 'Y'
+          readOnly: true
+        dpv_footnotes:
+          type: array
+          description: >
+            An array of 2-character strings that gives more insight into how
+            `deliverability_analysis[dpv_confirmation]` was determined. Will
+            always include at least 1 string, and can include up to 3.
+          items:
+            $ref: '#/components/schemas/dpv_footnote'
+          example:
+            - AA
+            - BB
+          readOnly: true
+        ews_match:
+          type: boolean
+          description: >
+            Indicates whether or not an address has been flagged in the [Early
+            Warning
+            System](https://docs.informatica.com/data-engineering/data-engineering-quality/10-4-0/address-validator-port-reference/postal-carrier-certification-data-ports/early-warning-system-return-code.html),
+            meaning the address is under development and not yet ready to
+            receive mail. However, it should become available in a few months.
+          example: false
+          readOnly: true
+        lacs_indicator:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+            - ''
+          description: >
+            Indicates whether this address has been converted by
+            [LACSLink](https://postalpro.usps.com/address-quality/lacslink).
+            Possible values are:
+
+            * `Y` –– New address produced with a matching record in LACSLink.
+
+            * `N` –– New address could not be produced with a matching record in
+            LACSLink.
+
+            * `''` –– A DPV match is not made
+            (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
+            string).
+          example: ''
+          readOnly: true
+        lacs_return_code:
+          type: string
+          description: |
+            Any return code associated with the LACSLink form of this address.
+          example: ''
+          readOnly: true
+        suite_return_code:
+          type: string
+          enum:
+            - A
+            - '00'
+            - ''
+          description: >
+            Any return code associated with the
+            [SuiteLink](https://postalpro.usps.com/address-quality-solutions/suitelink)
+            form of this address. Possible values are:
+
+            * `A` –– A SuiteLink match was found and secondary information was
+            added.
+
+            * `00` –– A SuiteLink match could not be found and no secondary
+            information was added.
+
+            * `''` –– SuiteLink lookup was not attempted.
+          example: ''
+          readOnly: true
+        object:
+          $ref: '#/components/schemas/object'
+    lob_confidence_score:
+      type: object
+      required:
+        - score
+        - level
+      properties:
+        score:
+          type: number
+          format: float
+          description: >
+            A numerical score between 0 and 100 that represents the percentage
+            of mailpieces Lob has sent to this addresses that have been
+            delivered successfully. Will be `null` if no tracking data exists
+            for this address.
+          example: 100
+          default: null
+          readOnly: true
+        level:
+          type: string
+          description: |
+            The level of confidence in the score associated with this address.
+          example: high
+          readOnly: true
+        object:
+          $ref: '#/components/schemas/object'
+    zip5:
+      type: object
+      required:
+        - zip_code
+      properties:
+        zip_code:
+          type: string
+          description: A 5-digit ZIP code.
+          pattern: '^\d{5}$'
+          example: '94107'
+    zip_id:
+      type: string
+      description: Unique identifier prefixed with `us_zip_`.
+      readOnly: true
+      pattern: '^us_zip_[a-zA-Z0-9]+$'
+      example: us_zip_c7cb63d68f8d6
+    city-2:
+      type: object
+      required:
+        - city
+        - state
+        - county
+        - county_fips
+        - preferred
+      properties:
+        city:
+          $ref: '#/components/schemas/city'
+          readOnly: true
+        state:
+          $ref: '#/components/schemas/state'
+          readOnly: true
+        county:
+          $ref: '#/components/schemas/county'
+          readOnly: true
+        county_fips:
+          $ref: '#/components/schemas/county_fips'
+        preferred:
+          type: boolean
+          description: >
+            Indicates whether or not the city is the [USPS default
+            city](https://en.wikipedia.org/wiki/ZIP_Code#ZIP_Codes_and_previous_zoning_lines)
+            (preferred city) of a ZIP code. There is only one preferred city per
+            ZIP code, which will always be in position 0 in the array of cities.
+          maxLength: 1
+          minLength: 1
+          example: true
+          readOnly: true
+        object:
+          $ref: '#/components/schemas/object'
+    zip:
+      allOf:
+        - $ref: '#/components/schemas/zip5'
+        - type: object
+          required:
+            - id
+            - cities
+            - zip_code_type
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/zip_id'
+            cities:
+              type: array
+              items:
+                $ref: '#/components/schemas/city-2'
+              description: >
+                An array of city objects containing valid cities for the
+                `zip_code`. Multiple cities will be returned if more than one
+                city is associated with the input ZIP code.
+              readOnly: true
+            zip_code_type:
+              $ref: '#/components/schemas/zip_code_type'
+              readOnly: true
+            object:
+              $ref: '#/components/schemas/object'
+  responses:
+    error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+    address:
+      description: Returns an address object if a valid identifier was provided.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/address'
+    deleted:
+      description: Returns true if the delete was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/adr_id'
+              deleted:
+                $ref: '#/components/schemas/deleted'
+    all_addresses:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` addresses. Each entry in the array is a separate address object.
+        The previous and next page of address entries can be retrieved by
+        calling the endpoint contained in the `previous_url` and `next_url`
+        fields in the API response respectively.<br>If no more addresses are
+        available beyond the current set of returned results, the `next_url`
+        field will be empty.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of addresses
+                    items:
+                      $ref: '#/components/schemas/address'
+              - $ref: '#/components/schemas/list'
+    address_writable:
+      description: Echos the writable fields of a newly created address object.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/address_writable'
+          example:
+            id: adr_d3489cd64c791ab5
+            description: Harry - Office
+            name: HARRY ZHANG
+            company: LOB
+            phone: '5555555555'
+            email: harry@lob.com
+            address_line1: 185 BERRY ST STE 6100
+            address_city: SAN FRANCISCO
+            address_state: CA
+            address_zip: '94107'
+            address_country: UNITED STATES
+            metadata: {}
+            date_created: '2017-09-05T17:47:53.767Z'
+            date_modified: '2017-09-05T17:47:53.767Z'
+            object: address
+    template_version:
+      description: Returns the template version with the given template and version ids.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/template_version'
+          example:
+            id: vrsn_534e339882d2282
+            description: Second Version
+            html: '<html>Second HTML for {{name}}</html>'
+            date_created: '2017-11-09T04:49:38.016Z'
+            date_modified: '2017-11-09T04:49:38.016Z'
+            object: version
+    all_template_versions:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` template versions. Each entry in the array is a separate
+        template version object. The previous and next page of template versions
+        can be retrieved by calling the endpoint contained in the `previous_url`
+        and `next_url` fields in the API response respectively.<br>If no more
+        template versions are available beyond the current set of returned
+        results, the `next_url` field will be empty.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of template versions
+                    items:
+                      $ref: '#/components/schemas/template_version'
+              - $ref: '#/components/schemas/list'
+          example:
+            data:
+              - id: vrsn_4d6ff5d868bf630
+                description: Second Version
+                html: 'Second HTML for '
+                date_created: '2017-11-09T05:09:03.665Z'
+                date_modified: '2018-05-22T22:01:10.479Z'
+                object: version
+              - id: vrsn_2a17159c1911919
+                description: Test Template
+                html: 'HTML for '
+                date_created: '2017-11-09T05:08:40.004Z'
+                date_modified: '2018-05-22T22:01:11.309Z'
+                object: version
+            object: list
+            count: 2
+    template:
+      description: Returns a template object
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/template'
+          example:
+            id: tmpl_c94e83ca2cd5121
+            description: Test Template
+            versions:
+              - id: vrsn_362184d96d9b0c9
+                description: Test Template
+                html: '<html>HTML for {{name}}</html>'
+                date_created: '2017-11-07T22:56:10.962Z'
+                date_modified: '2017-11-07T22:56:10.962Z'
+                object: version
+            published_version:
+              id: vrsn_362184d96d9b0c9
+              description: Test Template
+              html: '<html>HTML for {{name}}</html>'
+              date_created: '2017-11-07T22:56:10.962Z'
+              date_modified: '2017-11-07T22:56:10.962Z'
+              object: version
+            metadata: {}
+            date_created: '2017-11-07T22:56:10.962Z'
+            date_modified: '2017-11-07T22:56:10.962Z'
+            object: template
+    all_templates:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` templates. Each entry in the array is a separate template. The
+        previous and next page of templates can be retrieved by calling the
+        endpoint contained in the `previous_url` and `next_url` fields in the
+        API response respectively.<br>If no more templates are available beyond
+        the current set of returned results, the `next_url` field will be empty.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of templates
+                    items:
+                      $ref: '#/components/schemas/template'
+              - $ref: '#/components/schemas/list'
+          example:
+            data:
+              - id: tmpl_d5a5a89da9106f8
+                description: Test Template
+                versions:
+                  - id: vrsn_232a02fb8224791
+                    description: Test Template
+                    html: 'HTML for '
+                    date_created: '2019-07-27T23:49:01.512Z'
+                    date_modified: '2019-07-27T23:49:01.512Z'
+                    object: version
+                published_version:
+                  id: vrsn_232a02fb8224791
+                  description: Test Template
+                  html: 'HTML for '
+                  date_created: '2019-07-27T23:49:01.512Z'
+                  date_modified: '2019-07-27T23:49:01.512Z'
+                  object: version
+                metadata: {}
+                date_created: '2019-07-27T23:49:01.511Z'
+                date_modified: '2019-07-27T23:49:01.511Z'
+                object: template
+              - id: tmpl_59b2150ae120887
+                description: Test Template
+                versions:
+                  - id: vrsn_2a7eb63ccb795b9
+                    description: Test Template
+                    html: 'HTML for '
+                    date_created: '2019-03-29T10:22:34.643Z'
+                    date_modified: '2019-03-29T10:22:34.643Z'
+                    object: version
+                published_version:
+                  id: vrsn_2a7eb63ccb795b9
+                  description: Test Template
+                  html: 'HTML for '
+                  date_created: '2019-03-29T10:22:34.643Z'
+                  date_modified: '2019-03-29T10:22:34.643Z'
+                  object: version
+                metadata: {}
+                date_created: '2019-03-29T10:22:34.642Z'
+                date_modified: '2019-03-29T10:22:34.642Z'
+                object: template
+            object: list
+            next_url: >-
+              https://api.lob.com/v1/templates?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wMy0yOVQxMDoyMjozNC42NDJaIiwiaWRPZmZzZXQiOiJ0bXBsXzU5YjIxNTBhZTEyMDg4NyJ9
+            count: 2
+    us_verifications:
+      description: Returns a US verification object.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              recipient:
+                $ref: '#/components/schemas/recipient'
+              primary_line:
+                $ref: '#/components/schemas/primary_line'
+              secondary_line:
+                $ref: '#/components/schemas/secondary_line'
+              urbanization:
+                $ref: '#/components/schemas/urbanization'
+              last_line:
+                type: string
+                description: |
+                  Combination of the following applicable `components`:
+                  * `city`
+                  * `state`
+                  * `zip_code`
+                  * `zip_code_plus_4`
+                example: SAN FRANCISCO CA 94107
+              deliverability:
+                type: string
+                enum:
+                  - deliverable
+                  - deliverable_unnecessary_unit
+                  - deliverable_incorrect_unit
+                  - deliverable_missing_unit
+                  - undeliverable
+                description: >
+                  Summarizes the deliverability of the `us_verification` object.
+
+                  For full details, see the `deliverability_analysis` field.
+                  Possible values are:
+
+                  * `deliverable` – The address is deliverable by the USPS.
+
+                  * `deliverable_unnecessary_unit` – The address is deliverable,
+                  but the secondary unit information is unnecessary.
+
+                  * `deliverable_incorrect_unit` – The address is deliverable to
+                  the building's default address but the secondary unit provided
+                  may not exist. There is a chance the mail will not reach the
+                  intended recipient.
+
+                  * `deliverable_missing_unit` – The address is deliverable to
+                  the building's default address but is missing secondary unit
+                  information. There is a chance the mail will not reach the
+                  intended recipient.
+
+                  * `undeliverable` – The address is not deliverable according
+                  to the USPS.
+                example: deliverable
+              components:
+                $ref: '#/components/schemas/components'
+              deliverability_analysis:
+                $ref: '#/components/schemas/deliverability_analysis'
+              lob_confidence_score:
+                $ref: '#/components/schemas/lob_confidence_score'
+              object:
+                $ref: '#/components/schemas/object'
+    zip_lookups:
+      description: Returns a zip lookup object if a valid zip was provided.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/zip'
+  headers:
+    ratelimit-limit:
+      description: The rate limit for a given endpoint.
+      schema:
+        type: integer
+        example: 150
+    ratelimit-remaining:
+      description: The number of requests remaining in the current window.
+      schema:
+        type: integer
+        example: 100
+    ratelimit-reset:
+      description: >
+        The time at which the rate limit window resets in  <a
+        href="https://en.wikipedia.org/wiki/Unix_time">UTC epoch seconds</a>
+      schema:
+        type: integer
+        example: 1528749846
+  parameters:
+    limit:
+      in: query
+      name: Limit
+      required: false
+      description: How many results to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 10
+        maximum: 100
+        example: 10
+    idempotency:
+      in: header
+      name: Idempotency-Key
+      required: false
+      description: >
+        A string of no longer than 256 characters that uniquely identifies this
+        resource. For more help integrating idempotency keys, refer to our
+        [implementation guide](https://www.lob.com/guides#idempotent_request).
+      schema:
+        type: string
+        maxLength: 256
+        example: 026e7634-24d7-486c-a0bb-4a17fd0eebc5
+    after:
+      in: query
+      name: after
+      description: >
+        A reference to a list entry used for paginating to the previous set of
+        entries. This field is pre-populated in the `previous_url` field in the
+        return response.
+      schema:
+        type: string
+    before:
+      in: query
+      name: before
+      description: >
+        A reference to a list entry used for paginating to the next set of
+        entries. This field is pre-populated in the `next_url` field in the
+        return response.
+      schema:
+        type: string
+    include:
+      in: query
+      name: include
+      description: >
+        Request that the response include the total count by specifying
+        `include[]=total_count`.
+      schema:
+        type: object
+      style: deepObject
+      explode: true
+    date_created:
+      in: query
+      name: date_created
+      description: >
+        Filter by ISO-8601 date or datetime, e.g. `{ gt: '2012-01-01', lt:
+        '2012-01-31T12:34:56Z' }` where `gt` is ›, `lt` is ‹, `gte` is ≥, and
+        `lte` is ≤.
+      schema:
+        type: string
+        format: date-time
+security:
+  - basicAuth: []
+paths:
+  '/addresses/{address_id}':
+    parameters:
+      - in: path
+        name: address_id
+        description: id of the address
+        required: true
+        schema:
+          $ref: '#/components/schemas/adr_id'
+    get:
+      operationId: get_address
+      summary: Retrieve address with given id
+      description: >-
+        Retrieves the details of an existing address. You need only supply the
+        unique customer identifier that was returned upon address creation.
+      tags:
+        - Addresses
+      responses:
+        '200':
+          $ref: '#/components/responses/address'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_address
+      summary: Deletes address with given id
+      description: >-
+        Deletes the details of an existing address. You need only supply the
+        unique customer identifier that was returned upon address creation.
+      tags:
+        - Addresses
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /addresses:
+    get:
+      operationId: list_addresses
+      summary: List all addresses
+      description: >-
+        Returns a list of your addresses. The addresses are returned sorted by
+        creation date, with the most recently created addresses appearing first.
+      tags:
+        - Addresses
+      parameters:
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_addresses'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_address
+      summary: Creates a new address object
+      description: Creates a new address given information
+      tags:
+        - Addresses
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/address_writable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/address_writable'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/address_writable'
+      responses:
+        '200':
+          $ref: '#/components/responses/address_writable'
+        default:
+          $ref: '#/components/responses/error'
+  '/templates/{template_id}/versions/{template_version_id}':
+    parameters:
+      - in: path
+        name: template_id
+        description: id of the template
+        required: true
+        schema:
+          $ref: '#/components/schemas/tmpl_id'
+      - in: path
+        name: template_version_id
+        description: id of the template_version
+        required: true
+        schema:
+          $ref: '#/components/schemas/vrsn_id'
+    get:
+      operationId: get_template_version
+      summary: Retrieve template version with given template and version ids.
+      description: Retrieves the template version with the given template and version ids.
+      tags:
+        - Template_Versions
+      responses:
+        '200':
+          $ref: '#/components/responses/template_version'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: update_template_version
+      summary: Updates the template version with given template and version ids.
+      description: Retrieves the template version with the given template and version ids.
+      tags:
+        - Template_Versions
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/template_version_updatable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/template_version_updatable'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/template_version_updatable'
+      responses:
+        '200':
+          $ref: '#/components/responses/template_version'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_template_version
+      summary: >-
+        Deletes the template version with given template and version ids if
+        possible.
+      description: >-
+        Permanently deletes a template version. A template's `published_version`
+        can not be deleted.
+      tags:
+        - Template_Versions
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  '/templates/{template_id}/versions':
+    parameters:
+      - in: path
+        name: template_id
+        description: id of the template
+        required: true
+        schema:
+          $ref: '#/components/schemas/tmpl_id'
+    get:
+      operationId: list_template_versions
+      summary: List all template_versions
+      description: >
+        Returns a list of template versions for the passed `template_id`. The
+        template versions are sorted by creation date, with the most recently
+        created appearing first.
+      tags:
+        - Template_Versions
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_template_versions'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_template_version
+      summary: Creates a new template_version object
+      description: Creates a new template version attached to the specified template.
+      tags:
+        - Template_Versions
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/template_version_writable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/template_version_writable'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/template_version_writable'
+      responses:
+        '200':
+          $ref: '#/components/responses/template_version'
+        default:
+          $ref: '#/components/responses/error'
+  '/templates/{template_id}':
+    parameters:
+      - in: path
+        name: template_id
+        description: id of the template
+        required: true
+        schema:
+          $ref: '#/components/schemas/tmpl_id'
+    get:
+      operationId: get_template
+      summary: Retrieve template with given id
+      description: >-
+        Retrieves the details of an existing template. You need only supply the
+        unique template identifier that was returned upon template creation.
+      tags:
+        - Templates
+      responses:
+        '200':
+          $ref: '#/components/responses/template'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: update_template
+      summary: Update description and/or published version of a template.
+      description: >-
+        Updates the description and/or published version of the template with
+        the given id. To update the template's html, create a new version of the
+        template.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/template_update'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/template_update'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/template_update'
+      responses:
+        '200':
+          $ref: '#/components/responses/template'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_template
+      summary: Deletes template with given id
+      description: >-
+        Deletes the details of an existing template. You need only supply the
+        unique customer identifier that was returned upon template creation.
+      tags:
+        - Templates
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /templates:
+    get:
+      operationId: list_templates
+      summary: List all templates
+      description: >-
+        Returns a list of your templates. The templates are returned sorted by
+        creation date, with the most recently created templates appearing first.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+        - in: query
+          name: metadata
+          description: >
+            Filter by metadata key-value pair, e.g.
+            `metadata[customer_id]=987654`.
+          schema:
+            type: object
+          style: deepObject
+          explode: true
+      responses:
+        '200':
+          $ref: '#/components/responses/all_templates'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_template
+      summary: Creates a new template object
+      description: Creates a new template given information
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/template_writable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/template_writable'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/template_writable'
+      responses:
+        '200':
+          $ref: '#/components/responses/template'
+        default:
+          $ref: '#/components/responses/error'
+  /us_verifications:
+    post:
+      operationId: verification
+      summary: Verify a US or US territory address with a live API key.
+      description: >-
+        Verify a US or US territory address with a live API key. The address can
+        be in components (e.g. `primary_line` is "185 Berry Street", `zip_code`
+        is "94107") or as a single string (e.g. "185 Berry Street 94107"), but
+        not as both. Requests using a test API key validate required fields but
+        return empty values unless specific `primary_line` values are provided.
+      tags:
+        - US Verifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components'
+                - $ref: '#/components/schemas/single_line_address'
+          application/x-www-form-urlencoded:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components'
+                - $ref: '#/components/schemas/single_line_address'
+          multipart/form-data:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components'
+                - $ref: '#/components/schemas/single_line_address'
+      responses:
+        '200':
+          $ref: '#/components/responses/us_verifications'
+        default:
+          $ref: '#/components/responses/error'
+  /us_zip_lookups:
+    post:
+      operationId: zip_lookup
+      summary: Looks up information pertaining to a given ZIP code
+      description: Returns information about a ZIP code
+      tags:
+        - Zip Lookups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/zip5'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/zip5'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/zip5'
+      responses:
+        '200':
+          $ref: '#/components/responses/zip_lookups'
+        default:
+          $ref: '#/components/responses/error'

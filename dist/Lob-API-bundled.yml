@@ -96,7 +96,6 @@ components:
         A timestamp of the date on which a mailpiece will be dispatched for
         production. Beyond this date, the mailpiece can't be cancelled.
       format: date-time
-      example: '2017-09-05T17:47:53.967Z'
     metadata:
       type: object
       description: >-
@@ -117,6 +116,11 @@ components:
       type: object
       required:
         - address_line1
+      anyOf:
+        - required:
+            - name
+        - required:
+            - company
       properties:
         description:
           $ref: '#/components/schemas/resource_description'
@@ -129,7 +133,6 @@ components:
             of the address.
           maxLength: 40
           nullable: true
-          example: HARRY ZHANG
         company:
           type: string
           description: >
@@ -141,26 +144,22 @@ components:
             Name, Department, Attention Line, etc).
           maxLength: 40
           nullable: true
-          example: LOB
         phone:
           type: string
           description: Must be no longer than 40 characters.
           maxLength: 40
           nullable: true
-          example: '5555555555'
         email:
           type: string
           description: Must be no longer than 100 characters.
           maxLength: 100
           nullable: true
-          example: harry@lob.com
         address_line1:
           type: string
           description: >
             Must be no longer than 64 characters for US addresses or 200
             characters for international addresses.
           maxLength: 200
-          example: 185 BERRY ST STE 6100
         address_line2:
           type: string
           description: >
@@ -168,7 +167,6 @@ components:
             characters for international addresses.
           maxLength: 200
           nullable: true
-          example: null
         address_city:
           type: string
           description: >
@@ -176,7 +174,6 @@ components:
             longer than 200 characters.
           maxLength: 200
           nullable: true
-          example: SAN FRANCISCO
         address_state:
           type: string
           description: >
@@ -184,7 +181,6 @@ components:
             `US`, otherwise optional and no longer than 200 characters.
           maxLength: 200
           nullable: true
-          example: CA
         address_zip:
           type: string
           description: >
@@ -193,18 +189,25 @@ components:
             not any longer than 40 characters.
           maxLength: 40
           nullable: true
-          example: 94107-1741
         address_country:
           type: string
           description: >
             Must be a 2 letter country short-name code (ISO 3166). Defaults to
             `US`.
           minLength: 2
-          example: US
         send_date:
           $ref: '#/components/schemas/send_date'
         metadata:
           $ref: '#/components/schemas/metadata'
+      example:
+        name: Harry Zhang
+        phone: '5555555555'
+        email: harry@lob.com
+        address_line1: 210 King St
+        address_city: San Francisco
+        address_state: CA
+        address_zip: '94107'
+        address_country: US
     deleted:
       type: boolean
       description: Only returned if the address has been successfully deleted.
@@ -255,7 +258,6 @@ components:
                 created before the NCOA feature was added to your account.
               nullable: true
               readOnly: true
-              example: false
             deleted:
               $ref: '#/components/schemas/deleted'
             date_created:
@@ -457,6 +459,14 @@ components:
       example: '94107'
     multiple_components:
       type: object
+      required:
+        - primary_line
+      oneOf:
+        - required:
+            - city
+            - state
+        - required:
+            - zip_code
       properties:
         recipient:
           $ref: '#/components/schemas/recipient'
@@ -476,6 +486,8 @@ components:
           $ref: '#/components/schemas/object'
     single_line_address:
       type: object
+      required:
+        - address
       properties:
         address:
           type: string
@@ -1141,6 +1153,45 @@ components:
                     items:
                       $ref: '#/components/schemas/address'
               - $ref: '#/components/schemas/list'
+          example:
+            data:
+              - id: adr_e68217bd744d65c8
+                description: Harry - Office
+                name: HARRY ZHANG
+                company: LOB
+                phone: '5555555555'
+                email: harry@lob.com
+                address_line1: 185 BERRY ST STE 6100
+                address_line2: null
+                address_city: SAN FRANCISCO
+                address_state: CA
+                address_zip: 94107-1741
+                address_country: UNITED STATES
+                metadata: {}
+                date_created: '2019-08-12T00:16:00.361Z'
+                date_modified: '2019-08-12T00:16:00.361Z'
+                object: address
+              - id: adr_830bf0eabdaaa409
+                description: Harry - Office
+                name: HARRY ZHANG
+                company: LOB
+                phone: '5555555555'
+                email: harry@lob.com
+                address_line1: 185 BERRY ST STE 6100
+                address_line2: null
+                address_city: SAN FRANCISCO
+                address_state: CA
+                address_zip: 94107-1741
+                address_country: UNITED STATES
+                metadata: {}
+                date_created: '2019-08-07T21:59:46.764Z'
+                date_modified: '2019-08-07T21:59:46.764Z'
+                object: address
+            object: list
+            next_url: >-
+              https://api.lob.com/v1/addresses?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wN1QyMTo1OTo0Ni43NjRaIiwiaWRPZmZzZXQiOiJhZHJfODMwYmYwZWFiZGFhYTQwOSJ9
+            previous_url: null
+            count: 2
     address_writable:
       description: Echos the writable fields of a newly created address object.
       headers:

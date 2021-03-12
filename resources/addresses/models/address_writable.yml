@@ -3,7 +3,7 @@ type: object
 required:
   - address_line1
 
-oneOf:
+anyOf:
   - required:
       - name
   - required:
@@ -22,7 +22,6 @@ properties:
       they will be printed on two separate lines above the rest of the address.
     maxLength: 40
     nullable: true
-    example: HARRY ZHANG
 
   company:
     type: string
@@ -36,21 +35,18 @@ properties:
       Attention Line, etc).
     maxLength: 40
     nullable: true
-    example: LOB
 
   phone:
     type: string
     description: Must be no longer than 40 characters.
     maxLength: 40
     nullable: true
-    example: "5555555555"
 
   email:
     type: string
     description: Must be no longer than 100 characters.
     maxLength: 100
     nullable: true
-    example: harry@lob.com
 
   address_line1:
     type: string
@@ -58,7 +54,6 @@ properties:
       Must be no longer than 64 characters for US addresses or 200 characters
       for international addresses.
     maxLength: 200
-    example: 185 BERRY ST STE 6100
 
   address_line2:
     type: string
@@ -67,7 +62,6 @@ properties:
       for international addresses.
     maxLength: 200
     nullable: true
-    example: null
 
   address_city:
     type: string
@@ -76,7 +70,6 @@ properties:
       Must be no longer than 200 characters.
     maxLength: 200
     nullable: true
-    example: SAN FRANCISCO
 
   address_state:
     type: string
@@ -85,7 +78,6 @@ properties:
       is `US`, otherwise optional and no longer than 200 characters.
     maxLength: 200
     nullable: true
-    example: CA
 
   address_zip:
     type: string
@@ -95,17 +87,25 @@ properties:
       is `US`, otherwise optional and not any longer than 40 characters.
     maxLength: 40
     nullable: true
-    example: 94107-1741
 
   address_country:
     type: string
     description: >
       Must be a 2 letter country short-name code (ISO 3166). Defaults to `US`.
     minLength: 2
-    example: US
 
   send_date:
     $ref: "../../../shared/attributes/send_date.yml"
 
   metadata:
     $ref: "../../../shared/models/metadata.yml"
+
+example:
+  name: Harry Zhang
+  phone: "5555555555"
+  email: harry@lob.com
+  address_line1: 210 King St
+  address_city: San Francisco
+  address_state: CA
+  address_zip: "94107"
+  address_country: US

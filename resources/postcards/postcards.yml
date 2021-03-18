@@ -1,0 +1,88 @@
+get:
+  operationId: list_postcards
+
+  summary: List all postcards
+
+  description: >-
+    Returns a list of your postcards. The addresses are returned sorted by
+    creation date, with the most recently created addresses appearing first.
+
+  tags:
+    - Postcards
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/after.yml"
+    - $ref: "../../shared/parameters/before.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - $ref: "../../shared/parameters/metadata.yml"
+
+  responses:
+    "200":
+      $ref: responses/all_postcards.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+post:
+  operationId: create_postcard
+
+  summary: Creates a new postcard object
+
+  description: >-
+    Creates a new postcard given information
+
+  tags:
+    - Postcards
+
+  parameters:
+    - $ref: "../../shared/parameters/idempotency.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/postcard_editable.yml"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/postcard_editable.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+
+      multipart/form-data:
+        schema:
+          $ref: "models/postcard_editable.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+
+  responses:
+    "200":
+      $ref: responses/postcard.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

@@ -1,0 +1,21 @@
+allOf:
+  - $ref: "postcard_base.yml"
+
+  - type: object
+
+    required:
+      - front
+      - back
+
+    properties:
+      front:
+        oneOf:
+          - $ref: "../attributes/artwork.yml"
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - $ref: "../attributes/remote_file_url.yml"
+
+      back:
+        oneOf:
+          - $ref: "../attributes/artwork.yml"
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - $ref: "../attributes/remote_file_url.yml"

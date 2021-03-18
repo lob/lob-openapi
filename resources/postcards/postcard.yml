@@ -1,0 +1,50 @@
+parameters:
+  - in: path
+    name: psc_id
+    description: id of the postcard
+    required: true
+    schema:
+      $ref: "attributes/psc_id.yml"
+
+get:
+  operationId: get_postcard
+
+  summary: Retrieve postcard with given id
+
+  description: >-
+    Retrieves the details of an existing postcard. You need only supply
+    the unique customer identifier that was returned upon postcard creation.
+
+  tags:
+    - Postcards
+
+  responses:
+    "200":
+      $ref: "responses/postcard.yml"
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+delete:
+  operationId: delete_postcard
+
+  summary: Cancels postcard with given id
+
+  description: >-
+    Completely removes a postcard from production. This can only be done if
+    the postcard has a `send_date` and the `send_date` has not yet passed.
+    If the postcard is successfully canceled, you will not be charged for it.
+    Read more on [cancellation windows](https://docs.lob.com/#cancellation)
+    and [scheduling](https://docs.lob.com/#scheduled). Scheduling and
+    cancellation is a premium feature. Upgrade to the appropriate
+    Print & Mail Edition to gain access.
+
+  tags:
+    - Postcards
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/error.yml"

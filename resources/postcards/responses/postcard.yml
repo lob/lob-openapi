@@ -1,0 +1,29 @@
+description: Returns a postcard object
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      $ref: "../models/postcard.yml"
+    example:
+      id: "psc_208e45e48d271294"
+      description: ""
+      metadata: {}
+      to: "adr_8d4f198f0c3bcf3a"
+      from: "adr_210a8d4b0b76d77b"
+      url: "https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA"
+      front_template_id: null
+      back_template_id: null
+      front_template_version_id: null
+      back_template_version_id: null
+      date_created: "2021-03-24T22:51:42.838Z"
+      date_modified: "2021-03-24T22:51:42.838Z"
+      send_date: "2021-03-24T22:51:42.838Z"
+      object: "postcard"

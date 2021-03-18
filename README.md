@@ -29,7 +29,6 @@ Our spec is a multifile spec organized semantically, by _resource_, instead of s
 │   │   ├── addresses.yml         # operations on /addresses
 │   │   ├── address.yml           # operations on /addresses/{id}
 │   │   ├── attributes
-│   │   │   ├── adr_id.yml
 │   │   │   └── ...
 │   │   ├── models
 │   │   │   └── address.yml

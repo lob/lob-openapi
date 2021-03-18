@@ -1,0 +1,45 @@
+parameters:
+  - in: path
+    name: postcard_id
+    description: id of the postcard
+    required: true
+    schema:
+      $ref: "attributes/postcard_id.yml"
+
+get:
+  operationId: get_postcard
+
+  summary: Retrieve postcard with given id
+
+  description: >-
+    Retrieves the details of an existing postcard. You need only supply
+    the unique customer identifier that was returned upon postcard creation.
+
+  tags:
+    - Postcards
+
+  responses:
+    "200":
+      $ref: responses/postcard.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+delete:
+  operationId: delete_postcard
+
+  summary: Cancels postcard with given id
+
+  description: >-
+    Cancels an existing postcard as long as the send date has not passed. You need only supply
+    the unique customer identifier that was returned upon postcard creation.
+
+  tags:
+    - Postcards
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/error.yml"

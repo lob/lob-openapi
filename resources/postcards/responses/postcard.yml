@@ -1,0 +1,67 @@
+description: Returns a US verification object.
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        id:
+          $ref: "../../../shared/attributes/psc_id.yml"
+
+        description:
+          $ref: "../../../shared/attributes/resource_description.yml"
+
+        to:
+          $ref: "../../../resources/addresses/models/address.yml"
+
+        from:
+          $ref: "../../../resources/addresses/models/address.yml"
+          nullable: true
+
+        url:
+          $ref: "../../../shared/attributes/url.yml"
+
+        carrier:
+          type: string
+          IS THIS AN ENUM??
+          description: >
+            The mail carrier used to transport this postcard
+
+        tracking_events:
+          type: array
+          MAKE THIS shared?
+
+        thumbnails:
+          $ref: "../../../shared/models/thumbnails.yml"
+
+        merge_variables:
+          $ref: "../../../shared/attributes/merge_variables.yml"
+
+        size:
+          $ref: "../../../shared/attributes/tmpl_id.yml"
+
+        mail_type:
+          $ref: "../../../shared/attributes/mail_type.yml"
+
+        date_created:
+          $ref: "../../../shared/attributes/date_info.yml"
+
+        date_modified:
+          $ref: "../../../shared/attributes/date_info.yml"
+
+        send_date:
+          $ref: "../../../shared/attributes/send_date.yml"
+
+        expected_delivery_date:
+          
+
+        object:
+          $ref: "../../../shared/attributes/object.yml"

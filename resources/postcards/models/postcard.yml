@@ -1,0 +1,51 @@
+type: object
+
+required:
+  - to
+  - front
+  - back
+
+properties:
+  description:
+    $ref: "../../../shared/attributes/resource_description.yml"
+
+  to:
+    $ref:
+      oneOf:
+        - "../../../shared/models/address_lines_us.yml"
+        - "../../../shared/models/address_lines_intl.yml"
+        - "../../../shared/attributes/adr_id.yml"
+
+  from:
+    $ref:
+      oneOf:
+        - "../../../shared/models/address_lines_us.yml"
+        - "../../../shared/models/address_lines_intl.yml"
+        - "../../../shared/attributes/adr_id.yml"
+
+  send_date:
+    $ref: "../../../shared/attributes/send_date.yml"
+
+  front:
+    $ref:
+      oneOf:
+        - "../attributes/artwork.yml"
+        - "../../../shared/attributes/tmpl_id.yml"
+
+  back:
+    $ref:
+      oneOf:
+        - "../attributes/artwork.yml"
+        - "../../../shared/attributes/tmpl_id.yml"
+
+  size:
+    $ref: "../../../shared/attributes/tmpl_id.yml"
+
+  mail_type:
+    $ref: "../../../shared/attributes/mail_type.yml"
+
+  merge_variables:
+    $ref: "../../../shared/models/merge_variables.yml"
+
+  metadata:
+    $ref: "../../../shared/models/metadata.yml"

@@ -1,0 +1,57 @@
+get:
+  operationId: list_postcards
+
+  summary: List all postcards
+
+  description: >-
+    Returns a list of your postcards. The addresses are returned sorted by
+    creation date, with the most recently created addresses appearing first.
+
+  tags:
+    - Addresses
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+
+  responses:
+    "200":
+      $ref: responses/all_postcards.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+post:
+  operationId: create_postcard
+
+  summary: Creates a new address object
+
+  description: >-
+    Creates a new address given information
+
+  tags:
+    - Addresses
+
+  parameters:
+    - $ref: "../../shared/parameters/idempotency.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/postcard.yml"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/postcard.yml"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/postcard.yml"
+
+  responses:
+    "200":
+      $ref: responses/postcard.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

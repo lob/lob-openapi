@@ -12,18 +12,11 @@ get:
 
   parameters:
     - $ref: "../../shared/parameters/limit.yml"
-    - $ref: "parameters/after.yml"
-    - $ref: "parameters/before.yml"
-    - $ref: "parameters/include.yml"
-    - $ref: "parameters/date_created.yml"
-    - in: query
-      name: metadata
-      description: >
-        Filter by metadata key-value pair, e.g. `metadata[customer_id]=987654`.
-      schema:
-        type: object
-      style: deepObject
-      explode: true
+    - $ref: "../../shared/parameters/after.yml"
+    - $ref: "../../shared/parameters/before.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - $ref: "../../shared/parameters/metadata.yml"
 
   responses:
     "200":

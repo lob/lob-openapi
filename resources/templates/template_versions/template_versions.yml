@@ -1,6 +1,6 @@
 parameters:
   - in: path
-    name: template_id
+    name: tmpl_id
     description: id of the template
     required: true
     schema:
@@ -21,10 +21,10 @@ get:
 
   parameters:
     - $ref: "../../../shared/parameters/limit.yml"
-    - $ref: "../parameters/after.yml"
-    - $ref: "../parameters/before.yml"
-    - $ref: "../parameters/include.yml"
-    - $ref: "../parameters/date_created.yml"
+    - $ref: "../../../shared/parameters/after.yml"
+    - $ref: "../../../shared/parameters/before.yml"
+    - $ref: "../../../shared/parameters/include.yml"
+    - $ref: "../../../shared/parameters/date_created.yml"
 
   responses:
     "200":

@@ -1,0 +1,25 @@
+description: Returns a letter object
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      $ref: "../models/letter.yml"
+    example:
+      id: "ltr_c94e83ca2cd5121"
+      to: "adr_c94e83ca2cd5121"
+      from: "adr_c94e83ca2cd5121"
+      color: false
+      file: "html_b1234567asfsd"
+      description: ""
+      metadata: {}
+      date_created: "2017-11-07T22:56:10.962Z"
+      date_modified: "2017-11-07T22:56:10.962Z"
+      object: "letter"

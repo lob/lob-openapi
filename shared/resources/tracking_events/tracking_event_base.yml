@@ -1,0 +1,33 @@
+type: object
+
+description: >-
+  As mail pieces travel through the mail stream, USPS scans their unique
+  barcodes, and Lob processes these mail scans to generate tracking events.
+
+required:
+  - id
+  - date_created
+  - date_modified
+  - object
+
+properties:
+  id:
+    $ref: "../../attributes/model_ids/evnt_id.yml"
+
+  time:
+    type: string
+    format: date-time
+    description: >-
+      A timestamp in ISO 8601 format of the date USPS registered the event.
+
+  date_created:
+    $ref: "../../attributes/timestamps.yml#/date_created"
+
+  date_modified:
+    $ref: "../../attributes/timestamps.yml#/date_modified"
+
+  object:
+    allOf:
+      - $ref: "../../attributes/object.yml"
+      - type: object
+        pattern: "^tracking_event$"

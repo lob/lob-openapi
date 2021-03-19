@@ -1,0 +1,56 @@
+description: >-
+  A dictionary with a data property that contains an array of
+  up to `limit` letters. Each entry in the array is a separate
+  letter. The previous and next page of letters can be retrieved
+  by calling the endpoint contained in the `previous_url` and
+  `next_url` fields in the API response respectively.<br>If no
+  more letters are available beyond the current set of returned results,
+  the `next_url` field will be empty.
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      allOf:
+        - type: object
+          properties:
+            data:
+              type: array
+              description: list of letters
+              items:
+                $ref: "../models/letter.yml"
+        - $ref: "../../../shared/models/list.yml"
+
+    example:
+      data:
+        - id: ltr_d5a5a89da9106f8
+          description: Test letter
+          to: adr_s34534535411123
+          from: adr_s34534535411123
+          color: false
+          file: "<HTML>hi</HTML>"
+          metadata: {}
+          date_created: "2019-07-27T23:49:01.511Z"
+          date_modified: "2019-07-27T23:49:01.511Z"
+          object: letter
+
+        - id: ltr_59b2150ae120887
+          description: Test letter
+          to: adr_s34534535411123
+          from: adr_s34534535411123
+          color: true
+          file: "<HTML>hi</HTML>"
+          metadata: {}
+          date_created: "2019-03-29T10:22:34.642Z"
+          date_modified: "2019-03-29T10:22:34.642Z"
+          object: letter
+      object: list
+      next_url:
+      count: 2

@@ -1,0 +1,29 @@
+type: object
+
+required:
+  - address_line1
+  - address_city
+  - address_state
+  - address_zip
+
+oneOf:
+  - required:
+      - name
+  - required:
+      - company
+
+properties:
+  name:
+    $ref: "../attributes/adr_name.yml"
+  company:
+    $ref: "../attributes/company.yml"
+  address_line1:
+    $ref: "../attributes/primary_line.yml"
+  address_line2:
+    $ref: "../attributes/secondary_line.yml"
+  address_city:
+    $ref: "../attributes/city.yml"
+  address_state:
+    $ref: "../attributes/state.yml"
+  address_zip:
+    $ref: "../attributes/zip_code.yml"

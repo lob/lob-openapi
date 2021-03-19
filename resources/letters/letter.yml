@@ -1,0 +1,50 @@
+parameters:
+  - in: path
+    name: ltr_id
+    description: id of the letter
+    required: true
+    schema:
+      $ref: "attributes/ltr_id.yml"
+
+get:
+  operationId: get_letter
+
+  summary: Retrieve letter with given id
+
+  description: >-
+    Retrieves the details of an existing letter. You need only supply
+    the unique letter identifier that was returned upon letter creation.
+
+  tags:
+    - Letters
+
+  responses:
+    "200":
+      $ref: responses/letter.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+delete:
+  operationId: cancel_letter
+
+  summary: Cancel a letter
+
+  description: >-
+    Completely removes a letter from production. This can only be done if
+    the letter has a `send_date` and the `send_date` has not yet passed.
+    If the letter is successfully canceled, you will not be charged for it.
+    Read more on [cancellation windows](https://docs.lob.com/#cancellation)
+    and [scheduling](https://docs.lob.com/#scheduled). Scheduling and
+    cancellation is a premium feature. Upgrade to the appropriate
+    Print & Mail Edition to gain access.
+
+  tags:
+    - Letters
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/error.yml"

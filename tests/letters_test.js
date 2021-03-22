@@ -17,44 +17,41 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 // contract tests happy path
 test("create, list, read then cancel a letter", async function (t) {
-  // create to and from addresses to use in create
-  let response = await prism.setup().then((client) =>
-    client.post(
-      "/addresses",
-      {
-        company: "Lob (old)",
-        address_line1: "185 Berry St",
-        address_line2: "# 6100",
-        address_city: "San Francisco",
-        address_state: "CA",
-        address_zip: "94107",
-        address_country: "US",
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.equal(response.status, 200);
-  const to = response.data.id;
-
-  response = await prism.setup().then((client) =>
-    client.post(
-      "/addresses",
-      {
-        company: "Lob (new)",
-        address_line1: "210 King St",
-        address_city: "San Francisco",
-        address_state: "CA",
-        address_zip: "94107",
-        address_country: "US",
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.equal(response.status, 200);
-  const from = response.data.id;
-
-  // create
-  response = await prism.setup().then((client) =>
+  const makeAddress = async (address_data) => {
+    let response = await prism
+      .setup()
+      .then((client) =>
+        client.post("/addresses", address_data, { headers: prism.authHeader })
+      );
+    return response.data.id;
+  };
+  const deleteAddress = async (address_id) => {
+    const response = await prism
+      .setup()
+      .then((client) =>
+        client.delete(`/addresses/${address_id}`, { headers: prism.authHeader })
+      );
+    t.equal(response.status, 200);
+    return response;
+  };
+  const to = await makeAddress({
+    company: "Lob (old)",
+    address_line1: "185 Berry St",
+    address_line2: "# 6100",
+    address_city: "San Francisco",
+    address_state: "CA",
+    address_zip: "94107",
+    address_country: "US",
+  });
+  const from = await makeAddress({
+    company: "Lob (new)",
+    address_line1: "210 King St",
+    address_city: "San Francisco",
+    address_state: "CA",
+    address_zip: "94107",
+    address_country: "US",
+  });
+  const create = await prism.setup().then((client) =>
     client.post(
       resource_endpoint,
       {
@@ -68,47 +65,31 @@ test("create, list, read then cancel a letter", async function (t) {
       { headers: prism.authHeader }
     )
   );
-  t.equal(response.status, 200);
+  t.equal(create.status, 200);
 
-  // read and cancel created endpoint
-  const ltr_endpoint = `${resource_endpoint}/${response.data.id}`;
-
-  // list
-  response = await prism
+  const list = await prism
     .setup()
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
-  t.equal(response.status, 200);
+  t.equal(list.status, 200);
 
-  // read
-  response = await prism
-    .setup()
-    .then((client) => client.get(ltr_endpoint, { headers: prism.authHeader }));
-  t.equal(response.status, 200);
+  const read = await prism.setup().then((client) =>
+    client.get(`${resource_endpoint}/${create.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+  t.equal(read.status, 200);
 
-  /*  // cancel
-  response = await prism
-    .setup()
-    .then((client) =>
-      client.delete(ltr_endpoint, { headers: prism.authHeader })
-    );
-  t.equal(response.status, 200);
+  const cancel = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${read.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+  t.equal(cancel.status, 200);
 
-  // delete addresses, too
-  response = await prism
-    .setup()
-    .then((client) =>
-      client.delete(`/addresses/{to}`, { headers: prism.authHeader })
-    );
-  t.equal(response.status, 200);
-  response = await prism
-    .setup()
-    .then((client) =>
-      client.delete(`/addresses/{from}`, { headers: prism.authHeader })
-    );
-  t.equal(response.status, 200); */
+  await deleteAddress(to);
+  await deleteAddress(from);
 });
 
 // add any failure cases you need here
-// cancel letter w/o send_date header

@@ -20,6 +20,8 @@ servers:
 tags:
   - name: Addresses
     description: A frictionless address book for use with the print and mail API.
+  - name: Letters
+    description: 'Easily print and mail letters. Create, retrieve, cancel, and list letters.'
   - name: Template_Versions
     description: Versioning for your reusable HTML print and mail templates.
   - name: Templates
@@ -42,9 +44,7 @@ components:
     adr_id:
       type: string
       description: Unique identifier prefixed with `adr_`.
-      readOnly: true
       pattern: '^adr_[a-zA-Z0-9]+$'
-      example: adr_fa85158b26c3eb7c
     failure_status_code:
       type: integer
       enum:
@@ -64,7 +64,6 @@ components:
           * 422 - The query or body parameters did not pass validation
           * 429 - Too many requests have been sent with an API key in a given amount of time
           * 500 - An internal server error occurred, please contact support@lob.com
-      example: 429
     error:
       type: object
       description: >-
@@ -92,15 +91,26 @@ components:
       nullable: true
     send_date:
       type: string
-      description: >
-        A timestamp of the date on which a mailpiece will be dispatched for
-        production. Beyond this date, the mailpiece can't be cancelled.
+      description: >-
+        A timestamp in ISO 8601 format which specifies a date after the current
+        time and up to 180 days in the future to send the letter off for
+        production. Setting a send date overrides the default [cancellation
+        window](https://docs.lob.com/#cancellation) applied to the mailpiece.
+        Until the `send_date` has passed, the mailpiece can be canceled. If a
+        date in the format `2017-11-01` is passed, it will evaluate to midnight
+        UTC of that date (`2017-11-01T00:00:00.000Z`). If a datetime is passed,
+        that exact time will be used. A `send_date` passed with no time zone
+        will default to UTC, while a `send_date` passed with a time zone will be
+        converted to UTC.
       format: date-time
     metadata:
       type: object
       description: >-
-        When creating any Lob object, you can include a metadata object with up
-        to 20 key-value pairs of custom data.
+        Use metadata to store custom information for tagging and labeling back
+        to your internal systems. Must be an object with up to 20 key-value
+        pairs. Keys must be at most 40 characters and values must be at most 500
+        characters. Neither can contain the characters `"` and `\`. Nested
+        objects are not supported.
       properties: {}
       maxProperties: 20
       example:
@@ -289,6 +299,225 @@ components:
           type: integer
           description: number of items in list
           example: 2
+    ltr_id:
+      type: string
+      description: Unique identifier prefixed with `ltr_`.
+      pattern: '^ltr_[a-zA-Z0-9]+$'
+    adr_name:
+      type: string
+      description: The name of the mailpiece recipient.
+      maxLength: 40
+    company:
+      type: string
+      description: |
+        The company with which the mailpiece recipient is associated.
+      example: LOB.COM
+    primary_line:
+      type: string
+      description: |
+        The primary delivery line (usually the street address) of the address.
+        Combination of the following applicable `components`:
+        * `primary_number`
+        * `street_predirection`
+        * `street_name`
+        * `street_suffix`
+        * `street_postdirection`
+        * `secondary_designator`
+        * `secondary_number`
+        * `pmb_designator`
+        * `pmb_number`
+      example: 185 BERRY ST
+    secondary_line:
+      type: string
+      description: >
+        The secondary delivery line of the address. This field is typically
+        empty but may contain information if `primary_line` is too long.
+      example: STE 6100
+    city:
+      type: string
+      description: >
+        The name of the city. `city` and `state` are required if no zip_code is
+        passed.
+      example: SAN FRANCISCO
+    state:
+      type: string
+      description: >
+        The state as a two-letter abbreviation. `city` and `state` are required
+        if no zip_code is passed.
+      maxLength: 2
+      example: CA
+    zip_code:
+      type: string
+      description: >
+        The 5-digit ZIP code. Required if `city` and `state` are not passed in.
+        If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
+        `94107`, `941072282`, `94107-2282`).
+      example: '94107'
+    address_lines_us:
+      type: object
+      required:
+        - address_line1
+        - address_city
+        - address_state
+        - address_zip
+      oneOf:
+        - required:
+            - name
+        - required:
+            - company
+      properties:
+        name:
+          $ref: '#/components/schemas/adr_name'
+        company:
+          $ref: '#/components/schemas/company'
+        address_line1:
+          $ref: '#/components/schemas/primary_line'
+        address_line2:
+          $ref: '#/components/schemas/secondary_line'
+        address_city:
+          $ref: '#/components/schemas/city'
+        address_state:
+          $ref: '#/components/schemas/state'
+        address_zip:
+          $ref: '#/components/schemas/zip_code'
+    mail_type:
+      type: string
+      enum:
+        - usps_first_class
+        - usps_standard
+      description: >
+        A string designating the mail postage type:
+
+        * `usps_first_class` - (default)
+
+        * `usps_standard` - a [cheaper
+        option](https://lob.com/pricing/print-mail#compare) which is less
+        predictable and takes longer to deliver. Cannot be used with certified
+        letters, registered letters, or any letters sent outside of the United
+        States.
+      default: usps_first_class
+    merge_variables:
+      type: object
+      description: >-
+        You can input a merge variable payload object to your template to render
+        dynamic content. For example, if you have a template like:
+        `{{variable_name}}`, pass in `{"variable_name": "Harry"}` to render
+        `Harry`. `merge_variables` must be an object. Any type of value is
+        accepted as long as the object is valid JSON; you can use `strings`,
+        `numbers`, `booleans`, `arrays`, `objects`, or `null`. The max length of
+        the object is 25,000 characters. If you call `JSON.stringify` on your
+        object, it can be no longer than 25,000 characters. Your variable names
+        cannot contain any whitespace or any of the following special
+        characters: `!`, `"`, `#`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`,
+        `;`, `<`, `=`, `>`, `@`, `[`, `\`, `]`, `^`, ```, `{`, `|`, `}`, `~`.
+        More instructions can be found in [our guide to using html and merge
+        variables](https://lob.com/resources/guides/general/using-html-and-merge-variables).
+        Depending on your [Merge Variable
+        strictness](https://dashboard.lob.com/#/settings/account) setting, if
+        you define variables in your HTML but do not pass them here, you will
+        either receive an error or the variable will render as an empty string.
+      maxLength: 25000
+      nullable: true
+      properties: {}
+    letter_base:
+      type: object
+      required:
+        - to
+        - from
+        - color
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        to:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. If an object is used, an address will be
+            created, corrected, and standardized for free whenever possible
+            using our US Address Verification engine (if it is a US address),
+            and returned back with an ID. Depending on your [Print & Mail
+            Edition](https://dashboard.lob.com/#/settings/editions), US
+            addresses may also be run through [National Change of Address
+            (NCOA)](https://lob.com/docs#ncoa). Non-US addresses will be
+            standardized into uppercase only. If a US address used does not meet
+            your account’s [US Mail strictness
+            setting](https://dashboard.lob.com/#/settings/account), the request
+            will fail. Read more here.
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/address_lines_us'
+        from:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. Must be a US address unless using a
+            `custom_envelope`. All addresses will be standardized into uppercase
+            without being modified by verification.
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/address_lines_us'
+        send_date:
+          $ref: '#/components/schemas/send_date'
+        color:
+          type: boolean
+          description: >-
+            Set this key to `true` if you would like to print in color. Set to
+            `false` if you would like to print in black and white.
+        double_sided:
+          type: boolean
+          description: >-
+            Set this attribute to `true` for double sided printing, or `false`
+            for for single sided printing. Defaults to `true`.
+          default: true
+        address_placement:
+          type: string
+          enum:
+            - top_first_page
+            - insert_blank_page
+          description: >
+            Specifies the location of the address information that will show
+            through the double-window envelope. To see how this will impact your
+            letter design, view our letter template.
+              * top_first_page - (default) print address information at the top of your provided first page
+              * insert_blank_page - insert a blank address page at the beginning of your file (you will be charged for the extra page)
+          default: top_first_page
+        return_envelope:
+          type: boolean
+          description: >-
+            To include a return envelope with your letter, set to `true` and
+            specify the `perforated_page`. See
+            [pricing](https://www.lob.com/pricing/print-mail#compare) for extra
+            costs incurred.
+          default: false
+        perforated_page:
+          type: integer
+          description: >-
+            Required if `return_envelope` is `true`. The number of the page that
+            should be perforated for use with the return envelope. Must be
+            greater than or equal to `1`. The blank page added by
+            `address_placement=insert_blank_page` will be ignored when
+            considering the perforated page number. To see how perforation will
+            impact your letter design, view our [perforation
+            guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
+          nullable: true
+        extra_service:
+          type: string
+          enum:
+            - certified
+            - certified_return_receipt
+            - registered
+          description: >
+            Add an extra service to your letter. See
+            [pricing](https://www.lob.com/pricing/print-mail#compare) for extra
+            costs incurred.
+              * certified - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
+              * certified_return_receipt - request an electronic copy of the recipient's signature to prove delivery of your certified letter
+              * registered - provides tracking and confirmation for international addresses
+          nullable: true
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        metadata:
+          $ref: '#/components/schemas/metadata'
     tmpl_id:
       type: string
       description: Unique identifier prefixed with `tmpl_`.
@@ -297,6 +526,124 @@ components:
       type: string
       description: Unique identifier prefixed with `vrsn_`.
       pattern: '^vrsn_[a-zA-Z0-9]+$'
+    letter:
+      allOf:
+        - $ref: '#/components/schemas/letter_base'
+        - type: object
+          required:
+            - id
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/ltr_id'
+            custom_envelope:
+              type: object
+              description: >-
+                Accepts an envelope ID for any customized envelope with
+                available inventory. If no inventory is available for the
+                specified ID, the letter will not be sent, and an error will be
+                returned. If the letter has more than 6 sheets, it will be sent
+                in a blank flat envelope. Custom envelopes may be created and
+                ordered from the dashboard. This feature is exclusive to certain
+                customers. Upgrade to the appropriate Print & Mail Edition to
+                gain access.
+              required:
+                - id
+                - url
+                - object
+              properties:
+                id:
+                  type: string
+                  description: The unique identifier of the custom envelope used.
+                  maxLength: 40
+                url:
+                  type: string
+                  description: The url of the envelope asset used.
+                object:
+                  $ref: '#/components/schemas/object'
+              nullable: true
+            template_id:
+              $ref: '#/components/schemas/tmpl_id'
+            carrier:
+              type: string
+              description: Value is `USPS`.
+              pattern: ^USPS$
+            tracking_number:
+              type: string
+              description: >-
+                The tracking number for a `certified` or
+                `certified_return_receipt` letter will be here immediately upon
+                creation. The tracking number for a `registered` letter will
+                appear here when it becomes available. Letters without
+                `extra_service` do not have tracking numbers.
+
+                In test mode, dummy tracking numbers are created for `certified`
+                and `certified_return_receipt` letters, but not for `registered`
+                letters.
+              nullable: true
+            tracking_events:
+              type: array
+            template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
+            deleted:
+              $ref: '#/components/schemas/deleted'
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            object:
+              $ref: '#/components/schemas/object'
+    letter_editable:
+      allOf:
+        - $ref: '#/components/schemas/letter_base'
+        - type: object
+          required:
+            - file
+          properties:
+            file:
+              description: >-
+                Accepts an HTML string of under 10,000 characters, the ID of a
+                saved HTML template, or a remote URL or a local upload of an
+                HTML or PDF file. Remote URLs have a 20 MB file size limit and
+                must be downloaded within 40 seconds. HTML files passed as
+                remote URLs or local file upload have no character limit. HTML
+                merge variables should not include delimiting whitespace. All
+                pages of a supplied PDF file must be sized at 8.5"x11", while
+                supplied HTML will be rendered and trimmed to as many 8.5"x11"
+                pages as necessary. For design specifications, please see our
+                [PDF](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf)
+                and [HTML](https://docs.lob.com/#html-examples) templates. If a
+                `custom_envelope` is used, follow [this
+                template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf).
+                For domestic destinations, the file limit is 60 pages
+                single-sided or 120 pages double-sided. For international
+                destinations, the file limit is 6 pages single-sided or 12 pages
+                double-sided. PDFs that surpass the file limit will error, while
+                HTML that renders more pages than the file limit will be
+                trimmed. See
+                [pricing](https://lob.com/pricing/print-mail#compare) for extra
+                costs incurred. Any letters over 6 pages single-sided or 12
+                pages double-sided will be placed in a [flat
+                envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf)
+                instead of the standard double window envelope.
+              oneOf:
+                - type: string
+                  maxLength: 10000
+                - $ref: '#/components/schemas/tmpl_id'
+            custom_envelope:
+              type: string
+              description: >-
+                Accepts an envelope ID for any customized envelope with
+                available inventory. If no inventory is available for the
+                specified ID, the letter will not be sent, and an error will be
+                returned. If the letter has more than 6 sheets, it will be sent
+                in a blank flat envelope. Custom envelopes are a premium feature
+                which may be created and ordered from the dashboard. Upgrade to
+                the appropriate [Print & Mail
+                Edition](https://lob.com/pricing/print-mail#compare) to gain
+                access.
     template_html:
       type: string
       description: >
@@ -409,27 +756,6 @@ components:
       description: |
         The intended recipient, typically a person's or firm's name.
       example: LOB.COM
-    primary_line:
-      type: string
-      description: |
-        The primary delivery line (usually the street address) of the address.
-        Combination of the following applicable `components`:
-        * `primary_number`
-        * `street_predirection`
-        * `street_name`
-        * `street_suffix`
-        * `street_postdirection`
-        * `secondary_designator`
-        * `secondary_number`
-        * `pmb_designator`
-        * `pmb_number`
-      example: 185 BERRY ST
-    secondary_line:
-      type: string
-      description: >
-        The secondary delivery line of the address. This field is typically
-        empty but may contain information if `primary_line` is too long.
-      example: STE 6100
     urbanization:
       type: string
       description: >
@@ -437,26 +763,6 @@ components:
         area, sector, or development within a city. See [USPS
         documentation](https://pe.usps.com/text/pub28/28api_008.htm#:~:text=I51.,-4%20Urbanizations&text=In%20Puerto%20Rico%2C%20identical%20street,placed%20before%20the%20urbanization%20name.)
         for clarification.
-    city:
-      type: string
-      description: >
-        The name of the city. `city` and `state` are required if no zip_code is
-        passed.
-      example: SAN FRANCISCO
-    state:
-      type: string
-      description: >
-        The state as a two-letter abbreviation. `city` and `state` are required
-        if no zip_code is passed.
-      maxLength: 2
-      example: CA
-    zip_code:
-      type: string
-      description: >
-        The 5-digit ZIP code. Required if `city` and `state` are not passed in.
-        If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
-        `94107`, `941072282`, `94107-2282`).
-      example: '94107'
     multiple_components:
       type: object
       required:
@@ -1221,6 +1527,82 @@ components:
             date_created: '2017-09-05T17:47:53.767Z'
             date_modified: '2017-09-05T17:47:53.767Z'
             object: address
+    letter:
+      description: Returns a letter object
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/letter'
+          example:
+            id: ltr_c94e83ca2cd5121
+            to: adr_c94e83ca2cd5121
+            from: adr_c94e83ca2cd5121
+            color: false
+            file: html_b1234567asfsd
+            description: ''
+            metadata: {}
+            date_created: '2017-11-07T22:56:10.962Z'
+            date_modified: '2017-11-07T22:56:10.962Z'
+            object: letter
+    all_letters:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` letters. Each entry in the array is a separate letter. The
+        previous and next page of letters can be retrieved by calling the
+        endpoint contained in the `previous_url` and `next_url` fields in the
+        API response respectively.<br>If no more letters are available beyond
+        the current set of returned results, the `next_url` field will be empty.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of letters
+                    items:
+                      $ref: '#/components/schemas/letter'
+              - $ref: '#/components/schemas/list'
+          example:
+            data:
+              - id: ltr_d5a5a89da9106f8
+                description: Test letter
+                to: adr_s34534535411123
+                from: adr_s34534535411123
+                color: false
+                file: <HTML>hi</HTML>
+                metadata: {}
+                date_created: '2019-07-27T23:49:01.511Z'
+                date_modified: '2019-07-27T23:49:01.511Z'
+                object: letter
+              - id: ltr_59b2150ae120887
+                description: Test letter
+                to: adr_s34534535411123
+                from: adr_s34534535411123
+                color: true
+                file: <HTML>hi</HTML>
+                metadata: {}
+                date_created: '2019-03-29T10:22:34.642Z'
+                date_modified: '2019-03-29T10:22:34.642Z'
+                object: letter
+            object: list
+            next_url: null
+            count: 2
     template_version:
       description: Returns the template version with the given template and version ids.
       headers:
@@ -1556,13 +1938,21 @@ components:
       schema:
         type: string
         format: date-time
+    metadata:
+      in: query
+      name: metadata
+      description: 'Filter by metadata key-value pair, e.g. `metadata[customer_id]=987654`.'
+      schema:
+        $ref: '#/components/schemas/metadata'
+      style: deepObject
+      explode: true
 security:
   - basicAuth: []
 paths:
-  '/addresses/{address_id}':
+  '/addresses/{adr_id}':
     parameters:
       - in: path
-        name: address_id
+        name: adr_id
         description: id of the address
         required: true
         schema:
@@ -1634,16 +2024,101 @@ paths:
           $ref: '#/components/responses/address_writable'
         default:
           $ref: '#/components/responses/error'
-  '/templates/{template_id}/versions/{template_version_id}':
+  '/letters/{ltr_id}':
     parameters:
       - in: path
-        name: template_id
+        name: ltr_id
+        description: id of the letter
+        required: true
+        schema:
+          $ref: '#/components/schemas/ltr_id'
+    get:
+      operationId: get_letter
+      summary: Retrieve letter with given id
+      description: >-
+        Retrieves the details of an existing letter. You need only supply the
+        unique letter identifier that was returned upon letter creation.
+      tags:
+        - Letters
+      responses:
+        '200':
+          $ref: '#/components/responses/letter'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: cancel_letter
+      summary: Cancel a letter
+      description: >-
+        Completely removes a letter from production. This can only be done if
+        the letter has a `send_date` and the `send_date` has not yet passed. If
+        the letter is successfully canceled, you will not be charged for it.
+        Read more on [cancellation windows](https://docs.lob.com/#cancellation)
+        and [scheduling](https://docs.lob.com/#scheduled). Scheduling and
+        cancellation is a premium feature. Upgrade to the appropriate Print &
+        Mail Edition to gain access.
+      tags:
+        - Letters
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /letters:
+    get:
+      operationId: list_letters
+      summary: List all letters
+      description: >-
+        Returns a list of your letters. The letters are returned sorted by
+        creation date, with the most recently created letters appearing first.
+      tags:
+        - Letters
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+        - $ref: '#/components/parameters/metadata'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_letters'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_letter
+      summary: Creates a new letter object
+      description: Creates a new letter given information
+      tags:
+        - Letters
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/letter_editable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/letter_editable'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/letter_editable'
+      responses:
+        '200':
+          $ref: '#/components/responses/letter'
+        default:
+          $ref: '#/components/responses/error'
+  '/templates/{tmpl_id}/versions/{vrsn_id}':
+    parameters:
+      - in: path
+        name: tmpl_id
         description: id of the template
         required: true
         schema:
           $ref: '#/components/schemas/tmpl_id'
       - in: path
-        name: template_version_id
+        name: vrsn_id
         description: id of the template_version
         required: true
         schema:
@@ -1699,10 +2174,10 @@ paths:
           $ref: '#/components/responses/deleted'
         default:
           $ref: '#/components/responses/error'
-  '/templates/{template_id}/versions':
+  '/templates/{tmpl_id}/versions':
     parameters:
       - in: path
-        name: template_id
+        name: tmpl_id
         description: id of the template
         required: true
         schema:
@@ -1752,10 +2227,10 @@ paths:
           $ref: '#/components/responses/template_version'
         default:
           $ref: '#/components/responses/error'
-  '/templates/{template_id}':
+  '/templates/{tmpl_id}':
     parameters:
       - in: path
-        name: template_id
+        name: tmpl_id
         description: id of the template
         required: true
         schema:
@@ -1829,15 +2304,7 @@ paths:
         - $ref: '#/components/parameters/before'
         - $ref: '#/components/parameters/include'
         - $ref: '#/components/parameters/date_created'
-        - in: query
-          name: metadata
-          description: >
-            Filter by metadata key-value pair, e.g.
-            `metadata[customer_id]=987654`.
-          schema:
-            type: object
-          style: deepObject
-          explode: true
+        - $ref: '#/components/parameters/metadata'
       responses:
         '200':
           $ref: '#/components/responses/all_templates'

@@ -1,0 +1,17 @@
+allOf:
+  - $ref: "address_editable_us.yml"
+  - type: object
+    style: deepObject
+    explode: true
+
+    required:
+      - address_line1
+      - address_city
+      - address_state
+      - address_zip
+
+    oneOf:
+      - required:
+          - name
+      - required:
+          - company

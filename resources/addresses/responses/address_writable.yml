@@ -11,7 +11,9 @@ headers:
 content:
   application/json:
     schema:
-      $ref: "../models/address_writable.yml"
+      oneOf:
+        - $ref: "../../../shared/models/addresses/address_editable_us.yml"
+        - $ref: "../../../shared/models/addresses/address_editable_intl.yml"
     example:
       id: "adr_d3489cd64c791ab5"
       description: "Harry - Office"

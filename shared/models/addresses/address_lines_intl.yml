@@ -7,18 +7,16 @@ required:
   - address_country
   - name
 
-oneOf:
+anyOf:
   - required:
-    - address_city
-    - address_state
+      - address_city
+      - address_state
   - required:
-    - address_zip
-
-oneOf:
+      - address_zip
   - required:
-    - name
+      - name
   - required:
-    - company
+      - company
 
 properties:
   name:
@@ -30,7 +28,7 @@ properties:
   address_line2:
     $ref: "../attributes/secondary_line.yml"
   address_city:
-    $ref: "../attributes/city.yml"
+    $ref: "..attributes/address/city.yml"
   address_state:
     $ref: "../attributes/state.yml"
   address_zip:

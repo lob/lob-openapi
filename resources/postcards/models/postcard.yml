@@ -10,18 +10,20 @@ properties:
     $ref: "../../../shared/attributes/resource_description.yml"
 
   to:
-    $ref:
-      oneOf:
-        - "../../../shared/models/address_lines_us.yml"
-        - "../../../shared/models/address_lines_intl.yml"
-        - "../../../shared/attributes/adr_id.yml"
+    description: >-
+      Must be an address ID blah blah
+    oneOf:
+      - $ref: "../../../shared/models/address_lines_us.yml"
+      - $ref: "../../../shared/models/address_lines_intl.yml"
+      - $ref: "../../../shared/attributes/address/adr_id.yml"
 
   from:
-    $ref:
-      oneOf:
-        - "../../../shared/models/address_lines_us.yml"
-        - "../../../shared/models/address_lines_intl.yml"
-        - "../../../shared/attributes/adr_id.yml"
+    description: >-
+      Must be an address ID blah blah
+    oneOf:
+      - $ref: "../../../shared/models/address_lines_us.yml"
+      - $ref: "../../../shared/models/address_lines_intl.yml"
+      - $ref: "../../../shared/attributes/address/adr_id.yml"
 
   send_date:
     $ref: "../../../shared/attributes/send_date.yml"

@@ -2,6 +2,15 @@ type: object
 
 required:
   - address_line1
+  - address_city
+  - address-state
+  - address_zip
+
+oneOf:
+  - required:
+      - name
+  - required:
+      - company
 
 properties:
   description:
@@ -77,7 +86,8 @@ properties:
     description: >
       Required as a 2 letter state short-name code if `address_country`
       is `US`, otherwise optional and no longer than 200 characters.
-    maxLength: 200
+    maxLength: 2
+    pattern: "^[a-zA-Z]{2}$"
     nullable: true
     example: CA
 
@@ -87,7 +97,9 @@ properties:
       Required and must follow the ZIP format of `12345` or
       ZIP+4 format of `12345-1234` if `address_country`
       is `US`, otherwise optional and not any longer than 40 characters.
-    maxLength: 40
+    oneOf:
+      - pattern: "^[0-9]{5}$"
+      - pattern: "^[0-9]{5}-[0-9]{4}$"
     nullable: true
     example: 94107-1741
 

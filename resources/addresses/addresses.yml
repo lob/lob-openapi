@@ -39,15 +39,21 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/address_writable.yml"
+          oneOf:
+            - $ref: "../../shared/models/addresses/address_editable_us.yml"
+            - $ref: "../../shared/models/addresses/address_editable_intl.yml"
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/address_writable.yml"
+          oneOf:
+            - $ref: "../../shared/models/addresses/address_editable_us.yml"
+            - $ref: "../../shared/models/addresses/address_editable_intl.yml"
 
       multipart/form-data:
         schema:
-          $ref: "models/address_writable.yml"
+          oneOf:
+            - $ref: "../../shared/models/addresses/address_editable_us.yml"
+            - $ref: "../../shared/models/addresses/address_editable_intl.yml"
 
   responses:
     "200":

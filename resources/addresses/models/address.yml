@@ -1,17 +1,18 @@
 allOf:
-  - $ref: "address_writable.yml"
+  - oneOf:
+      - $ref: "../../../shared/models/addresses/address_editable_us.yml"
+      - $ref: "../../../shared/models/addresses/address_editable_intl.yml"
 
   - type: object
-
-    required:
+  - required:
       - id
       - date_created
       - date_modified
       - object
 
-    properties:
+  - properties:
       id:
-        $ref: "../../../shared/attributes/adr_id.yml"
+        $ref: "../../../shared/attributes/address/adr_id.yml"
 
       recipient_moved:
         type: boolean

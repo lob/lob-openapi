@@ -322,6 +322,10 @@ components:
         address_state: CA
         address_zip: '94107'
         address_country: US
+    address_editable:
+      oneOf:
+        - $ref: '#/components/schemas/address_editable_us'
+        - $ref: '#/components/schemas/address_editable_intl'
     deleted:
       type: boolean
       description: Only returned if the address has been successfully deleted.
@@ -348,16 +352,14 @@ components:
       example: address
     address:
       allOf:
-        - oneOf:
-            - $ref: '#/components/schemas/address_editable_us'
-            - $ref: '#/components/schemas/address_editable_intl'
+        - $ref: '#/components/schemas/address_editable'
         - type: object
-        - required:
+          required:
             - id
             - date_created
             - date_modified
             - object
-        - properties:
+          properties:
             id:
               $ref: '#/components/schemas/adr_id'
             recipient_moved:
@@ -409,10 +411,36 @@ components:
       type: string
       description: Unique identifier prefixed with `ltr_`.
       pattern: '^ltr_[a-zA-Z0-9]+$'
-    adr_name:
+    required_name_company:
+      type: array
+      oneOf:
+        - required:
+            - name
+        - required:
+            - company
+    inline_address_us:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_us'
+        - $ref: '#/components/schemas/required_name_company'
+        - type: object
+          required:
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
+    required_address_fields:
+      type: array
+      oneOf:
+        - required:
+            - address_city
+            - address_state
+        - required:
+            - address_zip
+    name:
       type: string
-      description: The name of the mailpiece recipient.
-      maxLength: 40
+      description: |
+        The name of the mailpiece recipient.
+      example: HARRY ZHANG
     company:
       type: string
       description: |
@@ -459,21 +487,23 @@ components:
         If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
         `94107`, `941072282`, `94107-2282`).
       example: '94107'
-    address_lines_us:
+    country:
+      type: string
+      description: |
+        2-letter country code or full name of country (required if non-US)
+      example: CA
+    inline_address_intl:
       type: object
       required:
         - address_line1
-        - address_city
-        - address_state
-        - address_zip
-      oneOf:
-        - required:
-            - name
-        - required:
-            - company
+        - address_country
+        - name
+      allOf:
+        - $ref: '#/components/schemas/required_address_fields'
+        - $ref: '#/components/schemas/required_name_company'
       properties:
         name:
-          $ref: '#/components/schemas/adr_name'
+          $ref: '#/components/schemas/name'
         company:
           $ref: '#/components/schemas/company'
         address_line1:
@@ -486,6 +516,12 @@ components:
           $ref: '#/components/schemas/state'
         address_zip:
           $ref: '#/components/schemas/zip_code'
+        address_country:
+          $ref: '#/components/schemas/country'
+    inline_address:
+      oneOf:
+        - $ref: '#/components/schemas/inline_address_us'
+        - $ref: '#/components/schemas/inline_address_intl'
     mail_type:
       type: string
       enum:
@@ -524,7 +560,6 @@ components:
         either receive an error or the variable will render as an empty string.
       maxLength: 25000
       nullable: true
-      properties: {}
     letter_base:
       type: object
       required:
@@ -550,7 +585,7 @@ components:
             will fail. Read more here.
           oneOf:
             - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/address_lines_us'
+            - $ref: '#/components/schemas/inline_address'
         from:
           description: >-
             Must either be an address ID or an inline object with correct
@@ -559,7 +594,7 @@ components:
             without being modified by verification.
           oneOf:
             - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/address_lines_us'
+            - $ref: '#/components/schemas/inline_address'
         send_date:
           $ref: '#/components/schemas/send_date'
         color:
@@ -1616,9 +1651,7 @@ components:
       content:
         application/json:
           schema:
-            oneOf:
-              - $ref: '#/components/schemas/address_editable_us'
-              - $ref: '#/components/schemas/address_editable_intl'
+            $ref: '#/components/schemas/address_editable'
           example:
             id: adr_d3489cd64c791ab5
             description: Harry - Office
@@ -2036,7 +2069,7 @@ components:
         type: object
       style: deepObject
       explode: true
-    date_info:
+    date_created:
       in: query
       name: date_created
       description: >
@@ -2124,6 +2157,10 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/address_editable'
+            encoding:
+              metadata:
+                style: deepObject
+                explode: true
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/address_editable'
@@ -2209,9 +2246,35 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/letter_editable'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/letter_editable'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
       responses:
         '200':
           $ref: '#/components/responses/letter'
@@ -2304,7 +2367,7 @@ paths:
         - $ref: '#/components/parameters/after'
         - $ref: '#/components/parameters/before'
         - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/date_info'
+        - $ref: '#/components/parameters/date_created'
       responses:
         '200':
           $ref: '#/components/responses/all_template_versions'

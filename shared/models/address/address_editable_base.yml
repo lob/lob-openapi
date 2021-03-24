@@ -1,0 +1,53 @@
+type: object
+
+properties:
+  description:
+    $ref: "../../../shared/attributes/resource_description.yml"
+
+  name:
+    type: string
+    description: >
+      Either `name` or `company` is required,
+      you may also add both. Must be no longer than 40 characters.
+      If both `name` and `company` are provided,
+      they will be printed on two separate lines above the rest of the address.
+    maxLength: 40
+    nullable: true
+
+  company:
+    type: string
+    description: >
+      Either `name` or `company` is required,
+      you may also add both. Must be no longer than 40 characters.
+      If both `name` and `company` are provided,
+      they will be printed on two separate lines above the rest of the address.
+      This field can be used for any secondary recipient information which is
+      not part of the actual mailing address (Company Name, Department,
+      Attention Line, etc).
+    maxLength: 40
+    nullable: true
+
+  phone:
+    type: string
+    description: Must be no longer than 40 characters.
+    maxLength: 40
+    nullable: true
+
+  email:
+    type: string
+    description: Must be no longer than 100 characters.
+    maxLength: 100
+    nullable: true
+
+  address_country:
+    type: string
+    description: >
+      Must be a 2 letter country short-name code (ISO 3166). Defaults to `US`.
+    minLength: 2
+    default: US
+
+  send_date:
+    $ref: "../../../shared/attributes/send_date.yml"
+
+  metadata:
+    $ref: "../../../shared/models/metadata.yml"

@@ -39,8 +39,14 @@ allOf:
             $ref: "../../../shared/attributes/object.yml"
         nullable: true
 
+      url:
+        $ref: "../../../shared/attributes/signed_link.yml"
+
       template_id:
         $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+
+      template_version_id:
+        $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
 
       carrier:
         type: string
@@ -64,8 +70,13 @@ allOf:
         items:
           $ref: "../../../shared/resources/tracking_events/tracking_event.yml"
 
-      template_version_id:
-        $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+      thumbnails:
+        type: array
+        items:
+          $ref: "../../../shared/models/thumbnail.yml"
+
+      expected_delivery_date:
+        $ref: "../../../shared/attributes/expected_delivery_date.yml"
 
       deleted:
         $ref: "../../../shared/attributes/deleted.yml"
@@ -77,4 +88,6 @@ allOf:
         $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
 
       object:
-        $ref: "../../../shared/attributes/object.yml"
+        allOf:
+          - $ref: "../../../shared/attributes/object.yml"
+          - pattern: "^letter$"

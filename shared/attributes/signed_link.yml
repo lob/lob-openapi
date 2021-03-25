@@ -5,4 +5,4 @@ description: >-
   to prevent mis-sharing. Each time a GET request is initiated, a new signed URL
   will be generated.
 
-pattern: "https://lob-assets.com/(letters|postcards|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(.pdf|_thumb_[a-z]+_[0-9]+.png)?expires=[0-9]{10}&signature=[a-zA-Z0-9]+$"
+pattern: 'https://lob-assets\.com/(letters|postcards|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*\&)?expires=[0-9]{10}\&signature=[a-zA-Z0-9-_]+$'

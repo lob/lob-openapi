@@ -1,9 +1,8 @@
 type: string
+
 description: >
   A 5-digit [FIPS county code](https://en.wikipedia.org/wiki/FIPS_county_code)
   which uniquely identifies `components[county]`. It consists of a 2-digit state
   code and a 3-digit county code.
-maxLength: 5
-minLength: 5
-example: "06075"
-readOnly: true
+
+pattern: '\d{5}'

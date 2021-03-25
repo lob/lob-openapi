@@ -1,0 +1,12 @@
+allOf:
+  - $ref: "letter_base.yml"
+  - $ref: "letter_generated_base.yml"
+
+  - type: object
+
+    properties:
+      tracking_events:
+        description: An array of tracking events ordered by ascending time.
+        type: array
+        items:
+          $ref: "../../../shared/resources/tracking_events/tracking_event_normal.yml"

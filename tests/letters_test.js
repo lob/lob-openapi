@@ -15,8 +15,7 @@ const resource_endpoint = "/letters",
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
-// contract tests happy path
-test("create, list, read then cancel a letter", async function (t) {
+test("create, list, read then cancel a letter with no extra services", async function (t) {
   const makeAddress = async (address_data) => {
     let response = await prism
       .setup()
@@ -58,7 +57,6 @@ test("create, list, read then cancel a letter", async function (t) {
         to: to,
         from: from,
         color: true,
-        //        send_date: new Date(),
         file:
           "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
       },
@@ -66,6 +64,7 @@ test("create, list, read then cancel a letter", async function (t) {
     )
   );
   t.equal(create.status, 200);
+  t.false(create.data.tracking_number);
 
   const list = await prism
     .setup()
@@ -93,3 +92,57 @@ test("create, list, read then cancel a letter", async function (t) {
 });
 
 // add any failure cases you need here
+test("create, list, read then cancel a certified letter", async function (t) {
+  const create = await prism.setup().then((client) =>
+    client.post(
+      resource_endpoint,
+      {
+        to: {
+          company: "Lob (old)",
+          address_line1: "185 Berry St",
+          address_line2: "# 6100",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107",
+          address_country: "US",
+        },
+        from: {
+          company: "Lob (new)",
+          address_line1: "210 King St",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107",
+          address_country: "US",
+        },
+        color: true,
+        extra_service: "certified",
+        file:
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
+      },
+      { headers: prism.authHeader }
+    )
+  );
+  t.equal(create.status, 200);
+  t.true(create.data.tracking_number);
+
+  const list = await prism
+    .setup()
+    .then((client) =>
+      client.get(resource_endpoint, { headers: prism.authHeader })
+    );
+  t.equal(list.status, 200);
+
+  const read = await prism.setup().then((client) =>
+    client.get(`${resource_endpoint}/${create.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+  t.equal(read.status, 200);
+
+  const cancel = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${read.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+  t.equal(cancel.status, 200);
+});

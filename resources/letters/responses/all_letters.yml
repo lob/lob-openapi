@@ -3,7 +3,7 @@ description: >-
   up to `limit` letters. Each entry in the array is a separate
   letter. The previous and next page of letters can be retrieved
   by calling the endpoint contained in the `previous_url` and
-  `next_url` fields in the API response respectively.<br>If no
+  `next_url` fields in the API response respectively. If no
   more letters are available beyond the current set of returned results,
   the `next_url` field will be empty.
 
@@ -19,6 +19,7 @@ content:
   application/json:
     schema:
       allOf:
+        - $ref: "../../../shared/models/list.yml"
         - type: object
           properties:
             data:
@@ -26,31 +27,128 @@ content:
               description: list of letters
               items:
                 $ref: "../models/letter.yml"
-        - $ref: "../../../shared/models/list.yml"
 
     example:
       data:
-        - id: ltr_d5a5a89da9106f8
-          description: Test letter
-          to: adr_s34534535411123
-          from: adr_s34534535411123
-          color: false
-          file: "<HTML>hi</HTML>"
+        - id: ltr_5ba44b462c79f07c
+          description: Demo Letter
           metadata: {}
-          date_created: "2019-07-27T23:49:01.511Z"
-          date_modified: "2019-07-27T23:49:01.511Z"
-          object: letter
-
-        - id: ltr_59b2150ae120887
-          description: Test letter
-          to: adr_s34534535411123
-          from: adr_s34534535411123
+          to:
+            id: adr_210a8d4b0b76d77b
+            description:
+            name: LEORE AVIDAR
+            company:
+            phone:
+            email:
+            address_line1: 185 BERRY ST STE 6100
+            address_line2:
+            address_city: SAN FRANCISCO
+            address_state: CA
+            address_zip: 94107-1741
+            address_country: UNITED STATES
+            metadata: {}
+            date_created: "2018-12-08T03:01:07.651Z"
+            date_modified: "2018-12-08T03:01:07.651Z"
+            object: address
+          from:
+            id: adr_210a8d4b0b76d77b
+            description:
+            name: LEORE AVIDAR
+            company:
+            phone:
+            email:
+            address_line1: 185 BERRY ST STE 6100
+            address_line2:
+            address_city: SAN FRANCISCO
+            address_state: CA
+            address_zip: 94107-1741
+            address_country: UNITED STATES
+            metadata: {}
+            date_created: "2018-12-08T03:01:07.651Z"
+            date_modified: "2018-12-08T03:01:07.651Z"
+            object: address
           color: true
-          file: "<HTML>hi</HTML>"
+          double_sided: false
+          address_placement: top_first_page
+          return_envelope: false
+          perforated_page:
+          extra_service: ""
+          custom_envelope:
+          mail_type: usps_first_class
+          url: https://lob-assets.com/letters/ltr_5ba44b462c79f07c.pdf?version=v1&expires=1568239830&signature=Ob-DUPLJLM4scWQeCDNadPJ4j33MZw16pykOxwv2us-bA7utTYi6oZ8WrEtBYDBBo09XkapR3gdJf0NEr90xAA
+          merge_variables:
+          carrier: USPS
+          tracking_number:
+          tracking_events: []
+          thumbnails:
+            - small: https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_small_1.png?version=v1&expires=1568239830&signature=xZUmE8rq8wSECHPEb9c37cUDZBzGUO3XK5LsIPZhI6dOXgm6zJEn8_7tKuZ3JWBmvNJNXdTl_ufkNu4avjQUDw
+              medium: https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_medium_1.png?version=v1&expires=1568239830&signature=H7354Qpcm9S4aXbrMsBe6QJ6lSNi9IWPgMJtLWLi4Kyx9tHF8Mp9YEc_IL9x89Jfw4-yRzKDXA410X4W0PssBQ
+              large: https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_large_1.png?version=v1&expires=1568239830&signature=54LUIDKZyItA9pnC87d1pJVAuw8bhKLCsMpNWkB3LgdVWxPxxb_c1IyIWAbSR-dyOYEOlDBCc40J4Kns-O_mAg
+          expected_delivery_date: "2019-08-16"
+          date_created: "2019-08-08T17:09:14.514Z"
+          date_modified: "2019-08-08T17:09:16.850Z"
+          send_date: "2019-08-08T17:09:14.514Z"
+          object: letter
+        - id: ltr_da8267c6a6545cd6
+          description: Demo Letter
           metadata: {}
-          date_created: "2019-03-29T10:22:34.642Z"
-          date_modified: "2019-03-29T10:22:34.642Z"
+          to:
+            id: adr_210a8d4b0b76d77b
+            description:
+            name: LEORE AVIDAR
+            company:
+            phone:
+            email:
+            address_line1: 185 BERRY ST STE 6100
+            address_line2:
+            address_city: SAN FRANCISCO
+            address_state: CA
+            address_zip: 94107-1741
+            address_country: US
+            metadata: {}
+            date_created: "2018-12-08T03:01:07.651Z"
+            date_modified: "2018-12-08T03:01:07.651Z"
+            object: address
+          from:
+            id: adr_210a8d4b0b76d77b
+            description:
+            name: LEORE AVIDAR
+            company:
+            phone:
+            email:
+            address_line1: 185 BERRY ST STE 6100
+            address_line2:
+            address_city: SAN FRANCISCO
+            address_state: CA
+            address_zip: 94107-1741
+            address_country: US
+            metadata: {}
+            date_created: "2018-12-08T03:01:07.651Z"
+            date_modified: "2018-12-08T03:01:07.651Z"
+            object: address
+          color: true
+          double_sided: false
+          address_placement: top_first_page
+          return_envelope: false
+          perforated_page:
+          extra_service: ""
+          custom_envelope:
+          mail_type: usps_first_class
+          url: https://lob-assets.com/letters/ltr_da8267c6a6545cd6.pdf?version=v1&expires=1568239830&signature=HH-5RnbD4x0eJcnEC9HhqKSvQGsbkjovzvqSKgBijUHKIXwEKQJ4CbYhKs_U2q2A1k20Xefcaw7bfdPKozuqCQ
+          merge_variables:
+          carrier: USPS
+          tracking_number:
+          tracking_events: []
+          thumbnails:
+            - small: https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_small_1.png?version=v1&expires=1568239830&signature=C1Rs83187HpWGhsg_pJIOhDIKlDtC_IgBBxHiocCEzJ8CncJwqrq5yHke-p97Dv7o81G_pfhFmirai589O6DCw
+              medium: https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_medium_1.png?version=v1&expires=1568239830&signature=gz63l0yi3sK_sXjYfIVdLSvkknJFr_O5TWRulo_iKIgS-PosIl6J0tDR6bx_Tv5Ab_w7DABg3qdKZ846MZ7TCw
+              large: https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_large_1.png?version=v1&expires=1568239830&signature=4Y1OIymaWkSO3aBIHCeshFAVnF-pDcF2FFqkx_jovaUFuk4FT1SI24L7_POwTRXQHlETMGlzkP_CGgqselRUAA
+          expected_delivery_date: "2019-08-16"
+          date_created: "2019-08-08T17:08:12.224Z"
+          date_modified: "2019-08-08T17:08:13.990Z"
+          send_date: "2019-08-08T17:08:12.224Z"
           object: letter
       object: list
-      next_url:
+      next_url: https://api.lob.com/v1/letters?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wOFQxNzowODoxMi4yMjRaIiwiaWRPZmZzZXQiOiJsdHJfZGE4MjY3YzZhNjU0NWNkNiJ9
+      previous_url:
       count: 2

@@ -122,197 +122,87 @@ components:
           campaign:
             type: string
             example: NEWYORK2015
+    address_editable_base:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        name:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address.
+          maxLength: 40
+          nullable: true
+        company:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address. This field can be used for any secondary recipient
+            information which is not part of the actual mailing address (Company
+            Name, Department, Attention Line, etc).
+          maxLength: 40
+          nullable: true
+        phone:
+          type: string
+          description: Must be no longer than 40 characters.
+          maxLength: 40
+          nullable: true
+        email:
+          type: string
+          description: Must be no longer than 100 characters.
+          maxLength: 100
+          nullable: true
+        address_country:
+          type: string
+          description: >
+            Must be a 2 letter country short-name code (ISO 3166). Defaults to
+            `US`.
+          minLength: 2
+          default: US
+        send_date:
+          $ref: '#/components/schemas/send_date'
+        metadata:
+          $ref: '#/components/schemas/metadata'
     address_editable_us:
-      type: object
-      required:
-        - address_line1
-        - address_city
-        - address-state
-        - address_zip
-      oneOf:
-        - required:
-            - name
-        - required:
-            - company
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        name:
-          type: string
-          description: >
-            Either `name` or `company` is required, you may also add both. Must
-            be no longer than 40 characters. If both `name` and `company` are
-            provided, they will be printed on two separate lines above the rest
-            of the address.
-          maxLength: 40
-          nullable: true
-          example: HARRY ZHANG
-        company:
-          type: string
-          description: >
-            Either `name` or `company` is required, you may also add both. Must
-            be no longer than 40 characters. If both `name` and `company` are
-            provided, they will be printed on two separate lines above the rest
-            of the address. This field can be used for any secondary recipient
-            information which is not part of the actual mailing address (Company
-            Name, Department, Attention Line, etc).
-          maxLength: 40
-          nullable: true
-          example: LOB
-        phone:
-          type: string
-          description: Must be no longer than 40 characters.
-          maxLength: 40
-          nullable: true
-          example: '5555555555'
-        email:
-          type: string
-          description: Must be no longer than 100 characters.
-          maxLength: 100
-          nullable: true
-          example: harry@lob.com
-        address_line1:
-          type: string
-          description: >
-            Must be no longer than 64 characters for US addresses or 200
-            characters for international addresses.
-          maxLength: 200
-          example: 185 BERRY ST STE 6100
-        address_line2:
-          type: string
-          description: >
-            Must be no longer than 64 characters for US addresses or 200
-            characters for international addresses.
-          maxLength: 200
-          nullable: true
-          example: null
-        address_city:
-          type: string
-          description: >
-            Required if address_country is US, otherwise optional. Must be no
-            longer than 200 characters.
-          maxLength: 200
-          nullable: true
-          example: SAN FRANCISCO
-        address_state:
-          type: string
-          description: >
-            Required as a 2 letter state short-name code if `address_country` is
-            `US`, otherwise optional and no longer than 200 characters.
-          maxLength: 2
-          pattern: '^[a-zA-Z]{2}$'
-          nullable: true
-          example: CA
-        address_zip:
-          type: string
-          description: >
-            Required and must follow the ZIP format of `12345` or ZIP+4 format
-            of `12345-1234` if `address_country` is `US`, otherwise optional and
-            not any longer than 40 characters.
+      allOf:
+        - $ref: '#/components/schemas/address_editable_base'
+        - type: object
+          required:
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
           oneOf:
-            - pattern: '^[0-9]{5}$'
-            - pattern: '^[0-9]{5}-[0-9]{4}$'
-          nullable: true
-          example: 94107-1741
-        address_country:
-          type: string
-          description: >
-            Must be a 2 letter country short-name code (ISO 3166). Defaults to
-            `US`.
-          minLength: 2
-          example: US
-        send_date:
-          $ref: '#/components/schemas/send_date'
-        metadata:
-          $ref: '#/components/schemas/metadata'
-    address_editable_intl:
-      type: object
-      required:
-        - address_line1
-        - address_country
-      anyOf:
-        - required:
-            - name
-        - required:
-            - company
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        name:
-          type: string
-          description: >
-            Either `name` or `company` is required, you may also add both. Must
-            be no longer than 40 characters. If both `name` and `company` are
-            provided, they will be printed on two separate lines above the rest
-            of the address.
-          maxLength: 40
-          nullable: true
-        company:
-          type: string
-          description: >
-            Either `name` or `company` is required, you may also add both. Must
-            be no longer than 40 characters. If both `name` and `company` are
-            provided, they will be printed on two separate lines above the rest
-            of the address. This field can be used for any secondary recipient
-            information which is not part of the actual mailing address (Company
-            Name, Department, Attention Line, etc).
-          maxLength: 40
-          nullable: true
-        phone:
-          type: string
-          description: Must be no longer than 40 characters.
-          maxLength: 40
-          nullable: true
-        email:
-          type: string
-          description: Must be no longer than 100 characters.
-          maxLength: 100
-          nullable: true
-        address_line1:
-          type: string
-          description: >
-            Must be no longer than 64 characters for US addresses or 200
-            characters for international addresses.
-          maxLength: 200
-        address_line2:
-          type: string
-          description: >
-            Must be no longer than 64 characters for US addresses or 200
-            characters for international addresses.
-          maxLength: 200
-          nullable: true
-        address_city:
-          type: string
-          description: >
-            Required if address_country is US, otherwise optional. Must be no
-            longer than 200 characters.
-          maxLength: 200
-          nullable: true
-        address_state:
-          type: string
-          description: >
-            Required as a 2 letter state short-name code if `address_country` is
-            `US`, otherwise optional and no longer than 200 characters.
-          maxLength: 200
-          nullable: true
-        address_zip:
-          type: string
-          description: >
-            Required and must follow the ZIP format of `12345` or ZIP+4 format
-            of `12345-1234` if `address_country` is `US`, otherwise optional and
-            not any longer than 40 characters.
-          maxLength: 40
-          nullable: true
-        address_country:
-          type: string
-          description: >
-            Must be a 2 letter country short-name code (ISO 3166). Defaults to
-            `US`.
-          minLength: 2
-        send_date:
-          $ref: '#/components/schemas/send_date'
-        metadata:
-          $ref: '#/components/schemas/metadata'
+            - required:
+                - name
+            - required:
+                - company
+          properties:
+            address_line1:
+              type: string
+              maxLength: 64
+            address_line2:
+              type: string
+              maxLength: 64
+              nullable: true
+            address_city:
+              type: string
+              maxLength: 200
+            address_state:
+              type: string
+              description: 2 letter state short-name code
+              pattern: '^[a-zA-Z]{2}$'
+            address_zip:
+              type: string
+              description: >
+                Must follow the ZIP format of `12345` or ZIP+4 format of
+                `12345-1234`.
+              pattern: '^[0-9]{5}(-[0-9]{4})?$'
       example:
         name: Harry Zhang
         phone: '5555555555'
@@ -322,34 +212,59 @@ components:
         address_state: CA
         address_zip: '94107'
         address_country: US
+    address_editable_intl:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_base'
+        - type: object
+          required:
+            - address_line1
+            - address_country
+          anyOf:
+            - required:
+                - name
+            - required:
+                - company
+          properties:
+            address_line1:
+              type: string
+              maxLength: 200
+            address_line2:
+              type: string
+              maxLength: 200
+              nullable: true
+            address_city:
+              type: string
+              maxLength: 200
+              nullable: true
+            address_state:
+              type: string
+              maxLength: 200
+              nullable: true
+            address_zip:
+              type: string
+              description: Optional postal code.
+              maxLength: 40
+              nullable: true
     address_editable:
       oneOf:
         - $ref: '#/components/schemas/address_editable_us'
         - $ref: '#/components/schemas/address_editable_intl'
     deleted:
       type: boolean
-      description: Only returned if the address has been successfully deleted.
-      readOnly: true
-      example: false
+      description: Only returned if the resource has been successfully deleted.
     date_created:
       type: string
       format: date-time
       description: A timestamp in ISO 8601 format of the date the address was created.
-      readOnly: true
-      example: '2017-09-05T17:47:53.767Z'
     date_modified:
       type: string
       format: date-time
       description: >-
         A timestamp in ISO 8601 format of the date the address was last
         modified.
-      readOnly: true
-      example: '2017-09-05T17:47:53.767Z'
     object:
       type: string
-      description: Value is `address`.
-      readOnly: true
-      example: address
+      description: Value is type of resource.
     address:
       allOf:
         - $ref: '#/components/schemas/address_editable'
@@ -438,9 +353,7 @@ components:
             - address_zip
     name:
       type: string
-      description: |
-        The name of the mailpiece recipient.
-      example: HARRY ZHANG
+      description: The name of the mailpiece recipient.
     company:
       type: string
       description: |
@@ -460,7 +373,6 @@ components:
         * `secondary_number`
         * `pmb_designator`
         * `pmb_number`
-      example: 185 BERRY ST
     secondary_line:
       type: string
       description: >
@@ -472,7 +384,6 @@ components:
       description: >
         The name of the city. `city` and `state` are required if no zip_code is
         passed.
-      example: SAN FRANCISCO
     state:
       type: string
       description: >
@@ -659,6 +570,14 @@ components:
           $ref: '#/components/schemas/merge_variables'
         metadata:
           $ref: '#/components/schemas/metadata'
+    signed_link:
+      type: string
+      description: >-
+        A signed link served over HTTPS. The link returned will expire in 30
+        days to prevent mis-sharing. Each time a GET request is initiated, a new
+        signed URL will be generated.
+      pattern: >-
+        https://lob-assets.com/(letters|postcards|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(.pdf|_thumb_[a-z]+_[0-9]+.png)?expires=[0-9]{10}&signature=[a-zA-Z0-9]+$
     tmpl_id:
       type: string
       description: Unique identifier prefixed with `tmpl_`.
@@ -667,6 +586,317 @@ components:
       type: string
       description: Unique identifier prefixed with `vrsn_`.
       pattern: '^vrsn_[a-zA-Z0-9]+$'
+    evnt_id:
+      type: string
+      description: Unique identifier prefixed with `evnt_`.
+      pattern: '^evnt_[a-zA-Z0-9]+$'
+    tracking_event_base:
+      type: object
+      description: >-
+        As mail pieces travel through the mail stream, USPS scans their unique
+        barcodes, and Lob processes these mail scans to generate tracking
+        events.
+      required:
+        - id
+        - date_created
+        - date_modified
+        - object
+      properties:
+        id:
+          $ref: '#/components/schemas/evnt_id'
+        time:
+          type: string
+          format: date-time
+          description: >-
+            A timestamp in ISO 8601 format of the date USPS registered the
+            event.
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        object:
+          allOf:
+            - $ref: '#/components/schemas/object'
+              pattern: ^tracking_event$
+    tracking_event_details:
+      type: object
+      required:
+        - event
+        - description
+        - action_required
+      properties:
+        event:
+          type: string
+          enum:
+            - package_accepted
+            - package_arrived
+            - package_departed
+            - package_processing
+            - package_processed
+            - package_in_local_area
+            - delivery_scheduled
+            - out_for_delivery
+            - pickup_available
+            - delivered
+            - package_forwarded
+            - returned_to_sender
+            - address_issue
+            - contact_carrier
+            - delayed
+            - delivery_attempted
+            - delivery_rescheduled
+            - location_inaccessible
+            - notice_left
+            - package_damaged
+            - package_disposed
+            - package_held
+            - package_lost
+            - package_unclaimed
+            - package_undeliverable
+            - reschedule_delivery
+            - other
+          description: >
+            A detailed substatus about the event:
+
+            * package_accepted - Package has been accepted into the carrier
+            network for delivery.
+
+            * package_arrived - Package has arrived at an intermediate location
+            in the carrier network.
+
+            * package_departed - Package has departed from an intermediate
+            location in the carrier network.
+
+            * package_processing - Package is processing at an intermediate
+            location in the carrier network.
+
+            * package_processed - Package has been processed at an intermediate
+            location.
+
+            * package_in_local_area - Package is at a location near the end
+            destination.
+
+            * delivery_scheduled - Package is scheduled for delivery.
+
+            * out_for_delivery - Package is out for delivery.
+
+            * pickup_available - Package is available for pickup at carrier
+            location.
+
+            * delivered - Package has been delivered.
+
+            * package_forwarded -Package has been forwarded.
+
+            * returned_to_sender - Package is to be returned to sender.
+
+            * address_issue - Address information is incorrect. Contact carrier
+            to ensure delivery.
+
+            * contact_carrier - Contact the carrier for more information.
+
+            * delayed - Delivery of package is delayed.
+
+            * delivery_attempted - Delivery of package has been attempted.
+            Contact carrier to ensure delivery.
+
+            * delivery_rescheduled - Delivery of package has been rescheduled.
+
+            * location_inaccessible - Delivery location inaccessible to carrier.
+            Contact carrier to ensure delivery.
+
+            * notice_left - Carrier left notice during attempted delivery.
+            Follow carrier instructions on notice.
+
+            * package_damaged - Package has been damaged. Contact carrier for
+            more details.
+
+            * package_disposed - Package has been disposed.
+
+            * package_held - Package held at carrier location. Contact carrier
+            for more details.
+
+            * package_lost - Package has been lost. Contact carrier for more
+            details.
+
+            * package_unclaimed - Package is unclaimed.
+
+            * package_undeliverable - Package is not able to be delivered.
+
+            * reschedule_delivery - Contact carrier to reschedule delivery.
+
+            * other - Unrecognized carrier status.
+        description:
+          type: string
+          description: The description as listed in the description for event.
+        notes:
+          type: string
+          description: Event-specific notes from USPS about the tracking event.
+        action_required:
+          type: boolean
+          description: >
+            `true` if action is required by the end recipient, `false`
+            otherwise.
+    tracking_event_certified:
+      allOf:
+        - $ref: '#/components/schemas/tracking_event_base'
+        - type: object
+          required:
+            - type
+            - name
+          properties:
+            type:
+              type: string
+              description: a Certified letter tracking event
+              pattern: ^certified$
+            name:
+              type: string
+              enum:
+                - Mailed
+                - In Transit
+                - In Local Area
+                - Processed for Delivery
+                - Pickup Available
+                - Delivered
+                - Re-Routed
+                - Returned to Sender
+                - Issue
+              description: >
+                Name of tracking event for Certified letters. Letters sent with
+                USPS Certified Mail are fully tracked by USPS, therefore their
+                tracking events have an additional details object with more
+                detailed information about the tracking event. Some certified
+                tracking event names have multiple meanings, noted in the list
+                here. See the description of the details object for the full set
+                of combined certified tracking event name meanings.
+
+                  * Mailed - Package has been accepted into the carrier network for delivery.
+
+                  * In Transit - Maps to four distinct stages of transit.
+
+                  * In Local Area - Package is at a location near the end destination.
+
+                  * Processed for Delivery - Maps to two distinct stages of delivery.
+
+                  * Pickup Available - Package is available for pickup at carrier location.
+
+                  * Delivered - Package has been delivered.
+
+                  * Re-Routed - Package has been forwarded.
+
+                  * Returned to Sender - Package is to be returned to sender.
+
+                  * Issue - Maps to (at least) 15 possible issues, some of which are actionable.
+            details:
+              $ref: '#/components/schemas/tracking_event_details'
+            location:
+              type: string
+              description: >
+                The zip code in which the event occurred if it exists, otherwise
+                will be the name of a Regional Distribution Center if it exists,
+                otherwise will be null.
+              nullable: true
+          example:
+            id: evnt_9e84094c9368cfb
+            type: certified
+            name: Delivered
+            details:
+              event: delivered
+              description: Package has been delivered.
+              notes: 'Delivered, Front Desk/Reception/Mail Room'
+              action_required: false
+            location: '33408'
+            time: '2019-10-08T19:41:00Z'
+            date_created: '2019-10-08T19:41:00Z'
+            date_modified: '2019-10-08T19:41:00Z'
+            object: tracking_event
+    tracking_event_normal:
+      allOf:
+        - $ref: '#/components/schemas/tracking_event_base'
+        - type: object
+          required:
+            - type
+            - name
+          properties:
+            type:
+              type: string
+              description: 'non-Certified postcards, letters, and checks'
+              pattern: ^normal$
+            name:
+              type: string
+              enum:
+                - In Transit
+                - In Local Area
+                - Processed for Delivery
+                - Re-Routed
+                - Returned to Sender
+                - Mailed
+              description: >
+                Name of tracking event (for normal postcards, letters, and
+                checks):
+
+                  * In Transit - The mailpiece is being processed at the entry/origin facility.
+
+                  * In Local Area - The mailpiece is being processed at the destination facility.
+
+                  * Processed for Delivery - The mailpiece has been greenlit for
+                    delivery at the recipient's nearest postal facility. The mailpiece
+                    should reach the mailbox within 1 business day of this tracking
+                    event.
+
+                  * Re-Routed - The mailpiece is re-routed due to recipient change of
+                    address, address errors, or USPS relabeling of barcode/ID tag
+                    area.
+
+                  * Returned to Sender - The mailpiece is being returned to sender due
+                    to barcode, ID tag area, or address errors.
+
+                  * Mailed - The mailpiece has been handed off to and accepted by USPS
+                    and is en route. [More about
+                    Mailed.](https://support.lob.com/hc/en-us/articles/360001724400-What-does-a-Mailed-tracking-event-mean-)
+                    Note this data is only available in Enterprise editions of
+                    Lob. [Contact Sales](https://lob.com/support/contact#contact) if
+                    you want access to this feature.
+
+                [More about
+                tracking](https://support.lob.com/hc/en-us/articles/115000097404-Can-I-track-my-mail-)
+            details:
+              type: object
+              nullable: true
+            location:
+              type: string
+              description: >
+                The zip code in which the scan event occurred. Null for `Mailed`
+                events.
+              nullable: true
+          example:
+            id: evnt_9e84094c9368cfb
+            type: normal
+            name: In Local Area
+            details: null
+            location: '72231'
+            time: '2016-06-30T15:51:41.000Z'
+            date_created: '2016-06-30T17:41:59.771Z'
+            date_modified: '2016-06-30T17:41:59.771Z'
+            object: tracking_event
+    tracking_event:
+      oneOf:
+        - $ref: '#/components/schemas/tracking_event_certified'
+        - $ref: '#/components/schemas/tracking_event_normal'
+    thumbnail:
+      type: object
+      properties:
+        small:
+          $ref: '#/components/schemas/signed_link'
+        medium:
+          $ref: '#/components/schemas/signed_link'
+        large:
+          $ref: '#/components/schemas/signed_link'
+    expected_delivery_date:
+      type: string
+      description: >-
+        A date in ISO 8601 format of the letter's expected delivery date based
+        on its `send_date`.
+      format: date-time
     letter:
       allOf:
         - $ref: '#/components/schemas/letter_base'
@@ -705,8 +935,12 @@ components:
                 object:
                   $ref: '#/components/schemas/object'
               nullable: true
+            url:
+              $ref: '#/components/schemas/signed_link'
             template_id:
               $ref: '#/components/schemas/tmpl_id'
+            template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
             carrier:
               type: string
               description: Value is `USPS`.
@@ -726,8 +960,14 @@ components:
               nullable: true
             tracking_events:
               type: array
-            template_version_id:
-              $ref: '#/components/schemas/vrsn_id'
+              items:
+                $ref: '#/components/schemas/tracking_event'
+            thumbnails:
+              type: array
+              items:
+                $ref: '#/components/schemas/thumbnail'
+            expected_delivery_date:
+              $ref: '#/components/schemas/expected_delivery_date'
             deleted:
               $ref: '#/components/schemas/deleted'
             date_created:
@@ -735,7 +975,9 @@ components:
             date_modified:
               $ref: '#/components/schemas/date_modified'
             object:
-              $ref: '#/components/schemas/object'
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^letter$
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/letter_base'
@@ -894,9 +1136,7 @@ components:
           $ref: '#/components/schemas/metadata'
     recipient:
       type: string
-      description: |
-        The intended recipient, typically a person's or firm's name.
-      example: LOB.COM
+      description: 'The intended recipient, typically a person''s or firm''s name.'
     urbanization:
       type: string
       description: >
@@ -966,8 +1206,6 @@ components:
         * `military` – The ZIP code contains military addresses.
 
         * `''` – A match could not be made with the provided inputs.
-      readOnly: true
-      example: standard
     county:
       type: string
       description: |

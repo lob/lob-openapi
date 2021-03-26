@@ -11,12 +11,10 @@ allOf:
 
     properties:
       id:
-        $ref: "../attributes/cert_id.yml"
+        $ref: "../../../shared/attributes/model_ids/cert_id.yml"
 
       account_id:
-        type: string
-        description: Foreign key to accounts table
-        readOnly: true
+        $ref: "../../../shared/attributes/model_ids/acc_id.yml"
 
       deleted:
         $ref: "../../../shared/attributes/deleted.yml"

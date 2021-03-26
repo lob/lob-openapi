@@ -4,7 +4,7 @@ parameters:
     description: id of the certificate
     required: true
     schema:
-      $ref: "attributes/cert_id.yml"
+      $ref: "../../shared/attributes/model_ids/cert_id.yml"
 
 get:
   operationId: get_certificate
@@ -17,6 +17,39 @@ get:
 
   tags:
     - Certificates
+
+  responses:
+    "200":
+      $ref: responses/certificate.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+patch:
+  operationId: update_certificate
+
+  summary: Update name and/or description of a certificate.
+
+  description: >-
+    Updates the name and/or description of a certificate with the given id.
+
+  tags:
+    - Certificates
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/certificate_update.yml"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/certificate_update.yml"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/certificate_update.yml"
 
   responses:
     "200":

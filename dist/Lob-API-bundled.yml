@@ -326,266 +326,6 @@ components:
       type: string
       description: Unique identifier prefixed with `ltr_`.
       pattern: '^ltr_[a-zA-Z0-9]+$'
-    required_name_company:
-      type: array
-      oneOf:
-        - required:
-            - name
-        - required:
-            - company
-    inline_address_us:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_us'
-        - $ref: '#/components/schemas/required_name_company'
-        - type: object
-          required:
-            - address_line1
-            - address_city
-            - address_state
-            - address_zip
-    required_address_fields:
-      type: array
-      oneOf:
-        - required:
-            - address_city
-            - address_state
-        - required:
-            - address_zip
-    name:
-      type: string
-      description: The name of the mailpiece recipient.
-    company:
-      type: string
-      description: |
-        The company with which the mailpiece recipient is associated.
-      example: LOB.COM
-    primary_line:
-      type: string
-      description: |
-        The primary delivery line (usually the street address) of the address.
-        Combination of the following applicable `components`:
-        * `primary_number`
-        * `street_predirection`
-        * `street_name`
-        * `street_suffix`
-        * `street_postdirection`
-        * `secondary_designator`
-        * `secondary_number`
-        * `pmb_designator`
-        * `pmb_number`
-    secondary_line:
-      type: string
-      description: >
-        The secondary delivery line of the address. This field is typically
-        empty but may contain information if `primary_line` is too long.
-      example: STE 6100
-    city:
-      type: string
-      description: >
-        The name of the city. `city` and `state` are required if no zip_code is
-        passed.
-    state:
-      type: string
-      description: >
-        The state as a two-letter abbreviation. `city` and `state` are required
-        if no zip_code is passed.
-      maxLength: 2
-      example: CA
-    zip_code:
-      type: string
-      description: >
-        The 5-digit ZIP code. Required if `city` and `state` are not passed in.
-        If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
-        `94107`, `941072282`, `94107-2282`).
-      example: '94107'
-    country:
-      type: string
-      description: |
-        2-letter country code or full name of country (required if non-US)
-      example: CA
-    inline_address_intl:
-      type: object
-      required:
-        - address_line1
-        - address_country
-        - name
-      allOf:
-        - $ref: '#/components/schemas/required_address_fields'
-        - $ref: '#/components/schemas/required_name_company'
-      properties:
-        name:
-          $ref: '#/components/schemas/name'
-        company:
-          $ref: '#/components/schemas/company'
-        address_line1:
-          $ref: '#/components/schemas/primary_line'
-        address_line2:
-          $ref: '#/components/schemas/secondary_line'
-        address_city:
-          $ref: '#/components/schemas/city'
-        address_state:
-          $ref: '#/components/schemas/state'
-        address_zip:
-          $ref: '#/components/schemas/zip_code'
-        address_country:
-          $ref: '#/components/schemas/country'
-    inline_address:
-      oneOf:
-        - $ref: '#/components/schemas/inline_address_us'
-        - $ref: '#/components/schemas/inline_address_intl'
-    mail_type:
-      type: string
-      enum:
-        - usps_first_class
-        - usps_standard
-      description: >
-        A string designating the mail postage type:
-
-        * `usps_first_class` - (default)
-
-        * `usps_standard` - a [cheaper
-        option](https://lob.com/pricing/print-mail#compare) which is less
-        predictable and takes longer to deliver. Cannot be used with certified
-        letters, registered letters, or any letters sent outside of the United
-        States.
-      default: usps_first_class
-    merge_variables:
-      type: object
-      description: >-
-        You can input a merge variable payload object to your template to render
-        dynamic content. For example, if you have a template like:
-        `{{variable_name}}`, pass in `{"variable_name": "Harry"}` to render
-        `Harry`. `merge_variables` must be an object. Any type of value is
-        accepted as long as the object is valid JSON; you can use `strings`,
-        `numbers`, `booleans`, `arrays`, `objects`, or `null`. The max length of
-        the object is 25,000 characters. If you call `JSON.stringify` on your
-        object, it can be no longer than 25,000 characters. Your variable names
-        cannot contain any whitespace or any of the following special
-        characters: `!`, `"`, `#`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`,
-        `;`, `<`, `=`, `>`, `@`, `[`, `\`, `]`, `^`, ```, `{`, `|`, `}`, `~`.
-        More instructions can be found in [our guide to using html and merge
-        variables](https://lob.com/resources/guides/general/using-html-and-merge-variables).
-        Depending on your [Merge Variable
-        strictness](https://dashboard.lob.com/#/settings/account) setting, if
-        you define variables in your HTML but do not pass them here, you will
-        either receive an error or the variable will render as an empty string.
-      maxLength: 25000
-      nullable: true
-    letter_base:
-      type: object
-      required:
-        - to
-        - from
-        - color
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        to:
-          description: >-
-            Must either be an address ID or an inline object with correct
-            address parameters. If an object is used, an address will be
-            created, corrected, and standardized for free whenever possible
-            using our US Address Verification engine (if it is a US address),
-            and returned back with an ID. Depending on your [Print & Mail
-            Edition](https://dashboard.lob.com/#/settings/editions), US
-            addresses may also be run through [National Change of Address
-            (NCOA)](https://lob.com/docs#ncoa). Non-US addresses will be
-            standardized into uppercase only. If a US address used does not meet
-            your account’s [US Mail strictness
-            setting](https://dashboard.lob.com/#/settings/account), the request
-            will fail. Read more here.
-          oneOf:
-            - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/inline_address'
-        from:
-          description: >-
-            Must either be an address ID or an inline object with correct
-            address parameters. Must be a US address unless using a
-            `custom_envelope`. All addresses will be standardized into uppercase
-            without being modified by verification.
-          oneOf:
-            - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/inline_address'
-        send_date:
-          $ref: '#/components/schemas/send_date'
-        color:
-          type: boolean
-          description: >-
-            Set this key to `true` if you would like to print in color. Set to
-            `false` if you would like to print in black and white.
-        double_sided:
-          type: boolean
-          description: >-
-            Set this attribute to `true` for double sided printing, or `false`
-            for for single sided printing. Defaults to `true`.
-          default: true
-        address_placement:
-          type: string
-          enum:
-            - top_first_page
-            - insert_blank_page
-          description: >
-            Specifies the location of the address information that will show
-            through the double-window envelope. To see how this will impact your
-            letter design, view our letter template.
-              * top_first_page - (default) print address information at the top of your provided first page
-              * insert_blank_page - insert a blank address page at the beginning of your file (you will be charged for the extra page)
-          default: top_first_page
-        return_envelope:
-          type: boolean
-          description: >-
-            To include a return envelope with your letter, set to `true` and
-            specify the `perforated_page`. See
-            [pricing](https://www.lob.com/pricing/print-mail#compare) for extra
-            costs incurred.
-          default: false
-        perforated_page:
-          type: integer
-          description: >-
-            Required if `return_envelope` is `true`. The number of the page that
-            should be perforated for use with the return envelope. Must be
-            greater than or equal to `1`. The blank page added by
-            `address_placement=insert_blank_page` will be ignored when
-            considering the perforated page number. To see how perforation will
-            impact your letter design, view our [perforation
-            guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
-          nullable: true
-        extra_service:
-          type: string
-          enum:
-            - certified
-            - certified_return_receipt
-            - registered
-          description: >
-            Add an extra service to your letter. See
-            [pricing](https://www.lob.com/pricing/print-mail#compare) for extra
-            costs incurred.
-              * certified - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
-              * certified_return_receipt - request an electronic copy of the recipient's signature to prove delivery of your certified letter
-              * registered - provides tracking and confirmation for international addresses
-          nullable: true
-        mail_type:
-          $ref: '#/components/schemas/mail_type'
-        merge_variables:
-          $ref: '#/components/schemas/merge_variables'
-        metadata:
-          $ref: '#/components/schemas/metadata'
-    signed_link:
-      type: string
-      description: >-
-        A signed link served over HTTPS. The link returned will expire in 30
-        days to prevent mis-sharing. Each time a GET request is initiated, a new
-        signed URL will be generated.
-      pattern: >-
-        https://lob-assets.com/(letters|postcards|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(.pdf|_thumb_[a-z]+_[0-9]+.png)?expires=[0-9]{10}&signature=[a-zA-Z0-9]+$
-    tmpl_id:
-      type: string
-      description: Unique identifier prefixed with `tmpl_`.
-      pattern: '^tmpl_[a-zA-Z0-9]+$'
-    vrsn_id:
-      type: string
-      description: Unique identifier prefixed with `vrsn_`.
-      pattern: '^vrsn_[a-zA-Z0-9]+$'
     evnt_id:
       type: string
       description: Unique identifier prefixed with `evnt_`.
@@ -809,6 +549,257 @@ components:
             date_created: '2019-10-08T19:41:00Z'
             date_modified: '2019-10-08T19:41:00Z'
             object: tracking_event
+    mail_type:
+      type: string
+      enum:
+        - usps_first_class
+        - usps_standard
+      description: >
+        A string designating the mail postage type:
+
+        * `usps_first_class` - (default)
+
+        * `usps_standard` - a [cheaper
+        option](https://lob.com/pricing/print-mail#compare) which is less
+        predictable and takes longer to deliver. Cannot be used with certified
+        letters, registered letters, or any letters sent outside of the United
+        States.
+      default: usps_first_class
+    merge_variables:
+      type: object
+      description: >-
+        You can input a merge variable payload object to your template to render
+        dynamic content. For example, if you have a template like:
+        `{{variable_name}}`, pass in `{"variable_name": "Harry"}` to render
+        `Harry`. `merge_variables` must be an object. Any type of value is
+        accepted as long as the object is valid JSON; you can use `strings`,
+        `numbers`, `booleans`, `arrays`, `objects`, or `null`. The max length of
+        the object is 25,000 characters. If you call `JSON.stringify` on your
+        object, it can be no longer than 25,000 characters. Your variable names
+        cannot contain any whitespace or any of the following special
+        characters: `!`, `"`, `#`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`,
+        `;`, `<`, `=`, `>`, `@`, `[`, `\`, `]`, `^`, ```, `{`, `|`, `}`, `~`.
+        More instructions can be found in [our guide to using html and merge
+        variables](https://lob.com/resources/guides/general/using-html-and-merge-variables).
+        Depending on your [Merge Variable
+        strictness](https://dashboard.lob.com/#/settings/account) setting, if
+        you define variables in your HTML but do not pass them here, you will
+        either receive an error or the variable will render as an empty string.
+      maxLength: 25000
+      nullable: true
+    letter_base:
+      type: object
+      required:
+        - color
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        send_date:
+          $ref: '#/components/schemas/send_date'
+        color:
+          type: boolean
+          description: >-
+            Set this key to `true` if you would like to print in color. Set to
+            `false` if you would like to print in black and white.
+        double_sided:
+          type: boolean
+          description: >-
+            Set this attribute to `true` for double sided printing, or `false`
+            for for single sided printing. Defaults to `true`.
+          default: true
+        address_placement:
+          type: string
+          enum:
+            - top_first_page
+            - insert_blank_page
+          description: >
+            Specifies the location of the address information that will show
+            through the double-window envelope. To see how this will impact your
+            letter design, view our letter template.
+              * top_first_page - (default) print address information at the top of your provided first page
+              * insert_blank_page - insert a blank address page at the beginning of your file (you will be charged for the extra page)
+          default: top_first_page
+        return_envelope:
+          type: boolean
+          description: >-
+            To include a return envelope with your letter, set to `true` and
+            specify the `perforated_page`. See
+            [pricing](https://www.lob.com/pricing/print-mail#compare) for extra
+            costs incurred.
+          default: false
+        perforated_page:
+          type: integer
+          description: >-
+            Required if `return_envelope` is `true`. The number of the page that
+            should be perforated for use with the return envelope. Must be
+            greater than or equal to `1`. The blank page added by
+            `address_placement=insert_blank_page` will be ignored when
+            considering the perforated page number. To see how perforation will
+            impact your letter design, view our [perforation
+            guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
+          nullable: true
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    signed_link:
+      type: string
+      description: >-
+        A signed link served over HTTPS. The link returned will expire in 30
+        days to prevent mis-sharing. Each time a GET request is initiated, a new
+        signed URL will be generated.
+      pattern: >-
+        https://lob-assets\.com/(letters|postcards|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*\&)?expires=[0-9]{10}\&signature=[a-zA-Z0-9-_]+$
+    tmpl_id:
+      type: string
+      description: Unique identifier prefixed with `tmpl_`.
+      pattern: '^tmpl_[a-zA-Z0-9]+$'
+    vrsn_id:
+      type: string
+      description: Unique identifier prefixed with `vrsn_`.
+      pattern: '^vrsn_[a-zA-Z0-9]+$'
+    thumbnail:
+      type: object
+      properties:
+        small:
+          $ref: '#/components/schemas/signed_link'
+        medium:
+          $ref: '#/components/schemas/signed_link'
+        large:
+          $ref: '#/components/schemas/signed_link'
+    expected_delivery_date:
+      type: string
+      description: >-
+        A date in YYYY-MM-DD format of the letter's expected delivery date based
+        on its `send_date`.
+      pattern: '^\d{4}-\d{2}-\d{2}$'
+    letter_generated_base:
+      type: object
+      required:
+        - id
+        - to
+        - from
+        - url
+        - carrier
+        - thumbnails
+        - date_created
+        - date_modified
+        - object
+      properties:
+        id:
+          $ref: '#/components/schemas/ltr_id'
+        to:
+          $ref: '#/components/schemas/address'
+        from:
+          $ref: '#/components/schemas/address'
+        custom_envelope:
+          type: object
+          description: >-
+            Accepts an envelope ID for any customized envelope with available
+            inventory. If no inventory is available for the specified ID, the
+            letter will not be sent, and an error will be returned. If the
+            letter has more than 6 sheets, it will be sent in a blank flat
+            envelope. Custom envelopes may be created and ordered from the
+            dashboard. This feature is exclusive to certain customers. Upgrade
+            to the appropriate Print & Mail Edition to gain access.
+          required:
+            - id
+            - url
+            - object
+          properties:
+            id:
+              type: string
+              description: The unique identifier of the custom envelope used.
+              maxLength: 40
+            url:
+              type: string
+              description: The url of the envelope asset used.
+            object:
+              $ref: '#/components/schemas/object'
+          nullable: true
+        url:
+          $ref: '#/components/schemas/signed_link'
+        template_id:
+          $ref: '#/components/schemas/tmpl_id'
+        template_version_id:
+          $ref: '#/components/schemas/vrsn_id'
+        carrier:
+          type: string
+          description: Value is `USPS`.
+          pattern: ^USPS$
+        thumbnails:
+          type: array
+          items:
+            $ref: '#/components/schemas/thumbnail'
+        expected_delivery_date:
+          $ref: '#/components/schemas/expected_delivery_date'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        object:
+          allOf:
+            - $ref: '#/components/schemas/object'
+            - pattern: ^letter$
+    certified:
+      allOf:
+        - type: object
+          required:
+            - extra_service
+          properties:
+            extra_service:
+              type: string
+              enum:
+                - certified
+                - certified_return_receipt
+              description: >
+                Add an extra service to your letter. See
+                [pricing](https://www.lob.com/pricing/print-mail#compare) for
+                extra costs incurred.
+                  * certified - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
+                  * certified_return_receipt - request an electronic copy of the recipient's signature to prove delivery of your certified letter
+            tracking_number:
+              type: string
+              description: |-
+                The tracking number will be here immediately upon creation.
+                Dummy tracking numbers are created in test mode.
+              nullable: true
+            tracking_events:
+              description: >-
+                An array of certified tracking events ordered by ascending
+                `time`. Not populated in test mode.
+              type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_certified'
+        - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/letter_generated_base'
+    registered:
+      allOf:
+        - type: object
+          required:
+            - extra_service
+          properties:
+            extra_service:
+              type: string
+              enum:
+                - registered
+              description: >
+                Add an extra service to your letter. See
+                [pricing](https://www.lob.com/pricing/print-mail#compare) for
+                extra costs incurred.
+                  * registered - provides tracking and confirmation for international addresses
+            tracking_number:
+              type: string
+              description: |-
+                The tracking number will appear here when it becomes available.
+                Dummy tracking numbers are not created in test mode.
+              nullable: true
+        - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/letter_generated_base'
     tracking_event_normal:
       allOf:
         - $ref: '#/components/schemas/tracking_event_base'
@@ -878,113 +869,159 @@ components:
             date_created: '2016-06-30T17:41:59.771Z'
             date_modified: '2016-06-30T17:41:59.771Z'
             object: tracking_event
-    tracking_event:
-      oneOf:
-        - $ref: '#/components/schemas/tracking_event_certified'
-        - $ref: '#/components/schemas/tracking_event_normal'
-    thumbnail:
-      type: object
-      properties:
-        small:
-          $ref: '#/components/schemas/signed_link'
-        medium:
-          $ref: '#/components/schemas/signed_link'
-        large:
-          $ref: '#/components/schemas/signed_link'
-    expected_delivery_date:
-      type: string
-      description: >-
-        A date in ISO 8601 format of the letter's expected delivery date based
-        on its `send_date`.
-      format: date-time
-    letter:
+    no_extra_service:
       allOf:
         - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/letter_generated_base'
+        - type: object
+          properties:
+            tracking_events:
+              description: An array of tracking events ordered by ascending time.
+              type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_normal'
+    letter:
+      oneOf:
+        - $ref: '#/components/schemas/certified'
+        - $ref: '#/components/schemas/registered'
+        - $ref: '#/components/schemas/no_extra_service'
+    required_name_company:
+      type: array
+      oneOf:
+        - required:
+            - name
+        - required:
+            - company
+    inline_address_us:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_us'
+        - $ref: '#/components/schemas/required_name_company'
         - type: object
           required:
-            - id
-            - date_created
-            - date_modified
-            - object
-          properties:
-            id:
-              $ref: '#/components/schemas/ltr_id'
-            custom_envelope:
-              type: object
-              description: >-
-                Accepts an envelope ID for any customized envelope with
-                available inventory. If no inventory is available for the
-                specified ID, the letter will not be sent, and an error will be
-                returned. If the letter has more than 6 sheets, it will be sent
-                in a blank flat envelope. Custom envelopes may be created and
-                ordered from the dashboard. This feature is exclusive to certain
-                customers. Upgrade to the appropriate Print & Mail Edition to
-                gain access.
-              required:
-                - id
-                - url
-                - object
-              properties:
-                id:
-                  type: string
-                  description: The unique identifier of the custom envelope used.
-                  maxLength: 40
-                url:
-                  type: string
-                  description: The url of the envelope asset used.
-                object:
-                  $ref: '#/components/schemas/object'
-              nullable: true
-            url:
-              $ref: '#/components/schemas/signed_link'
-            template_id:
-              $ref: '#/components/schemas/tmpl_id'
-            template_version_id:
-              $ref: '#/components/schemas/vrsn_id'
-            carrier:
-              type: string
-              description: Value is `USPS`.
-              pattern: ^USPS$
-            tracking_number:
-              type: string
-              description: >-
-                The tracking number for a `certified` or
-                `certified_return_receipt` letter will be here immediately upon
-                creation. The tracking number for a `registered` letter will
-                appear here when it becomes available. Letters without
-                `extra_service` do not have tracking numbers.
-
-                In test mode, dummy tracking numbers are created for `certified`
-                and `certified_return_receipt` letters, but not for `registered`
-                letters.
-              nullable: true
-            tracking_events:
-              type: array
-              items:
-                $ref: '#/components/schemas/tracking_event'
-            thumbnails:
-              type: array
-              items:
-                $ref: '#/components/schemas/thumbnail'
-            expected_delivery_date:
-              $ref: '#/components/schemas/expected_delivery_date'
-            deleted:
-              $ref: '#/components/schemas/deleted'
-            date_created:
-              $ref: '#/components/schemas/date_created'
-            date_modified:
-              $ref: '#/components/schemas/date_modified'
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - pattern: ^letter$
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
+    required_address_fields:
+      type: array
+      oneOf:
+        - required:
+            - address_city
+            - address_state
+        - required:
+            - address_zip
+    name:
+      type: string
+      description: The name of the mailpiece recipient.
+    company:
+      type: string
+      description: |
+        The company with which the mailpiece recipient is associated.
+    primary_line:
+      type: string
+      description: |
+        The primary delivery line (usually the street address) of the address.
+        Combination of the following applicable `components`:
+        * `primary_number`
+        * `street_predirection`
+        * `street_name`
+        * `street_suffix`
+        * `street_postdirection`
+        * `secondary_designator`
+        * `secondary_number`
+        * `pmb_designator`
+        * `pmb_number`
+    secondary_line:
+      type: string
+      description: >
+        The secondary delivery line of the address. This field is typically
+        empty but may contain information if `primary_line` is too long.
+    city:
+      type: string
+      description: >
+        The name of the city. `city` and `state` are required if no zip_code is
+        passed.
+    state:
+      type: string
+      description: >
+        The state as a two-letter abbreviation. `city` and `state` are required
+        if no zip_code is passed.
+      maxLength: 2
+    zip_code:
+      type: string
+      description: >
+        The 5-digit ZIP code. Required if `city` and `state` are not passed in.
+        If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
+        `94107`, `941072282`, `94107-2282`).
+    country:
+      type: string
+      description: |
+        2-letter country code or full name of country (required if non-US)
+    inline_address_intl:
+      type: object
+      required:
+        - address_line1
+        - address_country
+        - name
+      allOf:
+        - $ref: '#/components/schemas/required_address_fields'
+        - $ref: '#/components/schemas/required_name_company'
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        company:
+          $ref: '#/components/schemas/company'
+        address_line1:
+          $ref: '#/components/schemas/primary_line'
+        address_line2:
+          $ref: '#/components/schemas/secondary_line'
+        address_city:
+          $ref: '#/components/schemas/city'
+        address_state:
+          $ref: '#/components/schemas/state'
+        address_zip:
+          $ref: '#/components/schemas/zip_code'
+        address_country:
+          $ref: '#/components/schemas/country'
+    inline_address:
+      oneOf:
+        - $ref: '#/components/schemas/inline_address_us'
+        - $ref: '#/components/schemas/inline_address_intl'
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/letter_base'
         - type: object
           required:
+            - to
+            - from
             - file
           properties:
+            to:
+              description: >-
+                Must either be an address ID or an inline object with correct
+                address parameters. If an object is used, an address will be
+                created, corrected, and standardized for free whenever possible
+                using our US Address Verification engine (if it is a US
+                address), and returned back with an ID. Depending on your [Print
+                & Mail Edition](https://dashboard.lob.com/#/settings/editions),
+                US addresses may also be run through [National Change of Address
+                (NCOA)](https://lob.com/docs#ncoa). Non-US addresses will be
+                standardized into uppercase only. If a US address used does not
+                meet your account’s [US Mail strictness
+                setting](https://dashboard.lob.com/#/settings/account), the
+                request will fail. Read more here.
+              oneOf:
+                - $ref: '#/components/schemas/adr_id'
+                - $ref: '#/components/schemas/inline_address'
+            from:
+              description: >-
+                Must either be an address ID or an inline object with correct
+                address parameters. Must be a US address unless using a
+                `custom_envelope`. All addresses will be standardized into
+                uppercase without being modified by verification.
+              oneOf:
+                - $ref: '#/components/schemas/adr_id'
+                - $ref: '#/components/schemas/inline_address'
             file:
               description: >-
                 Accepts an HTML string of under 10,000 characters, the ID of a
@@ -1015,6 +1052,21 @@ components:
                 - type: string
                   maxLength: 10000
                 - $ref: '#/components/schemas/tmpl_id'
+            extra_service:
+              type: string
+              nullable: true
+              enum:
+                - certified
+                - certified_return_receipt
+                - registered
+                - null
+              description: >
+                Add an extra service to your letter. See
+                [pricing](https://www.lob.com/pricing/print-mail#compare) for
+                extra costs incurred.
+                  * certified - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
+                  * certified_return_receipt - request an electronic copy of the recipient's signature to prove delivery of your certified letter
+                  * registered - provides tracking and confirmation for international addresses
             custom_envelope:
               type: string
               description: >-
@@ -1208,9 +1260,7 @@ components:
         * `''` – A match could not be made with the provided inputs.
     county:
       type: string
-      description: |
-        County name of the address city.
-      example: SAN FRANCISCO
+      description: County name of the address city.
     county_fips:
       type: string
       description: >
@@ -1218,10 +1268,7 @@ components:
         code](https://en.wikipedia.org/wiki/FIPS_county_code) which uniquely
         identifies `components[county]`. It consists of a 2-digit state code and
         a 3-digit county code.
-      maxLength: 5
-      minLength: 5
-      example: '06075'
-      readOnly: true
+      pattern: '\d{5}'
     components:
       type: object
       required:
@@ -1920,15 +1967,71 @@ components:
           schema:
             $ref: '#/components/schemas/letter'
           example:
-            id: ltr_c94e83ca2cd5121
-            to: adr_c94e83ca2cd5121
-            from: adr_c94e83ca2cd5121
-            color: false
-            file: html_b1234567asfsd
-            description: ''
+            id: ltr_4868c3b754655f90
+            description: Demo Letter
             metadata: {}
-            date_created: '2017-11-07T22:56:10.962Z'
-            date_modified: '2017-11-07T22:56:10.962Z'
+            to:
+              id: adr_d3489cd64c791ab5
+              description: null
+              name: HARRY ZHANG
+              company: null
+              phone: null
+              email: null
+              address_line1: 185 BERRY ST STE 6100
+              address_line2: null
+              address_city: SAN FRANCISCO
+              address_state: CA
+              address_zip: 94107-1741
+              address_country: US
+              metadata: {}
+              date_created: '2017-09-05T15:54:53.264Z'
+              date_modified: '2017-09-05T15:54:53.264Z'
+              deleted: true
+              object: address
+            from:
+              id: adr_b8fb5acf3a2b55db
+              description: null
+              name: LEORE AVIDAR
+              company: null
+              phone: null
+              email: null
+              address_line1: 185 BERRY ST STE 6100
+              address_line2: null
+              address_city: SAN FRANCISCO
+              address_state: CA
+              address_zip: 94107-1741
+              address_country: US
+              metadata: {}
+              date_created: '2017-09-05T15:54:53.264Z'
+              date_modified: '2017-09-05T15:54:53.264Z'
+              deleted: true
+              object: address
+            color: true
+            double_sided: true
+            address_placement: top_first_page
+            return_envelope: false
+            perforated_page: null
+            custom_envelope: null
+            extra_service: ''
+            mail_type: usps_first_class
+            url: >-
+              https://lob-assets.com/letters/ltr_4868c3b754655f90.pdf?expires=1540372221&signature=8r94fse8uam7wGWmW5baxXulU88X2CA
+            carrier: USPS
+            tracking_number: null
+            tracking_events: []
+            thumbnails:
+              - small: >-
+                  https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_small_1.png?expires=1540372221&signature=a5fRBJ22ZA78Vgpg34M9UfmHWTS3eha
+                medium: >-
+                  https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_medium_1.png?expires=1540372221&signature=bAzL8sv935PY09FWSkpDpWKkyvGSWYF
+                large: >-
+                  https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
+            merge_variables:
+              name: Harry
+            expected_delivery_date: '2017-09-12'
+            date_created: '2017-09-05T15:54:53.346Z'
+            date_modified: '2017-09-05T15:54:53.346Z'
+            send_date: '2017-09-05T15:54:53.346Z'
             object: letter
     all_letters:
       description: >-
@@ -1936,8 +2039,8 @@ components:
         `limit` letters. Each entry in the array is a separate letter. The
         previous and next page of letters can be retrieved by calling the
         endpoint contained in the `previous_url` and `next_url` fields in the
-        API response respectively.<br>If no more letters are available beyond
-        the current set of returned results, the `next_url` field will be empty.
+        API response respectively. If no more letters are available beyond the
+        current set of returned results, the `next_url` field will be empty.
       headers:
         ratelimit-limit:
           $ref: '#/components/headers/ratelimit-limit'
@@ -1949,6 +2052,7 @@ components:
         application/json:
           schema:
             allOf:
+              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -1956,31 +2060,138 @@ components:
                     description: list of letters
                     items:
                       $ref: '#/components/schemas/letter'
-              - $ref: '#/components/schemas/list'
           example:
             data:
-              - id: ltr_d5a5a89da9106f8
-                description: Test letter
-                to: adr_s34534535411123
-                from: adr_s34534535411123
-                color: false
-                file: <HTML>hi</HTML>
+              - id: ltr_5ba44b462c79f07c
+                description: Demo Letter
                 metadata: {}
-                date_created: '2019-07-27T23:49:01.511Z'
-                date_modified: '2019-07-27T23:49:01.511Z'
-                object: letter
-              - id: ltr_59b2150ae120887
-                description: Test letter
-                to: adr_s34534535411123
-                from: adr_s34534535411123
+                to:
+                  id: adr_210a8d4b0b76d77b
+                  description: null
+                  name: LEORE AVIDAR
+                  company: null
+                  phone: null
+                  email: null
+                  address_line1: 185 BERRY ST STE 6100
+                  address_line2: null
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
+                  object: address
+                from:
+                  id: adr_210a8d4b0b76d77b
+                  description: null
+                  name: LEORE AVIDAR
+                  company: null
+                  phone: null
+                  email: null
+                  address_line1: 185 BERRY ST STE 6100
+                  address_line2: null
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
+                  object: address
                 color: true
-                file: <HTML>hi</HTML>
+                double_sided: false
+                address_placement: top_first_page
+                return_envelope: false
+                perforated_page: null
+                extra_service: ''
+                custom_envelope: null
+                mail_type: usps_first_class
+                url: >-
+                  https://lob-assets.com/letters/ltr_5ba44b462c79f07c.pdf?version=v1&expires=1568239830&signature=Ob-DUPLJLM4scWQeCDNadPJ4j33MZw16pykOxwv2us-bA7utTYi6oZ8WrEtBYDBBo09XkapR3gdJf0NEr90xAA
+                merge_variables: null
+                carrier: USPS
+                tracking_number: null
+                tracking_events: []
+                thumbnails:
+                  - small: >-
+                      https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_small_1.png?version=v1&expires=1568239830&signature=xZUmE8rq8wSECHPEb9c37cUDZBzGUO3XK5LsIPZhI6dOXgm6zJEn8_7tKuZ3JWBmvNJNXdTl_ufkNu4avjQUDw
+                    medium: >-
+                      https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_medium_1.png?version=v1&expires=1568239830&signature=H7354Qpcm9S4aXbrMsBe6QJ6lSNi9IWPgMJtLWLi4Kyx9tHF8Mp9YEc_IL9x89Jfw4-yRzKDXA410X4W0PssBQ
+                    large: >-
+                      https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_large_1.png?version=v1&expires=1568239830&signature=54LUIDKZyItA9pnC87d1pJVAuw8bhKLCsMpNWkB3LgdVWxPxxb_c1IyIWAbSR-dyOYEOlDBCc40J4Kns-O_mAg
+                expected_delivery_date: '2019-08-16'
+                date_created: '2019-08-08T17:09:14.514Z'
+                date_modified: '2019-08-08T17:09:16.850Z'
+                send_date: '2019-08-08T17:09:14.514Z'
+                object: letter
+              - id: ltr_da8267c6a6545cd6
+                description: Demo Letter
                 metadata: {}
-                date_created: '2019-03-29T10:22:34.642Z'
-                date_modified: '2019-03-29T10:22:34.642Z'
+                to:
+                  id: adr_210a8d4b0b76d77b
+                  description: null
+                  name: LEORE AVIDAR
+                  company: null
+                  phone: null
+                  email: null
+                  address_line1: 185 BERRY ST STE 6100
+                  address_line2: null
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: US
+                  metadata: {}
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
+                  object: address
+                from:
+                  id: adr_210a8d4b0b76d77b
+                  description: null
+                  name: LEORE AVIDAR
+                  company: null
+                  phone: null
+                  email: null
+                  address_line1: 185 BERRY ST STE 6100
+                  address_line2: null
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: US
+                  metadata: {}
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
+                  object: address
+                color: true
+                double_sided: false
+                address_placement: top_first_page
+                return_envelope: false
+                perforated_page: null
+                extra_service: ''
+                custom_envelope: null
+                mail_type: usps_first_class
+                url: >-
+                  https://lob-assets.com/letters/ltr_da8267c6a6545cd6.pdf?version=v1&expires=1568239830&signature=HH-5RnbD4x0eJcnEC9HhqKSvQGsbkjovzvqSKgBijUHKIXwEKQJ4CbYhKs_U2q2A1k20Xefcaw7bfdPKozuqCQ
+                merge_variables: null
+                carrier: USPS
+                tracking_number: null
+                tracking_events: []
+                thumbnails:
+                  - small: >-
+                      https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_small_1.png?version=v1&expires=1568239830&signature=C1Rs83187HpWGhsg_pJIOhDIKlDtC_IgBBxHiocCEzJ8CncJwqrq5yHke-p97Dv7o81G_pfhFmirai589O6DCw
+                    medium: >-
+                      https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_medium_1.png?version=v1&expires=1568239830&signature=gz63l0yi3sK_sXjYfIVdLSvkknJFr_O5TWRulo_iKIgS-PosIl6J0tDR6bx_Tv5Ab_w7DABg3qdKZ846MZ7TCw
+                    large: >-
+                      https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_large_1.png?version=v1&expires=1568239830&signature=4Y1OIymaWkSO3aBIHCeshFAVnF-pDcF2FFqkx_jovaUFuk4FT1SI24L7_POwTRXQHlETMGlzkP_CGgqselRUAA
+                expected_delivery_date: '2019-08-16'
+                date_created: '2019-08-08T17:08:12.224Z'
+                date_modified: '2019-08-08T17:08:13.990Z'
+                send_date: '2019-08-08T17:08:12.224Z'
                 object: letter
             object: list
-            next_url: null
+            next_url: >-
+              https://api.lob.com/v1/letters?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wOFQxNzowODoxMi4yMjRaIiwiaWRPZmZzZXQiOiJsdHJfZGE4MjY3YzZhNjU0NWNkNiJ9
+            previous_url: null
             count: 2
     template_version:
       description: Returns the template version with the given template and version ids.

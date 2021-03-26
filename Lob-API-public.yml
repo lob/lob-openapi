@@ -23,6 +23,9 @@ tags:
   - name: Addresses
     description: A frictionless address book for use with the print and mail API.
 
+  - name: Certificates
+    description: A certificate store to manage client identities. Create, retrieve, update, and delete PEM certificates.
+
   - name: Letters
     description: Easily print and mail letters. Create, retrieve, cancel, and list letters.
 
@@ -31,9 +34,6 @@ tags:
 
   - name: Templates
     description: Versioned, reusable HTML Templates for use with the print and mail API.
-
-  - name: Certificates
-    description: Will [TODO] write a good description
 
   - name: US Verifications
     description: >
@@ -60,6 +60,12 @@ paths:
   /addresses:
     $ref: resources/addresses/addresses.yml
 
+  /certificates/{id}:
+    $ref: resources/certificates/certificate.yml
+
+  /certificates:
+    $ref: resources/certificates/certificates.yml
+
   /letters/{ltr_id}:
     $ref: resources/letters/letter.yml
 
@@ -77,12 +83,6 @@ paths:
 
   /templates:
     $ref: resources/templates/templates.yml
-
-  /certificates/{id}:
-    $ref: resources/certificates/certificate.yml
-
-  /certificates:
-    $ref: resources/certificates/certificates.yml
 
   /us_verifications:
     $ref: resources/us_verifications/us_verifications.yml

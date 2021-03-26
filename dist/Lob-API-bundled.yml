@@ -26,6 +26,8 @@ tags:
     description: Versioning for your reusable HTML print and mail templates.
   - name: Templates
     description: 'Versioned, reusable HTML Templates for use with the print and mail API.'
+  - name: Certificates
+    description: 'Will [TODO] write a good description'
   - name: US Verifications
     description: >
       Validate, automatically correct, and standardize the addresses in your
@@ -255,12 +257,12 @@ components:
     date_created:
       type: string
       format: date-time
-      description: A timestamp in ISO 8601 format of the date the address was created.
+      description: A timestamp in ISO 8601 format of the date the resource was created.
     date_modified:
       type: string
       format: date-time
       description: >-
-        A timestamp in ISO 8601 format of the date the address was last
+        A timestamp in ISO 8601 format of the date the resource was last
         modified.
     object:
       type: string
@@ -299,29 +301,25 @@ components:
               $ref: '#/components/schemas/date_modified'
             object:
               $ref: '#/components/schemas/object'
+    count:
+      type: integer
+      description: number of resources in a set
     list:
       type: object
       description: Multiple items returned in order
       properties:
         object:
-          type: string
-          description: What kind of resource does this list contain?
-          example: address
+          $ref: '#/components/schemas/object'
         next_url:
           type: string
           description: Url of next page of items in list.
           nullable: true
-          example: >-
-            https://api.lob.com/v1/addresses?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wN1QyMTo1OTo0Ni43NjRaIiwiaWRPZmZzZXQiOiJhZHJfODMwYmYwZWFiZGFhYTQwOSJ9
         previous_url:
           type: string
           description: Url of previous page of items in list.
           nullable: true
-          example: null
         count:
-          type: integer
-          description: number of items in list
-          example: 2
+          $ref: '#/components/schemas/count'
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.
@@ -1186,6 +1184,66 @@ components:
           $ref: '#/components/schemas/template_html'
         metadata:
           $ref: '#/components/schemas/metadata'
+    cert_id:
+      type: string
+      description: Unique identifier prefixed with `mtls_`.
+      readOnly: true
+      pattern: '^mtls_[a-zA-Z0-9]+$'
+    certificate_writable:
+      type: object
+      required:
+        - cert
+        - name
+      properties:
+        description:
+          type: string
+          description: >
+            An internal description that identifies this resource. Must be no
+            longer than 255 characters.
+          maxLength: 255
+          nullable: true
+        name:
+          type: string
+          description: |
+            Short, friendly name of the certificate.
+          maxLength: 255
+          nullable: true
+        cert:
+          type: string
+          description: |
+            Public X509 certificate.
+          maxLength: 20000
+          nullable: true
+    date_deleted:
+      type: string
+      format: date-time
+      description: A timestamp in ISO 8601 format of the date the resource was deleted.
+    certificate:
+      allOf:
+        - $ref: '#/components/schemas/certificate_writable'
+        - type: object
+          required:
+            - id
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/cert_id'
+            account_id:
+              type: string
+              description: Foreign key to accounts table
+              readOnly: true
+            deleted:
+              $ref: '#/components/schemas/deleted'
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            date_deleted:
+              $ref: '#/components/schemas/date_deleted'
+            object:
+              $ref: '#/components/schemas/object'
     recipient:
       type: string
       description: 'The intended recipient, typically a person''s or firm''s name.'
@@ -2364,6 +2422,31 @@ components:
             next_url: >-
               https://api.lob.com/v1/templates?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wMy0yOVQxMDoyMjozNC42NDJaIiwiaWRPZmZzZXQiOiJ0bXBsXzU5YjIxNTBhZTEyMDg4NyJ9
             count: 2
+    certificate:
+      description: Returns an certificate object if a valid identifier was provided.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/certificate'
+    all_certificates:
+      description: >-
+        List of all certificates. Will to add wording about plans for the
+        future.
+      content:
+        application/json:
+          schema:
+            type: object
+            description: List of certificates with number in list.
+            properties:
+              data:
+                type: array
+                description: list of certificates
+                items:
+                  $ref: '#/components/schemas/certificate'
+              count:
+                $ref: '#/components/schemas/count'
+              object:
+                $ref: '#/components/schemas/object'
     us_verifications:
       description: Returns a US verification object.
       headers:
@@ -2953,6 +3036,78 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/template'
+        default:
+          $ref: '#/components/responses/error'
+  '/certificates/{id}':
+    parameters:
+      - in: path
+        name: id
+        description: id of the certificate
+        required: true
+        schema:
+          $ref: '#/components/schemas/cert_id'
+    get:
+      operationId: get_certificate
+      summary: Retrieve certificate with given id
+      description: >-
+        Retrieves the details of an existing certificate. You need only supply
+        the unique customer identifier that was returned upon certificate
+        creation.
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/components/responses/certificate'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_certificate
+      summary: Deletes certificate with given id
+      description: >-
+        Deletes the details of an existing certificate. You need only supply the
+        unique customer identifier that was returned upon certificate creation.
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /certificates:
+    get:
+      operationId: list_certificates
+      summary: List all certificates
+      description: >-
+        Returns a list of your certificates. The certificates are returned
+        sorted by creation date, with the most recently created certificates
+        appearing first.
+      tags:
+        - Certificates
+      responses:
+        '200':
+          $ref: '#/components/responses/all_certificates'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_certificate
+      summary: Creates a new certificate object
+      description: Creates a new certificate given information
+      tags:
+        - Certificates
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/certificate_writable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/certificate_writable'
+      responses:
+        '201':
+          $ref: '#/components/responses/certificate'
         default:
           $ref: '#/components/responses/error'
   /us_verifications:

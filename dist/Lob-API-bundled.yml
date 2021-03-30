@@ -26,6 +26,10 @@ tags:
       and delete PEM certificates.
   - name: Letters
     description: 'Easily print and mail letters. Create, retrieve, cancel, and list letters.'
+  - name: Postcards
+    description: >-
+      Easily print and mail postcards. Create, retrieve, cancel, and list
+      postcards.
   - name: Template_Versions
     description: Versioning for your reusable HTML print and mail templates.
   - name: Templates
@@ -1150,6 +1154,132 @@ components:
                 the appropriate [Print & Mail
                 Edition](https://lob.com/pricing/print-mail#compare) to gain
                 access.
+    psc_id:
+      type: string
+      description: Unique identifier prefixed with `psc_`.
+      pattern: '^psc_[a-zA-Z0-9]+$'
+    postcard_size:
+      type: string
+      enum:
+        - 4x6
+        - 6x9
+        - 6x11
+      description: >
+        Specifies the size of the postcard. Must be either 4x6, 6x9, or 6x11.
+        Defaults to 4x6. Only 4x6 postcards can be sent to international
+        destinations.
+      default: 4x6
+    postcard_base:
+      type: object
+      required:
+        - to
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        to:
+          oneOf:
+            - $ref: '#/components/schemas/inline_address'
+            - $ref: '#/components/schemas/adr_id'
+        from:
+          oneOf:
+            - $ref: '#/components/schemas/inline_address'
+            - $ref: '#/components/schemas/adr_id'
+        send_date:
+          $ref: '#/components/schemas/send_date'
+        size:
+          $ref: '#/components/schemas/postcard_size'
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    postcard:
+      allOf:
+        - $ref: '#/components/schemas/postcard_base'
+        - type: object
+          required:
+            - id
+            - front_template_id
+            - back_template_id
+            - front_template_version_id
+            - back_template_version_id
+            - date_created
+            - date_modified
+            - object
+            - url
+          properties:
+            id:
+              $ref: '#/components/schemas/psc_id'
+            url:
+              $ref: '#/components/schemas/signed_link'
+            front_template_id:
+              oneOf:
+                - $ref: '#/components/schemas/tmpl_id'
+                - type: string
+                  nullable: true
+            back_template_id:
+              oneOf:
+                - $ref: '#/components/schemas/tmpl_id'
+                - type: string
+                  nullable: true
+            front_template_version_id:
+              oneOf:
+                - $ref: '#/components/schemas/vrsn_id'
+                - type: string
+                  nullable: true
+            back_template_version_id:
+              oneOf:
+                - $ref: '#/components/schemas/vrsn_id'
+                - type: string
+                  nullable: true
+            carrier:
+              type: string
+              description: Value is `USPS`.
+              pattern: ^USPS$
+            tracking_events:
+              type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_normal'
+              nullable: true
+            thumbnails:
+              $ref: '#/components/schemas/thumbnail'
+            deleted:
+              $ref: '#/components/schemas/deleted'
+            expected_delivery_date:
+              $ref: '#/components/schemas/expected_delivery_date'
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            object:
+              $ref: '#/components/schemas/object'
+    artwork:
+      type: string
+      description: 'An HTML string of under 10,000 characters.'
+      maxLength: 10000
+    remote_file_url:
+      type: string
+      description: A link to a remote file to be used for the postcard template.
+      pattern: 'https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
+    postcard_editable:
+      allOf:
+        - $ref: '#/components/schemas/postcard_base'
+        - type: object
+          required:
+            - front
+            - back
+          properties:
+            front:
+              oneOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+            back:
+              oneOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
     template_html:
       type: string
       description: >
@@ -2289,6 +2419,97 @@ components:
               https://api.lob.com/v1/letters?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wOFQxNzowODoxMi4yMjRaIiwiaWRPZmZzZXQiOiJsdHJfZGE4MjY3YzZhNjU0NWNkNiJ9
             previous_url: null
             count: 2
+    postcard:
+      description: Returns a postcard object
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/postcard'
+          example:
+            id: psc_208e45e48d271294
+            description: ''
+            metadata: {}
+            to: adr_8d4f198f0c3bcf3a
+            from: adr_210a8d4b0b76d77b
+            url: >-
+              https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
+            front_template_id: null
+            back_template_id: null
+            front_template_version_id: null
+            back_template_version_id: null
+            date_created: '2021-03-24T22:51:42.838Z'
+            date_modified: '2021-03-24T22:51:42.838Z'
+            send_date: '2021-03-24T22:51:42.838Z'
+            object: postcard
+    all_postcards:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` postcards. Each entry in the array is a separate postcard. The
+        previous and next page of postcards can be retrieved by calling the
+        endpoint contained in the `previous_url` and `next_url` fields in the
+        API response respectively.<br>If no more postcards are available beyond
+        the current set of returned results, the `next_url` field will be empty.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/list'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of postcards
+                    items:
+                      $ref: '#/components/schemas/postcard'
+          example:
+            data:
+              - id: psc_208e45e48d271294
+                description: ''
+                metadata: {}
+                to: adr_8d4f198f0c3bcf3a
+                from: adr_210a8d4b0b76d77b
+                url: >-
+                  https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
+                front_template_id: null
+                back_template_id: null
+                front_template_version_id: null
+                back_template_version_id: null
+                date_created: '2021-03-24T22:51:42.838Z'
+                date_modified: '2021-03-24T22:51:42.838Z'
+                send_date: '2021-03-24T22:51:42.838Z'
+                object: postcard
+              - id: psc_0e03d1ad7d31f151
+                description: ''
+                metadata: {}
+                to: adr_8d4f198f0c3bcf3a
+                from: adr_210a8d4b0b76d77b
+                url: >-
+                  https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
+                front_template_id: null
+                back_template_id: null
+                front_template_version_id: null
+                back_template_version_id: null
+                date_created: '2021-03-24T22:51:42.838Z'
+                date_modified: '2021-03-24T22:51:42.838Z'
+                send_date: '2021-03-24T22:51:42.838Z'
+                object: postcard
+            object: list
+            next_url: null
+            count: 2
     template_version:
       description: Returns the template version with the given template and version ids.
       headers:
@@ -2918,6 +3139,118 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/letter'
+        default:
+          $ref: '#/components/responses/error'
+  '/postcards/{psc_id}':
+    parameters:
+      - in: path
+        name: psc_id
+        description: id of the postcard
+        required: true
+        schema:
+          $ref: '#/components/schemas/psc_id'
+    get:
+      operationId: get_postcard
+      summary: Retrieve postcard with given id
+      description: >-
+        Retrieves the details of an existing postcard. You need only supply the
+        unique customer identifier that was returned upon postcard creation.
+      tags:
+        - Postcards
+      responses:
+        '200':
+          $ref: '#/components/responses/postcard'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_postcard
+      summary: Cancels postcard with given id
+      description: >-
+        Completely removes a postcard from production. This can only be done if
+        the postcard has a `send_date` and the `send_date` has not yet passed.
+        If the postcard is successfully canceled, you will not be charged for
+        it. Read more on [cancellation
+        windows](https://docs.lob.com/#cancellation) and
+        [scheduling](https://docs.lob.com/#scheduled). Scheduling and
+        cancellation is a premium feature. Upgrade to the appropriate Print &
+        Mail Edition to gain access.
+      tags:
+        - Postcards
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /postcards:
+    get:
+      operationId: list_postcards
+      summary: List all postcards
+      description: >-
+        Returns a list of your postcards. The addresses are returned sorted by
+        creation date, with the most recently created addresses appearing first.
+      tags:
+        - Postcards
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+        - $ref: '#/components/parameters/metadata'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_postcards'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_postcard
+      summary: Creates a new postcard object
+      description: Creates a new postcard given information
+      tags:
+        - Postcards
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postcard_editable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/postcard_editable'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/postcard_editable'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
+      responses:
+        '200':
+          $ref: '#/components/responses/postcard'
         default:
           $ref: '#/components/responses/error'
   '/templates/{tmpl_id}/versions/{vrsn_id}':

@@ -1,20 +1,23 @@
 # ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
 - [What is this project?](#what-is-this-project)
+- [Contributing](#contributing)
 - [Design](#design)
-- [Bundled spec](#bundled-spec)
-- [Contributing / Workflow](#contributing--workflow)
 - [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
 - [Readability](#readability)
 - [OAS v3.1 compatibility](#oas-v31-compatibility)
 - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
-- [Contract testing](#contract-testing)
+- [Bundled spec](#bundled-spec)
 - [See also](#see-also)
 
 ## What is this project?
 
 We're writing an OpenAPI v3 authored specification for the current [Lob API](https://docs.lob.com/).
 This repo contains the spec as well as a growing set of tooling for working with OpenAPI v3 specs.
+
+## Contributing
+
+[Contributing Guide](CONTRIBUTING.md)
 
 ## Design
 
@@ -58,37 +61,6 @@ Our spec is a multifile spec organized semantically, by _resource_, instead of s
     ├── us_verifications.test.js  # tests for us_verifications resource...
     └── ...
 ```
-
-## Bundled spec
-
-A lot of tooling for working with OpenAPI specs does not support the full
-specification. In particular, many tools do not support multiple file specs.
-We maintain a single file 'bundled' version of the spec for use with such
-tools. The bundled version is generated as part of CI/CD, and can be found
-on github at `dist/Lob-API-bundled.yml` in each branch.
-
-You can also generate a bundled version locally at any time using `make bundle`.
-
-The CLI tool used by `make bundle` can do much more than bundle a multiple file spec
-into a single file. It can convert specs between `YAML` and `JSON`, fully
-dereference a spec, and more.
-
-## Contributing / Workflow
-
-To contribute, whether adding / modifying an endpoint or working on the tooling, start by making
-a branch. (As we build out the full tooling in the roadmap, everything will key off of the branch
-name, although that is not currently relevant.)
-
-If you are adding a new endpoint, keep your work in the branch until the feature is shipped in `lob-api` (talk to DevEx about details - we're working through this process and would like to discuss workflow details!) We're actively building out tooling to support API driven design at present. Take a look at the [mock](MOCKING.md) server documentation.
-
-Whether for a new or an existing endpoint, you'll want to add contract tests (discussed briefly below).
-
-This project uses CI/CD; as you push your branch to github, github actions will run tests and, if
-those tests pass, build release artifacts (bundled spec, postman collection, ...) and push them
-to your branch on github under the `dist/` directory. Because the CI/CD cycle on github pushes
-additional commits to your branch, you will either need to pull those commits or force push (`git push -f`)
-when pushing additional work to the branch. Don't be afraid to force push: the actions build each
-artifact anew on each push.
 
 ## OpenAPI Style Guide and linting
 
@@ -141,6 +113,20 @@ If you are editing with VS Code, you can view your changes on the fly using an e
 - Drill down into the documentation to make sure that your examples are populating correctly.
 - Run the examples to be sure they are correct.
 - Compare the response you get to the example response.
+
+## Bundled spec
+
+A lot of tooling for working with OpenAPI specs does not support the full
+specification. In particular, many tools do not support multiple file specs.
+We maintain a single file 'bundled' version of the spec for use with such
+tools. The bundled version is generated as part of CI/CD, and can be found
+on github at `dist/Lob-API-bundled.yml` in each branch.
+
+You can also generate a bundled version locally at any time using `make bundle`.
+
+The CLI tool used by `make bundle` can do much more than bundle a multiple file spec
+into a single file. It can convert specs between `YAML` and `JSON`, fully
+dereference a spec, and more.
 
 ## See also
 

@@ -1,23 +1,24 @@
-# ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
+# Contributing Guide
 
-- [Contributing Introduction](#contributing-introduction)
+- [Introduction](#introduction)
 - [Adding a Form Factor (aka Resource)](#adding-a-form-factor-aka-resource)
   - [Generating a Resource Skeleton](#generating-a-resource-skeleton)
   - [Resource IDs](#resource-ids)
   - [Resource Structure](#resource-structure)
-  - [Contract Testing](#contract-testing)
+- [Contract Testing](#contract-testing)
 
-## Contributing Introduction
+## Introduction
 
-To contribute, whether adding / modifying an endpoint or working on the tooling, start by making
-a branch. (As we build out the full tooling in the roadmap, everything will key off of the branch
-name, although that is not currently relevant.)
+To contribute, whether adding / modifying an endpoint or working on the tooling,
+start by making a branch. (As we build out the full tooling in the roadmap,
+everything will key off of the branch name, although that is not currently
+relevant.)
 
 `git checkout -b <name_of_branch>`
 
-If you are adding a new endpoint, keep your work in the branch until the feature is shipped in `lob-api` (talk to DevEx about details - we're working through this process and would like to discuss workflow details!) We're actively building out tooling to support API driven design at present. Take a look at the [mock](MOCKING.md) server documentation.
-
-Whether for a new or an existing endpoint, you'll want to add contract tests (discussed below).
+If you are adding or modifying endpoints, keep your work in the branch until the
+feature is shipped in `lob-api`. Before the feature ships, you can generate a
+[mock server](MOCKING.md) to assist in development.
 
 This project uses CI/CD; as you push your branch to github, github actions will run tests and, if
 those tests pass, build release artifacts (bundled spec, postman collection, ...) and push them
@@ -87,7 +88,7 @@ LIST, RETRIEVE, and DELETE will follow similar patterns for most resources, so c
 
 In between adding to your resource, you should run `spectral lint Lob-API-public.yml` quite frequently. That way, you can catch linting errors easily rather than wasting an entire day poking around the code to hunt down a persistent error before discovering that it was an indentation issue (no, I'm not bitter or anything, why do you ask?).
 
-### Contract Testing
+## Contract Testing
 
 We use [Prism](https://meta.stoplight.io/docs/prism/README.md) for contract testing, using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). To run the existing tests locally:
 

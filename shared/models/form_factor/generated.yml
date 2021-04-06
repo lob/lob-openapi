@@ -1,0 +1,27 @@
+allOf:
+  - $ref: "../lob_base.yml"
+
+  - type: object
+
+    properties:
+      url:
+        $ref: "../../../shared/attributes/signed_link.yml"
+
+      to:
+        $ref: "../../../shared/models/address/address.yml"
+
+      from:
+        $ref: "../../../shared/models/address/address.yml"
+
+      carrier:
+        type: string
+        description: Value is `USPS`.
+        pattern: "^USPS$"
+
+      thumbnails:
+        type: array
+        items:
+          $ref: "../../../shared/models/thumbnail.yml"
+
+      expected_delivery_date:
+        $ref: "../../attributes/expected_delivery_date.yml"

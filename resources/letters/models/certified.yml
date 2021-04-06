@@ -1,4 +1,7 @@
 allOf:
+  - $ref: "letter_base.yml"
+  - $ref: "letter_generated_base.yml"
+
   - type: object
 
     required:
@@ -29,6 +32,3 @@ allOf:
         type: array
         items:
           $ref: "../../../shared/resources/tracking_events/tracking_event_certified.yml"
-
-  - $ref: "letter_base.yml"
-  - $ref: "letter_generated_base.yml"

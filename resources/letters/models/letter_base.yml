@@ -1,63 +1,51 @@
-type: object
+allOf:
+  - $ref: "../../../shared/models/form_factor/editable.yml"
 
-required:
-  - color
+  - type: object
 
-properties:
-  description:
-    $ref: "../../../shared/attributes/resource_description.yml"
+    required:
+      - color
 
-  send_date:
-    $ref: "../../../shared/attributes/send_date.yml"
+    properties:
+      color:
+        type: boolean
+        description: >-
+          Set this key to `true` if you would like to print in color.
+          Set to `false` if you would like to print in black and white.
 
-  color:
-    type: boolean
-    description: >-
-      Set this key to `true` if you would like to print in color.
-      Set to `false` if you would like to print in black and white.
+      double_sided:
+        type: boolean
+        description: >-
+          Set this attribute to `true` for double sided printing, or `false` for
+          for single sided printing. Defaults to `true`.
+        default: true
 
-  double_sided:
-    type: boolean
-    description: >-
-      Set this attribute to `true` for double sided printing, or `false` for
-      for single sided printing. Defaults to `true`.
-    default: true
+      address_placement:
+        type: string
+        enum:
+          - top_first_page
+          - insert_blank_page
+        description: |
+          Specifies the location of the address information that will show through the double-window envelope. To see how this will impact your letter design, view our letter template.
+            * top_first_page - (default) print address information at the top of your provided first page
+            * insert_blank_page - insert a blank address page at the beginning of your file (you will be charged for the extra page)
+        default: top_first_page
 
-  address_placement:
-    type: string
-    enum:
-      - top_first_page
-      - insert_blank_page
-    description: |
-      Specifies the location of the address information that will show through the double-window envelope. To see how this will impact your letter design, view our letter template.
-        * top_first_page - (default) print address information at the top of your provided first page
-        * insert_blank_page - insert a blank address page at the beginning of your file (you will be charged for the extra page)
-    default: top_first_page
+      return_envelope:
+        type: boolean
+        description: >-
+          To include a return envelope with your letter, set to `true` and specify
+          the `perforated_page`. See
+          [pricing](https://www.lob.com/pricing/print-mail#compare) for extra costs
+          incurred.
+        default: false
 
-  return_envelope:
-    type: boolean
-    description: >-
-      To include a return envelope with your letter, set to `true` and specify
-      the `perforated_page`. See
-      [pricing](https://www.lob.com/pricing/print-mail#compare) for extra costs
-      incurred.
-    default: false
-
-  perforated_page:
-    type: integer
-    description: >-
-      Required if `return_envelope` is `true`. The number of the page that should be
-      perforated for use with the return envelope. Must be greater than or equal
-      to `1`. The blank page added by `address_placement=insert_blank_page` will be
-      ignored when considering the perforated page number. To see how
-      perforation will impact your letter design, view our [perforation guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
-    nullable: true
-
-  mail_type:
-    $ref: "../../../shared/attributes/mail_type.yml"
-
-  merge_variables:
-    $ref: "../../../shared/models/merge_variables.yml"
-
-  metadata:
-    $ref: "../../../shared/models/metadata.yml"
+      perforated_page:
+        type: integer
+        description: >-
+          Required if `return_envelope` is `true`. The number of the page that should be
+          perforated for use with the return envelope. Must be greater than or equal
+          to `1`. The blank page added by `address_placement=insert_blank_page` will be
+          ignored when considering the perforated page number. To see how
+          perforation will impact your letter design, view our [perforation guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
+        nullable: true

@@ -1,84 +1,56 @@
-type: object
+allOf:
+  - $ref: "../../../shared/models/form_factor/generated.yml"
 
-required:
-  - id
-  - to
-  - from
-  - url
-  - carrier
-  - thumbnails
-  - date_created
-  - date_modified
-  - object
+  - type: object
 
-properties:
-  id:
-    $ref: "../attributes/ltr_id.yml"
-
-  to:
-    $ref: "../../../shared/models/address/address.yml"
-
-  from:
-    $ref: "../../../shared/models/address/address.yml"
-
-  custom_envelope:
-    type: object
-    description: >-
-      Accepts an envelope ID for any customized envelope with available
-      inventory. If no inventory is available for the specified ID, the letter
-      will not be sent, and an error will be returned. If the letter has more
-      than 6 sheets, it will be sent in a blank flat envelope. Custom envelopes
-      may be created and ordered from the dashboard. This feature is exclusive
-      to certain customers. Upgrade to the appropriate Print & Mail Edition to
-      gain access.
     required:
       - id
+      - to
+      - from
       - url
+      - carrier
+      - thumbnails
+      - date_created
+      - date_modified
       - object
+
     properties:
       id:
-        type: string
-        description: The unique identifier of the custom envelope used.
-        maxLength: 40
-      url:
-        type: string
-        description: The url of the envelope asset used.
+        $ref: "../attributes/ltr_id.yml"
+
+      custom_envelope:
+        type: object
+        description: >-
+          Accepts an envelope ID for any customized envelope with available
+          inventory. If no inventory is available for the specified ID, the letter
+          will not be sent, and an error will be returned. If the letter has more
+          than 6 sheets, it will be sent in a blank flat envelope. Custom envelopes
+          may be created and ordered from the dashboard. This feature is exclusive
+          to certain customers. Upgrade to the appropriate Print & Mail Edition to
+          gain access.
+        required:
+          - id
+          - url
+          - object
+        properties:
+          id:
+            type: string
+            description: The unique identifier of the custom envelope used.
+            maxLength: 40
+          url:
+            type: string
+            description: The url of the envelope asset used.
+          object:
+            $ref: "../../../shared/attributes/object.yml"
+        nullable: true
+
+      template_id:
+        $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+
+      template_version_id:
+        $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+
       object:
-        $ref: "../../../shared/attributes/object.yml"
-    nullable: true
-
-  url:
-    $ref: "../../../shared/attributes/signed_link.yml"
-
-  template_id:
-    $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
-
-  template_version_id:
-    $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
-
-  carrier:
-    type: string
-    description: Value is `USPS`.
-    pattern: "^USPS$"
-
-  thumbnails:
-    type: array
-    items:
-      $ref: "../../../shared/models/thumbnail.yml"
-
-  expected_delivery_date:
-    $ref: "../../../shared/attributes/expected_delivery_date.yml"
-
-  deleted:
-    $ref: "../../../shared/attributes/deleted.yml"
-
-  date_created:
-    $ref: "../../../shared/attributes/timestamps.yml#/date_created"
-
-  date_modified:
-    $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
-
-  object:
-    allOf:
-      - $ref: "../../../shared/attributes/object.yml"
-      - pattern: "^letter$"
+        allOf:
+          - $ref: "../../../shared/attributes/object.yml"
+          - pattern: "^letter$"

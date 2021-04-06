@@ -1,5 +1,6 @@
 allOf:
   - $ref: "letter_base.yml"
+  - $ref: "../../../shared/models/form_factor/input.yml"
 
   - type: object
 
@@ -9,32 +10,6 @@ allOf:
       - file
 
     properties:
-      to:
-        description: >-
-          Must either be an address ID or an inline object with correct address
-          parameters. If an object is used, an address will be created, corrected,
-          and standardized for free whenever possible using our US Address
-          Verification engine (if it is a US address), and returned back with an
-          ID. Depending on your [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions),
-          US addresses may also be run
-          through [National Change of Address (NCOA)](https://lob.com/docs#ncoa). Non-US addresses
-          will be standardized into uppercase only. If a US address used does not
-          meet your account’s [US Mail strictness setting](https://dashboard.lob.com/#/settings/account),
-          the request will fail. Read more here.
-        oneOf:
-          - $ref: "../../../shared/attributes/model_ids/adr_id.yml"
-          - $ref: "../../../shared/models/address/inline_address.yml"
-
-      from:
-        description: >-
-          Must either be an address ID or an inline object with correct address
-          parameters. Must be a US address unless using a `custom_envelope`. All
-          addresses will be standardized into uppercase without being modified by
-          verification.
-        oneOf:
-          - $ref: "../../../shared/attributes/model_ids/adr_id.yml"
-          - $ref: "../../../shared/models/address/inline_address.yml"
-
       file:
         description: >-
           Accepts an HTML string of under 10,000 characters, the ID of a saved HTML

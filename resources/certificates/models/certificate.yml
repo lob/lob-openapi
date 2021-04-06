@@ -1,13 +1,11 @@
 allOf:
   - $ref: "certificate_writable.yml"
+  - $ref: "../../../shared/models/lob_base.yml"
 
   - type: object
 
     required:
       - id
-      - date_created
-      - date_modified
-      - object
 
     properties:
       id:
@@ -16,17 +14,10 @@ allOf:
       account_id:
         $ref: "../../../shared/attributes/model_ids/acc_id.yml"
 
-      deleted:
-        $ref: "../../../shared/attributes/deleted.yml"
-
-      date_created:
-        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
-
-      date_modified:
-        $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
-
       date_deleted:
         $ref: "../../../shared/attributes/timestamps.yml#/date_deleted"
 
       object:
-        $ref: "../../../shared/attributes/object.yml"
+        allOf:
+          - $ref: "../../../shared/attributes/object.yml"
+          - pattern: "^certificate$"

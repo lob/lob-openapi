@@ -6,19 +6,10 @@ required:
 
 properties:
   description:
-    type: string
-    description: >
-      An internal description that identifies this resource. Must be
-      no longer than 255 characters.
-    maxLength: 255
-    nullable: true
+    $ref: "../../../shared/attributes/resource_description.yml"
 
   name:
-    type: string
-    description: >
-      Short, friendly name of the certificate.
-    maxLength: 255
-    nullable: true
+    $ref: "../attributes/name.yml"
 
   cert:
     type: string

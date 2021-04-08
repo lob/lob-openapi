@@ -12,17 +12,7 @@ properties:
       through [National Change of Address (NCOA)](https://lob.com/docs#ncoa). Non-US addresses
       will be standardized into uppercase only. If a US address used does not
       meet your account’s [US Mail strictness setting](https://dashboard.lob.com/#/settings/account),
-      the request will fail.
-    oneOf:
-      - $ref: "../../attributes/model_ids/adr_id.yml"
-      - $ref: "../../models/address/inline_address.yml"
-
-  from:
-    description: >-
-      Must either be an address ID or an inline object with correct address
-      parameters. Must be a US address unless using a `custom_envelope`. All
-      addresses will be standardized into uppercase without being modified by
-      verification.
+      the request will fail. [Lob Guide: Verification of Mailing Addresses](https://www.lob.com/guides#mailing_addresses)
     oneOf:
       - $ref: "../../attributes/model_ids/adr_id.yml"
       - $ref: "../../models/address/inline_address.yml"

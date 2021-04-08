@@ -1,3 +1,10 @@
-oneOf:
+anyOf:
   - $ref: address_editable_us.yml
   - $ref: address_editable_intl.yml
+discriminator:
+  propertyName: address_country
+  mapping:
+    US: "address_editable_us.yml"
+    CA: "address_editable_intl.yml"
+    CH: "address_editable_intl.yml"
+    UK: "address_editable_intl.yml"

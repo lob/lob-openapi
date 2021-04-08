@@ -1,10 +1,12 @@
 allOf:
   - $ref: "postcard_base.yml"
+  - $ref: "../../../shared/models/form_factor/generated.yml"
 
   - type: object
 
     required:
       - id
+      - to
       - front_template_id
       - back_template_id
       - front_template_version_id
@@ -17,9 +19,6 @@ allOf:
     properties:
       id:
         $ref: "../attributes/psc_id.yml"
-
-      url:
-        $ref: "../../../shared/attributes/signed_link.yml"
 
       front_template_id:
         oneOf:
@@ -45,31 +44,13 @@ allOf:
           - type: string
             nullable: true
 
-      carrier:
-        type: string
-        description: Value is `USPS`.
-        pattern: "^USPS$"
-
       tracking_events:
         type: array
         items:
           $ref: "../../../shared/resources/tracking_events/tracking_event_normal.yml"
         nullable: true
 
-      thumbnails:
-        $ref: "../../../shared/models/thumbnail.yml"
-
-      deleted:
-        $ref: "../../../shared/attributes/deleted.yml"
-
-      expected_delivery_date:
-        $ref: "../../../shared/attributes/expected_delivery_date.yml"
-
-      date_created:
-        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
-
-      date_modified:
-        $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
-
       object:
-        $ref: "../../../shared/attributes/object.yml"
+        allOf:
+          - $ref: "../../../shared/attributes/object.yml"
+          - pattern: "^postcard$"

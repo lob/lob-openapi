@@ -40,6 +40,13 @@ allOf:
           ZIP+4 format of `12345-1234`.
         pattern: "^[0-9]{5}(-[0-9]{4})?$"
 
+      address_country:
+        type: string
+        description: >
+          Must be a 2 letter country short-name code (ISO 3166). Defaults to `US`.
+        pattern: "^US$"
+        default: US
+
 example:
   name: Harry Zhang
   phone: "5555555555"

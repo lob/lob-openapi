@@ -1,34 +1,27 @@
-type: object
+allOf:
+  - $ref: "../../../shared/models/lob_base.yml"
 
-required:
-  - id
-  - versions
-  - published_version
-  - date_created
-  - date_modified
-  - object
+  - type: object
 
-properties:
-  id:
-    $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+    required:
+      - id
+      - versions
+      - published_version
 
-  versions:
-    type: array
-    description: An array of all non-deleted version objects associated with the template.
-    items:
-      $ref: "../template_versions/models/template_version.yml"
+    properties:
+      id:
+        $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
 
-  published_version:
-    $ref: "../template_versions/models/template_version.yml"
+      versions:
+        type: array
+        description: An array of all non-deleted version objects associated with the template.
+        items:
+          $ref: "../template_versions/models/template_version.yml"
 
-  date_created:
-    $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+      published_version:
+        $ref: "../template_versions/models/template_version.yml"
 
-  date_modified:
-    $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
-
-  deleted:
-    $ref: "../../../shared/attributes/deleted.yml"
-
-  object:
-    $ref: "../../../shared/attributes/object.yml"
+      object:
+        allOf:
+          - $ref: "../../../shared/attributes/object.yml"
+          - pattern: "^template$"

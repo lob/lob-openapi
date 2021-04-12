@@ -1,13 +1,11 @@
 allOf:
   - $ref: "template_version_writable.yml"
+  - $ref: "../../../../shared/models/lob_base.yml"
 
   - type: object
 
     required:
       - id
-      - date_created
-      - date_modified
-      - object
 
     properties:
       id:
@@ -29,14 +27,7 @@ allOf:
           - handlebars
         nullable: true
 
-      date_created:
-        $ref: "../../../../shared/attributes/timestamps.yml#/date_created"
-
-      date_modified:
-        $ref: "../../../../shared/attributes/timestamps.yml#/date_modified"
-
-      deleted:
-        $ref: "../../../../shared/attributes/deleted.yml"
-
       object:
-        $ref: "../../../../shared/attributes/object.yml"
+        allOf:
+          - $ref: "../../../../shared/attributes/object.yml"
+          - pattern: "^version$"

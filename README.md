@@ -93,26 +93,11 @@ We will move to v3.1 as soon as is practical. In the meantime, we're working to 
 
 Each time a commit is pushed to github, we generate documentation for the
 API from the spec using [redoc](https://github.com/Redocly/redoc). The generated
-docs are pushed to `dist/Lob-API-static.html` in the branch. We're currently
-using bare bones redoc: no customizations, no styling, etc. The generated docs are
-provided so team members can use them for development and review and to get a sense
-of what redoc can do.
+docs are pushed to `docs/index.html` in the branch.
 
 In addition to the file generated on push to github, you can
 generate the same single file version of the documentation
-(`dist/Lob-API-static.html`) at any time locally by running `make redoc`.
-
-If you are editing with VS Code, you can view your changes on the fly using an extension:
-
-1. install [42crunch.vscode-openapi](https://github.com/42Crunch/vscode-openapi) in VS Code
-2. go to `Settings => Extenstions => OpenAPI`
-3. set `Default Preview Renderer` to `redoc`
-4. open `Lob-API-public.yml`
-5. click on the preview icon at the upper right hand corner of the panel.
-
-- Drill down into the documentation to make sure that your examples are populating correctly.
-- Run the examples to be sure they are correct.
-- Compare the response you get to the example response.
+(`docs/index.html`) at any time locally by running `make redoc`.
 
 ## Bundled spec
 

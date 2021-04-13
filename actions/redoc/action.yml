@@ -1,0 +1,11 @@
+name: "redoc-cli"
+description: "generate docs via redoc-cli"
+inputs:
+  opts:
+    description: "any additional options"
+    required: false
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.opts }}

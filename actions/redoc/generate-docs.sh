@@ -2,4 +2,7 @@
 
 cd /github/workspace || exit
 
-redoc-cli bundle Lob-API-public.yml -t template.hbs "$1" -o docs/index.html
+redoc-cli bundle Lob-API-public.yml "$1" \
+    -t template.hbs \
+    --options.theme.sidebar.backgroundColor: "#f7f9fa" \
+    -o docs/index.html

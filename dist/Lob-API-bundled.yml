@@ -1062,6 +1062,10 @@ components:
       oneOf:
         - $ref: '#/components/schemas/inline_address_us'
         - $ref: '#/components/schemas/inline_address_intl'
+    local_file_path:
+      type: string
+      description: A link to a remote file to be used for the postcard template.
+      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/letter_base'
@@ -1127,6 +1131,7 @@ components:
                 - type: string
                   maxLength: 10000
                 - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/local_file_path'
             extra_service:
               type: string
               nullable: true
@@ -1262,6 +1267,10 @@ components:
       type: string
       description: A link to a remote file to be used for the postcard template.
       pattern: 'https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
+    local_file_path-2:
+      type: string
+      description: A link to a remote file to be used for the postcard template.
+      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -1275,11 +1284,13 @@ components:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path-2'
             back:
               oneOf:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path-2'
     template_html:
       type: string
       description: >

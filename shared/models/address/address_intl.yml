@@ -1,3 +1,13 @@
 allOf:
-  - $ref: "address_editable_intl.yml"
-  - $ref: "address_generated_base.yml"
+  - $ref: address_editable_base.yml
+  - $ref: address_fields_intl.yml
+  - $ref: address_generated_base.yml
+
+  - type: object
+
+    properties:
+      address_country:
+        type: string
+        description: Full name of country
+        pattern: "^(?!UNITED STATES)"
+        maxLength: 200

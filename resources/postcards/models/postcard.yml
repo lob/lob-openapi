@@ -1,20 +1,16 @@
 allOf:
   - $ref: "postcard_base.yml"
   - $ref: "../../../shared/models/form_factor/generated.yml"
+  - $ref: "../../../shared/models/form_factor/from_us.yml"
 
   - type: object
 
     required:
       - id
-      - to
       - front_template_id
       - back_template_id
       - front_template_version_id
       - back_template_version_id
-      - date_created
-      - date_modified
-      - object
-      - url
 
     properties:
       id:

@@ -1,45 +1,14 @@
 allOf:
-  - $ref: address_editable_base.yml
+  - $ref: "address_editable_base.yml"
+  - $ref: "address_fields_us.yml"
 
   - type: object
 
-    required:
-      - address_line1
-      - address_city
-      - address_state
-      - address_zip
-
-    anyOf:
-      - required:
-          - name
-      - required:
-          - company
-
     properties:
-      address_line1:
+      address_country:
         type: string
-        maxLength: 64
-
-      address_line2:
-        type: string
-        maxLength: 64
-        nullable: true
-
-      address_city:
-        type: string
-        maxLength: 200
-
-      address_state:
-        type: string
-        description: 2 letter state short-name code
-        pattern: "^[a-zA-Z]{2}$"
-
-      address_zip:
-        type: string
-        description: >
-          Must follow the ZIP format of `12345` or
-          ZIP+4 format of `12345-1234`.
-        pattern: "^[0-9]{5}(-[0-9]{4})?$"
+        description: Value is US.
+        pattern: "^US$"
 
 example:
   name: Harry Zhang

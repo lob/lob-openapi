@@ -1,0 +1,45 @@
+parameters:
+  - in: path
+    name: tmpl_id
+    description: id of the template
+    required: true
+    schema:
+      $ref: "../../shared/attributes/model_ids/tmpl_id.yml"
+
+get:
+  operationId: get_template_compile
+
+  summary: Compile the template into html
+
+  description: >-
+    Compiles a template with passed in merge variables into html.
+
+  tags:
+    - Templates
+
+  parameters:
+    - in: query
+      name: merge_vars
+      schema:
+        type: string
+      required: false
+      description: stringified json object containing the merge variables
+    - in: query
+      name: strictness
+      schema:
+        type: string
+        enum:
+          - relaxed
+          - strict
+      required: false
+      description: |
+        For advanced legacy templates:
+        - strict: Lob will send a `422` error if you define a merge variable in your HTML that is not passed in the `merge_variables` field of that request. Pass `''` or `null` to have a particular defined variable not render.
+        - relaxed: Lob will not send an error if you define a merge variable in your HTML that is not included in the `merge_variables` field of that request. Instead, we will simply render nothing in the HTML in place of that merge variable.
+
+  responses:
+    "200":
+      $ref: responses/compiled_template.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

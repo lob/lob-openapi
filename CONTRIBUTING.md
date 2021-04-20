@@ -6,7 +6,7 @@
   - [Generating a Resource Skeleton](#generating-a-resource-skeleton)
   - [Resource IDs](#resource-ids)
   - [Resource Structure](#resource-structure)
-- [Adding a new route](#adding-a-new-route)
+- [Adding a new Route](#adding-a-new-route)
 - [Contract Testing](#contract-testing)
 
 ## Introduction
@@ -100,9 +100,11 @@ Sometimes you only need to add a new route to an existing resource. You will nee
 
 The response to that route will go into that resources `responses/` folder.
 
-You then want to make sure that you add the new path in `Lob-API-public.yml` that will reference your new file, making sure that more specific paths happen first in the order they are listed..
+You then want to make sure that you add the new path in `Lob-API-public.yml` that will reference your new file, making sure that more specific paths happen first in the order they are listed.
 
-## Documentation
+You can add the tests for your route to the existing test file for the resource, or create a separate test file for your route. The choice is up to you. Some factors
+to take into consideration include the length and complexity of the existing test file and your new tests and how much of the code in existing test you might
+be able to reuse. _If you do put your test in a separate file, make sure you modify the entry for your resource in `config: goalie-mappings` in `package.json` so that your tests get run during CI and monitoring!_
 
 ## Contract Testing
 

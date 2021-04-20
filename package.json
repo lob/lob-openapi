@@ -6,7 +6,35 @@
   "main": "",
   "config": {
     "--dynamic": "false",
-    "specfile": "Lob-API-public.yml"
+    "specfile": "Lob-API-public.yml",
+    "servers": {
+      "sandbox": "http://0.0.0.0:8443/v1",
+      "staging": "https://api.lob-staging.com/v1",
+      "production": "https://api.lob.com/v1"
+    },
+    "goalie-mappings": {
+      "av-goalie": {
+        "slack-channel": "#av-api-alerts",
+        "resources": {
+          "us_verifications": "./tests/us_verifications_test.js",
+          "us_zip_lookups": "./tests/zip_lookups_test.js"
+        }
+      },
+      "billing-goalie": {
+        "slack-channel": "#billing-errors",
+        "resources": {}
+      },
+      "pmapi-goalie": {
+        "slack-channel": "#eng-api-errors",
+        "resources": {
+          "addresses": "./tests/addresses_test.js",
+          "letters": "./tests/letters_test.js",
+          "postcards": "./tests/postcards_test.js",
+          "templates": "./tests/templates_test.js",
+          "certificates": "./tests/certificates_test.js"
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "spectral lint $npm_package_config_specfile",

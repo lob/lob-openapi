@@ -1,10 +1,12 @@
 # Contributing Guide
 
 - [Introduction](#introduction)
+- [Documentation Style](#documentation-style)
 - [Adding a Form Factor (aka Resource)](#adding-a-form-factor-aka-resource)
   - [Generating a Resource Skeleton](#generating-a-resource-skeleton)
   - [Resource IDs](#resource-ids)
   - [Resource Structure](#resource-structure)
+- [Adding a new route](#adding-a-new-route)
 - [Contract Testing](#contract-testing)
 
 ## Introduction
@@ -27,6 +29,10 @@ additional commits to your branch, you will either need to pull those commits or
 when pushing additional work to the branch. Don't be afraid to force push: the actions build each
 artifact anew on each push.
 
+## Documentation Style
+
+The generated docs are in html, but the documentation is written in the `yml` files. In order to add things like lists, code highlighting, or hyperlinks, you need to use the markdown style of [CommonMark](https://commonmark.org/).
+
 ## Adding a Form Factor (aka Resource)
 
 ### Generating a Resource Skeleton
@@ -42,7 +48,7 @@ You can use the [Lob OpenAPI Generator](https://github.com/lob/generator-lob-ope
 
 Below is an example of what running the `yo` command will produce when creating a sample resource, checks:
 
-```
+```bash
 $ yo lob-openapi:resource checks
 ? Resource path? /checks
 ? Prefix in id? <enter for none> chk
@@ -73,7 +79,7 @@ The object described at the very beginning of the Checks section in the docs is 
 
 The next step is to create `resources/checks/models/check_editable.yml`, which will contain all the properties unique to the check creation payload parameters list. Use the structure
 
-```
+```yaml
 allOf:
   - $ref: "check_base.yml"
 ```
@@ -88,6 +94,16 @@ LIST, RETRIEVE, and DELETE will follow similar patterns for most resources, so c
 
 In between adding to your resource, you should run `spectral lint Lob-API-public.yml` quite frequently. That way, you can catch linting errors easily rather than wasting an entire day poking around the code to hunt down a persistent error before discovering that it was an indentation issue (no, I'm not bitter or anything, why do you ask?).
 
+## Adding a new Route
+
+Sometimes you only need to add a new route to an existing resource. You will need to create a new file in the appropriate folder in `resources/`.
+
+The response to that route will go into that resources `responses/` folder.
+
+You then want to make sure that you add the new path in `Lob-API-public.yml` that will reference your new file, making sure that more specific paths happen first in the order they are listed..
+
+## Documentation
+
 ## Contract Testing
 
 We use [Prism](https://meta.stoplight.io/docs/prism/README.md) for contract testing, using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). To run the existing tests locally:
@@ -100,7 +116,7 @@ the endpoint in question. If you used the generator, you can skip this step–�
 
 If you're using any local file inputs within your tests, place them in the `tests/assets/` folder. This is how I read from a local file within `postcards_test.js`:
 
-```
+```js
 function streamToString(stream) {
   const chunks = [];
   return new Promise((resolve, reject) => {
@@ -122,7 +138,7 @@ The contract tests run on github whenever you push to github and/or open a pull 
 
 During development of the spec for existing endpoints, you can run Prism as a [validation proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy) by running `npm run proxy`.
 
-```
+```bash
 $ npm run proxy
 [1:20:53 PM] › [CLI] …  awaiting  Starting Prism…
 [1:20:53 PM] › [CLI] ℹ  info      GET        http://127.0.0.1:4010/addresses/adr_D9V2vWn
@@ -134,7 +150,7 @@ Once Prism is listening, you can issue http requests to the proxy port, in this
 case `http://127.0.0.1:4010` using the client of your choice. I like
 [httpie](https://httpie.io/docs#main-features), a user friendly client.
 
-```
+```bash
 $ http -a $LOB_API_SECRET_TEST: -v GET http://127.0.0.1:4010/addresses Accept-Encoding:
 GET /addresses HTTP/1.1
 Accept: */*

@@ -6,6 +6,8 @@
   "main": "",
   "config": {
     "--dynamic": "false",
+    "bundlefile": "Lob-API-public-bundled.yml",
+    "postmanfile": "Lob-API-postman.json",
     "specfile": "Lob-API-public.yml",
     "servers": {
       "sandbox": "http://0.0.0.0:8443/v1",
@@ -37,11 +39,16 @@
     }
   },
   "scripts": {
+    "bundle": "openapi bundle -o dist/$npm_package_config_bundlefile $npm_package_config_specfile",
+    "clean": "rm -rf dist",
     "lint": "spectral lint $npm_package_config_specfile",
     "mock": "prism mock $npm_package_config_--dynamic $npm_package_config_specfile",
     "postinstall": "husky install",
+    "postman": "npm run bundle && openapi2postmanv2 --pretty --spec dist/$npm_package_config_bundlefile --output dist/$npm_package_config_postmanfile",
     "pretty": "prettier --write .",
+    "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
+    "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --options.theme.sidebar.backgroundColor: \"#f7f9fa\" -o docs/index.html",
     "test": "tape './tests/**_test.js' | tap-spec"
   },
   "repository": {
@@ -59,12 +66,14 @@
   },
   "homepage": "https://github.com/lob/lob-openapi#readme",
   "devDependencies": {
+    "@redocly/openapi-cli": "^1.0.0-beta.44",
     "@stoplight/prism-cli": "^4.1.2",
     "@stoplight/spectral": "^5.9.0",
     "btoa": "^1.2.1",
     "husky": "^5.0.9",
     "openapi-to-postmanv2": "^2.0.0",
     "prettier": "^2.2.1",
+    "redoc-cli": "^0.11.2",
     "tap-spec": "^5.0.0",
     "tape": "^5.1.1",
     "tape-catch": "^1.0.6",

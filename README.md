@@ -49,12 +49,10 @@ Our spec is a multifile spec organized semantically, by _resource_, instead of s
 │   ├── parameters
 │   └── responses
 |
-├── Makefile                      # gnu make commands
 ├── actions                       # private github actions or resources needed by actions
 │   ├── contract_tests
 │   └── redoc
 ├── dist                          # contents created during CD by github actions
-├── scripts                       # scripts used by `Makefile`
 └── tests                         # contract tests
     ├── setup.js                  # contract test framework
     ├── addresses_test.js         # tests for addresses resource
@@ -97,7 +95,7 @@ docs are pushed to `docs/index.html` in the branch.
 
 In addition to the file generated on push to github, you can
 generate the same single file version of the documentation
-(`docs/index.html`) at any time locally by running `make redoc`.
+(`docs/index.html`) at any time locally by running `npm run redoc`.
 
 ## Bundled spec
 
@@ -107,9 +105,9 @@ We maintain a single file 'bundled' version of the spec for use with such
 tools. The bundled version is generated as part of CI/CD, and can be found
 on github at `dist/Lob-API-bundled.yml` in each branch.
 
-You can also generate a bundled version locally at any time using `make bundle`.
+You can also generate a bundled version locally at any time using `npm run bundle`.
 
-The CLI tool used by `make bundle` can do much more than bundle a multiple file spec
+The CLI tool used by `npm run bundle` can do much more than bundle a multiple file spec
 into a single file. It can convert specs between `YAML` and `JSON`, fully
 dereference a spec, and more.
 

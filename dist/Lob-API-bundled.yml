@@ -30,10 +30,33 @@ tags:
     description: >-
       Easily print and mail postcards. Create, retrieve, cancel, and list
       postcards.
-  - name: Template_Versions
+  - name: Template Versions
     description: Versioning for your reusable HTML print and mail templates.
   - name: Templates
     description: 'Versioned, reusable HTML Templates for use with the print and mail API.'
+  - name: Test and Live Environments
+    x-traitTag: true
+    description: >-
+      To make the API as explorable as possible, accounts have test and live
+      environment API keys. You're not charged any fees in the test environment,
+      so we encourage you to use it to try out services, perform quality
+      assurance, and run automated testing. Objects―addresses, letters, checks,
+      etc―in one environment cannot be manipulated by objects in the other. In
+      general, a payment method (either credit card or ACH account) must be
+      added to your account to make live API requests. However, a payment method
+      is not required for the first 300 live requests per month to the
+      `/v1/us_verifications` endpoint. After the first 300 requests, you will
+      begin receiving errors with status code `403`. Requests made in the test
+      environment always validate request arguments, simulate live environment
+      behavior, and enforce rate limits. _They never print, mail nor, for
+      verification services, verify addresses._ The US & International
+      verification services trigger behavior with specific argument values, and,
+      if you plan on using those, we recommend reading US Verification Test
+      Environment and Int'l Verification Test Environment. To switch between
+      environments, use the appropriate key for that environment when performing
+      a request. You can find each environment's API key in your dashboard under
+      Settings; test API keys are always prefixed with `test_` and production
+      API keys with `live_`.
   - name: US Verifications
     description: >
       Validate, automatically correct, and standardize the addresses in your
@@ -43,6 +66,22 @@ tags:
     description: >
       Find a list of cities, states and associated information about a US ZIP
       code.
+x-tagGroups:
+  - name: Overview
+    tags:
+      - Test and Live Environments
+      - Certificates
+  - name: Print and Mail API
+    tags:
+      - Postcards
+      - Letters
+      - Addresses
+      - Templates
+      - Template Versions
+  - name: US Verification API
+    tags:
+      - US Verifications
+      - Zip Lookups
 components:
   securitySchemes:
     basicAuth:
@@ -1062,10 +1101,14 @@ components:
       oneOf:
         - $ref: '#/components/schemas/inline_address_us'
         - $ref: '#/components/schemas/inline_address_intl'
-    local_file_path:
+    remote_file_url:
       type: string
       description: A link to a remote file to be used for the postcard template.
-      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
+      pattern: 'https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
+    local_file_path:
+      type: string
+      description: A link to a remote file to be used for the template.
+      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/letter_base'
@@ -1131,7 +1174,10 @@ components:
                 - type: string
                   maxLength: 10000
                 - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/local_file_path'
+                - $ref: '#/components/schemas/remote_file_url'
+                - allOf:
+                    - $ref: '#/components/schemas/local_file_path'
+                    - pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
             extra_service:
               type: string
               nullable: true
@@ -1263,14 +1309,6 @@ components:
       type: string
       description: 'An HTML string of under 10,000 characters.'
       maxLength: 10000
-    remote_file_url:
-      type: string
-      description: A link to a remote file to be used for the postcard template.
-      pattern: 'https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
-    local_file_path-2:
-      type: string
-      description: A link to a remote file to be used for the postcard template.
-      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -1284,13 +1322,13 @@ components:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path-2'
+                - $ref: '#/components/schemas/local_file_path'
             back:
               oneOf:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path-2'
+                - $ref: '#/components/schemas/local_file_path'
     template_html:
       type: string
       description: >
@@ -3288,7 +3326,7 @@ paths:
       summary: Retrieve template version with given template and version ids.
       description: Retrieves the template version with the given template and version ids.
       tags:
-        - Template_Versions
+        - Template Versions
       responses:
         '200':
           $ref: '#/components/responses/template_version'
@@ -3299,7 +3337,7 @@ paths:
       summary: Updates the template version with given template and version ids.
       description: Retrieves the template version with the given template and version ids.
       tags:
-        - Template_Versions
+        - Template Versions
       parameters:
         - $ref: '#/components/parameters/idempotency'
       requestBody:
@@ -3328,7 +3366,7 @@ paths:
         Permanently deletes a template version. A template's `published_version`
         can not be deleted.
       tags:
-        - Template_Versions
+        - Template Versions
       responses:
         '200':
           $ref: '#/components/responses/deleted'
@@ -3350,7 +3388,7 @@ paths:
         template versions are sorted by creation date, with the most recently
         created appearing first.
       tags:
-        - Template_Versions
+        - Template Versions
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/after'
@@ -3367,7 +3405,7 @@ paths:
       summary: Creates a new template_version object
       description: Creates a new template version attached to the specified template.
       tags:
-        - Template_Versions
+        - Template Versions
       parameters:
         - $ref: '#/components/parameters/idempotency'
       requestBody:

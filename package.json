@@ -14,26 +14,26 @@
       "staging": "https://api.lob-staging.com/v1",
       "production": "https://api.lob.com/v1"
     },
-    "goalie-mappings": {
-      "av-goalie": {
-        "slack-channel": "#av-api-alerts",
+    "goaliemappings": {
+      "av": {
+        "slackchannel": "#av-api-alerts",
         "resources": {
-          "us_verifications": "./tests/us_verifications_test.js",
-          "us_zip_lookups": "./tests/zip_lookups_test.js"
+          "usverifications": "tests/us_verifications_test.js",
+          "usziplookups": "tests/zip_lookups_test.js"
         }
       },
-      "billing-goalie": {
-        "slack-channel": "#billing-errors",
+      "billing": {
+        "slackchannel": "#billing-errors",
         "resources": {}
       },
-      "pmapi-goalie": {
-        "slack-channel": "#eng-api-errors",
+      "pmapi": {
+        "slackchannel": "#eng-api-errors",
         "resources": {
-          "addresses": "./tests/addresses_test.js",
-          "letters": "./tests/letters_test.js",
-          "postcards": "./tests/postcards_test.js",
-          "templates": "./tests/template*_test.js",
-          "certificates": "./tests/certificates_test.js"
+          "addresses": "tests/addresses_test.js",
+          "letters": "tests/letters_test.js",
+          "postcards": "tests/postcards_test.js",
+          "templates": "tests/template*_test.js",
+          "certificates": "tests/certificate_test.js"
         }
       }
     }
@@ -49,7 +49,8 @@
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
     "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --options.theme.sidebar.backgroundColor: \"#f7f9fa\" -o docs/index.html",
-    "test": "tape './tests/**_test.js' | tap-spec"
+    "test": "tape './tests/**_test.js' | tap-spec",
+    "pergoalie": "node actions/contract_tests/goalieruns.js"
   },
   "repository": {
     "type": "git",
@@ -82,5 +83,8 @@
   "engines": {
     "node": ">=14.16.0",
     "npm": ">=7.9.0"
+  },
+  "dependencies": {
+    "multi-tape": "^1.6.1"
   }
 }

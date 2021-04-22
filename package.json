@@ -49,7 +49,7 @@
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
     "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --options.theme.sidebar.backgroundColor: \"#f7f9fa\" -o docs/index.html",
-    "test": "tape './tests/**_test.js' | tap-spec",
+    "test": "multi-tape './tests/**_test.js' | tap-spec",
     "pergoalie": "node actions/contract_tests/goalieruns.js"
   },
   "repository": {

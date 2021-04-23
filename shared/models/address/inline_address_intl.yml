@@ -1,33 +1,11 @@
-type: object
-
-required:
-  - address_line1
-  - address_country
-
 allOf:
-  - $ref: "required_address_fields.yml"
+  - $ref: "address_editable_intl.yml"
 
-properties:
-  name:
-    $ref: "../../attributes/address/name.yml"
+  - type: object
 
-  company:
-    $ref: "../../attributes/address/company.yml"
+    required:
+      - address_line1
+      - address_country
 
-  address_line1:
-    $ref: "../../attributes/address/primary_line.yml"
-
-  address_line2:
-    $ref: "../../attributes/address/secondary_line.yml"
-
-  address_city:
-    $ref: "../../attributes/address/city.yml"
-
-  address_state:
-    $ref: "../../attributes/address/state.yml"
-
-  address_zip:
-    $ref: "../../attributes/address/zip_code.yml"
-
-  address_country:
-    $ref: "../../attributes/address/country.yml"
+    allOf:
+      - $ref: "required_address_fields.yml"

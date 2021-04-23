@@ -42,6 +42,7 @@ test("create, list, read then cancel a postcard", async function (t) {
     address_line1: "185 Berry St",
     address_line2: "# 6100",
     address_city: "San Francisco",
+    phone: "5555555555",
     address_state: "CA",
     address_zip: "94107",
   });

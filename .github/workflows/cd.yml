@@ -21,7 +21,14 @@ jobs:
       - name: build zero-dependency docs
         uses: ./actions/redoc
 
-      - name: commit & push bundle, docs to branch
+      - name: build postman collection
+        uses: ./actions/contract_tests
+        with:
+          testCommand: "npm run postman"
+        env:
+          LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
+
+      - name: commit & push bundle, collection and docs to branch
         shell: bash
         run: |
           git update-index -q --refresh
@@ -29,6 +36,7 @@ jobs:
           if [[ "${changes}" ]]; then
             git config user.name lobot
             git config user.email lobot@lob.com
+            git add --force Lob-API-postman.json
             git add --force dist/Lob-API-bundled.yml
             git add --force docs/index.html
             git commit -m "update bundled spec, zero-dependency docs"

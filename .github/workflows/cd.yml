@@ -31,12 +31,13 @@ jobs:
       - name: commit & push bundle, collection and docs to branch
         shell: bash
         run: |
+          set -x
           git update-index -q --refresh
           changes=$(git status --porcelain)
           if [[ "${changes}" ]]; then
             git config user.name lobot
             git config user.email lobot@lob.com
-            git add --force Lob-API-postman.json
+            git add --force dist/Lob-API-postman.json
             git add --force dist/Lob-API-bundled.yml
             git add --force docs/index.html
             git commit -m "update bundled spec, zero-dependency docs"

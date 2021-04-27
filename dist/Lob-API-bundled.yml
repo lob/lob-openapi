@@ -129,6 +129,31 @@ components:
             again.
         status_code:
           $ref: '#/components/schemas/failure_status_code'
+    address_us:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_base'
+        - $ref: '#/components/schemas/address_fields_us'
+        - $ref: '#/components/schemas/address_generated_base'
+        - type: object
+          properties:
+            address_country:
+              type: string
+              description: Full name of country
+              pattern: ^UNITED STATES$
+              minLength: 13
+              maxLength: 13
+    address_intl:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_base'
+        - $ref: '#/components/schemas/address_fields_intl'
+        - $ref: '#/components/schemas/address_generated_base'
+        - type: object
+          properties:
+            address_country:
+              type: string
+              description: Full name of country
+              pattern: ^(?!UNITED STATES)
+              maxLength: 200
     resource_description:
       type: string
       description: >
@@ -136,20 +161,6 @@ components:
         than 255 characters.
       maxLength: 255
       nullable: true
-    send_date:
-      type: string
-      description: >-
-        A timestamp in ISO 8601 format which specifies a date after the current
-        time and up to 180 days in the future to send the letter off for
-        production. Setting a send date overrides the default [cancellation
-        window](https://docs.lob.com/#cancellation) applied to the mailpiece.
-        Until the `send_date` has passed, the mailpiece can be canceled. If a
-        date in the format `2017-11-01` is passed, it will evaluate to midnight
-        UTC of that date (`2017-11-01T00:00:00.000Z`). If a datetime is passed,
-        that exact time will be used. A `send_date` passed with no time zone
-        will default to UTC, while a `send_date` passed with a time zone will be
-        converted to UTC.
-      format: date-time
     metadata:
       type: object
       description: >-
@@ -171,6 +182,8 @@ components:
             example: NEWYORK2015
     address_editable_base:
       type: object
+      required:
+        - name
       properties:
         description:
           $ref: '#/components/schemas/resource_description'
@@ -204,101 +217,36 @@ components:
           description: Must be no longer than 100 characters.
           maxLength: 100
           nullable: true
-        address_country:
-          type: string
-          description: >
-            Must be a 2 letter country short-name code (ISO 3166). Defaults to
-            `US`.
-          minLength: 2
-          default: US
-        send_date:
-          $ref: '#/components/schemas/send_date'
         metadata:
           $ref: '#/components/schemas/metadata'
-    address_editable_us:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_base'
-        - type: object
-          required:
-            - address_line1
-            - address_city
-            - address_state
-            - address_zip
-          oneOf:
-            - required:
-                - name
-            - required:
-                - company
-          properties:
-            address_line1:
-              type: string
-              maxLength: 64
-            address_line2:
-              type: string
-              maxLength: 64
-              nullable: true
-            address_city:
-              type: string
-              maxLength: 200
-            address_state:
-              type: string
-              description: 2 letter state short-name code
-              pattern: '^[a-zA-Z]{2}$'
-            address_zip:
-              type: string
-              description: >
-                Must follow the ZIP format of `12345` or ZIP+4 format of
-                `12345-1234`.
-              pattern: '^[0-9]{5}(-[0-9]{4})?$'
-      example:
-        name: Harry Zhang
-        phone: '5555555555'
-        email: harry@lob.com
-        address_line1: 210 King St
-        address_city: San Francisco
-        address_state: CA
-        address_zip: '94107'
-        address_country: US
-    address_editable_intl:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_base'
-        - type: object
-          required:
-            - address_line1
-            - address_country
-          anyOf:
-            - required:
-                - name
-            - required:
-                - company
-          properties:
-            address_line1:
-              type: string
-              maxLength: 200
-            address_line2:
-              type: string
-              maxLength: 200
-              nullable: true
-            address_city:
-              type: string
-              maxLength: 200
-              nullable: true
-            address_state:
-              type: string
-              maxLength: 200
-              nullable: true
-            address_zip:
-              type: string
-              description: Optional postal code.
-              maxLength: 40
-              nullable: true
-    address_editable:
-      oneOf:
-        - $ref: '#/components/schemas/address_editable_us'
-        - $ref: '#/components/schemas/address_editable_intl'
-    deleted:
-      type: boolean
-      description: Only returned if the resource has been successfully deleted.
+    address_fields_us:
+      type: object
+      required:
+        - address_line1
+        - address_city
+        - address_state
+        - address_zip
+      properties:
+        address_line1:
+          type: string
+          maxLength: 64
+        address_line2:
+          type: string
+          maxLength: 64
+          nullable: true
+        address_city:
+          type: string
+          maxLength: 200
+        address_state:
+          type: string
+          description: 2 letter state short-name code
+          pattern: '^[a-zA-Z]{2}$'
+        address_zip:
+          type: string
+          description: >
+            Must follow the ZIP format of `12345` or ZIP+4 format of
+            `12345-1234`.
+          pattern: '^[0-9]{5}(-[0-9]{4})?$'
     date_created:
       type: string
       format: date-time
@@ -309,18 +257,33 @@ components:
       description: >-
         A timestamp in ISO 8601 format of the date the resource was last
         modified.
+    deleted:
+      type: boolean
+      description: Only returned if the resource has been successfully deleted.
     object:
       type: string
       description: Value is type of resource.
-    address:
+    lob_base:
+      type: object
+      required:
+        - date_created
+        - date_modified
+        - object
+      properties:
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+        object:
+          $ref: '#/components/schemas/object'
+    address_generated_base:
       allOf:
-        - $ref: '#/components/schemas/address_editable'
+        - $ref: '#/components/schemas/lob_base'
         - type: object
           required:
             - id
-            - date_created
-            - date_modified
-            - object
           properties:
             id:
               $ref: '#/components/schemas/adr_id'
@@ -338,14 +301,262 @@ components:
                 created before the NCOA feature was added to your account.
               nullable: true
               readOnly: true
-            deleted:
-              $ref: '#/components/schemas/deleted'
-            date_created:
-              $ref: '#/components/schemas/date_created'
-            date_modified:
-              $ref: '#/components/schemas/date_modified'
             object:
-              $ref: '#/components/schemas/object'
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^address$
+    address_fields_intl:
+      type: object
+      required:
+        - address_line1
+        - address_country
+      properties:
+        address_line1:
+          type: string
+          maxLength: 200
+        address_line2:
+          type: string
+          maxLength: 200
+          nullable: true
+        address_city:
+          type: string
+          maxLength: 200
+          nullable: true
+        address_state:
+          type: string
+          maxLength: 200
+          nullable: true
+        address_zip:
+          type: string
+          description: Optional postal code.
+          maxLength: 40
+          nullable: true
+    address:
+      oneOf:
+        - $ref: '#/components/schemas/address_us'
+        - $ref: '#/components/schemas/address_intl'
+      discriminator:
+        propertyName: address_country
+        mapping:
+          UNITED STATES: '#/components/schemas/address_us'
+          AFGHANISTAN: '#/components/schemas/address_intl'
+          ALBANIA: '#/components/schemas/address_intl'
+          ALGERIA: '#/components/schemas/address_intl'
+          AMERICAN SAMOA: '#/components/schemas/address_intl'
+          ANDORRA: '#/components/schemas/address_intl'
+          ANGOLA: '#/components/schemas/address_intl'
+          ANGUILLA: '#/components/schemas/address_intl'
+          ANTARCTICA: '#/components/schemas/address_intl'
+          ANTIGUA AND BARBUDA: '#/components/schemas/address_intl'
+          ARGENTINA: '#/components/schemas/address_intl'
+          ARUBA: '#/components/schemas/address_intl'
+          AUSTRALIA: '#/components/schemas/address_intl'
+          AUSTRIA: '#/components/schemas/address_intl'
+          AZERBAIJAN: '#/components/schemas/address_intl'
+          BAHRAIN: '#/components/schemas/address_intl'
+          BANGLADESH: '#/components/schemas/address_intl'
+          BARBADOS: '#/components/schemas/address_intl'
+          BELARUS: '#/components/schemas/address_intl'
+          BELGIUM: '#/components/schemas/address_intl'
+          BELIZE: '#/components/schemas/address_intl'
+          BENIN: '#/components/schemas/address_intl'
+          BERMUDA: '#/components/schemas/address_intl'
+          BHUTAN: '#/components/schemas/address_intl'
+          BOLIVIA (PLURINATIONAL STATE OF): '#/components/schemas/address_intl'
+          'BONAIRE, SAINT EUSTATIUS AND SABA': '#/components/schemas/address_intl'
+          BOSNIA AND HERZEGOVINA: '#/components/schemas/address_intl'
+          BOTSWANA: '#/components/schemas/address_intl'
+          BRAZIL: '#/components/schemas/address_intl'
+          BRITISH INDIAN OCEAN TERRITORY: '#/components/schemas/address_intl'
+          BRITISH VIRGIN ISLANDS: '#/components/schemas/address_intl'
+          BRUNEI DARUSSALAM: '#/components/schemas/address_intl'
+          BULGARIA: '#/components/schemas/address_intl'
+          BURKINA FASO: '#/components/schemas/address_intl'
+          BURUNDI: '#/components/schemas/address_intl'
+          CABO VERDE: '#/components/schemas/address_intl'
+          CAMBODIA: '#/components/schemas/address_intl'
+          CAMEROON: '#/components/schemas/address_intl'
+          CANADA: '#/components/schemas/address_intl'
+          CAYMAN ISLANDS: '#/components/schemas/address_intl'
+          CENTRAL AFRICAN REPUBLIC: '#/components/schemas/address_intl'
+          CHAD: '#/components/schemas/address_intl'
+          CHILE: '#/components/schemas/address_intl'
+          CHINA: '#/components/schemas/address_intl'
+          COLOMBIA: '#/components/schemas/address_intl'
+          COMOROS: '#/components/schemas/address_intl'
+          CONGO: '#/components/schemas/address_intl'
+          'CONGO, DEMOCRATIC REPUBLIC OF THE': '#/components/schemas/address_intl'
+          COOK ISLANDS: '#/components/schemas/address_intl'
+          COSTA RICA: '#/components/schemas/address_intl'
+          CÔTE D'IVOIRE: '#/components/schemas/address_intl'
+          CROATIA: '#/components/schemas/address_intl'
+          CUBA: '#/components/schemas/address_intl'
+          CURAÇAO: '#/components/schemas/address_intl'
+          CYPRUS: '#/components/schemas/address_intl'
+          CZECH REPUBLIC: '#/components/schemas/address_intl'
+          DENMARK: '#/components/schemas/address_intl'
+          DJIBOUTI: '#/components/schemas/address_intl'
+          DOMINICA: '#/components/schemas/address_intl'
+          DOMINICAN REPUBLIC: '#/components/schemas/address_intl'
+          ECUADOR: '#/components/schemas/address_intl'
+          EGYPT: '#/components/schemas/address_intl'
+          EL SALVADOR: '#/components/schemas/address_intl'
+          EQUATORIAL GUINEA: '#/components/schemas/address_intl'
+          ERITREA: '#/components/schemas/address_intl'
+          ESTONIA: '#/components/schemas/address_intl'
+          ESWATINI: '#/components/schemas/address_intl'
+          ETHIOPIA: '#/components/schemas/address_intl'
+          FALKLAND ISLANDS (MALVINAS): '#/components/schemas/address_intl'
+          FAROE ISLANDS: '#/components/schemas/address_intl'
+          FIJI: '#/components/schemas/address_intl'
+          FINLAND: '#/components/schemas/address_intl'
+          FRANCE: '#/components/schemas/address_intl'
+          GABON: '#/components/schemas/address_intl'
+          GAMBIA: '#/components/schemas/address_intl'
+          GEORGIA: '#/components/schemas/address_intl'
+          GERMANY: '#/components/schemas/address_intl'
+          GHANA: '#/components/schemas/address_intl'
+          GIBRALTAR: '#/components/schemas/address_intl'
+          GREECE: '#/components/schemas/address_intl'
+          GREENLAND: '#/components/schemas/address_intl'
+          GRENADA: '#/components/schemas/address_intl'
+          GUATEMALA: '#/components/schemas/address_intl'
+          GUINEA: '#/components/schemas/address_intl'
+          GUINEA-BISSAU: '#/components/schemas/address_intl'
+          GUYANA: '#/components/schemas/address_intl'
+          HAITI: '#/components/schemas/address_intl'
+          HOLY SEE: '#/components/schemas/address_intl'
+          HONDURAS: '#/components/schemas/address_intl'
+          HONG KONG: '#/components/schemas/address_intl'
+          HUNGARY: '#/components/schemas/address_intl'
+          ICELAND: '#/components/schemas/address_intl'
+          INDIA: '#/components/schemas/address_intl'
+          INDONESIA: '#/components/schemas/address_intl'
+          IRAN (ISLAMIC REPUBLIC OF): '#/components/schemas/address_intl'
+          IRAQ: '#/components/schemas/address_intl'
+          IRELAND: '#/components/schemas/address_intl'
+          ISRAEL: '#/components/schemas/address_intl'
+          ITALY: '#/components/schemas/address_intl'
+          JAMAICA: '#/components/schemas/address_intl'
+          JAPAN: '#/components/schemas/address_intl'
+          JORDAN: '#/components/schemas/address_intl'
+          KAZAKHSTAN: '#/components/schemas/address_intl'
+          KENYA: '#/components/schemas/address_intl'
+          KIRIBATI: '#/components/schemas/address_intl'
+          KOREA (DEMOCRATIC PEOPLE’S REPUBLIC OF): '#/components/schemas/address_intl'
+          'KOREA, REPUBLIC OF': '#/components/schemas/address_intl'
+          KUWAIT: '#/components/schemas/address_intl'
+          KYRGYZSTAN: '#/components/schemas/address_intl'
+          LAO PEOPLE’S DEMOCRATIC REPUBLIC: '#/components/schemas/address_intl'
+          LATVIA: '#/components/schemas/address_intl'
+          LEBANON: '#/components/schemas/address_intl'
+          LESOTHO: '#/components/schemas/address_intl'
+          LIBERIA: '#/components/schemas/address_intl'
+          LIBYA: '#/components/schemas/address_intl'
+          LIECHTENSTEIN: '#/components/schemas/address_intl'
+          LITHUANIA: '#/components/schemas/address_intl'
+          LUXEMBOURG: '#/components/schemas/address_intl'
+          MACAO: '#/components/schemas/address_intl'
+          MACEDONIA: '#/components/schemas/address_intl'
+          MADAGASCAR: '#/components/schemas/address_intl'
+          MALAWI: '#/components/schemas/address_intl'
+          MALAYSIA: '#/components/schemas/address_intl'
+          MALDIVES: '#/components/schemas/address_intl'
+          MALI: '#/components/schemas/address_intl'
+          MALTA: '#/components/schemas/address_intl'
+          MAURITANIA: '#/components/schemas/address_intl'
+          MAURITIUS: '#/components/schemas/address_intl'
+          MEXICO: '#/components/schemas/address_intl'
+          'MOLDOVA, REPUBLIC OF': '#/components/schemas/address_intl'
+          MONACO: '#/components/schemas/address_intl'
+          MONGOLIA: '#/components/schemas/address_intl'
+          MONTENEGRO: '#/components/schemas/address_intl'
+          MONTSERRAT: '#/components/schemas/address_intl'
+          MOROCCO: '#/components/schemas/address_intl'
+          MOZAMBIQUE: '#/components/schemas/address_intl'
+          MYANMAR: '#/components/schemas/address_intl'
+          NAMIBIA: '#/components/schemas/address_intl'
+          NAURU: '#/components/schemas/address_intl'
+          NEPAL: '#/components/schemas/address_intl'
+          NETHERLAND ANTILLES: '#/components/schemas/address_intl'
+          NETHERLANDS: '#/components/schemas/address_intl'
+          NEW ZEALAND: '#/components/schemas/address_intl'
+          NICARAGUA: '#/components/schemas/address_intl'
+          NIGER: '#/components/schemas/address_intl'
+          NIGERIA: '#/components/schemas/address_intl'
+          NIUE: '#/components/schemas/address_intl'
+          NORFOLK ISLAND: '#/components/schemas/address_intl'
+          NORWAY: '#/components/schemas/address_intl'
+          OMAN: '#/components/schemas/address_intl'
+          PAKISTAN: '#/components/schemas/address_intl'
+          PANAMA: '#/components/schemas/address_intl'
+          PAPUA NEW GUINEA: '#/components/schemas/address_intl'
+          PARAGUAY: '#/components/schemas/address_intl'
+          PERU: '#/components/schemas/address_intl'
+          PHILIPPINES: '#/components/schemas/address_intl'
+          PITCAIRN: '#/components/schemas/address_intl'
+          POLAND: '#/components/schemas/address_intl'
+          PORTUGAL: '#/components/schemas/address_intl'
+          QATAR: '#/components/schemas/address_intl'
+          ROMANIA: '#/components/schemas/address_intl'
+          RUSSIAN FEDERATION: '#/components/schemas/address_intl'
+          RWANDA: '#/components/schemas/address_intl'
+          SAINT HELENA: '#/components/schemas/address_intl'
+          SAINT KITTS AND NEVIS: '#/components/schemas/address_intl'
+          SAINT LUCIA: '#/components/schemas/address_intl'
+          SAINT VINCENT AND THE GRENADINES: '#/components/schemas/address_intl'
+          SAMOA: '#/components/schemas/address_intl'
+          SAN MARINO: '#/components/schemas/address_intl'
+          SAO TOME AND PRINCIPE: '#/components/schemas/address_intl'
+          SAUDI ARABIA: '#/components/schemas/address_intl'
+          SENEGAL: '#/components/schemas/address_intl'
+          SERBIA: '#/components/schemas/address_intl'
+          SEYCHELLES: '#/components/schemas/address_intl'
+          SIERRA LEONE: '#/components/schemas/address_intl'
+          SINGAPORE: '#/components/schemas/address_intl'
+          SINT MAARTEN: '#/components/schemas/address_intl'
+          SLOVAKIA: '#/components/schemas/address_intl'
+          SLOVENIA: '#/components/schemas/address_intl'
+          SOLOMON ISLANDS: '#/components/schemas/address_intl'
+          SOMALIA: '#/components/schemas/address_intl'
+          SOUTH AFRICA: '#/components/schemas/address_intl'
+          SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS: '#/components/schemas/address_intl'
+          SOUTH SUDAN: '#/components/schemas/address_intl'
+          SPAIN: '#/components/schemas/address_intl'
+          SRI LANKA: '#/components/schemas/address_intl'
+          SUDAN: '#/components/schemas/address_intl'
+          SURINAME: '#/components/schemas/address_intl'
+          SWEDEN: '#/components/schemas/address_intl'
+          SWITZERLAND: '#/components/schemas/address_intl'
+          SYRIAN ARAB REPUBLIC: '#/components/schemas/address_intl'
+          TAIWAN: '#/components/schemas/address_intl'
+          TAJIKISTAN: '#/components/schemas/address_intl'
+          TANZANIA: '#/components/schemas/address_intl'
+          THAILAND: '#/components/schemas/address_intl'
+          THE BAHAMAS: '#/components/schemas/address_intl'
+          TIMOR-LESTE: '#/components/schemas/address_intl'
+          TOGO: '#/components/schemas/address_intl'
+          TOKELAU: '#/components/schemas/address_intl'
+          TONGA: '#/components/schemas/address_intl'
+          TRINIDAD AND TOBAGO: '#/components/schemas/address_intl'
+          TUNISIA: '#/components/schemas/address_intl'
+          TURKEY: '#/components/schemas/address_intl'
+          TURKMENISTAN: '#/components/schemas/address_intl'
+          TURKS AND CAICOS ISLANDS: '#/components/schemas/address_intl'
+          TUVALU: '#/components/schemas/address_intl'
+          UGANDA: '#/components/schemas/address_intl'
+          UKRAINE: '#/components/schemas/address_intl'
+          UNITED ARAB EMIRATES: '#/components/schemas/address_intl'
+          UNITED KINGDOM: '#/components/schemas/address_intl'
+          URUGUAY: '#/components/schemas/address_intl'
+          UZBEKISTAN: '#/components/schemas/address_intl'
+          VANUATU: '#/components/schemas/address_intl'
+          VENEZUELA: '#/components/schemas/address_intl'
+          VIET NAM: '#/components/schemas/address_intl'
+          WESTERN SAHARA: '#/components/schemas/address_intl'
+          YEMEN: '#/components/schemas/address_intl'
+          ZAMBIA: '#/components/schemas/address_intl'
+          ZIMBABWE: '#/components/schemas/address_intl'
     count:
       type: integer
       description: number of resources in a set
@@ -365,10 +576,270 @@ components:
           nullable: true
         count:
           $ref: '#/components/schemas/count'
+    address_editable_us:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_base'
+        - $ref: '#/components/schemas/address_fields_us'
+        - type: object
+          properties:
+            address_country:
+              type: string
+              description: Value is US.
+              pattern: ^US$
+      example:
+        name: Harry Zhang
+        phone: '5555555555'
+        email: harry@lob.com
+        address_line1: 210 King St
+        address_city: San Francisco
+        address_state: CA
+        address_zip: '94107'
+        address_country: US
+    address_editable_intl:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_base'
+        - $ref: '#/components/schemas/address_fields_intl'
+        - type: object
+          properties:
+            address_country:
+              type: string
+              description: Must be a 2 letter country short-name code (ISO 3166).
+              pattern: ^(?!US)$
+    address_editable:
+      oneOf:
+        - $ref: '#/components/schemas/address_editable_us'
+        - $ref: '#/components/schemas/address_editable_intl'
+      discriminator:
+        propertyName: address_country
+        mapping:
+          US: '#/components/schemas/address_editable_us'
+          AD: '#/components/schemas/address_editable_intl'
+          AE: '#/components/schemas/address_editable_intl'
+          AF: '#/components/schemas/address_editable_intl'
+          AG: '#/components/schemas/address_editable_intl'
+          AI: '#/components/schemas/address_editable_intl'
+          AL: '#/components/schemas/address_editable_intl'
+          AN: '#/components/schemas/address_editable_intl'
+          AO: '#/components/schemas/address_editable_intl'
+          AQ: '#/components/schemas/address_editable_intl'
+          AR: '#/components/schemas/address_editable_intl'
+          AS: '#/components/schemas/address_editable_intl'
+          AT: '#/components/schemas/address_editable_intl'
+          AU: '#/components/schemas/address_editable_intl'
+          AW: '#/components/schemas/address_editable_intl'
+          AZ: '#/components/schemas/address_editable_intl'
+          BA: '#/components/schemas/address_editable_intl'
+          BB: '#/components/schemas/address_editable_intl'
+          BD: '#/components/schemas/address_editable_intl'
+          BE: '#/components/schemas/address_editable_intl'
+          BF: '#/components/schemas/address_editable_intl'
+          BG: '#/components/schemas/address_editable_intl'
+          BH: '#/components/schemas/address_editable_intl'
+          BI: '#/components/schemas/address_editable_intl'
+          BJ: '#/components/schemas/address_editable_intl'
+          BM: '#/components/schemas/address_editable_intl'
+          BN: '#/components/schemas/address_editable_intl'
+          BO: '#/components/schemas/address_editable_intl'
+          BQ: '#/components/schemas/address_editable_intl'
+          BR: '#/components/schemas/address_editable_intl'
+          BS: '#/components/schemas/address_editable_intl'
+          BT: '#/components/schemas/address_editable_intl'
+          BW: '#/components/schemas/address_editable_intl'
+          BY: '#/components/schemas/address_editable_intl'
+          BZ: '#/components/schemas/address_editable_intl'
+          CA: '#/components/schemas/address_editable_intl'
+          CD: '#/components/schemas/address_editable_intl'
+          CG: '#/components/schemas/address_editable_intl'
+          CH: '#/components/schemas/address_editable_intl'
+          CI: '#/components/schemas/address_editable_intl'
+          CK: '#/components/schemas/address_editable_intl'
+          CL: '#/components/schemas/address_editable_intl'
+          CM: '#/components/schemas/address_editable_intl'
+          CN: '#/components/schemas/address_editable_intl'
+          CO: '#/components/schemas/address_editable_intl'
+          CR: '#/components/schemas/address_editable_intl'
+          CS: '#/components/schemas/address_editable_intl'
+          CU: '#/components/schemas/address_editable_intl'
+          CV: '#/components/schemas/address_editable_intl'
+          CW: '#/components/schemas/address_editable_intl'
+          CY: '#/components/schemas/address_editable_intl'
+          CZ: '#/components/schemas/address_editable_intl'
+          DE: '#/components/schemas/address_editable_intl'
+          DJ: '#/components/schemas/address_editable_intl'
+          DK: '#/components/schemas/address_editable_intl'
+          DM: '#/components/schemas/address_editable_intl'
+          DO: '#/components/schemas/address_editable_intl'
+          DZ: '#/components/schemas/address_editable_intl'
+          EC: '#/components/schemas/address_editable_intl'
+          EE: '#/components/schemas/address_editable_intl'
+          EG: '#/components/schemas/address_editable_intl'
+          EH: '#/components/schemas/address_editable_intl'
+          ER: '#/components/schemas/address_editable_intl'
+          ES: '#/components/schemas/address_editable_intl'
+          ET: '#/components/schemas/address_editable_intl'
+          FI: '#/components/schemas/address_editable_intl'
+          FJ: '#/components/schemas/address_editable_intl'
+          FK: '#/components/schemas/address_editable_intl'
+          FO: '#/components/schemas/address_editable_intl'
+          FR: '#/components/schemas/address_editable_intl'
+          GA: '#/components/schemas/address_editable_intl'
+          GB: '#/components/schemas/address_editable_intl'
+          GD: '#/components/schemas/address_editable_intl'
+          GE: '#/components/schemas/address_editable_intl'
+          GH: '#/components/schemas/address_editable_intl'
+          GI: '#/components/schemas/address_editable_intl'
+          GL: '#/components/schemas/address_editable_intl'
+          GM: '#/components/schemas/address_editable_intl'
+          GN: '#/components/schemas/address_editable_intl'
+          GQ: '#/components/schemas/address_editable_intl'
+          GR: '#/components/schemas/address_editable_intl'
+          GS: '#/components/schemas/address_editable_intl'
+          GT: '#/components/schemas/address_editable_intl'
+          GW: '#/components/schemas/address_editable_intl'
+          GY: '#/components/schemas/address_editable_intl'
+          HK: '#/components/schemas/address_editable_intl'
+          HN: '#/components/schemas/address_editable_intl'
+          HR: '#/components/schemas/address_editable_intl'
+          HT: '#/components/schemas/address_editable_intl'
+          HU: '#/components/schemas/address_editable_intl'
+          ID: '#/components/schemas/address_editable_intl'
+          IE: '#/components/schemas/address_editable_intl'
+          IL: '#/components/schemas/address_editable_intl'
+          IN: '#/components/schemas/address_editable_intl'
+          IO: '#/components/schemas/address_editable_intl'
+          IQ: '#/components/schemas/address_editable_intl'
+          IR: '#/components/schemas/address_editable_intl'
+          IS: '#/components/schemas/address_editable_intl'
+          IT: '#/components/schemas/address_editable_intl'
+          JM: '#/components/schemas/address_editable_intl'
+          JO: '#/components/schemas/address_editable_intl'
+          JP: '#/components/schemas/address_editable_intl'
+          KE: '#/components/schemas/address_editable_intl'
+          KG: '#/components/schemas/address_editable_intl'
+          KH: '#/components/schemas/address_editable_intl'
+          KI: '#/components/schemas/address_editable_intl'
+          KM: '#/components/schemas/address_editable_intl'
+          KN: '#/components/schemas/address_editable_intl'
+          KP: '#/components/schemas/address_editable_intl'
+          KR: '#/components/schemas/address_editable_intl'
+          KW: '#/components/schemas/address_editable_intl'
+          KY: '#/components/schemas/address_editable_intl'
+          KZ: '#/components/schemas/address_editable_intl'
+          LA: '#/components/schemas/address_editable_intl'
+          LB: '#/components/schemas/address_editable_intl'
+          LC: '#/components/schemas/address_editable_intl'
+          LI: '#/components/schemas/address_editable_intl'
+          LK: '#/components/schemas/address_editable_intl'
+          LR: '#/components/schemas/address_editable_intl'
+          LS: '#/components/schemas/address_editable_intl'
+          LT: '#/components/schemas/address_editable_intl'
+          LU: '#/components/schemas/address_editable_intl'
+          LV: '#/components/schemas/address_editable_intl'
+          LY: '#/components/schemas/address_editable_intl'
+          MA: '#/components/schemas/address_editable_intl'
+          MC: '#/components/schemas/address_editable_intl'
+          MD: '#/components/schemas/address_editable_intl'
+          ME: '#/components/schemas/address_editable_intl'
+          MG: '#/components/schemas/address_editable_intl'
+          MK: '#/components/schemas/address_editable_intl'
+          ML: '#/components/schemas/address_editable_intl'
+          MM: '#/components/schemas/address_editable_intl'
+          MN: '#/components/schemas/address_editable_intl'
+          MO: '#/components/schemas/address_editable_intl'
+          MR: '#/components/schemas/address_editable_intl'
+          MS: '#/components/schemas/address_editable_intl'
+          MT: '#/components/schemas/address_editable_intl'
+          MU: '#/components/schemas/address_editable_intl'
+          MV: '#/components/schemas/address_editable_intl'
+          MW: '#/components/schemas/address_editable_intl'
+          MX: '#/components/schemas/address_editable_intl'
+          MY: '#/components/schemas/address_editable_intl'
+          MZ: '#/components/schemas/address_editable_intl'
+          NA: '#/components/schemas/address_editable_intl'
+          NE: '#/components/schemas/address_editable_intl'
+          NF: '#/components/schemas/address_editable_intl'
+          NG: '#/components/schemas/address_editable_intl'
+          NI: '#/components/schemas/address_editable_intl'
+          NL: '#/components/schemas/address_editable_intl'
+          'NO': '#/components/schemas/address_editable_intl'
+          NP: '#/components/schemas/address_editable_intl'
+          NR: '#/components/schemas/address_editable_intl'
+          NU: '#/components/schemas/address_editable_intl'
+          NZ: '#/components/schemas/address_editable_intl'
+          OM: '#/components/schemas/address_editable_intl'
+          PA: '#/components/schemas/address_editable_intl'
+          PE: '#/components/schemas/address_editable_intl'
+          PG: '#/components/schemas/address_editable_intl'
+          PH: '#/components/schemas/address_editable_intl'
+          PK: '#/components/schemas/address_editable_intl'
+          PL: '#/components/schemas/address_editable_intl'
+          PN: '#/components/schemas/address_editable_intl'
+          PT: '#/components/schemas/address_editable_intl'
+          PY: '#/components/schemas/address_editable_intl'
+          QA: '#/components/schemas/address_editable_intl'
+          RO: '#/components/schemas/address_editable_intl'
+          RS: '#/components/schemas/address_editable_intl'
+          RU: '#/components/schemas/address_editable_intl'
+          RW: '#/components/schemas/address_editable_intl'
+          SA: '#/components/schemas/address_editable_intl'
+          SB: '#/components/schemas/address_editable_intl'
+          SC: '#/components/schemas/address_editable_intl'
+          SD: '#/components/schemas/address_editable_intl'
+          SE: '#/components/schemas/address_editable_intl'
+          SG: '#/components/schemas/address_editable_intl'
+          SH: '#/components/schemas/address_editable_intl'
+          SI: '#/components/schemas/address_editable_intl'
+          SK: '#/components/schemas/address_editable_intl'
+          SL: '#/components/schemas/address_editable_intl'
+          SM: '#/components/schemas/address_editable_intl'
+          SN: '#/components/schemas/address_editable_intl'
+          SO: '#/components/schemas/address_editable_intl'
+          SR: '#/components/schemas/address_editable_intl'
+          SS: '#/components/schemas/address_editable_intl'
+          ST: '#/components/schemas/address_editable_intl'
+          SV: '#/components/schemas/address_editable_intl'
+          SX: '#/components/schemas/address_editable_intl'
+          SY: '#/components/schemas/address_editable_intl'
+          SZ: '#/components/schemas/address_editable_intl'
+          TC: '#/components/schemas/address_editable_intl'
+          TD: '#/components/schemas/address_editable_intl'
+          TG: '#/components/schemas/address_editable_intl'
+          TH: '#/components/schemas/address_editable_intl'
+          TJ: '#/components/schemas/address_editable_intl'
+          TK: '#/components/schemas/address_editable_intl'
+          TL: '#/components/schemas/address_editable_intl'
+          TM: '#/components/schemas/address_editable_intl'
+          TN: '#/components/schemas/address_editable_intl'
+          TO: '#/components/schemas/address_editable_intl'
+          TR: '#/components/schemas/address_editable_intl'
+          TT: '#/components/schemas/address_editable_intl'
+          TV: '#/components/schemas/address_editable_intl'
+          TW: '#/components/schemas/address_editable_intl'
+          TZ: '#/components/schemas/address_editable_intl'
+          UA: '#/components/schemas/address_editable_intl'
+          UG: '#/components/schemas/address_editable_intl'
+          UY: '#/components/schemas/address_editable_intl'
+          UZ: '#/components/schemas/address_editable_intl'
+          VA: '#/components/schemas/address_editable_intl'
+          VC: '#/components/schemas/address_editable_intl'
+          VE: '#/components/schemas/address_editable_intl'
+          VG: '#/components/schemas/address_editable_intl'
+          VN: '#/components/schemas/address_editable_intl'
+          VU: '#/components/schemas/address_editable_intl'
+          WS: '#/components/schemas/address_editable_intl'
+          YE: '#/components/schemas/address_editable_intl'
+          ZA: '#/components/schemas/address_editable_intl'
+          ZM: '#/components/schemas/address_editable_intl'
+          ZW: '#/components/schemas/address_editable_intl'
     cert_id:
       type: string
       description: Unique identifier prefixed with `cert_`.
       pattern: '^cert_[a-zA-Z0-9]+$'
+    name:
+      type: string
+      description: 'Short, friendly name of the certificate.'
+      maxLength: 255
+      nullable: true
     certificate_writable:
       type: object
       required:
@@ -376,18 +847,9 @@ components:
         - name
       properties:
         description:
-          type: string
-          description: >
-            An internal description that identifies this resource. Must be no
-            longer than 255 characters.
-          maxLength: 255
-          nullable: true
+          $ref: '#/components/schemas/resource_description'
         name:
-          type: string
-          description: |
-            Short, friendly name of the certificate.
-          maxLength: 255
-          nullable: true
+          $ref: '#/components/schemas/name'
         cert:
           type: string
           description: |
@@ -405,30 +867,21 @@ components:
     certificate:
       allOf:
         - $ref: '#/components/schemas/certificate_writable'
+        - $ref: '#/components/schemas/lob_base'
         - type: object
           required:
             - id
-            - date_created
-            - date_modified
-            - object
           properties:
             id:
               $ref: '#/components/schemas/cert_id'
             account_id:
               $ref: '#/components/schemas/acc_id'
-            deleted:
-              $ref: '#/components/schemas/deleted'
-            date_created:
-              $ref: '#/components/schemas/date_created'
-            date_modified:
-              $ref: '#/components/schemas/date_modified'
             date_deleted:
               $ref: '#/components/schemas/date_deleted'
             object:
-              $ref: '#/components/schemas/object'
-    name:
-      type: string
-      description: The name of the certificate.
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^certificate$
     certificate_update:
       type: object
       properties:
@@ -440,6 +893,224 @@ components:
       type: string
       description: Unique identifier prefixed with `ltr_`.
       pattern: '^ltr_[a-zA-Z0-9]+$'
+    mail_type:
+      type: string
+      enum:
+        - usps_first_class
+        - usps_standard
+      description: >
+        A string designating the mail postage type:
+
+        * `usps_first_class` - (default)
+
+        * `usps_standard` - a [cheaper
+        option](https://lob.com/pricing/print-mail#compare) which is less
+        predictable and takes longer to deliver. Cannot be used with certified
+        letters, registered letters, or any letters sent outside of the United
+        States.
+      default: usps_first_class
+    merge_variables:
+      type: object
+      description: >-
+        You can input a merge variable payload object to your template to render
+        dynamic content. For example, if you have a template like:
+        `{{variable_name}}`, pass in `{"variable_name": "Harry"}` to render
+        `Harry`. `merge_variables` must be an object. Any type of value is
+        accepted as long as the object is valid JSON; you can use `strings`,
+        `numbers`, `booleans`, `arrays`, `objects`, or `null`. The max length of
+        the object is 25,000 characters. If you call `JSON.stringify` on your
+        object, it can be no longer than 25,000 characters. Your variable names
+        cannot contain any whitespace or any of the following special
+        characters: `!`, `"`, `#`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`,
+        `;`, `<`, `=`, `>`, `@`, `[`, `\`, `]`, `^`, ```, `{`, `|`, `}`, `~`.
+        More instructions can be found in [our guide to using html and merge
+        variables](https://lob.com/resources/guides/general/using-html-and-merge-variables).
+        Depending on your [Merge Variable
+        strictness](https://dashboard.lob.com/#/settings/account) setting, if
+        you define variables in your HTML but do not pass them here, you will
+        either receive an error or the variable will render as an empty string.
+      maxLength: 25000
+      nullable: true
+    send_date:
+      type: string
+      description: >-
+        A timestamp in ISO 8601 format which specifies a date after the current
+        time and up to 180 days in the future to send the letter off for
+        production. Setting a send date overrides the default [cancellation
+        window](https://docs.lob.com/#cancellation) applied to the mailpiece.
+        Until the `send_date` has passed, the mailpiece can be canceled. If a
+        date in the format `2017-11-01` is passed, it will evaluate to midnight
+        UTC of that date (`2017-11-01T00:00:00.000Z`). If a datetime is passed,
+        that exact time will be used. A `send_date` passed with no time zone
+        will default to UTC, while a `send_date` passed with a time zone will be
+        converted to UTC.
+      format: date-time
+    editable:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        send_date:
+          $ref: '#/components/schemas/send_date'
+    letter_base:
+      allOf:
+        - $ref: '#/components/schemas/editable'
+        - type: object
+          required:
+            - color
+          properties:
+            color:
+              type: boolean
+              description: >-
+                Set this key to `true` if you would like to print in color. Set
+                to `false` if you would like to print in black and white.
+            double_sided:
+              type: boolean
+              description: >-
+                Set this attribute to `true` for double sided printing, or
+                `false` for for single sided printing. Defaults to `true`.
+              default: true
+            address_placement:
+              type: string
+              enum:
+                - top_first_page
+                - insert_blank_page
+              description: >
+                Specifies the location of the address information that will show
+                through the double-window envelope. To see how this will impact
+                your letter design, view our letter template.
+                  * top_first_page - (default) print address information at the top of your provided first page
+                  * insert_blank_page - insert a blank address page at the beginning of your file (you will be charged for the extra page)
+              default: top_first_page
+            return_envelope:
+              type: boolean
+              description: >-
+                To include a return envelope with your letter, set to `true` and
+                specify the `perforated_page`. See
+                [pricing](https://www.lob.com/pricing/print-mail#compare) for
+                extra costs incurred.
+              default: false
+            perforated_page:
+              type: integer
+              description: >-
+                Required if `return_envelope` is `true`. The number of the page
+                that should be perforated for use with the return envelope. Must
+                be greater than or equal to `1`. The blank page added by
+                `address_placement=insert_blank_page` will be ignored when
+                considering the perforated page number. To see how perforation
+                will impact your letter design, view our [perforation
+                guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
+              nullable: true
+    signed_link:
+      type: string
+      description: >-
+        A signed link served over HTTPS. The link returned will expire in 30
+        days to prevent mis-sharing. Each time a GET request is initiated, a new
+        signed URL will be generated.
+      pattern: >-
+        https://lob-assets\.com/(letters|postcards|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*\&)?expires=[0-9]{10}\&signature=[a-zA-Z0-9-_]+$
+    thumbnail:
+      type: object
+      properties:
+        small:
+          $ref: '#/components/schemas/signed_link'
+        medium:
+          $ref: '#/components/schemas/signed_link'
+        large:
+          $ref: '#/components/schemas/signed_link'
+    expected_delivery_date:
+      type: string
+      description: >-
+        A date in YYYY-MM-DD format of the letter's expected delivery date based
+        on its `send_date`.
+      pattern: '^\d{4}-\d{2}-\d{2}$'
+    generated:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - to
+            - url
+            - carrier
+          properties:
+            url:
+              $ref: '#/components/schemas/signed_link'
+            to:
+              $ref: '#/components/schemas/address'
+            carrier:
+              type: string
+              description: Value is `USPS`.
+              pattern: ^USPS$
+            thumbnails:
+              type: array
+              items:
+                $ref: '#/components/schemas/thumbnail'
+            expected_delivery_date:
+              $ref: '#/components/schemas/expected_delivery_date'
+    from:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/address'
+    tmpl_id:
+      type: string
+      description: Unique identifier prefixed with `tmpl_`.
+      pattern: '^tmpl_[a-zA-Z0-9]+$'
+    vrsn_id:
+      type: string
+      description: Unique identifier prefixed with `vrsn_`.
+      pattern: '^vrsn_[a-zA-Z0-9]+$'
+    letter_generated_base:
+      allOf:
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from'
+        - type: object
+          required:
+            - id
+            - from
+          properties:
+            id:
+              $ref: '#/components/schemas/ltr_id'
+            custom_envelope:
+              type: object
+              description: >-
+                Accepts an envelope ID for any customized envelope with
+                available inventory. If no inventory is available for the
+                specified ID, the letter will not be sent, and an error will be
+                returned. If the letter has more than 6 sheets, it will be sent
+                in a blank flat envelope. Custom envelopes may be created and
+                ordered from the dashboard. This feature is exclusive to certain
+                customers. Upgrade to the appropriate Print & Mail Edition to
+                gain access.
+              required:
+                - id
+                - url
+                - object
+              properties:
+                id:
+                  type: string
+                  description: The unique identifier of the custom envelope used.
+                  maxLength: 40
+                url:
+                  type: string
+                  description: The url of the envelope asset used.
+                object:
+                  $ref: '#/components/schemas/object'
+              nullable: true
+            template_id:
+              $ref: '#/components/schemas/tmpl_id'
+            template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^letter$
     evnt_id:
       type: string
       description: Unique identifier prefixed with `evnt_`.
@@ -663,204 +1334,10 @@ components:
             date_created: '2019-10-08T19:41:00Z'
             date_modified: '2019-10-08T19:41:00Z'
             object: tracking_event
-    mail_type:
-      type: string
-      enum:
-        - usps_first_class
-        - usps_standard
-      description: >
-        A string designating the mail postage type:
-
-        * `usps_first_class` - (default)
-
-        * `usps_standard` - a [cheaper
-        option](https://lob.com/pricing/print-mail#compare) which is less
-        predictable and takes longer to deliver. Cannot be used with certified
-        letters, registered letters, or any letters sent outside of the United
-        States.
-      default: usps_first_class
-    merge_variables:
-      type: object
-      description: >-
-        You can input a merge variable payload object to your template to render
-        dynamic content. For example, if you have a template like:
-        `{{variable_name}}`, pass in `{"variable_name": "Harry"}` to render
-        `Harry`. `merge_variables` must be an object. Any type of value is
-        accepted as long as the object is valid JSON; you can use `strings`,
-        `numbers`, `booleans`, `arrays`, `objects`, or `null`. The max length of
-        the object is 25,000 characters. If you call `JSON.stringify` on your
-        object, it can be no longer than 25,000 characters. Your variable names
-        cannot contain any whitespace or any of the following special
-        characters: `!`, `"`, `#`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`,
-        `;`, `<`, `=`, `>`, `@`, `[`, `\`, `]`, `^`, ```, `{`, `|`, `}`, `~`.
-        More instructions can be found in [our guide to using html and merge
-        variables](https://lob.com/resources/guides/general/using-html-and-merge-variables).
-        Depending on your [Merge Variable
-        strictness](https://dashboard.lob.com/#/settings/account) setting, if
-        you define variables in your HTML but do not pass them here, you will
-        either receive an error or the variable will render as an empty string.
-      maxLength: 25000
-      nullable: true
-    letter_base:
-      type: object
-      required:
-        - color
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        send_date:
-          $ref: '#/components/schemas/send_date'
-        color:
-          type: boolean
-          description: >-
-            Set this key to `true` if you would like to print in color. Set to
-            `false` if you would like to print in black and white.
-        double_sided:
-          type: boolean
-          description: >-
-            Set this attribute to `true` for double sided printing, or `false`
-            for for single sided printing. Defaults to `true`.
-          default: true
-        address_placement:
-          type: string
-          enum:
-            - top_first_page
-            - insert_blank_page
-          description: >
-            Specifies the location of the address information that will show
-            through the double-window envelope. To see how this will impact your
-            letter design, view our letter template.
-              * top_first_page - (default) print address information at the top of your provided first page
-              * insert_blank_page - insert a blank address page at the beginning of your file (you will be charged for the extra page)
-          default: top_first_page
-        return_envelope:
-          type: boolean
-          description: >-
-            To include a return envelope with your letter, set to `true` and
-            specify the `perforated_page`. See
-            [pricing](https://www.lob.com/pricing/print-mail#compare) for extra
-            costs incurred.
-          default: false
-        perforated_page:
-          type: integer
-          description: >-
-            Required if `return_envelope` is `true`. The number of the page that
-            should be perforated for use with the return envelope. Must be
-            greater than or equal to `1`. The blank page added by
-            `address_placement=insert_blank_page` will be ignored when
-            considering the perforated page number. To see how perforation will
-            impact your letter design, view our [perforation
-            guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
-          nullable: true
-        mail_type:
-          $ref: '#/components/schemas/mail_type'
-        merge_variables:
-          $ref: '#/components/schemas/merge_variables'
-        metadata:
-          $ref: '#/components/schemas/metadata'
-    signed_link:
-      type: string
-      description: >-
-        A signed link served over HTTPS. The link returned will expire in 30
-        days to prevent mis-sharing. Each time a GET request is initiated, a new
-        signed URL will be generated.
-      pattern: >-
-        https://lob-assets\.com/(letters|postcards|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*\&)?expires=[0-9]{10}\&signature=[a-zA-Z0-9-_]+$
-    tmpl_id:
-      type: string
-      description: Unique identifier prefixed with `tmpl_`.
-      pattern: '^tmpl_[a-zA-Z0-9]+$'
-    vrsn_id:
-      type: string
-      description: Unique identifier prefixed with `vrsn_`.
-      pattern: '^vrsn_[a-zA-Z0-9]+$'
-    thumbnail:
-      type: object
-      properties:
-        small:
-          $ref: '#/components/schemas/signed_link'
-        medium:
-          $ref: '#/components/schemas/signed_link'
-        large:
-          $ref: '#/components/schemas/signed_link'
-    expected_delivery_date:
-      type: string
-      description: >-
-        A date in YYYY-MM-DD format of the letter's expected delivery date based
-        on its `send_date`.
-      pattern: '^\d{4}-\d{2}-\d{2}$'
-    letter_generated_base:
-      type: object
-      required:
-        - id
-        - to
-        - from
-        - url
-        - carrier
-        - thumbnails
-        - date_created
-        - date_modified
-        - object
-      properties:
-        id:
-          $ref: '#/components/schemas/ltr_id'
-        to:
-          $ref: '#/components/schemas/address'
-        from:
-          $ref: '#/components/schemas/address'
-        custom_envelope:
-          type: object
-          description: >-
-            Accepts an envelope ID for any customized envelope with available
-            inventory. If no inventory is available for the specified ID, the
-            letter will not be sent, and an error will be returned. If the
-            letter has more than 6 sheets, it will be sent in a blank flat
-            envelope. Custom envelopes may be created and ordered from the
-            dashboard. This feature is exclusive to certain customers. Upgrade
-            to the appropriate Print & Mail Edition to gain access.
-          required:
-            - id
-            - url
-            - object
-          properties:
-            id:
-              type: string
-              description: The unique identifier of the custom envelope used.
-              maxLength: 40
-            url:
-              type: string
-              description: The url of the envelope asset used.
-            object:
-              $ref: '#/components/schemas/object'
-          nullable: true
-        url:
-          $ref: '#/components/schemas/signed_link'
-        template_id:
-          $ref: '#/components/schemas/tmpl_id'
-        template_version_id:
-          $ref: '#/components/schemas/vrsn_id'
-        carrier:
-          type: string
-          description: Value is `USPS`.
-          pattern: ^USPS$
-        thumbnails:
-          type: array
-          items:
-            $ref: '#/components/schemas/thumbnail'
-        expected_delivery_date:
-          $ref: '#/components/schemas/expected_delivery_date'
-        deleted:
-          $ref: '#/components/schemas/deleted'
-        date_created:
-          $ref: '#/components/schemas/date_created'
-        date_modified:
-          $ref: '#/components/schemas/date_modified'
-        object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-            - pattern: ^letter$
     certified:
       allOf:
+        - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/letter_generated_base'
         - type: object
           required:
             - extra_service
@@ -889,10 +1366,10 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/tracking_event_certified'
-        - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/letter_generated_base'
     registered:
       allOf:
+        - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/letter_generated_base'
         - type: object
           required:
             - extra_service
@@ -912,8 +1389,6 @@ components:
                 The tracking number will appear here when it becomes available.
                 Dummy tracking numbers are not created in test mode.
               nullable: true
-        - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/letter_generated_base'
     tracking_event_normal:
       allOf:
         - $ref: '#/components/schemas/tracking_event_base'
@@ -999,17 +1474,9 @@ components:
         - $ref: '#/components/schemas/certified'
         - $ref: '#/components/schemas/registered'
         - $ref: '#/components/schemas/no_extra_service'
-    required_name_company:
-      type: array
-      oneOf:
-        - required:
-            - name
-        - required:
-            - company
     inline_address_us:
       allOf:
         - $ref: '#/components/schemas/address_editable_us'
-        - $ref: '#/components/schemas/required_name_company'
         - type: object
           required:
             - address_line1
@@ -1017,90 +1484,58 @@ components:
             - address_state
             - address_zip
     required_address_fields:
-      type: array
       oneOf:
         - required:
             - address_city
             - address_state
         - required:
             - address_zip
-    name-2:
-      type: string
-      description: The name of the mailpiece recipient.
-    company:
-      type: string
-      description: |
-        The company with which the mailpiece recipient is associated.
-    primary_line:
-      type: string
-      description: |
-        The primary delivery line (usually the street address) of the address.
-        Combination of the following applicable `components`:
-        * `primary_number`
-        * `street_predirection`
-        * `street_name`
-        * `street_suffix`
-        * `street_postdirection`
-        * `secondary_designator`
-        * `secondary_number`
-        * `pmb_designator`
-        * `pmb_number`
-    secondary_line:
-      type: string
-      description: >
-        The secondary delivery line of the address. This field is typically
-        empty but may contain information if `primary_line` is too long.
-    city:
-      type: string
-      description: >
-        The name of the city. `city` and `state` are required if no zip_code is
-        passed.
-    state:
-      type: string
-      description: >
-        The state as a two-letter abbreviation. `city` and `state` are required
-        if no zip_code is passed.
-      maxLength: 2
-    zip_code:
-      type: string
-      description: >
-        The 5-digit ZIP code. Required if `city` and `state` are not passed in.
-        If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
-        `94107`, `941072282`, `94107-2282`).
-    country:
-      type: string
-      description: |
-        2-letter country code or full name of country (required if non-US)
     inline_address_intl:
-      type: object
-      required:
-        - address_line1
-        - address_country
-        - name
       allOf:
-        - $ref: '#/components/schemas/required_address_fields'
-        - $ref: '#/components/schemas/required_name_company'
-      properties:
-        name:
-          $ref: '#/components/schemas/name-2'
-        company:
-          $ref: '#/components/schemas/company'
-        address_line1:
-          $ref: '#/components/schemas/primary_line'
-        address_line2:
-          $ref: '#/components/schemas/secondary_line'
-        address_city:
-          $ref: '#/components/schemas/city'
-        address_state:
-          $ref: '#/components/schemas/state'
-        address_zip:
-          $ref: '#/components/schemas/zip_code'
-        address_country:
-          $ref: '#/components/schemas/country'
+        - $ref: '#/components/schemas/address_editable_intl'
+        - type: object
+          required:
+            - address_line1
+            - address_country
+          allOf:
+            - $ref: '#/components/schemas/required_address_fields'
     inline_address:
       oneOf:
         - $ref: '#/components/schemas/inline_address_us'
         - $ref: '#/components/schemas/inline_address_intl'
+    input_to:
+      type: object
+      properties:
+        to:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. If an object is used, an address will be
+            created, corrected, and standardized for free whenever possible
+            using our US Address Verification engine (if it is a US address),
+            and returned back with an ID. Depending on your [Print & Mail
+            Edition](https://dashboard.lob.com/#/settings/editions), US
+            addresses may also be run through [National Change of Address
+            (NCOA)](https://lob.com/docs#ncoa). Non-US addresses will be
+            standardized into uppercase only. If a US address used does not meet
+            your account’s [US Mail strictness
+            setting](https://dashboard.lob.com/#/settings/account), the request
+            will fail. [Lob Guide: Verification of Mailing
+            Addresses](https://www.lob.com/guides#mailing_addresses)
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address'
+    input_from:
+      type: object
+      properties:
+        from:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. Must be a US address unless using a
+            `custom_envelope`. All addresses will be standardized into uppercase
+            without being modified by verification.
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address'
     remote_file_url:
       type: string
       description: A link to a remote file to be used for the postcard template.
@@ -1112,38 +1547,14 @@ components:
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_from'
         - type: object
           required:
             - to
             - from
             - file
           properties:
-            to:
-              description: >-
-                Must either be an address ID or an inline object with correct
-                address parameters. If an object is used, an address will be
-                created, corrected, and standardized for free whenever possible
-                using our US Address Verification engine (if it is a US
-                address), and returned back with an ID. Depending on your [Print
-                & Mail Edition](https://dashboard.lob.com/#/settings/editions),
-                US addresses may also be run through [National Change of Address
-                (NCOA)](https://lob.com/docs#ncoa). Non-US addresses will be
-                standardized into uppercase only. If a US address used does not
-                meet your account’s [US Mail strictness
-                setting](https://dashboard.lob.com/#/settings/account), the
-                request will fail. Read more here.
-              oneOf:
-                - $ref: '#/components/schemas/adr_id'
-                - $ref: '#/components/schemas/inline_address'
-            from:
-              description: >-
-                Must either be an address ID or an inline object with correct
-                address parameters. Must be a US address unless using a
-                `custom_envelope`. All addresses will be standardized into
-                uppercase without being modified by verification.
-              oneOf:
-                - $ref: '#/components/schemas/adr_id'
-                - $ref: '#/components/schemas/inline_address'
             file:
               description: >-
                 Accepts an HTML string of under 10,000 characters, the ID of a
@@ -1221,33 +1632,22 @@ components:
         destinations.
       default: 4x6
     postcard_base:
+      allOf:
+        - $ref: '#/components/schemas/editable'
+        - type: object
+          properties:
+            size:
+              $ref: '#/components/schemas/postcard_size'
+    from_us:
       type: object
-      required:
-        - to
       properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        to:
-          oneOf:
-            - $ref: '#/components/schemas/inline_address'
-            - $ref: '#/components/schemas/adr_id'
         from:
-          oneOf:
-            - $ref: '#/components/schemas/inline_address'
-            - $ref: '#/components/schemas/adr_id'
-        send_date:
-          $ref: '#/components/schemas/send_date'
-        size:
-          $ref: '#/components/schemas/postcard_size'
-        mail_type:
-          $ref: '#/components/schemas/mail_type'
-        merge_variables:
-          $ref: '#/components/schemas/merge_variables'
-        metadata:
-          $ref: '#/components/schemas/metadata'
+          $ref: '#/components/schemas/address_us'
     postcard:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from_us'
         - type: object
           required:
             - id
@@ -1255,15 +1655,9 @@ components:
             - back_template_id
             - front_template_version_id
             - back_template_version_id
-            - date_created
-            - date_modified
-            - object
-            - url
           properties:
             id:
               $ref: '#/components/schemas/psc_id'
-            url:
-              $ref: '#/components/schemas/signed_link'
             front_template_id:
               oneOf:
                 - $ref: '#/components/schemas/tmpl_id'
@@ -1284,27 +1678,26 @@ components:
                 - $ref: '#/components/schemas/vrsn_id'
                 - type: string
                   nullable: true
-            carrier:
-              type: string
-              description: Value is `USPS`.
-              pattern: ^USPS$
             tracking_events:
               type: array
               items:
                 $ref: '#/components/schemas/tracking_event_normal'
               nullable: true
-            thumbnails:
-              $ref: '#/components/schemas/thumbnail'
-            deleted:
-              $ref: '#/components/schemas/deleted'
-            expected_delivery_date:
-              $ref: '#/components/schemas/expected_delivery_date'
-            date_created:
-              $ref: '#/components/schemas/date_created'
-            date_modified:
-              $ref: '#/components/schemas/date_modified'
             object:
-              $ref: '#/components/schemas/object'
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^postcard$
+    input_from_us:
+      type: object
+      properties:
+        from:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. All addresses will be standardized into
+            uppercase without being modified by verification.
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address_us'
     artwork:
       type: string
       description: 'An HTML string of under 10,000 characters.'
@@ -1312,8 +1705,11 @@ components:
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
+        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_from_us'
         - type: object
           required:
+            - to
             - front
             - back
           properties:
@@ -1353,12 +1749,10 @@ components:
     template_version:
       allOf:
         - $ref: '#/components/schemas/template_version_writable'
+        - $ref: '#/components/schemas/lob_base'
         - type: object
           required:
             - id
-            - date_created
-            - date_modified
-            - object
           properties:
             id:
               $ref: '#/components/schemas/vrsn_id'
@@ -1376,48 +1770,39 @@ components:
                 - legacy
                 - handlebars
               nullable: true
-            date_created:
-              $ref: '#/components/schemas/date_created'
-            date_modified:
-              $ref: '#/components/schemas/date_modified'
-            deleted:
-              $ref: '#/components/schemas/deleted'
             object:
-              $ref: '#/components/schemas/object'
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^version$
     template_version_updatable:
       type: object
       properties:
         description:
           $ref: '#/components/schemas/resource_description'
     template:
-      type: object
-      required:
-        - id
-        - versions
-        - published_version
-        - date_created
-        - date_modified
-        - object
-      properties:
-        id:
-          $ref: '#/components/schemas/tmpl_id'
-        versions:
-          type: array
-          description: >-
-            An array of all non-deleted version objects associated with the
-            template.
-          items:
-            $ref: '#/components/schemas/template_version'
-        published_version:
-          $ref: '#/components/schemas/template_version'
-        date_created:
-          $ref: '#/components/schemas/date_created'
-        date_modified:
-          $ref: '#/components/schemas/date_modified'
-        deleted:
-          $ref: '#/components/schemas/deleted'
-        object:
-          $ref: '#/components/schemas/object'
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - id
+            - versions
+            - published_version
+          properties:
+            id:
+              $ref: '#/components/schemas/tmpl_id'
+            versions:
+              type: array
+              description: >-
+                An array of all non-deleted version objects associated with the
+                template.
+              items:
+                $ref: '#/components/schemas/template_version'
+            published_version:
+              $ref: '#/components/schemas/template_version'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^template$
     template_update:
       type: object
       properties:
@@ -1439,6 +1824,25 @@ components:
     recipient:
       type: string
       description: 'The intended recipient, typically a person''s or firm''s name.'
+    primary_line:
+      type: string
+      description: |
+        The primary delivery line (usually the street address) of the address.
+        Combination of the following applicable `components`:
+        * `primary_number`
+        * `street_predirection`
+        * `street_name`
+        * `street_suffix`
+        * `street_postdirection`
+        * `secondary_designator`
+        * `secondary_number`
+        * `pmb_designator`
+        * `pmb_number`
+    secondary_line:
+      type: string
+      description: >
+        The secondary delivery line of the address. This field is typically
+        empty but may contain information if `primary_line` is too long.
     urbanization:
       type: string
       description: >
@@ -1446,6 +1850,23 @@ components:
         area, sector, or development within a city. See [USPS
         documentation](https://pe.usps.com/text/pub28/28api_008.htm#:~:text=I51.,-4%20Urbanizations&text=In%20Puerto%20Rico%2C%20identical%20street,placed%20before%20the%20urbanization%20name.)
         for clarification.
+    city:
+      type: string
+      description: >
+        The name of the city. `city` and `state` are required if no zip_code is
+        passed.
+    state:
+      type: string
+      description: >
+        The state as a two-letter abbreviation. `city` and `state` are required
+        if no zip_code is passed.
+      maxLength: 2
+    zip_code:
+      type: string
+      description: >
+        The 5-digit ZIP code. Required if `city` and `state` are not passed in.
+        If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
+        `94107`, `941072282`, `94107-2282`).
     multiple_components:
       type: object
       required:
@@ -2116,17 +2537,11 @@ components:
         fields in the API response respectively.<br>If no more addresses are
         available beyond the current set of returned results, the `next_url`
         field will be empty.
-      headers:
-        ratelimit-limit:
-          $ref: '#/components/headers/ratelimit-limit'
-        ratelimit-remaining:
-          $ref: '#/components/headers/ratelimit-remaining'
-        ratelimit-reset:
-          $ref: '#/components/headers/ratelimit-reset'
       content:
         application/json:
           schema:
             allOf:
+              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -2134,7 +2549,6 @@ components:
                     description: list of addresses
                     items:
                       $ref: '#/components/schemas/address'
-              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: adr_e68217bd744d65c8
@@ -2174,7 +2588,7 @@ components:
               https://api.lob.com/v1/addresses?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wN1QyMTo1OTo0Ni43NjRaIiwiaWRPZmZzZXQiOiJhZHJfODMwYmYwZWFiZGFhYTQwOSJ9
             previous_url: null
             count: 2
-    address_writable:
+    address_editable:
       description: Echos the writable fields of a newly created address object.
       headers:
         ratelimit-limit:
@@ -2198,7 +2612,7 @@ components:
             address_city: SAN FRANCISCO
             address_state: CA
             address_zip: '94107'
-            address_country: UNITED STATES
+            address_country: US
             metadata: {}
             date_created: '2017-09-05T17:47:53.767Z'
             date_modified: '2017-09-05T17:47:53.767Z'
@@ -2257,7 +2671,7 @@ components:
               address_city: SAN FRANCISCO
               address_state: CA
               address_zip: 94107-1741
-              address_country: US
+              address_country: UNITED STATES
               metadata: {}
               date_created: '2017-09-05T15:54:53.264Z'
               date_modified: '2017-09-05T15:54:53.264Z'
@@ -2275,7 +2689,7 @@ components:
               address_city: SAN FRANCISCO
               address_state: CA
               address_zip: 94107-1741
-              address_country: US
+              address_country: UNITED STATES
               metadata: {}
               date_created: '2017-09-05T15:54:53.264Z'
               date_modified: '2017-09-05T15:54:53.264Z'
@@ -2287,7 +2701,7 @@ components:
             return_envelope: false
             perforated_page: null
             custom_envelope: null
-            extra_service: ''
+            extra_service: null
             mail_type: usps_first_class
             url: >-
               https://lob-assets.com/letters/ltr_4868c3b754655f90.pdf?expires=1540372221&signature=8r94fse8uam7wGWmW5baxXulU88X2CA
@@ -2316,13 +2730,6 @@ components:
         endpoint contained in the `previous_url` and `next_url` fields in the
         API response respectively. If no more letters are available beyond the
         current set of returned results, the `next_url` field will be empty.
-      headers:
-        ratelimit-limit:
-          $ref: '#/components/headers/ratelimit-limit'
-        ratelimit-remaining:
-          $ref: '#/components/headers/ratelimit-remaining'
-        ratelimit-reset:
-          $ref: '#/components/headers/ratelimit-reset'
       content:
         application/json:
           schema:
@@ -2379,7 +2786,7 @@ components:
                 address_placement: top_first_page
                 return_envelope: false
                 perforated_page: null
-                extra_service: ''
+                extra_service: null
                 custom_envelope: null
                 mail_type: usps_first_class
                 url: >-
@@ -2415,7 +2822,7 @@ components:
                   address_city: SAN FRANCISCO
                   address_state: CA
                   address_zip: 94107-1741
-                  address_country: US
+                  address_country: UNITED STATES
                   metadata: {}
                   date_created: '2018-12-08T03:01:07.651Z'
                   date_modified: '2018-12-08T03:01:07.651Z'
@@ -2432,7 +2839,7 @@ components:
                   address_city: SAN FRANCISCO
                   address_state: CA
                   address_zip: 94107-1741
-                  address_country: US
+                  address_country: UNITED STATES
                   metadata: {}
                   date_created: '2018-12-08T03:01:07.651Z'
                   date_modified: '2018-12-08T03:01:07.651Z'
@@ -2442,7 +2849,7 @@ components:
                 address_placement: top_first_page
                 return_envelope: false
                 perforated_page: null
-                extra_service: ''
+                extra_service: null
                 custom_envelope: null
                 mail_type: usps_first_class
                 url: >-
@@ -2483,12 +2890,28 @@ components:
             $ref: '#/components/schemas/postcard'
           example:
             id: psc_208e45e48d271294
-            description: ''
+            description: null
             metadata: {}
-            to: adr_8d4f198f0c3bcf3a
-            from: adr_210a8d4b0b76d77b
+            to:
+              id: adr_210a8d4b0b76d77b
+              description: null
+              name: null
+              company: LOB
+              phone: null
+              email: null
+              address_line1: 185 BERRY ST STE 6100
+              address_line2: null
+              address_city: SAN FRANCISCO
+              address_state: CA
+              address_zip: 94107-1741
+              address_country: UNITED STATES
+              metadata: {}
+              date_created: '2018-12-08T03:01:07.651Z'
+              date_modified: '2018-12-08T03:01:07.651Z'
+              object: address
             url: >-
               https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
+            carrier: USPS
             front_template_id: null
             back_template_id: null
             front_template_version_id: null
@@ -2505,13 +2928,6 @@ components:
         endpoint contained in the `previous_url` and `next_url` fields in the
         API response respectively.<br>If no more postcards are available beyond
         the current set of returned results, the `next_url` field will be empty.
-      headers:
-        ratelimit-limit:
-          $ref: '#/components/headers/ratelimit-limit'
-        ratelimit-remaining:
-          $ref: '#/components/headers/ratelimit-remaining'
-        ratelimit-reset:
-          $ref: '#/components/headers/ratelimit-reset'
       content:
         application/json:
           schema:
@@ -2527,12 +2943,28 @@ components:
           example:
             data:
               - id: psc_208e45e48d271294
-                description: ''
+                description: null
                 metadata: {}
-                to: adr_8d4f198f0c3bcf3a
-                from: adr_210a8d4b0b76d77b
+                to:
+                  id: adr_210a8d4b0b76d77b
+                  description: null
+                  name: LEORE AVIDAR
+                  company: null
+                  phone: null
+                  email: null
+                  address_line1: 185 BERRY ST STE 6100
+                  address_line2: null
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
+                  object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
+                carrier: USPS
                 front_template_id: null
                 back_template_id: null
                 front_template_version_id: null
@@ -2542,12 +2974,41 @@ components:
                 send_date: '2021-03-24T22:51:42.838Z'
                 object: postcard
               - id: psc_0e03d1ad7d31f151
-                description: ''
+                description: null
                 metadata: {}
-                to: adr_8d4f198f0c3bcf3a
-                from: adr_210a8d4b0b76d77b
+                to:
+                  id: adr_c7cb63d68f8d6
+                  description: null
+                  name: JANE DOE
+                  address_line1: 370 WATER ST
+                  address_city: SUMMERSIDE
+                  address_state: PE
+                  address_zip: C1N 1C4
+                  address_country: CANADA
+                  metadata: {}
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
+                  object: address
+                from:
+                  id: adr_210a8d4b0b76d77b
+                  description: null
+                  name: LEORE AVIDAR
+                  company: null
+                  phone: null
+                  email: null
+                  address_line1: 185 BERRY ST STE 6100
+                  address_line2: null
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
+                  object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
+                carrier: USPS
                 front_template_id: null
                 back_template_id: null
                 front_template_version_id: null
@@ -2993,7 +3454,7 @@ paths:
               $ref: '#/components/schemas/address_editable'
       responses:
         '200':
-          $ref: '#/components/responses/address_writable'
+          $ref: '#/components/responses/address_editable'
         default:
           $ref: '#/components/responses/error'
   '/certificates/{id}':

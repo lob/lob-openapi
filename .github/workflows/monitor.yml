@@ -16,3 +16,5 @@ jobs:
         uses: ./actions/contract_tests
         env:
           LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
+        with:
+          testCommand: "npm run pergoalie av pmapi billing"

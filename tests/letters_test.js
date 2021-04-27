@@ -1,9 +1,5 @@
 "use strict";
 
-// TODO:
-// Need to add subscription features to the lob open api token used to
-// run CI and contract tests in order to cancel, use certified, etc.
-
 // standard setup, present in every test
 const test = require("tape");
 const Prism = require("./setup.js");

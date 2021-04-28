@@ -12,7 +12,7 @@ for (let arg of process.argv.slice(2)) {
         // actually: send this to the right slack channel
         console.error(err);
         console.log(err.code);
-        return;
+        return err.code;
       }
       console.log(stdout);
     });

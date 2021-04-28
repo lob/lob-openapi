@@ -1,0 +1,88 @@
+get:
+  operationId: list_bank_accounts
+
+  summary: List all bank_accounts
+
+  description: >-
+    Returns a list of your bank_accounts. The bank_accounts are returned sorted by
+    creation date, with the most recently created bank_accounts appearing first.
+
+  tags:
+    - Bank Accounts
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/after.yml"
+    - $ref: "../../shared/parameters/before.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - $ref: "../../shared/parameters/metadata.yml"
+
+  responses:
+    "200":
+      $ref: responses/all_bank_accounts.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+post:
+  operationId: create_bank_account
+
+  summary: Creates a new bank_account
+
+  description: >-
+    Creates a new bank_account with the provided properties.
+
+  tags:
+    - Bank Accounts
+
+  parameters:
+    - $ref: "../../shared/parameters/idempotency.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/bank_account_base.yml"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/bank_account_base.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+
+      multipart/form-data:
+        schema:
+          $ref: "models/bank_account_base.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+
+  responses:
+    "200":
+      $ref: responses/bank_account.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

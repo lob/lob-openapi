@@ -1,0 +1,28 @@
+description: Returns a bank_account object
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      $ref: "../models/bank_account.yml"
+
+    example:
+      id: bank_8cad8df5354d33f
+      description: Test Bank Account
+      metadata: {}
+      routing_number: "322271627"
+      account_number: "123456789"
+      account_type: company
+      signatory: John Doe
+      bank_name: J.P. MORGAN CHASE BANK, N.A.
+      verified: false
+      date_created: "2015-11-06T19:24:24.440Z"
+      date_modified: "2015-11-06T19:24:24.440Z"
+      object: bank_account

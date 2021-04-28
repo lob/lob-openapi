@@ -1,0 +1,35 @@
+allOf:
+  - $ref: "bank_account_base.yml"
+  - $ref: "../../../shared/models/lob_base.yml"
+
+  - type: object
+
+    required:
+      - id
+
+    # Add any properties that are specific to this form factor
+    # that are generated when a new mailpiece is created here.
+    # Be sure to include the stored versions of any form factor
+    # specific input properties you added to the 'editable' schema.
+    properties:
+      id:
+        $ref: "../../../shared/attributes/model_ids/bank_id.yml"
+
+      signature_url:
+        allOf:
+          - $ref: "../../../shared/attributes/signed_link.yml"
+          - nullable: true
+
+      bank_name:
+        description: >-
+          The name of the bank based on the provided routing number, e.g. `JPMORGAN CHASE BANK`.
+        type: string
+
+      verified:
+        type: boolean
+        default: false
+
+      object:
+        allOf:
+          - $ref: "../../../shared/attributes/object.yml"
+          - pattern: "^bank_account$"

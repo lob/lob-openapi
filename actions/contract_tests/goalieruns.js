@@ -11,7 +11,6 @@ for (let arg of process.argv.slice(2)) {
       if (err) {
         // actually: send this to the right slack channel
         console.error(err);
-        console.log(err.code);
         return err.code;
       }
       console.log(stdout);

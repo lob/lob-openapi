@@ -1,7 +1,9 @@
 "use strict";
 
 // standard setup, present in every test
-const test = require("tape");
+const tape = require("tape");
+const _test = require("tape-promise").default;
+const test = _test(tape);
 const Prism = require("./setup.js");
 
 // test specific data
@@ -62,6 +64,7 @@ test("create, list, read, then cancel a self mailer", async function (t) {
   );
   // note: existing endpoints return 200 on success. All new endpoints should
   // return 201 ("created")
+  await t.doesNotReject(Promise.resolve(create));
   t.equal(create.status, 200);
 
   // read, replace, update and delete created endpoint
@@ -72,11 +75,13 @@ test("create, list, read, then cancel a self mailer", async function (t) {
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
+  await t.doesNotReject(Promise.resolve(list));
   t.equal(list.status, 200);
 
   const read = await prism
     .setup()
     .then((client) => client.get(sfm_endpoint, { headers: prism.authHeader }));
+  await t.doesNotReject(Promise.resolve(read));
   t.equal(read.status, 200);
 
   // Be careful where you get the id! If you just use
@@ -86,10 +91,13 @@ test("create, list, read, then cancel a self mailer", async function (t) {
       headers: prism.authHeader,
     })
   );
+  await t.doesNotReject(Promise.resolve(cancel));
   t.equal(cancel.status, 200);
 
-  await deleteAddress(to);
-  await deleteAddress(from);
+  const deletedTo = await deleteAddress(to);
+  await t.doesNotReject(Promise.resolve(deletedTo));
+  const deletedFrom = await deleteAddress(from);
+  await t.doesNotReject(Promise.resolve(deletedFrom));
 });
 
 // add any failure cases you need here

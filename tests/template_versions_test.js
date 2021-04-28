@@ -1,7 +1,9 @@
 "use strict";
 
 // standard setup, present in every test
-const test = require("tape");
+const tape = require("tape");
+const _test = require("tape-promise").default;
+const test = _test(tape);
 const Prism = require("./setup.js");
 
 // test specific data
@@ -35,6 +37,7 @@ prism
           client.get(resource_endpoint, { headers: prism.authHeader })
         );
 
+      await t.doesNotReject(Promise.resolve(response));
       t.equal(response.status, 200);
 
       // create new version
@@ -49,6 +52,7 @@ prism
         )
       );
 
+      await t.doesNotReject(Promise.resolve(response));
       t.equal(response.status, 200);
       const vrsn_endpoint = `${resource_endpoint}/${response.data.id}`;
 
@@ -59,6 +63,7 @@ prism
         })
       );
 
+      await t.doesNotReject(Promise.resolve(response));
       t.equal(response.status, 200);
 
       // update
@@ -72,6 +77,7 @@ prism
           )
         );
 
+      await t.doesNotReject(Promise.resolve(response));
       t.equal(response.status, 200);
 
       // delete
@@ -80,7 +86,7 @@ prism
           headers: prism.authHeader,
         })
       );
-
+      await t.doesNotReject(Promise.resolve(response));
       t.equal(response.status, 200);
 
       // clean up template too!

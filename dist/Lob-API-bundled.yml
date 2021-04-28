@@ -20,6 +20,15 @@ servers:
 tags:
   - name: Addresses
     description: A frictionless address book for use with the print and mail API.
+  - name: Asset URLs
+    x-traitTag: true
+    description: >-
+      All asset URLs returned by the Lob API (postcards, letters, thumbnails,
+      etc) are signed links served over HTTPS. All links returned will expire in
+      30 days to prevent mis-sharing. Each time a GET request is initiated, a
+      new signed URL will be generated.
+  - name: Bank Accounts
+    description: Bank Accounts allow you to store your bank account securely in our system.
   - name: Certificates
     description: >-
       A certificate store to manage client identities. Create, retrieve, update,
@@ -70,11 +79,13 @@ x-tagGroups:
   - name: Overview
     tags:
       - Test and Live Environments
+      - Asset URLs
       - Certificates
   - name: Print and Mail API
     tags:
       - Postcards
       - Letters
+      - Bank Accounts
       - Addresses
       - Templates
       - Template Versions
@@ -831,68 +842,25 @@ components:
           ZA: '#/components/schemas/address_editable_intl'
           ZM: '#/components/schemas/address_editable_intl'
           ZW: '#/components/schemas/address_editable_intl'
-    cert_id:
+    bank_id:
       type: string
-      description: Unique identifier prefixed with `cert_`.
-      pattern: '^cert_[a-zA-Z0-9]+$'
-    name:
-      type: string
-      description: 'Short, friendly name of the certificate.'
-      maxLength: 255
-      nullable: true
-    certificate_writable:
+      description: Unique identifier prefixed with `bank_`.
+      pattern: '^bank_[a-zA-Z0-9]+$'
+    cents:
+      type: integer
+      minimum: 1
+      maximum: 100
+    bank_account_verify:
       type: object
       required:
-        - cert
-        - name
+        - amounts
       properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        name:
-          $ref: '#/components/schemas/name'
-        cert:
-          type: string
-          description: |
-            Public X509 certificate.
-          maxLength: 20000
-          nullable: true
-    acc_id:
-      type: string
-      description: Unique account identifier.
-      pattern: '^[a-zA-Z0-9]+$'
-    date_deleted:
-      type: string
-      format: date-time
-      description: A timestamp in ISO 8601 format of the date the resource was deleted.
-    certificate:
-      allOf:
-        - $ref: '#/components/schemas/certificate_writable'
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          required:
-            - id
-          properties:
-            id:
-              $ref: '#/components/schemas/cert_id'
-            account_id:
-              $ref: '#/components/schemas/acc_id'
-            date_deleted:
-              $ref: '#/components/schemas/date_deleted'
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - pattern: ^certificate$
-    certificate_update:
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/name'
-        description:
-          $ref: '#/components/schemas/resource_description'
-    ltr_id:
-      type: string
-      description: Unique identifier prefixed with `ltr_`.
-      pattern: '^ltr_[a-zA-Z0-9]+$'
+        amounts:
+          type: array
+          minLength: 2
+          maxLength: 2
+          items:
+            $ref: '#/components/schemas/cents'
     mail_type:
       type: string
       enum:
@@ -958,6 +926,139 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
+    bank_account_base:
+      allOf:
+        - $ref: '#/components/schemas/editable'
+        - type: object
+          required:
+            - routing_number
+            - account_number
+            - account_type
+            - signatory
+          properties:
+            description:
+              $ref: '#/components/schemas/resource_description'
+            routing_number:
+              description: >-
+                Must be a [valid US routing
+                number](https://www.frbservices.org/index.html).
+              type: string
+              maxLength: 9
+            account_number:
+              type: string
+              maxLength: 17
+            account_type:
+              type: string
+              enum:
+                - company
+                - individual
+              description: The type of entity that holds the account.
+            signatory:
+              description: >-
+                The signatory associated with your account. This name will be
+                printed on checks created with this bank account. If you prefer
+                to use a custom signature image on your checks instead, please
+                create your bank account from the Dashboard.
+              type: string
+              maxLength: 30
+            metadata:
+              $ref: '#/components/schemas/metadata'
+    signed_link:
+      type: string
+      description: >-
+        A signed link served over HTTPS. The link returned will expire in 30
+        days to prevent mis-sharing. Each time a GET request is initiated, a new
+        signed URL will be generated.
+      pattern: >-
+        https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*\&)?expires=[0-9]{10}\&signature=[a-zA-Z0-9-_]+$
+    bank_account:
+      allOf:
+        - $ref: '#/components/schemas/bank_account_base'
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/bank_id'
+            signature_url:
+              allOf:
+                - $ref: '#/components/schemas/signed_link'
+                - nullable: true
+            bank_name:
+              description: >-
+                The name of the bank based on the provided routing number, e.g.
+                `JPMORGAN CHASE BANK`.
+              type: string
+            verified:
+              type: boolean
+              default: false
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^bank_account$
+    cert_id:
+      type: string
+      description: Unique identifier prefixed with `cert_`.
+      pattern: '^cert_[a-zA-Z0-9]+$'
+    name:
+      type: string
+      description: 'Short, friendly name of the certificate.'
+      maxLength: 255
+      nullable: true
+    certificate_writable:
+      type: object
+      required:
+        - cert
+        - name
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        name:
+          $ref: '#/components/schemas/name'
+        cert:
+          type: string
+          description: |
+            Public X509 certificate.
+          maxLength: 20000
+          nullable: true
+    acc_id:
+      type: string
+      description: Unique account identifier.
+      pattern: '^[a-zA-Z0-9]+$'
+    date_deleted:
+      type: string
+      format: date-time
+      description: A timestamp in ISO 8601 format of the date the resource was deleted.
+    certificate:
+      allOf:
+        - $ref: '#/components/schemas/certificate_writable'
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/cert_id'
+            account_id:
+              $ref: '#/components/schemas/acc_id'
+            date_deleted:
+              $ref: '#/components/schemas/date_deleted'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^certificate$
+    certificate_update:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        description:
+          $ref: '#/components/schemas/resource_description'
+    ltr_id:
+      type: string
+      description: Unique identifier prefixed with `ltr_`.
+      pattern: '^ltr_[a-zA-Z0-9]+$'
     letter_base:
       allOf:
         - $ref: '#/components/schemas/editable'
@@ -1007,14 +1108,6 @@ components:
                 will impact your letter design, view our [perforation
                 guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
               nullable: true
-    signed_link:
-      type: string
-      description: >-
-        A signed link served over HTTPS. The link returned will expire in 30
-        days to prevent mis-sharing. Each time a GET request is initiated, a new
-        signed URL will be generated.
-      pattern: >-
-        https://lob-assets\.com/(letters|postcards|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*\&)?expires=[0-9]{10}\&signature=[a-zA-Z0-9-_]+$
     thumbnail:
       type: object
       properties:
@@ -2617,6 +2710,84 @@ components:
             date_created: '2017-09-05T17:47:53.767Z'
             date_modified: '2017-09-05T17:47:53.767Z'
             object: address
+    bank_account:
+      description: Returns a bank_account object
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bank_account'
+          example:
+            id: bank_8cad8df5354d33f
+            description: Test Bank Account
+            metadata: {}
+            routing_number: '322271627'
+            account_number: '123456789'
+            account_type: company
+            signatory: John Doe
+            bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+            verified: false
+            date_created: '2015-11-06T19:24:24.440Z'
+            date_modified: '2015-11-06T19:24:24.440Z'
+            object: bank_account
+    all_bank_accounts:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` bank_accounts. Each entry in the array is a separate
+        bank_account. The previous and next page of bank_accounts can be
+        retrieved by calling the endpoint contained in the `previous_url` and
+        `next_url` fields in the API response respectively.<br>If no more
+        bank_accounts are available beyond the current set of returned results,
+        the `next_url` field will be empty.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of bank_accounts
+                    items:
+                      $ref: '#/components/schemas/bank_account'
+              - $ref: '#/components/schemas/list'
+          example:
+            data:
+              - id: bank_0e3fb07eba0b35b
+                description: Example bank account
+                metadata: {}
+                routing_number: '122100024'
+                account_number: '1234564789'
+                account_type: company
+                signatory: John Doe
+                bank_name: 'JPMORGAN CHASE BANK, NA'
+                verified: true
+                date_created: '2019-03-30T13:13:22.200Z'
+                date_modified: '2019-03-30T13:13:23.385Z'
+                object: bank_account
+              - id: bank_eba93f7de3c02d9
+                description: Example bank account
+                metadata: {}
+                routing_number: '122100024'
+                account_number: '1234564789'
+                account_type: company
+                signatory: John Doe
+                bank_name: 'JPMORGAN CHASE BANK, NA'
+                verified: true
+                date_created: '2019-03-30T13:11:06.809Z'
+                date_modified: '2019-03-30T13:11:07.872Z'
+                object: bank_account
+            object: list
+            next_url: >-
+              https://api.lob.com/v1/bank_accounts?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wMy0zMFQxMzoxMTowNi44MDlaIiwiaWRPZmZzZXQiOiJiYW5rX2ViYTkzZjdkZTNjMDJkOSJ9
+            previous_url: null
+            count: 2
     certificate:
       description: Returns an certificate object if a valid identifier was provided.
       content:
@@ -3455,6 +3626,171 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/address_editable'
+        default:
+          $ref: '#/components/responses/error'
+  '/bank_accounts/{bank_id}/verify':
+    parameters:
+      - in: path
+        name: bank_id
+        description: id of the bank account to be verified
+        required: true
+        schema:
+          $ref: '#/components/schemas/bank_id'
+    post:
+      operationId: verify_bank_account
+      summary: Verify a bank account
+      description: Verify a bank account in order to create a check.
+      tags:
+        - Bank Accounts
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bank_account_verify'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/bank_account_verify'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/bank_account_verify'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
+      responses:
+        '200':
+          $ref: '#/components/responses/bank_account'
+        default:
+          $ref: '#/components/responses/error'
+  '/bank_accounts/{bank_id}':
+    parameters:
+      - in: path
+        name: bank_id
+        description: id of the bank_account
+        required: true
+        schema:
+          $ref: '#/components/schemas/bank_id'
+    get:
+      operationId: get_bank_account
+      summary: Retrieve bank_account with given id
+      description: >-
+        Retrieves the details of an existing bank_account. You need only supply
+        the unique bank_account identifier that was returned upon bank_account
+        creation.
+      tags:
+        - Bank Accounts
+      responses:
+        '200':
+          $ref: '#/components/responses/bank_account'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_bank_account
+      summary: Delete a bank_account
+      description: Permanently deletes a bank account. It cannot be undone.
+      tags:
+        - Bank Accounts
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /bank_accounts:
+    get:
+      operationId: list_bank_accounts
+      summary: List all bank_accounts
+      description: >-
+        Returns a list of your bank_accounts. The bank_accounts are returned
+        sorted by creation date, with the most recently created bank_accounts
+        appearing first.
+      tags:
+        - Bank Accounts
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+        - $ref: '#/components/parameters/metadata'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_bank_accounts'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_bank_account
+      summary: Creates a new bank_account
+      description: Creates a new bank_account with the provided properties.
+      tags:
+        - Bank Accounts
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/bank_account_base'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/bank_account_base'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/bank_account_base'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
+      responses:
+        '200':
+          $ref: '#/components/responses/bank_account'
         default:
           $ref: '#/components/responses/error'
   '/certificates/{id}':

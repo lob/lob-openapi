@@ -6,7 +6,7 @@
 
 // standard setup, present in every test
 const test = require("tape");
-var fs = require("fs");
+const fs = require("fs");
 const path = require("path");
 const Prism = require("./setup.js");
 

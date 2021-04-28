@@ -1,24 +1,21 @@
 allOf:
-  - $ref: "postcard_base.yml"
-  - $ref: "../../../shared/models/form_factor/input_to.yml"
-  - $ref: "../../../shared/models/form_factor/input_from_us.yml"
+  - $ref: "self_mailer_base.yml"
 
   - type: object
 
     required:
-      - to
-      - front
-      - back
+      - inside
+      - outside
 
     properties:
-      front:
+      inside:
         oneOf:
           - $ref: "../../../shared/attributes/artwork.yml"
           - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
           - $ref: "../../../shared/attributes/remote_file_url.yml"
           - $ref: "../../../shared/attributes/local_file_path.yml"
 
-      back:
+      outside:
         oneOf:
           - $ref: "../../../shared/attributes/artwork.yml"
           - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"

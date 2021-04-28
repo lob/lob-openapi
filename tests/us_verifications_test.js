@@ -1,6 +1,8 @@
 "use strict";
 
-const test = require("tape");
+const tape = require("tape");
+const _test = require("tape-promise").default;
+const test = _test(tape);
 const Prism = require("./setup.js");
 
 const resource_endpoint = "/us_verifications",
@@ -25,6 +27,7 @@ test("verify a US address given primary line, city, and state", async function (
       )
     );
 
+  await t.doesNotReject(Promise.resolve(response));
   t.equal(response.status, 200);
 });
 
@@ -39,6 +42,7 @@ test("verify a US address given primary line and zip code", async function (t) {
       )
     );
 
+  await t.doesNotReject(Promise.resolve(response));
   t.equal(response.status, 200);
 });
 
@@ -53,6 +57,7 @@ test("verify a US address given a single-line address", async function (t) {
       )
     );
 
+  await t.doesNotReject(Promise.resolve(response));
   t.equal(response.status, 200);
 });
 
@@ -67,9 +72,9 @@ test("errors when given a primary line without city/state or zip", async functio
       )
     );
 
+  await t.rejects(Promise.reject(response));
   t.equal(response.status, 422);
   t.match(response.data.error.message, /zip_code/);
-  t.end();
 });
 
 test("errors when not given a primary line", async function (t) {
@@ -83,9 +88,9 @@ test("errors when not given a primary line", async function (t) {
       )
     );
 
+  await t.rejects(Promise.reject(response));
   t.equal(response.status, 422);
   t.match(response.data.error.message, /primary_line/);
-  t.end();
 });
 
 test("errors when given a city without state or zip", async function (t) {
@@ -99,9 +104,9 @@ test("errors when given a city without state or zip", async function (t) {
       )
     );
 
+  await t.rejects(Promise.reject(response));
   t.equal(response.status, 422);
   t.match(response.data.error.message, /state/);
-  t.end();
 });
 
 test("errors when given a state without city or zip", async function (t) {
@@ -115,9 +120,9 @@ test("errors when given a state without city or zip", async function (t) {
       )
     );
 
+  await t.rejects(Promise.reject(response));
   t.equal(response.status, 422);
   t.match(response.data.error.message, /city/);
-  t.end();
 });
 
 test("errors when given extraneous information alongside a single-line address", async function (t) {
@@ -131,7 +136,7 @@ test("errors when given extraneous information alongside a single-line address",
       )
     );
 
+  await t.rejects(Promise.reject(response));
   t.equal(response.status, 422);
   t.match(response.data.error.message, /zip_code/);
-  t.end();
 });

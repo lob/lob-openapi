@@ -1,6 +1,8 @@
 "use strict";
 
-const test = require("tape");
+const tape = require("tape");
+const _test = require("tape-promise").default;
+const test = _test(tape);
 const Prism = require("./setup.js");
 
 // test specific data
@@ -22,6 +24,7 @@ test("lookup a US zip code", async function (t) {
       )
     );
 
+  await t.doesNotReject(Promise.resolve(response));
   t.equal(response.status, 200);
 });
 
@@ -36,7 +39,7 @@ test("use an incorrectly formatted zip code", async function (t) {
       )
     );
 
+  await t.doesNotReject(Promise.resolve(response));
   t.equal(response.status, 422);
   t.match(response.data.error.message, /zip_code/);
-  t.end();
 });

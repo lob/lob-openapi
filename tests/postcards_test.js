@@ -5,7 +5,9 @@
 // run CI and contract tests in order to cancel, use certified, etc.
 
 // standard setup, present in every test
-const test = require("tape");
+const tape = require("tape");
+const _test = require("tape-promise").default;
+const test = _test(tape);
 const fs = require("fs");
 const path = require("path");
 const Prism = require("./setup.js");
@@ -26,6 +28,7 @@ test("create, list, read then cancel a postcard", async function (t) {
       .then((client) =>
         client.post("/addresses", address_data, { headers: prism.authHeader })
       );
+    await t.doesNotReject(Promise.resolve(response));
     return response.data.id;
   };
   const deleteAddress = async (address_id) => {
@@ -34,6 +37,7 @@ test("create, list, read then cancel a postcard", async function (t) {
       .then((client) =>
         client.delete(`/addresses/${address_id}`, { headers: prism.authHeader })
       );
+    await t.doesNotReject(Promise.resolve(response));
     t.equal(response.status, 200);
     return response;
   };
@@ -69,6 +73,7 @@ test("create, list, read then cancel a postcard", async function (t) {
       { headers: prism.authHeader }
     )
   );
+  await t.doesNotReject(Promise.resolve(create));
   t.equal(create.status, 200);
 
   const list = await prism
@@ -76,6 +81,7 @@ test("create, list, read then cancel a postcard", async function (t) {
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
+  await t.doesNotReject(Promise.resolve(list));
   t.equal(list.status, 200);
 
   const read = await prism.setup().then((client) =>
@@ -83,6 +89,7 @@ test("create, list, read then cancel a postcard", async function (t) {
       headers: prism.authHeader,
     })
   );
+  await t.doesNotReject(Promise.resolve(read));
   t.equal(read.status, 200);
 
   const cancel = await prism.setup().then((client) =>
@@ -90,10 +97,13 @@ test("create, list, read then cancel a postcard", async function (t) {
       headers: prism.authHeader,
     })
   );
+  await t.doesNotReject(Promise.resolve(cancel));
   t.equal(cancel.status, 200);
 
-  await deleteAddress(to);
-  await deleteAddress(from);
+  const deletedTo = await deleteAddress(to);
+  await t.doesNotReject(Promise.resolve(deletedTo));
+  const deletedFrom = await deleteAddress(from);
+  await t.doesNotReject(Promise.resolve(deletedFrom));
 });
 
 test("creates a postcard given a local filepath as the front", async function (t) {
@@ -139,7 +149,7 @@ test("creates a postcard given a local filepath as the front", async function (t
       { headers: prism.authHeader }
     )
   );
-  // console.log(create)
+  await t.doesNotReject(Promise.resolve(create));
   t.equal(create.status, 200);
 });
 
@@ -173,6 +183,7 @@ test("throws errors when input is not validated", async function (t) {
       { headers: prism.authHeader }
     )
   );
+  await t.rejects(Promise.reject(create_domestic));
   t.equal(create_domestic.status, 422);
 
   // errors when no country is provided for international address
@@ -203,5 +214,6 @@ test("throws errors when input is not validated", async function (t) {
       { headers: prism.authHeader }
     )
   );
+  await t.rejects(Promise.reject(create_intl));
   t.equal(create_intl.status, 422);
 });

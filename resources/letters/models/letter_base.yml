@@ -1,5 +1,5 @@
 allOf:
-  - $ref: "../../../shared/models/form_factor/editable.yml"
+  - $ref: "../../../shared/models/form_factor/editable_no_mailtype.yml"
 
   - type: object
 
@@ -7,6 +7,17 @@ allOf:
       - color
 
     properties:
+      mail_type:
+        type: string
+        enum:
+          - usps_first_class
+          - usps_standard
+        description: |
+          A string designating the mail postage type:
+          * `usps_first_class` - (default)
+          * `usps_standard` - a [cheaper option](https://lob.com/pricing/print-mail#compare) which is less predictable and takes longer to deliver. Cannot be used with certified letters, registered letters, or any letters sent outside of the United States.
+        default: usps_first_class
+
       color:
         type: boolean
         description: >-

@@ -23,6 +23,17 @@ tags:
   - name: Addresses
     description: A frictionless address book for use with the print and mail API.
 
+  - name: Asset URLs
+    x-traitTag: true
+    description: >-
+      All asset URLs returned by the Lob API (postcards, letters, thumbnails,
+      etc) are signed links served over HTTPS. All links returned will expire in
+      30 days to prevent mis-sharing. Each time a GET request is initiated, a
+      new signed URL will be generated.
+
+  - name: Bank Accounts
+    description: Bank Accounts allow you to store your bank account securely in our system.
+
   - name: Certificates
     description: A certificate store to manage client identities. Create, retrieve, update, and delete PEM certificates.
 
@@ -75,12 +86,14 @@ x-tagGroups:
   - name: Overview
     tags:
       - Test and Live Environments
+      - Asset URLs
       - Certificates
 
   - name: Print and Mail API
     tags:
       - Postcards
       - Letters
+      - Bank Accounts
       - Addresses
       - Templates
       - Template Versions
@@ -105,6 +118,15 @@ paths:
 
   /addresses:
     $ref: resources/addresses/addresses.yml
+
+  /bank_accounts/{bank_id}/verify:
+    $ref: resources/bank_accounts/bank_account_verify.yml
+
+  /bank_accounts/{bank_id}:
+    $ref: resources/bank_accounts/bank_account.yml
+
+  /bank_accounts:
+    $ref: resources/bank_accounts/bank_accounts.yml
 
   /certificates/{id}:
     $ref: resources/certificates/certificate.yml

@@ -1,0 +1,43 @@
+parameters:
+  - in: path
+    name: bank_id
+    description: id of the bank_account
+    required: true
+    schema:
+      $ref: "../../shared/attributes/model_ids/bank_id.yml"
+
+get:
+  operationId: get_bank_account
+
+  summary: Retrieve bank_account with given id
+
+  description: >-
+    Retrieves the details of an existing bank_account. You need only supply
+    the unique bank_account identifier that was returned upon bank_account creation.
+
+  tags:
+    - Bank Accounts
+
+  responses:
+    "200":
+      $ref: responses/bank_account.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+delete:
+  operationId: delete_bank_account
+
+  summary: Delete a bank_account
+
+  description: Permanently deletes a bank account. It cannot be undone.
+
+  tags:
+    - Bank Accounts
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/error.yml"

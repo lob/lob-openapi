@@ -1,0 +1,88 @@
+get:
+  operationId: list_self_mailers
+
+  summary: List all self_mailers
+
+  description: >-
+    Returns a list of your self_mailers. The self_mailers are returned sorted by
+    creation date, with the most recently created self_mailers appearing first.
+
+  tags:
+    - Self Mailers
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/after.yml"
+    - $ref: "../../shared/parameters/before.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - $ref: "../../shared/parameters/metadata.yml"
+
+  responses:
+    "200":
+      $ref: responses/all_self_mailers.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+post:
+  operationId: create_self_mailer
+
+  summary: Creates a new self_mailer object
+
+  description: >-
+    Creates a new self_mailer given information
+
+  tags:
+    - Self Mailers
+
+  parameters:
+    - $ref: "../../shared/parameters/idempotency.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/self_mailer_editable.yml"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/self_mailer_editable.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+
+      multipart/form-data:
+        schema:
+          $ref: "models/self_mailer_editable.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+
+  responses:
+    "200":
+      $ref: responses/self_mailer.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

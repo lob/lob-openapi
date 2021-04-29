@@ -1,0 +1,75 @@
+allOf:
+  - $ref: "self_mailer_base.yml"
+
+  - type: object
+
+    required:
+      - id
+      - outside_template_id
+      - inside_template_id
+      - outside_template_version_id
+      - inside_template_version_id
+      - date_created
+      - date_modified
+      - object
+      - url
+
+    properties:
+      id:
+        $ref: "../../../shared/attributes/model_ids/sfm_id.yml"
+
+      url:
+        $ref: "../../../shared/attributes/signed_link.yml"
+
+      outside_template_id:
+        oneOf:
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - type: string
+            nullable: true
+
+      inside_template_id:
+        oneOf:
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - type: string
+            nullable: true
+
+      outside_template_version_id:
+        oneOf:
+          - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+          - type: string
+            nullable: true
+
+      inside_template_version_id:
+        oneOf:
+          - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+          - type: string
+            nullable: true
+
+      carrier:
+        type: string
+        description: Value is `USPS`.
+        pattern: "^USPS$"
+
+      tracking_events:
+        type: array
+        items:
+          $ref: "../../../shared/resources/tracking_events/tracking_event_normal.yml"
+        nullable: true
+
+      thumbnails:
+        $ref: "../../../shared/models/thumbnail.yml"
+
+      deleted:
+        $ref: "../../../shared/attributes/deleted.yml"
+
+      expected_delivery_date:
+        $ref: "../../../shared/attributes/expected_delivery_date.yml"
+
+      date_created:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+      date_modified:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+      object:
+        $ref: "../../../shared/attributes/object.yml"

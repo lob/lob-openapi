@@ -43,6 +43,9 @@ tags:
   - name: Postcards
     description: Easily print and mail postcards. Create, retrieve, cancel, and list postcards.
 
+  - name: Self Mailers
+    description: Easily print and mail self mailers. Create, retrieve, cancel, and list self mailers.
+
   - name: Template Versions
     description: Versioning for your reusable HTML print and mail templates.
 
@@ -92,6 +95,7 @@ x-tagGroups:
   - name: Print and Mail API
     tags:
       - Postcards
+      - Self Mailers
       - Letters
       - Bank Accounts
       - Addresses
@@ -145,6 +149,12 @@ paths:
 
   /postcards:
     $ref: resources/postcards/postcards.yml
+
+  /self_mailers/{sfm_id}:
+    $ref: resources/self_mailers/self_mailer.yml
+
+  /self_mailers:
+    $ref: resources/self_mailers/self_mailers.yml
 
   /templates/{tmpl_id}/versions/{vrsn_id}:
     $ref: resources/templates/template_versions/template_version.yml

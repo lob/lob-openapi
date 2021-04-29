@@ -31,8 +31,7 @@ allOf:
           pages single-sided or 12 pages double-sided will be placed in a
           [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf) instead of the standard double window envelope.
         oneOf:
-          - type: string
-            maxLength: 10000
+          - $ref: "../../../shared/attributes/artwork.yml"
           - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
           - $ref: "../../../shared/attributes/remote_file_url.yml"
           - allOf:

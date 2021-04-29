@@ -1,0 +1,29 @@
+description: Returns a self_mailer object
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      $ref: "../models/self_mailer.yml"
+    example:
+      id: "sfm_c94e83ca2cd51212"
+      description: ""
+      metadata: {}
+      to: "adr_8d4f198f0c3bcf3a"
+      from: "adr_210a8d4b0b76d77b"
+      url: "https://lob-assets.com/self-mailers/sfm_c94e83ca2cd51212.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA"
+      outside_template_id: null
+      inside_template_id: null
+      outside_template_version_id: null
+      inside_template_version_id: null
+      date_created: "2017-11-07T22:56:10.962Z"
+      date_modified: "2017-11-07T22:56:10.962Z"
+      send_date: "2017-11-08T22:51:42.838Z"
+      object: "self_mailer"

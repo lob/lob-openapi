@@ -39,6 +39,10 @@ tags:
     description: >-
       Easily print and mail postcards. Create, retrieve, cancel, and list
       postcards.
+  - name: Self Mailers
+    description: >-
+      Easily print and mail self mailers. Create, retrieve, cancel, and list
+      self mailers.
   - name: Template Versions
     description: Versioning for your reusable HTML print and mail templates.
   - name: Templates
@@ -84,6 +88,7 @@ x-tagGroups:
   - name: Print and Mail API
     tags:
       - Postcards
+      - Self Mailers
       - Letters
       - Bank Accounts
       - Addresses
@@ -1629,6 +1634,10 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address'
+    artwork:
+      type: string
+      description: 'An HTML string of under 10,000 characters.'
+      maxLength: 10000
     remote_file_url:
       type: string
       description: A link to a remote file to be used for the postcard template.
@@ -1675,8 +1684,7 @@ components:
                 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf)
                 instead of the standard double window envelope.
               oneOf:
-                - type: string
-                  maxLength: 10000
+                - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - allOf:
@@ -1791,10 +1799,6 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address_us'
-    artwork:
-      type: string
-      description: 'An HTML string of under 10,000 characters.'
-      maxLength: 10000
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -1813,6 +1817,124 @@ components:
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
             back:
+              oneOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+    sfm_id:
+      type: string
+      description: Unique identifier prefixed with `sfm_`.
+      pattern: '^sfm_[a-zA-Z0-9]+$'
+    self_mailer_size:
+      type: string
+      enum:
+        - 6x18_bifold
+        - 12x9_bifold
+      description: >
+        Specifies the size of the self mailer. Must be either 6x18_bifold or
+        12x9_bifold. Defaults to 6x18_bifold.
+      default: 6x18_bifold
+    self_mailer_base:
+      type: object
+      required:
+        - to
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        to:
+          oneOf:
+            - $ref: '#/components/schemas/inline_address'
+            - $ref: '#/components/schemas/adr_id'
+        from:
+          oneOf:
+            - $ref: '#/components/schemas/inline_address'
+            - $ref: '#/components/schemas/adr_id'
+        send_date:
+          $ref: '#/components/schemas/send_date'
+        size:
+          $ref: '#/components/schemas/self_mailer_size'
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    self_mailer:
+      allOf:
+        - $ref: '#/components/schemas/self_mailer_base'
+        - type: object
+          required:
+            - id
+            - outside_template_id
+            - inside_template_id
+            - outside_template_version_id
+            - inside_template_version_id
+            - date_created
+            - date_modified
+            - object
+            - url
+          properties:
+            id:
+              $ref: '#/components/schemas/sfm_id'
+            url:
+              $ref: '#/components/schemas/signed_link'
+            outside_template_id:
+              oneOf:
+                - $ref: '#/components/schemas/tmpl_id'
+                - type: string
+                  nullable: true
+            inside_template_id:
+              oneOf:
+                - $ref: '#/components/schemas/tmpl_id'
+                - type: string
+                  nullable: true
+            outside_template_version_id:
+              oneOf:
+                - $ref: '#/components/schemas/vrsn_id'
+                - type: string
+                  nullable: true
+            inside_template_version_id:
+              oneOf:
+                - $ref: '#/components/schemas/vrsn_id'
+                - type: string
+                  nullable: true
+            carrier:
+              type: string
+              description: Value is `USPS`.
+              pattern: ^USPS$
+            tracking_events:
+              type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_normal'
+              nullable: true
+            thumbnails:
+              $ref: '#/components/schemas/thumbnail'
+            deleted:
+              $ref: '#/components/schemas/deleted'
+            expected_delivery_date:
+              $ref: '#/components/schemas/expected_delivery_date'
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            object:
+              $ref: '#/components/schemas/object'
+    self_mailer_editable:
+      allOf:
+        - $ref: '#/components/schemas/self_mailer_base'
+        - type: object
+          required:
+            - inside
+            - outside
+          properties:
+            inside:
+              oneOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+            outside:
               oneOf:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
@@ -3191,6 +3313,96 @@ components:
             object: list
             next_url: null
             count: 2
+    self_mailer:
+      description: Returns a self_mailer object
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/self_mailer'
+          example:
+            id: sfm_c94e83ca2cd51212
+            description: ''
+            metadata: {}
+            to: adr_8d4f198f0c3bcf3a
+            from: adr_210a8d4b0b76d77b
+            url: >-
+              https://lob-assets.com/self-mailers/sfm_c94e83ca2cd51212.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
+            outside_template_id: null
+            inside_template_id: null
+            outside_template_version_id: null
+            inside_template_version_id: null
+            date_created: '2017-11-07T22:56:10.962Z'
+            date_modified: '2017-11-07T22:56:10.962Z'
+            send_date: '2017-11-08T22:51:42.838Z'
+            object: self_mailer
+    all_self_mailers:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` self_mailers. Each entry in the array is a separate self_mailer.
+        The previous and next page of self_mailers can be retrieved by calling
+        the endpoint contained in the `previous_url` and `next_url` fields in
+        the API response respectively.<br>If no more self_mailers are available
+        beyond the current set of returned results, the `next_url` field will be
+        empty.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of self_mailers
+                    items:
+                      $ref: '#/components/schemas/self_mailer'
+              - $ref: '#/components/schemas/list'
+          example:
+            data:
+              - id: sfm_d5a5a89da9106f82
+                description: Test self_mailer
+                metadata: {}
+                to: adr_8d4f198f0c3bcf3a
+                from: adr_210a8d4b0b76d77b
+                url: >-
+                  https://lob-assets.com/self-mailers/sfm_d5a5a89da9106f82.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
+                outside_template_id: null
+                inside_template_id: null
+                outside_template_version_id: null
+                inside_template_version_id: null
+                date_created: '2019-07-27T23:49:01.511Z'
+                date_modified: '2019-07-27T23:49:01.511Z'
+                object: self_mailer
+              - id: sfm_59b2150ae1208872
+                description: Test self_mailer
+                metadata: {}
+                to: adr_8d4f198f0c3bcf3a
+                from: adr_210a8d4b0b76d77b
+                url: >-
+                  https://lob-assets.com/self-mailers/sfm_59b2150ae1208872.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
+                outside_template_id: null
+                inside_template_id: null
+                outside_template_version_id: null
+                inside_template_version_id: null
+                date_created: '2019-03-29T10:22:34.642Z'
+                date_modified: '2019-03-29T10:22:34.642Z'
+                object: self_mailer
+            object: list
+            next_url: null
+            count: 2
     template_version:
       description: Returns the template version with the given template and version ids.
       headers:
@@ -4109,6 +4321,118 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/postcard'
+        default:
+          $ref: '#/components/responses/error'
+  '/self_mailers/{sfm_id}':
+    parameters:
+      - in: path
+        name: sfm_id
+        description: id of the self_mailer
+        required: true
+        schema:
+          $ref: '#/components/schemas/sfm_id'
+    get:
+      operationId: get_self_mailer
+      summary: Retrieve self_mailer with given id
+      description: >-
+        Retrieves the details of an existing self_mailer. You need only supply
+        the unique self_mailer identifier that was returned upon self_mailer
+        creation.
+      tags:
+        - Self Mailers
+      responses:
+        '200':
+          $ref: '#/components/responses/self_mailer'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: delete_self_mailer
+      summary: Deletes self_mailer with given id
+      description: >-
+        Completely removes a self mailer from production. This can only be done
+        if the self mailer's `send_date` has not yet passed. If the self mailer
+        is successfully canceled, you will not be charged for it. This feature
+        is exclusive to certain customers. Upgrade to the appropriate [Print &
+        Mail Edition](https://dashboard.lob.com/#/settings/editions) to gain
+        access.
+      tags:
+        - Self Mailers
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /self_mailers:
+    get:
+      operationId: list_self_mailers
+      summary: List all self_mailers
+      description: >-
+        Returns a list of your self_mailers. The self_mailers are returned
+        sorted by creation date, with the most recently created self_mailers
+        appearing first.
+      tags:
+        - Self Mailers
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+        - $ref: '#/components/parameters/metadata'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_self_mailers'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_self_mailer
+      summary: Creates a new self_mailer object
+      description: Creates a new self_mailer given information
+      tags:
+        - Self Mailers
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/self_mailer_editable'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/self_mailer_editable'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/self_mailer_editable'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
+      responses:
+        '200':
+          $ref: '#/components/responses/self_mailer'
         default:
           $ref: '#/components/responses/error'
   '/templates/{tmpl_id}/versions/{vrsn_id}':

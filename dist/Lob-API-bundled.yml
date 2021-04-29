@@ -878,9 +878,7 @@ components:
 
         * `usps_standard` - a [cheaper
         option](https://lob.com/pricing/print-mail#compare) which is less
-        predictable and takes longer to deliver. Cannot be used with certified
-        letters, registered letters, or any letters sent outside of the United
-        States.
+        predictable and takes longer to deliver.
       default: usps_first_class
     merge_variables:
       type: object
@@ -1064,13 +1062,40 @@ components:
       type: string
       description: Unique identifier prefixed with `ltr_`.
       pattern: '^ltr_[a-zA-Z0-9]+$'
+    editable_no_mailtype:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        send_date:
+          $ref: '#/components/schemas/send_date'
     letter_base:
       allOf:
-        - $ref: '#/components/schemas/editable'
+        - $ref: '#/components/schemas/editable_no_mailtype'
         - type: object
           required:
             - color
           properties:
+            mail_type:
+              type: string
+              enum:
+                - usps_first_class
+                - usps_standard
+              description: >
+                A string designating the mail postage type:
+
+                * `usps_first_class` - (default)
+
+                * `usps_standard` - a [cheaper
+                option](https://lob.com/pricing/print-mail#compare) which is
+                less predictable and takes longer to deliver. Cannot be used
+                with certified letters, registered letters, or any letters sent
+                outside of the United States.
+              default: usps_first_class
             color:
               type: boolean
               description: >-
@@ -1728,9 +1753,8 @@ components:
         - 6x9
         - 6x11
       description: >
-        Specifies the size of the postcard. Must be either 4x6, 6x9, or 6x11.
-        Defaults to 4x6. Only 4x6 postcards can be sent to international
-        destinations.
+        Specifies the size of the postcard. Only 4x6 postcards can be sent to
+        international destinations.
       default: 4x6
     postcard_base:
       allOf:
@@ -1787,7 +1811,8 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^postcard$
+                - type: string
+                  pattern: ^postcard$
     input_from_us:
       type: object
       properties:
@@ -1831,38 +1856,20 @@ components:
       enum:
         - 6x18_bifold
         - 12x9_bifold
-      description: >
-        Specifies the size of the self mailer. Must be either 6x18_bifold or
-        12x9_bifold. Defaults to 6x18_bifold.
+      description: Specifies the size of the self mailer.
       default: 6x18_bifold
     self_mailer_base:
-      type: object
-      required:
-        - to
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        to:
-          oneOf:
-            - $ref: '#/components/schemas/inline_address'
-            - $ref: '#/components/schemas/adr_id'
-        from:
-          oneOf:
-            - $ref: '#/components/schemas/inline_address'
-            - $ref: '#/components/schemas/adr_id'
-        send_date:
-          $ref: '#/components/schemas/send_date'
-        size:
-          $ref: '#/components/schemas/self_mailer_size'
-        mail_type:
-          $ref: '#/components/schemas/mail_type'
-        merge_variables:
-          $ref: '#/components/schemas/merge_variables'
-        metadata:
-          $ref: '#/components/schemas/metadata'
+      allOf:
+        - $ref: '#/components/schemas/editable'
+        - type: object
+          properties:
+            size:
+              $ref: '#/components/schemas/self_mailer_size'
     self_mailer:
       allOf:
         - $ref: '#/components/schemas/self_mailer_base'
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from_us'
         - type: object
           required:
             - id
@@ -1870,72 +1877,53 @@ components:
             - inside_template_id
             - outside_template_version_id
             - inside_template_version_id
-            - date_created
-            - date_modified
-            - object
-            - url
           properties:
             id:
               $ref: '#/components/schemas/sfm_id'
-            url:
-              $ref: '#/components/schemas/signed_link'
             outside_template_id:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/tmpl_id'
                 - type: string
                   nullable: true
             inside_template_id:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/tmpl_id'
                 - type: string
                   nullable: true
             outside_template_version_id:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/vrsn_id'
                 - type: string
                   nullable: true
             inside_template_version_id:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/vrsn_id'
                 - type: string
                   nullable: true
-            carrier:
-              type: string
-              description: Value is `USPS`.
-              pattern: ^USPS$
-            tracking_events:
-              type: array
-              items:
-                $ref: '#/components/schemas/tracking_event_normal'
-              nullable: true
-            thumbnails:
-              $ref: '#/components/schemas/thumbnail'
-            deleted:
-              $ref: '#/components/schemas/deleted'
-            expected_delivery_date:
-              $ref: '#/components/schemas/expected_delivery_date'
-            date_created:
-              $ref: '#/components/schemas/date_created'
-            date_modified:
-              $ref: '#/components/schemas/date_modified'
             object:
-              $ref: '#/components/schemas/object'
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  pattern: ^self_mailer$
     self_mailer_editable:
       allOf:
         - $ref: '#/components/schemas/self_mailer_base'
+        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_from_us'
         - type: object
           required:
+            - to
             - inside
             - outside
           properties:
             inside:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
             outside:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
@@ -3327,20 +3315,75 @@ components:
           schema:
             $ref: '#/components/schemas/self_mailer'
           example:
-            id: sfm_c94e83ca2cd51212
-            description: ''
+            id: sfm_8ffbe811dea49dcf
+            description: April Campaign
             metadata: {}
-            to: adr_8d4f198f0c3bcf3a
-            from: adr_210a8d4b0b76d77b
+            to:
+              id: adr_bae820679f3f536b
+              description: null
+              name: HARRY ZHANG
+              company: null
+              phone: null
+              email: null
+              address_line1: 185 BERRY ST STE 6100
+              address_line2: null
+              address_city: SAN FRANCISCO
+              address_state: CA
+              address_zip: 94107-1741
+              address_country: UNITED STATES
+              metadata: {}
+              date_created: '2017-09-05T17:47:53.767Z'
+              date_modified: '2017-09-05T17:47:53.767Z'
+              deleted: true
+              object: address
+            from:
+              id: adr_210a8d4b0b76d77b
+              description: null
+              name: LEORE AVIDAR
+              company: null
+              phone: null
+              email: null
+              address_line1: 185 BERRY ST STE 6100
+              address_line2: null
+              address_city: SAN FRANCISCO
+              address_state: CA
+              address_zip: 94107-1741
+              address_country: UNITED STATES
+              metadata: {}
+              date_created: '2017-09-05T17:47:53.767Z'
+              date_modified: '2017-09-05T17:47:53.767Z'
+              deleted: true
+              object: address
             url: >-
-              https://lob-assets.com/self-mailers/sfm_c94e83ca2cd51212.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
-            outside_template_id: null
-            inside_template_id: null
-            outside_template_version_id: null
-            inside_template_version_id: null
-            date_created: '2017-11-07T22:56:10.962Z'
-            date_modified: '2017-11-07T22:56:10.962Z'
-            send_date: '2017-11-08T22:51:42.838Z'
+              https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf.pdf?version=v1&expires=1618512040&signature=qvyCqXI1ndBvc4AjvG8FlirqLXEcfmYo4sDrRtabaXMOsX88to9G3K49uIk_aqevvZXe8HoRYD_nWydbQHqaCA
+            outside_template_id: tmpl_a3cb937f26d7eec
+            inside_template_id: tmpl_a3cb937f26d7eec
+            inside_template_version_id: vrsn_bfdf70893b00a85
+            outside_template_version_id: vrsn_bfdf70893b00a85
+            carrier: USPS
+            tracking_events: []
+            thumbnails:
+              - small: >-
+                  https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_small_1.png?version=v1&expires=1618512040&signature=-bipeUHP-hAMcCBSrWM0ZH1VwRdSPNVGGZN9hAZKr6Lh4ly6uxvratVd5LXJCK_zOEMYk_mTWASt0ge7OY6SDA
+                medium: >-
+                  https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_medium_1.png?version=v1&expires=1618512040&signature=ryxN7bsXGtw_GRFSP3Cs3A3IYjxZi3cW9BHDCNgMt6p3nobVmsc_iFHt2e-S7ndAXhhN7nP-MQVov3bt3r37BQ
+                large: >-
+                  https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_large_1.png?version=v1&expires=1618512040&signature=kBrm00xkyCkJNJRHxH8HshFaebtOxnzjVWOs1VVmGMuw8H6OBNcMAMxt9s49K0jlpHoh3Nr9uSncEZMQaaNjAg
+              - small: >-
+                  https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_small_2.png?version=v1&expires=1618512040&signature=3gTgU7Fd3KoT_vNlQnTGptRps5ZgnkhSnPrAwk7L98higIzSwfKoLvuu_DIpMM48dHbxckKT9waR8euJ4KSDBQ
+                medium: >-
+                  https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_medium_2.png?version=v1&expires=1618512040&signature=Ue1lw5CMj7KRx6cMQL8xPeazaHCdJzWcACd1w3acuYPnWkVIpSt62OIO7hAtpAQK9xm1dhhlFj0rqRZMdRMMBA
+                large: >-
+                  https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_large_2.png?version=v1&expires=1618512040&signature=cICc7HEm1xG_eyM4a_wtvPk2FqoLRmtgGa29kJisWnMIYBL0OkyzG4ZCYGMhp-5cZpJlSpXfTgGKh_Qmeo1TDw
+            merge_variables:
+              name: null
+            size: 6x18_bifold
+            mail_type: usps_first_class
+            expected_delivery_date: '2021-03-24'
+            date_created: '2021-03-16T18:40:40.504Z'
+            date_modified: '2021-03-16T18:40:40.504Z'
+            send_date: '2021-03-16T18:45:40.493Z'
+            billing_group_id: bg_79a178f7171f5795d
             object: self_mailer
     all_self_mailers:
       description: >-
@@ -3372,33 +3415,58 @@ components:
               - $ref: '#/components/schemas/list'
           example:
             data:
-              - id: sfm_d5a5a89da9106f82
-                description: Test self_mailer
+              - id: sfm_8ffbe811dea49dcf
+                description: April Campaign
                 metadata: {}
-                to: adr_8d4f198f0c3bcf3a
-                from: adr_210a8d4b0b76d77b
+                to:
+                  id: adr_f9228b743884ff98
+                  description: null
+                  name: AYA
+                  company: null
+                  phone: null
+                  email: null
+                  address_line1: 2812 PARK RD
+                  address_line2: null
+                  address_city: CHARLOTTE
+                  address_state: NC
+                  address_zip: 28209-1314
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: '2021-03-16T18:40:40.410Z'
+                  date_modified: '2021-03-16T18:40:40.410Z'
+                  deleted: true
+                  object: address
                 url: >-
-                  https://lob-assets.com/self-mailers/sfm_d5a5a89da9106f82.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
-                outside_template_id: null
-                inside_template_id: null
-                outside_template_version_id: null
-                inside_template_version_id: null
-                date_created: '2019-07-27T23:49:01.511Z'
-                date_modified: '2019-07-27T23:49:01.511Z'
-                object: self_mailer
-              - id: sfm_59b2150ae1208872
-                description: Test self_mailer
-                metadata: {}
-                to: adr_8d4f198f0c3bcf3a
-                from: adr_210a8d4b0b76d77b
-                url: >-
-                  https://lob-assets.com/self-mailers/sfm_59b2150ae1208872.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
-                outside_template_id: null
-                inside_template_id: null
-                outside_template_version_id: null
-                inside_template_version_id: null
-                date_created: '2019-03-29T10:22:34.642Z'
-                date_modified: '2019-03-29T10:22:34.642Z'
+                  https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf.pdf?version=v1&expires=1618781264&signature=YP_bCwrgVA2lz1Gr1YVCJN1f-WspUGsH0aJp2ihjfLXU7lDUV12_xRv4uPch0mfWeOOxEqpyP8hGpgvjmQKNAw
+                outside_template_id: tmpl_a3cb937f26d7eec
+                inside_template_id: tmpl_a3cb937f26d7eec
+                inside_template_version_id: vrsn_bfdf70893b00a85
+                outside_template_version_id: vrsn_bfdf70893b00a85
+                carrier: USPS
+                tracking_events: []
+                thumbnails:
+                  - small: >-
+                      https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_small_1.png?version=v1&expires=1618781264&signature=A7q5HbRO53sUYYnwGlmP5mTS6ylLE7kS2mYhfcEOdexjyqG7UseK0MD26DppE4Q0aE4u2msDVMxd5ukjMerYCg
+                    medium: >-
+                      https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_medium_1.png?version=v1&expires=1618781264&signature=b9pynuawVpU_vrhnT_mTpksdE-FLF_ZjdIBOFR_ltIzEGlx-VKD4VvZrqP98lG2D8V7UKQ7SdRr2nUAk4LxvCg
+                    large: >-
+                      https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_large_1.png?version=v1&expires=1618781264&signature=g2jifhCselPqIj8au6lsbJMNFN8ZX3aM6GkLoAXiHBCS8X5mF9nhVbmO0odpnmwNlV1CWIp-MXVsZkC3NmxqBQ
+                  - small: >-
+                      https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_small_2.png?version=v1&expires=1618781264&signature=biJY4-ZbNNRydPYg3cZkq7wxjILbPBK_nIVyoyQsg5X5q4jlsa-2fzeMa48V9jprUetsC6WEuYvasHosRfG_DQ
+                    medium: >-
+                      https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_medium_2.png?version=v1&expires=1618781264&signature=xEAX7bURyc8fSphacuo5yb7iVIpT8Xvq05KgMaNQS4r3aCpx0z1p42wbPmW758B5Ae0li1YDYvVyzS7qJIoWAw
+                    large: >-
+                      https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf_thumb_large_2.png?version=v1&expires=1618781264&signature=NieHDnoQ7STZUvofHrFt7S987CzIkUJWpaSgpVQPZw-C3_wwTPsIrvxYdXEuFrr6ciTUcxRBFPlE0lurmMkyCA
+                merge_variables:
+                  name: null
+                size: 6x18_bifold
+                mail_type: usps_first_class
+                expected_delivery_date: '2021-03-24'
+                date_created: '2021-03-16T18:40:40.504Z'
+                date_modified: '2021-03-16T18:41:06.691Z'
+                send_date: '2021-03-16T18:45:40.493Z'
+                deleted: true
+                billing_group_id: bg_79a178f7171f5795d
                 object: self_mailer
             object: list
             next_url: null
@@ -4398,6 +4466,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'
+            example:
+              description: Demo Self Mailer job
+              to: adr_bae820679f3f536b
+              from: adr_210a8d4b0b76d77b
+              inside: 'https://lob.com/selfmailerinside.pdf'
+              outside: 'https://lob.com/selfmaileroutside.pdf'
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'

@@ -1,7 +1,9 @@
 "use strict";
 
 // standard setup, present in every test
-const test = require("tape");
+const tape = require("tape");
+const _test = require("tape-promise").default;
+const test = _test(tape);
 const Prism = require("./setup.js");
 
 // test specific data
@@ -11,13 +13,14 @@ const resource_endpoint = "/letters",
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
-test("create, list, read then cancel a letter with no extra services", async function (t) {
+test("create, list, read, then cancel, a letter with no extra services", async function (t) {
   const makeAddress = async (address_data) => {
     let response = await prism
       .setup()
       .then((client) =>
         client.post("/addresses", address_data, { headers: prism.authHeader })
       );
+    await t.doesNotReject(Promise.resolve(response));
     return response.data.id;
   };
   const deleteAddress = async (address_id) => {
@@ -26,6 +29,7 @@ test("create, list, read then cancel a letter with no extra services", async fun
       .then((client) =>
         client.delete(`/addresses/${address_id}`, { headers: prism.authHeader })
       );
+    await t.doesNotReject(Promise.resolve(response));
     t.equal(response.status, 200);
     return response;
   };
@@ -59,6 +63,7 @@ test("create, list, read then cancel a letter with no extra services", async fun
       { headers: prism.authHeader }
     )
   );
+  await t.doesNotReject(Promise.resolve(create));
   t.equal(create.status, 200);
   t.false(create.data.tracking_number);
 
@@ -67,6 +72,7 @@ test("create, list, read then cancel a letter with no extra services", async fun
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
+  await t.doesNotReject(Promise.resolve(list));
   t.equal(list.status, 200);
 
   const read = await prism.setup().then((client) =>
@@ -74,6 +80,7 @@ test("create, list, read then cancel a letter with no extra services", async fun
       headers: prism.authHeader,
     })
   );
+  await t.doesNotReject(Promise.resolve(read));
   t.equal(read.status, 200);
 
   const cancel = await prism.setup().then((client) =>
@@ -81,10 +88,13 @@ test("create, list, read then cancel a letter with no extra services", async fun
       headers: prism.authHeader,
     })
   );
+  await t.doesNotReject(Promise.resolve(cancel));
   t.equal(cancel.status, 200);
 
-  await deleteAddress(to);
-  await deleteAddress(from);
+  const deletedTo = await deleteAddress(to);
+  await t.doesNotReject(Promise.resolve(deletedTo));
+  const deletedFrom = await deleteAddress(from);
+  await t.doesNotReject(Promise.resolve(deletedFrom));
 });
 
 // add any failure cases you need here
@@ -118,6 +128,7 @@ test("create, list, read then cancel a certified letter", async function (t) {
       { headers: prism.authHeader }
     )
   );
+  await t.doesNotReject(Promise.resolve(create));
   t.equal(create.status, 200);
   t.true(create.data.tracking_number);
 
@@ -126,6 +137,7 @@ test("create, list, read then cancel a certified letter", async function (t) {
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
+  await t.doesNotReject(Promise.resolve(list));
   t.equal(list.status, 200);
 
   const read = await prism.setup().then((client) =>
@@ -133,6 +145,7 @@ test("create, list, read then cancel a certified letter", async function (t) {
       headers: prism.authHeader,
     })
   );
+  await t.doesNotReject(Promise.resolve(read));
   t.equal(read.status, 200);
 
   const cancel = await prism.setup().then((client) =>
@@ -140,5 +153,6 @@ test("create, list, read then cancel a certified letter", async function (t) {
       headers: prism.authHeader,
     })
   );
+  await t.doesNotReject(Promise.resolve(cancel));
   t.equal(cancel.status, 200);
 });

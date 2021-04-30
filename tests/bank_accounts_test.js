@@ -1,7 +1,9 @@
 "use strict";
 
 // standard setup, present in every test
-const test = require("tape");
+const tape = require("tape");
+const _test = require("tape-promise").default;
+const test = _test(tape);
 const Prism = require("./setup.js");
 
 // test specific data
@@ -28,6 +30,7 @@ test("create, list, read, verify, then delete a bank_account", async function (t
   );
   // note: existing endpoints return 200 on success. All new endpoints should
   // return 201 ("created")
+  await t.doesNotReject(Promise.resolve(create));
   t.equal(create.status, 200);
 
   const list = await prism
@@ -35,6 +38,7 @@ test("create, list, read, verify, then delete a bank_account", async function (t
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
+  await t.doesNotReject(Promise.resolve(list));
   t.equal(list.status, 200);
 
   const read = await prism.setup().then((client) =>
@@ -42,6 +46,7 @@ test("create, list, read, verify, then delete a bank_account", async function (t
       headers: prism.authHeader,
     })
   );
+  await t.doesNotReject(Promise.resolve(read));
   t.equal(read.status, 200);
 
   const verify = await prism
@@ -53,6 +58,7 @@ test("create, list, read, verify, then delete a bank_account", async function (t
         { headers: prism.authHeader }
       )
     );
+  await t.doesNotReject(Promise.resolve(verify));
   t.equal(verify.status, 200);
   t.equal(verify.data.verified, true);
 
@@ -61,5 +67,6 @@ test("create, list, read, verify, then delete a bank_account", async function (t
       headers: prism.authHeader,
     })
   );
+  await t.doesNotReject(Promise.resolve(remove));
   t.equal(remove.status, 200);
 });

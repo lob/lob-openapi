@@ -3,7 +3,7 @@ const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
 for (let arg of process.argv.slice(2)) {
-  test_set = pkg.config.goaliemappings[arg].resources;
+  test_set = pkg.config.goalieMappings[arg].resources;
   for (resource_name in test_set) {
     test = test_set[resource_name];
     test_command = 'multi-tape "' + test + '" | tap-spec';

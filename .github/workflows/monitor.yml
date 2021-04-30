@@ -5,7 +5,7 @@ on:
     - cron: "*/5 * * * *"
 
 jobs:
-  monitor:
+  monitor_av:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,4 +17,30 @@ jobs:
         env:
           LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
         with:
-          testCommand: "npm run pergoalie av pmApi billing"
+          testCommand: "npm run pergoalie av"
+  monitor_pmApi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: run contract tests
+        uses: ./actions/contract_tests
+        env:
+          LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
+        with:
+          testCommand: "npm run pergoalie pmApi"
+  monitor_billing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: run contract tests
+        uses: ./actions/contract_tests
+        env:
+          LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
+        with:
+          testCommand: "npm run pergoalie billing"

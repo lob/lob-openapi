@@ -16,23 +16,24 @@
     },
     "goalieMappings": {
       "av": {
-        "slackchannel": "#av-api-alerts",
+        "slackChannel": "#av-api-alerts",
         "resources": {
-          "usverifications": "tests/us_verifications_test.js",
-          "usziplookups": "tests/zip_lookups_test.js"
+          "usVerifications": "tests/us_verifications_test.js",
+          "usZipLookups": "tests/zip_lookups_test.js"
         }
       },
       "billing": {
-        "slackchannel": "#billing-errors",
-        "resources": {}
+        "slackChannel": "#billing-errors",
+        "resources": {
+          "bankAccounts": "tests/bank_accounts_test.js"
+        }
       },
       "pmApi": {
-        "slackchannel": "#eng-api-errors",
+        "slackChannel": "#eng-api-errors",
         "resources": {
           "addresses": "tests/addresses_test.js",
           "letters": "tests/letters_test.js",
           "postcards": "tests/postcards_test.js",
-          "bankAccounts": "tests/bank_accounts_test.js",
           "templates": "tests/template*_test.js",
           "certificates": "tests/certificates_test.js"
         }

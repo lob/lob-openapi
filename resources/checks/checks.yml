@@ -1,0 +1,96 @@
+get:
+  operationId: list_checks
+
+  summary: List all checks
+
+  description: >-
+    Returns a list of your checks. The checks are returned sorted by
+    creation date, with the most recently created checks appearing first.
+
+  tags:
+    - Checks
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/after.yml"
+    - $ref: "../../shared/parameters/before.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - $ref: "../../shared/parameters/metadata.yml"
+
+  responses:
+    "200":
+      $ref: responses/all_checks.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+post:
+  operationId: create_check
+
+  summary: Creates a new check
+
+  description: >-
+    Creates a new check with the provided properties.
+
+  tags:
+    - Checks
+
+  parameters:
+    - $ref: "../../shared/parameters/idempotency.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/check_editable.yml"
+        example:
+          description: Demo Check
+          to: adr_210a8d4b0b76d77b
+          from: adr_b8fb5acf3a2b55db
+          bank_account: bank_8cad8df5354d33f
+          amount: 22.50
+          memo: rent
+          message: "yippee!"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/check_editable.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+        example:
+          description: Demo Check
+          to: adr_210a8d4b0b76d77b
+          from: adr_b8fb5acf3a2b55db
+          bank_account: bank_8cad8df5354d33f
+          amount: 22.50
+          memo: rent
+          logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png"
+          check_bottom: tmpl_23668b406d5afef
+          merge_variables[name]: Harry
+
+      multipart/form-data:
+        schema:
+          $ref: "models/check_editable.yml"
+        encoding:
+          logo:
+            contentType: image/png, image/jpeg
+
+  responses:
+    "200":
+      $ref: responses/check.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

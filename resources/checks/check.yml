@@ -1,0 +1,52 @@
+parameters:
+  - in: path
+    name: chk_id
+    description: id of the check
+    required: true
+    schema:
+      $ref: "attributes/chk_id.yml"
+
+get:
+  operationId: get_check
+
+  summary: Retrieve check with given id
+
+  description: >-
+    Retrieves the details of an existing check. You need only supply
+    the unique check identifier that was returned upon check creation.
+
+  tags:
+    - Checks
+
+  responses:
+    "200":
+      $ref: responses/check.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+# For Form Factors, delete is actually cancel. If you need
+# delete verbiage, check Bank Accounts or Template Versions.
+delete:
+  operationId: cancel_check
+
+  summary: Cancel a check
+
+  description: >-
+    Completely removes a check from production. This can only be done if
+    the check has a `send_date` and the `send_date` has not yet passed.
+    If the check is successfully canceled, you will not be charged for it.
+    Read more on [cancellation windows](https://docs.lob.com/#cancellation)
+    and [scheduling](https://docs.lob.com/#scheduled). Scheduling and
+    cancellation is a premium feature. Upgrade to the appropriate
+    Print & Mail Edition to gain access.
+
+  tags:
+    - Checks
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/error.yml"

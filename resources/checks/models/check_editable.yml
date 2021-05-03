@@ -1,0 +1,99 @@
+allOf:
+  - $ref: "check_base.yml"
+  - $ref: "input_to.yml"
+  - $ref: "../../../shared/models/form_factor/input_from_us.yml"
+
+  - type: object
+
+    required:
+      - bank_account
+      - to
+      - from
+      - amount
+
+    oneOf:
+      - required:
+          - message
+      - required:
+          - check_bottom
+
+    properties:
+      bank_account:
+        allOf:
+          - $ref: "../../../shared/attributes/model_ids/bank/bank_id_no_description.yml"
+          - type: string
+            description: The id for a verified bank account.
+
+      amount:
+        description: >-
+          The payment amount to be sent in US dollars. Amounts will be rounded
+          to two decimal places.
+        type: number
+        format: float
+        maximum: 1000000
+        exclusiveMaximum: true
+
+      logo:
+        description: >-
+          Accepts a remote URL or local file upload to an image to print
+          (in grayscale) in the upper-left corner of your check.
+          Image requirements:
+
+            * RGB or CMYK
+
+            * square
+
+            * minimum size: 100px x 100px
+
+            * transparent backgrond
+
+            * `png` or `jpg`
+        anyOf:
+          - $ref: "../../../shared/attributes/remote_file_url.yml"
+          - allOf:
+              - $ref: "../../../shared/attributes/local_file_path.yml"
+              - type: string
+                pattern: "[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)+$"
+
+      check_bottom:
+        description: >-
+          The artwork to use on the bottom of the check page. Accepts an HTML
+          string of under 10,000 characters, the ID of a saved [HTML
+          template](https://lob.github.io/lob-openapi/#tag/Templates), or a
+          remote URL or a local upload of an HTML, PDF, PNG, or JPG file. Remote
+          URLs have a 20 MB file size limit and must be downloaded within 40
+          seconds. HTML files passed as remote URLs or local file uploads have
+          no character limit. HTML merge variables should not include delimiting
+          whitespace. PDF, PNG, and JPGs must be sized at 8.5"x11" at 300 DPI,
+          while supplied HTML will be rendered and trimmed to fit on a 8.5"x11"
+          page. The check bottom will always be printed in black & white. Must
+          conform to [this
+          template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_bottom_template.pdf).
+          Need more help? Consult our HTML examples.
+        anyOf:
+          - $ref: "../../../shared/attributes/artwork.yml"
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - $ref: "../../../shared/attributes/remote_file_url.yml"
+          - $ref: "../../../shared/attributes/local_file_path.yml"
+
+      attachment:
+        description: >-
+          A document to include with the check. Accepts an HTML string of under
+          10,000 characters, the ID of a saved [HTML template](https://lob.github.io/lob-openapi/#tag/Templates), or a remote URL or
+          a local upload of an HTML, PDF, PNG, or JPG file. Remote URLs have a
+          20 MB file size limit and must be downloaded within 40 seconds. HTML
+          files passed as remote URLs or local file uploads have no character
+          limit. HTML merge variables should not include delimiting
+          whitespace. All pages of PDF, PNG, and JPGs must be sized at 8.5"x11"
+          at 300 DPI, while supplied HTML will be rendered and trimmed to as
+          many 8.5"x11" pages as necessary. If a PDF is provided, it must be 6
+          pages or fewer. The attachment will be printed double-sided in black &
+          white and will be included in the envelope after the check
+          page. Please follow these [design guidelines](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_attachment_template.pdf).
+          See [pricing](https://lob.com/pricing/print-mail#compare) for extra
+          costs incurred. Need more help? Consult our HTML examples.
+        anyOf:
+          - $ref: "../../../shared/attributes/artwork.yml"
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - $ref: "../../../shared/attributes/remote_file_url.yml"
+          - $ref: "../../../shared/attributes/local_file_path.yml"

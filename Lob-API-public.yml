@@ -35,16 +35,19 @@ tags:
     description: Bank Accounts allow you to store your bank account securely in our system.
 
   - name: Certificates
-    description: A certificate store to manage client identities. Create, retrieve, update, and delete PEM certificates.
+    description: A certificate store to manage client identities.
+
+  - name: Checks
+    description: Checks allow you to send payments via physical checks.
 
   - name: Letters
-    description: Easily print and mail letters. Create, retrieve, cancel, and list letters.
+    description: Easily print and mail letters.
 
   - name: Postcards
-    description: Easily print and mail postcards. Create, retrieve, cancel, and list postcards.
+    description: Easily print and mail postcards.
 
   - name: Self Mailers
-    description: Easily print and mail self mailers. Create, retrieve, cancel, and list self mailers.
+    description: Easily print and mail self mailers.
 
   - name: Template Versions
     description: Versioning for your reusable HTML print and mail templates.
@@ -94,11 +97,12 @@ x-tagGroups:
 
   - name: Print and Mail API
     tags:
+      - Addresses
       - Postcards
       - Self Mailers
       - Letters
+      - Checks
       - Bank Accounts
-      - Addresses
       - Templates
       - Template Versions
 
@@ -137,6 +141,12 @@ paths:
 
   /certificates:
     $ref: resources/certificates/certificates.yml
+
+  /checks/{chk_id}:
+    $ref: resources/checks/check.yml
+
+  /checks:
+    $ref: resources/checks/checks.yml
 
   /letters/{ltr_id}:
     $ref: resources/letters/letter.yml

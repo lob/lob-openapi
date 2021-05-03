@@ -28,8 +28,6 @@ test("create, list, read, verify, then delete a bank_account", async function (t
       { headers: prism.authHeader }
     )
   );
-  // note: existing endpoints return 200 on success. All new endpoints should
-  // return 201 ("created")
   await t.doesNotReject(Promise.resolve(create));
   t.equal(create.status, 200);
 

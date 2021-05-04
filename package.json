@@ -46,6 +46,7 @@
     "clean": "rm -rf dist",
     "lint": "spectral lint $npm_package_config_specfile",
     "mock": "prism mock $npm_package_config_--dynamic $npm_package_config_specfile",
+    "one_test": "node run_one.js",
     "postinstall": "husky install",
     "postman": "npm run bundle && openapi2postmanv2 --pretty --spec dist/$npm_package_config_bundlefile --output dist/$npm_package_config_postmanfile",
     "pretty": "prettier --write .",

@@ -30,19 +30,15 @@ tags:
   - name: Bank Accounts
     description: Bank Accounts allow you to store your bank account securely in our system.
   - name: Certificates
-    description: >-
-      A certificate store to manage client identities. Create, retrieve, update,
-      and delete PEM certificates.
+    description: A certificate store to manage client identities.
+  - name: Checks
+    description: Checks allow you to send payments via physical checks.
   - name: Letters
-    description: 'Easily print and mail letters. Create, retrieve, cancel, and list letters.'
+    description: Easily print and mail letters.
   - name: Postcards
-    description: >-
-      Easily print and mail postcards. Create, retrieve, cancel, and list
-      postcards.
+    description: Easily print and mail postcards.
   - name: Self Mailers
-    description: >-
-      Easily print and mail self mailers. Create, retrieve, cancel, and list
-      self mailers.
+    description: Easily print and mail self mailers.
   - name: Template Versions
     description: Versioning for your reusable HTML print and mail templates.
   - name: Templates
@@ -87,11 +83,12 @@ x-tagGroups:
       - Certificates
   - name: Print and Mail API
     tags:
+      - Addresses
       - Postcards
       - Self Mailers
       - Letters
+      - Checks
       - Bank Accounts
-      - Addresses
       - Templates
       - Template Versions
   - name: US Verification API
@@ -847,10 +844,14 @@ components:
           ZA: '#/components/schemas/address_editable_intl'
           ZM: '#/components/schemas/address_editable_intl'
           ZW: '#/components/schemas/address_editable_intl'
-    bank_id:
+    bank_id_no_description:
       type: string
-      description: Unique identifier prefixed with `bank_`.
       pattern: '^bank_[a-zA-Z0-9]+$'
+    bank_id:
+      allOf:
+        - $ref: '#/components/schemas/bank_id_no_description'
+        - type: string
+        - description: Unique identifier prefixed with `bank_`.
     cents:
       type: integer
       minimum: 1
@@ -1058,10 +1059,10 @@ components:
           $ref: '#/components/schemas/name'
         description:
           $ref: '#/components/schemas/resource_description'
-    ltr_id:
+    chk_id:
       type: string
-      description: Unique identifier prefixed with `ltr_`.
-      pattern: '^ltr_[a-zA-Z0-9]+$'
+      description: Unique identifier prefixed with `chk_`.
+      pattern: '^chk_[a-zA-Z0-9]+$'
     editable_no_mailtype:
       type: object
       properties:
@@ -1073,6 +1074,281 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
+    check_base:
+      allOf:
+        - $ref: '#/components/schemas/editable_no_mailtype'
+        - type: object
+          properties:
+            mail_type:
+              type: string
+              description: Checks must be sent `usps_first_class`
+              default: usps_first_class
+              pattern: ^usps_first_class$
+            memo:
+              description: Text to include on the memo line of the check.
+              type: string
+              maxLength: 40
+              nullable: true
+            check_number:
+              description: >-
+                An integer that designates the check number.
+
+                If `check_number` is not provided, checks created from a new
+                `bank_account` will start at `10000` and increment with each
+                check created with the `bank_account`.
+
+                A provided `check_number` overrides the defaults. Subsequent
+                checks created with the same `bank_account` will increment from
+                the provided check number.
+              type: integer
+              minimum: 1
+              maximum: 500000000
+            message:
+              description: >-
+                Max of 400 characters to be included at the bottom of the check
+                page.
+              type: string
+              maxLength: 400
+    thumbnail:
+      type: object
+      properties:
+        small:
+          $ref: '#/components/schemas/signed_link'
+        medium:
+          $ref: '#/components/schemas/signed_link'
+        large:
+          $ref: '#/components/schemas/signed_link'
+    expected_delivery_date:
+      type: string
+      description: >-
+        A date in YYYY-MM-DD format of the letter's expected delivery date based
+        on its `send_date`.
+      pattern: '^\d{4}-\d{2}-\d{2}$'
+    generated:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - to
+            - url
+            - carrier
+          properties:
+            url:
+              $ref: '#/components/schemas/signed_link'
+            to:
+              $ref: '#/components/schemas/address'
+            carrier:
+              type: string
+              description: Value is `USPS`.
+              pattern: ^USPS$
+            thumbnails:
+              type: array
+              items:
+                $ref: '#/components/schemas/thumbnail'
+            expected_delivery_date:
+              $ref: '#/components/schemas/expected_delivery_date'
+    from_us:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/address_us'
+    tmpl_id:
+      type: string
+      description: Unique identifier prefixed with `tmpl_`.
+      pattern: '^tmpl_[a-zA-Z0-9]+$'
+    vrsn_id:
+      type: string
+      description: Unique identifier prefixed with `vrsn_`.
+      pattern: '^vrsn_[a-zA-Z0-9]+$'
+    check:
+      allOf:
+        - $ref: '#/components/schemas/check_base'
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from_us'
+        - type: object
+          required:
+            - bank_account
+            - id
+            - amount
+          properties:
+            id:
+              $ref: '#/components/schemas/chk_id'
+            amount:
+              description: The payment amount to be sent in US dollars.
+              type: number
+              format: float
+              multipleOf: 0.01
+              maximum: 1000000
+              exclusiveMaximum: true
+            bank_account:
+              $ref: '#/components/schemas/bank_account'
+            check_bottom_template_id:
+              $ref: '#/components/schemas/tmpl_id'
+            attachment_template_id:
+              $ref: '#/components/schemas/tmpl_id'
+            check_bottom_template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
+            attachment_template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - pattern: ^check$
+    inline_address_us:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_us'
+        - type: object
+          required:
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
+    input_to:
+      type: object
+      properties:
+        to:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. Checks cannot be sent internationally
+            (`address_country` must be `US`). The total string of the sum of
+            `address_line1` and `address_line2` must be no longer than 50
+            characters combined. If an object is used, an address will be
+            created, corrected, and standardized for free whenever possible
+            using our US Address Verification engine, and returned back with an
+            ID. Depending on your [Print & Mail
+            Edition](https://dashboard.lob.com/#/settings/editions), addresses
+            may also be run through [National Change of Address
+            (NCOA)](https://lob.com/docs#ncoa). If an address used does not meet
+            your account’s [US Mail Strictness
+            Setting]()https://dashboard.lob.com/#/settings/account, the request
+            will fail. [More about verification of mailing
+            addresses](https://www.lob.com/guides#mailing_addresses)
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address_us'
+    input_from_us:
+      type: object
+      properties:
+        from:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. All addresses will be standardized into
+            uppercase without being modified by verification.
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address_us'
+    remote_file_url:
+      type: string
+      description: The location of a remote file.
+      pattern: 'https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
+    local_file_path:
+      type: string
+      description: The path to a local file.
+      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
+    artwork:
+      type: string
+      description: 'An HTML string of under 10,000 characters.'
+      maxLength: 10000
+    check_editable:
+      allOf:
+        - $ref: '#/components/schemas/check_base'
+        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_from_us'
+        - type: object
+          required:
+            - bank_account
+            - to
+            - from
+            - amount
+          oneOf:
+            - required:
+                - message
+            - required:
+                - check_bottom
+          properties:
+            bank_account:
+              allOf:
+                - $ref: '#/components/schemas/bank_id_no_description'
+                - type: string
+                  description: The id for a verified bank account.
+            amount:
+              description: >-
+                The payment amount to be sent in US dollars. Amounts will be
+                rounded to two decimal places.
+              type: number
+              format: float
+              maximum: 1000000
+              exclusiveMaximum: true
+            logo:
+              description: >-
+                Accepts a remote URL or local file upload to an image to print
+                (in grayscale) in the upper-left corner of your check. Image
+                requirements:
+
+                  * RGB or CMYK
+
+                  * square
+
+                  * minimum size: 100px x 100px
+
+                  * transparent backgrond
+
+                  * `png` or `jpg`
+              anyOf:
+                - $ref: '#/components/schemas/remote_file_url'
+                - allOf:
+                    - $ref: '#/components/schemas/local_file_path'
+                    - type: string
+                      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)+$'
+            check_bottom:
+              description: >-
+                The artwork to use on the bottom of the check page. Accepts an
+                HTML string of under 10,000 characters, the ID of a saved [HTML
+                template](https://lob.github.io/lob-openapi/#tag/Templates), or
+                a remote URL or a local upload of an HTML, PDF, PNG, or JPG
+                file. Remote URLs have a 20 MB file size limit and must be
+                downloaded within 40 seconds. HTML files passed as remote URLs
+                or local file uploads have no character limit. HTML merge
+                variables should not include delimiting whitespace. PDF, PNG,
+                and JPGs must be sized at 8.5"x11" at 300 DPI, while supplied
+                HTML will be rendered and trimmed to fit on a 8.5"x11" page. The
+                check bottom will always be printed in black & white. Must
+                conform to [this
+                template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_bottom_template.pdf).
+                Need more help? Consult our HTML examples.
+              anyOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+            attachment:
+              description: >-
+                A document to include with the check. Accepts an HTML string of
+                under 10,000 characters, the ID of a saved [HTML
+                template](https://lob.github.io/lob-openapi/#tag/Templates), or
+                a remote URL or a local upload of an HTML, PDF, PNG, or JPG
+                file. Remote URLs have a 20 MB file size limit and must be
+                downloaded within 40 seconds. HTML files passed as remote URLs
+                or local file uploads have no character limit. HTML merge
+                variables should not include delimiting whitespace. All pages of
+                PDF, PNG, and JPGs must be sized at 8.5"x11" at 300 DPI, while
+                supplied HTML will be rendered and trimmed to as many 8.5"x11"
+                pages as necessary. If a PDF is provided, it must be 6 pages or
+                fewer. The attachment will be printed double-sided in black &
+                white and will be included in the envelope after the check page.
+                Please follow these [design
+                guidelines](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_attachment_template.pdf).
+                See [pricing](https://lob.com/pricing/print-mail#compare) for
+                extra costs incurred. Need more help? Consult our HTML examples.
+              anyOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+    ltr_id:
+      type: string
+      description: Unique identifier prefixed with `ltr_`.
+      pattern: '^ltr_[a-zA-Z0-9]+$'
     letter_base:
       allOf:
         - $ref: '#/components/schemas/editable_no_mailtype'
@@ -1138,57 +1414,11 @@ components:
                 will impact your letter design, view our [perforation
                 guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
               nullable: true
-    thumbnail:
-      type: object
-      properties:
-        small:
-          $ref: '#/components/schemas/signed_link'
-        medium:
-          $ref: '#/components/schemas/signed_link'
-        large:
-          $ref: '#/components/schemas/signed_link'
-    expected_delivery_date:
-      type: string
-      description: >-
-        A date in YYYY-MM-DD format of the letter's expected delivery date based
-        on its `send_date`.
-      pattern: '^\d{4}-\d{2}-\d{2}$'
-    generated:
-      allOf:
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          required:
-            - to
-            - url
-            - carrier
-          properties:
-            url:
-              $ref: '#/components/schemas/signed_link'
-            to:
-              $ref: '#/components/schemas/address'
-            carrier:
-              type: string
-              description: Value is `USPS`.
-              pattern: ^USPS$
-            thumbnails:
-              type: array
-              items:
-                $ref: '#/components/schemas/thumbnail'
-            expected_delivery_date:
-              $ref: '#/components/schemas/expected_delivery_date'
     from:
       type: object
       properties:
         from:
           $ref: '#/components/schemas/address'
-    tmpl_id:
-      type: string
-      description: Unique identifier prefixed with `tmpl_`.
-      pattern: '^tmpl_[a-zA-Z0-9]+$'
-    vrsn_id:
-      type: string
-      description: Unique identifier prefixed with `vrsn_`.
-      pattern: '^vrsn_[a-zA-Z0-9]+$'
     letter_generated_base:
       allOf:
         - $ref: '#/components/schemas/generated'
@@ -1597,15 +1827,6 @@ components:
         - $ref: '#/components/schemas/certified'
         - $ref: '#/components/schemas/registered'
         - $ref: '#/components/schemas/no_extra_service'
-    inline_address_us:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_us'
-        - type: object
-          required:
-            - address_line1
-            - address_city
-            - address_state
-            - address_zip
     required_address_fields:
       oneOf:
         - required:
@@ -1626,7 +1847,7 @@ components:
       oneOf:
         - $ref: '#/components/schemas/inline_address_us'
         - $ref: '#/components/schemas/inline_address_intl'
-    input_to:
+    input_to-2:
       type: object
       properties:
         to:
@@ -1659,22 +1880,10 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address'
-    artwork:
-      type: string
-      description: 'An HTML string of under 10,000 characters.'
-      maxLength: 10000
-    remote_file_url:
-      type: string
-      description: A link to a remote file to be used for the postcard template.
-      pattern: 'https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
-    local_file_path:
-      type: string
-      description: A link to a remote file to be used for the template.
-      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_to-2'
         - $ref: '#/components/schemas/input_from'
         - type: object
           required:
@@ -1714,7 +1923,8 @@ components:
                 - $ref: '#/components/schemas/remote_file_url'
                 - allOf:
                     - $ref: '#/components/schemas/local_file_path'
-                    - pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
+                    - type: string
+                      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
             extra_service:
               type: string
               nullable: true
@@ -1763,11 +1973,6 @@ components:
           properties:
             size:
               $ref: '#/components/schemas/postcard_size'
-    from_us:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/address_us'
     postcard:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -1813,21 +2018,10 @@ components:
                 - $ref: '#/components/schemas/object'
                 - type: string
                   pattern: ^postcard$
-    input_from_us:
-      type: object
-      properties:
-        from:
-          description: >-
-            Must either be an address ID or an inline object with correct
-            address parameters. All addresses will be standardized into
-            uppercase without being modified by verification.
-          oneOf:
-            - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/inline_address_us'
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
-        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_to-2'
         - $ref: '#/components/schemas/input_from_us'
         - type: object
           required:
@@ -1908,7 +2102,7 @@ components:
     self_mailer_editable:
       allOf:
         - $ref: '#/components/schemas/self_mailer_base'
-        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_to-2'
         - $ref: '#/components/schemas/input_from_us'
         - type: object
           required:
@@ -2923,6 +3117,249 @@ components:
                 $ref: '#/components/schemas/count'
               object:
                 $ref: '#/components/schemas/object'
+    check:
+      description: Returns a check object
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/check'
+          example:
+            id: chk_534f10783683daa0
+            description: Demo Check
+            metadata: {}
+            check_number: 10062
+            memo: rent
+            amount: 22.5
+            url: >-
+              https://lob-assets.com/checks/chk_534f10783683daa0.pdf?expires=1540372221&signature=Ty3IV2bGPEoQfrdraYHlNYTaarnHLXb
+            to:
+              id: adr_d3489cd64c791ab5
+              name: HARRY ZHANG
+              address_line1: 185 BERRY ST STE 6100
+              address_city: SAN FRANCISCO
+              address_state: CA
+              address_zip: 94107-1741
+              address_country: UNITED STATES
+              metadata: {}
+              date_created: '2017-09-05T17:47:53.767Z'
+              date_modified: '2017-09-05T17:47:53.767Z'
+              deleted: true
+              object: address
+            from:
+              id: adr_b8fb5acf3a2b55db
+              name: LEORE AVIDAR
+              address_line1: 185 BERRY ST STE 6100
+              address_city: SAN FRANCISCO
+              address_state: CA
+              address_zip: 94107-1741
+              address_country: UNITED STATES
+              metadata: {}
+              date_created: '2017-09-05T17:47:53.767Z'
+              date_modified: '2017-09-05T17:47:53.767Z'
+              object: address
+            bank_account:
+              id: bank_8cad8df5354d33f
+              description: Test Bank Account
+              metadata: {}
+              routing_number: '322271627'
+              account_number: '123456789'
+              signatory: John Doe
+              bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+              verified: true
+              account_type: company
+              date_created: '2015-11-06T19:24:24.440Z'
+              date_modified: '2015-11-06T19:41:28.312Z'
+              object: bank_account
+            carrier: USPS
+            tracking_events: []
+            thumbnails:
+              - small: >-
+                  https://lob-assets.com/checks/chk_534f10783683daa0_thumb_small_1.png?expires=1540372221&signature=ShhPpH74wYkNiAj7Il9B6q8ZKkzlGd4
+                medium: >-
+                  https://lob-assets.com/checks/chk_534f10783683daa0_thumb_medium_1.png?expires=1540372221&signature=tmIOq6aAyKgzAECp7STj1rvJuMS5Svd
+                large: >-
+                  https://lob-assets.com/checks/chk_534f10783683daa0_thumb_large_1.png?expires=1540372221&signature=04nLEwE9d2qgQJNgJYWSOgPnU0FZbEv
+            merge_variables:
+              name: Harry
+            expected_delivery_date: '2017-09-12'
+            mail_type: usps_first_class
+            date_created: '2017-09-05T17:47:53.896Z'
+            date_modified: '2017-09-05T17:47:53.896Z'
+            send_date: '2017-09-05T17:47:53.896Z'
+            object: check
+    all_checks:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` checks. Each entry in the array is a separate check. The
+        previous and next page of checks can be retrieved by calling the
+        endpoint contained in the `previous_url` and `next_url` fields in the
+        API response respectively.<br>If no more checks are available beyond the
+        current set of returned results, the `next_url` field will be empty.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of checks
+                    items:
+                      $ref: '#/components/schemas/check'
+              - $ref: '#/components/schemas/list'
+          example:
+            data:
+              - id: chk_0176bf6197100185
+                description: Demo Check
+                metadata: {}
+                check_number: 12559
+                memo: rent
+                amount: 22.5
+                url: >-
+                  https://lob-assets.com/checks/chk_0176bf6197100185.pdf?version=v1&expires=1568239682&signature=aqKV5lmg_ktxzyl-qEwIf8-7DbvcguLO0LrfFcyMrUDDt6hxX_da0MEEpElxKR876VUaZrpHq_i_ayDWrsK3BA
+                to:
+                  id: adr_bae820679f3f536b
+                  name: HARRY ZHANG
+                  address_line1: 185 BERRY ST STE 6100
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: '2018-12-08T03:08:43.446Z'
+                  date_modified: '2018-12-08T03:08:43.446Z'
+                  object: address
+                from:
+                  id: adr_210a8d4b0b76d77b
+                  name: LEORE AVIDAR
+                  address_line1: 185 BERRY ST STE 6100
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
+                  object: address
+                bank_account:
+                  id: bank_8cad8df5354d33f
+                  description: Test Bank Account
+                  metadata: {}
+                  routing_number: '322271627'
+                  account_number: '123456789'
+                  account_type: individual
+                  signatory: John Doe
+                  bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+                  verified: true
+                  date_created: '2015-11-06T19:24:24.440Z'
+                  date_modified: '2015-11-06T19:41:28.312Z'
+                  object: bank_account
+                carrier: USPS
+                tracking_events: []
+                thumbnails:
+                  - small: >-
+                      https://lob-assets.com/checks/chk_0176bf6197100185_thumb_small_1.png?version=v1&expires=1568239682&signature=T8DfMm_mxJJzIPgm8I0lvYY4Z6I8aFjsGsrEAicEqw8Ei_FaOtiGQKGeY16rdugAt8lmS_iX0lveBoG2RgWDDw
+                    medium: >-
+                      https://lob-assets.com/checks/chk_0176bf6197100185_thumb_medium_1.png?version=v1&expires=1568239682&signature=-iJD7C58xOCD8eQ01StqSlw9WbDymL0Ygze9twfTs9s17zQppr2Zx363_Z4bP3ATHNhF3osjHuAxIasI2Wf6DQ
+                    large: >-
+                      https://lob-assets.com/checks/chk_0176bf6197100185_thumb_large_1.png?version=v1&expires=1568239682&signature=VJlOkVDPKZThstdd632r3Grm2WhoyPkC-pffpcePTw1i1NkpAObDSRaItKMOQgeWkAcUud3SH0tYcVOadaNiCw
+                  - small: >-
+                      https://lob-assets.com/checks/chk_0176bf6197100185_thumb_small_2.png?version=v1&expires=1568239682&signature=XpCkOjy2zIKXkuc0s-UAYGNwpD_pgt7c9FKTDUCYbyqXupAg1MV1l2tdqevr0L0LT5FJqrGZH9khD5QRMQTkAA
+                    medium: >-
+                      https://lob-assets.com/checks/chk_0176bf6197100185_thumb_medium_2.png?version=v1&expires=1568239682&signature=sdgnJMzusEfndu7dNmk37eKc0AV7Hmqev6TQAqkCESs5pg7j6dDTsp7v4pnDvhsj8d7SIMcahl1aGiysoom0CA
+                    large: >-
+                      https://lob-assets.com/checks/chk_0176bf6197100185_thumb_large_2.png?version=v1&expires=1568239682&signature=ybe8ovBh8Gf-AWKGRs4CB4XkU-erPVbY66umXARhTiJG2Dg1QlyCb9WmBXWt0tBCwD5NGMl20mHeAgHwecLxBA
+                expected_delivery_date: '2019-08-16'
+                mail_type: usps_first_class
+                date_created: '2019-08-08T19:34:47.571Z'
+                date_modified: '2019-08-08T19:34:49.612Z'
+                send_date: '2019-08-08T19:34:47.571Z'
+                object: check
+              - id: chk_92b9a6714bc0557c
+                description: Demo Check
+                metadata: {}
+                check_number: 12558
+                memo: rent
+                amount: 22.5
+                url: >-
+                  https://lob-assets.com/checks/chk_92b9a6714bc0557c.pdf?version=v1&expires=1568239682&signature=jCct5PvzU58Iz2pSo58nf6rgsMRcJfMbUWThmm6lztFl5Vn2Y204b9h7gvw0vJvkDK2ThfaYqaUbWc0KzTpvAg
+                to:
+                  id: adr_bae820679f3f536b
+                  name: HARRY ZHANG
+                  address_line1: 185 BERRY ST STE 6100
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: '2018-12-08T03:08:43.446Z'
+                  date_modified: '2018-12-08T03:08:43.446Z'
+                  object: address
+                from:
+                  id: adr_210a8d4b0b76d77b
+                  name: LEORE AVIDAR
+                  address_line1: 185 BERRY ST STE 6100
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
+                  object: address
+                bank_account:
+                  id: bank_8cad8df5354d33f
+                  description: Test Bank Account
+                  metadata: {}
+                  routing_number: '322271627'
+                  account_number: '123456789'
+                  account_type: individual
+                  signatory: John Doe
+                  bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+                  verified: true
+                  date_created: '2015-11-06T19:24:24.440Z'
+                  date_modified: '2015-11-06T19:41:28.312Z'
+                  object: bank_account
+                carrier: USPS
+                tracking_events: []
+                thumbnails:
+                  - small: >-
+                      https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_small_1.png?version=v1&expires=1568239682&signature=ublquO_xAdvAkAwGJuOjgZQwcz7c3Ao4NHWHeDVTBEBjcrQr8LavxWEwUc1KU105Zex3SajRQLd6hqJOrDl0Bw
+                    medium: >-
+                      https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_medium_1.png?version=v1&expires=1568239682&signature=vHyuOtsanX4HnY_0LNft6ZJ8C67JnbI8ZVCjA2d9nR0Rd6lCl0Nk1s6BAhefbBkzecX9Yp0B8NWN9Q5v1Z4ICw
+                    large: >-
+                      https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_large_1.png?version=v1&expires=1568239682&signature=SzCLKJ5m_TKJPLlL9PMw-zW9wo5mVYEK1jCtHwWRwwEaNU2v4Aehy-YHtus3TFJIt8RD2M-0Y3MtCxHwhqSABg
+                  - small: >-
+                      https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_small_2.png?version=v1&expires=1568239682&signature=iElagODaOCkF_lCUxIw-lK50GhEU1ar_odmslCazZqD4Fsd_rQLx3M4Q5HzYWp4evfzuCoFvk4oAQVuIAaguAw
+                    medium: >-
+                      https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_medium_2.png?version=v1&expires=1568239682&signature=2vwvm_QsfmdtkAa-_F4uk-0yeUPRascyhfwOr-OX1ya9i_8gdFQAxMTrP-FfNBVSYFXeknFm6IUPJHggfgeiBg
+                    large: >-
+                      https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_large_2.png?version=v1&expires=1568239682&signature=NQf7tP9F4rP66S16hQ8duFpZSbTjaGBGK61Sr3H5D4CWtRyaPdoQlIpT2Jw-eKRcuYRkDEtQse_oWtL5gPqXDQ
+                  - small: >-
+                      https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_small_3.png?version=v1&expires=1568239682&signature=dbjFd44H9TyZsc3d0fqKon5e0GqZ6GA1dT26MH6WnoX8lrQor2CA6sZJ5qmu0Z4SAFlMKAzb-twqN7faLjEbDQ
+                    medium: >-
+                      https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_medium_3.png?version=v1&expires=1568239682&signature=vSgwVs7T9E6KKBK7XU-6jRL9i0jvgTqvNxkdRARFf0UNlryJFm8l_t_x5mPH0sCTFZcLp7ouRaR5hhdHC6vZBQ
+                    large: >-
+                      https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_large_3.png?version=v1&expires=1568239682&signature=If4tXlN13WYy7JDPpFkWw0HAQpYNJHqi2UstiPHxUA_8IAj6vXORb-22acI124Pd1bR1QSjBHAW1gbiJ0kjiAQ
+                merge_variables: null
+                expected_delivery_date: '2019-08-16'
+                mail_type: usps_first_class
+                date_created: '2019-08-08T19:34:27.802Z'
+                date_modified: '2019-08-08T19:34:30.582Z'
+                send_date: '2019-08-08T19:34:27.802Z'
+                object: check
+            object: list
+            next_url: >-
+              https://api.lob.com/v1/checks?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wOFQxOTozNDoyNy44MDJaIiwiaWRPZmZzZXQiOiJjaGtfOTJiOWE2NzE0YmMwNTU3YyJ9
+            previous_url: null
+            count: 2
     letter:
       description: Returns a letter object
       headers:
@@ -4055,19 +4492,6 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/bank_account_base'
-            encoding:
-              to:
-                style: deepObject
-                explode: true
-              from:
-                style: deepObject
-                explode: true
-              merge_variables:
-                style: deepObject
-                explode: true
-              metadata:
-                style: deepObject
-                explode: true
       responses:
         '200':
           $ref: '#/components/responses/bank_account'
@@ -4168,6 +4592,126 @@ paths:
           $ref: '#/components/responses/certificate'
         default:
           $ref: '#/components/responses/error'
+  '/checks/{chk_id}':
+    parameters:
+      - in: path
+        name: chk_id
+        description: id of the check
+        required: true
+        schema:
+          $ref: '#/components/schemas/chk_id'
+    get:
+      operationId: get_check
+      summary: Retrieve check with given id
+      description: >-
+        Retrieves the details of an existing check. You need only supply the
+        unique check identifier that was returned upon check creation.
+      tags:
+        - Checks
+      responses:
+        '200':
+          $ref: '#/components/responses/check'
+        default:
+          $ref: '#/components/responses/error'
+    delete:
+      operationId: cancel_check
+      summary: Cancel a check
+      description: >-
+        Completely removes a check from production. This can only be done if the
+        check has a `send_date` and the `send_date` has not yet passed. If the
+        check is successfully canceled, you will not be charged for it. Read
+        more on [cancellation windows](https://docs.lob.com/#cancellation) and
+        [scheduling](https://docs.lob.com/#scheduled). Scheduling and
+        cancellation is a premium feature. Upgrade to the appropriate Print &
+        Mail Edition to gain access.
+      tags:
+        - Checks
+      responses:
+        '200':
+          $ref: '#/components/responses/deleted'
+        default:
+          $ref: '#/components/responses/error'
+  /checks:
+    get:
+      operationId: list_checks
+      summary: List all checks
+      description: >-
+        Returns a list of your checks. The checks are returned sorted by
+        creation date, with the most recently created checks appearing first.
+      tags:
+        - Checks
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/after'
+        - $ref: '#/components/parameters/before'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+        - $ref: '#/components/parameters/metadata'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_checks'
+        default:
+          $ref: '#/components/responses/error'
+    post:
+      operationId: create_check
+      summary: Creates a new check
+      description: Creates a new check with the provided properties.
+      tags:
+        - Checks
+      parameters:
+        - $ref: '#/components/parameters/idempotency'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/check_editable'
+            example:
+              description: Demo Check
+              to: adr_210a8d4b0b76d77b
+              from: adr_b8fb5acf3a2b55db
+              bank_account: bank_8cad8df5354d33f
+              amount: 22.5
+              memo: rent
+              message: yippee!
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/check_editable'
+            encoding:
+              to:
+                style: deepObject
+                explode: true
+              from:
+                style: deepObject
+                explode: true
+              merge_variables:
+                style: deepObject
+                explode: true
+              metadata:
+                style: deepObject
+                explode: true
+            example:
+              description: Demo Check
+              to: adr_210a8d4b0b76d77b
+              from: adr_b8fb5acf3a2b55db
+              bank_account: bank_8cad8df5354d33f
+              amount: 22.5
+              memo: rent
+              logo: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png
+              check_bottom: tmpl_23668b406d5afef
+              'merge_variables[name]': Harry
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/check_editable'
+            encoding:
+              logo:
+                contentType: 'image/png, image/jpeg'
+      responses:
+        '200':
+          $ref: '#/components/responses/check'
+        default:
+          $ref: '#/components/responses/error'
   '/letters/{ltr_id}':
     parameters:
       - in: path
@@ -4261,19 +4805,6 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/letter_editable'
-            encoding:
-              to:
-                style: deepObject
-                explode: true
-              from:
-                style: deepObject
-                explode: true
-              merge_variables:
-                style: deepObject
-                explode: true
-              metadata:
-                style: deepObject
-                explode: true
       responses:
         '200':
           $ref: '#/components/responses/letter'
@@ -4373,19 +4904,6 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/postcard_editable'
-            encoding:
-              to:
-                style: deepObject
-                explode: true
-              from:
-                style: deepObject
-                explode: true
-              merge_variables:
-                style: deepObject
-                explode: true
-              metadata:
-                style: deepObject
-                explode: true
       responses:
         '200':
           $ref: '#/components/responses/postcard'
@@ -4491,19 +5009,6 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'
-            encoding:
-              to:
-                style: deepObject
-                explode: true
-              from:
-                style: deepObject
-                explode: true
-              merge_variables:
-                style: deepObject
-                explode: true
-              metadata:
-                style: deepObject
-                explode: true
       responses:
         '200':
           $ref: '#/components/responses/self_mailer'

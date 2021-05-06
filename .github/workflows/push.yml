@@ -28,6 +28,7 @@ jobs:
         continue-on-error: true
         env:
           LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
+          LOB_API_LIVE_TOKEN: ${{ secrets.LOB_API_LIVE_TOKEN }}
 
       - name: invoke build
         uses: benc-uk/workflow-dispatch@v1.1.0

@@ -1,0 +1,63 @@
+description: Returns a US autocompletion object.
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        id:
+          $ref: "../../../shared/attributes/model_ids/us_auto_id.yml"
+
+        suggestions:
+          type: array
+          description: >
+            An array of objects representing suggested addresses.
+          minItems: 0
+          maxItems: 10
+          items:
+            $ref: "../models/suggestions.yml"
+          readOnly: true
+
+        object:
+          $ref: "../../../shared/attributes/object.yml"
+
+    example:
+      id: us_auto_a3ac97bcfbb2460ab20c
+      suggestions:
+        - primary_line: 185 BAYSIDE VILLAGE PL
+          city: SAN FRANCISCO
+          state: CA
+          zip_code: "94107"
+        - primary_line: 185 BRANNAN ST
+          city: SAN FRANCISCO
+          state: CA
+          zip_code: "94107"
+        - primary_line: 185 BONIFACIO ST
+          city: SAN FRANCISCO
+          state: CA
+          zip_code: "94107"
+        - primary_line: 185 BLAIR TER
+          city: SAN FRANCISCO
+          state: CA
+          zip_code: "94107"
+        - primary_line: 185 BLUXOME ST
+          city: SAN FRANCISCO
+          state: CA
+          zip_code: "94107"
+        - primary_line: 185 BERRY ST
+          city: SAN FRANCISCO
+          state: CA
+          zip_code: "94107"
+        - primary_line: 185 BRYANT ST
+          city: SAN FRANCISCO
+          state: CA
+          zip_code: "94107"
+      object: "us_autocompletion"

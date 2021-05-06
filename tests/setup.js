@@ -25,7 +25,10 @@ const configurePrism = (baseurl, options = {}) => {
 };
 
 const authHeader = (token) => {
-  return { Authorization: `Basic ${btoa(`${token}:`)}` };
+  return {
+    Authorization: `Basic ${btoa(`${token}:`)}`,
+    "content-type": "application/json; charset=utf-8",
+  };
 };
 
 module.exports = class Prism {

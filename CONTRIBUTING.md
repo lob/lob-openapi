@@ -111,6 +111,7 @@ be able to reuse. _If you do put your test in a separate file, make sure you mod
 We use [Prism](https://meta.stoplight.io/docs/prism/README.md) for contract testing, using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). To run the existing tests locally:
 
 - add a valid Lob test token to your environment as `LOB_API_TEST_TOKEN`. You can access test tokens in your [Dashboard settings](dashboard.lob.com).
+- add a valid Lob live token to your environment as `LOB_API_LIVE_TOKEN`.
 - run `npm test`.
 
 To manually add a test, look in the `tests/` directory for a file named for the resource with
@@ -135,6 +136,14 @@ const files = fs.createReadStream(
 );
 const frontBack = await streamToString(files);
 ```
+
+There are two stand-out quirks with the tests. One is the `await t.doesNotReject(Promise.resolve(response));` line (and similarly-formed promise rejection counterpart) which appear in every generated test. This uses the `tape-promise` npm tool in order to test response validation. The other quirk is the
+
+```
+"content-type": "application/json; charset=utf-8",
+```
+
+statement in `tests/setup.js`. This is there because, as discovered during the writing of the `us_autocompletions` test file, the content-type header isn't always applied by default to the request, so it has to be manually added in during the setup (all the endpoints authored out here accept JSON).
 
 The contract tests run on github whenever you push to github and/or open a pull request.
 

@@ -79,6 +79,10 @@ tags:
       key in your dashboard under Settings; test API keys are always prefixed
       with `test_` and production API keys with `live_`.
 
+  - name: US Autocompletions
+    description: >
+      Given partial address information, this endpoint returns up to 10 address suggestions.
+
   - name: US Verifications
     description: >
       Validate, automatically correct, and standardize the addresses in your
@@ -180,6 +184,9 @@ paths:
 
   /templates:
     $ref: resources/templates/templates.yml
+
+  /us_autocompletions:
+    $ref: resources/us_autocompletions/us_autocompletions.yml
 
   /us_verifications:
     $ref: resources/us_verifications/us_verifications.yml

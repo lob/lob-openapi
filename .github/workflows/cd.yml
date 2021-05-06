@@ -27,6 +27,7 @@ jobs:
           testCommand: "npm run postman"
         env:
           LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
+          LOB_API_LIVE_TOKEN: ${{ secrets.LOB_API_LIVE_TOKEN }}
 
       - name: commit & push bundle, collection and docs to branch
         shell: bash

@@ -1,0 +1,27 @@
+type: object
+
+required:
+  - primary_line
+  - city
+  - state
+  - zip_code
+
+properties:
+  primary_line:
+    allOf:
+      - $ref: "../../../shared/attributes/address/primary_line.yml"
+      - description: >
+          Street numbers included in this field may not be valid, and
+          secondary information might be missing.
+
+  city:
+    $ref: "../../../shared/attributes/address/city.yml"
+
+  state:
+    $ref: "../../../shared/attributes/address/state.yml"
+
+  zip_code:
+    $ref: "../../../shared/attributes/address/zip_code.yml"
+
+  object:
+    $ref: "../../../shared/attributes/object.yml"

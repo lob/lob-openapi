@@ -35,6 +35,7 @@ future task.
          uses: ./actions/contract_tests
          env:
            LOB_API_TEST_TOKEN: ${{ secrets.TEST_TOKEN_FROM_STEP_2 }}
+           LOB_API_LIVE_TOKEN: ${{ secrets.LOB_API_LIVE_TOKEN }}
    ```
 
 You can configure the installation and/or test commands used. Look in `action.yml` for details.

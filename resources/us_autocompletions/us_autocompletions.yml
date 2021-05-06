@@ -1,0 +1,35 @@
+post:
+  operationId: autocompletion
+
+  summary: Autocomplete a partial US address.
+
+  description: >-
+    Given an address prefix consisting of a partial primary line, as well as
+    optional input of city, state, and zip code, this functionality returns up
+    to 10 full US address suggestions. Not all of them will turn out to be valid
+    addresses.
+
+  tags:
+    - US Autocompletions
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/us_autocompletions.yml"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/us_autocompletions.yml"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/us_autocompletions.yml"
+
+  responses:
+    "200":
+      $ref: responses/us_autocompletions.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

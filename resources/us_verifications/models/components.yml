@@ -35,7 +35,6 @@ properties:
       The numeric or alphanumeric part of an address preceding the
       street name. Often the house, building, or PO Box number.
     example: "185"
-    readOnly: true
 
   street_predirection:
     type: string
@@ -53,21 +52,18 @@ properties:
       Geographic direction preceding a street name (`N`, `S`, `E`,
       `W`, `NE`, `SW`, `SE`, `NW`).
     example: "N"
-    readOnly: true
 
   street_name:
     type: string
     description: >
       The name of the street.
     example: BERRY
-    readOnly: true
 
   street_suffix:
     type: string
     description: >
       The standard USPS abbreviation for the street suffix (`ST`, `AVE`, `BLVD`, etc).
     example: ST
-    readOnly: true
 
   street_postdirection:
     type: string
@@ -85,7 +81,6 @@ properties:
       Geographic direction following a street name (`N`, `S`, `E`,
       `W`, `NE`, `SW`, `SE`, `NW`).
     example: "N"
-    readOnly: true
 
   secondary_designator:
     type: string
@@ -93,42 +88,36 @@ properties:
       The standard USPS abbreviation describing the `components[secondary_number]`
       (`STE`, `APT`, `BLDG`, etc).
     example: STE
-    readOnly: true
 
   secondary_number:
     type: string
     description: >
       Number of the apartment/unit/etc.
     example: "6100"
-    readOnly: true
 
   pmb_designator:
     type: string
     description: >
       Designator of a [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency) private mailbox.
     example: ""
-    readOnly: true
 
   pmb_number:
     type: string
     description: >
       Number of a [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency) private mailbox.
     example: ""
-    readOnly: true
 
   extra_secondary_designator:
     type: string
     description: >
       An extra (often unnecessary) secondary designator provided with the input address.
     example: ""
-    readOnly: true
 
   extra_secondary_number:
     type: string
     description: >
       An extra (often unnecessary) secondary number provided with the input address.
     example: ""
-    readOnly: true
 
   city:
     $ref: "../../../shared/attributes/address/city.yml"
@@ -144,7 +133,6 @@ properties:
     description: >
       The 4-digit ZIP add-on code.
     example: "1728"
-    readOnly: true
 
   zip_code_type:
     $ref: "../../../shared/attributes/address/zip_code_type.yml"
@@ -156,7 +144,6 @@ properties:
       It consists of the 5-digit ZIP code (`zip_code`), 4-digit ZIP+4 add-on (`zip_code_plus_4`),
       2-digit delivery point, and 1-digit delivery point check digit.
     example: "941071728506"
-    readOnly: true
 
   address_type:
     type: string
@@ -171,7 +158,6 @@ properties:
       * `commercial` –– The address is commercial.
       * `''` –– Not enough information provided to be determined.
     example: commercial
-    readOnly: true
 
   record_type:
     type: string
@@ -195,14 +181,12 @@ properties:
       * `general_delivery`
       * `''`
     example: highrise
-    readOnly: true
 
   default_building_address:
     type: boolean
     description: >
       Designates whether or not the address is the default address for a building containing multiple delivery points.
     example: false
-    readOnly: true
 
   county:
     $ref: "../../../shared/attributes/address/county.yml"
@@ -215,7 +199,6 @@ properties:
     description: >
       A 4-character code assigned to a mail delivery route within a ZIP code.
     example: C001
-    readOnly: true
 
   carrier_route_type:
     type: string
@@ -233,7 +216,6 @@ properties:
       * `po_box` –– P.O. Box route (starts with "B").
       * `general_delivery` –– General delivery (starts with "G").
     example: city_delivery
-    readOnly: true
 
   latitude:
     type: string
@@ -242,7 +224,6 @@ properties:
       location. This should be used with `longitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
       or military addresses (state is `AA`, `AE`, or `AP`).
     example: "37.77597542841264"
-    readOnly: true
 
   longitude:
     type: string
@@ -251,7 +232,6 @@ properties:
       location. This should be used with `latitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
       or military addresses (state is `AA`, `AE`, or `AP`).
     example: "-122.3929557343685"
-    readOnly: true
 
   object:
     $ref: "../../../shared/attributes/object.yml"

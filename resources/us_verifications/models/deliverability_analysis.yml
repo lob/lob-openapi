@@ -29,7 +29,6 @@ properties:
       * `N` –– The address is not deliverable according to the USPS, but parts of the address are valid (such as the street and ZIP code).
       * `''` –– This address is not deliverable. No matching street could be found within the city or ZIP code.
     example: "Y"
-    readOnly: true
 
   dpv_cmra:
     type: string
@@ -43,7 +42,6 @@ properties:
       * `N` –– Address is not CMRA-authorized.
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "N"
-    readOnly: true
 
   dpv_vacant:
     type: string
@@ -57,7 +55,6 @@ properties:
       * `N` –– Address is not vacant.
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "N"
-    readOnly: true
 
   dpv_active:
     type: string
@@ -72,7 +69,6 @@ properties:
       * `N` –– Address is not active.
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "Y"
-    readOnly: true
 
   dpv_footnotes:
     type: array
@@ -82,7 +78,6 @@ properties:
     items:
       $ref: "../attributes/dpv_footnote.yml"
     example: [AA, BB]
-    readOnly: true
 
   ews_match:
     type: boolean
@@ -90,7 +85,6 @@ properties:
       Indicates whether or not an address has been flagged in the [Early Warning System](https://docs.informatica.com/data-engineering/data-engineering-quality/10-4-0/address-validator-port-reference/postal-carrier-certification-data-ports/early-warning-system-return-code.html),
       meaning the address is under development and not yet ready to receive mail. However, it should become available in a few months.
     example: false
-    readOnly: true
 
   lacs_indicator:
     type: string
@@ -104,14 +98,12 @@ properties:
       * `N` –– New address could not be produced with a matching record in LACSLink.
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: ""
-    readOnly: true
 
   lacs_return_code:
     type: string
     description: >
       Any return code associated with the LACSLink form of this address.
     example: ""
-    readOnly: true
 
   suite_return_code:
     type: string
@@ -125,7 +117,6 @@ properties:
       * `00` –– A SuiteLink match could not be found and no secondary information was added.
       * `''` –– SuiteLink lookup was not attempted.
     example: ""
-    readOnly: true
 
   object:
     $ref: "../../../shared/attributes/object.yml"

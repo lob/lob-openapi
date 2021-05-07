@@ -8,11 +8,20 @@ required:
 
 properties:
   primary_line:
-    allOf:
-      - $ref: "../../../shared/attributes/address/primary_line.yml"
-      - description: >
-          Street numbers included in this field may not be valid, and
-          secondary information might be missing.
+    type: string
+    description: |
+      The primary delivery line (usually the street address) of the address.
+      Combination of the following applicable `components` (primary number & 
+      secondary information may be missing or inaccurate):
+      * `primary_number`
+      * `street_predirection`
+      * `street_name`
+      * `street_suffix`
+      * `street_postdirection`
+      * `secondary_designator`
+      * `secondary_number`
+      * `pmb_designator`
+      * `pmb_number`
 
   city:
     $ref: "../../../shared/attributes/address/city.yml"

@@ -7,29 +7,27 @@ properties:
   address_prefix:
     type: string
     description: >
-      The prefix of an address's primary line. This only supports street names & primary numbers,
-      and only accepts alphanumeric characters.
+      Only accepts numbers and street names in an alphanumeric format.
 
   city:
-    allOf:
-      - $ref: "../../../shared/attributes/address/city.yml"
-      - description: Matches partial abbreviations.
+    type: string
+    description: >
+      An optional city input used to filter suggestions. Case insensitive, and
+      does not match partial abbreviations.
 
   state:
-    allOf:
-      - $ref: "../../../shared/attributes/address/state.yml"
-      - description: >
-          An optional ZIP Code input used to filter suggestions. Case insensitive, and does not match
-          partial abbreviations.
+    type: string
+    description: >
+      An optional state input used to filter suggestions. Case insensitive, and does not match
+      partial abbreviations.
 
   zip_code:
-    allOf:
-      - $ref: "../../../shared/attributes/address/zip_code.yml"
-      - description: >
-          An optional ZIP Code input used to filter suggestions. Matches partial abbreviations.
+    type: string
+    description: >
+      An optional ZIP Code input used to filter suggestions. Matches partial entries.
 
   geo_ip_sort:
-    type: boolean
+    type: string
     description: >
       If true, sort suggestions by proximity to the IP set in the `X-Forwarded-For` header.
 

@@ -97,6 +97,7 @@ x-tagGroups:
       - Template Versions
   - name: US Verification API
     tags:
+      - US Autocompletions
       - US Verifications
       - Zip Lookups
 components:
@@ -317,7 +318,6 @@ components:
                 addresses, for non-deliverable US addresses, or for addresses
                 created before the NCOA feature was added to your account.
               nullable: true
-              readOnly: true
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
@@ -2222,6 +2222,39 @@ components:
           $ref: '#/components/schemas/template_html'
         metadata:
           $ref: '#/components/schemas/metadata'
+    us_autocompletions:
+      type: object
+      required:
+        - address_prefix
+      properties:
+        address_prefix:
+          type: string
+          description: |
+            Only accepts numbers and street names in an alphanumeric format.
+        city:
+          type: string
+          description: >
+            An optional city input used to filter suggestions. Case insensitive,
+            and does not match partial abbreviations.
+        state:
+          type: string
+          description: >
+            An optional state input used to filter suggestions. Case
+            insensitive, and does not match partial abbreviations.
+        zip_code:
+          type: string
+          description: >
+            An optional ZIP Code input used to filter suggestions. Matches
+            partial entries.
+        geo_ip_sort:
+          type: string
+          description: >
+            If true, sort suggestions by proximity to the IP set in the
+            `X-Forwarded-For` header.
+    us_auto_id:
+      type: string
+      description: Unique identifier prefixed with `us_auto_`.
+      pattern: '^us_auto_[a-zA-Z0-9]+$'
     city:
       type: string
       description: >
@@ -2239,43 +2272,53 @@ components:
         The 5-digit ZIP code. Required if `city` and `state` are not passed in.
         If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
         `94107`, `941072282`, `94107-2282`).
-    us_autocompletions:
+    suggestions:
       type: object
       required:
-        - address_prefix
+        - primary_line
+        - city
+        - state
+        - zip_code
       properties:
-        address_prefix:
+        primary_line:
           type: string
           description: >
-            The prefix of an address's primary line. This only supports street
-            names & primary numbers, and only accepts alphanumeric characters.
+            The primary delivery line (usually the street address) of the
+            address.
+
+            Combination of the following applicable `components` (primary number
+            & 
+
+            secondary information may be missing or inaccurate):
+
+            * `primary_number`
+
+            * `street_predirection`
+
+            * `street_name`
+
+            * `street_suffix`
+
+            * `street_postdirection`
+
+            * `secondary_designator`
+
+            * `secondary_number`
+
+            * `pmb_designator`
+
+            * `pmb_number`
         city:
-          allOf:
-            - $ref: '#/components/schemas/city'
-            - description: Matches partial abbreviations.
+          $ref: '#/components/schemas/city'
         state:
-          allOf:
-            - $ref: '#/components/schemas/state'
-            - description: >
-                An optional ZIP Code input used to filter suggestions. Case
-                insensitive, and does not match partial abbreviations.
+          $ref: '#/components/schemas/state'
         zip_code:
-          allOf:
-            - $ref: '#/components/schemas/zip_code'
-            - description: >
-                An optional ZIP Code input used to filter suggestions. Matches
-                partial abbreviations.
-        geo_ip_sort:
-          type: boolean
-          description: >
-            If true, sort suggestions by proximity to the IP set in the
-            `X-Forwarded-For` header.
+          $ref: '#/components/schemas/zip_code'
         object:
           $ref: '#/components/schemas/object'
-    us_auto_id:
+    recipient:
       type: string
-      description: Unique identifier prefixed with `us_auto_`.
-      pattern: '^us_auto_[a-zA-Z0-9]+$'
+      description: 'The intended recipient, typically a person''s or firm''s name.'
     primary_line:
       type: string
       description: |
@@ -2290,31 +2333,6 @@ components:
         * `secondary_number`
         * `pmb_designator`
         * `pmb_number`
-    suggestions:
-      type: object
-      required:
-        - primary_line
-        - city
-        - state
-        - zip_code
-      properties:
-        primary_line:
-          allOf:
-            - $ref: '#/components/schemas/primary_line'
-            - description: >
-                Street numbers included in this field may not be valid, and
-                secondary information might be missing.
-        city:
-          $ref: '#/components/schemas/city'
-        state:
-          $ref: '#/components/schemas/state'
-        zip_code:
-          $ref: '#/components/schemas/zip_code'
-        object:
-          $ref: '#/components/schemas/object'
-    recipient:
-      type: string
-      description: 'The intended recipient, typically a person''s or firm''s name.'
     secondary_line:
       type: string
       description: >
@@ -2352,8 +2370,6 @@ components:
           $ref: '#/components/schemas/state'
         zip_code:
           $ref: '#/components/schemas/zip_code'
-        object:
-          $ref: '#/components/schemas/object'
     single_line_address:
       type: object
       required:
@@ -2365,8 +2381,6 @@ components:
             The entire address in one string. Does not support a recipient and
             will error when other payload parameters are provided.
           example: 185 Berry Street 94107
-        object:
-          $ref: '#/components/schemas/object'
     zip_code_type:
       type: string
       enum:
@@ -2436,7 +2450,6 @@ components:
             The numeric or alphanumeric part of an address preceding the street
             name. Often the house, building, or PO Box number.
           example: '185'
-          readOnly: true
         street_predirection:
           type: string
           enum:
@@ -2453,20 +2466,17 @@ components:
             Geographic direction preceding a street name (`N`, `S`, `E`, `W`,
             `NE`, `SW`, `SE`, `NW`).
           example: 'N'
-          readOnly: true
         street_name:
           type: string
           description: |
             The name of the street.
           example: BERRY
-          readOnly: true
         street_suffix:
           type: string
           description: >
             The standard USPS abbreviation for the street suffix (`ST`, `AVE`,
             `BLVD`, etc).
           example: ST
-          readOnly: true
         street_postdirection:
           type: string
           enum:
@@ -2483,20 +2493,17 @@ components:
             Geographic direction following a street name (`N`, `S`, `E`, `W`,
             `NE`, `SW`, `SE`, `NW`).
           example: 'N'
-          readOnly: true
         secondary_designator:
           type: string
           description: >
             The standard USPS abbreviation describing the
             `components[secondary_number]` (`STE`, `APT`, `BLDG`, etc).
           example: STE
-          readOnly: true
         secondary_number:
           type: string
           description: |
             Number of the apartment/unit/etc.
           example: '6100'
-          readOnly: true
         pmb_designator:
           type: string
           description: >
@@ -2504,7 +2511,6 @@ components:
             [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
             private mailbox.
           example: ''
-          readOnly: true
         pmb_number:
           type: string
           description: >
@@ -2512,21 +2518,18 @@ components:
             [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
             private mailbox.
           example: ''
-          readOnly: true
         extra_secondary_designator:
           type: string
           description: >
             An extra (often unnecessary) secondary designator provided with the
             input address.
           example: ''
-          readOnly: true
         extra_secondary_number:
           type: string
           description: >
             An extra (often unnecessary) secondary number provided with the
             input address.
           example: ''
-          readOnly: true
         city:
           $ref: '#/components/schemas/city'
         state:
@@ -2538,7 +2541,6 @@ components:
           description: |
             The 4-digit ZIP add-on code.
           example: '1728'
-          readOnly: true
         zip_code_type:
           $ref: '#/components/schemas/zip_code_type'
         delivery_point_barcode:
@@ -2550,7 +2552,6 @@ components:
             (`zip_code_plus_4`), 2-digit delivery point, and 1-digit delivery
             point check digit.
           example: '941071728506'
-          readOnly: true
         address_type:
           type: string
           enum:
@@ -2569,7 +2570,6 @@ components:
 
             * `''` –– Not enough information provided to be determined.
           example: commercial
-          readOnly: true
         record_type:
           type: string
           enum:
@@ -2604,14 +2604,12 @@ components:
 
             * `''`
           example: highrise
-          readOnly: true
         default_building_address:
           type: boolean
           description: >
             Designates whether or not the address is the default address for a
             building containing multiple delivery points.
           example: false
-          readOnly: true
         county:
           $ref: '#/components/schemas/county'
         county_fips:
@@ -2622,7 +2620,6 @@ components:
             A 4-character code assigned to a mail delivery route within a ZIP
             code.
           example: C001
-          readOnly: true
         carrier_route_type:
           type: string
           enum:
@@ -2647,7 +2644,6 @@ components:
 
             * `general_delivery` –– General delivery (starts with "G").
           example: city_delivery
-          readOnly: true
         latitude:
           type: string
           description: >
@@ -2657,7 +2653,6 @@ components:
             Will not be returned for undeliverable addresses or military
             addresses (state is `AA`, `AE`, or `AP`).
           example: '37.77597542841264'
-          readOnly: true
         longitude:
           type: string
           description: >
@@ -2667,7 +2662,6 @@ components:
             on a map. Will not be returned for undeliverable addresses or
             military addresses (state is `AA`, `AE`, or `AP`).
           example: '-122.3929557343685'
-          readOnly: true
         object:
           $ref: '#/components/schemas/object'
     dpv_footnote:
@@ -2688,7 +2682,6 @@ components:
         - R1
         - R7
         - RR
-      readOnly: true
       example: AA
     deliverability_analysis:
       type: object
@@ -2730,7 +2723,6 @@ components:
             * `''` –– This address is not deliverable. No matching street could
             be found within the city or ZIP code.
           example: 'Y'
-          readOnly: true
         dpv_cmra:
           type: string
           enum:
@@ -2750,7 +2742,6 @@ components:
             (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
             string).
           example: 'N'
-          readOnly: true
         dpv_vacant:
           type: string
           enum:
@@ -2769,7 +2760,6 @@ components:
             (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
             string).
           example: 'N'
-          readOnly: true
         dpv_active:
           type: string
           enum:
@@ -2785,7 +2775,6 @@ components:
             DPV match is not made (`deliverability_analysis[dpv_confirmation]`
             is `N` or an empty string).
           example: 'Y'
-          readOnly: true
         dpv_footnotes:
           type: array
           description: >
@@ -2797,7 +2786,6 @@ components:
           example:
             - AA
             - BB
-          readOnly: true
         ews_match:
           type: boolean
           description: >
@@ -2807,7 +2795,6 @@ components:
             meaning the address is under development and not yet ready to
             receive mail. However, it should become available in a few months.
           example: false
-          readOnly: true
         lacs_indicator:
           type: string
           enum:
@@ -2828,13 +2815,11 @@ components:
             (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
             string).
           example: ''
-          readOnly: true
         lacs_return_code:
           type: string
           description: |
             Any return code associated with the LACSLink form of this address.
           example: ''
-          readOnly: true
         suite_return_code:
           type: string
           enum:
@@ -2854,7 +2839,6 @@ components:
 
             * `''` –– SuiteLink lookup was not attempted.
           example: ''
-          readOnly: true
         object:
           $ref: '#/components/schemas/object'
     lob_confidence_score:
@@ -2873,13 +2857,11 @@ components:
             for this address.
           example: 100
           default: null
-          readOnly: true
         level:
           type: string
           description: |
             The level of confidence in the score associated with this address.
           example: high
-          readOnly: true
         object:
           $ref: '#/components/schemas/object'
     zip5:
@@ -2895,7 +2877,6 @@ components:
     zip_id:
       type: string
       description: Unique identifier prefixed with `us_zip_`.
-      readOnly: true
       pattern: '^us_zip_[a-zA-Z0-9]+$'
       example: us_zip_c7cb63d68f8d6
     city-2:
@@ -2909,13 +2890,10 @@ components:
       properties:
         city:
           $ref: '#/components/schemas/city'
-          readOnly: true
         state:
           $ref: '#/components/schemas/state'
-          readOnly: true
         county:
           $ref: '#/components/schemas/county'
-          readOnly: true
         county_fips:
           $ref: '#/components/schemas/county_fips'
         preferred:
@@ -2928,7 +2906,6 @@ components:
           maxLength: 1
           minLength: 1
           example: true
-          readOnly: true
         object:
           $ref: '#/components/schemas/object'
     zip:
@@ -2951,10 +2928,8 @@ components:
                 An array of city objects containing valid cities for the
                 `zip_code`. Multiple cities will be returned if more than one
                 city is associated with the input ZIP code.
-              readOnly: true
             zip_code_type:
               $ref: '#/components/schemas/zip_code_type'
-              readOnly: true
             object:
               $ref: '#/components/schemas/object'
   responses:
@@ -4173,7 +4148,6 @@ components:
                 maxItems: 10
                 items:
                   $ref: '#/components/schemas/suggestions'
-                readOnly: true
               object:
                 $ref: '#/components/schemas/object'
           example:

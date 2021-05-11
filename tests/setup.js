@@ -14,12 +14,12 @@ const defaultClientOptions = {
   validateRequest: true,
   validateResponse: true,
   checkSecurity: false,
+  errors: true,
 };
 
 const configurePrism = (baseurl, options = {}) => {
   let result = { ...defaultClientOptions, ...options };
   result.baseurl = baseurl;
-  result.errors = true;
   result.upstream = new URL(baseurl);
   return result;
 };

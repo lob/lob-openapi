@@ -7,5 +7,11 @@ allOf:
       - address_line1
       - address_country
 
-    allOf:
-      - $ref: "required_address_fields.yml"
+  - type: object
+
+    oneOf:
+      - required:
+          - address_city
+          - address_state
+      - required:
+          - address_zip

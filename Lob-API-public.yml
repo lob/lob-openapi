@@ -40,6 +40,9 @@ tags:
   - name: Checks
     description: Checks allow you to send payments via physical checks.
 
+  - name: Int'l Verifications
+    description: Address verification for non-US addresses
+
   - name: Letters
     description: Easily print and mail letters.
 
@@ -112,9 +115,13 @@ x-tagGroups:
 
   - name: US Verification API
     tags:
-      - US Autocompletions
       - US Verifications
+      - US Autocompletions
       - Zip Lookups
+
+  - name: Int'l Verification API
+    tags:
+      - Int'l Verifications
 
 components:
   securitySchemes:
@@ -152,6 +159,9 @@ paths:
 
   /checks:
     $ref: resources/checks/checks.yml
+
+  /intl_verifications:
+    $ref: resources/intl_verifications/intl_verifications.yml
 
   /letters/{ltr_id}:
     $ref: resources/letters/letter.yml

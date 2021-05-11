@@ -64,7 +64,7 @@ test("verify a US address given a single-line address", async function (t) {
 // tests request validation
 test("errors when not given a primary line", async function (t) {
   try {
-    const response = await prism
+    await prism
       .setup()
       .then((client) =>
         client.post(

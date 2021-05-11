@@ -3,7 +3,7 @@ type: object
 required:
   - primary_line
 
-oneOf:
+anyOf:
   - required:
       - city
       - state
@@ -27,7 +27,17 @@ properties:
     $ref: "../../../shared/attributes/address/city.yml"
 
   state:
-    $ref: "../../../shared/attributes/address/state.yml"
+    type: string
+    description: >
+      The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US) two letter code or subdivision name for
+      the state. `city` and `state` are required if no zip_code is passed.
+    maxLength: 50
 
   zip_code:
     $ref: "../../../shared/attributes/address/zip_code.yml"
+
+example:
+  primary_line: 185 Berry Street
+  city: San Francisco
+  state: CA
+  zip_code: "94107"

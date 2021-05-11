@@ -2260,18 +2260,19 @@ components:
       description: >
         The name of the city. `city` and `state` are required if no zip_code is
         passed.
+      maxLength: 200
     state:
       type: string
       description: >
-        The state as a two-letter abbreviation. `city` and `state` are required
-        if no zip_code is passed.
+        The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US) two letter
+        code for the state.
       maxLength: 2
     zip_code:
       type: string
       description: >
-        The 5-digit ZIP code. Required if `city` and `state` are not passed in.
-        If included, must be formatted as a US ZIP or ZIP+4 (e.g. `2268`,
-        `94107`, `941072282`, `94107-2282`).
+        Required if `city` and `state` are not passed in. If included, must be
+        formatted as a US ZIP or ZIP+4 (e.g. `2268`, `94107`, `941072282`,
+        `94107-2282`).
     suggestions:
       type: object
       required:
@@ -2319,6 +2320,7 @@ components:
     recipient:
       type: string
       description: 'The intended recipient, typically a person''s or firm''s name.'
+      maxLength: 500
     primary_line:
       type: string
       description: |
@@ -2333,11 +2335,13 @@ components:
         * `secondary_number`
         * `pmb_designator`
         * `pmb_number`
+      maxLength: 500
     secondary_line:
       type: string
       description: >
         The secondary delivery line of the address. This field is typically
         empty but may contain information if `primary_line` is too long.
+      maxLength: 500
     urbanization:
       type: string
       description: >
@@ -2345,11 +2349,12 @@ components:
         area, sector, or development within a city. See [USPS
         documentation](https://pe.usps.com/text/pub28/28api_008.htm#:~:text=I51.,-4%20Urbanizations&text=In%20Puerto%20Rico%2C%20identical%20street,placed%20before%20the%20urbanization%20name.)
         for clarification.
+      maxLength: 500
     multiple_components:
       type: object
       required:
         - primary_line
-      oneOf:
+      anyOf:
         - required:
             - city
             - state
@@ -2367,9 +2372,19 @@ components:
         city:
           $ref: '#/components/schemas/city'
         state:
-          $ref: '#/components/schemas/state'
+          type: string
+          description: >
+            The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US) two
+            letter code or subdivision name for the state. `city` and `state`
+            are required if no zip_code is passed.
+          maxLength: 50
         zip_code:
           $ref: '#/components/schemas/zip_code'
+      example:
+        primary_line: 185 Berry Street
+        city: San Francisco
+        state: CA
+        zip_code: '94107'
     single_line_address:
       type: object
       required:
@@ -2378,9 +2393,16 @@ components:
         address:
           type: string
           description: >
-            The entire address in one string. Does not support a recipient and
-            will error when other payload parameters are provided.
-          example: 185 Berry Street 94107
+            The entire address in one string (e.g., "185 Berry Street 94107").
+            _Does not support a recipient and will error when other payload
+            parameters are provided._
+          maxLength: 500
+      example:
+        address: 185 Berry Street 94107
+    us_ver_id:
+      type: string
+      description: Unique identifier prefixed with `sfm_`.
+      pattern: '^us_ver_[a-zA-Z0-9]+$'
     zip_code_type:
       type: string
       enum:
@@ -2449,7 +2471,6 @@ components:
           description: >
             The numeric or alphanumeric part of an address preceding the street
             name. Often the house, building, or PO Box number.
-          example: '185'
         street_predirection:
           type: string
           enum:
@@ -2465,18 +2486,15 @@ components:
           description: >
             Geographic direction preceding a street name (`N`, `S`, `E`, `W`,
             `NE`, `SW`, `SE`, `NW`).
-          example: 'N'
         street_name:
           type: string
           description: |
             The name of the street.
-          example: BERRY
         street_suffix:
           type: string
           description: >
             The standard USPS abbreviation for the street suffix (`ST`, `AVE`,
             `BLVD`, etc).
-          example: ST
         street_postdirection:
           type: string
           enum:
@@ -2492,44 +2510,37 @@ components:
           description: >
             Geographic direction following a street name (`N`, `S`, `E`, `W`,
             `NE`, `SW`, `SE`, `NW`).
-          example: 'N'
         secondary_designator:
           type: string
           description: >
             The standard USPS abbreviation describing the
             `components[secondary_number]` (`STE`, `APT`, `BLDG`, etc).
-          example: STE
         secondary_number:
           type: string
           description: |
             Number of the apartment/unit/etc.
-          example: '6100'
         pmb_designator:
           type: string
           description: >
             Designator of a
             [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
             private mailbox.
-          example: ''
         pmb_number:
           type: string
           description: >
             Number of a
             [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
             private mailbox.
-          example: ''
         extra_secondary_designator:
           type: string
           description: >
             An extra (often unnecessary) secondary designator provided with the
             input address.
-          example: ''
         extra_secondary_number:
           type: string
           description: >
             An extra (often unnecessary) secondary number provided with the
             input address.
-          example: ''
         city:
           $ref: '#/components/schemas/city'
         state:
@@ -2540,7 +2551,6 @@ components:
           type: string
           description: |
             The 4-digit ZIP add-on code.
-          example: '1728'
         zip_code_type:
           $ref: '#/components/schemas/zip_code_type'
         delivery_point_barcode:
@@ -2551,7 +2561,6 @@ components:
             5-digit ZIP code (`zip_code`), 4-digit ZIP+4 add-on
             (`zip_code_plus_4`), 2-digit delivery point, and 1-digit delivery
             point check digit.
-          example: '941071728506'
         address_type:
           type: string
           enum:
@@ -2569,7 +2578,6 @@ components:
             * `commercial` –– The address is commercial.
 
             * `''` –– Not enough information provided to be determined.
-          example: commercial
         record_type:
           type: string
           enum:
@@ -2603,13 +2611,11 @@ components:
             * `general_delivery`
 
             * `''`
-          example: highrise
         default_building_address:
           type: boolean
           description: >
             Designates whether or not the address is the default address for a
             building containing multiple delivery points.
-          example: false
         county:
           $ref: '#/components/schemas/county'
         county_fips:
@@ -2619,7 +2625,6 @@ components:
           description: >
             A 4-character code assigned to a mail delivery route within a ZIP
             code.
-          example: C001
         carrier_route_type:
           type: string
           enum:
@@ -2643,27 +2648,24 @@ components:
             * `po_box` –– P.O. Box route (starts with "B").
 
             * `general_delivery` –– General delivery (starts with "G").
-          example: city_delivery
         latitude:
-          type: string
+          type: number
+          format: float
           description: >
             A positive or negative decimal indicating the geographic latitude of
             the address, specifying the north-to-south position of a location.
             This should be used with `longitude` to pinpoint locations on a map.
             Will not be returned for undeliverable addresses or military
             addresses (state is `AA`, `AE`, or `AP`).
-          example: '37.77597542841264'
         longitude:
-          type: string
+          type: number
+          format: float
           description: >
             A positive or negative decimal indicating the geographic longitude
             of the address, specifying the north-to-south position of a
             location. This should be used with `latitude` to pinpoint locations
             on a map. Will not be returned for undeliverable addresses or
             military addresses (state is `AA`, `AE`, or `AP`).
-          example: '-122.3929557343685'
-        object:
-          $ref: '#/components/schemas/object'
     dpv_footnote:
       type: string
       enum:
@@ -2839,8 +2841,6 @@ components:
 
             * `''` –– SuiteLink lookup was not attempted.
           example: ''
-        object:
-          $ref: '#/components/schemas/object'
     lob_confidence_score:
       type: object
       required:
@@ -2855,15 +2855,23 @@ components:
             of mailpieces Lob has sent to this addresses that have been
             delivered successfully. Will be `null` if no tracking data exists
             for this address.
-          example: 100
           default: null
+          minimum: 0
+          maximum: 100
         level:
           type: string
-          description: |
-            The level of confidence in the score associated with this address.
-          example: high
-        object:
-          $ref: '#/components/schemas/object'
+          enum:
+            - high
+            - medium
+            - low
+            - ''
+          description: >
+            Indicates the likelihood that the address is a valid, mail-receiving
+            address. Possible values are:
+              - high — Over 70% of mailpieces Lob has sent to this address were delivered successfully.
+              - medium — Between 40% and 70% of mailpieces Lob has sent to this address were delivered successfully.
+              - low — Less than 40% of mailpieces Lob has sent to this address were delivered successfully.
+              - '' — No tracking data exists for this address.
     zip5:
       type: object
       required:
@@ -4196,6 +4204,8 @@ components:
           schema:
             type: object
             properties:
+              id:
+                $ref: '#/components/schemas/us_ver_id'
               recipient:
                 $ref: '#/components/schemas/recipient'
               primary_line:
@@ -4253,6 +4263,57 @@ components:
                 $ref: '#/components/schemas/lob_confidence_score'
               object:
                 $ref: '#/components/schemas/object'
+          example:
+            id: us_ver_c7cb63d68f8d6
+            recipient: LOB.COM
+            primary_line: 185 BERRY ST STE 6100
+            secondary_line: ''
+            urbanization: ''
+            last_line: SAN FRANCISCO CA 94107-1728
+            deliverability: deliverable
+            components:
+              primary_number: '185'
+              street_predirection: ''
+              street_name: BERRY
+              street_suffix: ST
+              street_postdirection: ''
+              secondary_designator: STE
+              secondary_number: '6100'
+              pmb_designator: ''
+              pmb_number: ''
+              extra_secondary_designator: ''
+              extra_secondary_number: ''
+              city: SAN FRANCISCO
+              state: CA
+              zip_code: '94107'
+              zip_code_plus_4: '1728'
+              zip_code_type: standard
+              delivery_point_barcode: '941071728506'
+              address_type: commercial
+              record_type: highrise
+              default_building_address: false
+              county: SAN FRANCISCO
+              county_fips: '06075'
+              carrier_route: C001
+              carrier_route_type: city_delivery
+              latitude: 37.77597542841264
+              longitude: -122.3929557343685
+            deliverability_analysis:
+              dpv_confirmation: 'Y'
+              dpv_cmra: 'N'
+              dpv_vacant: 'N'
+              dpv_active: 'Y'
+              dpv_footnotes:
+                - AA
+                - BB
+              ews_match: false
+              lacs_indicator: ''
+              lacs_return_code: ''
+              suite_return_code: ''
+            lob_confidence_score:
+              score: 100
+              level: high
+            object: us_verification
     zip_lookups:
       description: Returns a zip lookup object if a valid zip was provided.
       headers:

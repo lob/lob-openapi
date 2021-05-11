@@ -147,6 +147,9 @@ components:
             again.
         status_code:
           $ref: '#/components/schemas/failure_status_code'
+        code:
+          type: string
+          description: A pre-defined string identifying the error category
     address_us:
       allOf:
         - $ref: '#/components/schemas/address_editable_base'
@@ -200,8 +203,11 @@ components:
             example: NEWYORK2015
     address_editable_base:
       type: object
-      required:
-        - name
+      anyOf:
+        - required:
+            - name
+        - required:
+            - company
       properties:
         description:
           $ref: '#/components/schemas/resource_description'
@@ -2034,13 +2040,13 @@ components:
             - back
           properties:
             front:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
             back:
-              oneOf:
+              anyOf:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'

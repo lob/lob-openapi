@@ -26,6 +26,3 @@ Because:
    - `address_generated_base.yml` - Properties we generate for both US and international addresses.
    - `address_us.yml` and `address_intl.yml` - Like the editable versions, these are used in `address_country` with the discriminator. In order for polymorphism to work for the stored version of address, the version of `address_country` used by `address_editable.yml` must be completely hidden, hence the plethora of models.
    - `address.yml` - The polymorphic stored address model. As before, the discriminator field specifies the variant, except this time the discriminator field, despite having the same name, contains the full name of the country.
-
-1. Utilities
-   - `required_*.yml` - some property requirements

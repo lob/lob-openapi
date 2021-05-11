@@ -15,7 +15,7 @@ properties:
     $ref: "../../../shared/attributes/address/recipient.yml"
 
   primary_line:
-    $ref: "../../../shared/attributes/address/primary_line.yml"
+    $ref: "../../../shared/attributes/address/primary_line_us.yml"
 
   secondary_line:
     $ref: "../../../shared/attributes/address/secondary_line.yml"
@@ -24,13 +24,17 @@ properties:
     $ref: "../attributes/urbanization.yml"
 
   city:
-    $ref: "../../../shared/attributes/address/city.yml"
+    allOf:
+      - $ref: "../../../shared/attributes/address/city/city_no_description.yml"
+      - type: string
+        description: >-
+          The name of the city. `city` and `state` are required if no `zip_code` is passed.
 
   state:
     type: string
-    description: >
+    description: >-
       The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US) two letter code or subdivision name for
-      the state. `city` and `state` are required if no zip_code is passed.
+      the state. `city` and `state` are required if no `zip_code` is passed.
     maxLength: 50
 
   zip_code:

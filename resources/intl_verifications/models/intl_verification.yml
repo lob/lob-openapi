@@ -1,0 +1,46 @@
+allOf:
+  - $ref: "intl_verification_base.yml"
+
+  - type: object
+
+    properties:
+      id:
+        $ref: "../attributes/intl_ver_id.yml"
+
+      last_line:
+        type: string
+        description: |
+          Combination of the following applicable `components`:
+          * `city`
+          * `state`
+          * `zip_code`
+          * `zip_code_plus_4`
+
+      country:
+        type: string
+        description: >-
+          The country of the address. Will be returned as a 2 letter country short-name code (ISO 3166).
+
+      deliverability:
+        type: string
+        enum:
+          - deliverable
+          - deliverable_missing_info
+          - undeliverable
+          - no_match
+        description: |
+          Summarizes the deliverability of the `intl_verification` object. Possible values are:
+          * deliverable — The address is deliverable.
+          * deliverable_missing_info — The address is missing some information, but is most likely deliverable.
+          * undeliverable — The address is most likely not deliverable. Some components of the address (such as city or postal code) may have been found.
+          * no_match — This address is not deliverable. No matching street could be found within the city or postal code.
+
+      components:
+        $ref: "components.yml"
+
+      object:
+        allOf:
+          - $ref: "../../../shared/attributes/object.yml"
+          - type: string
+            enum:
+              - intl_verification

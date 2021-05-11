@@ -30,7 +30,7 @@ test("autocomplete an address given a prefix", async function (t) {
 
 test("errors when address_prefix is not passed in", async function (t) {
   const response = await prism
-    .setup()
+    .setup({ errors: false })
     .then((client) =>
       client.post(resource_endpoint, {}, { headers: prism.authHeader })
     );

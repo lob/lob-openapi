@@ -133,7 +133,7 @@ test("errors when attempting to create an address with neither name nor company"
   };
 
   let response = await prism
-    .setup()
+    .setup({ errors: false })
     .then((client) =>
       client.post(resource_endpoint, params, { headers: prism.authHeader })
     );
@@ -157,13 +157,15 @@ test("errors at the promise level", async function (t) {
     address_country: "US",
   };
 
-  let response = await prism
-    .setup()
-    .then((client) =>
-      client.post("/addressos", params, { headers: prism.authHeader })
-    );
-
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 404);
-  t.match(response.data.error.message, /URL/);
+  try {
+    let response = await prism
+      .setup()
+      .then((client) =>
+        client.post("/addressos", params, { headers: prism.authHeader })
+      );
+    await t.doesNotReject(Promise.resolve(response));
+    t.equal(response.status, 200);
+  } catch (err) {
+    t.match(err["detail"], /route/);
+  }
 });

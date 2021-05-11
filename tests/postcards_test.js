@@ -156,7 +156,7 @@ test("creates a postcard given a local filepath as the front", async function (t
 // select failure cases:
 test("throws errors when input is not validated", async function (t) {
   // errors when one of the required fields (state) is missing
-  const create_domestic = await prism.setup().then((client) =>
+  const create_domestic = await prism.setup({ errors: false }).then((client) =>
     client.post(
       resource_endpoint,
       {
@@ -187,7 +187,7 @@ test("throws errors when input is not validated", async function (t) {
   t.equal(create_domestic.status, 422);
 
   // errors when no country is provided for international address
-  const create_intl = await prism.setup().then((client) =>
+  const create_intl = await prism.setup({ errors: false }).then((client) =>
     client.post(
       resource_endpoint,
       {

@@ -47,7 +47,7 @@ prism
     });
 
     test("create, list, read then delete a check", async function (t) {
-      const create = await prism.setup().then((client) =>
+      const create = await prism.setup({ errors: false }).then((client) =>
         client.post(
           resource_endpoint,
           {
@@ -72,12 +72,11 @@ prism
             bank_account: bank_id,
             amount: 101.01,
             memo: "poodles",
+            message: "End Apartheid",
           },
           { headers: prism.authHeader }
         )
       );
-      t.equal(create.status, 200);
-
       await t.doesNotReject(Promise.resolve(create));
       t.equal(create.status, 200);
 

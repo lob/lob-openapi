@@ -30,7 +30,7 @@ test("lookup a US zip code", async function (t) {
 
 test("use an incorrectly formatted zip code", async function (t) {
   const response = await prism
-    .setup()
+    .setup({ errors: false })
     .then((client) =>
       client.post(
         resource_endpoint,

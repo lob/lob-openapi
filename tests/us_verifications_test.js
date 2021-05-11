@@ -61,6 +61,26 @@ test("verify a US address given a single-line address", async function (t) {
   t.equal(response.status, 200);
 });
 
+// tests request validation
+test("errors when not given a primary line", async function (t) {
+  try {
+    const response = await prism
+      .setup()
+      .then((client) =>
+        client.post(
+          resource_endpoint,
+          { zip_code: zip_code },
+          { headers: prism.authHeader }
+        )
+      );
+  } catch (err) {
+    const firstError = err.additional.validation[0]["message"];
+    // console.log("ERROR: ", JSON.stringify(firstError, null, 2));
+    t.match(firstError, /required/);
+  }
+});
+
+// set prism error-surfacing to false for these tests, to gauge the endpoint's response
 test("errors when given a primary line without city/state or zip", async function (t) {
   const response = await prism
     .setup({ errors: false })
@@ -75,22 +95,6 @@ test("errors when given a primary line without city/state or zip", async functio
   await t.rejects(Promise.reject(response));
   t.equal(response.status, 422);
   t.match(response.data.error.message, /zip_code/);
-});
-
-test("errors when not given a primary line", async function (t) {
-  const response = await prism
-    .setup({ errors: false })
-    .then((client) =>
-      client.post(
-        resource_endpoint,
-        { zip_code: zip_code },
-        { headers: prism.authHeader }
-      )
-    );
-
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 422);
-  t.match(response.data.error.message, /primary_line/);
 });
 
 test("errors when given a city without state or zip", async function (t) {

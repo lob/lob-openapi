@@ -1,10 +1,10 @@
 post:
-  operationId: verification
+  operationId: us_verification
 
   summary: Verify a US or US territory address with a live API key.
 
   description: >-
-    Verify a US or US territory address with a live API key. The
+    Verify a US or US territory address _with a live API key_. The
     address can be in components (e.g. `primary_line` is
     "185 Berry Street", `zip_code` is "94107") or as a
     single string (e.g. "185 Berry Street 94107"), but not as both.
@@ -14,6 +14,22 @@ post:
 
   tags:
     - US Verifications
+
+  parameters:
+    - in: query
+      name: case
+      schema:
+        type: string
+        enum:
+          - upper
+          - proper
+        default: upper
+      description: >-
+        Casing of the verified address. Possible values are `upper` and `proper` for
+        uppercased (e.g. "PO BOX") and proper-cased (e.g. "PO Box"),
+        respectively. Only affects `recipient`, `primary_line`, `secondary_line`,
+        `urbanization`, and `last_line`. Default casing is `upper`.
+      required: false
 
   requestBody:
     required: true

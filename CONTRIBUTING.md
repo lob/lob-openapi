@@ -8,6 +8,12 @@
   - [Resource Structure](#resource-structure)
 - [Adding a new Route](#adding-a-new-route)
 - [Contract Testing](#contract-testing)
+  - [Running a Single Test with `.only`](#running-a-single-test-with-only)
+  - [Adding a Test](#adding-a-test)
+    - [Local File Inputs](#local-file-inputs)
+  - [Notes about Test Design](#notes-about-test-design)
+- [Debugging: Prism as a Validation Proxy](#debugging-prism-as-a-validation-proxy)
+- [Development: Mock Server](#development-mock-server)
 
 ## Introduction
 
@@ -108,14 +114,24 @@ be able to reuse. _If you do put your test in a separate file, make sure you mod
 
 ## Contract Testing
 
-We use [Prism](https://meta.stoplight.io/docs/prism/README.md) for contract testing, using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). To run the existing tests locally:
+We test our API contracts using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). We run the tests with [multi-tape](https://www.npmjs.com/package/multi-tape), and [tape-promise](https://www.npmjs.com/package/tape-promise) for async/await support. The contract tests run on github whenever you push to github and/or open a pull request.
+
+To run the existing tests locally:
 
 - add a valid Lob test token to your environment as `LOB_API_TEST_TOKEN`. You can access test tokens in your [Dashboard settings](dashboard.lob.com).
 - add a valid Lob live token to your environment as `LOB_API_LIVE_TOKEN`.
 - run `npm test`.
 
-To manually add a test, look in the `tests/` directory for a file named for the resource with
-the endpoint in question. If you used the generator, you can skip this step––the test file should already be present within `tests/`.
+### Running a Single Test with `.only`
+
+Because `multi-tape` runs each test in its own node process, it doesn't support `.only`. To run a single test, use `.only` as usual and run `npm run singleTest <testname>`, e.g., `npm run singleTest addresses` or `npm run singleTest template_compile`. The singleTest runs the test under `tape` rather than `multi-tape` inside the package environment.
+
+### Adding a Test
+
+To add a test, look in the `tests/` directory for a file named for the resource with
+the endpoint in question. If you used the generator, the test file should already be present within `tests/`.
+
+#### Local File Inputs
 
 If you're using any local file inputs within your tests, place them in the `tests/assets/` folder. This is how I read from a local file within `postcards_test.js`:
 
@@ -137,6 +153,8 @@ const files = fs.createReadStream(
 const frontBack = await streamToString(files);
 ```
 
+### Notes about Test Design
+
 There are two stand-out quirks with the tests. One is the `await t.doesNotReject(Promise.resolve(response));` line (and similarly-formed promise rejection counterpart) which appear in every generated test. This uses the `tape-promise` npm tool in order to test response validation. The other quirk is the
 
 ```
@@ -145,9 +163,9 @@ There are two stand-out quirks with the tests. One is the `await t.doesNotReject
 
 statement in `tests/setup.js`. This is there because, as discovered during the writing of the `us_autocompletions` test file, the content-type header isn't always applied by default to the request, so it has to be manually added in during the setup (all the endpoints authored out here accept JSON).
 
-The contract tests run on github whenever you push to github and/or open a pull request.
+## Debugging: Prism as a Validation Proxy
 
-During development of the spec for existing endpoints, you can run Prism as a [validation proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy) by running `npm run proxy`.
+We have found it useful to can run Prism as a [validation proxy](https://meta.stoplight.io/docs/prism/docs/getting-started/03-cli.md#proxy). To do so, run `npm run proxy`.
 
 ```bash
 $ npm run proxy
@@ -158,7 +176,7 @@ $ npm run proxy
 ```
 
 Once Prism is listening, you can issue http requests to the proxy port, in this
-case `http://127.0.0.1:4010` using the client of your choice. I like
+case `http://127.0.0.1:4010` using the client of your choice. The example below uses
 [httpie](https://httpie.io/docs#main-features), a user friendly client.
 
 ```bash
@@ -202,6 +220,8 @@ Any contract violations will be returned in a `s1-violations` header, which will
 contain a JSON object with all violations found in the response. You can also
 use the `--errors` flag which will turn any request or response violation found
 into a [RFC7807](https://tools.ietf.org/html/rfc7807) machine readable error.
+
+## Development: Mock Server
 
 You can also run Prism as a mock server using the spec for new endpoints.
 Mocking is discussed in depth in a separate [guide](MOCKING.md).

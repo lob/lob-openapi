@@ -46,14 +46,15 @@
     "clean": "rm -rf dist",
     "lint": "spectral lint $npm_package_config_specfile",
     "mock": "prism mock $npm_package_config_--dynamic $npm_package_config_specfile",
+    "singleTest": "func() { tape ./tests/\"$1\"_test.js | tap-spec; }; func",
+    "pergoalie": "node actions/contract_tests/goalieruns.js",
     "postinstall": "husky install",
     "postman": "npm run bundle && openapi2postmanv2 --pretty --spec dist/$npm_package_config_bundlefile --output dist/$npm_package_config_postmanfile",
     "pretty": "prettier --write .",
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
     "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --options.theme.sidebar.backgroundColor: \"#f7f9fa\" -o docs/index.html",
-    "test": "multi-tape './tests/**_test.js' | tap-spec",
-    "pergoalie": "node actions/contract_tests/goalieruns.js"
+    "test": "multi-tape './tests/**_test.js' | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -76,7 +77,7 @@
     "btoa": "^1.2.1",
     "husky": "^5.0.9",
     "multi-tape": "^1.6.1",
-    "openapi-to-postmanv2": "^2.5.1",
+    "openapi-to-postmanv2": "^2.6.0",
     "prettier": "^2.2.1",
     "redoc-cli": "^0.11.4",
     "tap-spec": "^5.0.0",

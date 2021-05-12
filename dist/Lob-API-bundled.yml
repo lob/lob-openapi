@@ -134,6 +134,67 @@ components:
           * 422 - The query or body parameters did not pass validation
           * 429 - Too many requests have been sent with an API key in a given amount of time
           * 500 - An internal server error occurred, please contact support@lob.com
+    generic:
+      type: string
+      enum:
+        - bad_request
+        - conflict
+        - feature_limit_reached
+        - internal_server_error
+        - invalid
+        - not_deletable
+        - not_found
+        - request_timeout
+        - service_unavailable
+        - unrecognised_endpoint
+        - unsupported_lob_version
+      description: |
+        A pre-defined string identifying the error category
+    authentication:
+      type: string
+      enum:
+        - email_required
+        - invalid_api_key
+        - publishable_key_not_allowed
+        - rate_limit_exceeded
+        - unauthorized
+        - unauthorized_token
+      description: |
+        A pre-defined string identifying the error category
+    advanced:
+      type: string
+      enum:
+        - address_length_exceeds_limit
+        - bank_account_already_verified
+        - bank_error
+        - custom_envelope_inventory_depleted
+        - deleted_bank_account
+        - failed_deliverability_strictness
+        - file_pages_below_min
+        - file_pages_exceed_max
+        - file_size_exceeds_limit
+        - foreign_return_address
+        - inconsistent_page_dimensions
+        - invalid_bank_account
+        - invalid_bank_account_verification
+        - invalid_check_international
+        - invalid_country_covid
+        - invalid_file
+        - invalid_file_dimensions
+        - invalid_file_download_time
+        - invalid_file_url
+        - invalid_image_dpi
+        - invalid_international_feature
+        - invalid_perforation_return_envelope
+        - invalid_template_html
+        - merge_variable_required
+        - merge_variable_whitespace
+        - payment_method_unverified
+        - pdf_encrypted
+        - special_characters_restricted
+        - unembedded_fonts
+      description: |
+        A pre-defined string identifying the error category
     error:
       type: object
       description: >-
@@ -148,6 +209,7 @@ components:
           required:
             - message
             - status_code
+            - code
           properties:
             message:
               type: string
@@ -158,8 +220,10 @@ components:
             status_code:
               $ref: '#/components/schemas/failure_status_code'
             code:
-              type: string
-              description: A pre-defined string identifying the error category
+              anyOf:
+                - $ref: '#/components/schemas/generic'
+                - $ref: '#/components/schemas/authentication'
+                - $ref: '#/components/schemas/advanced'
     address_us:
       allOf:
         - $ref: '#/components/schemas/address_editable_base'

@@ -6,18 +6,25 @@ description: >-
   and 5xx indicates an error on Lob's end.
 
 required:
-  - message
-  - status_code
+  - error
 
 properties:
-  message:
-    type: string
-    description: A human-readable message with more details about the error
-    example: Rate limit exceeded. Please wait 5 seconds and try your request again.
+  error:
+    type: object
 
-  status_code:
-    $ref: "../attributes/failure_status_code.yml"
+    required:
+      - message
+      - status_code
 
-  code:
-    type: string
-    description: A pre-defined string identifying the error category
+    properties:
+      message:
+        type: string
+        description: A human-readable message with more details about the error
+        example: Rate limit exceeded. Please wait 5 seconds and try your request again.
+
+      status_code:
+        $ref: "../attributes/failure_status_code.yml"
+
+      code:
+        type: string
+        description: A pre-defined string identifying the error category

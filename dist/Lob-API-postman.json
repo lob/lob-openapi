@@ -1,11 +1,11 @@
 {
     "item": [
         {
-            "id": "6cb075f1-e67f-47a1-9ed8-3f1bbf6daefb",
+            "id": "841c8f95-e299-4e38-9d0a-2fd2c31fa20c",
             "name": "addresses",
             "item": [
                 {
-                    "id": "1ff84ac5-921a-4cad-9015-5d37d1508daa",
+                    "id": "2031f2c2-28b5-453d-a7f0-98081e0eae60",
                     "name": "List all addresses",
                     "request": {
                         "name": "List all addresses",
@@ -53,7 +53,7 @@
                     },
                     "response": [
                         {
-                            "id": "3e705b9b-a9ae-4758-a1f2-8aabadd80b45",
+                            "id": "dfb490b5-263f-4d01-91a7-d957b001f2c3",
                             "name": "A dictionary with a data property that contains an array of up to `limit` addresses. Each entry in the array is a separate address object. The previous and next page of address entries can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more addresses are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -117,7 +117,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "a50a5e3b-0787-4887-8f56-eca90f0cfb28",
+                            "id": "4db5b9b3-c948-4121-9304-87dcbeec57e3",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -176,7 +176,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -184,7 +184,7 @@
                     "event": []
                 },
                 {
-                    "id": "9c5a725f-5eac-4f0a-a2d1-fdb7e043f960",
+                    "id": "eb83a5b2-4526-493c-9881-74956e9f41dc",
                     "name": "Creates a new address object",
                     "request": {
                         "name": "Creates a new address object",
@@ -254,7 +254,7 @@
                     },
                     "response": [
                         {
-                            "id": "23fe6382-0600-4a40-bcf0-f44c591b54e8",
+                            "id": "da72ea94-d15f-4f62-baeb-63e38ec870ea",
                             "name": "Echos the writable fields of a newly created address object.",
                             "originalRequest": {
                                 "url": {
@@ -351,7 +351,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "7efddfe5-262b-41be-8b8a-0e90badd07fa",
+                            "id": "bf674aaa-cf79-46eb-ba76-491397d5f1ee",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -425,7 +425,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -433,11 +433,11 @@
                     "event": []
                 },
                 {
-                    "id": "58aca888-14e8-4d9f-ab3e-ccd47de149ae",
+                    "id": "b1507d7e-7f22-4071-8887-515cc8ddfbc9",
                     "name": "{adr id}",
                     "item": [
                         {
-                            "id": "9e3c0655-ced3-4a2c-90c8-46615b7b20df",
+                            "id": "66de06a7-757f-4de5-b6da-b5766d9e2762",
                             "name": "Retrieve address with given id",
                             "request": {
                                 "name": "Retrieve address with given id",
@@ -469,7 +469,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "01139cbe-5b1b-445a-bcdb-4f58e6811293",
+                                    "id": "6bb5209d-897d-432c-a81b-f4533319b641",
                                     "name": "Returns an address object if a valid identifier was provided.",
                                     "originalRequest": {
                                         "url": {
@@ -527,12 +527,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"address_city\": \"<string>\",\n \"address_line1\": \"<string>\",\n \"address_state\": \"<string>\",\n \"address_zip\": \"<string>\",\n \"date_created\": \"1969-08-28T23:41:29.672Z\",\n \"date_modified\": \"2008-11-18T12:33:34.798Z\",\n \"id\": \"<string>\",\n \"object\": \"magna tempor do\",\n \"address_line2\": \"<string>\",\n \"deleted\": true,\n \"recipient_moved\": true,\n \"address_country\": \"UNITED STATES\"\n}",
+                                    "body": "{\n \"address_city\": \"<string>\",\n \"address_line1\": \"<string>\",\n \"address_state\": \"<string>\",\n \"address_zip\": \"<string>\",\n \"date_created\": \"1989-01-01T20:03:07.667Z\",\n \"date_modified\": \"1953-01-03T13:23:50.046Z\",\n \"id\": \"<string>\",\n \"object\": \"culpa esse nulla\",\n \"address_line2\": \"<string>\",\n \"deleted\": false,\n \"recipient_moved\": false,\n \"address_country\": \"UNITED STATES\"\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "782dd9f8-f140-49d6-a3aa-76d3e476213d",
+                                    "id": "323b50a8-61de-4097-b276-df7f0bec44b2",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -572,7 +572,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -580,7 +580,7 @@
                             "event": []
                         },
                         {
-                            "id": "f464befb-7e85-47ff-80a1-284308ab5581",
+                            "id": "27a77645-9b30-4a7d-9836-a7740dfe50c1",
                             "name": "Deletes address with given id",
                             "request": {
                                 "name": "Deletes address with given id",
@@ -612,7 +612,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "50115fe0-043c-4051-bee1-91f015431a85",
+                                    "id": "dbc71459-16ae-4193-9671-e09121754e87",
                                     "name": "Returns true if the delete was successful",
                                     "originalRequest": {
                                         "url": {
@@ -652,12 +652,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": false\n}",
+                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": true\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "2069a7e0-acfb-4be4-985c-00d3a7f3e3db",
+                                    "id": "1ee7f97d-c53e-4ec3-8c6c-25adc0c33da2",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -697,7 +697,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -711,11 +711,11 @@
             "event": []
         },
         {
-            "id": "43773f39-6121-48c4-bffa-12fd9d6eb0ac",
+            "id": "0a756c9c-2d12-468a-9c61-c83fc72bbb5a",
             "name": "bank accounts",
             "item": [
                 {
-                    "id": "ae8d3242-fc04-4c32-9644-13ac6ee9d197",
+                    "id": "3a987987-48d5-4a69-b0a5-49d1c2b1914f",
                     "name": "List all bank_accounts",
                     "request": {
                         "name": "List all bank_accounts",
@@ -763,7 +763,7 @@
                     },
                     "response": [
                         {
-                            "id": "6de87858-448b-4624-b9e0-5b5cedf900c0",
+                            "id": "67616c92-55ed-4b72-90a8-ef4e9378633f",
                             "name": "A dictionary with a data property that contains an array of up to `limit` bank_accounts. Each entry in the array is a separate bank_account. The previous and next page of bank_accounts can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more bank_accounts are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -827,7 +827,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "07a39723-a27d-4c65-bef5-b3a9d30cbcdb",
+                            "id": "0006eb8a-5f58-4fb4-8334-8aca5a6e65e1",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -886,7 +886,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -894,7 +894,7 @@
                     "event": []
                 },
                 {
-                    "id": "3591b140-3c90-4705-ab1c-91da01999ebf",
+                    "id": "9609ee34-e458-4e9d-8f06-e33e0767d040",
                     "name": "Creates a new bank_account",
                     "request": {
                         "name": "Creates a new bank_account",
@@ -969,7 +969,7 @@
                     },
                     "response": [
                         {
-                            "id": "837dff22-a82f-4484-9885-1d76ec472cbb",
+                            "id": "0ed76890-5ea7-4460-8e12-3491b86ea986",
                             "name": "Returns a bank_account object",
                             "originalRequest": {
                                 "url": {
@@ -1081,7 +1081,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "a18b84f8-e1fc-462c-8ce2-d2a0bf2e9e2c",
+                            "id": "6245fea0-a636-4ce7-a8c7-77c6ae05c617",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -1170,7 +1170,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -1178,11 +1178,11 @@
                     "event": []
                 },
                 {
-                    "id": "a0ff139e-fdfc-4fdc-8104-ab56a3ca2ad3",
+                    "id": "be16a7ae-f5f7-4e1a-80cb-aa7f725f3db2",
                     "name": "{bank id}",
                     "item": [
                         {
-                            "id": "132d3e61-1537-47ba-8665-a9cb0ac34212",
+                            "id": "b7c0400c-322d-4ed2-b0d0-54740cb18585",
                             "name": "Retrieve bank_account with given id",
                             "request": {
                                 "name": "Retrieve bank_account with given id",
@@ -1214,7 +1214,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "b26cdd76-07ab-4755-855a-9af6938a97ce",
+                                    "id": "0407baab-4b5d-4613-a39a-df85b3f96850",
                                     "name": "Returns a bank_account object",
                                     "originalRequest": {
                                         "url": {
@@ -1277,7 +1277,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "136dc4ec-d0c1-41dd-804b-6531d2025ec2",
+                                    "id": "78363b4b-beee-44d4-9994-8b2056ca1bee",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -1317,7 +1317,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -1325,7 +1325,7 @@
                             "event": []
                         },
                         {
-                            "id": "50f224da-90b0-429d-a845-73930690965f",
+                            "id": "6ec68be7-e8d6-4358-be96-363b1843e556",
                             "name": "Delete a bank_account",
                             "request": {
                                 "name": "Delete a bank_account",
@@ -1357,7 +1357,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "ddfc4bf2-dcfb-4984-9599-af86da88a86c",
+                                    "id": "27ec4c49-c6ab-40a3-8c42-b665d27c6b77",
                                     "name": "Returns true if the delete was successful",
                                     "originalRequest": {
                                         "url": {
@@ -1397,12 +1397,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": false\n}",
+                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": true\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "344b92b5-a6dd-43f1-8021-3d227bc7f051",
+                                    "id": "cffb0690-69e3-451e-baa7-6c6e22dd5cfb",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -1442,7 +1442,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -1450,7 +1450,7 @@
                             "event": []
                         },
                         {
-                            "id": "f8b8db83-e874-4d3d-9a01-8a7b8b2cc70b",
+                            "id": "6cdbbe9c-4238-44a4-86da-28685d5de3da",
                             "name": "Verify a bank account",
                             "request": {
                                 "name": "Verify a bank account",
@@ -1512,7 +1512,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "179967b5-c8f0-4ddb-83f0-a051732c7a68",
+                                    "id": "3d9fd6eb-30be-4e1a-9590-4b808759854b",
                                     "name": "Returns a bank_account object",
                                     "originalRequest": {
                                         "url": {
@@ -1604,7 +1604,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "86662dd2-aaf3-47be-86bc-f7415f59238b",
+                                    "id": "ce303df4-be9e-45f5-8072-170e8a4bc4cc",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -1673,7 +1673,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -1687,11 +1687,11 @@
             "event": []
         },
         {
-            "id": "0cc7c9c9-f090-4dd1-8fb5-96a2ef640b60",
+            "id": "56ee4826-707c-42de-8c38-43ce6df8d898",
             "name": "certificates",
             "item": [
                 {
-                    "id": "4d83ffe5-1e52-4ea9-a0e0-b663f08d7448",
+                    "id": "a8a842b0-041a-4409-b5d7-4101abefebd5",
                     "name": "List all certificates",
                     "request": {
                         "name": "List all certificates",
@@ -1714,7 +1714,7 @@
                     },
                     "response": [
                         {
-                            "id": "1f02a970-3724-4572-a09e-d68532d3e557",
+                            "id": "3ad4e1c1-b368-4356-9f62-cd40941312eb",
                             "name": "List of all certificates. Will to add wording about plans for the future.",
                             "originalRequest": {
                                 "url": {
@@ -1748,12 +1748,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"data\": [\n  {\n   \"cert\": \"incididunt culpa\",\n   \"date_created\": \"1956-03-03T19:33:33.760Z\",\n   \"date_modified\": \"1981-09-25T20:29:01.499Z\",\n   \"id\": \"cert_dG2\",\n   \"name\": \"officia\",\n   \"object\": \"eu est reprehenderit\",\n   \"description\": \"<string>\",\n   \"deleted\": true,\n   \"account_id\": \"YmqOG2J0n\",\n   \"date_deleted\": \"1955-12-16T15:19:33.312Z\"\n  },\n  {\n   \"cert\": \"irure\",\n   \"date_created\": \"1986-08-23T14:22:11.036Z\",\n   \"date_modified\": \"1962-07-23T18:01:33.018Z\",\n   \"id\": \"cert_YjTy1NclWVC\",\n   \"name\": \"eu est\",\n   \"object\": \"do proident\",\n   \"description\": \"<string>\",\n   \"deleted\": true,\n   \"account_id\": \"izu9MM\",\n   \"date_deleted\": \"2018-04-30T04:32:49.898Z\"\n  }\n ],\n \"count\": 90983326,\n \"object\": \"ut elit anim in\"\n}",
+                            "body": "{\n \"data\": [\n  {\n   \"cert\": \"ad non laboris veniam deserunt\",\n   \"date_created\": \"1997-06-16T22:13:08.088Z\",\n   \"date_modified\": \"1952-04-19T06:37:40.709Z\",\n   \"id\": \"cert_78QG5hWy7K\",\n   \"name\": \"eiusmod proident minim commodo labore\",\n   \"object\": \"dolor eiusmod\",\n   \"description\": \"<string>\",\n   \"deleted\": false,\n   \"account_id\": \"Ga\",\n   \"date_deleted\": \"1953-02-27T11:18:21.090Z\"\n  },\n  {\n   \"cert\": \"officia culpa aliqua labore\",\n   \"date_created\": \"1966-05-05T03:08:30.471Z\",\n   \"date_modified\": \"1988-02-17T12:29:55.669Z\",\n   \"id\": \"cert_jp\",\n   \"name\": \"sit in\",\n   \"object\": \"Ut cillum velit exercitation reprehenderit\",\n   \"description\": \"<string>\",\n   \"deleted\": false,\n   \"account_id\": \"YK\",\n   \"date_deleted\": \"1968-02-15T18:57:21.003Z\"\n  }\n ],\n \"count\": 28976154,\n \"object\": \"tempor incidid\"\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "c8bc789d-fee8-4be8-88a3-715e0ad0df5f",
+                            "id": "82e731c6-f244-48ac-b92e-a1a4d1c40af6",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -1787,7 +1787,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -1795,7 +1795,7 @@
                     "event": []
                 },
                 {
-                    "id": "76d34812-fbfe-4a3e-a418-6d4924c85d67",
+                    "id": "19dfea0d-37f7-49e0-b0fa-a8d7403d0a69",
                     "name": "Creates a new certificate object",
                     "request": {
                         "name": "Creates a new certificate object",
@@ -1839,7 +1839,7 @@
                                 {
                                     "disabled": false,
                                     "key": "name",
-                                    "value": "Lorem elit",
+                                    "value": "commodo occaecat proident",
                                     "description": "(Required) "
                                 },
                                 {
@@ -1852,7 +1852,7 @@
                     },
                     "response": [
                         {
-                            "id": "3322d01f-0070-4709-88e6-73e66cff6c72",
+                            "id": "a046db14-1738-4ac7-8834-958d8ae166fb",
                             "name": "Returns an certificate object if a valid identifier was provided.",
                             "originalRequest": {
                                 "url": {
@@ -1901,7 +1901,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "name",
-                                            "value": "reprehenderit ex qui cillum Lorem"
+                                            "value": "laboris voluptate"
                                         },
                                         {
                                             "disabled": false,
@@ -1919,12 +1919,12 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"cert\": \"<string>\",\n \"date_created\": \"1947-06-06T02:57:03.091Z\",\n \"date_modified\": \"1994-08-10T12:30:29.270Z\",\n \"id\": \"cert_N\",\n \"name\": \"mollit nulla irure in\",\n \"object\": \"ad sunt dolor nulla\",\n \"description\": \"<string>\",\n \"deleted\": true,\n \"account_id\": \"xkXCnqBK\",\n \"date_deleted\": \"1989-02-01T13:40:13.901Z\"\n}",
+                            "body": "{\n \"cert\": \"<string>\",\n \"date_created\": \"2012-06-01T10:19:14.638Z\",\n \"date_modified\": \"2012-05-29T16:03:24.373Z\",\n \"id\": \"cert_mhGQyJGL\",\n \"name\": \"dolor minim reprehenderit\",\n \"object\": \"velit ex est sit dolore\",\n \"description\": \"<string>\",\n \"deleted\": true,\n \"account_id\": \"Y\",\n \"date_deleted\": \"2006-09-30T10:49:18.623Z\"\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "bfc99bc9-b760-47c1-963e-cc8dd19e648f",
+                            "id": "ef67ee2e-d9e3-46ad-b605-38b0db506b17",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -1973,7 +1973,7 @@
                                                 "type": "text/plain"
                                             },
                                             "key": "name",
-                                            "value": "reprehenderit ex qui cillum Lorem"
+                                            "value": "laboris voluptate"
                                         },
                                         {
                                             "disabled": false,
@@ -1991,7 +1991,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -1999,11 +1999,11 @@
                     "event": []
                 },
                 {
-                    "id": "632a2df1-4de5-47f3-99b7-4294cd130027",
+                    "id": "72d8e31e-04da-4fde-96dd-9b8964e1ae33",
                     "name": "{id}",
                     "item": [
                         {
-                            "id": "00c9000d-7e29-4e94-9002-982c297c1b02",
+                            "id": "325b6b19-115a-4c24-9a18-ceeaa4e45ac0",
                             "name": "Retrieve certificate with given id",
                             "request": {
                                 "name": "Retrieve certificate with given id",
@@ -2024,7 +2024,7 @@
                                         {
                                             "disabled": false,
                                             "type": "any",
-                                            "value": "cert_oK9Hi",
+                                            "value": "cert_R8tH",
                                             "key": "id",
                                             "description": "(Required) id of the certificate"
                                         }
@@ -2035,7 +2035,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "9ac795f7-7cf4-44dc-8536-8fb99e731dd9",
+                                    "id": "4f87725d-f6a6-4be0-bbc1-514dd5d24ba5",
                                     "name": "Returns an certificate object if a valid identifier was provided.",
                                     "originalRequest": {
                                         "url": {
@@ -2075,12 +2075,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"cert\": \"<string>\",\n \"date_created\": \"1947-06-06T02:57:03.091Z\",\n \"date_modified\": \"1994-08-10T12:30:29.270Z\",\n \"id\": \"cert_N\",\n \"name\": \"mollit nulla irure in\",\n \"object\": \"ad sunt dolor nulla\",\n \"description\": \"<string>\",\n \"deleted\": true,\n \"account_id\": \"xkXCnqBK\",\n \"date_deleted\": \"1989-02-01T13:40:13.901Z\"\n}",
+                                    "body": "{\n \"cert\": \"<string>\",\n \"date_created\": \"2012-06-01T10:19:14.638Z\",\n \"date_modified\": \"2012-05-29T16:03:24.373Z\",\n \"id\": \"cert_mhGQyJGL\",\n \"name\": \"dolor minim reprehenderit\",\n \"object\": \"velit ex est sit dolore\",\n \"description\": \"<string>\",\n \"deleted\": true,\n \"account_id\": \"Y\",\n \"date_deleted\": \"2006-09-30T10:49:18.623Z\"\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "bf2d6f5b-c86e-47a7-8033-53927e1db9b9",
+                                    "id": "82358623-4950-4d12-b80c-f5d49d3937b8",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -2120,7 +2120,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -2128,7 +2128,7 @@
                             "event": []
                         },
                         {
-                            "id": "6a292aca-9d7c-49dd-a16c-5c421c5b9099",
+                            "id": "e4ad764f-1706-4974-afa3-ca03d2ea135f",
                             "name": "Update name and/or description of a certificate.",
                             "request": {
                                 "name": "Update name and/or description of a certificate.",
@@ -2149,7 +2149,7 @@
                                         {
                                             "disabled": false,
                                             "type": "any",
-                                            "value": "cert_oK9Hi",
+                                            "value": "cert_R8tH",
                                             "key": "id",
                                             "description": "(Required) id of the certificate"
                                         }
@@ -2169,7 +2169,7 @@
                                         {
                                             "disabled": false,
                                             "key": "name",
-                                            "value": "enim consec"
+                                            "value": "consectetur in"
                                         },
                                         {
                                             "disabled": false,
@@ -2181,7 +2181,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "72b8d2b7-0568-4b3a-85b1-31b0614314df",
+                                    "id": "0b398592-13cd-4b78-8cba-c45ce23bcd23",
                                     "name": "Returns an certificate object if a valid identifier was provided.",
                                     "originalRequest": {
                                         "url": {
@@ -2217,7 +2217,7 @@
                                                 {
                                                     "disabled": false,
                                                     "key": "name",
-                                                    "value": "officia"
+                                                    "value": "sed minim Excepteur ut"
                                                 },
                                                 {
                                                     "disabled": false,
@@ -2235,12 +2235,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"cert\": \"<string>\",\n \"date_created\": \"1947-06-06T02:57:03.091Z\",\n \"date_modified\": \"1994-08-10T12:30:29.270Z\",\n \"id\": \"cert_N\",\n \"name\": \"mollit nulla irure in\",\n \"object\": \"ad sunt dolor nulla\",\n \"description\": \"<string>\",\n \"deleted\": true,\n \"account_id\": \"xkXCnqBK\",\n \"date_deleted\": \"1989-02-01T13:40:13.901Z\"\n}",
+                                    "body": "{\n \"cert\": \"<string>\",\n \"date_created\": \"2012-06-01T10:19:14.638Z\",\n \"date_modified\": \"2012-05-29T16:03:24.373Z\",\n \"id\": \"cert_mhGQyJGL\",\n \"name\": \"dolor minim reprehenderit\",\n \"object\": \"velit ex est sit dolore\",\n \"description\": \"<string>\",\n \"deleted\": true,\n \"account_id\": \"Y\",\n \"date_deleted\": \"2006-09-30T10:49:18.623Z\"\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "7899ab79-5894-4fdf-bd0e-b8e49befd52e",
+                                    "id": "423fe1be-ee50-4a0d-a56b-12c45eb7767f",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -2276,7 +2276,7 @@
                                                 {
                                                     "disabled": false,
                                                     "key": "name",
-                                                    "value": "officia"
+                                                    "value": "sed minim Excepteur ut"
                                                 },
                                                 {
                                                     "disabled": false,
@@ -2294,7 +2294,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -2302,7 +2302,7 @@
                             "event": []
                         },
                         {
-                            "id": "847a1de7-3436-490b-846f-b3868caf00e3",
+                            "id": "08e3ea3f-a8c1-4661-a102-c93ea8fe1beb",
                             "name": "Deletes certificate with given id",
                             "request": {
                                 "name": "Deletes certificate with given id",
@@ -2323,7 +2323,7 @@
                                         {
                                             "disabled": false,
                                             "type": "any",
-                                            "value": "cert_oK9Hi",
+                                            "value": "cert_R8tH",
                                             "key": "id",
                                             "description": "(Required) id of the certificate"
                                         }
@@ -2334,7 +2334,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "c3347a2a-5165-4fd2-b21a-bd6806bbda36",
+                                    "id": "7998619c-474f-4607-8520-1a7f79f4f5f7",
                                     "name": "Returns true if the delete was successful",
                                     "originalRequest": {
                                         "url": {
@@ -2374,12 +2374,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": false\n}",
+                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": true\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "14172e8e-9280-4e37-b912-2a544e601e2d",
+                                    "id": "aa237edb-5ba1-49f5-95f3-7b5debfa665b",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -2419,7 +2419,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -2433,11 +2433,11 @@
             "event": []
         },
         {
-            "id": "bcf7dfb2-f7e2-46cd-800e-e6e08bf159f0",
+            "id": "c5de3d14-70d0-45af-8179-2fafe833a7d1",
             "name": "checks",
             "item": [
                 {
-                    "id": "b2a3b818-89de-47e7-8b4f-454961ebb6b1",
+                    "id": "d0911e09-372e-4f61-9c18-8293c827b195",
                     "name": "List all checks",
                     "request": {
                         "name": "List all checks",
@@ -2485,7 +2485,7 @@
                     },
                     "response": [
                         {
-                            "id": "ffd2e66d-891f-44e8-a1bf-bdfd5eea100f",
+                            "id": "b509d3f2-7b0d-428d-9900-ddb39017e231",
                             "name": "A dictionary with a data property that contains an array of up to `limit` checks. Each entry in the array is a separate check. The previous and next page of checks can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more checks are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -2549,7 +2549,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "68ec9e2a-116f-4394-9c79-b8b7f3783776",
+                            "id": "cadb06dd-e7af-4e52-b57c-c2a58faa5079",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -2608,7 +2608,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -2616,7 +2616,7 @@
                     "event": []
                 },
                 {
-                    "id": "5bbeb8f0-9e8b-40d3-8e2d-2d2c2fdf5cbf",
+                    "id": "b0916b68-0e98-4376-8ed0-bf07abacf8c9",
                     "name": "Creates a new check",
                     "request": {
                         "name": "Creates a new check",
@@ -2686,7 +2686,7 @@
                     },
                     "response": [
                         {
-                            "id": "4bacd784-8e47-4351-bfea-d13a4cd2d3f2",
+                            "id": "3868df0d-b724-434a-a0de-994c06627d4b",
                             "name": "Returns a check object",
                             "originalRequest": {
                                 "url": {
@@ -2788,7 +2788,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "0233bc34-b6d3-4861-ba39-7f3efe26b1c4",
+                            "id": "b19454cc-50d5-4207-9252-47b25b3bcdbe",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -2867,7 +2867,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -2875,11 +2875,11 @@
                     "event": []
                 },
                 {
-                    "id": "7f5e7803-4437-4e2d-88aa-6e879b5f7fb5",
+                    "id": "322cc072-ff9e-4301-bae1-75c939b30c7a",
                     "name": "{chk id}",
                     "item": [
                         {
-                            "id": "8bb483e5-0e0e-4883-abf9-81c883e22373",
+                            "id": "4de9db54-8fcd-4f09-b436-ce2c9f1805b5",
                             "name": "Retrieve check with given id",
                             "request": {
                                 "name": "Retrieve check with given id",
@@ -2911,7 +2911,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "fb6eefa0-6a0a-4ad2-bc8b-4145ee69749b",
+                                    "id": "a7a111ee-d1a4-42c5-9ba5-90c3978ac359",
                                     "name": "Returns a check object",
                                     "originalRequest": {
                                         "url": {
@@ -2974,7 +2974,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "0eaef271-8ca4-4e21-83be-2edd02750fe9",
+                                    "id": "86ec81e4-c7b3-47a5-9917-c2cfd465c474",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -3014,7 +3014,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -3022,7 +3022,7 @@
                             "event": []
                         },
                         {
-                            "id": "9d946b33-8f79-4e10-8eb5-4db3e36044d2",
+                            "id": "8c012ed3-e0ea-4405-9703-b0530635c597",
                             "name": "Cancel a check",
                             "request": {
                                 "name": "Cancel a check",
@@ -3054,7 +3054,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "9659d18e-b0f0-4dcd-bea9-73fde492eba5",
+                                    "id": "5a040c5f-6f6f-464d-ab9a-5c67f44d0040",
                                     "name": "Returns true if the delete was successful",
                                     "originalRequest": {
                                         "url": {
@@ -3094,12 +3094,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": false\n}",
+                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": true\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "36d9af10-137c-4bb0-9325-163f033381fc",
+                                    "id": "3a20ee0f-7970-4fdd-85fd-3a601c7bcbe1",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -3139,7 +3139,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -3153,11 +3153,11 @@
             "event": []
         },
         {
-            "id": "acbbd88e-0e79-4d72-bcc9-21a0ac12136c",
+            "id": "b8e996cd-524f-456f-b42a-5161ece264c1",
             "name": "letters",
             "item": [
                 {
-                    "id": "aa2ab335-be08-466f-ace2-229911cbb9d9",
+                    "id": "2c1d2b50-a886-4aa6-92c1-51f56e3a9f1a",
                     "name": "List all letters",
                     "request": {
                         "name": "List all letters",
@@ -3205,7 +3205,7 @@
                     },
                     "response": [
                         {
-                            "id": "f00ab7e2-e9ed-4b07-87fd-d9a37987e4f8",
+                            "id": "ed963469-e245-4501-9092-da23f0872ac4",
                             "name": "A dictionary with a data property that contains an array of up to `limit` letters. Each entry in the array is a separate letter. The previous and next page of letters can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively. If no more letters are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -3269,7 +3269,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "07f9d992-ed3f-46b1-946e-b7f55868aafe",
+                            "id": "a81a3e80-6c30-424c-8a45-0ef2d77192f7",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -3328,7 +3328,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -3336,7 +3336,7 @@
                     "event": []
                 },
                 {
-                    "id": "1fdd4d3a-b429-40e8-887a-b6d26258a697",
+                    "id": "cc590f05-c6fd-473e-9a61-f41da67d5615",
                     "name": "Creates a new letter object",
                     "request": {
                         "name": "Creates a new letter object",
@@ -3431,7 +3431,7 @@
                     },
                     "response": [
                         {
-                            "id": "0a22f36d-a44a-41e2-ac8c-c5db1ff87ae9",
+                            "id": "305156ad-c15a-4990-89f4-59aa579a8cf9",
                             "name": "Returns a letter object",
                             "originalRequest": {
                                 "url": {
@@ -3563,7 +3563,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "c3c3117c-0166-45fe-a219-4f1b84ca4013",
+                            "id": "5c3c854e-c985-46e4-845f-ced41953fc21",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -3672,7 +3672,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -3680,11 +3680,11 @@
                     "event": []
                 },
                 {
-                    "id": "6771d32c-5835-442b-b090-23dc0fc08348",
+                    "id": "2f6658c2-33b8-455d-b5f6-1d17c91ba5e5",
                     "name": "{ltr id}",
                     "item": [
                         {
-                            "id": "932bdb5d-6fb1-4c4f-933e-2260588da531",
+                            "id": "1051f8c9-d732-4909-8275-a1f45f907f23",
                             "name": "Retrieve letter with given id",
                             "request": {
                                 "name": "Retrieve letter with given id",
@@ -3716,7 +3716,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "52b2052c-58bc-441e-b27f-eaf321206d6a",
+                                    "id": "3710ecb5-c983-45ee-96db-efc9074987f6",
                                     "name": "Returns a letter object",
                                     "originalRequest": {
                                         "url": {
@@ -3779,7 +3779,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "d8f7397e-6e17-4270-bed8-4a3c20a6b3e9",
+                                    "id": "84abda6f-f1aa-475c-9c24-58ee3ffeb06a",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -3819,7 +3819,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -3827,7 +3827,7 @@
                             "event": []
                         },
                         {
-                            "id": "0fd29967-7223-4c1e-a584-da79d3af6cc0",
+                            "id": "3d5a2c7f-469e-4f2b-8273-345b88d51baa",
                             "name": "Cancel a letter",
                             "request": {
                                 "name": "Cancel a letter",
@@ -3859,7 +3859,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "64602dae-4dad-43fc-b5a9-e95c68e40a72",
+                                    "id": "dad9715a-2148-4d6e-b03d-7da5f7d619ef",
                                     "name": "Returns true if the delete was successful",
                                     "originalRequest": {
                                         "url": {
@@ -3899,12 +3899,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": false\n}",
+                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": true\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "f1089362-cc5c-4a38-bf55-9912830dff51",
+                                    "id": "37961406-3b03-40cf-acb3-b18f61aba862",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -3944,7 +3944,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -3958,11 +3958,11 @@
             "event": []
         },
         {
-            "id": "8acc6788-6b48-41d8-be92-3c1ee2cbb167",
+            "id": "f52b8cc7-312c-4228-8448-3a3ae08a80ca",
             "name": "postcards",
             "item": [
                 {
-                    "id": "b5cab476-008f-4b98-8941-cb112fb562a2",
+                    "id": "7b787217-1036-4112-9a47-d4f892bb724f",
                     "name": "List all postcards",
                     "request": {
                         "name": "List all postcards",
@@ -4010,7 +4010,7 @@
                     },
                     "response": [
                         {
-                            "id": "3865ad2a-8efb-468f-b277-bef851976533",
+                            "id": "8619ad91-f874-4f95-bd25-de5190360ca3",
                             "name": "A dictionary with a data property that contains an array of up to `limit` postcards. Each entry in the array is a separate postcard. The previous and next page of postcards can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more postcards are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -4074,7 +4074,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "4d99bbfa-a161-4187-9393-8efb08260fca",
+                            "id": "cc634fff-b3b0-4987-bc47-3a4b6c3dcfb4",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -4133,7 +4133,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -4141,7 +4141,7 @@
                     "event": []
                 },
                 {
-                    "id": "6ad8ee93-dcf9-4cfc-9327-6bd7bb32104d",
+                    "id": "5d1a0912-d7fb-4fe4-9898-93cb76d5c97f",
                     "name": "Creates a new postcard object",
                     "request": {
                         "name": "Creates a new postcard object",
@@ -4211,7 +4211,7 @@
                     },
                     "response": [
                         {
-                            "id": "68236490-2fb3-491c-94b5-163efc0e2658",
+                            "id": "d195a34a-6947-4367-a7aa-89a738cab732",
                             "name": "Returns a postcard object",
                             "originalRequest": {
                                 "url": {
@@ -4318,7 +4318,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "bf350df4-5ae0-4bf5-ac52-998d81f65391",
+                            "id": "34791051-9dba-4dce-a106-fd1b5c0a73d1",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -4402,7 +4402,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -4410,11 +4410,11 @@
                     "event": []
                 },
                 {
-                    "id": "3240cc36-c6c8-4025-9ebc-024713aee998",
+                    "id": "5b1af9d2-1a1f-462b-92da-775c1e8405dc",
                     "name": "{psc id}",
                     "item": [
                         {
-                            "id": "e6f2f1ff-1b54-45e8-867f-e2cc28ce520f",
+                            "id": "d2f0293d-2c35-4c67-be09-5745fa8f00d8",
                             "name": "Retrieve postcard with given id",
                             "request": {
                                 "name": "Retrieve postcard with given id",
@@ -4446,7 +4446,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "1d59b08b-7218-49e1-91ac-5147cd1c5b88",
+                                    "id": "62a4b5a5-69f9-4409-8131-29c0c520c942",
                                     "name": "Returns a postcard object",
                                     "originalRequest": {
                                         "url": {
@@ -4509,7 +4509,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "c27b8281-de0d-4ec5-b3f4-ba6a4017574b",
+                                    "id": "fc573572-7fdb-4de2-87c5-2e4e5dabbd17",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -4549,7 +4549,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -4557,7 +4557,7 @@
                             "event": []
                         },
                         {
-                            "id": "d73db318-c5ff-4354-9db8-9a5ee1d6d4a4",
+                            "id": "89cd992e-04c0-4cc2-824b-344e9aad0fca",
                             "name": "Cancels postcard with given id",
                             "request": {
                                 "name": "Cancels postcard with given id",
@@ -4589,7 +4589,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "6bf343f2-00f7-4f69-9d6f-6cbcadc0ed15",
+                                    "id": "f6a89fe2-a8e5-4721-853c-963d83be497f",
                                     "name": "Returns true if the delete was successful",
                                     "originalRequest": {
                                         "url": {
@@ -4629,12 +4629,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": false\n}",
+                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": true\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "66e871c4-086c-46f5-bbbf-cf168df0e6b8",
+                                    "id": "5e197888-a034-4bb5-8727-f766f00adad9",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -4674,7 +4674,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -4688,11 +4688,11 @@
             "event": []
         },
         {
-            "id": "6405f0a4-fec2-4de3-8265-7982ed09c2ae",
+            "id": "4eb7c5c0-5dfb-4b93-a8bc-6c4d853d1aca",
             "name": "self mailers",
             "item": [
                 {
-                    "id": "eaffd336-537b-4e96-90d3-772857b98df9",
+                    "id": "35a6e0d9-a529-40d1-902a-5341be0d692c",
                     "name": "List all self_mailers",
                     "request": {
                         "name": "List all self_mailers",
@@ -4740,7 +4740,7 @@
                     },
                     "response": [
                         {
-                            "id": "2f7b4a8a-27eb-4996-a1f3-96d6dc5c9b51",
+                            "id": "9c7b17c8-a5bf-4942-902c-945f95e41549",
                             "name": "A dictionary with a data property that contains an array of up to `limit` self_mailers. Each entry in the array is a separate self_mailer. The previous and next page of self_mailers can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more self_mailers are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -4822,7 +4822,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "c28e8e33-387e-4171-a44e-8d54f798def3",
+                            "id": "8e50c145-5349-4349-aa8e-02648c2eefa4",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -4881,7 +4881,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -4889,7 +4889,7 @@
                     "event": []
                 },
                 {
-                    "id": "c79d9d77-a81c-46e5-aeda-a9eadc3cc474",
+                    "id": "ed86cf28-2890-4c11-92ee-7afd28408aab",
                     "name": "Creates a new self_mailer object",
                     "request": {
                         "name": "Creates a new self_mailer object",
@@ -4959,7 +4959,7 @@
                     },
                     "response": [
                         {
-                            "id": "8b76c777-2623-492c-9931-b9ed9399e545",
+                            "id": "e2e83028-bda9-4f03-abd5-d58b4e858e42",
                             "name": "Returns a self_mailer object",
                             "originalRequest": {
                                 "url": {
@@ -5066,7 +5066,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "bb253b96-2a7b-46ba-b605-5ed1872967b3",
+                            "id": "a508d31b-eb10-440b-b18f-929492cecca3",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -5150,7 +5150,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -5158,11 +5158,11 @@
                     "event": []
                 },
                 {
-                    "id": "6b05bd56-874b-4b4a-a756-242f727cb074",
+                    "id": "9bbc0dab-7cbf-4ffa-88f0-3e768b5097fb",
                     "name": "{sfm id}",
                     "item": [
                         {
-                            "id": "6b3f0510-58ae-4712-9d81-7755f7879f71",
+                            "id": "db1fdab4-30fb-4d27-aa64-c77e1a826795",
                             "name": "Retrieve self_mailer with given id",
                             "request": {
                                 "name": "Retrieve self_mailer with given id",
@@ -5194,7 +5194,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "cbc46f66-1762-4296-96f1-4d04f623f023",
+                                    "id": "ebb70d39-e5ca-47f1-96ed-97dcd2ad7dfc",
                                     "name": "Returns a self_mailer object",
                                     "originalRequest": {
                                         "url": {
@@ -5257,7 +5257,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "bff110b9-c480-4ae4-be3d-664f2b94b355",
+                                    "id": "953d3841-a7b3-42fe-9d21-9a03a5ac6885",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -5297,7 +5297,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -5305,7 +5305,7 @@
                             "event": []
                         },
                         {
-                            "id": "8a43d47a-e5e3-4114-8463-a4d4ecba7587",
+                            "id": "348a63a2-0bc2-40aa-bd49-3a71ecb57546",
                             "name": "Deletes self_mailer with given id",
                             "request": {
                                 "name": "Deletes self_mailer with given id",
@@ -5337,7 +5337,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "57c5bff4-6423-4688-8956-d785d9c6c1e5",
+                                    "id": "3634d9d3-52cf-4c02-af6e-2bac23437bfe",
                                     "name": "Returns true if the delete was successful",
                                     "originalRequest": {
                                         "url": {
@@ -5377,12 +5377,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": false\n}",
+                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": true\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "b1c9847f-0592-41d0-9da5-9b5f59bf7476",
+                                    "id": "cce55776-93fd-4c4d-8ec4-d5e21a442911",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -5422,7 +5422,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -5436,11 +5436,11 @@
             "event": []
         },
         {
-            "id": "71115453-527d-4e63-8684-3f5726ccd3d7",
+            "id": "040d1b3f-aac0-43c1-a873-64125c7c1b4d",
             "name": "templates",
             "item": [
                 {
-                    "id": "81e853fd-aef8-4089-941b-ec73e72d3785",
+                    "id": "77e208db-32bf-4479-baf3-427f4af400e5",
                     "name": "List all templates",
                     "request": {
                         "name": "List all templates",
@@ -5488,7 +5488,7 @@
                     },
                     "response": [
                         {
-                            "id": "242fa35c-833b-4496-95ef-fbc2e4d92e81",
+                            "id": "36f211d7-8571-43b8-9817-8388a2644c8e",
                             "name": "A dictionary with a data property that contains an array of up to `limit` templates. Each entry in the array is a separate template. The previous and next page of templates can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more templates are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -5570,7 +5570,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "d653ab04-6f23-4aef-a5b5-89343febd995",
+                            "id": "bf70fe96-203a-4703-86ba-6934f93137bd",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -5629,7 +5629,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -5637,7 +5637,7 @@
                     "event": []
                 },
                 {
-                    "id": "1fd71111-cc4d-40e2-9eec-6a49f79303e5",
+                    "id": "9ca5ffce-59a0-49ef-af6e-218db8c99554",
                     "name": "Creates a new template object",
                     "request": {
                         "name": "Creates a new template object",
@@ -5688,7 +5688,7 @@
                     },
                     "response": [
                         {
-                            "id": "01758e48-620f-49cf-acc9-93beed056cbc",
+                            "id": "c98ddcf6-4492-42c5-880e-970d2a056091",
                             "name": "Returns a template object",
                             "originalRequest": {
                                 "url": {
@@ -5779,7 +5779,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "5eed3e0c-3c9c-42e2-9428-ee12b069cf9e",
+                            "id": "d53f9cb7-08b8-4cd9-9d7a-b14d47c146b3",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -5847,7 +5847,7 @@
                                     "value": "application/json"
                                 }
                             ],
-                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                             "cookie": [],
                             "_postman_previewlanguage": "json"
                         }
@@ -5855,11 +5855,11 @@
                     "event": []
                 },
                 {
-                    "id": "3eb055dc-f0ab-47cf-8837-1f4b2a183ab9",
+                    "id": "588d48a4-ba46-43ce-a61f-6adcd50b2533",
                     "name": "{tmpl id}",
                     "item": [
                         {
-                            "id": "dce1f097-3579-4711-b7cc-57f7cbf197d2",
+                            "id": "0df8d2d5-c62f-45b4-b347-c39eb40baf16",
                             "name": "Retrieve template with given id",
                             "request": {
                                 "name": "Retrieve template with given id",
@@ -5891,7 +5891,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "7786855b-bf75-4da3-9ed4-59b194667eac",
+                                    "id": "cde796ae-a1c8-4bef-b54b-27fd407fe388",
                                     "name": "Returns a template object",
                                     "originalRequest": {
                                         "url": {
@@ -5954,7 +5954,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "10289685-5618-4322-a818-440cca47828f",
+                                    "id": "4dee828c-13fc-4e98-a1e5-31a3102ce7ec",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -5994,7 +5994,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -6002,7 +6002,7 @@
                             "event": []
                         },
                         {
-                            "id": "40bf1be7-02e2-4b20-a61d-ce43656c0fbf",
+                            "id": "fd93d146-d339-4e71-a79f-35912db79286",
                             "name": "Update description and/or published version of a template.",
                             "request": {
                                 "name": "Update description and/or published version of a template.",
@@ -6061,7 +6061,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "11304028-bbf2-4d01-bf44-ec7ace0eaaa8",
+                                    "id": "7b37aa39-8d8e-49fd-8b10-7cb74c743912",
                                     "name": "Returns a template object",
                                     "originalRequest": {
                                         "url": {
@@ -6144,7 +6144,7 @@
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "3038d5ae-e8a5-4f3c-b363-45e0216a919a",
+                                    "id": "97871b98-8756-4075-bcb3-8723f2a14e2a",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -6204,7 +6204,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -6212,7 +6212,7 @@
                             "event": []
                         },
                         {
-                            "id": "2772bffa-967c-478e-afae-0848d70075c5",
+                            "id": "76b223c7-3d60-4d0f-96c4-536d8628576a",
                             "name": "Deletes template with given id",
                             "request": {
                                 "name": "Deletes template with given id",
@@ -6244,7 +6244,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "626ffdf6-e728-4674-a533-a1cd299a81c0",
+                                    "id": "d8bbdad5-d8dd-4d19-9645-26b407e6e9d3",
                                     "name": "Returns true if the delete was successful",
                                     "originalRequest": {
                                         "url": {
@@ -6284,12 +6284,12 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": false\n}",
+                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": true\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 },
                                 {
-                                    "id": "90189886-b8d3-4abc-89c8-bb4cfb33757f",
+                                    "id": "eb448bef-3c73-4ce4-a737-90fa9bdf3249",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -6329,7 +6329,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -6337,11 +6337,11 @@
                             "event": []
                         },
                         {
-                            "id": "f09d1a1b-2eeb-4581-a154-b72098c1aaf6",
+                            "id": "cdf55fba-24bb-4509-82a3-1bd1dddcf3bf",
                             "name": "versions",
                             "item": [
                                 {
-                                    "id": "be4f477f-43a8-4898-9601-fcee4816bcd2",
+                                    "id": "b657fe1a-f841-48d2-8ce6-7c6aab2fb38c",
                                     "name": "List all template_versions",
                                     "request": {
                                         "name": "List all template_versions",
@@ -6399,7 +6399,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "9683e100-4b3a-4533-b0b1-3d7ae0f8e753",
+                                            "id": "7bcc2084-0dc3-402e-b7f3-156e39c205c9",
                                             "name": "A dictionary with a data property that contains an array of up to `limit` template versions. Each entry in the array is a separate template version object. The previous and next page of template versions can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more template versions are available beyond the current set of returned results, the `next_url` field will be empty.",
                                             "originalRequest": {
                                                 "url": {
@@ -6480,7 +6480,7 @@
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "7b199bca-f2ed-4a8f-90ed-6a37a5d980df",
+                                            "id": "e34fb62f-e39a-4ba2-a5a4-d635be1ae769",
                                             "name": "Error",
                                             "originalRequest": {
                                                 "url": {
@@ -6538,7 +6538,7 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         }
@@ -6546,7 +6546,7 @@
                                     "event": []
                                 },
                                 {
-                                    "id": "318e5e17-6f9f-4584-89ea-2983a7070e26",
+                                    "id": "b7dd0954-3acb-4c23-b99a-cfba406ac565",
                                     "name": "Creates a new template_version object",
                                     "request": {
                                         "name": "Creates a new template_version object",
@@ -6607,7 +6607,7 @@
                                     },
                                     "response": [
                                         {
-                                            "id": "9b91182e-0464-492b-8351-c213bfa88c96",
+                                            "id": "be68560b-4939-4753-af89-8418c43eae1f",
                                             "name": "Returns the template version with the given template and version ids.",
                                             "originalRequest": {
                                                 "url": {
@@ -6695,7 +6695,7 @@
                                             "_postman_previewlanguage": "json"
                                         },
                                         {
-                                            "id": "4a9d35b0-9242-4a25-add4-25a46bd694a1",
+                                            "id": "0c98c797-69db-411d-86aa-123dbfbc55cb",
                                             "name": "Error",
                                             "originalRequest": {
                                                 "url": {
@@ -6760,7 +6760,7 @@
                                                     "value": "application/json"
                                                 }
                                             ],
-                                            "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                            "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                             "cookie": [],
                                             "_postman_previewlanguage": "json"
                                         }
@@ -6768,11 +6768,11 @@
                                     "event": []
                                 },
                                 {
-                                    "id": "55a54e71-1707-455a-87e9-8160e274577e",
+                                    "id": "919bea69-3b08-4cf5-92eb-3d05958c218f",
                                     "name": "{vrsn id}",
                                     "item": [
                                         {
-                                            "id": "06ff2a22-8571-46b6-8ee0-b3c318c50b84",
+                                            "id": "47a6d491-905d-4833-ba6f-c30a66abf3ce",
                                             "name": "Retrieve template version with given template and version ids.",
                                             "request": {
                                                 "name": "Retrieve template version with given template and version ids.",
@@ -6813,7 +6813,7 @@
                                             },
                                             "response": [
                                                 {
-                                                    "id": "118cb4ea-0f36-497b-a71b-05ccb3fb784c",
+                                                    "id": "3c1c020e-f1d3-4736-a68f-d93f8d8e2197",
                                                     "name": "Returns the template version with the given template and version ids.",
                                                     "originalRequest": {
                                                         "url": {
@@ -6882,7 +6882,7 @@
                                                     "_postman_previewlanguage": "json"
                                                 },
                                                 {
-                                                    "id": "36f99b3a-4eb9-4010-b5c7-a56bcff93878",
+                                                    "id": "29f7490a-87d9-4651-a7d8-8e207e864379",
                                                     "name": "Error",
                                                     "originalRequest": {
                                                         "url": {
@@ -6928,7 +6928,7 @@
                                                             "value": "application/json"
                                                         }
                                                     ],
-                                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                                     "cookie": [],
                                                     "_postman_previewlanguage": "json"
                                                 }
@@ -6936,7 +6936,7 @@
                                             "event": []
                                         },
                                         {
-                                            "id": "531602f7-5de5-40e4-a191-cbb2b8f16d5c",
+                                            "id": "88e0a049-417c-42af-96e2-ff60a8fc3043",
                                             "name": "Updates the template version with given template and version ids.",
                                             "request": {
                                                 "name": "Updates the template version with given template and version ids.",
@@ -6999,7 +6999,7 @@
                                             },
                                             "response": [
                                                 {
-                                                    "id": "2cbca7e6-2712-4193-90d7-644c3dfd1b41",
+                                                    "id": "d98f6fad-fadc-4095-9adf-db998d0ebfbc",
                                                     "name": "Returns the template version with the given template and version ids.",
                                                     "originalRequest": {
                                                         "url": {
@@ -7083,7 +7083,7 @@
                                                     "_postman_previewlanguage": "json"
                                                 },
                                                 {
-                                                    "id": "bbbdfda9-2f7b-4cde-99eb-c3cafb08d094",
+                                                    "id": "4ae5c036-56ca-469e-a98f-e545e73717cd",
                                                     "name": "Error",
                                                     "originalRequest": {
                                                         "url": {
@@ -7144,7 +7144,7 @@
                                                             "value": "application/json"
                                                         }
                                                     ],
-                                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                                     "cookie": [],
                                                     "_postman_previewlanguage": "json"
                                                 }
@@ -7152,7 +7152,7 @@
                                             "event": []
                                         },
                                         {
-                                            "id": "979a99a5-7473-4434-8d3f-651544397644",
+                                            "id": "1fd39b7f-0215-44fb-8a5f-765ba1e7207d",
                                             "name": "Deletes the template version with given template and version ids if possible.",
                                             "request": {
                                                 "name": "Deletes the template version with given template and version ids if possible.",
@@ -7193,7 +7193,7 @@
                                             },
                                             "response": [
                                                 {
-                                                    "id": "24ce5671-b6bb-4bde-96b1-87d5156ab5ef",
+                                                    "id": "00b9cfab-14e5-4c97-b069-ea37ec90af51",
                                                     "name": "Returns true if the delete was successful",
                                                     "originalRequest": {
                                                         "url": {
@@ -7239,12 +7239,12 @@
                                                             "value": "application/json"
                                                         }
                                                     ],
-                                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": false\n}",
+                                                    "body": "{\n \"id\": \"<string>\",\n \"deleted\": true\n}",
                                                     "cookie": [],
                                                     "_postman_previewlanguage": "json"
                                                 },
                                                 {
-                                                    "id": "b0fbf3c9-09d6-4c51-b418-24435bb7a9cd",
+                                                    "id": "1fd6825f-1c3a-460a-9df4-6bdff456b21b",
                                                     "name": "Error",
                                                     "originalRequest": {
                                                         "url": {
@@ -7290,7 +7290,7 @@
                                                             "value": "application/json"
                                                         }
                                                     ],
-                                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                                     "cookie": [],
                                                     "_postman_previewlanguage": "json"
                                                 }
@@ -7304,7 +7304,7 @@
                             "event": []
                         },
                         {
-                            "id": "dfbbc05a-a902-4b9b-a5bf-73538f732cd5",
+                            "id": "c716ace7-e3d9-4bd5-8c8b-89460d4c477c",
                             "name": "Compile the template into html",
                             "request": {
                                 "name": "Compile the template into html",
@@ -7350,7 +7350,7 @@
                             },
                             "response": [
                                 {
-                                    "id": "f233f3f3-58d6-49eb-852d-381659533580",
+                                    "id": "a0794593-f3d2-4731-a3ca-eb56b662f5f5",
                                     "name": "Returns the compiled html",
                                     "originalRequest": {
                                         "url": {
@@ -7405,7 +7405,7 @@
                                     "_postman_previewlanguage": "text"
                                 },
                                 {
-                                    "id": "4ca7f3b0-98a4-4944-a725-341c5596bedc",
+                                    "id": "86371162-023e-4d48-a8e2-f02dc64904dc",
                                     "name": "Error",
                                     "originalRequest": {
                                         "url": {
@@ -7455,7 +7455,7 @@
                                             "value": "application/json"
                                         }
                                     ],
-                                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                                     "cookie": [],
                                     "_postman_previewlanguage": "json"
                                 }
@@ -7469,7 +7469,7 @@
             "event": []
         },
         {
-            "id": "8b7cdce9-dfb3-4130-a4c6-068cd3ed5f06",
+            "id": "37e618bf-581c-4cca-9818-7de096e77c6a",
             "name": "Autocomplete a partial US address.",
             "request": {
                 "name": "Autocomplete a partial US address.",
@@ -7533,7 +7533,7 @@
             },
             "response": [
                 {
-                    "id": "86aa5fee-5dc6-4a93-96bd-00310ae9209b",
+                    "id": "f8a163a6-2b7b-46c7-9af5-51269357e2ab",
                     "name": "Returns a US autocompletion object.",
                     "originalRequest": {
                         "url": {
@@ -7639,7 +7639,7 @@
                     "_postman_previewlanguage": "json"
                 },
                 {
-                    "id": "1c8fa4e8-6ab2-48b3-86af-b7ad6c9e8d0e",
+                    "id": "7fe6f3c0-3676-41bb-af78-798b440d8b1a",
                     "name": "Error",
                     "originalRequest": {
                         "url": {
@@ -7722,7 +7722,7 @@
                             "value": "application/json"
                         }
                     ],
-                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                     "cookie": [],
                     "_postman_previewlanguage": "json"
                 }
@@ -7730,7 +7730,7 @@
             "event": []
         },
         {
-            "id": "91edb818-a585-4340-a887-1601239cbc19",
+            "id": "0912ca04-82d0-42e8-9069-bb6d2dc3a1bc",
             "name": "Verify a US or US territory address with a live API key.",
             "request": {
                 "name": "Verify a US or US territory address with a live API key.",
@@ -7763,7 +7763,7 @@
             },
             "response": [
                 {
-                    "id": "bb3ce1cd-51a0-4933-99ab-945cca97049c",
+                    "id": "699df3e0-f040-4ee5-bd2e-0136b3d1bc9f",
                     "name": "Returns a US verification object.",
                     "originalRequest": {
                         "url": {
@@ -7823,7 +7823,7 @@
                     "_postman_previewlanguage": "json"
                 },
                 {
-                    "id": "a05f9f88-68b7-4b03-8e43-c417714d168d",
+                    "id": "7af35365-af06-47d2-ba86-61aaa8d633e1",
                     "name": "Error",
                     "originalRequest": {
                         "url": {
@@ -7860,7 +7860,7 @@
                             "value": "application/json"
                         }
                     ],
-                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                     "cookie": [],
                     "_postman_previewlanguage": "json"
                 }
@@ -7868,7 +7868,7 @@
             "event": []
         },
         {
-            "id": "d8e1be28-bb06-4730-be1b-539a566cea0d",
+            "id": "35010b9e-5333-4d07-a40c-cff9acb115bd",
             "name": "Looks up information pertaining to a given ZIP code",
             "request": {
                 "name": "Looks up information pertaining to a given ZIP code",
@@ -7908,7 +7908,7 @@
             },
             "response": [
                 {
-                    "id": "32f782a6-a1c0-4c64-a5a6-bb477c82126c",
+                    "id": "cbb7c9d6-1d47-46eb-832f-9eedfc2d1408",
                     "name": "Returns a zip lookup object if a valid zip was provided.",
                     "originalRequest": {
                         "url": {
@@ -7973,12 +7973,12 @@
                             "value": "application/json"
                         }
                     ],
-                    "body": "{\n \"cities\": [\n  {\n   \"city\": \"ea eu quis qui\",\n   \"state\": \"v\",\n   \"county\": \"laborum Lorem dolor\",\n   \"county_fips\": \"73577\",\n   \"preferred\": true,\n   \"object\": \"aliqua\"\n  },\n  {\n   \"city\": \"exercitation minim\",\n   \"state\": \"e\",\n   \"county\": \"pariatur consectetur sunt dolor\",\n   \"county_fips\": \"05058\",\n   \"preferred\": true,\n   \"object\": \"eu sint\"\n  }\n ],\n \"id\": \"us_zip_c7cb63d68f8d6\",\n \"object\": \"quis et ex\",\n \"zip_code\": \"94107\",\n \"zip_code_type\": \"unique\"\n}",
+                    "body": "{\n \"cities\": [\n  {\n   \"city\": \"est id sed\",\n   \"state\": \"a\",\n   \"county\": \"cupidatat\",\n   \"county_fips\": \"65472\",\n   \"preferred\": true,\n   \"object\": \"non reprehenderit\"\n  },\n  {\n   \"city\": \"dolor reprehenderit esse\",\n   \"state\": \"u\",\n   \"county\": \"incididunt qui culpa quis\",\n   \"county_fips\": \"55043\",\n   \"preferred\": true,\n   \"object\": \"nostrud in et\"\n  }\n ],\n \"id\": \"us_zip_c7cb63d68f8d6\",\n \"object\": \"adipisicing est ea ut\",\n \"zip_code\": \"94107\",\n \"zip_code_type\": \"military\"\n}",
                     "cookie": [],
                     "_postman_previewlanguage": "json"
                 },
                 {
-                    "id": "23c1a191-ba36-4679-8739-d107c9e6dbc7",
+                    "id": "1362e727-28c8-4615-9205-8609f10bc661",
                     "name": "Error",
                     "originalRequest": {
                         "url": {
@@ -8025,7 +8025,7 @@
                             "value": "application/json"
                         }
                     ],
-                    "body": "{\n \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n \"status_code\": 401,\n \"code\": \"ad cillum\"\n}",
+                    "body": "{\n \"error\": {\n  \"code\": \"not_found\",\n  \"message\": \"address not found\",\n  \"status_code\": 404\n }\n}",
                     "cookie": [],
                     "_postman_previewlanguage": "json"
                 }
@@ -8055,7 +8055,7 @@
         ]
     },
     "info": {
-        "_postman_id": "57061c64-2ba8-46c0-be64-f1b3968a5e89",
+        "_postman_id": "3cee3d31-3d48-4107-9e67-54ad7882a860",
         "name": "Lob API",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": {

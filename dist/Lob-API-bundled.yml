@@ -33,6 +33,8 @@ tags:
     description: A certificate store to manage client identities.
   - name: Checks
     description: Checks allow you to send payments via physical checks.
+  - name: Int'l Verifications
+    description: Address verification for non-US addresses
   - name: Letters
     description: Easily print and mail letters.
   - name: Postcards
@@ -97,9 +99,12 @@ x-tagGroups:
       - Template Versions
   - name: US Verification API
     tags:
-      - US Autocompletions
       - US Verifications
+      - US Autocompletions
       - Zip Lookups
+  - name: Int'l Verification API
+    tags:
+      - Int'l Verifications
 components:
   securitySchemes:
     basicAuth:
@@ -1360,6 +1365,367 @@ components:
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
+    recipient:
+      type: string
+      description: 'The intended recipient, typically a person''s or firm''s name.'
+      nullable: true
+      maxLength: 500
+    primary_line:
+      type: string
+      description: |
+        The primary delivery line (usually the street address) of the address.
+      maxLength: 200
+    secondary_line:
+      type: string
+      description: >
+        The secondary delivery line of the address. This field is typically
+        empty but may contain information if `primary_line` is too long.
+      maxLength: 500
+    intl_verification_base:
+      type: object
+      properties:
+        recipient:
+          $ref: '#/components/schemas/recipient'
+        primary_line:
+          $ref: '#/components/schemas/primary_line'
+        secondary_line:
+          $ref: '#/components/schemas/secondary_line'
+    city_no_description:
+      type: string
+      maxLength: 200
+    city:
+      allOf:
+        - $ref: '#/components/schemas/city_no_description'
+        - type: string
+          description: The name of the city.
+    postal_code:
+      type: string
+      description: The postal code.
+      maxLength: 12
+    intl_verification_payload:
+      allOf:
+        - $ref: '#/components/schemas/intl_verification_base'
+        - type: object
+          required:
+            - primary_line
+            - country
+          properties:
+            city:
+              $ref: '#/components/schemas/city'
+            state:
+              type: string
+              description: >-
+                The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) two
+                letter code or subdivision name for the state.
+            postal_code:
+              $ref: '#/components/schemas/postal_code'
+            country:
+              type: string
+              description: >-
+                Must be a 2 letter country short-name code (ISO 3166). Does not
+                accept `US`, `AS`, `PR`, `FM`, `GU`, `MH`, `MP`, `PW`, or `VI`.
+                For these addresses, please use the US verification API. Also
+                does not accept `PS`, which is not currently supported.
+              enum:
+                - AD
+                - AE
+                - AF
+                - AG
+                - AI
+                - AL
+                - AN
+                - AO
+                - AQ
+                - AR
+                - AT
+                - AU
+                - AW
+                - AZ
+                - BA
+                - BB
+                - BD
+                - BE
+                - BF
+                - BG
+                - BH
+                - BI
+                - BJ
+                - BM
+                - BN
+                - BO
+                - BQ
+                - BR
+                - BS
+                - BT
+                - BW
+                - BY
+                - BZ
+                - CA
+                - CD
+                - CG
+                - CH
+                - CI
+                - CK
+                - CL
+                - CM
+                - CN
+                - CO
+                - CR
+                - CS
+                - CU
+                - CV
+                - CW
+                - CY
+                - CZ
+                - DE
+                - DJ
+                - DK
+                - DM
+                - DO
+                - DZ
+                - EC
+                - EE
+                - EG
+                - EH
+                - ER
+                - ES
+                - ET
+                - FI
+                - FJ
+                - FK
+                - FO
+                - FR
+                - GA
+                - GB
+                - GD
+                - GE
+                - GH
+                - GI
+                - GL
+                - GM
+                - GN
+                - GQ
+                - GR
+                - GS
+                - GT
+                - GW
+                - GY
+                - HK
+                - HN
+                - HR
+                - HT
+                - HU
+                - ID
+                - IE
+                - IL
+                - IN
+                - IO
+                - IQ
+                - IR
+                - IS
+                - IT
+                - JM
+                - JO
+                - JP
+                - KE
+                - KG
+                - KH
+                - KI
+                - KM
+                - KN
+                - KP
+                - KR
+                - KW
+                - KY
+                - KZ
+                - LA
+                - LB
+                - LC
+                - LI
+                - LK
+                - LR
+                - LS
+                - LT
+                - LU
+                - LV
+                - LY
+                - MA
+                - MC
+                - MD
+                - ME
+                - MG
+                - MK
+                - ML
+                - MM
+                - MN
+                - MO
+                - MR
+                - MS
+                - MT
+                - MU
+                - MV
+                - MW
+                - MX
+                - MY
+                - MZ
+                - NA
+                - NE
+                - NF
+                - NG
+                - NI
+                - NL
+                - 'NO'
+                - NP
+                - NR
+                - NU
+                - NZ
+                - OM
+                - PA
+                - PE
+                - PG
+                - PH
+                - PK
+                - PL
+                - PN
+                - PT
+                - PY
+                - QA
+                - RO
+                - RS
+                - RU
+                - RW
+                - SA
+                - SB
+                - SC
+                - SD
+                - SE
+                - SG
+                - SH
+                - SI
+                - SK
+                - SL
+                - SM
+                - SN
+                - SO
+                - SR
+                - SS
+                - ST
+                - SV
+                - SX
+                - SY
+                - SZ
+                - TC
+                - TD
+                - TG
+                - TH
+                - TJ
+                - TK
+                - TL
+                - TM
+                - TN
+                - TO
+                - TR
+                - TT
+                - TV
+                - TW
+                - TZ
+                - UA
+                - UG
+                - UY
+                - UZ
+                - VA
+                - VC
+                - VE
+                - VG
+                - VN
+                - VU
+                - WS
+                - YE
+                - ZA
+                - ZM
+                - ZW
+    intl_ver_id:
+      type: string
+      description: Unique identifier prefixed with `intl_ver_`.
+      pattern: '^intl_ver_[a-zA-Z0-9]+$'
+    primary_number:
+      type: string
+      description: >-
+        The numeric or alphanumeric part of an address preceding the street
+        name. Often the house, building, or PO Box number.
+    street_name:
+      type: string
+      description: The name of the street.
+    state:
+      type: string
+      description: >
+        The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) two letter
+        code for the state.
+      maxLength: 2
+    components:
+      type: object
+      description: A nested object containing a breakdown of each component of an address.
+      properties:
+        primary_number:
+          $ref: '#/components/schemas/primary_number'
+        street_name:
+          $ref: '#/components/schemas/street_name'
+        city:
+          $ref: '#/components/schemas/city'
+        state:
+          $ref: '#/components/schemas/state'
+        postal_code:
+          $ref: '#/components/schemas/postal_code'
+    intl_verification:
+      allOf:
+        - $ref: '#/components/schemas/intl_verification_base'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/intl_ver_id'
+            last_line:
+              type: string
+              description: |
+                Combination of the following applicable `components`:
+                * `city`
+                * `state`
+                * `zip_code`
+                * `zip_code_plus_4`
+            country:
+              type: string
+              description: >-
+                The country of the address. Will be returned as a 2 letter
+                country short-name code (ISO 3166).
+            deliverability:
+              type: string
+              enum:
+                - deliverable
+                - deliverable_missing_info
+                - undeliverable
+                - no_match
+              description: >
+                Summarizes the deliverability of the `intl_verification` object.
+                Possible values are:
+
+                * deliverable — The address is deliverable.
+
+                * deliverable_missing_info — The address is missing some
+                information, but is most likely deliverable.
+
+                * undeliverable — The address is most likely not deliverable.
+                Some components of the address (such as city or postal code) may
+                have been found.
+
+                * no_match — This address is not deliverable. No matching street
+                could be found within the city or postal code.
+            components:
+              $ref: '#/components/schemas/components'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - intl_verification
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.
@@ -1842,13 +2208,6 @@ components:
         - $ref: '#/components/schemas/certified'
         - $ref: '#/components/schemas/registered'
         - $ref: '#/components/schemas/no_extra_service'
-    required_address_fields:
-      oneOf:
-        - required:
-            - address_city
-            - address_state
-        - required:
-            - address_zip
     inline_address_intl:
       allOf:
         - $ref: '#/components/schemas/address_editable_intl'
@@ -1856,8 +2215,13 @@ components:
           required:
             - address_line1
             - address_country
-          allOf:
-            - $ref: '#/components/schemas/required_address_fields'
+        - type: object
+          oneOf:
+            - required:
+                - address_city
+                - address_state
+            - required:
+                - address_zip
     inline_address:
       oneOf:
         - $ref: '#/components/schemas/inline_address_us'
@@ -2266,18 +2630,6 @@ components:
       type: string
       description: Unique identifier prefixed with `us_auto_`.
       pattern: '^us_auto_[a-zA-Z0-9]+$'
-    city:
-      type: string
-      description: >
-        The name of the city. `city` and `state` are required if no zip_code is
-        passed.
-      maxLength: 200
-    state:
-      type: string
-      description: >
-        The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US) two letter
-        code for the state.
-      maxLength: 2
     zip_code:
       type: string
       description: >
@@ -2299,7 +2651,7 @@ components:
             address.
 
             Combination of the following applicable `components` (primary number
-            & 
+            &
 
             secondary information may be missing or inaccurate):
 
@@ -2328,11 +2680,7 @@ components:
           $ref: '#/components/schemas/zip_code'
         object:
           $ref: '#/components/schemas/object'
-    recipient:
-      type: string
-      description: 'The intended recipient, typically a person''s or firm''s name.'
-      maxLength: 500
-    primary_line:
+    primary_line_us:
       type: string
       description: |
         The primary delivery line (usually the street address) of the address.
@@ -2346,12 +2694,6 @@ components:
         * `secondary_number`
         * `pmb_designator`
         * `pmb_number`
-      maxLength: 500
-    secondary_line:
-      type: string
-      description: >
-        The secondary delivery line of the address. This field is typically
-        empty but may contain information if `primary_line` is too long.
       maxLength: 500
     urbanization:
       type: string
@@ -2375,19 +2717,24 @@ components:
         recipient:
           $ref: '#/components/schemas/recipient'
         primary_line:
-          $ref: '#/components/schemas/primary_line'
+          $ref: '#/components/schemas/primary_line_us'
         secondary_line:
           $ref: '#/components/schemas/secondary_line'
         urbanization:
           $ref: '#/components/schemas/urbanization'
         city:
-          $ref: '#/components/schemas/city'
+          allOf:
+            - $ref: '#/components/schemas/city_no_description'
+            - type: string
+              description: >-
+                The name of the city. `city` and `state` are required if no
+                `zip_code` is passed.
         state:
           type: string
-          description: >
+          description: >-
             The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US) two
             letter code or subdivision name for the state. `city` and `state`
-            are required if no zip_code is passed.
+            are required if no `zip_code` is passed.
           maxLength: 50
         zip_code:
           $ref: '#/components/schemas/zip_code'
@@ -2412,7 +2759,7 @@ components:
         address: 185 Berry Street 94107
     us_ver_id:
       type: string
-      description: Unique identifier prefixed with `sfm_`.
+      description: Unique identifier prefixed with `us_ver_`.
       pattern: '^us_ver_[a-zA-Z0-9]+$'
     zip_code_type:
       type: string
@@ -2447,7 +2794,7 @@ components:
         identifies `components[county]`. It consists of a 2-digit state code and
         a 3-digit county code.
       pattern: '\d{5}'
-    components:
+    components-2:
       type: object
       required:
         - primary_number
@@ -2478,10 +2825,7 @@ components:
         - longitude
       properties:
         primary_number:
-          type: string
-          description: >
-            The numeric or alphanumeric part of an address preceding the street
-            name. Often the house, building, or PO Box number.
+          $ref: '#/components/schemas/primary_number'
         street_predirection:
           type: string
           enum:
@@ -2498,9 +2842,7 @@ components:
             Geographic direction preceding a street name (`N`, `S`, `E`, `W`,
             `NE`, `SW`, `SE`, `NW`).
         street_name:
-          type: string
-          description: |
-            The name of the street.
+          $ref: '#/components/schemas/street_name'
         street_suffix:
           type: string
           description: >
@@ -2925,8 +3267,6 @@ components:
           maxLength: 1
           minLength: 1
           example: true
-        object:
-          $ref: '#/components/schemas/object'
     zip:
       allOf:
         - $ref: '#/components/schemas/zip5'
@@ -3422,6 +3762,34 @@ components:
               https://api.lob.com/v1/checks?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wOFQxOTozNDoyNy44MDJaIiwiaWRPZmZzZXQiOiJjaGtfOTJiOWE2NzE0YmMwNTU3YyJ9
             previous_url: null
             count: 2
+    intl_verifications:
+      description: Returns an international verification object.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/intl_verification'
+          example:
+            id: intl_ver_c7cb63d68f8d6
+            recipient: null
+            primary_line: 370 WATER ST
+            secondary_line: ''
+            last_line: SUMMERSIDE PE C1N 1C4
+            country: CA
+            deliverability: deliverable
+            components:
+              primary_number: '370'
+              street_name: WATER ST
+              city: SUMMERSIDE
+              state: PE
+              postal_code: C1N 1C4
+            object: intl_verification
     letter:
       description: Returns a letter object
       headers:
@@ -4225,7 +4593,7 @@ components:
               recipient:
                 $ref: '#/components/schemas/recipient'
               primary_line:
-                $ref: '#/components/schemas/primary_line'
+                $ref: '#/components/schemas/primary_line_us'
               secondary_line:
                 $ref: '#/components/schemas/secondary_line'
               urbanization:
@@ -4234,11 +4602,10 @@ components:
                 type: string
                 description: |
                   Combination of the following applicable `components`:
-                  * `city`
-                  * `state`
-                  * `zip_code`
-                  * `zip_code_plus_4`
-                example: SAN FRANCISCO CA 94107
+                  * City (`city`)
+                  * State (`state`)
+                  * ZIP code (`zip_code`)
+                  * ZIP+4 (`zip_code_plus_4`)
               deliverability:
                 type: string
                 enum:
@@ -4270,9 +4637,8 @@ components:
 
                   * `undeliverable` – The address is not deliverable according
                   to the USPS.
-                example: deliverable
               components:
-                $ref: '#/components/schemas/components'
+                $ref: '#/components/schemas/components-2'
               deliverability_analysis:
                 $ref: '#/components/schemas/deliverability_analysis'
               lob_confidence_score:
@@ -4885,6 +5251,39 @@ paths:
           $ref: '#/components/responses/check'
         default:
           $ref: '#/components/responses/error'
+  /intl_verifications:
+    post:
+      operationId: intl_verification
+      summary: Verify a US or US territory address with a live API key.
+      description: >-
+        Verify an international (except US or US territories) address _with a
+        live API key_. Requests to this endpoint with a test API key will return
+        a dummy response based on the primary line you input.
+      tags:
+        - Int'l Verifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/intl_verification_payload'
+            example:
+              primary_line: 370 Water St
+              city: Summerside
+              state: Prince Edward Island
+              postal code: C1N 1C4
+              country: CA
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/intl_verification_payload'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/intl_verification_payload'
+      responses:
+        '200':
+          $ref: '#/components/responses/intl_verifications'
+        default:
+          $ref: '#/components/responses/error'
   '/letters/{ltr_id}':
     parameters:
       - in: path
@@ -5489,16 +5888,33 @@ paths:
           $ref: '#/components/responses/error'
   /us_verifications:
     post:
-      operationId: verification
+      operationId: us_verification
       summary: Verify a US or US territory address with a live API key.
       description: >-
-        Verify a US or US territory address with a live API key. The address can
-        be in components (e.g. `primary_line` is "185 Berry Street", `zip_code`
-        is "94107") or as a single string (e.g. "185 Berry Street 94107"), but
-        not as both. Requests using a test API key validate required fields but
-        return empty values unless specific `primary_line` values are provided.
+        Verify a US or US territory address _with a live API key_. The address
+        can be in components (e.g. `primary_line` is "185 Berry Street",
+        `zip_code` is "94107") or as a single string (e.g. "185 Berry Street
+        94107"), but not as both. Requests using a test API key validate
+        required fields but return empty values unless specific `primary_line`
+        values are provided.
       tags:
         - US Verifications
+      parameters:
+        - in: query
+          name: case
+          schema:
+            type: string
+            enum:
+              - upper
+              - proper
+            default: upper
+          description: >-
+            Casing of the verified address. Possible values are `upper` and
+            `proper` for uppercased (e.g. "PO BOX") and proper-cased (e.g. "PO
+            Box"), respectively. Only affects `recipient`, `primary_line`,
+            `secondary_line`, `urbanization`, and `last_line`. Default casing is
+            `upper`.
+          required: false
       requestBody:
         required: true
         content:

@@ -30,10 +30,7 @@ required:
 
 properties:
   primary_number:
-    type: string
-    description: >
-      The numeric or alphanumeric part of an address preceding the
-      street name. Often the house, building, or PO Box number.
+    $ref: "../../../shared/attributes/address/primary_number.yml"
 
   street_predirection:
     type: string
@@ -52,9 +49,7 @@ properties:
       `W`, `NE`, `SW`, `SE`, `NW`).
 
   street_name:
-    type: string
-    description: >
-      The name of the street.
+    $ref: "../../../shared/attributes/address/street_name.yml"
 
   street_suffix:
     type: string
@@ -109,7 +104,7 @@ properties:
       An extra (often unnecessary) secondary number provided with the input address.
 
   city:
-    $ref: "../../../shared/attributes/address/city.yml"
+    $ref: "../../../shared/attributes/address/city/city.yml"
 
   state:
     $ref: "../../../shared/attributes/address/state.yml"

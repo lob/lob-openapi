@@ -1,0 +1,41 @@
+post:
+  operationId: intl_verification
+
+  summary: Verify a US or US territory address with a live API key.
+
+  description: >-
+    Verify an international (except US or US territories) address _with a live
+    API key_. Requests to this endpoint with a test API key will return a dummy
+    response based on the primary line you input.
+
+  tags:
+    - Int'l Verifications
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/intl_verification_payload.yml"
+
+        example:
+          primary_line: 370 Water St
+          city: Summerside
+          state: Prince Edward Island
+          postal code: C1N 1C4
+          country: CA
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/intl_verification_payload.yml"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/intl_verification_payload.yml"
+
+  responses:
+    "200":
+      $ref: responses/intl_verifications.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

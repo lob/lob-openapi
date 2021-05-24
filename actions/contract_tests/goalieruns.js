@@ -42,7 +42,7 @@ module.exports.runTests = async function runTests() {
                 stdout.indexOf("      at:")
               );
               const block = [
-                `_FAILED TEST_:      ${testMessage}`,
+                `_FAILED CONTRACT TEST_:      ${testMessage}`,
                 `_EXPECTED_:  ${expectedCode}`,
                 `_ACTUAL_:      ${actualCode}`,
               ];

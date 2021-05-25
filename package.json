@@ -55,7 +55,7 @@
     "postman": "npm run bundle && openapi2postmanv2 --pretty --spec dist/$npm_package_config_bundlefile --output dist/$npm_package_config_postmanfile",
     "pretty": "prettier --write .",
     "pretty:check": "prettier --check .",
-    "proxy": "prism proxy $npm_package_config_specfile https://api.lob.com/v1",
+    "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
     "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --options.theme.sidebar.backgroundColor: \"#f7f9fa\" -o docs/index.html",
     "test": "multi-tape './tests/**_test.js' | tap-spec"
   },

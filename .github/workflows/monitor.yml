@@ -17,6 +17,7 @@ jobs:
         env:
           LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
           LOB_API_LIVE_TOKEN: ${{ secrets.LOB_API_LIVE_TOKEN }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         with:
           testCommand: "npm run pergoalie av"
 
@@ -31,6 +32,7 @@ jobs:
         uses: ./actions/contract_tests
         env:
           LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         with:
           testCommand: "npm run pergoalie pmApi"
 
@@ -45,5 +47,6 @@ jobs:
         uses: ./actions/contract_tests
         env:
           LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         with:
           testCommand: "npm run pergoalie billing"

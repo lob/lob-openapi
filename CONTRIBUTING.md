@@ -179,14 +179,25 @@ Once Prism is listening, you can issue http requests to the proxy port, in this
 case `http://127.0.0.1:4010` using the client of your choice. The example below uses
 [httpie](https://httpie.io/docs#main-features), a user friendly client.
 
+Anatomy of the HTTPie request:
+
+- `-a <YOUR API key>`: used for authentication. You can retrieve your API keys (live & test) from [your dashboard](http://dashboard.lob.com/).
+- `-v`: verbose output, which includes detail like intermediate requests & responses taking place during this call
+- `GET`: the type of request (in this example, we are retrieving a single address given an ID)
+- `127.0.0.1:4010`: the address and port on which Prism is listening (see the `proxy` script in `package.json` for exact details)
+- `addresses`: the Lob API endpoint we're hitting
+- `ADR ID`: the ID of the address we want to retrieve.
+- `Accept-Encoding: `: Leaving this blank overrides the default setting. Otherwise, if this part is left out, the following error will be thrown: `ContentDecodingError: 'Received response with content-encoding: gzip, but failed to decode it.'`
+
 ```bash
-$ http -a $LOB_API_SECRET_TEST: -v GET http://127.0.0.1:4010/addresses Accept-Encoding:
-GET /addresses HTTP/1.1
+$ http -a <YOUR API KEY>: -v GET http://127.0.0.1:4010/addresses/<ADR ID> Accept-Encoding:
+
+GET /addresses/adr_fa85158b26c3eb7c HTTP/1.1
 Accept: */*
-Authorization: Basic <REDACTED>
+Authorization: Basic dGVzdF8wZGM4ZDUxZTBhY2ZmY2IxODgwZTBmMTljNzliMmY1YjBjYzo=
 Connection: keep-alive
 Host: 127.0.0.1:4010
-User-Agent: HTTPie/1.0.3
+User-Agent: HTTPie/2.4.0
 
 
 
@@ -196,20 +207,32 @@ Access-Control-Allow-Headers: *
 Access-Control-Allow-Origin: *
 Access-Control-Expose-Headers: *
 Connection: keep-alive
-Content-Length: 73
+Content-Length: 433
 Keep-Alive: timeout=5
 accept-ranges: bytes
 cache-control: no-cache
 content-type: application/json; charset=utf-8
-date: Wed, 16 Dec 2020 21:54:33 GMT
+date: Mon, 17 May 2021 21:41:49 GMT
 vary: origin,accept-encoding
 
 {
-    "count": 0,
-    "data": [],
-    "next_url": null,
-    "object": "list",
-    "previous_url": null
+    "address_city": "Mountain View",
+    "address_country": "UNITED STATES",
+    "address_line1": "345 UPDATE STREET",
+    "address_line2": "Unit 199",
+    "address_state": "CA",
+    "address_zip": "94085",
+    "company": null,
+    "date_created": "2013-07-20T05:52:30.000Z",
+    "date_modified": "2019-06-19T02:06:02.996Z",
+    "deleted": true,
+    "description": null,
+    "email": "harry@lob.com",
+    "id": "adr_fa85158b26c3eb7c",
+    "metadata": {},
+    "name": "Harry Zhang",
+    "object": "address",
+    "phone": "5555555555"
 }
 ```
 

@@ -55,6 +55,11 @@ module.exports.runTests = async function runTests() {
           //     return error.code;
           //   }
           // }
+          if (err) {
+            console.log(err);
+            return err.code;
+          }
+          console.log(stdout);
         });
       }
     } catch (joiError) {

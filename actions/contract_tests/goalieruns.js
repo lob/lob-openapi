@@ -1,3 +1,4 @@
+const core = require("@actions/core");
 const Joi = require("joi");
 const pkg = require("../../package.json");
 const util = require("util");
@@ -10,57 +11,43 @@ module.exports.runTests = async function runTests() {
   const validator = Joi.string()
     .regex(/^[a-zA-Z]*$/)
     .required();
-
-  for (let arg of process.argv.slice(2)) {
-    try {
-      validated_arg = await Joi.compile(validator).validateAsync(arg);
-      test_set = pkg.config.goalieMappings[validated_arg].resources;
-      for (resource_name in test_set) {
-        test = test_set[resource_name];
+  try {
+    let failures = [];
+    validated_arg = await Joi.compile(validator).validateAsync(process.argv[2]);
+    test_set = pkg.config.goalieMappings[validated_arg].resources;
+    new Promise(async function (resolve, reject) {
+      let count = 0;
+      for (let i = 0; i < test_set.length; ++i) {
+        test = test_set[i];
         test_command = 'multi-tape "' + test + '" | tap-spec';
         exec(test_command, async function (err, stdout, stderr) {
           if (err) {
-            try {
-              // send this to the right slack channel
-              // the start and end indices, as well as the length, are constant because the stacktrace always
-              // includes the same spots in the tape module (only the failing test itself may change)
-              const startIndex = stdout.indexOf(
-                "at Test.bound [as equal] (/github/workspace/node_modules/tape/lib/test.js:91:32)"
-              );
-              const endIndex = stdout.indexOf(
-                "at processTicksAndRejections (internal/process/task_queues.js:93:5)"
-              );
-              const len = "at Test.bound [as equal] (/github/workspace/node_modules/tape/lib/test.js:91:32)"
-                .length;
-              const testMessage = stdout.slice(startIndex + len, endIndex);
-              const expectedCode = stdout.slice(
-                stdout.indexOf("expected: ") + 10,
-                stdout.indexOf("      actual:")
-              );
-              const actualCode = stdout.slice(
-                stdout.indexOf("actual:   ") + 10,
-                stdout.indexOf("      at:")
-              );
-              const block = [
-                `_FAILED CONTRACT TEST_:      ${testMessage}`,
-                `_EXPECTED_:  ${expectedCode}`,
-                `_ACTUAL_:      ${actualCode}`,
-              ];
-              const result = await web.chat.postMessage({
-                channel: pkg.config.goalieMappings[validated_arg].slackChannel,
-                text: `:sadpanda: ${block.join("\n")}`,
-              });
-            } catch (error) {
-              console.error(error);
-              return error.code;
-            }
+            const startIndex = stdout.indexOf("✖");
+            const endIndex = stdout.indexOf("stack:");
+            failures.push(stdout.slice(startIndex, endIndex));
           }
+          if (++count == test_set.length) {
+            return resolve();
+          }
+          console.log(stdout);
         });
       }
-    } catch (joiError) {
-      console.error(JSON.stringify(joiError, null, 2));
-      return joiError.code;
-    }
+    }).then(async function () {
+      if (failures.length > 0) {
+        const errorMessage = `There were ${failures.length} failures in the contract tests`;
+        const result = await web.chat.postMessage({
+          channel: pkg.config.goalieMappings[validated_arg].slackChannel,
+          text: `:sadpanda: There were ${
+            failures.length
+          } failures in the contract tests
+${failures.join("\n")}`,
+        });
+        core.setFailed(errorMessage);
+      }
+    });
+  } catch (joiError) {
+    console.error(JSON.stringify(joiError, null, 2));
+    core.setFailed(joiError.code);
   }
 };
 

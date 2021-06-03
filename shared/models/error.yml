@@ -15,6 +15,7 @@ properties:
     required:
       - message
       - status_code
+      - code
 
     properties:
       message:
@@ -26,5 +27,7 @@ properties:
         $ref: "../attributes/failure_status_code.yml"
 
       code:
-        type: string
-        description: A pre-defined string identifying the error category
+        anyOf:
+          - $ref: "errors/generic.yml"
+          - $ref: "errors/authentication.yml"
+          - $ref: "errors/advanced.yml"

@@ -27,6 +27,8 @@ module.exports.runTests = async function runTests() {
             failures.push(stdout.slice(startIndex, endIndex));
           }
           if (++count == test_set.length) {
+            console.log("REACHED END, RESOLVING");
+            console.log("VALUE OF COUNT: ", count);
             return resolve();
           }
           console.log(stdout);
@@ -34,20 +36,28 @@ module.exports.runTests = async function runTests() {
       }
     }).then(async function () {
       if (failures.length > 0) {
-        const errorMessage = `There were ${failures.length} failures in the contract tests`;
-        const result = await web.chat.postMessage({
-          channel: pkg.config.goalieMappings[validated_arg].slackChannel,
-          text: `:sadpanda: There were ${
-            failures.length
-          } failures in the contract tests
-${failures.join("\n")}`,
-        });
+        let errorMessage = "";
+        if (failures.length > 1) {
+          errorMessage = `There were ${failures.length} failures in the contract tests:`;
+        } else {
+          errorMessage = `There was 1 failure in the contract tests:`;
+        }
+        try {
+          const result = await web.chat.postMessage({
+            channel: "more-tests",
+            text: `:sadpanda: ${errorMessage}
+  ${failures.join("\n")}`,
+          });
+        } catch (slackError) {
+          console.error(JSON.stringify(slackError, null, 2));
+          core.setFailed("There was an error with web.chat.postMessage");
+        }
         core.setFailed(errorMessage);
       }
     });
   } catch (joiError) {
     console.error(JSON.stringify(joiError, null, 2));
-    core.setFailed(joiError.code);
+    core.setFailed("There was an error with the JOI validation");
   }
 };
 

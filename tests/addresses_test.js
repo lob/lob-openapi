@@ -119,6 +119,54 @@ test("allows creation with just a company", async function (t) {
   t.equal(response.status, 200);
 });
 
+test("correctly creates an international address", async function (t) {
+  const params = {
+    description: "Harry - Office",
+    name: "Harry Zhang",
+    email: "harry@lob.com",
+    phone: "5555555555",
+    address_line1: "370 WATER ST",
+    address_line2: "",
+    address_city: "SUMMERSIDE",
+    address_state: "PRINCE EDWARD ISLAND",
+    address_zip: "C1N 1C4",
+    address_country: "CA",
+  };
+
+  let response = await prism
+    .setup({ errors: false })
+    .then((client) =>
+      client.post(resource_endpoint, params, { headers: prism.authHeader })
+    );
+
+  await t.doesNotReject(Promise.resolve(response));
+  t.equal(response.status, 200);
+  t.equal(response.data.address_country, "CANADA");
+});
+
+test("does not treat input as international without country", async function (t) {
+  const params = {
+    description: "Harry - Office",
+    company: "Lob",
+    email: "harry@lob.com",
+    phone: "5555555555",
+    address_line1: "370 Water St",
+    address_line2: "",
+    address_city: "Summerside",
+    address_state: "Prince Edward Island",
+    address_zip: "C1N 1C4",
+  };
+
+  let response = await prism
+    .setup({ errors: false })
+    .then((client) =>
+      client.post(resource_endpoint, params, { headers: prism.authHeader })
+    );
+
+  await t.doesNotReject(Promise.resolve(response));
+  t.equal(response.status, 422);
+});
+
 test("errors when attempting to create an address with neither name nor company", async function (t) {
   const params = {
     description: "Harry - Office",

@@ -26,9 +26,10 @@ module.exports.runTests = async function runTests() {
             const endIndex = stdout.indexOf("stack:");
             failures.push(stdout.slice(startIndex, endIndex));
           }
+          // async: the code won't proceed to the next block until
+          // this block is resolved, so a resolve is returned after
+          // all the tests are done
           if (++count == test_set.length) {
-            console.log("REACHED END, RESOLVING");
-            console.log("VALUE OF COUNT: ", count);
             return resolve();
           }
           console.log(stdout);

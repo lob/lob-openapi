@@ -15,7 +15,7 @@ module.exports.runTests = async function runTests() {
     let failures = [];
     validated_arg = await Joi.compile(validator).validateAsync(process.argv[2]);
     test_set = pkg.config.goalieMappings[validated_arg].resources;
-    new Promise(async function (resolve, reject) {
+    new Promise(async function (resolve) {
       let count = 0;
       for (let i = 0; i < test_set.length; ++i) {
         test = test_set[i];
@@ -45,7 +45,7 @@ module.exports.runTests = async function runTests() {
         }
         try {
           const result = await web.chat.postMessage({
-            channel: pkg.config.goalieMappings[validated_arg].slackChannel,
+            channel: "more-tests", // pkg.config.goalieMappings[validated_arg].slackChannel
             text: `:sadpanda: ${errorMessage}
   ${failures.join("\n")}`,
           });

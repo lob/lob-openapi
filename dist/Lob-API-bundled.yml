@@ -503,7 +503,7 @@ components:
           description: >
             Must follow the ZIP format of `12345` or ZIP+4 format of
             `12345-1234`.
-          pattern: '^[0-9]{5}(-[0-9]{4})?$'
+          pattern: '^\d{5}(-\d{4})?$'
     date_created:
       type: string
       format: date-time
@@ -560,7 +560,10 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^address$
+                - type: string
+                  enum:
+                    - address
+                  default: address
     address_fields_intl:
       type: object
       required:
@@ -1465,7 +1468,10 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^bank_account$
+                - type: string
+                  enum:
+                    - bank_account
+                  default: bank_account
     cert_id:
       type: string
       description: Unique identifier prefixed with `cert_`.
@@ -1516,7 +1522,10 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^certificate$
+                - type: string
+                  enum:
+                    - certificate
+                  default: certificate
     certificate_update:
       type: object
       properties:
@@ -1545,10 +1554,11 @@ components:
         - type: object
           properties:
             mail_type:
-              type: string
               description: Checks must be sent `usps_first_class`
+              type: string
+              enum:
+                - usps_first_class
               default: usps_first_class
-              pattern: ^usps_first_class$
             memo:
               description: Text to include on the memo line of the check.
               type: string
@@ -1588,7 +1598,7 @@ components:
       description: >-
         A date in YYYY-MM-DD format of the letter's expected delivery date based
         on its `send_date`.
-      pattern: '^\d{4}-\d{2}-\d{2}$'
+      format: date
     generated:
       allOf:
         - $ref: '#/components/schemas/lob_base'
@@ -1603,9 +1613,11 @@ components:
             to:
               $ref: '#/components/schemas/address'
             carrier:
-              type: string
               description: Value is `USPS`.
-              pattern: ^USPS$
+              type: string
+              enum:
+                - USPS
+              default: USPS
             thumbnails:
               type: array
               items:
@@ -1658,7 +1670,10 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^check$
+                - type: string
+                  enum:
+                    - check
+                  default: check
     inline_address_us:
       allOf:
         - $ref: '#/components/schemas/address_editable_us'
@@ -1706,14 +1721,14 @@ components:
       type: string
       description: The location of a remote file.
       pattern: 'https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
-    local_file_path:
-      type: string
-      description: The path to a local file.
-      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
     artwork:
       type: string
       description: 'An HTML string of under 10,000 characters.'
       maxLength: 10000
+    local_file_path:
+      type: string
+      description: The path to a local file.
+      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
     check_editable:
       allOf:
         - $ref: '#/components/schemas/check_base'
@@ -1761,10 +1776,8 @@ components:
                   * `png` or `jpg`
               anyOf:
                 - $ref: '#/components/schemas/remote_file_url'
-                - allOf:
-                    - $ref: '#/components/schemas/local_file_path'
-                    - type: string
-                      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)+$'
+                - type: string
+                  pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)+$'
             check_bottom:
               description: >-
                 The artwork to use on the bottom of the check page. Accepts an
@@ -2251,6 +2264,7 @@ components:
                 - type: string
                   enum:
                     - intl_verification
+                  default: intl_verification
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.
@@ -2369,7 +2383,10 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^letter$
+                - type: string
+                  enum:
+                    - letter
+                  default: letter
     evnt_id:
       type: string
       description: Unique identifier prefixed with `evnt_`.
@@ -2401,7 +2418,10 @@ components:
         object:
           allOf:
             - $ref: '#/components/schemas/object'
-              pattern: ^tracking_event$
+            - type: string
+              enum:
+                - tracking_event
+              default: tracking_event
     tracking_event_details:
       type: object
       required:
@@ -2529,9 +2549,10 @@ components:
             - name
           properties:
             type:
-              type: string
               description: a Certified letter tracking event
-              pattern: ^certified$
+              type: string
+              enum:
+                - certified
             name:
               type: string
               enum:
@@ -2648,6 +2669,10 @@ components:
                 The tracking number will appear here when it becomes available.
                 Dummy tracking numbers are not created in test mode.
               nullable: true
+            tracking_events:
+              description: Tracking events are not populated for registered letters.
+              type: array
+              maxItems: 0
     tracking_event_normal:
       allOf:
         - $ref: '#/components/schemas/tracking_event_base'
@@ -2657,9 +2682,10 @@ components:
             - name
           properties:
             type:
-              type: string
               description: 'non-Certified postcards, letters, and checks'
-              pattern: ^normal$
+              type: string
+              enum:
+                - normal
             name:
               type: string
               enum:
@@ -2825,10 +2851,8 @@ components:
                 - $ref: '#/components/schemas/artwork'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
-                - allOf:
-                    - $ref: '#/components/schemas/local_file_path'
-                    - type: string
-                      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
+                - type: string
+                  pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
             extra_service:
               type: string
               nullable: true
@@ -2921,7 +2945,9 @@ components:
               allOf:
                 - $ref: '#/components/schemas/object'
                 - type: string
-                  pattern: ^postcard$
+                  enum:
+                    - postcard
+                  default: postcard
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -3002,7 +3028,9 @@ components:
               allOf:
                 - $ref: '#/components/schemas/object'
                 - type: string
-                  pattern: ^self_mailer$
+                  enum:
+                    - self_mailer
+                  default: self_mailer
     self_mailer_editable:
       allOf:
         - $ref: '#/components/schemas/self_mailer_base'
@@ -3074,7 +3102,10 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^version$
+                - type: string
+                  enum:
+                    - version
+                  default: version
     template_version_updatable:
       type: object
       properties:
@@ -3103,7 +3134,10 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^template$
+                - type: string
+                  enum:
+                    - template
+                  default: template
     template_update:
       type: object
       properties:
@@ -3204,7 +3238,12 @@ components:
         zip_code:
           $ref: '#/components/schemas/zip_code'
         object:
-          $ref: '#/components/schemas/object'
+          allOf:
+            - $ref: '#/components/schemas/object'
+            - type: string
+              enum:
+                - us_autocompletion
+              default: us_autocompletion
     primary_line_us:
       type: string
       description: |
@@ -3815,7 +3854,12 @@ components:
             zip_code_type:
               $ref: '#/components/schemas/zip_code_type'
             object:
-              $ref: '#/components/schemas/object'
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - us_zip_lookup
+                  default: us_zip_lookup
   responses:
     error:
       description: Error
@@ -5171,7 +5215,12 @@ components:
               lob_confidence_score:
                 $ref: '#/components/schemas/lob_confidence_score'
               object:
-                $ref: '#/components/schemas/object'
+                allOf:
+                  - $ref: '#/components/schemas/object'
+                  - type: string
+                    enum:
+                      - us_verification
+                    default: us_verification
           example:
             id: us_ver_c7cb63d68f8d6
             recipient: LOB.COM

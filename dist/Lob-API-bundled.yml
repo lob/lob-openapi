@@ -166,11 +166,14 @@ components:
         - $ref: '#/components/schemas/address_fields_us'
         - $ref: '#/components/schemas/address_generated_base'
         - type: object
+          required:
+            - address_country
           properties:
             address_country:
               type: string
+              enum:
+                - UNITED STATES
               description: Full name of country
-              pattern: ^UNITED STATES$
               minLength: 13
               maxLength: 13
     address_intl:
@@ -179,12 +182,232 @@ components:
         - $ref: '#/components/schemas/address_fields_intl'
         - $ref: '#/components/schemas/address_generated_base'
         - type: object
+          required:
+            - address_country
           properties:
             address_country:
-              type: string
               description: Full name of country
-              pattern: ^(?!UNITED STATES)
+              type: string
               maxLength: 200
+              enum:
+                - AFGHANISTAN
+                - ALBANIA
+                - ALGERIA
+                - AMERICAN SAMOA
+                - ANDORRA
+                - ANGOLA
+                - ANGUILLA
+                - ANTARCTICA
+                - ANTIGUA AND BARBUDA
+                - ARGENTINA
+                - ARUBA
+                - AUSTRALIA
+                - AUSTRIA
+                - AZERBAIJAN
+                - BAHRAIN
+                - BANGLADESH
+                - BARBADOS
+                - BELARUS
+                - BELGIUM
+                - BELIZE
+                - BENIN
+                - BERMUDA
+                - BHUTAN
+                - BOLIVIA (PLURINATIONAL STATE OF)
+                - 'BONAIRE, SAINT EUSTATIUS AND SABA'
+                - BOSNIA AND HERZEGOVINA
+                - BOTSWANA
+                - BRAZIL
+                - BRITISH INDIAN OCEAN TERRITORY
+                - BRITISH VIRGIN ISLANDS
+                - BRUNEI DARUSSALAM
+                - BULGARIA
+                - BURKINA FASO
+                - BURUNDI
+                - CABO VERDE
+                - CAMBODIA
+                - CAMEROON
+                - CANADA
+                - CAYMAN ISLANDS
+                - CENTRAL AFRICAN REPUBLIC
+                - CHAD
+                - CHILE
+                - CHINA
+                - COLOMBIA
+                - COMOROS
+                - CONGO
+                - 'CONGO, DEMOCRATIC REPUBLIC OF THE'
+                - COOK ISLANDS
+                - COSTA RICA
+                - CÔTE D'IVOIRE
+                - CROATIA
+                - CUBA
+                - CURAÇAO
+                - CYPRUS
+                - CZECH REPUBLIC
+                - DENMARK
+                - DJIBOUTI
+                - DOMINICA
+                - DOMINICAN REPUBLIC
+                - ECUADOR
+                - EGYPT
+                - EL SALVADOR
+                - EQUATORIAL GUINEA
+                - ERITREA
+                - ESTONIA
+                - ESWATINI
+                - ETHIOPIA
+                - FALKLAND ISLANDS (MALVINAS)
+                - FAROE ISLANDS
+                - FIJI
+                - FINLAND
+                - FRANCE
+                - GABON
+                - GAMBIA
+                - GEORGIA
+                - GERMANY
+                - GHANA
+                - GIBRALTAR
+                - GREECE
+                - GREENLAND
+                - GRENADA
+                - GUATEMALA
+                - GUINEA
+                - GUINEA-BISSAU
+                - GUYANA
+                - HAITI
+                - HOLY SEE
+                - HONDURAS
+                - HONG KONG
+                - HUNGARY
+                - ICELAND
+                - INDIA
+                - INDONESIA
+                - IRAN (ISLAMIC REPUBLIC OF)
+                - IRAQ
+                - IRELAND
+                - ISRAEL
+                - ITALY
+                - JAMAICA
+                - JAPAN
+                - JORDAN
+                - KAZAKHSTAN
+                - KENYA
+                - KIRIBATI
+                - KOREA (DEMOCRATIC PEOPLE’S REPUBLIC OF)
+                - 'KOREA, REPUBLIC OF'
+                - KUWAIT
+                - KYRGYZSTAN
+                - LAO PEOPLE’S DEMOCRATIC REPUBLIC
+                - LATVIA
+                - LEBANON
+                - LESOTHO
+                - LIBERIA
+                - LIBYA
+                - LIECHTENSTEIN
+                - LITHUANIA
+                - LUXEMBOURG
+                - MACAO
+                - MACEDONIA
+                - MADAGASCAR
+                - MALAWI
+                - MALAYSIA
+                - MALDIVES
+                - MALI
+                - MALTA
+                - MAURITANIA
+                - MAURITIUS
+                - MEXICO
+                - 'MOLDOVA, REPUBLIC OF'
+                - MONACO
+                - MONGOLIA
+                - MONTENEGRO
+                - MONTSERRAT
+                - MOROCCO
+                - MOZAMBIQUE
+                - MYANMAR
+                - NAMIBIA
+                - NAURU
+                - NEPAL
+                - NETHERLAND ANTILLES
+                - NETHERLANDS
+                - NEW ZEALAND
+                - NICARAGUA
+                - NIGER
+                - NIGERIA
+                - NIUE
+                - NORFOLK ISLAND
+                - NORWAY
+                - OMAN
+                - PAKISTAN
+                - PANAMA
+                - PAPUA NEW GUINEA
+                - PARAGUAY
+                - PERU
+                - PHILIPPINES
+                - PITCAIRN
+                - POLAND
+                - PORTUGAL
+                - QATAR
+                - ROMANIA
+                - RUSSIAN FEDERATION
+                - RWANDA
+                - SAINT HELENA
+                - SAINT KITTS AND NEVIS
+                - SAINT LUCIA
+                - SAINT VINCENT AND THE GRENADINES
+                - SAMOA
+                - SAN MARINO
+                - SAO TOME AND PRINCIPE
+                - SAUDI ARABIA
+                - SENEGAL
+                - SERBIA
+                - SEYCHELLES
+                - SIERRA LEONE
+                - SINGAPORE
+                - SINT MAARTEN
+                - SLOVAKIA
+                - SLOVENIA
+                - SOLOMON ISLANDS
+                - SOMALIA
+                - SOUTH AFRICA
+                - SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS
+                - SOUTH SUDAN
+                - SPAIN
+                - SRI LANKA
+                - SUDAN
+                - SURINAME
+                - SWEDEN
+                - SWITZERLAND
+                - SYRIAN ARAB REPUBLIC
+                - TAIWAN
+                - TAJIKISTAN
+                - TANZANIA
+                - THAILAND
+                - THE BAHAMAS
+                - TIMOR-LESTE
+                - TOGO
+                - TOKELAU
+                - TONGA
+                - TRINIDAD AND TOBAGO
+                - TUNISIA
+                - TURKEY
+                - TURKMENISTAN
+                - TURKS AND CAICOS ISLANDS
+                - TUVALU
+                - UGANDA
+                - UKRAINE
+                - UNITED ARAB EMIRATES
+                - UNITED KINGDOM
+                - URUGUAY
+                - UZBEKISTAN
+                - VANUATU
+                - VENEZUELA
+                - VIET NAM
+                - WESTERN SAHARA
+                - YEMEN
+                - ZAMBIA
+                - ZIMBABWE
     resource_description:
       type: string
       description: >
@@ -617,8 +840,10 @@ components:
           properties:
             address_country:
               type: string
+              enum:
+                - US
               description: Value is US.
-              pattern: ^US$
+              default: US
       example:
         name: Harry Zhang
         phone: '5555555555'
@@ -633,11 +858,231 @@ components:
         - $ref: '#/components/schemas/address_editable_base'
         - $ref: '#/components/schemas/address_fields_intl'
         - type: object
+          required:
+            - address_country
           properties:
             address_country:
               type: string
+              enum:
+                - AD
+                - AE
+                - AF
+                - AG
+                - AI
+                - AL
+                - AN
+                - AO
+                - AQ
+                - AR
+                - AS
+                - AT
+                - AU
+                - AW
+                - AZ
+                - BA
+                - BB
+                - BD
+                - BE
+                - BF
+                - BG
+                - BH
+                - BI
+                - BJ
+                - BM
+                - BN
+                - BO
+                - BQ
+                - BR
+                - BS
+                - BT
+                - BW
+                - BY
+                - BZ
+                - CA
+                - CD
+                - CG
+                - CH
+                - CI
+                - CK
+                - CL
+                - CM
+                - CN
+                - CO
+                - CR
+                - CS
+                - CU
+                - CV
+                - CW
+                - CY
+                - CZ
+                - DE
+                - DJ
+                - DK
+                - DM
+                - DO
+                - DZ
+                - EC
+                - EE
+                - EG
+                - EH
+                - ER
+                - ES
+                - ET
+                - FI
+                - FJ
+                - FK
+                - FO
+                - FR
+                - GA
+                - GB
+                - GD
+                - GE
+                - GH
+                - GI
+                - GL
+                - GM
+                - GN
+                - GQ
+                - GR
+                - GS
+                - GT
+                - GW
+                - GY
+                - HK
+                - HN
+                - HR
+                - HT
+                - HU
+                - ID
+                - IE
+                - IL
+                - IN
+                - IO
+                - IQ
+                - IR
+                - IS
+                - IT
+                - JM
+                - JO
+                - JP
+                - KE
+                - KG
+                - KH
+                - KI
+                - KM
+                - KN
+                - KP
+                - KR
+                - KW
+                - KY
+                - KZ
+                - LA
+                - LB
+                - LC
+                - LI
+                - LK
+                - LR
+                - LS
+                - LT
+                - LU
+                - LV
+                - LY
+                - MA
+                - MC
+                - MD
+                - ME
+                - MG
+                - MK
+                - ML
+                - MM
+                - MN
+                - MO
+                - MR
+                - MS
+                - MT
+                - MU
+                - MV
+                - MW
+                - MX
+                - MY
+                - MZ
+                - NA
+                - NE
+                - NF
+                - NG
+                - NI
+                - NL
+                - 'NO'
+                - NP
+                - NR
+                - NU
+                - NZ
+                - OM
+                - PA
+                - PE
+                - PG
+                - PH
+                - PK
+                - PL
+                - PN
+                - PT
+                - PY
+                - QA
+                - RO
+                - RS
+                - RU
+                - RW
+                - SA
+                - SB
+                - SC
+                - SD
+                - SE
+                - SG
+                - SH
+                - SI
+                - SK
+                - SL
+                - SM
+                - SN
+                - SO
+                - SR
+                - SS
+                - ST
+                - SV
+                - SX
+                - SY
+                - SZ
+                - TC
+                - TD
+                - TG
+                - TH
+                - TJ
+                - TK
+                - TL
+                - TM
+                - TN
+                - TO
+                - TR
+                - TT
+                - TV
+                - TW
+                - TZ
+                - UA
+                - UG
+                - UY
+                - UZ
+                - VA
+                - VC
+                - VE
+                - VG
+                - VN
+                - VU
+                - WS
+                - YE
+                - ZA
+                - ZM
+                - ZW
               description: Must be a 2 letter country short-name code (ISO 3166).
-              pattern: ^(?!US)$
     address_editable:
       oneOf:
         - $ref: '#/components/schemas/address_editable_us'
@@ -1696,6 +2141,32 @@ components:
               description: >-
                 The country of the address. Will be returned as a 2 letter
                 country short-name code (ISO 3166).
+            coverage:
+              type: string
+              enum:
+                - SUBBUILDING
+                - HOUSENUMBER/BUILDING
+                - STREET
+                - LOCALITY
+                - SPARSE
+              description: >
+                * SUBBUILDING - Coverage down to unit numbers. For example, in
+                an apartment or a large building
+
+                * HOUSENUMBER/BUILDING - Coverage down to house number. For
+                example, the address where a house or building may be located
+
+                * STREET - Coverage down to street. This means that we can
+                verify that an street exists in a city, state, country
+
+                * LOCALITY - Coverage down to city, state, or village or
+                province. This means that we can verify that a city, village,
+                province, or state exists in a country. Countries differ in how
+                they define what is a province, state, city, village, etc. This
+                attempts to group eveyrthing together.
+
+                * SPARSE - Some addresses for this country exist in our
+                databases
             deliverability:
               type: string
               enum:
@@ -1718,6 +2189,60 @@ components:
 
                 * no_match — This address is not deliverable. No matching street
                 could be found within the city or postal code.
+            status:
+              type: string
+              enum:
+                - LV4
+                - LV3
+                - LV2
+                - LV1
+                - LF4
+                - LF3
+                - LF2
+                - LF1
+                - LM4
+                - LM3
+                - LM2
+                - LU1
+              description: >
+                * LV4 - Verified. The input data is correct. All input data was
+                able to match in databases.
+
+                * LV3 - Verified. The input data is correct. All input data was
+                able to match in databases <em>after</em> some or all elements
+                were standarized. The input data may also be using outdated
+                city, state, or country names.
+
+                * LV2 - Verified. The input data is correct although some input
+                data is unverifiable due to incomplete data.
+
+                * LV1 - Verified. The input data is acceptable but in an attempt
+                to standarize user input, errors were introduced.
+
+                * LF4 - Fixed. The input data is matched and fixed. (Example:
+                Brighon, UK -> Brighton, UK)
+
+                * LF3 - Fixed. The input data is matched and fixed but some
+                elements such as Subbuilding number and house number cannot be
+                checked.
+
+                * LF2 - Fixed. The input data is matched but some elements such
+                as Street cannot be checked.
+
+                * LF1 - Fixed. The input data is acceptable but in an attempt to
+                standarize user input, errors were introduced.
+
+                * LM4 - Missing Info. The input data cannot be corrected
+                completely.
+
+                * LM3 - Missing Info. The input data cannot be corrected
+                completely and there were multiple matches found in databases.
+
+                * LM2 - Missing Info. The input data cannot be corrected
+                completely and only some elements were found.
+
+                * LU1 - Unverfied. The input data cannot be corrected or
+                matched.
             components:
               $ref: '#/components/schemas/components'
             object:
@@ -3782,7 +4307,9 @@ components:
             secondary_line: ''
             last_line: SUMMERSIDE PE C1N 1C4
             country: CA
+            coverage: SUBBUILDING
             deliverability: deliverable
+            status: LV4
             components:
               primary_number: '370'
               street_name: WATER ST

@@ -5,10 +5,14 @@ allOf:
 
   - type: object
 
+    required:
+      - address_country
+
     properties:
       address_country:
         type: string
+        enum:
+          - UNITED STATES
         description: Full name of country
-        pattern: "^UNITED STATES$"
         minLength: 13
         maxLength: 13

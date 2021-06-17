@@ -24,4 +24,7 @@ allOf:
       object:
         allOf:
           - $ref: "../../../shared/attributes/object.yml"
-          - pattern: "^template$"
+          - type: string
+            enum:
+              - template
+            default: template

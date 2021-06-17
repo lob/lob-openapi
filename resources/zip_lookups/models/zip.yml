@@ -26,4 +26,9 @@ allOf:
         $ref: "../../../shared/attributes/address/zip_code_type.yml"
 
       object:
-        $ref: "../../../shared/attributes/object.yml"
+        allOf:
+          - $ref: "../../../shared/attributes/object.yml"
+          - type: string
+            enum:
+              - us_zip_lookup
+            default: us_zip_lookup

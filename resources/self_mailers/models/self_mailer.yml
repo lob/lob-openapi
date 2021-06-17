@@ -44,4 +44,6 @@ allOf:
         allOf:
           - $ref: "../../../shared/attributes/object.yml"
           - type: string
-            pattern: "^self_mailer$"
+            enum:
+              - self_mailer
+            default: self_mailer

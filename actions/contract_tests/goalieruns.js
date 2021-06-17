@@ -50,9 +50,9 @@ module.exports.runTests = async function runTests() {
         });
         let errorMessage = "";
         if (failures.length > 1) {
-          errorMessage = `There were ${failures.length} failures in the contract tests:`;
+          errorMessage = `There were ${failures.length} failures in the contract tests`;
         } else {
-          errorMessage = `There was 1 failure in the contract tests:`;
+          errorMessage = `There was 1 failure in the contract tests`;
         }
         try {
           const result = await web.chat.postMessage({

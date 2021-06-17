@@ -37,6 +37,17 @@ module.exports.runTests = async function runTests() {
       }
     }).then(async function () {
       if (failures.length > 0) {
+        failures.forEach((f) => {
+          const noWhitespace = f.replace(" ", "");
+          // each correctly formatted entry should be roughly 150-400 characters
+          // based on the tap-spec output. if they are not, the errors being surfaced
+          // by tap-spec are unexpected.
+          if (noWhitespace.length > 500) {
+            core.setFailed(
+              "An unexpected error surfaced in the contract tests."
+            );
+          }
+        });
         let errorMessage = "";
         if (failures.length > 1) {
           errorMessage = `There were ${failures.length} failures in the contract tests:`;
@@ -46,7 +57,7 @@ module.exports.runTests = async function runTests() {
         try {
           const result = await web.chat.postMessage({
             channel: "more-tests", // pkg.config.goalieMappings[validated_arg].slackChannel
-            text: `:sadpanda: ${errorMessage}
+            text: `:party-dead: ${errorMessage}
   ${failures.join("\n")}`,
           });
         } catch (slackError) {

@@ -56,7 +56,7 @@ module.exports.runTests = async function runTests() {
         }
         try {
           const result = await web.chat.postMessage({
-            channel: "pkg.config.goalieMappings[validated_arg].slackChannel",
+            channel: pkg.config.goalieMappings[validated_arg].slackChannel,
             text: `:party-dead: ${errorMessage}
   ${failures.join("\n")}`,
           });

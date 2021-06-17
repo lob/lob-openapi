@@ -1,9 +1,7 @@
 "use strict";
 
 // standard setup, present in every test
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 // test specific data
@@ -30,6 +28,7 @@ prism
     const resource_endpoint = `${tmpl_endpoint}/versions`;
 
     test("list, create, retrieve, update then delete a new template version", async function (t) {
+      t.plan(5);
       // list version created when template was created
       let response = await prism
         .setup()
@@ -37,8 +36,7 @@ prism
           client.get(resource_endpoint, { headers: prism.authHeader })
         );
 
-      await t.doesNotReject(Promise.resolve(response));
-      t.equal(response.status, 200);
+      t.assert(response.status === 200);
 
       // create new version
       response = await prism.setup().then((client) =>
@@ -52,8 +50,7 @@ prism
         )
       );
 
-      await t.doesNotReject(Promise.resolve(response));
-      t.equal(response.status, 200);
+      t.assert(response.status === 200);
       const vrsn_endpoint = `${resource_endpoint}/${response.data.id}`;
 
       // retrieve
@@ -63,8 +60,7 @@ prism
         })
       );
 
-      await t.doesNotReject(Promise.resolve(response));
-      t.equal(response.status, 200);
+      t.assert(response.status === 200);
 
       // update
       response = await prism
@@ -77,8 +73,7 @@ prism
           )
         );
 
-      await t.doesNotReject(Promise.resolve(response));
-      t.equal(response.status, 200);
+      t.assert(response.status === 200);
 
       // delete
       response = await prism.setup().then((client) =>
@@ -86,8 +81,8 @@ prism
           headers: prism.authHeader,
         })
       );
-      await t.doesNotReject(Promise.resolve(response));
-      t.equal(response.status, 200);
+
+      t.assert(response.status === 200);
 
       // clean up template too!
       prism.setup().then((client) =>

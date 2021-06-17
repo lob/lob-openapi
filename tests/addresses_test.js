@@ -1,9 +1,7 @@
 "use strict";
 
 // standard setup, present in every test
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 // test specific data
@@ -15,16 +13,17 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 // contract tests
 test("list addresses", async function (t) {
+  t.plan(1);
   const response = await prism
     .setup()
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 test("create, retrieve, then delete an address", async function (t) {
+  t.plan(3);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -45,8 +44,7 @@ test("create, retrieve, then delete an address", async function (t) {
       client.post(resource_endpoint, params, { headers: prism.authHeader })
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 
   const adr_id = response.data.id;
 
@@ -57,8 +55,7 @@ test("create, retrieve, then delete an address", async function (t) {
     })
   );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 
   // delete
   response = await prism.setup().then((client) =>
@@ -67,11 +64,11 @@ test("create, retrieve, then delete an address", async function (t) {
     })
   );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 test("allows creation with just a name", async function (t) {
+  t.plan(1);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -91,11 +88,11 @@ test("allows creation with just a name", async function (t) {
       client.post(resource_endpoint, params, { headers: prism.authHeader })
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 test("allows creation with just a company", async function (t) {
+  t.plan(1);
   const params = {
     description: "Harry - Office",
     company: "Lob",
@@ -115,11 +112,11 @@ test("allows creation with just a company", async function (t) {
       client.post(resource_endpoint, params, { headers: prism.authHeader })
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 test("correctly creates an international address", async function (t) {
+  t.plan(2);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -139,12 +136,12 @@ test("correctly creates an international address", async function (t) {
       client.post(resource_endpoint, params, { headers: prism.authHeader })
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
-  t.equal(response.data.address_country, "CANADA");
+  t.assert(response.status === 200);
+  t.assert(response.data.address_country === "CANADA");
 });
 
 test("does not treat input as international without country", async function (t) {
+  t.plan(1);
   const params = {
     description: "Harry - Office",
     company: "Lob",
@@ -163,11 +160,11 @@ test("does not treat input as international without country", async function (t)
       client.post(resource_endpoint, params, { headers: prism.authHeader })
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 422);
+  t.assert(response.status === 422);
 });
 
 test("errors when attempting to create an address with neither name nor company", async function (t) {
+  t.plan(2);
   const params = {
     description: "Harry - Office",
     email: "harry@lob.com",
@@ -186,12 +183,12 @@ test("errors when attempting to create an address with neither name nor company"
       client.post(resource_endpoint, params, { headers: prism.authHeader })
     );
 
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 422);
-  t.match(response.data.error.message, /name/);
+  t.assert(response.status === 422);
+  t.assert(response.data.error.message.includes("name"));
 });
 
 test("errors at the promise level", async function (t) {
+  t.plan(1);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -211,9 +208,9 @@ test("errors at the promise level", async function (t) {
       .then((client) =>
         client.post("/addressos", params, { headers: prism.authHeader })
       );
-    await t.doesNotReject(Promise.resolve(response));
-    t.equal(response.status, 200);
+
+    t.assert(response.status === 200);
   } catch (err) {
-    t.match(err["detail"], /route/);
+    t.assert(err["detail"].includes("route"));
   }
 });

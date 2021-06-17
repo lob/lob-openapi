@@ -1,9 +1,7 @@
 "use strict";
 
 // standard setup, present in every test
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 // test specific data
@@ -14,13 +12,14 @@ const resource_endpoint = "/letters",
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 test("create, list, read, then cancel, a letter with no extra services", async function (t) {
+  t.plan(9);
   const makeAddress = async (address_data) => {
     let response = await prism
       .setup()
       .then((client) =>
         client.post("/addresses", address_data, { headers: prism.authHeader })
       );
-    await t.doesNotReject(Promise.resolve(response));
+    t.assert(response.status === 200);
     return response.data.id;
   };
   const deleteAddress = async (address_id) => {
@@ -29,8 +28,8 @@ test("create, list, read, then cancel, a letter with no extra services", async f
       .then((client) =>
         client.delete(`/addresses/${address_id}`, { headers: prism.authHeader })
       );
-    await t.doesNotReject(Promise.resolve(response));
-    t.equal(response.status, 200);
+
+    t.assert(response.status === 200);
     return response;
   };
   const to = await makeAddress({
@@ -63,42 +62,37 @@ test("create, list, read, then cancel, a letter with no extra services", async f
       { headers: prism.authHeader }
     )
   );
-  await t.doesNotReject(Promise.resolve(create));
-  t.equal(create.status, 200);
-  t.false(create.data.tracking_number);
+  t.assert(create.status === 200);
+  t.assert(!create.data.tracking_number);
 
   const list = await prism
     .setup()
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
-  await t.doesNotReject(Promise.resolve(list));
-  t.equal(list.status, 200);
+  t.assert(list.status === 200);
 
   const read = await prism.setup().then((client) =>
     client.get(`${resource_endpoint}/${create.data.id}`, {
       headers: prism.authHeader,
     })
   );
-  await t.doesNotReject(Promise.resolve(read));
-  t.equal(read.status, 200);
+  t.assert(read.status === 200);
 
   const cancel = await prism.setup().then((client) =>
     client.delete(`${resource_endpoint}/${read.data.id}`, {
       headers: prism.authHeader,
     })
   );
-  await t.doesNotReject(Promise.resolve(cancel));
-  t.equal(cancel.status, 200);
+  t.assert(cancel.status === 200);
 
-  const deletedTo = await deleteAddress(to);
-  await t.doesNotReject(Promise.resolve(deletedTo));
-  const deletedFrom = await deleteAddress(from);
-  await t.doesNotReject(Promise.resolve(deletedFrom));
+  await deleteAddress(to);
+  await deleteAddress(from);
 });
 
 // add any failure cases you need here
 test("create, list, read then cancel a certified letter", async function (t) {
+  t.plan(5);
   const create = await prism.setup().then((client) =>
     client.post(
       resource_endpoint,
@@ -128,31 +122,27 @@ test("create, list, read then cancel a certified letter", async function (t) {
       { headers: prism.authHeader }
     )
   );
-  await t.doesNotReject(Promise.resolve(create));
-  t.equal(create.status, 200);
-  t.true(create.data.tracking_number);
+  t.assert(create.status === 200);
+  t.assert(create.data.tracking_number);
 
   const list = await prism
     .setup()
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
-  await t.doesNotReject(Promise.resolve(list));
-  t.equal(list.status, 200);
+  t.assert(list.status === 200);
 
   const read = await prism.setup().then((client) =>
     client.get(`${resource_endpoint}/${create.data.id}`, {
       headers: prism.authHeader,
     })
   );
-  await t.doesNotReject(Promise.resolve(read));
-  t.equal(read.status, 200);
+  t.assert(read.status === 200);
 
   const cancel = await prism.setup().then((client) =>
     client.delete(`${resource_endpoint}/${read.data.id}`, {
       headers: prism.authHeader,
     })
   );
-  await t.doesNotReject(Promise.resolve(cancel));
-  t.equal(cancel.status, 200);
+  t.assert(cancel.status === 200);
 });

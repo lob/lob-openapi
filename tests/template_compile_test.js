@@ -1,9 +1,7 @@
 "use strict";
 
 // standard setup, present in every test
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 // test specific data
@@ -15,6 +13,7 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 // contract tests
 test("create, compile, then delete a template", async function (t) {
+  t.plan(4);
   // create
   let response = await prism.setup().then((client) =>
     client.post(
@@ -27,8 +26,7 @@ test("create, compile, then delete a template", async function (t) {
     )
   );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
   const tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
   const tmpl_compile_endpoint = `${resource_endpoint}/${response.data.id}/compile`;
 
@@ -44,9 +42,8 @@ test("create, compile, then delete a template", async function (t) {
     )
   );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
-  t.equal(response.data, "<html>HTML Compile for compile test</html>");
+  t.assert(response.status === 200);
+  t.assert(response.data === "<html>HTML Compile for compile test</html>");
 
   // delete - clean up template
   response = await prism
@@ -55,6 +52,5 @@ test("create, compile, then delete a template", async function (t) {
       client.delete(tmpl_endpoint, { headers: prism.authHeader })
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });

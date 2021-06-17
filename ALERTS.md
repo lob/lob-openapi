@@ -24,12 +24,23 @@ The message sent for a failing contract test is simple.
 This is a sample error which could be surfaced in one of the goalie channels, due to a contract test failure:
 
 ```
-FAILED CONTRACT TEST: at /github/workspace/tests/zip_lookups_test.js:43:5
+─
 
-EXPECTED:  200
-ACTUAL:    422
+  verify a US address given primary line, city, and state
+
+  tests/us_verifications_test.js:29
+
+   28:
+   29:   t.assert(response.status === 422);
+   30: });
+
+  Value is not truthy:
+
+  false
+
+  › tests/us_verifications_test.js:29:5
 ```
 
-There is no error stacktrace, because most of the stacktrace (save for the failed test line included in the current message) shows the parts in the tape module which errored (and those will stay the same regardless of which test fails).
+The line of code from which the error stems is shown here.
 
 The particular error message, in case of a contract test failure triggered by a mistake in production on our end, will always be "should be strictly equal", because we'd be surfacing a status code that doesn't match the one we expect in the tests. The test summary (e.g. "use an incorrectly formatted zip code") doesn't change from run to run, so that too can be excluded. Therefore, so that this doesn't clutter up any goalie channels, only the most important information––which contract test failed, the received status code, and the expected status code––will be surfaced in the message.

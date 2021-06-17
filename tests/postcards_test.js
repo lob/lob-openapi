@@ -1,9 +1,7 @@
 "use strict";
 
 // standard setup, present in every test
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const fs = require("fs");
 const path = require("path");
 const Prism = require("./setup.js");
@@ -17,14 +15,14 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 // contract tests happy path
 test("create, list, read then cancel a postcard", async function (t) {
-  // need to put this inside each test set, because it requires t
+  t.plan(6);
   const makeAddress = async (address_data) => {
     let response = await prism
       .setup()
       .then((client) =>
         client.post("/addresses", address_data, { headers: prism.authHeader })
       );
-    await t.doesNotReject(Promise.resolve(response));
+
     return response.data.id;
   };
   const deleteAddress = async (address_id) => {
@@ -33,8 +31,8 @@ test("create, list, read then cancel a postcard", async function (t) {
       .then((client) =>
         client.delete(`/addresses/${address_id}`, { headers: prism.authHeader })
       );
-    await t.doesNotReject(Promise.resolve(response));
-    t.equal(response.status, 200);
+
+    t.assert(response.status === 200);
     return response;
   };
   const to = await makeAddress({
@@ -69,40 +67,35 @@ test("create, list, read then cancel a postcard", async function (t) {
       { headers: prism.authHeader }
     )
   );
-  await t.doesNotReject(Promise.resolve(create));
-  t.equal(create.status, 200);
+  t.assert(create.status === 200);
 
   const list = await prism
     .setup()
     .then((client) =>
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
-  await t.doesNotReject(Promise.resolve(list));
-  t.equal(list.status, 200);
+  t.assert(list.status === 200);
 
   const read = await prism.setup().then((client) =>
     client.get(`${resource_endpoint}/${create.data.id}`, {
       headers: prism.authHeader,
     })
   );
-  await t.doesNotReject(Promise.resolve(read));
-  t.equal(read.status, 200);
+  t.assert(read.status === 200);
 
   const cancel = await prism.setup().then((client) =>
     client.delete(`${resource_endpoint}/${read.data.id}`, {
       headers: prism.authHeader,
     })
   );
-  await t.doesNotReject(Promise.resolve(cancel));
-  t.equal(cancel.status, 200);
+  t.assert(cancel.status === 200);
 
-  const deletedTo = await deleteAddress(to);
-  await t.doesNotReject(Promise.resolve(deletedTo));
-  const deletedFrom = await deleteAddress(from);
-  await t.doesNotReject(Promise.resolve(deletedFrom));
+  await deleteAddress(to);
+  await deleteAddress(from);
 });
 
 test("creates a postcard given a local filepath as the front", async function (t) {
+  t.plan(1);
   function streamToString(stream) {
     const chunks = [];
     return new Promise((resolve, reject) => {
@@ -145,12 +138,12 @@ test("creates a postcard given a local filepath as the front", async function (t
       { headers: prism.authHeader }
     )
   );
-  await t.doesNotReject(Promise.resolve(create));
-  t.equal(create.status, 200);
+  t.assert(create.status === 200);
 });
 
 // select failure cases:
 test("throws errors when input is not validated", async function (t) {
+  t.plan(2);
   // errors when one of the required fields (state) is missing
   const create_domestic = await prism.setup({ errors: false }).then((client) =>
     client.post(
@@ -179,8 +172,7 @@ test("throws errors when input is not validated", async function (t) {
       { headers: prism.authHeader }
     )
   );
-  await t.rejects(Promise.reject(create_domestic));
-  t.equal(create_domestic.status, 422);
+  t.assert(create_domestic.status === 422);
 
   // errors when no country is provided for international address
   const create_intl = await prism.setup({ errors: false }).then((client) =>
@@ -210,6 +202,5 @@ test("throws errors when input is not validated", async function (t) {
       { headers: prism.authHeader }
     )
   );
-  await t.rejects(Promise.reject(create_intl));
-  t.equal(create_intl.status, 422);
+  t.assert(create_intl.status === 422);
 });

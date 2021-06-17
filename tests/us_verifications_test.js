@@ -1,8 +1,6 @@
 "use strict";
 
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 const resource_endpoint = "/us_verifications",
@@ -17,6 +15,7 @@ const sla = "185 BERRY ST 94107";
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 
 test("verify a US address given primary line, city, and state", async function (t) {
+  t.plan(1);
   const response = await prism
     .setup()
     .then((client) =>
@@ -27,11 +26,11 @@ test("verify a US address given primary line, city, and state", async function (
       )
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 test("verify a US address given primary line and zip code", async function (t) {
+  t.plan(1);
   const response = await prism
     .setup()
     .then((client) =>
@@ -42,11 +41,11 @@ test("verify a US address given primary line and zip code", async function (t) {
       )
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 test("verify a US address given a single-line address", async function (t) {
+  t.plan(1);
   const response = await prism
     .setup()
     .then((client) =>
@@ -57,12 +56,12 @@ test("verify a US address given a single-line address", async function (t) {
       )
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 // tests request validation
 test("errors when not given a primary line", async function (t) {
+  t.plan(1);
   try {
     await prism
       .setup()
@@ -75,12 +74,13 @@ test("errors when not given a primary line", async function (t) {
       );
   } catch (err) {
     const firstError = err.additional.validation[0]["message"];
-    t.match(firstError, /required/);
+    t.assert(firstError.includes("required"));
   }
 });
 
 // set prism error-surfacing to false for these tests, to gauge the endpoint's response
 test("errors when given a primary line without city/state or zip", async function (t) {
+  t.plan(2);
   const response = await prism
     .setup({ errors: false })
     .then((client) =>
@@ -91,12 +91,12 @@ test("errors when given a primary line without city/state or zip", async functio
       )
     );
 
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 422);
-  t.match(response.data.error.message, /zip_code/);
+  t.assert(response.status === 422);
+  t.assert(response.data.error.message.includes("zip_code"));
 });
 
 test("errors when given a city without state or zip", async function (t) {
+  t.plan(2);
   const response = await prism
     .setup({ errors: false })
     .then((client) =>
@@ -107,12 +107,12 @@ test("errors when given a city without state or zip", async function (t) {
       )
     );
 
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 422);
-  t.match(response.data.error.message, /state/);
+  t.assert(response.status === 422);
+  t.assert(response.data.error.message.includes("state"));
 });
 
 test("errors when given a state without city or zip", async function (t) {
+  t.plan(2);
   const response = await prism
     .setup({ errors: false })
     .then((client) =>
@@ -123,12 +123,12 @@ test("errors when given a state without city or zip", async function (t) {
       )
     );
 
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 422);
-  t.match(response.data.error.message, /city/);
+  t.assert(response.status === 422);
+  t.assert(response.data.error.message.includes("city"));
 });
 
 test("errors when given extraneous information alongside a single-line address", async function (t) {
+  t.plan(2);
   const response = await prism
     .setup({ errors: false })
     .then((client) =>
@@ -139,7 +139,6 @@ test("errors when given extraneous information alongside a single-line address",
       )
     );
 
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 422);
-  t.match(response.data.error.message, /zip_code/);
+  t.assert(response.status === 422);
+  t.assert(response.data.error.message.includes("zip_code"));
 });

@@ -1,8 +1,6 @@
 "use strict";
 
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 // test specific data
@@ -14,6 +12,7 @@ const resource_endpoint = "/us_zip_lookups",
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 test("lookup a US zip code", async function (t) {
+  t.plan(1);
   const response = await prism
     .setup()
     .then((client) =>
@@ -24,11 +23,11 @@ test("lookup a US zip code", async function (t) {
       )
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 test("use an incorrectly formatted zip code", async function (t) {
+  t.plan(2);
   const response = await prism
     .setup({ errors: false })
     .then((client) =>
@@ -39,7 +38,6 @@ test("use an incorrectly formatted zip code", async function (t) {
       )
     );
 
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 422);
-  t.match(response.data.error.message, /zip_code/);
+  t.assert(response.status === 422);
+  t.assert(response.data.error.message.includes("zip_code"));
 });

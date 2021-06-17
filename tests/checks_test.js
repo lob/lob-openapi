@@ -1,9 +1,7 @@
 "use strict";
 
 // standard setup, present in every test
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 // test specific data
@@ -32,7 +30,8 @@ prism
   .then((result) => {
     const bank_id = result.data.id;
 
-    test("validate bank account to use for checks", async function (t) {
+    test.serial("validate bank account to use for checks", async function (t) {
+      t.plan(1);
       const verify = await prism
         .setup()
         .then((client) =>
@@ -42,11 +41,11 @@ prism
             { headers: prism.authHeader }
           )
         );
-      await t.doesNotReject(Promise.resolve(verify));
-      t.equal(verify.status, 200);
+      t.assert(verify.status === 200);
     });
 
-    test("create, list, read then delete a check", async function (t) {
+    test.serial("create, list, read then delete a check", async function (t) {
+      t.plan(4);
       const create = await prism.setup({ errors: false }).then((client) =>
         client.post(
           resource_endpoint,
@@ -72,44 +71,33 @@ prism
             bank_account: bank_id,
             amount: 101.01,
             memo: "poodles",
-            message: "End Apartheid",
+            message: "End Racism",
           },
           { headers: prism.authHeader }
         )
       );
-      await t.doesNotReject(Promise.resolve(create));
-      t.equal(create.status, 200);
+      t.assert(create.status === 200);
 
       const list = await prism
         .setup()
         .then((client) =>
           client.get(resource_endpoint, { headers: prism.authHeader })
         );
-      t.equal(list.status, 200);
-
-      await t.doesNotReject(Promise.resolve(list));
-      t.equal(list.status, 200);
+      t.assert(list.status === 200);
 
       const read = await prism.setup().then((client) =>
         client.get(`${resource_endpoint}/${create.data.id}`, {
           headers: prism.authHeader,
         })
       );
-      t.equal(read.status, 200);
-
-      await t.doesNotReject(Promise.resolve(read));
-      t.equal(read.status, 200);
+      t.assert(read.status === 200);
 
       const remove = await prism.setup().then((client) =>
         client.delete(`${resource_endpoint}/${read.data.id}`, {
           headers: prism.authHeader,
         })
       );
-      t.equal(remove.status, 200);
-
-      await t.doesNotReject(Promise.resolve(remove));
-      t.equal(remove.status, 200);
-
+      t.assert(remove.status === 200);
       prism.setup().then((client) =>
         client.delete(`/bank_accounts/${bank_id}`, {
           headers: prism.authHeader,

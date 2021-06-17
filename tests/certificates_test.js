@@ -1,9 +1,7 @@
 "use strict";
 
 // standard setup, present in every test
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 // test specific data
@@ -15,6 +13,7 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 // contract tests
 test("create, list, retrieve, update, then delete a certificate", async function (t) {
+  t.plan(5);
   // create
   let response = await prism.setup().then((client) =>
     client.post(
@@ -28,8 +27,7 @@ test("create, list, retrieve, update, then delete a certificate", async function
     )
   );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 201);
+  t.assert(response.status === 201);
   const tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
 
   // list
@@ -39,16 +37,14 @@ test("create, list, retrieve, update, then delete a certificate", async function
       client.get(resource_endpoint, { headers: prism.authHeader })
     );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 
   // retrieve
   response = await prism
     .setup()
     .then((client) => client.get(tmpl_endpoint, { headers: prism.authHeader }));
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 
   // update certificate
   response = await prism.setup().then((client) =>
@@ -60,8 +56,7 @@ test("create, list, retrieve, update, then delete a certificate", async function
       { headers: prism.authHeader }
     )
   );
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 
   // delete
   response = await prism
@@ -69,6 +64,5 @@ test("create, list, retrieve, update, then delete a certificate", async function
     .then((client) =>
       client.delete(tmpl_endpoint, { headers: prism.authHeader })
     );
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });

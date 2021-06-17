@@ -1,8 +1,6 @@
 "use strict";
 
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 const resource_endpoint = "/intl_verifications",
@@ -17,6 +15,7 @@ const resource_endpoint = "/intl_verifications",
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 
 test("verify an int'l address given primary line, and country", async function (t) {
+  t.plan(1);
   const response = await prism.setup().then((client) =>
     client.post(
       resource_endpoint,
@@ -31,11 +30,11 @@ test("verify an int'l address given primary line, and country", async function (
     )
   );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 test("errors when not given a country", async function (t) {
+  t.plan(1);
   try {
     await prism.setup().then((client) =>
       client.post(
@@ -51,11 +50,12 @@ test("errors when not given a country", async function (t) {
     );
   } catch (err) {
     const firstError = err.additional.validation[0]["message"];
-    t.match(firstError, /required/);
+    t.assert(firstError.includes("required"));
   }
 });
 
 test("errors when given Puerto Rico", async function (t) {
+  t.plan(1);
   try {
     await prism.setup().then((client) =>
       client.post(
@@ -72,11 +72,12 @@ test("errors when given Puerto Rico", async function (t) {
     );
   } catch (err) {
     const firstError = err.additional.validation[0]["message"];
-    t.match(firstError, /allowed values/);
+    t.assert(firstError.includes("allowed values"));
   }
 });
 
 test("errors when not given a primary line", async function (t) {
+  t.plan(1);
   try {
     await prism.setup().then((client) =>
       client.post(
@@ -92,6 +93,6 @@ test("errors when not given a primary line", async function (t) {
     );
   } catch (err) {
     const firstError = err.additional.validation[0]["message"];
-    t.match(firstError, /required/);
+    t.assert(firstError.includes("required"));
   }
 });

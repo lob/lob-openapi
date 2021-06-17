@@ -75,7 +75,6 @@ test("errors when not given a primary line", async function (t) {
       );
   } catch (err) {
     const firstError = err.additional.validation[0]["message"];
-    // console.log("ERROR: ", JSON.stringify(firstError, null, 2));
     t.match(firstError, /required/);
   }
 });

@@ -20,4 +20,7 @@ allOf:
       object:
         allOf:
           - $ref: "../../../shared/attributes/object.yml"
-          - pattern: "^certificate$"
+          - type: string
+            enum:
+              - certificate
+            default: certificate

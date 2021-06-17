@@ -7,10 +7,11 @@ allOf:
     # that are stored as input (without transformation) here
     properties:
       mail_type:
-        type: string
         description: Checks must be sent `usps_first_class`
-        default: "usps_first_class"
-        pattern: "^usps_first_class$"
+        type: string
+        enum:
+          - usps_first_class
+        default: usps_first_class
 
       memo:
         description: Text to include on the memo line of the check.

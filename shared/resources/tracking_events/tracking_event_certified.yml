@@ -9,9 +9,10 @@ allOf:
 
     properties:
       type:
-        type: string
         description: a Certified letter tracking event
-        pattern: "^certified$"
+        type: string
+        enum:
+          - certified
 
       name:
         type: string

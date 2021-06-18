@@ -72,14 +72,29 @@ post:
             explode: true
         example:
           description: Demo Check
-          to: adr_210a8d4b0b76d77b
-          from: adr_b8fb5acf3a2b55db
+          to:
+            name: Harry Zhang
+            address_line1: 185 Berry St
+            address_line2: "# 6100"
+            address_city: San Francisco
+            address_state: CA
+            address_zip: "94107"
+          from:
+            name: Leore Avidar
+            address_line1: 185 Berry St
+            address_line2: "# 6100"
+            address_city: San Francisco
+            address_state: CA
+            address_zip: "94107-1741"
           bank_account: bank_8cad8df5354d33f
           amount: 22.50
           memo: rent
           logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png"
           check_bottom: tmpl_23668b406d5afef
-          merge_variables[name]: Harry
+          merge_variables:
+            name: Harry
+          metadata:
+            memo: rafting trip
 
       multipart/form-data:
         schema:

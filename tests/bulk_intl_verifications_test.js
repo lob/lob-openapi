@@ -16,7 +16,7 @@ const address = {
   city: "Summerside",
   state: "Prince Edwards Island",
   postal_code: "C1N 1C4",
-  country: "CA"
+  country: "CA",
 };
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
@@ -26,7 +26,7 @@ test("verify list of valid international addresses", async function (t) {
     client.post(
       resource_endpoint,
       {
-        addresses: [address]
+        addresses: [address],
       },
       { headers: prism.authHeader }
     )
@@ -34,7 +34,6 @@ test("verify list of valid international addresses", async function (t) {
 
   await t.doesNotReject(Promise.resolve(response));
   t.equal(response.status, 200);
-
 });
 
 test("errors when given an empty array", async function (t) {

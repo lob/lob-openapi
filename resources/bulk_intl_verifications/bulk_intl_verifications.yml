@@ -1,0 +1,26 @@
+post:
+  operationId: bulk_intl_verifications
+
+  summary: Verify a list of international addresses with a live API key.
+
+  description: >-
+    Verify a list of international (except US or US territories) address _with a live
+    API key_. Requests to this endpoint with a test API key will return a dummy
+    response based on the primary line you input.
+
+  tags:
+    - Bulk International Verifications
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/intl_verifications_payload.yml"
+
+  responses:
+    "200":
+      $ref: responses/bulk_intl_verifications.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

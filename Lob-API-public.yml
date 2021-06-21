@@ -34,6 +34,12 @@ tags:
   - name: Bank Accounts
     description: Bank Accounts allow you to store your bank account securely in our system.
 
+  - name: Bulk Int'l Verifications
+    description: Verify a list of non-US addresses.
+
+  - name: Bulk US Verifications
+    description: Verify a list of US addresses.
+
   - name: Certificates
     description: A certificate store to manage client identities.
 
@@ -116,12 +122,14 @@ x-tagGroups:
   - name: US Verification API
     tags:
       - US Verifications
+      - Bulk US Verifications
       - US Autocompletions
       - Zip Lookups
 
   - name: Int'l Verification API
     tags:
       - Int'l Verifications
+      - Bulk Int'l Verifications
 
 components:
   securitySchemes:
@@ -147,6 +155,12 @@ paths:
 
   /bank_accounts:
     $ref: resources/bank_accounts/bank_accounts.yml
+
+  /bulk/us_verifications:
+    $ref: resources/bulk_us_verifications/bulk_us_verifications.yml
+
+  /bulk/intl_verifications:
+    $ref: resources/bulk_intl_verifications/bulk_intl_verifications.yml
 
   /certificates/{id}:
     $ref: resources/certificates/certificate.yml

@@ -16,9 +16,11 @@ allOf:
         $ref: "../../../shared/models/address/address.yml"
 
       carrier:
-        type: string
         description: Value is `USPS`.
-        pattern: "^USPS$"
+        type: string
+        enum:
+          - USPS
+        default: USPS
 
       thumbnails:
         type: array

@@ -29,4 +29,7 @@ properties:
   object:
     allOf:
       - $ref: "../../attributes/object.yml"
-        pattern: "^tracking_event$"
+      - type: string
+        enum:
+          - tracking_event
+        default: tracking_event

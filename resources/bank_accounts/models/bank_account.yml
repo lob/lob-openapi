@@ -32,4 +32,7 @@ allOf:
       object:
         allOf:
           - $ref: "../../../shared/attributes/object.yml"
-          - pattern: "^bank_account$"
+          - type: string
+            enum:
+              - bank_account
+            default: bank_account

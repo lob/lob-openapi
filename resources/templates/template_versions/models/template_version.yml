@@ -30,4 +30,7 @@ allOf:
       object:
         allOf:
           - $ref: "../../../../shared/attributes/object.yml"
-          - pattern: "^version$"
+          - type: string
+            enum:
+              - version
+            default: version

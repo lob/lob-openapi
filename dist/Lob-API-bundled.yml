@@ -29,10 +29,6 @@ tags:
       new signed URL will be generated.
   - name: Bank Accounts
     description: Bank Accounts allow you to store your bank account securely in our system.
-  - name: Bulk Int'l Verifications
-    description: Verify a list of non-US addresses.
-  - name: Bulk US Verifications
-    description: Verify a list of US addresses.
   - name: Certificates
     description: A certificate store to manage client identities.
   - name: Checks
@@ -104,13 +100,11 @@ x-tagGroups:
   - name: US Verification API
     tags:
       - US Verifications
-      - Bulk US Verifications
       - US Autocompletions
       - Zip Lookups
   - name: Int'l Verification API
     tags:
       - Int'l Verifications
-      - Bulk Int'l Verifications
 components:
   securitySchemes:
     basicAuth:
@@ -509,7 +503,7 @@ components:
           description: >
             Must follow the ZIP format of `12345` or ZIP+4 format of
             `12345-1234`.
-          pattern: '^[0-9]{5}(-[0-9]{4})?$'
+          pattern: '^\d{5}(-\d{4})?$'
     date_created:
       type: string
       format: date-time
@@ -566,7 +560,10 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^address$
+                - type: string
+                  enum:
+                    - address
+                  default: address
     address_fields_intl:
       type: object
       required:
@@ -1471,12 +1468,1782 @@ components:
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
-                - pattern: ^bank_account$
+                - type: string
+                  enum:
+                    - bank_account
+                  default: bank_account
+    cert_id:
+      type: string
+      description: Unique identifier prefixed with `cert_`.
+      pattern: '^cert_[a-zA-Z0-9]+$'
+    name:
+      type: string
+      description: 'Short, friendly name of the certificate.'
+      maxLength: 255
+      nullable: true
+    certificate_writable:
+      type: object
+      required:
+        - cert
+        - name
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        name:
+          $ref: '#/components/schemas/name'
+        cert:
+          type: string
+          description: |
+            Public X509 certificate.
+          maxLength: 20000
+          nullable: true
+    acc_id:
+      type: string
+      description: Unique account identifier.
+      pattern: '^[a-zA-Z0-9]+$'
+    date_deleted:
+      type: string
+      format: date-time
+      description: A timestamp in ISO 8601 format of the date the resource was deleted.
+    certificate:
+      allOf:
+        - $ref: '#/components/schemas/certificate_writable'
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/cert_id'
+            account_id:
+              $ref: '#/components/schemas/acc_id'
+            date_deleted:
+              $ref: '#/components/schemas/date_deleted'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - certificate
+                  default: certificate
+    certificate_update:
+      type: object
+      properties:
+        name:
+          $ref: '#/components/schemas/name'
+        description:
+          $ref: '#/components/schemas/resource_description'
+    chk_id:
+      type: string
+      description: Unique identifier prefixed with `chk_`.
+      pattern: '^chk_[a-zA-Z0-9]+$'
+    editable_no_mailtype:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        send_date:
+          $ref: '#/components/schemas/send_date'
+    check_base:
+      allOf:
+        - $ref: '#/components/schemas/editable_no_mailtype'
+        - type: object
+          properties:
+            mail_type:
+              description: Checks must be sent `usps_first_class`
+              type: string
+              enum:
+                - usps_first_class
+              default: usps_first_class
+            memo:
+              description: Text to include on the memo line of the check.
+              type: string
+              maxLength: 40
+              nullable: true
+            check_number:
+              description: >-
+                An integer that designates the check number.
+
+                If `check_number` is not provided, checks created from a new
+                `bank_account` will start at `10000` and increment with each
+                check created with the `bank_account`.
+
+                A provided `check_number` overrides the defaults. Subsequent
+                checks created with the same `bank_account` will increment from
+                the provided check number.
+              type: integer
+              minimum: 1
+              maximum: 500000000
+            message:
+              description: >-
+                Max of 400 characters to be included at the bottom of the check
+                page.
+              type: string
+              maxLength: 400
+    thumbnail:
+      type: object
+      properties:
+        small:
+          $ref: '#/components/schemas/signed_link'
+        medium:
+          $ref: '#/components/schemas/signed_link'
+        large:
+          $ref: '#/components/schemas/signed_link'
+    expected_delivery_date:
+      type: string
+      description: >-
+        A date in YYYY-MM-DD format of the letter's expected delivery date based
+        on its `send_date`.
+      format: date
+    generated:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - to
+            - url
+            - carrier
+          properties:
+            url:
+              $ref: '#/components/schemas/signed_link'
+            to:
+              $ref: '#/components/schemas/address'
+            carrier:
+              description: Value is `USPS`.
+              type: string
+              enum:
+                - USPS
+              default: USPS
+            thumbnails:
+              type: array
+              items:
+                $ref: '#/components/schemas/thumbnail'
+            expected_delivery_date:
+              $ref: '#/components/schemas/expected_delivery_date'
+    from_us:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/address_us'
+    tmpl_id:
+      type: string
+      description: Unique identifier prefixed with `tmpl_`.
+      pattern: '^tmpl_[a-zA-Z0-9]+$'
+    vrsn_id:
+      type: string
+      description: Unique identifier prefixed with `vrsn_`.
+      pattern: '^vrsn_[a-zA-Z0-9]+$'
+    check:
+      allOf:
+        - $ref: '#/components/schemas/check_base'
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from_us'
+        - type: object
+          required:
+            - bank_account
+            - id
+            - amount
+          properties:
+            id:
+              $ref: '#/components/schemas/chk_id'
+            amount:
+              description: The payment amount to be sent in US dollars.
+              type: number
+              format: float
+              multipleOf: 0.01
+              maximum: 1000000
+              exclusiveMaximum: true
+            bank_account:
+              $ref: '#/components/schemas/bank_account'
+            check_bottom_template_id:
+              $ref: '#/components/schemas/tmpl_id'
+            attachment_template_id:
+              $ref: '#/components/schemas/tmpl_id'
+            check_bottom_template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
+            attachment_template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - check
+                  default: check
+    inline_address_us:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_us'
+        - type: object
+          required:
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
+    input_to:
+      type: object
+      properties:
+        to:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. Checks cannot be sent internationally
+            (`address_country` must be `US`). The total string of the sum of
+            `address_line1` and `address_line2` must be no longer than 50
+            characters combined. If an object is used, an address will be
+            created, corrected, and standardized for free whenever possible
+            using our US Address Verification engine, and returned back with an
+            ID. Depending on your [Print & Mail
+            Edition](https://dashboard.lob.com/#/settings/editions), addresses
+            may also be run through [National Change of Address
+            (NCOA)](https://lob.com/docs#ncoa). If an address used does not meet
+            your account’s [US Mail Strictness
+            Setting]()https://dashboard.lob.com/#/settings/account, the request
+            will fail. [More about verification of mailing
+            addresses](https://www.lob.com/guides#mailing_addresses)
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address_us'
+    input_from_us:
+      type: object
+      properties:
+        from:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. All addresses will be standardized into
+            uppercase without being modified by verification.
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address_us'
+    remote_file_url:
+      type: string
+      description: The location of a remote file.
+      pattern: 'https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
+    artwork:
+      type: string
+      description: 'An HTML string of under 10,000 characters.'
+      maxLength: 10000
+    local_file_path:
+      type: string
+      description: The path to a local file.
+      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
+    check_editable:
+      allOf:
+        - $ref: '#/components/schemas/check_base'
+        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_from_us'
+        - type: object
+          required:
+            - bank_account
+            - to
+            - from
+            - amount
+          oneOf:
+            - required:
+                - message
+            - required:
+                - check_bottom
+          properties:
+            bank_account:
+              allOf:
+                - $ref: '#/components/schemas/bank_id_no_description'
+                - type: string
+                  description: The id for a verified bank account.
+            amount:
+              description: >-
+                The payment amount to be sent in US dollars. Amounts will be
+                rounded to two decimal places.
+              type: number
+              format: float
+              maximum: 1000000
+              exclusiveMaximum: true
+            logo:
+              description: >-
+                Accepts a remote URL or local file upload to an image to print
+                (in grayscale) in the upper-left corner of your check. Image
+                requirements:
+
+                  * RGB or CMYK
+
+                  * square
+
+                  * minimum size: 100px x 100px
+
+                  * transparent backgrond
+
+                  * `png` or `jpg`
+              anyOf:
+                - $ref: '#/components/schemas/remote_file_url'
+                - type: string
+                  pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)+$'
+            check_bottom:
+              description: >-
+                The artwork to use on the bottom of the check page. Accepts an
+                HTML string of under 10,000 characters, the ID of a saved [HTML
+                template](https://lob.github.io/lob-openapi/#tag/Templates), or
+                a remote URL or a local upload of an HTML, PDF, PNG, or JPG
+                file. Remote URLs have a 20 MB file size limit and must be
+                downloaded within 40 seconds. HTML files passed as remote URLs
+                or local file uploads have no character limit. HTML merge
+                variables should not include delimiting whitespace. PDF, PNG,
+                and JPGs must be sized at 8.5"x11" at 300 DPI, while supplied
+                HTML will be rendered and trimmed to fit on a 8.5"x11" page. The
+                check bottom will always be printed in black & white. Must
+                conform to [this
+                template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_bottom_template.pdf).
+                Need more help? Consult our HTML examples.
+              anyOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+            attachment:
+              description: >-
+                A document to include with the check. Accepts an HTML string of
+                under 10,000 characters, the ID of a saved [HTML
+                template](https://lob.github.io/lob-openapi/#tag/Templates), or
+                a remote URL or a local upload of an HTML, PDF, PNG, or JPG
+                file. Remote URLs have a 20 MB file size limit and must be
+                downloaded within 40 seconds. HTML files passed as remote URLs
+                or local file uploads have no character limit. HTML merge
+                variables should not include delimiting whitespace. All pages of
+                PDF, PNG, and JPGs must be sized at 8.5"x11" at 300 DPI, while
+                supplied HTML will be rendered and trimmed to as many 8.5"x11"
+                pages as necessary. If a PDF is provided, it must be 6 pages or
+                fewer. The attachment will be printed double-sided in black &
+                white and will be included in the envelope after the check page.
+                Please follow these [design
+                guidelines](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_attachment_template.pdf).
+                See [pricing](https://lob.com/pricing/print-mail#compare) for
+                extra costs incurred. Need more help? Consult our HTML examples.
+              anyOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
     recipient:
       type: string
       description: 'The intended recipient, typically a person''s or firm''s name.'
       nullable: true
       maxLength: 500
+    primary_line:
+      type: string
+      description: |
+        The primary delivery line (usually the street address) of the address.
+      maxLength: 200
+    secondary_line:
+      type: string
+      description: >
+        The secondary delivery line of the address. This field is typically
+        empty but may contain information if `primary_line` is too long.
+      maxLength: 500
+    intl_verification_base:
+      type: object
+      properties:
+        recipient:
+          $ref: '#/components/schemas/recipient'
+        primary_line:
+          $ref: '#/components/schemas/primary_line'
+        secondary_line:
+          $ref: '#/components/schemas/secondary_line'
+    city_no_description:
+      type: string
+      maxLength: 200
+    city:
+      allOf:
+        - $ref: '#/components/schemas/city_no_description'
+        - type: string
+          description: The name of the city.
+    postal_code:
+      type: string
+      description: The postal code.
+      maxLength: 12
+    intl_verification_payload:
+      allOf:
+        - $ref: '#/components/schemas/intl_verification_base'
+        - type: object
+          required:
+            - primary_line
+            - country
+          properties:
+            city:
+              $ref: '#/components/schemas/city'
+            state:
+              type: string
+              description: >-
+                The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) two
+                letter code or subdivision name for the state.
+            postal_code:
+              $ref: '#/components/schemas/postal_code'
+            country:
+              type: string
+              description: >-
+                Must be a 2 letter country short-name code (ISO 3166). Does not
+                accept `US`, `AS`, `PR`, `FM`, `GU`, `MH`, `MP`, `PW`, or `VI`.
+                For these addresses, please use the US verification API. Also
+                does not accept `PS`, which is not currently supported.
+              enum:
+                - AD
+                - AE
+                - AF
+                - AG
+                - AI
+                - AL
+                - AN
+                - AO
+                - AQ
+                - AR
+                - AT
+                - AU
+                - AW
+                - AZ
+                - BA
+                - BB
+                - BD
+                - BE
+                - BF
+                - BG
+                - BH
+                - BI
+                - BJ
+                - BM
+                - BN
+                - BO
+                - BQ
+                - BR
+                - BS
+                - BT
+                - BW
+                - BY
+                - BZ
+                - CA
+                - CD
+                - CG
+                - CH
+                - CI
+                - CK
+                - CL
+                - CM
+                - CN
+                - CO
+                - CR
+                - CS
+                - CU
+                - CV
+                - CW
+                - CY
+                - CZ
+                - DE
+                - DJ
+                - DK
+                - DM
+                - DO
+                - DZ
+                - EC
+                - EE
+                - EG
+                - EH
+                - ER
+                - ES
+                - ET
+                - FI
+                - FJ
+                - FK
+                - FO
+                - FR
+                - GA
+                - GB
+                - GD
+                - GE
+                - GH
+                - GI
+                - GL
+                - GM
+                - GN
+                - GQ
+                - GR
+                - GS
+                - GT
+                - GW
+                - GY
+                - HK
+                - HN
+                - HR
+                - HT
+                - HU
+                - ID
+                - IE
+                - IL
+                - IN
+                - IO
+                - IQ
+                - IR
+                - IS
+                - IT
+                - JM
+                - JO
+                - JP
+                - KE
+                - KG
+                - KH
+                - KI
+                - KM
+                - KN
+                - KP
+                - KR
+                - KW
+                - KY
+                - KZ
+                - LA
+                - LB
+                - LC
+                - LI
+                - LK
+                - LR
+                - LS
+                - LT
+                - LU
+                - LV
+                - LY
+                - MA
+                - MC
+                - MD
+                - ME
+                - MG
+                - MK
+                - ML
+                - MM
+                - MN
+                - MO
+                - MR
+                - MS
+                - MT
+                - MU
+                - MV
+                - MW
+                - MX
+                - MY
+                - MZ
+                - NA
+                - NE
+                - NF
+                - NG
+                - NI
+                - NL
+                - 'NO'
+                - NP
+                - NR
+                - NU
+                - NZ
+                - OM
+                - PA
+                - PE
+                - PG
+                - PH
+                - PK
+                - PL
+                - PN
+                - PT
+                - PY
+                - QA
+                - RO
+                - RS
+                - RU
+                - RW
+                - SA
+                - SB
+                - SC
+                - SD
+                - SE
+                - SG
+                - SH
+                - SI
+                - SK
+                - SL
+                - SM
+                - SN
+                - SO
+                - SR
+                - SS
+                - ST
+                - SV
+                - SX
+                - SY
+                - SZ
+                - TC
+                - TD
+                - TG
+                - TH
+                - TJ
+                - TK
+                - TL
+                - TM
+                - TN
+                - TO
+                - TR
+                - TT
+                - TV
+                - TW
+                - TZ
+                - UA
+                - UG
+                - UY
+                - UZ
+                - VA
+                - VC
+                - VE
+                - VG
+                - VN
+                - VU
+                - WS
+                - YE
+                - ZA
+                - ZM
+                - ZW
+    intl_ver_id:
+      type: string
+      description: Unique identifier prefixed with `intl_ver_`.
+      pattern: '^intl_ver_[a-zA-Z0-9]+$'
+    primary_number:
+      type: string
+      description: >-
+        The numeric or alphanumeric part of an address preceding the street
+        name. Often the house, building, or PO Box number.
+    street_name:
+      type: string
+      description: The name of the street.
+    state:
+      type: string
+      description: >
+        The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) two letter
+        code for the state.
+      maxLength: 2
+    components:
+      type: object
+      description: A nested object containing a breakdown of each component of an address.
+      properties:
+        primary_number:
+          $ref: '#/components/schemas/primary_number'
+        street_name:
+          $ref: '#/components/schemas/street_name'
+        city:
+          $ref: '#/components/schemas/city'
+        state:
+          $ref: '#/components/schemas/state'
+        postal_code:
+          $ref: '#/components/schemas/postal_code'
+    intl_verification:
+      allOf:
+        - $ref: '#/components/schemas/intl_verification_base'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/intl_ver_id'
+            last_line:
+              type: string
+              description: |
+                Combination of the following applicable `components`:
+                * `city`
+                * `state`
+                * `zip_code`
+                * `zip_code_plus_4`
+            country:
+              type: string
+              description: >-
+                The country of the address. Will be returned as a 2 letter
+                country short-name code (ISO 3166).
+            coverage:
+              type: string
+              enum:
+                - SUBBUILDING
+                - HOUSENUMBER/BUILDING
+                - STREET
+                - LOCALITY
+                - SPARSE
+              description: >
+                * SUBBUILDING - Coverage down to unit numbers. For example, in
+                an apartment or a large building
+
+                * HOUSENUMBER/BUILDING - Coverage down to house number. For
+                example, the address where a house or building may be located
+
+                * STREET - Coverage down to street. This means that we can
+                verify that an street exists in a city, state, country
+
+                * LOCALITY - Coverage down to city, state, or village or
+                province. This means that we can verify that a city, village,
+                province, or state exists in a country. Countries differ in how
+                they define what is a province, state, city, village, etc. This
+                attempts to group eveyrthing together.
+
+                * SPARSE - Some addresses for this country exist in our
+                databases
+            deliverability:
+              type: string
+              enum:
+                - deliverable
+                - deliverable_missing_info
+                - undeliverable
+                - no_match
+              description: >
+                Summarizes the deliverability of the `intl_verification` object.
+                Possible values are:
+
+                * deliverable — The address is deliverable.
+
+                * deliverable_missing_info — The address is missing some
+                information, but is most likely deliverable.
+
+                * undeliverable — The address is most likely not deliverable.
+                Some components of the address (such as city or postal code) may
+                have been found.
+
+                * no_match — This address is not deliverable. No matching street
+                could be found within the city or postal code.
+            status:
+              type: string
+              enum:
+                - LV4
+                - LV3
+                - LV2
+                - LV1
+                - LF4
+                - LF3
+                - LF2
+                - LF1
+                - LM4
+                - LM3
+                - LM2
+                - LU1
+              description: >
+                * LV4 - Verified. The input data is correct. All input data was
+                able to match in databases.
+
+                * LV3 - Verified. The input data is correct. All input data was
+                able to match in databases <em>after</em> some or all elements
+                were standarized. The input data may also be using outdated
+                city, state, or country names.
+
+                * LV2 - Verified. The input data is correct although some input
+                data is unverifiable due to incomplete data.
+
+                * LV1 - Verified. The input data is acceptable but in an attempt
+                to standarize user input, errors were introduced.
+
+                * LF4 - Fixed. The input data is matched and fixed. (Example:
+                Brighon, UK -> Brighton, UK)
+
+                * LF3 - Fixed. The input data is matched and fixed but some
+                elements such as Subbuilding number and house number cannot be
+                checked.
+
+                * LF2 - Fixed. The input data is matched but some elements such
+                as Street cannot be checked.
+
+                * LF1 - Fixed. The input data is acceptable but in an attempt to
+                standarize user input, errors were introduced.
+
+                * LM4 - Missing Info. The input data cannot be corrected
+                completely.
+
+                * LM3 - Missing Info. The input data cannot be corrected
+                completely and there were multiple matches found in databases.
+
+                * LM2 - Missing Info. The input data cannot be corrected
+                completely and only some elements were found.
+
+                * LU1 - Unverfied. The input data cannot be corrected or
+                matched.
+            components:
+              $ref: '#/components/schemas/components'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - intl_verification
+                  default: intl_verification
+    ltr_id:
+      type: string
+      description: Unique identifier prefixed with `ltr_`.
+      pattern: '^ltr_[a-zA-Z0-9]+$'
+    letter_base:
+      allOf:
+        - $ref: '#/components/schemas/editable_no_mailtype'
+        - type: object
+          required:
+            - color
+          properties:
+            mail_type:
+              type: string
+              enum:
+                - usps_first_class
+                - usps_standard
+              description: >
+                A string designating the mail postage type:
+
+                * `usps_first_class` - (default)
+
+                * `usps_standard` - a [cheaper
+                option](https://lob.com/pricing/print-mail#compare) which is
+                less predictable and takes longer to deliver. Cannot be used
+                with certified letters, registered letters, or any letters sent
+                outside of the United States.
+              default: usps_first_class
+            color:
+              type: boolean
+              description: >-
+                Set this key to `true` if you would like to print in color. Set
+                to `false` if you would like to print in black and white.
+            double_sided:
+              type: boolean
+              description: >-
+                Set this attribute to `true` for double sided printing, or
+                `false` for for single sided printing. Defaults to `true`.
+              default: true
+            address_placement:
+              type: string
+              enum:
+                - top_first_page
+                - insert_blank_page
+              description: >
+                Specifies the location of the address information that will show
+                through the double-window envelope. To see how this will impact
+                your letter design, view our letter template.
+                  * top_first_page - (default) print address information at the top of your provided first page
+                  * insert_blank_page - insert a blank address page at the beginning of your file (you will be charged for the extra page)
+              default: top_first_page
+            return_envelope:
+              type: boolean
+              description: >-
+                To include a return envelope with your letter, set to `true` and
+                specify the `perforated_page`. See
+                [pricing](https://www.lob.com/pricing/print-mail#compare) for
+                extra costs incurred.
+              default: false
+            perforated_page:
+              type: integer
+              description: >-
+                Required if `return_envelope` is `true`. The number of the page
+                that should be perforated for use with the return envelope. Must
+                be greater than or equal to `1`. The blank page added by
+                `address_placement=insert_blank_page` will be ignored when
+                considering the perforated page number. To see how perforation
+                will impact your letter design, view our [perforation
+                guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
+              nullable: true
+    from:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/address'
+    letter_generated_base:
+      allOf:
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from'
+        - type: object
+          required:
+            - id
+            - from
+          properties:
+            id:
+              $ref: '#/components/schemas/ltr_id'
+            custom_envelope:
+              type: object
+              description: >-
+                Accepts an envelope ID for any customized envelope with
+                available inventory. If no inventory is available for the
+                specified ID, the letter will not be sent, and an error will be
+                returned. If the letter has more than 6 sheets, it will be sent
+                in a blank flat envelope. Custom envelopes may be created and
+                ordered from the dashboard. This feature is exclusive to certain
+                customers. Upgrade to the appropriate Print & Mail Edition to
+                gain access.
+              required:
+                - id
+                - url
+                - object
+              properties:
+                id:
+                  type: string
+                  description: The unique identifier of the custom envelope used.
+                  maxLength: 40
+                url:
+                  type: string
+                  description: The url of the envelope asset used.
+                object:
+                  $ref: '#/components/schemas/object'
+              nullable: true
+            template_id:
+              $ref: '#/components/schemas/tmpl_id'
+            template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - letter
+                  default: letter
+    evnt_id:
+      type: string
+      description: Unique identifier prefixed with `evnt_`.
+      pattern: '^evnt_[a-zA-Z0-9]+$'
+    tracking_event_base:
+      type: object
+      description: >-
+        As mail pieces travel through the mail stream, USPS scans their unique
+        barcodes, and Lob processes these mail scans to generate tracking
+        events.
+      required:
+        - id
+        - date_created
+        - date_modified
+        - object
+      properties:
+        id:
+          $ref: '#/components/schemas/evnt_id'
+        time:
+          type: string
+          format: date-time
+          description: >-
+            A timestamp in ISO 8601 format of the date USPS registered the
+            event.
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        object:
+          allOf:
+            - $ref: '#/components/schemas/object'
+            - type: string
+              enum:
+                - tracking_event
+              default: tracking_event
+    tracking_event_details:
+      type: object
+      required:
+        - event
+        - description
+        - action_required
+      properties:
+        event:
+          type: string
+          enum:
+            - package_accepted
+            - package_arrived
+            - package_departed
+            - package_processing
+            - package_processed
+            - package_in_local_area
+            - delivery_scheduled
+            - out_for_delivery
+            - pickup_available
+            - delivered
+            - package_forwarded
+            - returned_to_sender
+            - address_issue
+            - contact_carrier
+            - delayed
+            - delivery_attempted
+            - delivery_rescheduled
+            - location_inaccessible
+            - notice_left
+            - package_damaged
+            - package_disposed
+            - package_held
+            - package_lost
+            - package_unclaimed
+            - package_undeliverable
+            - reschedule_delivery
+            - other
+          description: >
+            A detailed substatus about the event:
+
+            * package_accepted - Package has been accepted into the carrier
+            network for delivery.
+
+            * package_arrived - Package has arrived at an intermediate location
+            in the carrier network.
+
+            * package_departed - Package has departed from an intermediate
+            location in the carrier network.
+
+            * package_processing - Package is processing at an intermediate
+            location in the carrier network.
+
+            * package_processed - Package has been processed at an intermediate
+            location.
+
+            * package_in_local_area - Package is at a location near the end
+            destination.
+
+            * delivery_scheduled - Package is scheduled for delivery.
+
+            * out_for_delivery - Package is out for delivery.
+
+            * pickup_available - Package is available for pickup at carrier
+            location.
+
+            * delivered - Package has been delivered.
+
+            * package_forwarded -Package has been forwarded.
+
+            * returned_to_sender - Package is to be returned to sender.
+
+            * address_issue - Address information is incorrect. Contact carrier
+            to ensure delivery.
+
+            * contact_carrier - Contact the carrier for more information.
+
+            * delayed - Delivery of package is delayed.
+
+            * delivery_attempted - Delivery of package has been attempted.
+            Contact carrier to ensure delivery.
+
+            * delivery_rescheduled - Delivery of package has been rescheduled.
+
+            * location_inaccessible - Delivery location inaccessible to carrier.
+            Contact carrier to ensure delivery.
+
+            * notice_left - Carrier left notice during attempted delivery.
+            Follow carrier instructions on notice.
+
+            * package_damaged - Package has been damaged. Contact carrier for
+            more details.
+
+            * package_disposed - Package has been disposed.
+
+            * package_held - Package held at carrier location. Contact carrier
+            for more details.
+
+            * package_lost - Package has been lost. Contact carrier for more
+            details.
+
+            * package_unclaimed - Package is unclaimed.
+
+            * package_undeliverable - Package is not able to be delivered.
+
+            * reschedule_delivery - Contact carrier to reschedule delivery.
+
+            * other - Unrecognized carrier status.
+        description:
+          type: string
+          description: The description as listed in the description for event.
+        notes:
+          type: string
+          description: Event-specific notes from USPS about the tracking event.
+        action_required:
+          type: boolean
+          description: >
+            `true` if action is required by the end recipient, `false`
+            otherwise.
+    tracking_event_certified:
+      allOf:
+        - $ref: '#/components/schemas/tracking_event_base'
+        - type: object
+          required:
+            - type
+            - name
+          properties:
+            type:
+              description: a Certified letter tracking event
+              type: string
+              enum:
+                - certified
+            name:
+              type: string
+              enum:
+                - Mailed
+                - In Transit
+                - In Local Area
+                - Processed for Delivery
+                - Pickup Available
+                - Delivered
+                - Re-Routed
+                - Returned to Sender
+                - Issue
+              description: >
+                Name of tracking event for Certified letters. Letters sent with
+                USPS Certified Mail are fully tracked by USPS, therefore their
+                tracking events have an additional details object with more
+                detailed information about the tracking event. Some certified
+                tracking event names have multiple meanings, noted in the list
+                here. See the description of the details object for the full set
+                of combined certified tracking event name meanings.
+
+                  * Mailed - Package has been accepted into the carrier network for delivery.
+
+                  * In Transit - Maps to four distinct stages of transit.
+
+                  * In Local Area - Package is at a location near the end destination.
+
+                  * Processed for Delivery - Maps to two distinct stages of delivery.
+
+                  * Pickup Available - Package is available for pickup at carrier location.
+
+                  * Delivered - Package has been delivered.
+
+                  * Re-Routed - Package has been forwarded.
+
+                  * Returned to Sender - Package is to be returned to sender.
+
+                  * Issue - Maps to (at least) 15 possible issues, some of which are actionable.
+            details:
+              $ref: '#/components/schemas/tracking_event_details'
+            location:
+              type: string
+              description: >
+                The zip code in which the event occurred if it exists, otherwise
+                will be the name of a Regional Distribution Center if it exists,
+                otherwise will be null.
+              nullable: true
+          example:
+            id: evnt_9e84094c9368cfb
+            type: certified
+            name: Delivered
+            details:
+              event: delivered
+              description: Package has been delivered.
+              notes: 'Delivered, Front Desk/Reception/Mail Room'
+              action_required: false
+            location: '33408'
+            time: '2019-10-08T19:41:00Z'
+            date_created: '2019-10-08T19:41:00Z'
+            date_modified: '2019-10-08T19:41:00Z'
+            object: tracking_event
+    certified:
+      allOf:
+        - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/letter_generated_base'
+        - type: object
+          required:
+            - extra_service
+          properties:
+            extra_service:
+              type: string
+              enum:
+                - certified
+                - certified_return_receipt
+              description: >
+                Add an extra service to your letter. See
+                [pricing](https://www.lob.com/pricing/print-mail#compare) for
+                extra costs incurred.
+                  * certified - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
+                  * certified_return_receipt - request an electronic copy of the recipient's signature to prove delivery of your certified letter
+            tracking_number:
+              type: string
+              description: |-
+                The tracking number will be here immediately upon creation.
+                Dummy tracking numbers are created in test mode.
+              nullable: true
+            tracking_events:
+              description: >-
+                An array of certified tracking events ordered by ascending
+                `time`. Not populated in test mode.
+              type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_certified'
+    registered:
+      allOf:
+        - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/letter_generated_base'
+        - type: object
+          required:
+            - extra_service
+          properties:
+            extra_service:
+              type: string
+              enum:
+                - registered
+              description: >
+                Add an extra service to your letter. See
+                [pricing](https://www.lob.com/pricing/print-mail#compare) for
+                extra costs incurred.
+                  * registered - provides tracking and confirmation for international addresses
+            tracking_number:
+              type: string
+              description: |-
+                The tracking number will appear here when it becomes available.
+                Dummy tracking numbers are not created in test mode.
+              nullable: true
+            tracking_events:
+              description: Tracking events are not populated for registered letters.
+              type: array
+              maxItems: 0
+    tracking_event_normal:
+      allOf:
+        - $ref: '#/components/schemas/tracking_event_base'
+        - type: object
+          required:
+            - type
+            - name
+          properties:
+            type:
+              description: 'non-Certified postcards, letters, and checks'
+              type: string
+              enum:
+                - normal
+            name:
+              type: string
+              enum:
+                - In Transit
+                - In Local Area
+                - Processed for Delivery
+                - Re-Routed
+                - Returned to Sender
+                - Mailed
+              description: >
+                Name of tracking event (for normal postcards, letters, and
+                checks):
+
+                  * In Transit - The mailpiece is being processed at the entry/origin facility.
+
+                  * In Local Area - The mailpiece is being processed at the destination facility.
+
+                  * Processed for Delivery - The mailpiece has been greenlit for
+                    delivery at the recipient's nearest postal facility. The mailpiece
+                    should reach the mailbox within 1 business day of this tracking
+                    event.
+
+                  * Re-Routed - The mailpiece is re-routed due to recipient change of
+                    address, address errors, or USPS relabeling of barcode/ID tag
+                    area.
+
+                  * Returned to Sender - The mailpiece is being returned to sender due
+                    to barcode, ID tag area, or address errors.
+
+                  * Mailed - The mailpiece has been handed off to and accepted by USPS
+                    and is en route. [More about
+                    Mailed.](https://support.lob.com/hc/en-us/articles/360001724400-What-does-a-Mailed-tracking-event-mean-)
+                    Note this data is only available in Enterprise editions of
+                    Lob. [Contact Sales](https://lob.com/support/contact#contact) if
+                    you want access to this feature.
+
+                [More about
+                tracking](https://support.lob.com/hc/en-us/articles/115000097404-Can-I-track-my-mail-)
+            details:
+              type: object
+              nullable: true
+            location:
+              type: string
+              description: >
+                The zip code in which the scan event occurred. Null for `Mailed`
+                events.
+              nullable: true
+          example:
+            id: evnt_9e84094c9368cfb
+            type: normal
+            name: In Local Area
+            details: null
+            location: '72231'
+            time: '2016-06-30T15:51:41.000Z'
+            date_created: '2016-06-30T17:41:59.771Z'
+            date_modified: '2016-06-30T17:41:59.771Z'
+            object: tracking_event
+    no_extra_service:
+      allOf:
+        - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/letter_generated_base'
+        - type: object
+          properties:
+            tracking_events:
+              description: An array of tracking events ordered by ascending time.
+              type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_normal'
+    letter:
+      oneOf:
+        - $ref: '#/components/schemas/certified'
+        - $ref: '#/components/schemas/registered'
+        - $ref: '#/components/schemas/no_extra_service'
+    inline_address_intl:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_intl'
+        - type: object
+          required:
+            - address_line1
+            - address_country
+        - type: object
+          oneOf:
+            - required:
+                - address_city
+                - address_state
+            - required:
+                - address_zip
+    inline_address:
+      oneOf:
+        - $ref: '#/components/schemas/inline_address_us'
+        - $ref: '#/components/schemas/inline_address_intl'
+    input_to-2:
+      type: object
+      properties:
+        to:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. If an object is used, an address will be
+            created, corrected, and standardized for free whenever possible
+            using our US Address Verification engine (if it is a US address),
+            and returned back with an ID. Depending on your [Print & Mail
+            Edition](https://dashboard.lob.com/#/settings/editions), US
+            addresses may also be run through [National Change of Address
+            (NCOA)](https://lob.com/docs#ncoa). Non-US addresses will be
+            standardized into uppercase only. If a US address used does not meet
+            your account’s [US Mail strictness
+            setting](https://dashboard.lob.com/#/settings/account), the request
+            will fail. [Lob Guide: Verification of Mailing
+            Addresses](https://www.lob.com/guides#mailing_addresses)
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address'
+    input_from:
+      type: object
+      properties:
+        from:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. Must be a US address unless using a
+            `custom_envelope`. All addresses will be standardized into uppercase
+            without being modified by verification.
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address'
+    letter_editable:
+      allOf:
+        - $ref: '#/components/schemas/letter_base'
+        - $ref: '#/components/schemas/input_to-2'
+        - $ref: '#/components/schemas/input_from'
+        - type: object
+          required:
+            - to
+            - from
+            - file
+          properties:
+            file:
+              description: >-
+                Accepts an HTML string of under 10,000 characters, the ID of a
+                saved HTML template, or a remote URL or a local upload of an
+                HTML or PDF file. Remote URLs have a 20 MB file size limit and
+                must be downloaded within 40 seconds. HTML files passed as
+                remote URLs or local file upload have no character limit. HTML
+                merge variables should not include delimiting whitespace. All
+                pages of a supplied PDF file must be sized at 8.5"x11", while
+                supplied HTML will be rendered and trimmed to as many 8.5"x11"
+                pages as necessary. For design specifications, please see our
+                [PDF](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf)
+                and [HTML](https://docs.lob.com/#html-examples) templates. If a
+                `custom_envelope` is used, follow [this
+                template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf).
+                For domestic destinations, the file limit is 60 pages
+                single-sided or 120 pages double-sided. For international
+                destinations, the file limit is 6 pages single-sided or 12 pages
+                double-sided. PDFs that surpass the file limit will error, while
+                HTML that renders more pages than the file limit will be
+                trimmed. See
+                [pricing](https://lob.com/pricing/print-mail#compare) for extra
+                costs incurred. Any letters over 6 pages single-sided or 12
+                pages double-sided will be placed in a [flat
+                envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf)
+                instead of the standard double window envelope.
+              oneOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - type: string
+                  pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
+            extra_service:
+              type: string
+              nullable: true
+              enum:
+                - certified
+                - certified_return_receipt
+                - registered
+                - null
+              description: >
+                Add an extra service to your letter. See
+                [pricing](https://www.lob.com/pricing/print-mail#compare) for
+                extra costs incurred.
+                  * certified - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
+                  * certified_return_receipt - request an electronic copy of the recipient's signature to prove delivery of your certified letter
+                  * registered - provides tracking and confirmation for international addresses
+            custom_envelope:
+              type: string
+              description: >-
+                Accepts an envelope ID for any customized envelope with
+                available inventory. If no inventory is available for the
+                specified ID, the letter will not be sent, and an error will be
+                returned. If the letter has more than 6 sheets, it will be sent
+                in a blank flat envelope. Custom envelopes are a premium feature
+                which may be created and ordered from the dashboard. Upgrade to
+                the appropriate [Print & Mail
+                Edition](https://lob.com/pricing/print-mail#compare) to gain
+                access.
+    psc_id:
+      type: string
+      description: Unique identifier prefixed with `psc_`.
+      pattern: '^psc_[a-zA-Z0-9]+$'
+    postcard_size:
+      type: string
+      enum:
+        - 4x6
+        - 6x9
+        - 6x11
+      description: >
+        Specifies the size of the postcard. Only 4x6 postcards can be sent to
+        international destinations.
+      default: 4x6
+    postcard_base:
+      allOf:
+        - $ref: '#/components/schemas/editable'
+        - type: object
+          properties:
+            size:
+              $ref: '#/components/schemas/postcard_size'
+    postcard:
+      allOf:
+        - $ref: '#/components/schemas/postcard_base'
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from_us'
+        - type: object
+          required:
+            - id
+            - front_template_id
+            - back_template_id
+            - front_template_version_id
+            - back_template_version_id
+          properties:
+            id:
+              $ref: '#/components/schemas/psc_id'
+            front_template_id:
+              oneOf:
+                - $ref: '#/components/schemas/tmpl_id'
+                - type: string
+                  nullable: true
+            back_template_id:
+              oneOf:
+                - $ref: '#/components/schemas/tmpl_id'
+                - type: string
+                  nullable: true
+            front_template_version_id:
+              oneOf:
+                - $ref: '#/components/schemas/vrsn_id'
+                - type: string
+                  nullable: true
+            back_template_version_id:
+              oneOf:
+                - $ref: '#/components/schemas/vrsn_id'
+                - type: string
+                  nullable: true
+            tracking_events:
+              type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_normal'
+              nullable: true
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - postcard
+                  default: postcard
+    postcard_editable:
+      allOf:
+        - $ref: '#/components/schemas/postcard_base'
+        - $ref: '#/components/schemas/input_to-2'
+        - $ref: '#/components/schemas/input_from_us'
+        - type: object
+          required:
+            - to
+            - front
+            - back
+          properties:
+            front:
+              anyOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+            back:
+              anyOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+    sfm_id:
+      type: string
+      description: Unique identifier prefixed with `sfm_`.
+      pattern: '^sfm_[a-zA-Z0-9]+$'
+    self_mailer_size:
+      type: string
+      enum:
+        - 6x18_bifold
+        - 12x9_bifold
+      description: Specifies the size of the self mailer.
+      default: 6x18_bifold
+    self_mailer_base:
+      allOf:
+        - $ref: '#/components/schemas/editable'
+        - type: object
+          properties:
+            size:
+              $ref: '#/components/schemas/self_mailer_size'
+    self_mailer:
+      allOf:
+        - $ref: '#/components/schemas/self_mailer_base'
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from_us'
+        - type: object
+          required:
+            - id
+            - outside_template_id
+            - inside_template_id
+            - outside_template_version_id
+            - inside_template_version_id
+          properties:
+            id:
+              $ref: '#/components/schemas/sfm_id'
+            outside_template_id:
+              anyOf:
+                - $ref: '#/components/schemas/tmpl_id'
+                - type: string
+                  nullable: true
+            inside_template_id:
+              anyOf:
+                - $ref: '#/components/schemas/tmpl_id'
+                - type: string
+                  nullable: true
+            outside_template_version_id:
+              anyOf:
+                - $ref: '#/components/schemas/vrsn_id'
+                - type: string
+                  nullable: true
+            inside_template_version_id:
+              anyOf:
+                - $ref: '#/components/schemas/vrsn_id'
+                - type: string
+                  nullable: true
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - self_mailer
+                  default: self_mailer
+    self_mailer_editable:
+      allOf:
+        - $ref: '#/components/schemas/self_mailer_base'
+        - $ref: '#/components/schemas/input_to-2'
+        - $ref: '#/components/schemas/input_from_us'
+        - type: object
+          required:
+            - to
+            - inside
+            - outside
+          properties:
+            inside:
+              anyOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+            outside:
+              anyOf:
+                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+    template_html:
+      type: string
+      description: >
+        An HTML string of less than 100,000 characters to be used as the
+        `published_version` of this template. For details, see our Guide to
+        designing HTML templates. Please see endpoint specific documentation for
+        any other product-specific HTML details.  Merge variables should not
+        include delimiting whitespace.  If there is a syntax error with your
+        variable names within your HTML, then an error will be thrown, e.g.
+        using a `{{#users}}` opening tag without the corresponding closing tag
+        `{{/users}}`.
+      maxLength: 100000
+    template_version_writable:
+      type: object
+      required:
+        - html
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        html:
+          $ref: '#/components/schemas/template_html'
+    template_version:
+      allOf:
+        - $ref: '#/components/schemas/template_version_writable'
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/vrsn_id'
+            suggest_json_editor:
+              type: boolean
+              description: |
+                Used by frontend, true if the template uses advanced features.
+            engine:
+              type: string
+              description: |
+                The engine used to combine html template with merge variables.
+                  * legacy - Lob's original engine
+                  * handlebars
+              enum:
+                - legacy
+                - handlebars
+              nullable: true
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - version
+                  default: version
+    template_version_updatable:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+    template:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - id
+            - versions
+            - published_version
+          properties:
+            id:
+              $ref: '#/components/schemas/tmpl_id'
+            versions:
+              type: array
+              description: >-
+                An array of all non-deleted version objects associated with the
+                template.
+              items:
+                $ref: '#/components/schemas/template_version'
+            published_version:
+              $ref: '#/components/schemas/template_version'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - template
+                  default: template
+    template_update:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        published_version:
+          $ref: '#/components/schemas/vrsn_id'
+    template_writable:
+      type: object
+      required:
+        - html
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        html:
+          $ref: '#/components/schemas/template_html'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    us_autocompletions:
+      type: object
+      required:
+        - address_prefix
+      properties:
+        address_prefix:
+          type: string
+          description: |
+            Only accepts numbers and street names in an alphanumeric format.
+        city:
+          type: string
+          description: >
+            An optional city input used to filter suggestions. Case insensitive,
+            and does not match partial abbreviations.
+        state:
+          type: string
+          description: >
+            An optional state input used to filter suggestions. Case
+            insensitive, and does not match partial abbreviations.
+        zip_code:
+          type: string
+          description: >
+            An optional ZIP Code input used to filter suggestions. Matches
+            partial entries.
+        geo_ip_sort:
+          type: string
+          description: >
+            If true, sort suggestions by proximity to the IP set in the
+            `X-Forwarded-For` header.
+    us_auto_id:
+      type: string
+      description: Unique identifier prefixed with `us_auto_`.
+      pattern: '^us_auto_[a-zA-Z0-9]+$'
+    zip_code:
+      type: string
+      description: >
+        Required if `city` and `state` are not passed in. If included, must be
+        formatted as a US ZIP or ZIP+4 (e.g. `2268`, `94107`, `941072282`,
+        `94107-2282`).
+    suggestions:
+      type: object
+      required:
+        - primary_line
+        - city
+        - state
+        - zip_code
+      properties:
+        primary_line:
+          type: string
+          description: >
+            The primary delivery line (usually the street address) of the
+            address.
+
+            Combination of the following applicable `components` (primary number
+            &
+
+            secondary information may be missing or inaccurate):
+
+            * `primary_number`
+
+            * `street_predirection`
+
+            * `street_name`
+
+            * `street_suffix`
+
+            * `street_postdirection`
+
+            * `secondary_designator`
+
+            * `secondary_number`
+
+            * `pmb_designator`
+
+            * `pmb_number`
+        city:
+          $ref: '#/components/schemas/city'
+        state:
+          $ref: '#/components/schemas/state'
+        zip_code:
+          $ref: '#/components/schemas/zip_code'
+        object:
+          allOf:
+            - $ref: '#/components/schemas/object'
+            - type: string
+              enum:
+                - us_autocompletion
+              default: us_autocompletion
     primary_line_us:
       type: string
       description: |
@@ -1492,12 +3259,6 @@ components:
         * `pmb_designator`
         * `pmb_number`
       maxLength: 500
-    secondary_line:
-      type: string
-      description: >
-        The secondary delivery line of the address. This field is typically
-        empty but may contain information if `primary_line` is too long.
-      maxLength: 500
     urbanization:
       type: string
       description: >
@@ -1506,15 +3267,6 @@ components:
         documentation](https://pe.usps.com/text/pub28/28api_008.htm#:~:text=I51.,-4%20Urbanizations&text=In%20Puerto%20Rico%2C%20identical%20street,placed%20before%20the%20urbanization%20name.)
         for clarification.
       maxLength: 500
-    city_no_description:
-      type: string
-      maxLength: 200
-    zip_code:
-      type: string
-      description: >
-        Required if `city` and `state` are not passed in. If included, must be
-        formatted as a US ZIP or ZIP+4 (e.g. `2268`, `94107`, `941072282`,
-        `94107-2282`).
     multiple_components:
       type: object
       required:
@@ -1555,40 +3307,24 @@ components:
         city: San Francisco
         state: CA
         zip_code: '94107'
-    multiple_components_list:
+    single_line_address:
       type: object
       required:
-        - addresses
+        - address
       properties:
-        addresses:
-          type: array
-          minItems: 1
-          maxItems: 10
-          items:
-            $ref: '#/components/schemas/multiple_components'
+        address:
+          type: string
+          description: >
+            The entire address in one string (e.g., "185 Berry Street 94107").
+            _Does not support a recipient and will error when other payload
+            parameters are provided._
+          maxLength: 500
+      example:
+        address: 185 Berry Street 94107
     us_ver_id:
       type: string
       description: Unique identifier prefixed with `us_ver_`.
       pattern: '^us_ver_[a-zA-Z0-9]+$'
-    primary_number:
-      type: string
-      description: >-
-        The numeric or alphanumeric part of an address preceding the street
-        name. Often the house, building, or PO Box number.
-    street_name:
-      type: string
-      description: The name of the street.
-    city:
-      allOf:
-        - $ref: '#/components/schemas/city_no_description'
-        - type: string
-          description: The name of the city.
-    state:
-      type: string
-      description: >
-        The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) two letter
-        code for the state.
-      maxLength: 2
     zip_code_type:
       type: string
       enum:
@@ -1622,7 +3358,7 @@ components:
         identifies `components[county]`. It consists of a 2-digit state code and
         a 3-digit county code.
       pattern: '\d{5}'
-    components:
+    components-2:
       type: object
       required:
         - primary_number
@@ -2053,1819 +3789,6 @@ components:
               - medium — Between 40% and 70% of mailpieces Lob has sent to this address were delivered successfully.
               - low — Less than 40% of mailpieces Lob has sent to this address were delivered successfully.
               - '' — No tracking data exists for this address.
-    us_verification:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/us_ver_id'
-        recipient:
-          $ref: '#/components/schemas/recipient'
-        primary_line:
-          $ref: '#/components/schemas/primary_line_us'
-        secondary_line:
-          $ref: '#/components/schemas/secondary_line'
-        urbanization:
-          $ref: '#/components/schemas/urbanization'
-        last_line:
-          type: string
-          description: |
-            Combination of the following applicable `components`:
-            * City (`city`)
-            * State (`state`)
-            * ZIP code (`zip_code`)
-            * ZIP+4 (`zip_code_plus_4`)
-        deliverability:
-          type: string
-          enum:
-            - deliverable
-            - deliverable_unnecessary_unit
-            - deliverable_incorrect_unit
-            - deliverable_missing_unit
-            - undeliverable
-          description: >
-            Summarizes the deliverability of the `us_verification` object.
-
-            For full details, see the `deliverability_analysis` field. Possible
-            values are:
-
-            * `deliverable` – The address is deliverable by the USPS.
-
-            * `deliverable_unnecessary_unit` – The address is deliverable, but
-            the secondary unit information is unnecessary.
-
-            * `deliverable_incorrect_unit` – The address is deliverable to the
-            building's default address but the secondary unit provided may not
-            exist. There is a chance the mail will not reach the intended
-            recipient.
-
-            * `deliverable_missing_unit` – The address is deliverable to the
-            building's default address but is missing secondary unit
-            information. There is a chance the mail will not reach the intended
-            recipient.
-
-            * `undeliverable` – The address is not deliverable according to the
-            USPS.
-        components:
-          $ref: '#/components/schemas/components'
-        deliverability_analysis:
-          $ref: '#/components/schemas/deliverability_analysis'
-        lob_confidence_score:
-          $ref: '#/components/schemas/lob_confidence_score'
-        object:
-          $ref: '#/components/schemas/object'
-    us_verifications:
-      type: object
-      required:
-        - addresses
-        - errors
-      properties:
-        addresses:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/us_verification'
-              - $ref: '#/components/schemas/error'
-        errors:
-          type: boolean
-    primary_line:
-      type: string
-      description: |
-        The primary delivery line (usually the street address) of the address.
-      maxLength: 200
-    intl_verification_base:
-      type: object
-      properties:
-        recipient:
-          $ref: '#/components/schemas/recipient'
-        primary_line:
-          $ref: '#/components/schemas/primary_line'
-        secondary_line:
-          $ref: '#/components/schemas/secondary_line'
-    postal_code:
-      type: string
-      description: The postal code.
-      maxLength: 12
-    intl_verification_payload:
-      allOf:
-        - $ref: '#/components/schemas/intl_verification_base'
-        - type: object
-          required:
-            - primary_line
-            - country
-          properties:
-            city:
-              $ref: '#/components/schemas/city'
-            state:
-              type: string
-              description: >-
-                The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) two
-                letter code or subdivision name for the state.
-            postal_code:
-              $ref: '#/components/schemas/postal_code'
-            country:
-              type: string
-              description: >-
-                Must be a 2 letter country short-name code (ISO 3166). Does not
-                accept `US`, `AS`, `PR`, `FM`, `GU`, `MH`, `MP`, `PW`, or `VI`.
-                For these addresses, please use the US verification API. Also
-                does not accept `PS`, which is not currently supported.
-              enum:
-                - AD
-                - AE
-                - AF
-                - AG
-                - AI
-                - AL
-                - AN
-                - AO
-                - AQ
-                - AR
-                - AT
-                - AU
-                - AW
-                - AZ
-                - BA
-                - BB
-                - BD
-                - BE
-                - BF
-                - BG
-                - BH
-                - BI
-                - BJ
-                - BM
-                - BN
-                - BO
-                - BQ
-                - BR
-                - BS
-                - BT
-                - BW
-                - BY
-                - BZ
-                - CA
-                - CD
-                - CG
-                - CH
-                - CI
-                - CK
-                - CL
-                - CM
-                - CN
-                - CO
-                - CR
-                - CS
-                - CU
-                - CV
-                - CW
-                - CY
-                - CZ
-                - DE
-                - DJ
-                - DK
-                - DM
-                - DO
-                - DZ
-                - EC
-                - EE
-                - EG
-                - EH
-                - ER
-                - ES
-                - ET
-                - FI
-                - FJ
-                - FK
-                - FO
-                - FR
-                - GA
-                - GB
-                - GD
-                - GE
-                - GH
-                - GI
-                - GL
-                - GM
-                - GN
-                - GQ
-                - GR
-                - GS
-                - GT
-                - GW
-                - GY
-                - HK
-                - HN
-                - HR
-                - HT
-                - HU
-                - ID
-                - IE
-                - IL
-                - IN
-                - IO
-                - IQ
-                - IR
-                - IS
-                - IT
-                - JM
-                - JO
-                - JP
-                - KE
-                - KG
-                - KH
-                - KI
-                - KM
-                - KN
-                - KP
-                - KR
-                - KW
-                - KY
-                - KZ
-                - LA
-                - LB
-                - LC
-                - LI
-                - LK
-                - LR
-                - LS
-                - LT
-                - LU
-                - LV
-                - LY
-                - MA
-                - MC
-                - MD
-                - ME
-                - MG
-                - MK
-                - ML
-                - MM
-                - MN
-                - MO
-                - MR
-                - MS
-                - MT
-                - MU
-                - MV
-                - MW
-                - MX
-                - MY
-                - MZ
-                - NA
-                - NE
-                - NF
-                - NG
-                - NI
-                - NL
-                - 'NO'
-                - NP
-                - NR
-                - NU
-                - NZ
-                - OM
-                - PA
-                - PE
-                - PG
-                - PH
-                - PK
-                - PL
-                - PN
-                - PT
-                - PY
-                - QA
-                - RO
-                - RS
-                - RU
-                - RW
-                - SA
-                - SB
-                - SC
-                - SD
-                - SE
-                - SG
-                - SH
-                - SI
-                - SK
-                - SL
-                - SM
-                - SN
-                - SO
-                - SR
-                - SS
-                - ST
-                - SV
-                - SX
-                - SY
-                - SZ
-                - TC
-                - TD
-                - TG
-                - TH
-                - TJ
-                - TK
-                - TL
-                - TM
-                - TN
-                - TO
-                - TR
-                - TT
-                - TV
-                - TW
-                - TZ
-                - UA
-                - UG
-                - UY
-                - UZ
-                - VA
-                - VC
-                - VE
-                - VG
-                - VN
-                - VU
-                - WS
-                - YE
-                - ZA
-                - ZM
-                - ZW
-    intl_verifications_payload:
-      type: object
-      required:
-        - addresses
-      properties:
-        addresses:
-          type: array
-          minItems: 1
-          maxItems: 10
-          items:
-            $ref: '#/components/schemas/intl_verification_payload'
-    intl_ver_id:
-      type: string
-      description: Unique identifier prefixed with `intl_ver_`.
-      pattern: '^intl_ver_[a-zA-Z0-9]+$'
-    components-2:
-      type: object
-      description: A nested object containing a breakdown of each component of an address.
-      properties:
-        primary_number:
-          $ref: '#/components/schemas/primary_number'
-        street_name:
-          $ref: '#/components/schemas/street_name'
-        city:
-          $ref: '#/components/schemas/city'
-        state:
-          $ref: '#/components/schemas/state'
-        postal_code:
-          $ref: '#/components/schemas/postal_code'
-    intl_verification:
-      allOf:
-        - $ref: '#/components/schemas/intl_verification_base'
-        - type: object
-          properties:
-            id:
-              $ref: '#/components/schemas/intl_ver_id'
-            last_line:
-              type: string
-              description: |
-                Combination of the following applicable `components`:
-                * `city`
-                * `state`
-                * `zip_code`
-                * `zip_code_plus_4`
-            country:
-              type: string
-              description: >-
-                The country of the address. Will be returned as a 2 letter
-                country short-name code (ISO 3166).
-            coverage:
-              type: string
-              enum:
-                - SUBBUILDING
-                - HOUSENUMBER/BUILDING
-                - STREET
-                - LOCALITY
-                - SPARSE
-              description: >
-                * SUBBUILDING - Coverage down to unit numbers. For example, in
-                an apartment or a large building
-
-                * HOUSENUMBER/BUILDING - Coverage down to house number. For
-                example, the address where a house or building may be located
-
-                * STREET - Coverage down to street. This means that we can
-                verify that an street exists in a city, state, country
-
-                * LOCALITY - Coverage down to city, state, or village or
-                province. This means that we can verify that a city, village,
-                province, or state exists in a country. Countries differ in how
-                they define what is a province, state, city, village, etc. This
-                attempts to group eveyrthing together.
-
-                * SPARSE - Some addresses for this country exist in our
-                databases
-            deliverability:
-              type: string
-              enum:
-                - deliverable
-                - deliverable_missing_info
-                - undeliverable
-                - no_match
-              description: >
-                Summarizes the deliverability of the `intl_verification` object.
-                Possible values are:
-
-                * deliverable — The address is deliverable.
-
-                * deliverable_missing_info — The address is missing some
-                information, but is most likely deliverable.
-
-                * undeliverable — The address is most likely not deliverable.
-                Some components of the address (such as city or postal code) may
-                have been found.
-
-                * no_match — This address is not deliverable. No matching street
-                could be found within the city or postal code.
-            status:
-              type: string
-              enum:
-                - LV4
-                - LV3
-                - LV2
-                - LV1
-                - LF4
-                - LF3
-                - LF2
-                - LF1
-                - LM4
-                - LM3
-                - LM2
-                - LU1
-              description: >
-                * LV4 - Verified. The input data is correct. All input data was
-                able to match in databases.
-
-                * LV3 - Verified. The input data is correct. All input data was
-                able to match in databases <em>after</em> some or all elements
-                were standarized. The input data may also be using outdated
-                city, state, or country names.
-
-                * LV2 - Verified. The input data is correct although some input
-                data is unverifiable due to incomplete data.
-
-                * LV1 - Verified. The input data is acceptable but in an attempt
-                to standarize user input, errors were introduced.
-
-                * LF4 - Fixed. The input data is matched and fixed. (Example:
-                Brighon, UK -> Brighton, UK)
-
-                * LF3 - Fixed. The input data is matched and fixed but some
-                elements such as Subbuilding number and house number cannot be
-                checked.
-
-                * LF2 - Fixed. The input data is matched but some elements such
-                as Street cannot be checked.
-
-                * LF1 - Fixed. The input data is acceptable but in an attempt to
-                standarize user input, errors were introduced.
-
-                * LM4 - Missing Info. The input data cannot be corrected
-                completely.
-
-                * LM3 - Missing Info. The input data cannot be corrected
-                completely and there were multiple matches found in databases.
-
-                * LM2 - Missing Info. The input data cannot be corrected
-                completely and only some elements were found.
-
-                * LU1 - Unverfied. The input data cannot be corrected or
-                matched.
-            components:
-              $ref: '#/components/schemas/components-2'
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - intl_verification
-    intl_verifications:
-      type: object
-      required:
-        - addresses
-        - errors
-      properties:
-        addresses:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/intl_verification'
-              - $ref: '#/components/schemas/error'
-        errors:
-          type: boolean
-    cert_id:
-      type: string
-      description: Unique identifier prefixed with `cert_`.
-      pattern: '^cert_[a-zA-Z0-9]+$'
-    name:
-      type: string
-      description: 'Short, friendly name of the certificate.'
-      maxLength: 255
-      nullable: true
-    certificate_writable:
-      type: object
-      required:
-        - cert
-        - name
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        name:
-          $ref: '#/components/schemas/name'
-        cert:
-          type: string
-          description: |
-            Public X509 certificate.
-          maxLength: 20000
-          nullable: true
-    acc_id:
-      type: string
-      description: Unique account identifier.
-      pattern: '^[a-zA-Z0-9]+$'
-    date_deleted:
-      type: string
-      format: date-time
-      description: A timestamp in ISO 8601 format of the date the resource was deleted.
-    certificate:
-      allOf:
-        - $ref: '#/components/schemas/certificate_writable'
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          required:
-            - id
-          properties:
-            id:
-              $ref: '#/components/schemas/cert_id'
-            account_id:
-              $ref: '#/components/schemas/acc_id'
-            date_deleted:
-              $ref: '#/components/schemas/date_deleted'
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - pattern: ^certificate$
-    certificate_update:
-      type: object
-      properties:
-        name:
-          $ref: '#/components/schemas/name'
-        description:
-          $ref: '#/components/schemas/resource_description'
-    chk_id:
-      type: string
-      description: Unique identifier prefixed with `chk_`.
-      pattern: '^chk_[a-zA-Z0-9]+$'
-    editable_no_mailtype:
-      type: object
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        metadata:
-          $ref: '#/components/schemas/metadata'
-        merge_variables:
-          $ref: '#/components/schemas/merge_variables'
-        send_date:
-          $ref: '#/components/schemas/send_date'
-    check_base:
-      allOf:
-        - $ref: '#/components/schemas/editable_no_mailtype'
-        - type: object
-          properties:
-            mail_type:
-              type: string
-              description: Checks must be sent `usps_first_class`
-              default: usps_first_class
-              pattern: ^usps_first_class$
-            memo:
-              description: Text to include on the memo line of the check.
-              type: string
-              maxLength: 40
-              nullable: true
-            check_number:
-              description: >-
-                An integer that designates the check number.
-
-                If `check_number` is not provided, checks created from a new
-                `bank_account` will start at `10000` and increment with each
-                check created with the `bank_account`.
-
-                A provided `check_number` overrides the defaults. Subsequent
-                checks created with the same `bank_account` will increment from
-                the provided check number.
-              type: integer
-              minimum: 1
-              maximum: 500000000
-            message:
-              description: >-
-                Max of 400 characters to be included at the bottom of the check
-                page.
-              type: string
-              maxLength: 400
-    thumbnail:
-      type: object
-      properties:
-        small:
-          $ref: '#/components/schemas/signed_link'
-        medium:
-          $ref: '#/components/schemas/signed_link'
-        large:
-          $ref: '#/components/schemas/signed_link'
-    expected_delivery_date:
-      type: string
-      description: >-
-        A date in YYYY-MM-DD format of the letter's expected delivery date based
-        on its `send_date`.
-      pattern: '^\d{4}-\d{2}-\d{2}$'
-    generated:
-      allOf:
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          required:
-            - to
-            - url
-            - carrier
-          properties:
-            url:
-              $ref: '#/components/schemas/signed_link'
-            to:
-              $ref: '#/components/schemas/address'
-            carrier:
-              type: string
-              description: Value is `USPS`.
-              pattern: ^USPS$
-            thumbnails:
-              type: array
-              items:
-                $ref: '#/components/schemas/thumbnail'
-            expected_delivery_date:
-              $ref: '#/components/schemas/expected_delivery_date'
-    from_us:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/address_us'
-    tmpl_id:
-      type: string
-      description: Unique identifier prefixed with `tmpl_`.
-      pattern: '^tmpl_[a-zA-Z0-9]+$'
-    vrsn_id:
-      type: string
-      description: Unique identifier prefixed with `vrsn_`.
-      pattern: '^vrsn_[a-zA-Z0-9]+$'
-    check:
-      allOf:
-        - $ref: '#/components/schemas/check_base'
-        - $ref: '#/components/schemas/generated'
-        - $ref: '#/components/schemas/from_us'
-        - type: object
-          required:
-            - bank_account
-            - id
-            - amount
-          properties:
-            id:
-              $ref: '#/components/schemas/chk_id'
-            amount:
-              description: The payment amount to be sent in US dollars.
-              type: number
-              format: float
-              multipleOf: 0.01
-              maximum: 1000000
-              exclusiveMaximum: true
-            bank_account:
-              $ref: '#/components/schemas/bank_account'
-            check_bottom_template_id:
-              $ref: '#/components/schemas/tmpl_id'
-            attachment_template_id:
-              $ref: '#/components/schemas/tmpl_id'
-            check_bottom_template_version_id:
-              $ref: '#/components/schemas/vrsn_id'
-            attachment_template_version_id:
-              $ref: '#/components/schemas/vrsn_id'
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - pattern: ^check$
-    inline_address_us:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_us'
-        - type: object
-          required:
-            - address_line1
-            - address_city
-            - address_state
-            - address_zip
-    input_to:
-      type: object
-      properties:
-        to:
-          description: >-
-            Must either be an address ID or an inline object with correct
-            address parameters. Checks cannot be sent internationally
-            (`address_country` must be `US`). The total string of the sum of
-            `address_line1` and `address_line2` must be no longer than 50
-            characters combined. If an object is used, an address will be
-            created, corrected, and standardized for free whenever possible
-            using our US Address Verification engine, and returned back with an
-            ID. Depending on your [Print & Mail
-            Edition](https://dashboard.lob.com/#/settings/editions), addresses
-            may also be run through [National Change of Address
-            (NCOA)](https://lob.com/docs#ncoa). If an address used does not meet
-            your account’s [US Mail Strictness
-            Setting]()https://dashboard.lob.com/#/settings/account, the request
-            will fail. [More about verification of mailing
-            addresses](https://www.lob.com/guides#mailing_addresses)
-          oneOf:
-            - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/inline_address_us'
-    input_from_us:
-      type: object
-      properties:
-        from:
-          description: >-
-            Must either be an address ID or an inline object with correct
-            address parameters. All addresses will be standardized into
-            uppercase without being modified by verification.
-          oneOf:
-            - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/inline_address_us'
-    remote_file_url:
-      type: string
-      description: The location of a remote file.
-      pattern: 'https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
-    local_file_path:
-      type: string
-      description: The path to a local file.
-      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
-    artwork:
-      type: string
-      description: 'An HTML string of under 10,000 characters.'
-      maxLength: 10000
-    check_editable:
-      allOf:
-        - $ref: '#/components/schemas/check_base'
-        - $ref: '#/components/schemas/input_to'
-        - $ref: '#/components/schemas/input_from_us'
-        - type: object
-          required:
-            - bank_account
-            - to
-            - from
-            - amount
-          oneOf:
-            - required:
-                - message
-            - required:
-                - check_bottom
-          properties:
-            bank_account:
-              allOf:
-                - $ref: '#/components/schemas/bank_id_no_description'
-                - type: string
-                  description: The id for a verified bank account.
-            amount:
-              description: >-
-                The payment amount to be sent in US dollars. Amounts will be
-                rounded to two decimal places.
-              type: number
-              format: float
-              maximum: 1000000
-              exclusiveMaximum: true
-            logo:
-              description: >-
-                Accepts a remote URL or local file upload to an image to print
-                (in grayscale) in the upper-left corner of your check. Image
-                requirements:
-
-                  * RGB or CMYK
-
-                  * square
-
-                  * minimum size: 100px x 100px
-
-                  * transparent backgrond
-
-                  * `png` or `jpg`
-              anyOf:
-                - $ref: '#/components/schemas/remote_file_url'
-                - allOf:
-                    - $ref: '#/components/schemas/local_file_path'
-                    - type: string
-                      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)+$'
-            check_bottom:
-              description: >-
-                The artwork to use on the bottom of the check page. Accepts an
-                HTML string of under 10,000 characters, the ID of a saved [HTML
-                template](https://lob.github.io/lob-openapi/#tag/Templates), or
-                a remote URL or a local upload of an HTML, PDF, PNG, or JPG
-                file. Remote URLs have a 20 MB file size limit and must be
-                downloaded within 40 seconds. HTML files passed as remote URLs
-                or local file uploads have no character limit. HTML merge
-                variables should not include delimiting whitespace. PDF, PNG,
-                and JPGs must be sized at 8.5"x11" at 300 DPI, while supplied
-                HTML will be rendered and trimmed to fit on a 8.5"x11" page. The
-                check bottom will always be printed in black & white. Must
-                conform to [this
-                template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_bottom_template.pdf).
-                Need more help? Consult our HTML examples.
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path'
-            attachment:
-              description: >-
-                A document to include with the check. Accepts an HTML string of
-                under 10,000 characters, the ID of a saved [HTML
-                template](https://lob.github.io/lob-openapi/#tag/Templates), or
-                a remote URL or a local upload of an HTML, PDF, PNG, or JPG
-                file. Remote URLs have a 20 MB file size limit and must be
-                downloaded within 40 seconds. HTML files passed as remote URLs
-                or local file uploads have no character limit. HTML merge
-                variables should not include delimiting whitespace. All pages of
-                PDF, PNG, and JPGs must be sized at 8.5"x11" at 300 DPI, while
-                supplied HTML will be rendered and trimmed to as many 8.5"x11"
-                pages as necessary. If a PDF is provided, it must be 6 pages or
-                fewer. The attachment will be printed double-sided in black &
-                white and will be included in the envelope after the check page.
-                Please follow these [design
-                guidelines](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_attachment_template.pdf).
-                See [pricing](https://lob.com/pricing/print-mail#compare) for
-                extra costs incurred. Need more help? Consult our HTML examples.
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path'
-    ltr_id:
-      type: string
-      description: Unique identifier prefixed with `ltr_`.
-      pattern: '^ltr_[a-zA-Z0-9]+$'
-    letter_base:
-      allOf:
-        - $ref: '#/components/schemas/editable_no_mailtype'
-        - type: object
-          required:
-            - color
-          properties:
-            mail_type:
-              type: string
-              enum:
-                - usps_first_class
-                - usps_standard
-              description: >
-                A string designating the mail postage type:
-
-                * `usps_first_class` - (default)
-
-                * `usps_standard` - a [cheaper
-                option](https://lob.com/pricing/print-mail#compare) which is
-                less predictable and takes longer to deliver. Cannot be used
-                with certified letters, registered letters, or any letters sent
-                outside of the United States.
-              default: usps_first_class
-            color:
-              type: boolean
-              description: >-
-                Set this key to `true` if you would like to print in color. Set
-                to `false` if you would like to print in black and white.
-            double_sided:
-              type: boolean
-              description: >-
-                Set this attribute to `true` for double sided printing, or
-                `false` for for single sided printing. Defaults to `true`.
-              default: true
-            address_placement:
-              type: string
-              enum:
-                - top_first_page
-                - insert_blank_page
-              description: >
-                Specifies the location of the address information that will show
-                through the double-window envelope. To see how this will impact
-                your letter design, view our letter template.
-                  * top_first_page - (default) print address information at the top of your provided first page
-                  * insert_blank_page - insert a blank address page at the beginning of your file (you will be charged for the extra page)
-              default: top_first_page
-            return_envelope:
-              type: boolean
-              description: >-
-                To include a return envelope with your letter, set to `true` and
-                specify the `perforated_page`. See
-                [pricing](https://www.lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
-              default: false
-            perforated_page:
-              type: integer
-              description: >-
-                Required if `return_envelope` is `true`. The number of the page
-                that should be perforated for use with the return envelope. Must
-                be greater than or equal to `1`. The blank page added by
-                `address_placement=insert_blank_page` will be ignored when
-                considering the perforated page number. To see how perforation
-                will impact your letter design, view our [perforation
-                guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
-              nullable: true
-    from:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/address'
-    letter_generated_base:
-      allOf:
-        - $ref: '#/components/schemas/generated'
-        - $ref: '#/components/schemas/from'
-        - type: object
-          required:
-            - id
-            - from
-          properties:
-            id:
-              $ref: '#/components/schemas/ltr_id'
-            custom_envelope:
-              type: object
-              description: >-
-                Accepts an envelope ID for any customized envelope with
-                available inventory. If no inventory is available for the
-                specified ID, the letter will not be sent, and an error will be
-                returned. If the letter has more than 6 sheets, it will be sent
-                in a blank flat envelope. Custom envelopes may be created and
-                ordered from the dashboard. This feature is exclusive to certain
-                customers. Upgrade to the appropriate Print & Mail Edition to
-                gain access.
-              required:
-                - id
-                - url
-                - object
-              properties:
-                id:
-                  type: string
-                  description: The unique identifier of the custom envelope used.
-                  maxLength: 40
-                url:
-                  type: string
-                  description: The url of the envelope asset used.
-                object:
-                  $ref: '#/components/schemas/object'
-              nullable: true
-            template_id:
-              $ref: '#/components/schemas/tmpl_id'
-            template_version_id:
-              $ref: '#/components/schemas/vrsn_id'
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - pattern: ^letter$
-    evnt_id:
-      type: string
-      description: Unique identifier prefixed with `evnt_`.
-      pattern: '^evnt_[a-zA-Z0-9]+$'
-    tracking_event_base:
-      type: object
-      description: >-
-        As mail pieces travel through the mail stream, USPS scans their unique
-        barcodes, and Lob processes these mail scans to generate tracking
-        events.
-      required:
-        - id
-        - date_created
-        - date_modified
-        - object
-      properties:
-        id:
-          $ref: '#/components/schemas/evnt_id'
-        time:
-          type: string
-          format: date-time
-          description: >-
-            A timestamp in ISO 8601 format of the date USPS registered the
-            event.
-        date_created:
-          $ref: '#/components/schemas/date_created'
-        date_modified:
-          $ref: '#/components/schemas/date_modified'
-        object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-              pattern: ^tracking_event$
-    tracking_event_details:
-      type: object
-      required:
-        - event
-        - description
-        - action_required
-      properties:
-        event:
-          type: string
-          enum:
-            - package_accepted
-            - package_arrived
-            - package_departed
-            - package_processing
-            - package_processed
-            - package_in_local_area
-            - delivery_scheduled
-            - out_for_delivery
-            - pickup_available
-            - delivered
-            - package_forwarded
-            - returned_to_sender
-            - address_issue
-            - contact_carrier
-            - delayed
-            - delivery_attempted
-            - delivery_rescheduled
-            - location_inaccessible
-            - notice_left
-            - package_damaged
-            - package_disposed
-            - package_held
-            - package_lost
-            - package_unclaimed
-            - package_undeliverable
-            - reschedule_delivery
-            - other
-          description: >
-            A detailed substatus about the event:
-
-            * package_accepted - Package has been accepted into the carrier
-            network for delivery.
-
-            * package_arrived - Package has arrived at an intermediate location
-            in the carrier network.
-
-            * package_departed - Package has departed from an intermediate
-            location in the carrier network.
-
-            * package_processing - Package is processing at an intermediate
-            location in the carrier network.
-
-            * package_processed - Package has been processed at an intermediate
-            location.
-
-            * package_in_local_area - Package is at a location near the end
-            destination.
-
-            * delivery_scheduled - Package is scheduled for delivery.
-
-            * out_for_delivery - Package is out for delivery.
-
-            * pickup_available - Package is available for pickup at carrier
-            location.
-
-            * delivered - Package has been delivered.
-
-            * package_forwarded -Package has been forwarded.
-
-            * returned_to_sender - Package is to be returned to sender.
-
-            * address_issue - Address information is incorrect. Contact carrier
-            to ensure delivery.
-
-            * contact_carrier - Contact the carrier for more information.
-
-            * delayed - Delivery of package is delayed.
-
-            * delivery_attempted - Delivery of package has been attempted.
-            Contact carrier to ensure delivery.
-
-            * delivery_rescheduled - Delivery of package has been rescheduled.
-
-            * location_inaccessible - Delivery location inaccessible to carrier.
-            Contact carrier to ensure delivery.
-
-            * notice_left - Carrier left notice during attempted delivery.
-            Follow carrier instructions on notice.
-
-            * package_damaged - Package has been damaged. Contact carrier for
-            more details.
-
-            * package_disposed - Package has been disposed.
-
-            * package_held - Package held at carrier location. Contact carrier
-            for more details.
-
-            * package_lost - Package has been lost. Contact carrier for more
-            details.
-
-            * package_unclaimed - Package is unclaimed.
-
-            * package_undeliverable - Package is not able to be delivered.
-
-            * reschedule_delivery - Contact carrier to reschedule delivery.
-
-            * other - Unrecognized carrier status.
-        description:
-          type: string
-          description: The description as listed in the description for event.
-        notes:
-          type: string
-          description: Event-specific notes from USPS about the tracking event.
-        action_required:
-          type: boolean
-          description: >
-            `true` if action is required by the end recipient, `false`
-            otherwise.
-    tracking_event_certified:
-      allOf:
-        - $ref: '#/components/schemas/tracking_event_base'
-        - type: object
-          required:
-            - type
-            - name
-          properties:
-            type:
-              type: string
-              description: a Certified letter tracking event
-              pattern: ^certified$
-            name:
-              type: string
-              enum:
-                - Mailed
-                - In Transit
-                - In Local Area
-                - Processed for Delivery
-                - Pickup Available
-                - Delivered
-                - Re-Routed
-                - Returned to Sender
-                - Issue
-              description: >
-                Name of tracking event for Certified letters. Letters sent with
-                USPS Certified Mail are fully tracked by USPS, therefore their
-                tracking events have an additional details object with more
-                detailed information about the tracking event. Some certified
-                tracking event names have multiple meanings, noted in the list
-                here. See the description of the details object for the full set
-                of combined certified tracking event name meanings.
-
-                  * Mailed - Package has been accepted into the carrier network for delivery.
-
-                  * In Transit - Maps to four distinct stages of transit.
-
-                  * In Local Area - Package is at a location near the end destination.
-
-                  * Processed for Delivery - Maps to two distinct stages of delivery.
-
-                  * Pickup Available - Package is available for pickup at carrier location.
-
-                  * Delivered - Package has been delivered.
-
-                  * Re-Routed - Package has been forwarded.
-
-                  * Returned to Sender - Package is to be returned to sender.
-
-                  * Issue - Maps to (at least) 15 possible issues, some of which are actionable.
-            details:
-              $ref: '#/components/schemas/tracking_event_details'
-            location:
-              type: string
-              description: >
-                The zip code in which the event occurred if it exists, otherwise
-                will be the name of a Regional Distribution Center if it exists,
-                otherwise will be null.
-              nullable: true
-          example:
-            id: evnt_9e84094c9368cfb
-            type: certified
-            name: Delivered
-            details:
-              event: delivered
-              description: Package has been delivered.
-              notes: 'Delivered, Front Desk/Reception/Mail Room'
-              action_required: false
-            location: '33408'
-            time: '2019-10-08T19:41:00Z'
-            date_created: '2019-10-08T19:41:00Z'
-            date_modified: '2019-10-08T19:41:00Z'
-            object: tracking_event
-    certified:
-      allOf:
-        - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/letter_generated_base'
-        - type: object
-          required:
-            - extra_service
-          properties:
-            extra_service:
-              type: string
-              enum:
-                - certified
-                - certified_return_receipt
-              description: >
-                Add an extra service to your letter. See
-                [pricing](https://www.lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
-                  * certified - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
-                  * certified_return_receipt - request an electronic copy of the recipient's signature to prove delivery of your certified letter
-            tracking_number:
-              type: string
-              description: |-
-                The tracking number will be here immediately upon creation.
-                Dummy tracking numbers are created in test mode.
-              nullable: true
-            tracking_events:
-              description: >-
-                An array of certified tracking events ordered by ascending
-                `time`. Not populated in test mode.
-              type: array
-              items:
-                $ref: '#/components/schemas/tracking_event_certified'
-    registered:
-      allOf:
-        - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/letter_generated_base'
-        - type: object
-          required:
-            - extra_service
-          properties:
-            extra_service:
-              type: string
-              enum:
-                - registered
-              description: >
-                Add an extra service to your letter. See
-                [pricing](https://www.lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
-                  * registered - provides tracking and confirmation for international addresses
-            tracking_number:
-              type: string
-              description: |-
-                The tracking number will appear here when it becomes available.
-                Dummy tracking numbers are not created in test mode.
-              nullable: true
-    tracking_event_normal:
-      allOf:
-        - $ref: '#/components/schemas/tracking_event_base'
-        - type: object
-          required:
-            - type
-            - name
-          properties:
-            type:
-              type: string
-              description: 'non-Certified postcards, letters, and checks'
-              pattern: ^normal$
-            name:
-              type: string
-              enum:
-                - In Transit
-                - In Local Area
-                - Processed for Delivery
-                - Re-Routed
-                - Returned to Sender
-                - Mailed
-              description: >
-                Name of tracking event (for normal postcards, letters, and
-                checks):
-
-                  * In Transit - The mailpiece is being processed at the entry/origin facility.
-
-                  * In Local Area - The mailpiece is being processed at the destination facility.
-
-                  * Processed for Delivery - The mailpiece has been greenlit for
-                    delivery at the recipient's nearest postal facility. The mailpiece
-                    should reach the mailbox within 1 business day of this tracking
-                    event.
-
-                  * Re-Routed - The mailpiece is re-routed due to recipient change of
-                    address, address errors, or USPS relabeling of barcode/ID tag
-                    area.
-
-                  * Returned to Sender - The mailpiece is being returned to sender due
-                    to barcode, ID tag area, or address errors.
-
-                  * Mailed - The mailpiece has been handed off to and accepted by USPS
-                    and is en route. [More about
-                    Mailed.](https://support.lob.com/hc/en-us/articles/360001724400-What-does-a-Mailed-tracking-event-mean-)
-                    Note this data is only available in Enterprise editions of
-                    Lob. [Contact Sales](https://lob.com/support/contact#contact) if
-                    you want access to this feature.
-
-                [More about
-                tracking](https://support.lob.com/hc/en-us/articles/115000097404-Can-I-track-my-mail-)
-            details:
-              type: object
-              nullable: true
-            location:
-              type: string
-              description: >
-                The zip code in which the scan event occurred. Null for `Mailed`
-                events.
-              nullable: true
-          example:
-            id: evnt_9e84094c9368cfb
-            type: normal
-            name: In Local Area
-            details: null
-            location: '72231'
-            time: '2016-06-30T15:51:41.000Z'
-            date_created: '2016-06-30T17:41:59.771Z'
-            date_modified: '2016-06-30T17:41:59.771Z'
-            object: tracking_event
-    no_extra_service:
-      allOf:
-        - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/letter_generated_base'
-        - type: object
-          properties:
-            tracking_events:
-              description: An array of tracking events ordered by ascending time.
-              type: array
-              items:
-                $ref: '#/components/schemas/tracking_event_normal'
-    letter:
-      oneOf:
-        - $ref: '#/components/schemas/certified'
-        - $ref: '#/components/schemas/registered'
-        - $ref: '#/components/schemas/no_extra_service'
-    inline_address_intl:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_intl'
-        - type: object
-          required:
-            - address_line1
-            - address_country
-        - type: object
-          oneOf:
-            - required:
-                - address_city
-                - address_state
-            - required:
-                - address_zip
-    inline_address:
-      oneOf:
-        - $ref: '#/components/schemas/inline_address_us'
-        - $ref: '#/components/schemas/inline_address_intl'
-    input_to-2:
-      type: object
-      properties:
-        to:
-          description: >-
-            Must either be an address ID or an inline object with correct
-            address parameters. If an object is used, an address will be
-            created, corrected, and standardized for free whenever possible
-            using our US Address Verification engine (if it is a US address),
-            and returned back with an ID. Depending on your [Print & Mail
-            Edition](https://dashboard.lob.com/#/settings/editions), US
-            addresses may also be run through [National Change of Address
-            (NCOA)](https://lob.com/docs#ncoa). Non-US addresses will be
-            standardized into uppercase only. If a US address used does not meet
-            your account’s [US Mail strictness
-            setting](https://dashboard.lob.com/#/settings/account), the request
-            will fail. [Lob Guide: Verification of Mailing
-            Addresses](https://www.lob.com/guides#mailing_addresses)
-          oneOf:
-            - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/inline_address'
-    input_from:
-      type: object
-      properties:
-        from:
-          description: >-
-            Must either be an address ID or an inline object with correct
-            address parameters. Must be a US address unless using a
-            `custom_envelope`. All addresses will be standardized into uppercase
-            without being modified by verification.
-          oneOf:
-            - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/inline_address'
-    letter_editable:
-      allOf:
-        - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/input_to-2'
-        - $ref: '#/components/schemas/input_from'
-        - type: object
-          required:
-            - to
-            - from
-            - file
-          properties:
-            file:
-              description: >-
-                Accepts an HTML string of under 10,000 characters, the ID of a
-                saved HTML template, or a remote URL or a local upload of an
-                HTML or PDF file. Remote URLs have a 20 MB file size limit and
-                must be downloaded within 40 seconds. HTML files passed as
-                remote URLs or local file upload have no character limit. HTML
-                merge variables should not include delimiting whitespace. All
-                pages of a supplied PDF file must be sized at 8.5"x11", while
-                supplied HTML will be rendered and trimmed to as many 8.5"x11"
-                pages as necessary. For design specifications, please see our
-                [PDF](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf)
-                and [HTML](https://docs.lob.com/#html-examples) templates. If a
-                `custom_envelope` is used, follow [this
-                template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf).
-                For domestic destinations, the file limit is 60 pages
-                single-sided or 120 pages double-sided. For international
-                destinations, the file limit is 6 pages single-sided or 12 pages
-                double-sided. PDFs that surpass the file limit will error, while
-                HTML that renders more pages than the file limit will be
-                trimmed. See
-                [pricing](https://lob.com/pricing/print-mail#compare) for extra
-                costs incurred. Any letters over 6 pages single-sided or 12
-                pages double-sided will be placed in a [flat
-                envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf)
-                instead of the standard double window envelope.
-              oneOf:
-                - $ref: '#/components/schemas/artwork'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - allOf:
-                    - $ref: '#/components/schemas/local_file_path'
-                    - type: string
-                      pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
-            extra_service:
-              type: string
-              nullable: true
-              enum:
-                - certified
-                - certified_return_receipt
-                - registered
-                - null
-              description: >
-                Add an extra service to your letter. See
-                [pricing](https://www.lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
-                  * certified - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
-                  * certified_return_receipt - request an electronic copy of the recipient's signature to prove delivery of your certified letter
-                  * registered - provides tracking and confirmation for international addresses
-            custom_envelope:
-              type: string
-              description: >-
-                Accepts an envelope ID for any customized envelope with
-                available inventory. If no inventory is available for the
-                specified ID, the letter will not be sent, and an error will be
-                returned. If the letter has more than 6 sheets, it will be sent
-                in a blank flat envelope. Custom envelopes are a premium feature
-                which may be created and ordered from the dashboard. Upgrade to
-                the appropriate [Print & Mail
-                Edition](https://lob.com/pricing/print-mail#compare) to gain
-                access.
-    psc_id:
-      type: string
-      description: Unique identifier prefixed with `psc_`.
-      pattern: '^psc_[a-zA-Z0-9]+$'
-    postcard_size:
-      type: string
-      enum:
-        - 4x6
-        - 6x9
-        - 6x11
-      description: >
-        Specifies the size of the postcard. Only 4x6 postcards can be sent to
-        international destinations.
-      default: 4x6
-    postcard_base:
-      allOf:
-        - $ref: '#/components/schemas/editable'
-        - type: object
-          properties:
-            size:
-              $ref: '#/components/schemas/postcard_size'
-    postcard:
-      allOf:
-        - $ref: '#/components/schemas/postcard_base'
-        - $ref: '#/components/schemas/generated'
-        - $ref: '#/components/schemas/from_us'
-        - type: object
-          required:
-            - id
-            - front_template_id
-            - back_template_id
-            - front_template_version_id
-            - back_template_version_id
-          properties:
-            id:
-              $ref: '#/components/schemas/psc_id'
-            front_template_id:
-              oneOf:
-                - $ref: '#/components/schemas/tmpl_id'
-                - type: string
-                  nullable: true
-            back_template_id:
-              oneOf:
-                - $ref: '#/components/schemas/tmpl_id'
-                - type: string
-                  nullable: true
-            front_template_version_id:
-              oneOf:
-                - $ref: '#/components/schemas/vrsn_id'
-                - type: string
-                  nullable: true
-            back_template_version_id:
-              oneOf:
-                - $ref: '#/components/schemas/vrsn_id'
-                - type: string
-                  nullable: true
-            tracking_events:
-              type: array
-              items:
-                $ref: '#/components/schemas/tracking_event_normal'
-              nullable: true
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  pattern: ^postcard$
-    postcard_editable:
-      allOf:
-        - $ref: '#/components/schemas/postcard_base'
-        - $ref: '#/components/schemas/input_to-2'
-        - $ref: '#/components/schemas/input_from_us'
-        - type: object
-          required:
-            - to
-            - front
-            - back
-          properties:
-            front:
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path'
-            back:
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path'
-    sfm_id:
-      type: string
-      description: Unique identifier prefixed with `sfm_`.
-      pattern: '^sfm_[a-zA-Z0-9]+$'
-    self_mailer_size:
-      type: string
-      enum:
-        - 6x18_bifold
-        - 12x9_bifold
-      description: Specifies the size of the self mailer.
-      default: 6x18_bifold
-    self_mailer_base:
-      allOf:
-        - $ref: '#/components/schemas/editable'
-        - type: object
-          properties:
-            size:
-              $ref: '#/components/schemas/self_mailer_size'
-    self_mailer:
-      allOf:
-        - $ref: '#/components/schemas/self_mailer_base'
-        - $ref: '#/components/schemas/generated'
-        - $ref: '#/components/schemas/from_us'
-        - type: object
-          required:
-            - id
-            - outside_template_id
-            - inside_template_id
-            - outside_template_version_id
-            - inside_template_version_id
-          properties:
-            id:
-              $ref: '#/components/schemas/sfm_id'
-            outside_template_id:
-              anyOf:
-                - $ref: '#/components/schemas/tmpl_id'
-                - type: string
-                  nullable: true
-            inside_template_id:
-              anyOf:
-                - $ref: '#/components/schemas/tmpl_id'
-                - type: string
-                  nullable: true
-            outside_template_version_id:
-              anyOf:
-                - $ref: '#/components/schemas/vrsn_id'
-                - type: string
-                  nullable: true
-            inside_template_version_id:
-              anyOf:
-                - $ref: '#/components/schemas/vrsn_id'
-                - type: string
-                  nullable: true
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  pattern: ^self_mailer$
-    self_mailer_editable:
-      allOf:
-        - $ref: '#/components/schemas/self_mailer_base'
-        - $ref: '#/components/schemas/input_to-2'
-        - $ref: '#/components/schemas/input_from_us'
-        - type: object
-          required:
-            - to
-            - inside
-            - outside
-          properties:
-            inside:
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path'
-            outside:
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path'
-    template_html:
-      type: string
-      description: >
-        An HTML string of less than 100,000 characters to be used as the
-        `published_version` of this template. For details, see our Guide to
-        designing HTML templates. Please see endpoint specific documentation for
-        any other product-specific HTML details.  Merge variables should not
-        include delimiting whitespace.  If there is a syntax error with your
-        variable names within your HTML, then an error will be thrown, e.g.
-        using a `{{#users}}` opening tag without the corresponding closing tag
-        `{{/users}}`.
-      maxLength: 100000
-    template_version_writable:
-      type: object
-      required:
-        - html
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        html:
-          $ref: '#/components/schemas/template_html'
-    template_version:
-      allOf:
-        - $ref: '#/components/schemas/template_version_writable'
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          required:
-            - id
-          properties:
-            id:
-              $ref: '#/components/schemas/vrsn_id'
-            suggest_json_editor:
-              type: boolean
-              description: |
-                Used by frontend, true if the template uses advanced features.
-            engine:
-              type: string
-              description: |
-                The engine used to combine html template with merge variables.
-                  * legacy - Lob's original engine
-                  * handlebars
-              enum:
-                - legacy
-                - handlebars
-              nullable: true
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - pattern: ^version$
-    template_version_updatable:
-      type: object
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-    template:
-      allOf:
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          required:
-            - id
-            - versions
-            - published_version
-          properties:
-            id:
-              $ref: '#/components/schemas/tmpl_id'
-            versions:
-              type: array
-              description: >-
-                An array of all non-deleted version objects associated with the
-                template.
-              items:
-                $ref: '#/components/schemas/template_version'
-            published_version:
-              $ref: '#/components/schemas/template_version'
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - pattern: ^template$
-    template_update:
-      type: object
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        published_version:
-          $ref: '#/components/schemas/vrsn_id'
-    template_writable:
-      type: object
-      required:
-        - html
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        html:
-          $ref: '#/components/schemas/template_html'
-        metadata:
-          $ref: '#/components/schemas/metadata'
-    us_autocompletions:
-      type: object
-      required:
-        - address_prefix
-      properties:
-        address_prefix:
-          type: string
-          description: |
-            Only accepts numbers and street names in an alphanumeric format.
-        city:
-          type: string
-          description: >
-            An optional city input used to filter suggestions. Case insensitive,
-            and does not match partial abbreviations.
-        state:
-          type: string
-          description: >
-            An optional state input used to filter suggestions. Case
-            insensitive, and does not match partial abbreviations.
-        zip_code:
-          type: string
-          description: >
-            An optional ZIP Code input used to filter suggestions. Matches
-            partial entries.
-        geo_ip_sort:
-          type: string
-          description: >
-            If true, sort suggestions by proximity to the IP set in the
-            `X-Forwarded-For` header.
-    us_auto_id:
-      type: string
-      description: Unique identifier prefixed with `us_auto_`.
-      pattern: '^us_auto_[a-zA-Z0-9]+$'
-    suggestions:
-      type: object
-      required:
-        - primary_line
-        - city
-        - state
-        - zip_code
-      properties:
-        primary_line:
-          type: string
-          description: >
-            The primary delivery line (usually the street address) of the
-            address.
-
-            Combination of the following applicable `components` (primary number
-            &
-
-            secondary information may be missing or inaccurate):
-
-            * `primary_number`
-
-            * `street_predirection`
-
-            * `street_name`
-
-            * `street_suffix`
-
-            * `street_postdirection`
-
-            * `secondary_designator`
-
-            * `secondary_number`
-
-            * `pmb_designator`
-
-            * `pmb_number`
-        city:
-          $ref: '#/components/schemas/city'
-        state:
-          $ref: '#/components/schemas/state'
-        zip_code:
-          $ref: '#/components/schemas/zip_code'
-        object:
-          $ref: '#/components/schemas/object'
-    single_line_address:
-      type: object
-      required:
-        - address
-      properties:
-        address:
-          type: string
-          description: >
-            The entire address in one string (e.g., "185 Berry Street 94107").
-            _Does not support a recipient and will error when other payload
-            parameters are provided._
-          maxLength: 500
-      example:
-        address: 185 Berry Street 94107
     zip5:
       type: object
       required:
@@ -3931,7 +3854,12 @@ components:
             zip_code_type:
               $ref: '#/components/schemas/zip_code_type'
             object:
-              $ref: '#/components/schemas/object'
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - us_zip_lookup
+                  default: us_zip_lookup
   responses:
     error:
       description: Error
@@ -4135,104 +4063,6 @@ components:
               https://api.lob.com/v1/bank_accounts?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wMy0zMFQxMzoxMTowNi44MDlaIiwiaWRPZmZzZXQiOiJiYW5rX2ViYTkzZjdkZTNjMDJkOSJ9
             previous_url: null
             count: 2
-    bulk_us_verifications:
-      description: Returns an US verification object.
-      headers:
-        ratelimit-limit:
-          $ref: '#/components/headers/ratelimit-limit'
-        ratelimit-remaining:
-          $ref: '#/components/headers/ratelimit-remaining'
-        ratelimit-reset:
-          $ref: '#/components/headers/ratelimit-reset'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/us_verifications'
-          example:
-            addresses:
-              - id: us_ver_c7cb63d68f8d6
-                recipient: LOB.COM
-                primary_line: 185 BERRY ST STE 6100
-                secondary_line: ''
-                urbanization: ''
-                last_line: SAN FRANCISCO CA 94107-1728
-                deliverability: deliverable
-                components:
-                  primary_number: '185'
-                  street_predirection: ''
-                  street_name: BERRY
-                  street_suffix: ST
-                  street_postdirection: ''
-                  secondary_designator: STE
-                  secondary_number: '6100'
-                  pmb_designator: ''
-                  pmb_number: ''
-                  extra_secondary_designator: ''
-                  extra_secondary_number: ''
-                  city: SAN FRANCISCO
-                  state: CA
-                  zip_code: '94107'
-                  zip_code_plus_4: '1728'
-                  zip_code_type: standard
-                  delivery_point_barcode: '941071728506'
-                  address_type: commercial
-                  record_type: highrise
-                  default_building_address: false
-                  county: SAN FRANCISCO
-                  county_fips: '06075'
-                  carrier_route: C001
-                  carrier_route_type: city_delivery
-                  latitude: 37.77597542841264
-                  longitude: -122.3929557343685
-                deliverability_analysis:
-                  dpv_confirmation: 'Y'
-                  dpv_cmra: 'N'
-                  dpv_vacant: 'N'
-                  dpv_active: 'Y'
-                  dpv_footnotes:
-                    - AA
-                    - BB
-                  ews_match: false
-                  lacs_indicator: ''
-                  lacs_return_code: ''
-                  suite_return_code: ''
-                lob_confidence_score:
-                  score: 100
-                  level: high
-                object: us_verification
-            errors: false
-    bulk_intl_verifications:
-      description: Returns an array of international verification objects.
-      headers:
-        ratelimit-limit:
-          $ref: '#/components/headers/ratelimit-limit'
-        ratelimit-remaining:
-          $ref: '#/components/headers/ratelimit-remaining'
-        ratelimit-reset:
-          $ref: '#/components/headers/ratelimit-reset'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/intl_verifications'
-          example:
-            addresses:
-              - id: intl_ver_c7cb63d68f8d6
-                recipient: null
-                primary_line: 370 WATER ST
-                secondary_line: ''
-                last_line: SUMMERSIDE PE C1N 1C4
-                country: CA
-                coverage: SUBBUILDING
-                deliverability: deliverable
-                status: LV4
-                components:
-                  primary_number: '370'
-                  street_name: WATER ST
-                  city: SUMMERSIDE
-                  state: PE
-                  postal_code: C1N 1C4
-                object: intl_verification
-            errors: false
     certificate:
       description: Returns an certificate object if a valid identifier was provided.
       content:
@@ -5327,7 +5157,70 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/us_verification'
+            type: object
+            properties:
+              id:
+                $ref: '#/components/schemas/us_ver_id'
+              recipient:
+                $ref: '#/components/schemas/recipient'
+              primary_line:
+                $ref: '#/components/schemas/primary_line_us'
+              secondary_line:
+                $ref: '#/components/schemas/secondary_line'
+              urbanization:
+                $ref: '#/components/schemas/urbanization'
+              last_line:
+                type: string
+                description: |
+                  Combination of the following applicable `components`:
+                  * City (`city`)
+                  * State (`state`)
+                  * ZIP code (`zip_code`)
+                  * ZIP+4 (`zip_code_plus_4`)
+              deliverability:
+                type: string
+                enum:
+                  - deliverable
+                  - deliverable_unnecessary_unit
+                  - deliverable_incorrect_unit
+                  - deliverable_missing_unit
+                  - undeliverable
+                description: >
+                  Summarizes the deliverability of the `us_verification` object.
+
+                  For full details, see the `deliverability_analysis` field.
+                  Possible values are:
+
+                  * `deliverable` – The address is deliverable by the USPS.
+
+                  * `deliverable_unnecessary_unit` – The address is deliverable,
+                  but the secondary unit information is unnecessary.
+
+                  * `deliverable_incorrect_unit` – The address is deliverable to
+                  the building's default address but the secondary unit provided
+                  may not exist. There is a chance the mail will not reach the
+                  intended recipient.
+
+                  * `deliverable_missing_unit` – The address is deliverable to
+                  the building's default address but is missing secondary unit
+                  information. There is a chance the mail will not reach the
+                  intended recipient.
+
+                  * `undeliverable` – The address is not deliverable according
+                  to the USPS.
+              components:
+                $ref: '#/components/schemas/components-2'
+              deliverability_analysis:
+                $ref: '#/components/schemas/deliverability_analysis'
+              lob_confidence_score:
+                $ref: '#/components/schemas/lob_confidence_score'
+              object:
+                allOf:
+                  - $ref: '#/components/schemas/object'
+                  - type: string
+                    enum:
+                      - us_verification
+                    default: us_verification
           example:
             id: us_ver_c7cb63d68f8d6
             recipient: LOB.COM
@@ -5719,64 +5612,6 @@ paths:
           $ref: '#/components/responses/bank_account'
         default:
           $ref: '#/components/responses/error'
-  /bulk/us_verifications:
-    post:
-      operationId: bulk_us_verifications
-      summary: Verify a list of US or US territory address with a live API key.
-      description: >-
-        Verify a list of US or US territory addresses _with a live API key_.
-        Requests to this endpoint with a test API key will return a dummy
-        response based on the primary line you input.
-      tags:
-        - Bulk US Verifications
-      parameters:
-        - in: query
-          name: case
-          schema:
-            type: string
-            enum:
-              - upper
-              - proper
-            default: upper
-          description: >-
-            Casing of the verified address. Possible values are `upper` and
-            `proper` for uppercased (e.g. "PO BOX") and proper-cased (e.g. "PO
-            Box"), respectively. Only affects `recipient`, `primary_line`,
-            `secondary_line`, `urbanization`, and `last_line`. Default casing is
-            `upper`.
-          required: false
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/multiple_components_list'
-      responses:
-        '200':
-          $ref: '#/components/responses/bulk_us_verifications'
-        default:
-          $ref: '#/components/responses/error'
-  /bulk/intl_verifications:
-    post:
-      operationId: bulk_intl_verifications
-      summary: Verify a list of international addresses with a live API key.
-      description: >-
-        Verify a list of international (except US or US territories) address
-        _with a live API key_. Requests to this endpoint with a test API key
-        will return a dummy response based on the primary line you input.
-      tags:
-        - Bulk International Verifications
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/intl_verifications_payload'
-      responses:
-        '200':
-          $ref: '#/components/responses/bulk_intl_verifications'
-        default:
-          $ref: '#/components/responses/error'
   '/certificates/{id}':
     parameters:
       - in: path
@@ -5995,9 +5830,7 @@ paths:
   /intl_verifications:
     post:
       operationId: intl_verification
-      summary: >-
-        Verify an international (except US or US territories) address with a
-        live API key.
+      summary: Verify a US or US territory address with a live API key.
       description: >-
         Verify an international (except US or US territories) address _with a
         live API key_. Requests to this endpoint with a test API key will return

@@ -28,21 +28,21 @@
       },
       "billing": {
         "slackChannel": "#eng-api-billing-errors",
-        "resources": {
-          "bankAccounts": "tests/bank_accounts_test.js"
-        }
+        "resources": [
+          "tests/bank_accounts_test.js"
+        ]
       },
       "pmApi": {
         "slackChannel": "#eng-api-errors",
-        "resources": {
-          "addresses": "tests/addresses_test.js",
-          "certificates": "tests/certificates_test.js",
-          "checks": "tests/checks_test.js",
-          "letters": "tests/letters_test.js",
-          "postcards": "tests/postcards_test.js",
-          "selfMailers": "tests/self_mailers_test.js",
-          "templates": "tests/template*_test.js"
-        }
+        "resources": [
+          "tests/addresses_test.js",
+          "tests/certificates_test.js",
+          "tests/checks_test.js",
+          "tests/letters_test.js",
+          "tests/postcards_test.js",
+          "tests/self_mailers_test.js",
+          "tests/template*_test.js"
+        ]
       }
     }
   },
@@ -76,6 +76,7 @@
   },
   "homepage": "https://github.com/lob/lob-openapi#readme",
   "devDependencies": {
+    "@actions/core": "^1.4.0",
     "@redocly/openapi-cli": "^1.0.0-beta.44",
     "@slack/web-api": "^6.2.3",
     "@stoplight/prism-cli": "^4.2.1",

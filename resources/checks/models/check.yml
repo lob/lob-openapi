@@ -40,4 +40,7 @@ allOf:
       object:
         allOf:
           - $ref: "../../../shared/attributes/object.yml"
-          - pattern: "^check$"
+          - type: string
+            enum:
+              - check
+            default: check

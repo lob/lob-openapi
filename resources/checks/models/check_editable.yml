@@ -50,10 +50,8 @@ allOf:
             * `png` or `jpg`
         anyOf:
           - $ref: "../../../shared/attributes/remote_file_url.yml"
-          - allOf:
-              - $ref: "../../../shared/attributes/local_file_path.yml"
-              - type: string
-                pattern: "[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)+$"
+          - type: string
+            pattern: "[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)+$"
 
       check_bottom:
         description: >-

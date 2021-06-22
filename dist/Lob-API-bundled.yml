@@ -1448,7 +1448,7 @@ components:
         days to prevent mis-sharing. Each time a GET request is initiated, a new
         signed URL will be generated.
       pattern: >-
-        https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*\&)?expires=[0-9]{10}\&signature=[a-zA-Z0-9-_]+$
+        ^https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*\&)?expires=[0-9]{10}\&signature=[a-zA-Z0-9-_]+$
     bank_account:
       allOf:
         - $ref: '#/components/schemas/bank_account_base'
@@ -1597,14 +1597,135 @@ components:
       maxLength: 2
     zip_code_type:
       type: string
-      enum:
-        - standard
-        - po_box
-        - unique
-        - military
-        - ''
-      description: >
-        A description of the ZIP code type.
+      description: Unique identifier prefixed with `vrsn_`.
+      pattern: '^vrsn_[a-zA-Z0-9]+$'
+    check:
+      allOf:
+        - $ref: '#/components/schemas/check_base'
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from_us'
+        - type: object
+          required:
+            - bank_account
+            - id
+            - amount
+          properties:
+            id:
+              $ref: '#/components/schemas/chk_id'
+            amount:
+              description: The payment amount to be sent in US dollars.
+              type: number
+              format: float
+              multipleOf: 0.01
+              maximum: 1000000
+              exclusiveMaximum: true
+            bank_account:
+              $ref: '#/components/schemas/bank_account'
+            check_bottom_template_id:
+              $ref: '#/components/schemas/tmpl_id'
+            attachment_template_id:
+              $ref: '#/components/schemas/tmpl_id'
+            check_bottom_template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
+            attachment_template_version_id:
+              $ref: '#/components/schemas/vrsn_id'
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - check
+                  default: check
+    inline_address_us:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_us'
+        - type: object
+          required:
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
+    input_to:
+      type: object
+      properties:
+        to:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. Checks cannot be sent internationally
+            (`address_country` must be `US`). The total string of the sum of
+            `address_line1` and `address_line2` must be no longer than 50
+            characters combined. If an object is used, an address will be
+            created, corrected, and standardized for free whenever possible
+            using our US Address Verification engine, and returned back with an
+            ID. Depending on your [Print & Mail
+            Edition](https://dashboard.lob.com/#/settings/editions), addresses
+            may also be run through [National Change of Address
+            (NCOA)](https://lob.com/docs#ncoa). If an address used does not meet
+            your account’s [US Mail Strictness
+            Setting]()https://dashboard.lob.com/#/settings/account, the request
+            will fail. [More about verification of mailing
+            addresses](https://www.lob.com/guides#mailing_addresses)
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address_us'
+    input_from_us:
+      type: object
+      properties:
+        from:
+          description: >-
+            Must either be an address ID or an inline object with correct
+            address parameters. All addresses will be standardized into
+            uppercase without being modified by verification.
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address_us'
+    remote_file_url:
+      type: string
+      description: The location of a remote file.
+      pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
+    artwork:
+      type: string
+      description: 'An HTML string of under 10,000 characters.'
+      maxLength: 10000
+    local_file_path:
+      type: string
+      description: The path to a local file.
+      pattern: '^[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
+    check_editable:
+      allOf:
+        - $ref: '#/components/schemas/check_base'
+        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_from_us'
+        - type: object
+          required:
+            - bank_account
+            - to
+            - from
+            - amount
+          oneOf:
+            - required:
+                - message
+            - required:
+                - check_bottom
+          properties:
+            bank_account:
+              allOf:
+                - $ref: '#/components/schemas/bank_id_no_description'
+                - type: string
+                  description: The id for a verified bank account.
+            amount:
+              description: >-
+                The payment amount to be sent in US dollars. Amounts will be
+                rounded to two decimal places.
+              type: number
+              format: float
+              maximum: 1000000
+              exclusiveMaximum: true
+            logo:
+              description: >-
+                Accepts a remote URL or local file upload to an image to print
+                (in grayscale) in the upper-left corner of your check. Image
+                requirements:
 
         * `standard` – The default ZIP code type. Used when none of the other
         types apply.
@@ -6016,15 +6137,30 @@ paths:
                 explode: true
             example:
               description: Demo Check
-              to: adr_210a8d4b0b76d77b
-              from: adr_b8fb5acf3a2b55db
+              to:
+                name: Harry Zhang
+                address_line1: 185 Berry St
+                address_line2: '# 6100'
+                address_city: San Francisco
+                address_state: CA
+                address_zip: '94107'
+              from:
+                name: Leore Avidar
+                address_line1: 185 Berry St
+                address_line2: '# 6100'
+                address_city: San Francisco
+                address_state: CA
+                address_zip: 94107-1741
               bank_account: bank_8cad8df5354d33f
               amount: 22.5
               memo: rent
               logo: >-
                 https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png
               check_bottom: tmpl_23668b406d5afef
-              'merge_variables[name]': Harry
+              merge_variables:
+                name: Harry
+              metadata:
+                memo: rafting trip
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/check_editable'

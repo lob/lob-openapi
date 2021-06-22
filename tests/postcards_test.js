@@ -194,8 +194,7 @@ test("throws errors when input is not validated", async function (t) {
         },
         front:
           "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        back:
-          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
       },
       { headers: prism.authHeader }
     )

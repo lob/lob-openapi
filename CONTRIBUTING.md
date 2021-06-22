@@ -114,7 +114,7 @@ be able to reuse. _If you do put your test in a separate file, make sure you mod
 
 ## Contract Testing
 
-We test our API contracts using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). We run the tests with [multi-tape](https://www.npmjs.com/package/multi-tape), and [tape-promise](https://www.npmjs.com/package/tape-promise) for async/await support. The contract tests run on github whenever you push to github and/or open a pull request.
+We test our API contracts using the [Prism client](https://meta.stoplight.io/docs/prism/docs/guides/http-client.md). We run the tests with [ava](https://github.com/avajs/ava/blob/main/docs/01-writing-tests.md). The contract tests run on github whenever you push to github and/or open a pull request.
 
 To run the existing tests locally:
 
@@ -124,7 +124,7 @@ To run the existing tests locally:
 
 ### Running a Single Test with `.only`
 
-Because `multi-tape` runs each test in its own node process, it doesn't support `.only`. To run a single test, use `.only` as usual and run `npm run singleTest <testname>`, e.g., `npm run singleTest addresses` or `npm run singleTest template_compile`. The singleTest runs the test under `tape` rather than `multi-tape` inside the package environment.
+To run a single test, use `.only` as usual.
 
 ### Adding a Test
 
@@ -155,7 +155,7 @@ const frontBack = await streamToString(files);
 
 ### Notes about Test Design
 
-There are two stand-out quirks with the tests. One is the `await t.doesNotReject(Promise.resolve(response));` line (and similarly-formed promise rejection counterpart) which appear in every generated test. This uses the `tape-promise` npm tool in order to test response validation. The other quirk is the
+There is one stand-out quirks with the tests. Notice the
 
 ```
 "content-type": "application/json; charset=utf-8",

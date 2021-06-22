@@ -1,9 +1,7 @@
 "use strict";
 
 // standard setup, present in every test
-const tape = require("tape");
-const _test = require("tape-promise").default;
-const test = _test(tape);
+const test = require("ava");
 const Prism = require("./setup.js");
 
 // test specific data
@@ -31,8 +29,7 @@ test("verify list of valid US addresses", async function (t) {
     )
   );
 
-  await t.doesNotReject(Promise.resolve(response));
-  t.equal(response.status, 200);
+  t.assert(response.status === 200);
 });
 
 test("errors when given an empty array", async function (t) {
@@ -46,9 +43,8 @@ test("errors when given an empty array", async function (t) {
     )
   );
 
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 422);
-  t.match(response.data.error.message, /items/);
+  t.assert(response.status === 422);
+  t.assert(response.data.error.message.includes("items"));
 });
 
 test("errors when given more than 10 addresses", async function (t) {
@@ -64,7 +60,6 @@ test("errors when given more than 10 addresses", async function (t) {
     )
   );
 
-  await t.rejects(Promise.reject(response));
-  t.equal(response.status, 422);
-  t.match(response.data.error.message, /items/);
+  t.assert(response.status === 422);
+  t.assert(response.data.error.message.includes("items"));
 });

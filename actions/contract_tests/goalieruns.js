@@ -19,12 +19,14 @@ module.exports.runTests = async function runTests() {
       let count = 0;
       for (let i = 0; i < test_set.length; ++i) {
         test = test_set[i];
-        test_command = 'multi-tape "' + test + '" | tap-spec';
+        test_command = 'ava "' + test + '"';
         exec(test_command, async function (err, stdout, stderr) {
           if (err) {
-            const startIndex = stdout.indexOf("✖");
-            const endIndex = stdout.indexOf("stack:");
-            failures.push(stdout.slice(startIndex, endIndex));
+            const startIndex = stdout.indexOf("─");
+            const endIndex = stdout.lastIndexOf("─");
+            const formatted =
+              "```" + stdout.slice(startIndex, endIndex) + "```";
+            failures.push(formatted);
           }
           // async: the code won't proceed to the next block until
           // this block is resolved, so a resolve is returned after
@@ -32,7 +34,6 @@ module.exports.runTests = async function runTests() {
           if (++count == test_set.length) {
             return resolve();
           }
-          console.log(stdout);
         });
       }
     }).then(async function () {
@@ -40,8 +41,8 @@ module.exports.runTests = async function runTests() {
         failures.forEach((f) => {
           const noWhitespace = f.replace(" ", "");
           // each correctly formatted entry should be roughly 150-400 characters
-          // based on the tap-spec output. if they are not, the errors being surfaced
-          // by tap-spec are unexpected.
+          // based on the ava output. if they are not, the errors being surfaced
+          // by ava are unexpected.
           if (noWhitespace.length > 500) {
             core.setFailed(
               "An unexpected error surfaced in the contract tests."

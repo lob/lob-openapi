@@ -40,10 +40,12 @@ module.exports.runTests = async function runTests() {
       if (failures.length > 0) {
         failures.forEach((f) => {
           const noWhitespace = f.replace(" ", "");
-          // each correctly formatted entry should be roughly 150-400 characters
-          // based on the ava output. if they are not, the errors being surfaced
-          // by ava are unexpected.
-          if (noWhitespace.length > 500) {
+          // each correctly formatted entry should be roughly 250 characters
+          // based on the ava output. if they are way too long or are blank (only have the tick marks),
+          // the errors being surfaced by ava are unexpected & don't come from the tests.
+          if (noWhitespace.length > 500 || noWhitespace.length === "``````") {
+            f =
+              "An unexpected error surfaced in the contract tests. This does not originate from any Lob endpoint.";
             core.setFailed(
               "An unexpected error surfaced in the contract tests."
             );

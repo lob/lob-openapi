@@ -1,0 +1,42 @@
+post:
+  operationId: bulk_us_verifications
+
+  summary: Verify a list of US or US territory address with a live API key.
+
+  description: >-
+    Verify a list of US or US territory addresses _with a live
+    API key_. Requests to this endpoint with a test API key will return a dummy
+    response based on the primary line you input.
+
+  tags:
+    - Bulk US Verifications
+
+  parameters:
+    - in: query
+      name: case
+      schema:
+        type: string
+        enum:
+          - upper
+          - proper
+        default: upper
+      description: >-
+        Casing of the verified address. Possible values are `upper` and `proper` for
+        uppercased (e.g. "PO BOX") and proper-cased (e.g. "PO Box"),
+        respectively. Only affects `recipient`, `primary_line`, `secondary_line`,
+        `urbanization`, and `last_line`. Default casing is `upper`.
+      required: false
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/multiple_components_list.yml"
+
+  responses:
+    "200":
+      $ref: responses/bulk_us_verifications.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

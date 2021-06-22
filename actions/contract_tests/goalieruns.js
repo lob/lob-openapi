@@ -41,8 +41,8 @@ module.exports.runTests = async function runTests() {
         failures.forEach((f) => {
           const noWhitespace = f.replace(" ", "");
           // each correctly formatted entry should be roughly 150-400 characters
-          // based on the tap-spec output. if they are not, the errors being surfaced
-          // by tap-spec are unexpected.
+          // based on the ava output. if they are not, the errors being surfaced
+          // by ava are unexpected.
           if (noWhitespace.length > 500) {
             core.setFailed(
               "An unexpected error surfaced in the contract tests."

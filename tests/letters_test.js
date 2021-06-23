@@ -56,7 +56,8 @@ test("create, list, read, then cancel, a letter with no extra services", async f
         to: to,
         from: from,
         color: true,
-        file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
+        file: 
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
       },
       { headers: prism.authHeader }
     )
@@ -115,7 +116,8 @@ test("create, list, read then cancel a certified letter", async function (t) {
         },
         color: true,
         extra_service: "certified",
-        file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
+        file: 
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
       },
       { headers: prism.authHeader }
     )

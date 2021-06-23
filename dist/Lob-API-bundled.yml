@@ -5524,6 +5524,19 @@ components:
         type: string
         maxLength: 256
         example: 026e7634-24d7-486c-a0bb-4a17fd0eebc5
+    lang_spec:
+      in: header
+      name: x-lang-output
+      required: false
+      description: >
+        Translate response to the native language of the country in the  request
+        `native` or match the response to the language in the  request `match`.
+        Default response is in English.
+      schema:
+        type: string
+        enum:
+          - native
+          - match
 security:
   - basicAuth: []
 paths:
@@ -6048,6 +6061,8 @@ paths:
         a dummy response based on the primary line you input.
       tags:
         - Int'l Verifications
+      parameters:
+        - $ref: '#/components/parameters/lang_spec'
       requestBody:
         required: true
         content:

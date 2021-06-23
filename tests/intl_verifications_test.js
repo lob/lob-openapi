@@ -12,6 +12,21 @@ const resource_endpoint = "/intl_verifications",
   postal_code = "C1N 1C4",
   country = "CA";
 
+const address_ru = {
+  primary_line: "UL. DOLSKAYA 1",
+  city: "MOSCOW",
+  state: "MOSCOW G",
+  postal_code: "115569",
+  country: "RU",
+};
+
+const address_response_ru = {
+  primary_line: "УЛ. ДОЛЬСКАЯ 1",
+  state: "МОСКВА",
+  postal_code: "115569",
+  country: "RU",
+};
+
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 
 test("verify an int'l address given primary line, and country", async function (t) {
@@ -29,7 +44,6 @@ test("verify an int'l address given primary line, and country", async function (
       { headers: prism.authHeader }
     )
   );
-
   t.assert(response.status === 200);
 });
 
@@ -95,4 +109,18 @@ test("errors when not given a primary line", async function (t) {
     const firstError = err.additional.validation[0]["message"];
     t.assert(firstError.includes("required"));
   }
+});
+
+test("validate a native language response", async function (t) {
+  t.plan(3);
+  prism.authHeader["x-lang-output"] = "native";
+  const response = await prism
+    .setup()
+    .then((client) =>
+      client.post(resource_endpoint, address_ru, { headers: prism.authHeader })
+    );
+
+  t.assert(response.status === 200);
+  t.assert(response.data.primary_line === address_response_ru.primary_line);
+  t.assert(response.data.last_line === address_response_ru.state);
 });

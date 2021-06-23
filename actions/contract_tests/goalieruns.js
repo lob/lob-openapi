@@ -24,9 +24,11 @@ module.exports.runTests = async function runTests() {
           if (err) {
             const startIndex = stdout.indexOf("─");
             const endIndex = stdout.lastIndexOf("─");
-            const formatted =
-              "```" + stdout.slice(startIndex, endIndex) + "```";
-            failures.push(formatted);
+            if (stdout.slice(startIndex, endIndex).length) {
+              const formatted =
+                "```" + stdout.slice(startIndex, endIndex) + "```";
+              failures.push(formatted);
+            }
           }
           // async: the code won't proceed to the next block until
           // this block is resolved, so a resolve is returned after
@@ -43,7 +45,7 @@ module.exports.runTests = async function runTests() {
           // each correctly formatted entry should be roughly 250 characters
           // based on the ava output. if they are way too long or are blank (only have the tick marks),
           // the errors being surfaced by ava are unexpected & don't come from the tests.
-          if (noWhitespace.length > 500 || noWhitespace.length === "``````") {
+          if (noWhitespace.length > 500) {
             f =
               "An unexpected error surfaced in the contract tests. This does not originate from any Lob endpoint.";
             core.setFailed(

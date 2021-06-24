@@ -17,25 +17,25 @@ allOf:
         $ref: "../attributes/sfm_id.yml"
 
       outside_template_id:
-        anyOf:
+        allOf:
           - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
           - type: string
             nullable: true
 
       inside_template_id:
-        anyOf:
+        allOf:
           - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
           - type: string
             nullable: true
 
       outside_template_version_id:
-        anyOf:
+        allOf:
           - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
           - type: string
             nullable: true
 
       inside_template_version_id:
-        anyOf:
+        allOf:
           - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
           - type: string
             nullable: true

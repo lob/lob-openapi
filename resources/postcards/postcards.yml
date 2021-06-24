@@ -45,6 +45,23 @@ post:
       application/json:
         schema:
           $ref: "models/postcard_editable.yml"
+        example:
+          description: demo
+          to:
+            name: Harry
+            address_line1: 185 Berry St
+            address_line2: "# 6100"
+            address_city: San Francisco
+            address_state: CA
+            address_zip: "94107"
+          front: tmpl_a1234dddg
+          back: "./nifty.htm"
+          size: "6x9"
+          mail_type: usps_first_class
+          merge_variables:
+            name: Harry
+          metadata:
+            spiffy: true
 
       application/x-www-form-urlencoded:
         schema:

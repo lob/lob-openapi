@@ -31,11 +31,11 @@ allOf:
           pages single-sided or 12 pages double-sided will be placed in a
           [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf) instead of the standard double window envelope.
         oneOf:
-          - $ref: "../../../shared/attributes/artwork.yml"
+          - $ref: "../../../shared/attributes/html_string.yml"
           - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
           - $ref: "../../../shared/attributes/remote_file_url.yml"
           - type: string
-            pattern: "[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$"
+            pattern: "^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$"
 
       extra_service:
         type: string

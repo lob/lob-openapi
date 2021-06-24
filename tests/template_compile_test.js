@@ -11,10 +11,8 @@ const specFile = "./Lob-API-public.yml";
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
-// contract tests
-test("create, compile, then delete a template", async function (t) {
-  t.plan(4);
-  // create
+test.serial.before("create template and endpoints", async function (t) {
+  t.plan(1);
   let response = await prism.setup().then((client) =>
     client.post(
       resource_endpoint,
@@ -27,13 +25,16 @@ test("create, compile, then delete a template", async function (t) {
   );
 
   t.assert(response.status === 200);
-  const tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
-  const tmpl_compile_endpoint = `${resource_endpoint}/${response.data.id}/compile`;
 
-  // compile
-  response = await prism.setup().then((client) =>
+  t.context.tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
+  t.context.tmpl_compile_endpoint = `${resource_endpoint}/${response.data.id}/compile`;
+});
+
+test.serial("compile a template", async function (t) {
+  t.plan(2);
+  let response = await prism.setup().then((client) =>
     client.get(
-      `${tmpl_compile_endpoint}?merge_vars=${encodeURIComponent(
+      `${t.context.tmpl_compile_endpoint}?merge_vars=${encodeURIComponent(
         JSON.stringify({
           name: "compile test",
         })
@@ -44,12 +45,15 @@ test("create, compile, then delete a template", async function (t) {
 
   t.assert(response.status === 200);
   t.assert(response.data === "<html>HTML Compile for compile test</html>");
+});
 
-  // delete - clean up template
-  response = await prism
+// contract tests
+test.serial("delete a template", async function (t) {
+  t.plan(1);
+  let response = await prism
     .setup()
     .then((client) =>
-      client.delete(tmpl_endpoint, { headers: prism.authHeader })
+      client.delete(t.context.tmpl_endpoint, { headers: prism.authHeader })
     );
 
   t.assert(response.status === 200);

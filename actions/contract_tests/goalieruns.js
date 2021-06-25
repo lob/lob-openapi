@@ -24,7 +24,7 @@ module.exports.runTests = async function runTests() {
           if (err) {
             const startIndex = stdout.indexOf("─");
             const endIndex = stdout.lastIndexOf("─");
-            if (stdout.slice(startIndex, endIndex).length) {
+            if (stdout.slice(startIndex, endIndex)) {
               const formatted =
                 "```" + stdout.slice(startIndex, endIndex) + "```";
               failures.push(formatted);

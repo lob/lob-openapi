@@ -2812,18 +2812,38 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address_us'
-    remote_file_url:
-      type: string
-      description: The location of a remote file.
-      pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}\.(html|pdf|png|jpg)+$'
-    artwork:
+    html_string:
       type: string
       description: 'An HTML string of under 10,000 characters.'
       maxLength: 10000
+      pattern: <
+    remote_file_url:
+      type: string
+      description: The location of a remote file.
+      pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
     local_file_path:
       type: string
       description: The path to a local file.
-      pattern: '^[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf|png|jpg)+$'
+      pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
+    check_bottom:
+      description: >-
+        The artwork to use on the bottom of the check page. Accepts an HTML
+        string of under 10,000 characters, the ID of a saved [HTML
+        template](https://lob.github.io/lob-openapi/#tag/Templates), or a remote
+        URL or a local upload of an HTML, PDF, PNG, or JPG file. Remote URLs
+        have a 20 MB file size limit and must be downloaded within 40 seconds.
+        HTML files passed as remote URLs or local file uploads have no character
+        limit. HTML merge variables should not include delimiting whitespace.
+        PDF, PNG, and JPGs must be sized at 8.5"x11" at 300 DPI, while supplied
+        HTML will be rendered and trimmed to fit on a 8.5"x11" page. The check
+        bottom will always be printed in black & white. Must conform to [this
+        template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_bottom_template.pdf).
+        Need more help? Consult our HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - $ref: '#/components/schemas/local_file_path'
     check_editable:
       allOf:
         - $ref: '#/components/schemas/check_base'
@@ -2869,31 +2889,13 @@ components:
                   * transparent backgrond
 
                   * `png` or `jpg`
-              anyOf:
-                - $ref: '#/components/schemas/remote_file_url'
+              oneOf:
                 - type: string
-                  pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)+$'
+                  pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$'
+                - type: string
+                  pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$'
             check_bottom:
-              description: >-
-                The artwork to use on the bottom of the check page. Accepts an
-                HTML string of under 10,000 characters, the ID of a saved [HTML
-                template](https://lob.github.io/lob-openapi/#tag/Templates), or
-                a remote URL or a local upload of an HTML, PDF, PNG, or JPG
-                file. Remote URLs have a 20 MB file size limit and must be
-                downloaded within 40 seconds. HTML files passed as remote URLs
-                or local file uploads have no character limit. HTML merge
-                variables should not include delimiting whitespace. PDF, PNG,
-                and JPGs must be sized at 8.5"x11" at 300 DPI, while supplied
-                HTML will be rendered and trimmed to fit on a 8.5"x11" page. The
-                check bottom will always be printed in black & white. Must
-                conform to [this
-                template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_bottom_template.pdf).
-                Need more help? Consult our HTML examples.
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path'
+              $ref: '#/components/schemas/check_bottom'
             attachment:
               description: >-
                 A document to include with the check. Accepts an HTML string of
@@ -2913,8 +2915,8 @@ components:
                 guidelines](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_attachment_template.pdf).
                 See [pricing](https://lob.com/pricing/print-mail#compare) for
                 extra costs incurred. Need more help? Consult our HTML examples.
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
+              oneOf:
+                - $ref: '#/components/schemas/html_string'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
@@ -3501,11 +3503,11 @@ components:
                 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf)
                 instead of the standard double window envelope.
               oneOf:
-                - $ref: '#/components/schemas/artwork'
+                - $ref: '#/components/schemas/html_string'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - type: string
-                  pattern: '[a-zA-Z0-9@:%._+~#=/]{1,256}.(html|htm|pdf)+$'
+                  pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$'
             extra_service:
               type: string
               nullable: true
@@ -3613,14 +3615,14 @@ components:
             - back
           properties:
             front:
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
+              oneOf:
+                - $ref: '#/components/schemas/html_string'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
             back:
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
+              oneOf:
+                - $ref: '#/components/schemas/html_string'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
@@ -3658,22 +3660,22 @@ components:
             id:
               $ref: '#/components/schemas/sfm_id'
             outside_template_id:
-              anyOf:
+              allOf:
                 - $ref: '#/components/schemas/tmpl_id'
                 - type: string
                   nullable: true
             inside_template_id:
-              anyOf:
+              allOf:
                 - $ref: '#/components/schemas/tmpl_id'
                 - type: string
                   nullable: true
             outside_template_version_id:
-              anyOf:
+              allOf:
                 - $ref: '#/components/schemas/vrsn_id'
                 - type: string
                   nullable: true
             inside_template_version_id:
-              anyOf:
+              allOf:
                 - $ref: '#/components/schemas/vrsn_id'
                 - type: string
                   nullable: true
@@ -3696,14 +3698,14 @@ components:
             - outside
           properties:
             inside:
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
+              oneOf:
+                - $ref: '#/components/schemas/html_string'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
             outside:
-              anyOf:
-                - $ref: '#/components/schemas/artwork'
+              oneOf:
+                - $ref: '#/components/schemas/html_string'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
@@ -6009,8 +6011,11 @@ paths:
               from: adr_b8fb5acf3a2b55db
               bank_account: bank_8cad8df5354d33f
               amount: 22.5
+              logo: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png
               memo: rent
               message: yippee!
+              attachment: tmpl_23668b406d5afef
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/check_editable'
@@ -6053,6 +6058,7 @@ paths:
                 name: Harry
               metadata:
                 memo: rafting trip
+              attachment: ./cool.pdf
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/check_editable'
@@ -6175,6 +6181,35 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/letter_editable'
+            example:
+              description: demo
+              to:
+                name: Harry
+                address_line1: 185 Berry St
+                address_line2: '# 6100'
+                address_city: San Francisco
+                address_state: CA
+                address_zip: '94107'
+              from:
+                name: Harry
+                address_line1: 185 Berry St
+                address_line2: '# 6100'
+                address_city: San Francisco
+                address_state: CA
+                address_zip: '94107'
+              file: >-
+                <html style='padding-top: 3in; margin: .5in;'>HTML Letter for
+                {{name}}</html>
+              color: true
+              double_sided: false
+              address_placement: top_first_page
+              mail_type: usps_first_class
+              return_envelope: true
+              perforated_page: 1
+              merge_variables:
+                name: Harry
+              metadata:
+                spiffy: true
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/letter_editable'
@@ -6274,6 +6309,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/postcard_editable'
+            example:
+              description: demo
+              to:
+                name: Harry
+                address_line1: 185 Berry St
+                address_line2: '# 6100'
+                address_city: San Francisco
+                address_state: CA
+                address_zip: '94107'
+              front: tmpl_a1234dddg
+              back: ./nifty.htm
+              size: 6x9
+              mail_type: usps_first_class
+              merge_variables:
+                name: Harry
+              metadata:
+                spiffy: true
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/postcard_editable'

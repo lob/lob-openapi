@@ -90,6 +90,107 @@ test("create, list, read, then cancel, a letter with no extra services", async f
   await deleteAddress(from);
 });
 
+test("create, list, read, then cancel, a letter with no extra services and full payload", async function (t) {
+  t.plan(9);
+  const makeAddress = async (address_data) => {
+    let response = await prism
+      .setup()
+      .then((client) =>
+        client.post("/addresses", address_data, { headers: prism.authHeader })
+      );
+    t.assert(response.status === 200);
+    return response.data.id;
+  };
+  const deleteAddress = async (address_id) => {
+    const response = await prism
+      .setup()
+      .then((client) =>
+        client.delete(`/addresses/${address_id}`, { headers: prism.authHeader })
+      );
+
+    t.assert(response.status === 200);
+    return response;
+  };
+  const to = await makeAddress({
+    description: "Harry - Old Office",
+    name: "Harry Zhang",
+    company: "Lob (old)",
+    address_line1: "185 Berry St",
+    address_line2: "# 6100",
+    address_city: "San Francisco",
+    address_state: "CA",
+    address_zip: "94107",
+    address_country: "US",
+    phone: "5555555555",
+    email: "harry.zhang@lob.com",
+  });
+  const from = await makeAddress({
+    description: "Harry - New Office",
+    name: "Harry Zhang",
+    company: "Lob (new)",
+    address_line1: "210 King St",
+    address_city: "San Francisco",
+    address_state: "CA",
+    address_zip: "94107",
+    address_country: "US",
+    phone: "5555555555",
+    email: "harry.zhang@lob.com",
+  });
+
+  const date = new Date();
+  date.setDate(date.getDate() + 1); // adding a day to today's date so clearly within 180 days of today
+
+  const create = await prism.setup().then((client) =>
+    client.post(
+      resource_endpoint,
+      {
+        description: "Demo Letter",
+        to: to,
+        from: from,
+        send_date: date.toISOString(),
+        color: true,
+        file:
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
+        double_sided: false,
+        address_placement: "insert_blank_page",
+        mail_type: "usps_first_class",
+        extra_service: "registered",
+        return_envelope: true,
+        perforated_page: 1,
+        custom_envelope: null,
+        merge_variables: { name: "Harry" },
+      },
+      { headers: prism.authHeader }
+    )
+  );
+  t.assert(create.status === 200);
+  t.assert(!create.data.tracking_number);
+
+  const list = await prism
+    .setup()
+    .then((client) =>
+      client.get(resource_endpoint, { headers: prism.authHeader })
+    );
+  t.assert(list.status === 200);
+
+  const read = await prism.setup().then((client) =>
+    client.get(`${resource_endpoint}/${create.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+  t.assert(read.status === 200);
+
+  const cancel = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${read.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+  t.assert(cancel.status === 200);
+
+  await deleteAddress(to);
+  await deleteAddress(from);
+});
+
 // add any failure cases you need here
 test("create, list, read then cancel a certified letter", async function (t) {
   t.plan(5);

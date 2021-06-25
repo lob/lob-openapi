@@ -59,6 +59,26 @@ test("verify a US address given a single-line address", async function (t) {
   t.assert(response.status === 200);
 });
 
+test("verify a US address with full payload", async function (t) {
+  t.plan(1);
+  const response = await prism.setup().then((client) =>
+    client.post(
+      resource_endpoint,
+      {
+        recipient: "Harry Zhang",
+        primary_line: primary_line,
+        secondary_line: "",
+        city: city,
+        state: state,
+        zip_code: "94107",
+      },
+      { headers: prism.authHeader }
+    )
+  );
+
+  t.assert(response.status === 200);
+});
+
 // tests request validation
 test("errors when not given a primary line", async function (t) {
   t.plan(1);

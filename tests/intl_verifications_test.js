@@ -10,7 +10,9 @@ const resource_endpoint = "/intl_verifications",
   city = "Summerside",
   state = "Prince Edwards Island",
   postal_code = "C1N 1C4",
-  country = "CA";
+  country = "CA",
+  recipient = "John Doe",
+  secondary_line = "";
 
 const address_ru = {
   primary_line: "UL. DOLSKAYA 1",
@@ -36,6 +38,26 @@ test("verify an int'l address given primary line, and country", async function (
       resource_endpoint,
       {
         primary_line: primary_line,
+        city: city,
+        state: state,
+        postal_code: postal_code,
+        country: country,
+      },
+      { headers: prism.authHeader }
+    )
+  );
+  t.assert(response.status === 200);
+});
+
+test("verify an int'l address with full payload", async function (t) {
+  t.plan(1);
+  const response = await prism.setup().then((client) =>
+    client.post(
+      resource_endpoint,
+      {
+        recipient: recipient,
+        primary_line: primary_line,
+        secondary_line: secondary_line,
         city: city,
         state: state,
         postal_code: postal_code,

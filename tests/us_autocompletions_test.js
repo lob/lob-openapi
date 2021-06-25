@@ -26,6 +26,25 @@ test("autocomplete an address given a prefix", async function (t) {
   t.assert(response.status === 200);
 });
 
+test("autocomplete an address given a prefix with full payload", async function (t) {
+  t.plan(1);
+  const response = await prism.setup().then((client) =>
+    client.post(
+      resource_endpoint,
+      {
+        address_prefix: address_prefix,
+        city: "San Francisco",
+        state: "CA",
+        zip_code: "94107",
+        geo_ip_sort: false,
+      },
+      { headers: prism.authHeader }
+    )
+  );
+
+  t.assert(response.status === 200);
+});
+
 test("errors when address_prefix is not passed in", async function (t) {
   t.plan(2);
   const response = await prism

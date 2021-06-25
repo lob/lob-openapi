@@ -11,11 +11,8 @@ const resource_endpoint = "/templates",
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
-// contract tests
-test("create, list, retrieve, update, then delete a template", async function (t) {
-  t.plan(5);
-  // create
-  let response = await prism.setup().then((client) =>
+test.serial.before("fill out context", async function (t) {
+  t.context.response = await prism.setup().then((client) =>
     client.post(
       resource_endpoint,
       {
@@ -25,31 +22,30 @@ test("create, list, retrieve, update, then delete a template", async function (t
       { headers: prism.authHeader }
     )
   );
+});
 
-  t.is(response.status, 200);
-  const tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
+// guaranteed to run after the first one
+test.serial.before("fill out template endpoint", async function (t) {
+  t.context.tmpl_endpoint = `${resource_endpoint}/${t.context.response.data.id}`;
+});
 
-  // list
-  response = await prism
+test.serial("retrieve template", async function (t) {
+  t.plan(1);
+  let response = await prism
     .setup()
     .then((client) =>
-      client.get(resource_endpoint, { headers: prism.authHeader })
+      client.get(t.context.tmpl_endpoint, { headers: prism.authHeader })
     );
 
   t.assert(response.status === 200);
+});
 
-  // retrieve
-  response = await prism
-    .setup()
-    .then((client) => client.get(tmpl_endpoint, { headers: prism.authHeader }));
-
-  t.assert(response.status === 200);
-
-  // update
+test.serial("create and update template", async function (t) {
+  t.plan(2);
   // create new version
-  response = await prism.setup().then((client) =>
+  let response = await prism.setup().then((client) =>
     client.post(
-      `${tmpl_endpoint}/versions`,
+      `${t.context.tmpl_endpoint}/versions`,
       {
         description: "Newer Template",
         html: "<html>Updated HTML for {{name}}</html>",
@@ -57,12 +53,14 @@ test("create, list, retrieve, update, then delete a template", async function (t
       { headers: prism.authHeader }
     )
   );
+  // check creation, since original was done in non-test before hook
+  t.assert(response.status === 200);
   const updated_version = response.data.id;
 
   // update template
   response = await prism.setup().then((client) =>
     client.post(
-      tmpl_endpoint,
+      t.context.tmpl_endpoint,
       {
         description: "Updated Template",
         published_version: updated_version,
@@ -70,14 +68,29 @@ test("create, list, retrieve, update, then delete a template", async function (t
       { headers: prism.authHeader }
     )
   );
-
   t.assert(response.status === 200);
+});
 
-  // delete
-  response = await prism
+test.serial("list templates", async function (t) {
+  t.plan(1);
+  // list
+  let response = await prism
     .setup()
     .then((client) =>
-      client.delete(tmpl_endpoint, { headers: prism.authHeader })
+      client.get(resource_endpoint, { headers: prism.authHeader })
+    );
+
+  t.assert(response.status === 200);
+});
+
+// contract tests
+test.serial("delete a template", async function (t) {
+  t.plan(1);
+  // delete
+  let response = await prism
+    .setup()
+    .then((client) =>
+      client.delete(t.context.tmpl_endpoint, { headers: prism.authHeader })
     );
 
   t.assert(response.status === 200);

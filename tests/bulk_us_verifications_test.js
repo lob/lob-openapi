@@ -32,6 +32,30 @@ test("verify list of valid US addresses", async function (t) {
   t.assert(response.status === 200);
 });
 
+test("verify list of valid US addresses with full payload", async function (t) {
+  const response = await prism.setup().then((client) =>
+    client.post(
+      resource_endpoint,
+      {
+        addresses: [
+          {
+            recipient: "Walgreens",
+            primary_line: "Ave Wilson Churchill 123",
+            secondary_line: "",
+            urbanization: "URB FAIR OAKS",
+            city: "RIO PIEDRAS",
+            state: "PR",
+            zip_code: "00926",
+          },
+        ],
+      },
+      { headers: prism.authHeader }
+    )
+  );
+
+  t.assert(response.status === 200);
+});
+
 test("errors when given an empty array", async function (t) {
   const response = await prism.setup({ errors: false }).then((client) =>
     client.post(

@@ -23,11 +23,11 @@ tags:
   - name: API Keys
     x-traitTag: true
     description: >
-      Lob authenticates your API requests using your account's API keys. 
+      Lob authenticates your API requests using your account's API keys.
 
-      If you do not include your key when making an API request, or use 
+      If you do not include your key when making an API request, or use
 
-      one that is incorrect or outdated, Lob returns an error with a `401` 
+      one that is incorrect or outdated, Lob returns an error with a `401`
 
       HTTP response code. You can find all API keys in your dashboard under
       Settings.
@@ -37,29 +37,29 @@ tags:
 
 
       - **Secret API keys** should be kept confidential and only stored on your
-      own servers. 
+      own servers.
 
       Your account's secret API key can perform any API request to Lob without
       restriction.
 
 
       - **Publishable API keys** are limited to US verifications, international
-      verifications, 
+      verifications,
 
       and US autocomplete requests. While we encourage you to use a secret key
-      for maximum 
+      for maximum
 
       security, you can publish these keys to JavaScript code or in an Android
-      or iPhone app 
+      or iPhone app
 
       without exposing print and mail services or your secret key. Publishable
-      keys are always 
+      keys are always
 
       prefixed with `[environment]_pub`.
 
 
       Every type comes with a pair of keys: one for the testing environment and
-      one for the 
+      one for the
 
       live environment. We recommend reading Test and Live Environments for more
       information.
@@ -75,54 +75,54 @@ tags:
   - name: Beta Program
     description: >
       Here at Lob, we pride ourselves on building high quality platform
-      capabilities rapidly 
+      capabilities rapidly
 
       and iteratively, so we can constantly be delivering additional value to
-      our customers. 
+      our customers.
 
       When evaluating a new product or feature from Lob, you may see that it has
       been released in Beta.
 
 
       Typically, something in Beta means that the feature is early in its
-      lifecycle here at 
+      lifecycle here at
 
       Lob. While we fully stand behind the quality of everything we release in
-      Beta, we do 
+      Beta, we do
 
       anticipate receiving a higher level of customer feedback on Beta features,
-      as well as a 
+      as well as a
 
       faster pace of changes from our engineering team in response to that
       feedback.
 
 
       By participating in a Lob Beta program, you will have the opportunity to
-      get early access 
+      get early access
 
       to a new product capability, as well as having a unique opportunity to
-      influence the product's 
+      influence the product's
 
       direction with your feedback.
 
 
       You should also anticipate that features in Beta may have functional or
-      design limitations, 
+      design limitations,
 
       and might change rapidly as we receive customer feedback and make
-      improvements. In particular, 
+      improvements. In particular,
 
       new APIs in Beta may also go through more frequent versioning and version
-      deprecation cycles 
+      deprecation cycles
 
       than our more mature APIs.
 
 
       If you are participating in a Beta program and want to provide feedback,
-      please feel free to 
+      please feel free to
 
       [contact us](https://lob.com/support#contact)!
-  - name: Bulk Int'l Verifications
+  - name: Bulk Intl Verifications
     description: Verify a list of non-US addresses.
   - name: Bulk US Verifications
     description: Verify a list of US addresses.
@@ -130,44 +130,42 @@ tags:
     x-traitTag: true
     description: >
       By default, all new accounts have a 5 minute cancellation window for
-      postcards, 
+      postcards,
 
-      self mailers, letters, and checks. Within that timeframe, you can cancel 
+      self mailers, letters, and checks. Within that timeframe, you can cancel
 
-      mailings from production, free of charge. Once the window has passed for
-      a 
+      mailings from production, free of charge. Once the window has passed for a
 
       postcard, self mailer, letter, or check, the mailing is no longer
-      cancelable. 
+      cancelable.
 
-      In addition, certain customers can customize their cancellation windows
-      by 
+      In addition, certain customers can customize their cancellation windows by
 
       product in their [Dashboard Settings](https://dashboard.lob.com/#).
-      Upgrade to 
+      Upgrade to
 
       the appropriate [Print & Mail
-      Edition](https://dashboard.lob.com/#/settings/editions) 
+      Edition](https://dashboard.lob.com/#/settings/editions)
 
       to automatically gain access to this ability. For more details on this
-      feature, 
+      feature,
 
       check out our [Cancellation
       Guide](https://lob.com/guides#cancellation_windows).
 
 
       If you schedule a postcard, self mailer, letter, or check for up to 180
-      days 
+      days
 
       in the future by supplying the `send_date` parameter, that will override
-      any 
+      any
 
       cancellation window you may have for that product.
   - name: Certificates
     description: A certificate store to manage client identities.
   - name: Checks
     description: Checks allow you to send payments via physical checks.
-  - name: Int'l Verifications
+  - name: Intl Verifications
     description: Address verification for non-US addresses
   - name: Letters
     description: Easily print and mail letters.
@@ -214,7 +212,7 @@ tags:
       verification services, verify addresses._ The US & International
       verification services trigger behavior with specific argument values, and,
       if you plan on using those, we recommend reading US Verification Test
-      Environment and Int'l Verification Test Environment. To switch between
+      Environment and Intl Verification Test Environment. To switch between
       environments, use the appropriate key for that environment when performing
       a request. You can find each environment's API key in your dashboard under
       Settings; test API keys are always prefixed with `test_` and production
@@ -232,40 +230,40 @@ tags:
     x-traitTag: true
     description: >
       Webhooks are an easy way to get notifications on events happening
-      asynchronously 
+      asynchronously
 
       within Lob's architecture. For example, when a postcard gets a "Processed
-      For 
+      For
 
       Delivery" tracking event, an event object of type
-      `postcard.processed_for_delivery` 
+      `postcard.processed_for_delivery`
 
       will be created. If you are subscribed to that event type in that
-      Environment 
+      Environment
 
       (Test vs. Live), Lob will send that event to any URLs you've specified via
-      an 
+      an
 
       HTTP POST request. In Live mode, you can only have as many webhooks as
-      allotted 
+      allotted
 
       in your current [Print & Mail
-      Edition](https://dashboard.lob.com/#/settings/editions). 
+      Edition](https://dashboard.lob.com/#/settings/editions).
 
       There is no limit in Test mode.
 
 
       You can view and create [webhooks](https://dashboard.lob.com/#/webhooks)
-      on the 
+      on the
 
       Lob Dashboard, as well as view your
-      [events](https://dashboard.lob.com/#/events). 
+      [events](https://dashboard.lob.com/#/events).
 
       See our [Webhooks Integration
-      Guide](https://lob.com/guides#webhooks_block) for more 
+      Guide](https://lob.com/guides#webhooks_block) for more
 
       details on how to integrate. Please see the full list of event types
-      available for 
+      available for
 
       subscription here.
   - name: Zip Lookups
@@ -299,10 +297,10 @@ x-tagGroups:
       - Bulk US Verifications
       - US Autocompletions
       - Zip Lookups
-  - name: Int'l Verification API
+  - name: Intl Verification API
     tags:
-      - Int'l Verifications
-      - Bulk Int'l Verifications
+      - Intl Verifications
+      - Bulk Intl Verifications
 components:
   securitySchemes:
     basicAuth:
@@ -1640,7 +1638,7 @@ components:
         days to prevent mis-sharing. Each time a GET request is initiated, a new
         signed URL will be generated.
       pattern: >-
-        ^https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*\&)?expires=[0-9]{10}\&signature=[a-zA-Z0-9-_]+$
+        ^https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*&)?expires=[0-9]{10}&signature=[a-zA-Z0-9-_]+$
     bank_account:
       allOf:
         - $ref: '#/components/schemas/bank_account_base'
@@ -1654,7 +1652,8 @@ components:
             signature_url:
               allOf:
                 - $ref: '#/components/schemas/signed_link'
-                - nullable: true
+                - type: string
+                  nullable: true
             bank_name:
               description: >-
                 The name of the bank based on the provided routing number, e.g.
@@ -2228,6 +2227,7 @@ components:
       properties:
         score:
           type: number
+          nullable: true
           format: float
           description: >
             A numerical score between 0 and 100 that represents the percentage
@@ -2310,7 +2310,12 @@ components:
         lob_confidence_score:
           $ref: '#/components/schemas/lob_confidence_score'
         object:
-          $ref: '#/components/schemas/object'
+          allOf:
+            - $ref: '#/components/schemas/object'
+            - type: string
+              enum:
+                - us_verification
+              default: us_verification
     us_verifications:
       type: object
       required:
@@ -6016,7 +6021,7 @@ paths:
         _with a live API key_. Requests to this endpoint with a test API key
         will return a dummy response based on the primary line you input.
       tags:
-        - Bulk Int'l Verifications
+        - Bulk Intl Verifications
       requestBody:
         required: true
         content:
@@ -6273,7 +6278,7 @@ paths:
         live API key_. Requests to this endpoint with a test API key will return
         a dummy response based on the primary line you input.
       tags:
-        - Int'l Verifications
+        - Intl Verifications
       parameters:
         - $ref: '#/components/parameters/lang_spec'
       requestBody:

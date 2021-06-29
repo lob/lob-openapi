@@ -295,7 +295,7 @@ x-tagGroups:
       - Template Versions
   - name: US Verification API
     tags:
-      - US Verifications
+      - Address Verification
       - Bulk US Verifications
       - US Autocompletions
       - Zip Lookups
@@ -1820,7 +1820,7 @@ components:
         identifies `components[county]`. It consists of a 2-digit state code and
         a 3-digit county code.
       pattern: '\d{5}'
-    components:
+    us_components:
       type: object
       required:
         - primary_number
@@ -2304,7 +2304,7 @@ components:
             * `undeliverable` – The address is not deliverable according to the
             USPS.
         components:
-          $ref: '#/components/schemas/components'
+          $ref: '#/components/schemas/us_components'
         deliverability_analysis:
           $ref: '#/components/schemas/deliverability_analysis'
         lob_confidence_score:
@@ -2600,7 +2600,7 @@ components:
       type: string
       description: Unique identifier prefixed with `intl_ver_`.
       pattern: '^intl_ver_[a-zA-Z0-9]+$'
-    components-2:
+    intl_components:
       type: object
       description: A nested object containing a breakdown of each component of an address.
       properties:
@@ -2737,7 +2737,7 @@ components:
                 * LU1 - Unverfied. The input data cannot be corrected or
                 matched.
             components:
-              $ref: '#/components/schemas/components-2'
+              $ref: '#/components/schemas/intl_components'
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
@@ -2970,7 +2970,7 @@ components:
             - address_city
             - address_state
             - address_zip
-    input_to:
+    check_input_to:
       type: object
       properties:
         to:
@@ -3039,7 +3039,7 @@ components:
     check_editable:
       allOf:
         - $ref: '#/components/schemas/check_base'
-        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/check_input_to'
         - $ref: '#/components/schemas/input_from_us'
         - type: object
           required:
@@ -3624,7 +3624,7 @@ components:
       oneOf:
         - $ref: '#/components/schemas/inline_address_us'
         - $ref: '#/components/schemas/inline_address_intl'
-    input_to-2:
+    input_to:
       type: object
       properties:
         to:
@@ -3660,7 +3660,7 @@ components:
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/input_to-2'
+        - $ref: '#/components/schemas/input_to'
         - $ref: '#/components/schemas/input_from'
         - type: object
           required:
@@ -3798,7 +3798,7 @@ components:
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
-        - $ref: '#/components/schemas/input_to-2'
+        - $ref: '#/components/schemas/input_to'
         - $ref: '#/components/schemas/input_from_us'
         - type: object
           required:
@@ -3881,7 +3881,7 @@ components:
     self_mailer_editable:
       allOf:
         - $ref: '#/components/schemas/self_mailer_base'
-        - $ref: '#/components/schemas/input_to-2'
+        - $ref: '#/components/schemas/input_to'
         - $ref: '#/components/schemas/input_from_us'
         - type: object
           required:
@@ -4114,7 +4114,7 @@ components:
       description: Unique identifier prefixed with `us_zip_`.
       pattern: '^us_zip_[a-zA-Z0-9]+$'
       example: us_zip_c7cb63d68f8d6
-    city-2:
+    zip_lookup_city:
       type: object
       required:
         - city
@@ -4156,7 +4156,7 @@ components:
             cities:
               type: array
               items:
-                $ref: '#/components/schemas/city-2'
+                $ref: '#/components/schemas/zip_lookup_city'
               description: >
                 An array of city objects containing valid cities for the
                 `zip_code`. Multiple cities will be returned if more than one

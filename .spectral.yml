@@ -20,3 +20,13 @@ rules:
       function: pattern
       functionOptions:
         match: "^resources\/[a-zA-Z-_]+\/"
+
+  must-use-intl:
+    description: "Use Intl rather than Int'l"
+    message: "{{description}}"
+    severity: warn
+    given: $..*
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "int'l|Int'l"

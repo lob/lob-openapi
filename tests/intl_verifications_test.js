@@ -31,7 +31,7 @@ const address_response_ru = {
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 
-test("verify an int'l address given primary line, and country", async function (t) {
+test("verify an Intl address given primary line, and country", async function (t) {
   t.plan(1);
   const response = await prism.setup().then((client) =>
     client.post(
@@ -49,7 +49,7 @@ test("verify an int'l address given primary line, and country", async function (
   t.assert(response.status === 200);
 });
 
-test("verify an int'l address with full payload", async function (t) {
+test("verify an Intl address with full payload", async function (t) {
   t.plan(1);
   const response = await prism.setup().then((client) =>
     client.post(

@@ -41,6 +41,7 @@ content:
             metadata: {}
             date_created: "2018-12-08T03:01:07.651Z"
             date_modified: "2018-12-08T03:01:07.651Z"
+            recipient_moved: false
             object: address
           from:
             id: adr_210a8d4b0b76d77b
@@ -64,14 +65,29 @@ content:
           address_placement: top_first_page
           return_envelope: false
           perforated_page:
-          extra_service:
+          extra_service: certified
           custom_envelope:
+          template_id: tmpl_a
+          template_version_id: vrsn_a
           mail_type: usps_first_class
           url: https://lob-assets.com/letters/ltr_5ba44b462c79f07c.pdf?version=v1&expires=1568239830&signature=Ob-DUPLJLM4scWQeCDNadPJ4j33MZw16pykOxwv2us-bA7utTYi6oZ8WrEtBYDBBo09XkapR3gdJf0NEr90xAA
           merge_variables:
           carrier: USPS
-          tracking_number:
-          tracking_events: []
+          tracking_number: # TODO: decide whether tracking_number = tracking_events count
+          tracking_events:
+            - id: evnt_9e84094c9368cfb
+              type: certified
+              name: Delivered
+              details:
+                event: delivered
+                description: Package has been delivered.
+                notes: Delivered, Front Desk/Reception/Mail Room
+                action_required: false
+              location: "33408"
+              time: "2019-10-08T19:41:00Z"
+              date_created: "2019-10-08T19:41:00Z"
+              date_modified: "2019-10-08T19:41:00Z"
+              object: tracking_event
           thumbnails:
             - small: https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_small_1.png?version=v1&expires=1568239830&signature=xZUmE8rq8wSECHPEb9c37cUDZBzGUO3XK5LsIPZhI6dOXgm6zJEn8_7tKuZ3JWBmvNJNXdTl_ufkNu4avjQUDw
               medium: https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_medium_1.png?version=v1&expires=1568239830&signature=H7354Qpcm9S4aXbrMsBe6QJ6lSNi9IWPgMJtLWLi4Kyx9tHF8Mp9YEc_IL9x89Jfw4-yRzKDXA410X4W0PssBQ

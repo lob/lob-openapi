@@ -45,14 +45,32 @@ post:
       application/json:
         schema:
           $ref: "models/template_writable.yml"
+        example:
+          description: demo
+          html: "<html>HTML for {{name}}</html>"
+          metadata:
+            spiffy: true
+          # TODO: figure out whether we want to keep `engine` field here
+          # it's included in docs.lob.com but there's no description for it there
+          # nor is it specified in this file
 
       application/x-www-form-urlencoded:
         schema:
           $ref: "models/template_writable.yml"
+        example:
+          description: demo
+          html: "<html>HTML for {{name}}</html>"
+          metadata:
+            spiffy: true
 
       multipart/form-data:
         schema:
           $ref: "models/template_writable.yml"
+        example:
+          description: demo
+          html: "<html>HTML for {{name}}</html>"
+          metadata:
+            spiffy: true
 
   responses:
     "200":

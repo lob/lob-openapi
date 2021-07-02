@@ -33,6 +33,53 @@ post:
       application/json:
         schema:
           $ref: "models/multiple_components_list.yml"
+        example:
+          addresses:
+            - primary_line: 185 Berry Street
+              city: San Francisco
+              state: CA
+              zip_code: "94107"
+            - recipient: Walgreens
+              primary_line: Ave Wilson Churchill 123
+              secondary_line: ""
+              urbanization: URB FAIR OAKS
+              city: RIO PIEDRAS
+              state: PR
+              zip_code: "00926"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/multiple_components_list.yml"
+        example:
+          addresses:
+            - primary_line: 185 Berry Street
+              city: San Francisco
+              state: CA
+              zip_code: "94107"
+            - recipient: Walgreens
+              primary_line: Ave Wilson Churchill 123
+              secondary_line: ""
+              urbanization: URB FAIR OAKS
+              city: RIO PIEDRAS
+              state: PR
+              zip_code: "00926"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/multiple_components_list.yml"
+        example:
+          addresses:
+            - primary_line: 185 Berry Street
+              city: San Francisco
+              state: CA
+              zip_code: "94107"
+            - recipient: Walgreens
+              primary_line: Ave Wilson Churchill 123
+              secondary_line: ""
+              urbanization: URB FAIR OAKS
+              city: RIO PIEDRAS
+              state: PR
+              zip_code: "00926"
 
   responses:
     "200":

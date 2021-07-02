@@ -16,3 +16,18 @@ content:
           $ref: "../../../shared/attributes/count.yml"
         object:
           $ref: "../../../shared/attributes/object.yml"
+      example:
+        data:
+          - description: Certificate 1
+            name: Lob PEM Key
+            cert: --Key--
+            date_created: "2019-08-24T14:15:22Z"
+            date_modified: "2019-08-24T14:15:22Z"
+            date_deleted: "2020-08-24T14:15:22Z"
+            object: certificate
+            id: cert_1
+            account_id: asdf
+            deleted: true
+            # TODO: figure out whether 'date_deleted' should be nullable or just ""
+        count: 1
+        object: list

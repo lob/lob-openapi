@@ -178,7 +178,7 @@ test("errors when attempting to create an address with neither name nor company"
   };
 
   let response = await prism
-    .setup({ errors: false })
+    .setup()
     .then((client) =>
       client.post(resource_endpoint, params, { headers: prism.authHeader })
     );

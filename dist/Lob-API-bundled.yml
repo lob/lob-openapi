@@ -3041,6 +3041,12 @@ components:
         - $ref: '#/components/schemas/tmpl_id'
         - $ref: '#/components/schemas/remote_file_url'
         - $ref: '#/components/schemas/local_file_path'
+    billing_group_id:
+      type: string
+      description: >-
+        An optional string with the billing group ID to tag your usage with. Is
+        used for billing purpose. Requires special activation to use. See
+        Billing Group API for more information.
     check_editable:
       allOf:
         - $ref: '#/components/schemas/check_base'
@@ -3117,6 +3123,8 @@ components:
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
+            billing_group_id:
+              $ref: '#/components/schemas/billing_group_id'
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.
@@ -3732,6 +3740,8 @@ components:
                 the appropriate [Print & Mail
                 Edition](https://lob.com/pricing/print-mail#compare) to gain
                 access.
+            billing_group_id:
+              $ref: '#/components/schemas/billing_group_id'
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
@@ -3823,6 +3833,8 @@ components:
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
+            billing_group_id:
+              $ref: '#/components/schemas/billing_group_id'
     sfm_id:
       type: string
       description: Unique identifier prefixed with `sfm_`.
@@ -3841,6 +3853,8 @@ components:
           properties:
             size:
               $ref: '#/components/schemas/self_mailer_size'
+            billing_group_id:
+              $ref: '#/components/schemas/billing_group_id'
     self_mailer:
       allOf:
         - $ref: '#/components/schemas/self_mailer_base'
@@ -3906,6 +3920,8 @@ components:
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - $ref: '#/components/schemas/local_file_path'
+            billing_group_id:
+              $ref: '#/components/schemas/billing_group_id'
     template_html:
       type: string
       description: >
@@ -6213,6 +6229,7 @@ paths:
               memo: rent
               message: yippee!
               attachment: tmpl_23668b406d5afef
+              billing_group_id: bg_79a178f7171f5795d
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/check_editable'
@@ -6403,6 +6420,7 @@ paths:
               mail_type: usps_first_class
               return_envelope: true
               perforated_page: 1
+              billing_group_id: bg_79a178f7171f5795d
               merge_variables:
                 name: Harry
               metadata:
@@ -6518,6 +6536,7 @@ paths:
               front: tmpl_a1234dddg
               back: ./nifty.htm
               size: 6x9
+              billing_group_id: bg_79a178f7171f5795d
               mail_type: usps_first_class
               merge_variables:
                 name: Harry
@@ -6628,6 +6647,7 @@ paths:
               from: adr_210a8d4b0b76d77b
               inside: 'https://lob.com/selfmailerinside.pdf'
               outside: 'https://lob.com/selfmaileroutside.pdf'
+              billing_group_id: bg_79a178f7171f5795d
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'

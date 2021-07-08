@@ -356,6 +356,9 @@ components:
             code:
               type: string
               description: A pre-defined string identifying the error category
+    object:
+      type: string
+      description: Value is type of resource.
     resource_description:
       type: string
       description: >
@@ -382,6 +385,435 @@ components:
           campaign:
             type: string
             example: NEWYORK2015
+    date_created:
+      type: string
+      format: date-time
+      description: A timestamp in ISO 8601 format of the date the resource was created.
+    date_modified:
+      type: string
+      format: date-time
+      description: >-
+        A timestamp in ISO 8601 format of the date the resource was last
+        modified.
+    deleted:
+      type: boolean
+      description: Only returned if the resource has been successfully deleted.
+    address_us:
+      type: object
+      required:
+        - id
+        - address_line1
+        - address_city
+        - address_state
+        - address_zip
+      anyOf:
+        - required:
+            - name
+        - required:
+            - company
+      properties:
+        id:
+          $ref: '#/components/schemas/adr_id'
+        recipient_moved:
+          type: boolean
+          description: >
+            Only returned for accounts on certain <a
+            href="https://dashboard.lob.com/#/settings/editions">Print &amp;
+            Mail Editions</a>. Value is `true` if the address was altered
+            because the recipient filed for a <a href="#ncoa">National Change of
+            Address (NCOA)</a>, `false` if the NCOA check was run but no altered
+            address was found, and `null` if the NCOA check was not run. The
+            NCOA check does not happen for non-US addresses, for non-deliverable
+            US addresses, or for addresses created before the NCOA feature was
+            added to your account.
+          nullable: true
+        object:
+          allOf:
+            - $ref: '#/components/schemas/object'
+            - type: string
+              enum:
+                - address
+              default: address
+        description:
+          $ref: '#/components/schemas/resource_description'
+        name:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address.
+          maxLength: 40
+          nullable: true
+        company:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address. This field can be used for any secondary recipient
+            information which is not part of the actual mailing address (Company
+            Name, Department, Attention Line, etc).
+          maxLength: 40
+          nullable: true
+        phone:
+          type: string
+          description: Must be no longer than 40 characters.
+          maxLength: 40
+          nullable: true
+        email:
+          type: string
+          description: Must be no longer than 100 characters.
+          maxLength: 100
+          nullable: true
+        address_line1:
+          type: string
+          maxLength: 64
+        address_line2:
+          type: string
+          maxLength: 64
+          nullable: true
+        address_city:
+          type: string
+          maxLength: 200
+        address_state:
+          type: string
+          description: 2 letter state short-name code
+          pattern: '^[a-zA-Z]{2}$'
+        address_zip:
+          type: string
+          description: >
+            Must follow the ZIP format of `12345` or ZIP+4 format of
+            `12345-1234`.
+          pattern: '^\d{5}(-\d{4})?$'
+        address_country:
+          type: string
+          enum:
+            - UNITED STATES
+          description: Full name of country
+          minLength: 13
+          maxLength: 13
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+    address_intl:
+      type: object
+      required:
+        - address_line1
+        - address_country
+      anyOf:
+        - required:
+            - name
+        - required:
+            - company
+      properties:
+        id:
+          $ref: '#/components/schemas/adr_id'
+        description:
+          $ref: '#/components/schemas/resource_description'
+        name:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address.
+          maxLength: 40
+          nullable: true
+        company:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address. This field can be used for any secondary recipient
+            information which is not part of the actual mailing address (Company
+            Name, Department, Attention Line, etc).
+          maxLength: 40
+          nullable: true
+        phone:
+          type: string
+          description: Must be no longer than 40 characters.
+          maxLength: 40
+          nullable: true
+        email:
+          type: string
+          description: Must be no longer than 100 characters.
+          maxLength: 100
+          nullable: true
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        address_line1:
+          type: string
+          maxLength: 200
+        address_line2:
+          type: string
+          maxLength: 200
+          nullable: true
+        address_city:
+          type: string
+          maxLength: 200
+          nullable: true
+        address_state:
+          type: string
+          maxLength: 200
+          nullable: true
+        address_zip:
+          type: string
+          description: Optional postal code.
+          maxLength: 40
+          nullable: true
+        address_country:
+          description: Full name of country
+          type: string
+          maxLength: 200
+          enum:
+            - AFGHANISTAN
+            - ALBANIA
+            - ALGERIA
+            - AMERICAN SAMOA
+            - ANDORRA
+            - ANGOLA
+            - ANGUILLA
+            - ANTARCTICA
+            - ANTIGUA AND BARBUDA
+            - ARGENTINA
+            - ARUBA
+            - AUSTRALIA
+            - AUSTRIA
+            - AZERBAIJAN
+            - BAHRAIN
+            - BANGLADESH
+            - BARBADOS
+            - BELARUS
+            - BELGIUM
+            - BELIZE
+            - BENIN
+            - BERMUDA
+            - BHUTAN
+            - BOLIVIA (PLURINATIONAL STATE OF)
+            - 'BONAIRE, SAINT EUSTATIUS AND SABA'
+            - BOSNIA AND HERZEGOVINA
+            - BOTSWANA
+            - BRAZIL
+            - BRITISH INDIAN OCEAN TERRITORY
+            - BRITISH VIRGIN ISLANDS
+            - BRUNEI DARUSSALAM
+            - BULGARIA
+            - BURKINA FASO
+            - BURUNDI
+            - CABO VERDE
+            - CAMBODIA
+            - CAMEROON
+            - CANADA
+            - CAYMAN ISLANDS
+            - CENTRAL AFRICAN REPUBLIC
+            - CHAD
+            - CHILE
+            - CHINA
+            - COLOMBIA
+            - COMOROS
+            - CONGO
+            - 'CONGO, DEMOCRATIC REPUBLIC OF THE'
+            - COOK ISLANDS
+            - COSTA RICA
+            - CÔTE D'IVOIRE
+            - CROATIA
+            - CUBA
+            - CURAÇAO
+            - CYPRUS
+            - CZECH REPUBLIC
+            - DENMARK
+            - DJIBOUTI
+            - DOMINICA
+            - DOMINICAN REPUBLIC
+            - ECUADOR
+            - EGYPT
+            - EL SALVADOR
+            - EQUATORIAL GUINEA
+            - ERITREA
+            - ESTONIA
+            - ESWATINI
+            - ETHIOPIA
+            - FALKLAND ISLANDS (MALVINAS)
+            - FAROE ISLANDS
+            - FIJI
+            - FINLAND
+            - FRANCE
+            - GABON
+            - GAMBIA
+            - GEORGIA
+            - GERMANY
+            - GHANA
+            - GIBRALTAR
+            - GREECE
+            - GREENLAND
+            - GRENADA
+            - GUATEMALA
+            - GUINEA
+            - GUINEA-BISSAU
+            - GUYANA
+            - HAITI
+            - HOLY SEE
+            - HONDURAS
+            - HONG KONG
+            - HUNGARY
+            - ICELAND
+            - INDIA
+            - INDONESIA
+            - IRAN (ISLAMIC REPUBLIC OF)
+            - IRAQ
+            - IRELAND
+            - ISRAEL
+            - ITALY
+            - JAMAICA
+            - JAPAN
+            - JORDAN
+            - KAZAKHSTAN
+            - KENYA
+            - KIRIBATI
+            - KOREA (DEMOCRATIC PEOPLE’S REPUBLIC OF)
+            - 'KOREA, REPUBLIC OF'
+            - KUWAIT
+            - KYRGYZSTAN
+            - LAO PEOPLE’S DEMOCRATIC REPUBLIC
+            - LATVIA
+            - LEBANON
+            - LESOTHO
+            - LIBERIA
+            - LIBYA
+            - LIECHTENSTEIN
+            - LITHUANIA
+            - LUXEMBOURG
+            - MACAO
+            - MACEDONIA
+            - MADAGASCAR
+            - MALAWI
+            - MALAYSIA
+            - MALDIVES
+            - MALI
+            - MALTA
+            - MAURITANIA
+            - MAURITIUS
+            - MEXICO
+            - 'MOLDOVA, REPUBLIC OF'
+            - MONACO
+            - MONGOLIA
+            - MONTENEGRO
+            - MONTSERRAT
+            - MOROCCO
+            - MOZAMBIQUE
+            - MYANMAR
+            - NAMIBIA
+            - NAURU
+            - NEPAL
+            - NETHERLAND ANTILLES
+            - NETHERLANDS
+            - NEW ZEALAND
+            - NICARAGUA
+            - NIGER
+            - NIGERIA
+            - NIUE
+            - NORFOLK ISLAND
+            - NORWAY
+            - OMAN
+            - PAKISTAN
+            - PANAMA
+            - PAPUA NEW GUINEA
+            - PARAGUAY
+            - PERU
+            - PHILIPPINES
+            - PITCAIRN
+            - POLAND
+            - PORTUGAL
+            - QATAR
+            - ROMANIA
+            - RUSSIAN FEDERATION
+            - RWANDA
+            - SAINT HELENA
+            - SAINT KITTS AND NEVIS
+            - SAINT LUCIA
+            - SAINT VINCENT AND THE GRENADINES
+            - SAMOA
+            - SAN MARINO
+            - SAO TOME AND PRINCIPE
+            - SAUDI ARABIA
+            - SENEGAL
+            - SERBIA
+            - SEYCHELLES
+            - SIERRA LEONE
+            - SINGAPORE
+            - SINT MAARTEN
+            - SLOVAKIA
+            - SLOVENIA
+            - SOLOMON ISLANDS
+            - SOMALIA
+            - SOUTH AFRICA
+            - SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS
+            - SOUTH SUDAN
+            - SPAIN
+            - SRI LANKA
+            - SUDAN
+            - SURINAME
+            - SWEDEN
+            - SWITZERLAND
+            - SYRIAN ARAB REPUBLIC
+            - TAIWAN
+            - TAJIKISTAN
+            - TANZANIA
+            - THAILAND
+            - THE BAHAMAS
+            - TIMOR-LESTE
+            - TOGO
+            - TOKELAU
+            - TONGA
+            - TRINIDAD AND TOBAGO
+            - TUNISIA
+            - TURKEY
+            - TURKMENISTAN
+            - TURKS AND CAICOS ISLANDS
+            - TUVALU
+            - UGANDA
+            - UKRAINE
+            - UNITED ARAB EMIRATES
+            - UNITED KINGDOM
+            - URUGUAY
+            - UZBEKISTAN
+            - VANUATU
+            - VENEZUELA
+            - VIET NAM
+            - WESTERN SAHARA
+            - YEMEN
+            - ZAMBIA
+            - ZIMBABWE
+    address:
+      oneOf:
+        - $ref: '#/components/schemas/address_us'
+        - $ref: '#/components/schemas/address_intl'
+    count:
+      type: integer
+      description: number of resources in a set
+    list:
+      type: object
+      description: Multiple items returned in order
+      properties:
+        object:
+          $ref: '#/components/schemas/object'
+        next_url:
+          type: string
+          description: Url of next page of items in list.
+          nullable: true
+        previous_url:
+          type: string
+          description: Url of previous page of items in list.
+          nullable: true
+        count:
+          $ref: '#/components/schemas/count'
     address_editable_base:
       type: object
       anyOf:
@@ -452,82 +884,27 @@ components:
             Must follow the ZIP format of `12345` or ZIP+4 format of
             `12345-1234`.
           pattern: '^\d{5}(-\d{4})?$'
-    date_created:
-      type: string
-      format: date-time
-      description: A timestamp in ISO 8601 format of the date the resource was created.
-    date_modified:
-      type: string
-      format: date-time
-      description: >-
-        A timestamp in ISO 8601 format of the date the resource was last
-        modified.
-    deleted:
-      type: boolean
-      description: Only returned if the resource has been successfully deleted.
-    object:
-      type: string
-      description: Value is type of resource.
-    lob_base:
-      type: object
-      required:
-        - date_created
-        - date_modified
-        - object
-      properties:
-        date_created:
-          $ref: '#/components/schemas/date_created'
-        date_modified:
-          $ref: '#/components/schemas/date_modified'
-        deleted:
-          $ref: '#/components/schemas/deleted'
-        object:
-          $ref: '#/components/schemas/object'
-    address_generated_base:
-      allOf:
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          required:
-            - id
-          properties:
-            id:
-              $ref: '#/components/schemas/adr_id'
-            recipient_moved:
-              type: boolean
-              description: >
-                Only returned for accounts on certain <a
-                href="https://dashboard.lob.com/#/settings/editions">Print &amp;
-                Mail Editions</a>. Value is `true` if the address was altered
-                because the recipient filed for a <a href="#ncoa">National
-                Change of Address (NCOA)</a>, `false` if the NCOA check was run
-                but no altered address was found, and `null` if the NCOA check
-                was not run. The NCOA check does not happen for non-US
-                addresses, for non-deliverable US addresses, or for addresses
-                created before the NCOA feature was added to your account.
-              nullable: true
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - address
-                  default: address
-    address_us:
+    address_editable_us:
       allOf:
         - $ref: '#/components/schemas/address_editable_base'
         - $ref: '#/components/schemas/address_fields_us'
-        - $ref: '#/components/schemas/address_generated_base'
         - type: object
-          required:
-            - address_country
           properties:
             address_country:
               type: string
               enum:
-                - UNITED STATES
-              description: Full name of country
-              minLength: 13
-              maxLength: 13
+                - US
+              description: Value is US.
+              default: US
+      example:
+        name: Harry Zhang
+        phone: '5555555555'
+        email: harry@lob.com
+        address_line1: 210 King St
+        address_city: San Francisco
+        address_state: CA
+        address_zip: '94107'
+        address_country: US
     address_fields_intl:
       type: object
       required:
@@ -554,282 +931,6 @@ components:
           description: Optional postal code.
           maxLength: 40
           nullable: true
-    address_intl:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_base'
-        - $ref: '#/components/schemas/address_fields_intl'
-        - $ref: '#/components/schemas/address_generated_base'
-        - type: object
-          required:
-            - address_country
-          properties:
-            address_country:
-              description: Full name of country
-              type: string
-              maxLength: 200
-              enum:
-                - AFGHANISTAN
-                - ALBANIA
-                - ALGERIA
-                - AMERICAN SAMOA
-                - ANDORRA
-                - ANGOLA
-                - ANGUILLA
-                - ANTARCTICA
-                - ANTIGUA AND BARBUDA
-                - ARGENTINA
-                - ARUBA
-                - AUSTRALIA
-                - AUSTRIA
-                - AZERBAIJAN
-                - BAHRAIN
-                - BANGLADESH
-                - BARBADOS
-                - BELARUS
-                - BELGIUM
-                - BELIZE
-                - BENIN
-                - BERMUDA
-                - BHUTAN
-                - BOLIVIA (PLURINATIONAL STATE OF)
-                - 'BONAIRE, SAINT EUSTATIUS AND SABA'
-                - BOSNIA AND HERZEGOVINA
-                - BOTSWANA
-                - BRAZIL
-                - BRITISH INDIAN OCEAN TERRITORY
-                - BRITISH VIRGIN ISLANDS
-                - BRUNEI DARUSSALAM
-                - BULGARIA
-                - BURKINA FASO
-                - BURUNDI
-                - CABO VERDE
-                - CAMBODIA
-                - CAMEROON
-                - CANADA
-                - CAYMAN ISLANDS
-                - CENTRAL AFRICAN REPUBLIC
-                - CHAD
-                - CHILE
-                - CHINA
-                - COLOMBIA
-                - COMOROS
-                - CONGO
-                - 'CONGO, DEMOCRATIC REPUBLIC OF THE'
-                - COOK ISLANDS
-                - COSTA RICA
-                - CÔTE D'IVOIRE
-                - CROATIA
-                - CUBA
-                - CURAÇAO
-                - CYPRUS
-                - CZECH REPUBLIC
-                - DENMARK
-                - DJIBOUTI
-                - DOMINICA
-                - DOMINICAN REPUBLIC
-                - ECUADOR
-                - EGYPT
-                - EL SALVADOR
-                - EQUATORIAL GUINEA
-                - ERITREA
-                - ESTONIA
-                - ESWATINI
-                - ETHIOPIA
-                - FALKLAND ISLANDS (MALVINAS)
-                - FAROE ISLANDS
-                - FIJI
-                - FINLAND
-                - FRANCE
-                - GABON
-                - GAMBIA
-                - GEORGIA
-                - GERMANY
-                - GHANA
-                - GIBRALTAR
-                - GREECE
-                - GREENLAND
-                - GRENADA
-                - GUATEMALA
-                - GUINEA
-                - GUINEA-BISSAU
-                - GUYANA
-                - HAITI
-                - HOLY SEE
-                - HONDURAS
-                - HONG KONG
-                - HUNGARY
-                - ICELAND
-                - INDIA
-                - INDONESIA
-                - IRAN (ISLAMIC REPUBLIC OF)
-                - IRAQ
-                - IRELAND
-                - ISRAEL
-                - ITALY
-                - JAMAICA
-                - JAPAN
-                - JORDAN
-                - KAZAKHSTAN
-                - KENYA
-                - KIRIBATI
-                - KOREA (DEMOCRATIC PEOPLE’S REPUBLIC OF)
-                - 'KOREA, REPUBLIC OF'
-                - KUWAIT
-                - KYRGYZSTAN
-                - LAO PEOPLE’S DEMOCRATIC REPUBLIC
-                - LATVIA
-                - LEBANON
-                - LESOTHO
-                - LIBERIA
-                - LIBYA
-                - LIECHTENSTEIN
-                - LITHUANIA
-                - LUXEMBOURG
-                - MACAO
-                - MACEDONIA
-                - MADAGASCAR
-                - MALAWI
-                - MALAYSIA
-                - MALDIVES
-                - MALI
-                - MALTA
-                - MAURITANIA
-                - MAURITIUS
-                - MEXICO
-                - 'MOLDOVA, REPUBLIC OF'
-                - MONACO
-                - MONGOLIA
-                - MONTENEGRO
-                - MONTSERRAT
-                - MOROCCO
-                - MOZAMBIQUE
-                - MYANMAR
-                - NAMIBIA
-                - NAURU
-                - NEPAL
-                - NETHERLAND ANTILLES
-                - NETHERLANDS
-                - NEW ZEALAND
-                - NICARAGUA
-                - NIGER
-                - NIGERIA
-                - NIUE
-                - NORFOLK ISLAND
-                - NORWAY
-                - OMAN
-                - PAKISTAN
-                - PANAMA
-                - PAPUA NEW GUINEA
-                - PARAGUAY
-                - PERU
-                - PHILIPPINES
-                - PITCAIRN
-                - POLAND
-                - PORTUGAL
-                - QATAR
-                - ROMANIA
-                - RUSSIAN FEDERATION
-                - RWANDA
-                - SAINT HELENA
-                - SAINT KITTS AND NEVIS
-                - SAINT LUCIA
-                - SAINT VINCENT AND THE GRENADINES
-                - SAMOA
-                - SAN MARINO
-                - SAO TOME AND PRINCIPE
-                - SAUDI ARABIA
-                - SENEGAL
-                - SERBIA
-                - SEYCHELLES
-                - SIERRA LEONE
-                - SINGAPORE
-                - SINT MAARTEN
-                - SLOVAKIA
-                - SLOVENIA
-                - SOLOMON ISLANDS
-                - SOMALIA
-                - SOUTH AFRICA
-                - SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS
-                - SOUTH SUDAN
-                - SPAIN
-                - SRI LANKA
-                - SUDAN
-                - SURINAME
-                - SWEDEN
-                - SWITZERLAND
-                - SYRIAN ARAB REPUBLIC
-                - TAIWAN
-                - TAJIKISTAN
-                - TANZANIA
-                - THAILAND
-                - THE BAHAMAS
-                - TIMOR-LESTE
-                - TOGO
-                - TOKELAU
-                - TONGA
-                - TRINIDAD AND TOBAGO
-                - TUNISIA
-                - TURKEY
-                - TURKMENISTAN
-                - TURKS AND CAICOS ISLANDS
-                - TUVALU
-                - UGANDA
-                - UKRAINE
-                - UNITED ARAB EMIRATES
-                - UNITED KINGDOM
-                - URUGUAY
-                - UZBEKISTAN
-                - VANUATU
-                - VENEZUELA
-                - VIET NAM
-                - WESTERN SAHARA
-                - YEMEN
-                - ZAMBIA
-                - ZIMBABWE
-    address:
-      oneOf:
-        - $ref: '#/components/schemas/address_us'
-        - $ref: '#/components/schemas/address_intl'
-    count:
-      type: integer
-      description: number of resources in a set
-    list:
-      type: object
-      description: Multiple items returned in order
-      properties:
-        object:
-          $ref: '#/components/schemas/object'
-        next_url:
-          type: string
-          description: Url of next page of items in list.
-          nullable: true
-        previous_url:
-          type: string
-          description: Url of previous page of items in list.
-          nullable: true
-        count:
-          $ref: '#/components/schemas/count'
-    address_editable_us:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_base'
-        - $ref: '#/components/schemas/address_fields_us'
-        - type: object
-          properties:
-            address_country:
-              type: string
-              enum:
-                - US
-              description: Value is US.
-              default: US
-      example:
-        name: Harry Zhang
-        phone: '5555555555'
-        email: harry@lob.com
-        address_line1: 210 King St
-        address_city: San Francisco
-        address_state: CA
-        address_zip: '94107'
-        address_country: US
     address_editable_intl:
       allOf:
         - $ref: '#/components/schemas/address_editable_base'
@@ -1122,6 +1223,21 @@ components:
           maxLength: 30
         metadata:
           $ref: '#/components/schemas/metadata'
+    lob_base:
+      type: object
+      required:
+        - date_created
+        - date_modified
+        - object
+      properties:
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+        object:
+          $ref: '#/components/schemas/object'
     signed_link:
       type: string
       description: >-
@@ -2403,6 +2519,19 @@ components:
                 page.
               type: string
               maxLength: 400
+    from_us:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/address_us'
+    tmpl_id:
+      type: string
+      description: Unique identifier prefixed with `tmpl_`.
+      pattern: '^tmpl_[a-zA-Z0-9]+$'
+    vrsn_id:
+      type: string
+      description: Unique identifier prefixed with `vrsn_`.
+      pattern: '^vrsn_[a-zA-Z0-9]+$'
     thumbnail:
       type: object
       properties:
@@ -2418,54 +2547,18 @@ components:
         A date in YYYY-MM-DD format of the letter's expected delivery date based
         on its `send_date`.
       format: date
-    generated:
-      allOf:
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          required:
-            - to
-            - url
-            - carrier
-          properties:
-            url:
-              $ref: '#/components/schemas/signed_link'
-            to:
-              $ref: '#/components/schemas/address'
-            carrier:
-              description: Value is `USPS`.
-              type: string
-              enum:
-                - USPS
-              default: USPS
-            thumbnails:
-              type: array
-              items:
-                $ref: '#/components/schemas/thumbnail'
-            expected_delivery_date:
-              $ref: '#/components/schemas/expected_delivery_date'
-    from_us:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/address_us'
-    tmpl_id:
-      type: string
-      description: Unique identifier prefixed with `tmpl_`.
-      pattern: '^tmpl_[a-zA-Z0-9]+$'
-    vrsn_id:
-      type: string
-      description: Unique identifier prefixed with `vrsn_`.
-      pattern: '^vrsn_[a-zA-Z0-9]+$'
     check:
       allOf:
         - $ref: '#/components/schemas/check_base'
-        - $ref: '#/components/schemas/generated'
         - $ref: '#/components/schemas/from_us'
         - type: object
           required:
             - bank_account
             - id
             - amount
+            - to
+            - url
+            - carrier
           properties:
             id:
               $ref: '#/components/schemas/chk_id'
@@ -2486,6 +2579,22 @@ components:
               $ref: '#/components/schemas/vrsn_id'
             attachment_template_version_id:
               $ref: '#/components/schemas/vrsn_id'
+            url:
+              $ref: '#/components/schemas/signed_link'
+            to:
+              $ref: '#/components/schemas/address_us'
+            carrier:
+              description: Value is `USPS`.
+              type: string
+              enum:
+                - USPS
+              default: USPS
+            thumbnails:
+              type: array
+              items:
+                $ref: '#/components/schemas/thumbnail'
+            expected_delivery_date:
+              $ref: '#/components/schemas/expected_delivery_date'
             object:
               allOf:
                 - $ref: '#/components/schemas/object'
@@ -2713,6 +2822,31 @@ components:
                 will impact your letter design, view our [perforation
                 guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
               nullable: true
+    generated:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - to
+            - url
+            - carrier
+          properties:
+            url:
+              $ref: '#/components/schemas/signed_link'
+            to:
+              $ref: '#/components/schemas/address'
+            carrier:
+              description: Value is `USPS`.
+              type: string
+              enum:
+                - USPS
+              default: USPS
+            thumbnails:
+              type: array
+              items:
+                $ref: '#/components/schemas/thumbnail'
+            expected_delivery_date:
+              $ref: '#/components/schemas/expected_delivery_date'
     from:
       type: object
       properties:

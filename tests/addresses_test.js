@@ -140,6 +140,27 @@ test("correctly creates an international address", async function (t) {
   t.assert(response.data.address_country === "CANADA");
 });
 
+test("correctly creates an international address with mostly-empty input", async function (t) {
+  t.plan(2);
+  const params = {
+    description: "Harry - Office",
+    name: "Harry Zhang",
+    email: "harry@lob.com",
+    phone: "5555555555",
+    address_line1: "370 WATER ST",
+    address_country: "CA",
+  };
+
+  let response = await prism
+    .setup({ errors: false })
+    .then((client) =>
+      client.post(resource_endpoint, params, { headers: prism.authHeader })
+    );
+
+  t.assert(response.status === 200);
+  t.assert(response.data.address_country === "CANADA");
+});
+
 test("does not treat input as international without country", async function (t) {
   t.plan(1);
   const params = {
@@ -178,7 +199,7 @@ test("errors when attempting to create an address with neither name nor company"
   };
 
   let response = await prism
-    .setup()
+    .setup({errors: false})
     .then((client) =>
       client.post(resource_endpoint, params, { headers: prism.authHeader })
     );
@@ -186,6 +207,29 @@ test("errors when attempting to create an address with neither name nor company"
   t.assert(response.status === 422);
   t.assert(response.data.error.message.includes("name"));
 });
+
+test("errors when attempting to create a US address without city and state", async function (t) {
+  t.plan(2);
+  const params = {
+    description: "Harry - Office",
+    email: "harry@lob.com",
+    phone: "5555555555",
+    address_line1: "185 Berry St",
+    address_line2: "# 6100",
+    address_zip: "94107",
+    address_country: "US",
+  };
+
+  let response = await prism
+    .setup({errors: false})
+    .then((client) =>
+      client.post(resource_endpoint, params, { headers: prism.authHeader })
+    );
+
+  t.assert(response.status === 422);
+  t.assert(response.data.error.message.includes("address_city"));
+});
+
 
 test("errors at the promise level", async function (t) {
   t.plan(1);

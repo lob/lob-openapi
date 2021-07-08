@@ -1527,110 +1527,45 @@ components:
       properties:
         amounts:
           type: array
-          minLength: 2
-          maxLength: 2
+          minItems: 2
+          maxItems: 2
           items:
             $ref: '#/components/schemas/cents'
-    mail_type:
-      type: string
-      enum:
-        - usps_first_class
-        - usps_standard
-      description: >
-        A string designating the mail postage type:
-
-        * `usps_first_class` - (default)
-
-        * `usps_standard` - a [cheaper
-        option](https://lob.com/pricing/print-mail#compare) which is less
-        predictable and takes longer to deliver.
-      default: usps_first_class
-    merge_variables:
+    bank_account_base:
       type: object
-      description: >-
-        You can input a merge variable payload object to your template to render
-        dynamic content. For example, if you have a template like:
-        `{{variable_name}}`, pass in `{"variable_name": "Harry"}` to render
-        `Harry`. `merge_variables` must be an object. Any type of value is
-        accepted as long as the object is valid JSON; you can use `strings`,
-        `numbers`, `booleans`, `arrays`, `objects`, or `null`. The max length of
-        the object is 25,000 characters. If you call `JSON.stringify` on your
-        object, it can be no longer than 25,000 characters. Your variable names
-        cannot contain any whitespace or any of the following special
-        characters: `!`, `"`, `#`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`,
-        `;`, `<`, `=`, `>`, `@`, `[`, `\`, `]`, `^`, ```, `{`, `|`, `}`, `~`.
-        More instructions can be found in [our guide to using html and merge
-        variables](https://lob.com/resources/guides/general/using-html-and-merge-variables).
-        Depending on your [Merge Variable
-        strictness](https://dashboard.lob.com/#/settings/account) setting, if
-        you define variables in your HTML but do not pass them here, you will
-        either receive an error or the variable will render as an empty string.
-      maxLength: 25000
-      nullable: true
-    send_date:
-      type: string
-      description: >-
-        A timestamp in ISO 8601 format which specifies a date after the current
-        time and up to 180 days in the future to send the letter off for
-        production. Setting a send date overrides the default [cancellation
-        window](https://docs.lob.com/#cancellation) applied to the mailpiece.
-        Until the `send_date` has passed, the mailpiece can be canceled. If a
-        date in the format `2017-11-01` is passed, it will evaluate to midnight
-        UTC of that date (`2017-11-01T00:00:00.000Z`). If a datetime is passed,
-        that exact time will be used. A `send_date` passed with no time zone
-        will default to UTC, while a `send_date` passed with a time zone will be
-        converted to UTC.
-      format: date-time
-    editable:
-      type: object
+      required:
+        - routing_number
+        - account_number
+        - account_type
+        - signatory
       properties:
         description:
           $ref: '#/components/schemas/resource_description'
+        routing_number:
+          description: >-
+            Must be a [valid US routing
+            number](https://www.frbservices.org/index.html).
+          type: string
+          maxLength: 9
+        account_number:
+          type: string
+          maxLength: 17
+        account_type:
+          type: string
+          enum:
+            - company
+            - individual
+          description: The type of entity that holds the account.
+        signatory:
+          description: >-
+            The signatory associated with your account. This name will be
+            printed on checks created with this bank account. If you prefer to
+            use a custom signature image on your checks instead, please create
+            your bank account from the Dashboard.
+          type: string
+          maxLength: 30
         metadata:
           $ref: '#/components/schemas/metadata'
-        mail_type:
-          $ref: '#/components/schemas/mail_type'
-        merge_variables:
-          $ref: '#/components/schemas/merge_variables'
-        send_date:
-          $ref: '#/components/schemas/send_date'
-    bank_account_base:
-      allOf:
-        - $ref: '#/components/schemas/editable'
-        - type: object
-          required:
-            - routing_number
-            - account_number
-            - account_type
-            - signatory
-          properties:
-            description:
-              $ref: '#/components/schemas/resource_description'
-            routing_number:
-              description: >-
-                Must be a [valid US routing
-                number](https://www.frbservices.org/index.html).
-              type: string
-              maxLength: 9
-            account_number:
-              type: string
-              maxLength: 17
-            account_type:
-              type: string
-              enum:
-                - company
-                - individual
-              description: The type of entity that holds the account.
-            signatory:
-              description: >-
-                The signatory associated with your account. This name will be
-                printed on checks created with this bank account. If you prefer
-                to use a custom signature image on your checks instead, please
-                create your bank account from the Dashboard.
-              type: string
-              maxLength: 30
-            metadata:
-              $ref: '#/components/schemas/metadata'
     signed_link:
       type: string
       description: >-
@@ -2829,6 +2764,42 @@ components:
       type: string
       description: Unique identifier prefixed with `chk_`.
       pattern: '^chk_[a-zA-Z0-9]+$'
+    merge_variables:
+      type: object
+      description: >-
+        You can input a merge variable payload object to your template to render
+        dynamic content. For example, if you have a template like:
+        `{{variable_name}}`, pass in `{"variable_name": "Harry"}` to render
+        `Harry`. `merge_variables` must be an object. Any type of value is
+        accepted as long as the object is valid JSON; you can use `strings`,
+        `numbers`, `booleans`, `arrays`, `objects`, or `null`. The max length of
+        the object is 25,000 characters. If you call `JSON.stringify` on your
+        object, it can be no longer than 25,000 characters. Your variable names
+        cannot contain any whitespace or any of the following special
+        characters: `!`, `"`, `#`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`,
+        `;`, `<`, `=`, `>`, `@`, `[`, `\`, `]`, `^`, ```, `{`, `|`, `}`, `~`.
+        More instructions can be found in [our guide to using html and merge
+        variables](https://lob.com/resources/guides/general/using-html-and-merge-variables).
+        Depending on your [Merge Variable
+        strictness](https://dashboard.lob.com/#/settings/account) setting, if
+        you define variables in your HTML but do not pass them here, you will
+        either receive an error or the variable will render as an empty string.
+      maxLength: 25000
+      nullable: true
+    send_date:
+      type: string
+      description: >-
+        A timestamp in ISO 8601 format which specifies a date after the current
+        time and up to 180 days in the future to send the letter off for
+        production. Setting a send date overrides the default [cancellation
+        window](https://docs.lob.com/#cancellation) applied to the mailpiece.
+        Until the `send_date` has passed, the mailpiece can be canceled. If a
+        date in the format `2017-11-01` is passed, it will evaluate to midnight
+        UTC of that date (`2017-11-01T00:00:00.000Z`). If a datetime is passed,
+        that exact time will be used. A `send_date` passed with no time zone
+        will default to UTC, while a `send_date` passed with a time zone will be
+        converted to UTC.
+      format: date-time
     editable_no_mailtype:
       type: object
       properties:
@@ -3736,6 +3707,33 @@ components:
       type: string
       description: Unique identifier prefixed with `psc_`.
       pattern: '^psc_[a-zA-Z0-9]+$'
+    mail_type:
+      type: string
+      enum:
+        - usps_first_class
+        - usps_standard
+      description: >
+        A string designating the mail postage type:
+
+        * `usps_first_class` - (default)
+
+        * `usps_standard` - a [cheaper
+        option](https://lob.com/pricing/print-mail#compare) which is less
+        predictable and takes longer to deliver.
+      default: usps_first_class
+    editable:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        send_date:
+          $ref: '#/components/schemas/send_date'
     postcard_size:
       type: string
       enum:

@@ -356,6 +356,162 @@ components:
             code:
               type: string
               description: A pre-defined string identifying the error category
+    resource_description:
+      type: string
+      description: >
+        An internal description that identifies this resource. Must be no longer
+        than 255 characters.
+      maxLength: 255
+      nullable: true
+    metadata:
+      type: object
+      description: >-
+        Use metadata to store custom information for tagging and labeling back
+        to your internal systems. Must be an object with up to 20 key-value
+        pairs. Keys must be at most 40 characters and values must be at most 500
+        characters. Neither can contain the characters `"` and `\`. Nested
+        objects are not supported.
+      properties: {}
+      maxProperties: 20
+      example:
+        type: object
+        properties:
+          customer_id:
+            type: string
+            example: '987654'
+          campaign:
+            type: string
+            example: NEWYORK2015
+    address_editable_base:
+      type: object
+      anyOf:
+        - required:
+            - name
+        - required:
+            - company
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        name:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address.
+          maxLength: 40
+          nullable: true
+        company:
+          type: string
+          description: >
+            Either `name` or `company` is required, you may also add both. Must
+            be no longer than 40 characters. If both `name` and `company` are
+            provided, they will be printed on two separate lines above the rest
+            of the address. This field can be used for any secondary recipient
+            information which is not part of the actual mailing address (Company
+            Name, Department, Attention Line, etc).
+          maxLength: 40
+          nullable: true
+        phone:
+          type: string
+          description: Must be no longer than 40 characters.
+          maxLength: 40
+          nullable: true
+        email:
+          type: string
+          description: Must be no longer than 100 characters.
+          maxLength: 100
+          nullable: true
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    address_fields_us:
+      type: object
+      required:
+        - address_line1
+        - address_city
+        - address_state
+        - address_zip
+      properties:
+        address_line1:
+          type: string
+          maxLength: 64
+        address_line2:
+          type: string
+          maxLength: 64
+          nullable: true
+        address_city:
+          type: string
+          maxLength: 200
+        address_state:
+          type: string
+          description: 2 letter state short-name code
+          pattern: '^[a-zA-Z]{2}$'
+        address_zip:
+          type: string
+          description: >
+            Must follow the ZIP format of `12345` or ZIP+4 format of
+            `12345-1234`.
+          pattern: '^\d{5}(-\d{4})?$'
+    date_created:
+      type: string
+      format: date-time
+      description: A timestamp in ISO 8601 format of the date the resource was created.
+    date_modified:
+      type: string
+      format: date-time
+      description: >-
+        A timestamp in ISO 8601 format of the date the resource was last
+        modified.
+    deleted:
+      type: boolean
+      description: Only returned if the resource has been successfully deleted.
+    object:
+      type: string
+      description: Value is type of resource.
+    lob_base:
+      type: object
+      required:
+        - date_created
+        - date_modified
+        - object
+      properties:
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+        object:
+          $ref: '#/components/schemas/object'
+    address_generated_base:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/adr_id'
+            recipient_moved:
+              type: boolean
+              description: >
+                Only returned for accounts on certain <a
+                href="https://dashboard.lob.com/#/settings/editions">Print &amp;
+                Mail Editions</a>. Value is `true` if the address was altered
+                because the recipient filed for a <a href="#ncoa">National
+                Change of Address (NCOA)</a>, `false` if the NCOA check was run
+                but no altered address was found, and `null` if the NCOA check
+                was not run. The NCOA check does not happen for non-US
+                addresses, for non-deliverable US addresses, or for addresses
+                created before the NCOA feature was added to your account.
+              nullable: true
+            object:
+              allOf:
+                - $ref: '#/components/schemas/object'
+                - type: string
+                  enum:
+                    - address
+                  default: address
     address_us:
       allOf:
         - $ref: '#/components/schemas/address_editable_base'
@@ -372,6 +528,32 @@ components:
               description: Full name of country
               minLength: 13
               maxLength: 13
+    address_fields_intl:
+      type: object
+      required:
+        - address_line1
+        - address_country
+      properties:
+        address_line1:
+          type: string
+          maxLength: 200
+        address_line2:
+          type: string
+          maxLength: 200
+          nullable: true
+        address_city:
+          type: string
+          maxLength: 200
+          nullable: true
+        address_state:
+          type: string
+          maxLength: 200
+          nullable: true
+        address_zip:
+          type: string
+          description: Optional postal code.
+          maxLength: 40
+          nullable: true
     address_intl:
       allOf:
         - $ref: '#/components/schemas/address_editable_base'
@@ -604,414 +786,10 @@ components:
                 - YEMEN
                 - ZAMBIA
                 - ZIMBABWE
-    resource_description:
-      type: string
-      description: >
-        An internal description that identifies this resource. Must be no longer
-        than 255 characters.
-      maxLength: 255
-      nullable: true
-    metadata:
-      type: object
-      description: >-
-        Use metadata to store custom information for tagging and labeling back
-        to your internal systems. Must be an object with up to 20 key-value
-        pairs. Keys must be at most 40 characters and values must be at most 500
-        characters. Neither can contain the characters `"` and `\`. Nested
-        objects are not supported.
-      properties: {}
-      maxProperties: 20
-      example:
-        type: object
-        properties:
-          customer_id:
-            type: string
-            example: '987654'
-          campaign:
-            type: string
-            example: NEWYORK2015
-    address_editable_base:
-      type: object
-      anyOf:
-        - required:
-            - name
-        - required:
-            - company
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        name:
-          type: string
-          description: >
-            Either `name` or `company` is required, you may also add both. Must
-            be no longer than 40 characters. If both `name` and `company` are
-            provided, they will be printed on two separate lines above the rest
-            of the address.
-          maxLength: 40
-          nullable: true
-        company:
-          type: string
-          description: >
-            Either `name` or `company` is required, you may also add both. Must
-            be no longer than 40 characters. If both `name` and `company` are
-            provided, they will be printed on two separate lines above the rest
-            of the address. This field can be used for any secondary recipient
-            information which is not part of the actual mailing address (Company
-            Name, Department, Attention Line, etc).
-          maxLength: 40
-          nullable: true
-        phone:
-          type: string
-          description: Must be no longer than 40 characters.
-          maxLength: 40
-          nullable: true
-        email:
-          type: string
-          description: Must be no longer than 100 characters.
-          maxLength: 100
-          nullable: true
-        metadata:
-          $ref: '#/components/schemas/metadata'
-    address_fields_us:
-      type: object
-      required:
-        - address_line1
-        - address_city
-        - address_state
-        - address_zip
-      properties:
-        address_line1:
-          type: string
-          maxLength: 64
-        address_line2:
-          type: string
-          maxLength: 64
-          nullable: true
-        address_city:
-          type: string
-          maxLength: 200
-        address_state:
-          type: string
-          description: 2 letter state short-name code
-          pattern: '^[a-zA-Z]{2}$'
-        address_zip:
-          type: string
-          description: >
-            Must follow the ZIP format of `12345` or ZIP+4 format of
-            `12345-1234`.
-          pattern: '^\d{5}(-\d{4})?$'
-    date_created:
-      type: string
-      format: date-time
-      description: A timestamp in ISO 8601 format of the date the resource was created.
-    date_modified:
-      type: string
-      format: date-time
-      description: >-
-        A timestamp in ISO 8601 format of the date the resource was last
-        modified.
-    deleted:
-      type: boolean
-      description: Only returned if the resource has been successfully deleted.
-    object:
-      type: string
-      description: Value is type of resource.
-    lob_base:
-      type: object
-      required:
-        - date_created
-        - date_modified
-        - object
-      properties:
-        date_created:
-          $ref: '#/components/schemas/date_created'
-        date_modified:
-          $ref: '#/components/schemas/date_modified'
-        deleted:
-          $ref: '#/components/schemas/deleted'
-        object:
-          $ref: '#/components/schemas/object'
-    address_generated_base:
-      allOf:
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          required:
-            - id
-          properties:
-            id:
-              $ref: '#/components/schemas/adr_id'
-            recipient_moved:
-              type: boolean
-              description: >
-                Only returned for accounts on certain <a
-                href="https://dashboard.lob.com/#/settings/editions">Print &amp;
-                Mail Editions</a>. Value is `true` if the address was altered
-                because the recipient filed for a <a href="#ncoa">National
-                Change of Address (NCOA)</a>, `false` if the NCOA check was run
-                but no altered address was found, and `null` if the NCOA check
-                was not run. The NCOA check does not happen for non-US
-                addresses, for non-deliverable US addresses, or for addresses
-                created before the NCOA feature was added to your account.
-              nullable: true
-            object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - address
-                  default: address
-    address_fields_intl:
-      type: object
-      required:
-        - address_line1
-        - address_country
-      properties:
-        address_line1:
-          type: string
-          maxLength: 200
-        address_line2:
-          type: string
-          maxLength: 200
-          nullable: true
-        address_city:
-          type: string
-          maxLength: 200
-          nullable: true
-        address_state:
-          type: string
-          maxLength: 200
-          nullable: true
-        address_zip:
-          type: string
-          description: Optional postal code.
-          maxLength: 40
-          nullable: true
     address:
       oneOf:
         - $ref: '#/components/schemas/address_us'
         - $ref: '#/components/schemas/address_intl'
-      discriminator:
-        propertyName: address_country
-        mapping:
-          UNITED STATES: '#/components/schemas/address_us'
-          AFGHANISTAN: '#/components/schemas/address_intl'
-          ALBANIA: '#/components/schemas/address_intl'
-          ALGERIA: '#/components/schemas/address_intl'
-          AMERICAN SAMOA: '#/components/schemas/address_intl'
-          ANDORRA: '#/components/schemas/address_intl'
-          ANGOLA: '#/components/schemas/address_intl'
-          ANGUILLA: '#/components/schemas/address_intl'
-          ANTARCTICA: '#/components/schemas/address_intl'
-          ANTIGUA AND BARBUDA: '#/components/schemas/address_intl'
-          ARGENTINA: '#/components/schemas/address_intl'
-          ARUBA: '#/components/schemas/address_intl'
-          AUSTRALIA: '#/components/schemas/address_intl'
-          AUSTRIA: '#/components/schemas/address_intl'
-          AZERBAIJAN: '#/components/schemas/address_intl'
-          BAHRAIN: '#/components/schemas/address_intl'
-          BANGLADESH: '#/components/schemas/address_intl'
-          BARBADOS: '#/components/schemas/address_intl'
-          BELARUS: '#/components/schemas/address_intl'
-          BELGIUM: '#/components/schemas/address_intl'
-          BELIZE: '#/components/schemas/address_intl'
-          BENIN: '#/components/schemas/address_intl'
-          BERMUDA: '#/components/schemas/address_intl'
-          BHUTAN: '#/components/schemas/address_intl'
-          BOLIVIA (PLURINATIONAL STATE OF): '#/components/schemas/address_intl'
-          'BONAIRE, SAINT EUSTATIUS AND SABA': '#/components/schemas/address_intl'
-          BOSNIA AND HERZEGOVINA: '#/components/schemas/address_intl'
-          BOTSWANA: '#/components/schemas/address_intl'
-          BRAZIL: '#/components/schemas/address_intl'
-          BRITISH INDIAN OCEAN TERRITORY: '#/components/schemas/address_intl'
-          BRITISH VIRGIN ISLANDS: '#/components/schemas/address_intl'
-          BRUNEI DARUSSALAM: '#/components/schemas/address_intl'
-          BULGARIA: '#/components/schemas/address_intl'
-          BURKINA FASO: '#/components/schemas/address_intl'
-          BURUNDI: '#/components/schemas/address_intl'
-          CABO VERDE: '#/components/schemas/address_intl'
-          CAMBODIA: '#/components/schemas/address_intl'
-          CAMEROON: '#/components/schemas/address_intl'
-          CANADA: '#/components/schemas/address_intl'
-          CAYMAN ISLANDS: '#/components/schemas/address_intl'
-          CENTRAL AFRICAN REPUBLIC: '#/components/schemas/address_intl'
-          CHAD: '#/components/schemas/address_intl'
-          CHILE: '#/components/schemas/address_intl'
-          CHINA: '#/components/schemas/address_intl'
-          COLOMBIA: '#/components/schemas/address_intl'
-          COMOROS: '#/components/schemas/address_intl'
-          CONGO: '#/components/schemas/address_intl'
-          'CONGO, DEMOCRATIC REPUBLIC OF THE': '#/components/schemas/address_intl'
-          COOK ISLANDS: '#/components/schemas/address_intl'
-          COSTA RICA: '#/components/schemas/address_intl'
-          CÔTE D'IVOIRE: '#/components/schemas/address_intl'
-          CROATIA: '#/components/schemas/address_intl'
-          CUBA: '#/components/schemas/address_intl'
-          CURAÇAO: '#/components/schemas/address_intl'
-          CYPRUS: '#/components/schemas/address_intl'
-          CZECH REPUBLIC: '#/components/schemas/address_intl'
-          DENMARK: '#/components/schemas/address_intl'
-          DJIBOUTI: '#/components/schemas/address_intl'
-          DOMINICA: '#/components/schemas/address_intl'
-          DOMINICAN REPUBLIC: '#/components/schemas/address_intl'
-          ECUADOR: '#/components/schemas/address_intl'
-          EGYPT: '#/components/schemas/address_intl'
-          EL SALVADOR: '#/components/schemas/address_intl'
-          EQUATORIAL GUINEA: '#/components/schemas/address_intl'
-          ERITREA: '#/components/schemas/address_intl'
-          ESTONIA: '#/components/schemas/address_intl'
-          ESWATINI: '#/components/schemas/address_intl'
-          ETHIOPIA: '#/components/schemas/address_intl'
-          FALKLAND ISLANDS (MALVINAS): '#/components/schemas/address_intl'
-          FAROE ISLANDS: '#/components/schemas/address_intl'
-          FIJI: '#/components/schemas/address_intl'
-          FINLAND: '#/components/schemas/address_intl'
-          FRANCE: '#/components/schemas/address_intl'
-          GABON: '#/components/schemas/address_intl'
-          GAMBIA: '#/components/schemas/address_intl'
-          GEORGIA: '#/components/schemas/address_intl'
-          GERMANY: '#/components/schemas/address_intl'
-          GHANA: '#/components/schemas/address_intl'
-          GIBRALTAR: '#/components/schemas/address_intl'
-          GREECE: '#/components/schemas/address_intl'
-          GREENLAND: '#/components/schemas/address_intl'
-          GRENADA: '#/components/schemas/address_intl'
-          GUATEMALA: '#/components/schemas/address_intl'
-          GUINEA: '#/components/schemas/address_intl'
-          GUINEA-BISSAU: '#/components/schemas/address_intl'
-          GUYANA: '#/components/schemas/address_intl'
-          HAITI: '#/components/schemas/address_intl'
-          HOLY SEE: '#/components/schemas/address_intl'
-          HONDURAS: '#/components/schemas/address_intl'
-          HONG KONG: '#/components/schemas/address_intl'
-          HUNGARY: '#/components/schemas/address_intl'
-          ICELAND: '#/components/schemas/address_intl'
-          INDIA: '#/components/schemas/address_intl'
-          INDONESIA: '#/components/schemas/address_intl'
-          IRAN (ISLAMIC REPUBLIC OF): '#/components/schemas/address_intl'
-          IRAQ: '#/components/schemas/address_intl'
-          IRELAND: '#/components/schemas/address_intl'
-          ISRAEL: '#/components/schemas/address_intl'
-          ITALY: '#/components/schemas/address_intl'
-          JAMAICA: '#/components/schemas/address_intl'
-          JAPAN: '#/components/schemas/address_intl'
-          JORDAN: '#/components/schemas/address_intl'
-          KAZAKHSTAN: '#/components/schemas/address_intl'
-          KENYA: '#/components/schemas/address_intl'
-          KIRIBATI: '#/components/schemas/address_intl'
-          KOREA (DEMOCRATIC PEOPLE’S REPUBLIC OF): '#/components/schemas/address_intl'
-          'KOREA, REPUBLIC OF': '#/components/schemas/address_intl'
-          KUWAIT: '#/components/schemas/address_intl'
-          KYRGYZSTAN: '#/components/schemas/address_intl'
-          LAO PEOPLE’S DEMOCRATIC REPUBLIC: '#/components/schemas/address_intl'
-          LATVIA: '#/components/schemas/address_intl'
-          LEBANON: '#/components/schemas/address_intl'
-          LESOTHO: '#/components/schemas/address_intl'
-          LIBERIA: '#/components/schemas/address_intl'
-          LIBYA: '#/components/schemas/address_intl'
-          LIECHTENSTEIN: '#/components/schemas/address_intl'
-          LITHUANIA: '#/components/schemas/address_intl'
-          LUXEMBOURG: '#/components/schemas/address_intl'
-          MACAO: '#/components/schemas/address_intl'
-          MACEDONIA: '#/components/schemas/address_intl'
-          MADAGASCAR: '#/components/schemas/address_intl'
-          MALAWI: '#/components/schemas/address_intl'
-          MALAYSIA: '#/components/schemas/address_intl'
-          MALDIVES: '#/components/schemas/address_intl'
-          MALI: '#/components/schemas/address_intl'
-          MALTA: '#/components/schemas/address_intl'
-          MAURITANIA: '#/components/schemas/address_intl'
-          MAURITIUS: '#/components/schemas/address_intl'
-          MEXICO: '#/components/schemas/address_intl'
-          'MOLDOVA, REPUBLIC OF': '#/components/schemas/address_intl'
-          MONACO: '#/components/schemas/address_intl'
-          MONGOLIA: '#/components/schemas/address_intl'
-          MONTENEGRO: '#/components/schemas/address_intl'
-          MONTSERRAT: '#/components/schemas/address_intl'
-          MOROCCO: '#/components/schemas/address_intl'
-          MOZAMBIQUE: '#/components/schemas/address_intl'
-          MYANMAR: '#/components/schemas/address_intl'
-          NAMIBIA: '#/components/schemas/address_intl'
-          NAURU: '#/components/schemas/address_intl'
-          NEPAL: '#/components/schemas/address_intl'
-          NETHERLAND ANTILLES: '#/components/schemas/address_intl'
-          NETHERLANDS: '#/components/schemas/address_intl'
-          NEW ZEALAND: '#/components/schemas/address_intl'
-          NICARAGUA: '#/components/schemas/address_intl'
-          NIGER: '#/components/schemas/address_intl'
-          NIGERIA: '#/components/schemas/address_intl'
-          NIUE: '#/components/schemas/address_intl'
-          NORFOLK ISLAND: '#/components/schemas/address_intl'
-          NORWAY: '#/components/schemas/address_intl'
-          OMAN: '#/components/schemas/address_intl'
-          PAKISTAN: '#/components/schemas/address_intl'
-          PANAMA: '#/components/schemas/address_intl'
-          PAPUA NEW GUINEA: '#/components/schemas/address_intl'
-          PARAGUAY: '#/components/schemas/address_intl'
-          PERU: '#/components/schemas/address_intl'
-          PHILIPPINES: '#/components/schemas/address_intl'
-          PITCAIRN: '#/components/schemas/address_intl'
-          POLAND: '#/components/schemas/address_intl'
-          PORTUGAL: '#/components/schemas/address_intl'
-          QATAR: '#/components/schemas/address_intl'
-          ROMANIA: '#/components/schemas/address_intl'
-          RUSSIAN FEDERATION: '#/components/schemas/address_intl'
-          RWANDA: '#/components/schemas/address_intl'
-          SAINT HELENA: '#/components/schemas/address_intl'
-          SAINT KITTS AND NEVIS: '#/components/schemas/address_intl'
-          SAINT LUCIA: '#/components/schemas/address_intl'
-          SAINT VINCENT AND THE GRENADINES: '#/components/schemas/address_intl'
-          SAMOA: '#/components/schemas/address_intl'
-          SAN MARINO: '#/components/schemas/address_intl'
-          SAO TOME AND PRINCIPE: '#/components/schemas/address_intl'
-          SAUDI ARABIA: '#/components/schemas/address_intl'
-          SENEGAL: '#/components/schemas/address_intl'
-          SERBIA: '#/components/schemas/address_intl'
-          SEYCHELLES: '#/components/schemas/address_intl'
-          SIERRA LEONE: '#/components/schemas/address_intl'
-          SINGAPORE: '#/components/schemas/address_intl'
-          SINT MAARTEN: '#/components/schemas/address_intl'
-          SLOVAKIA: '#/components/schemas/address_intl'
-          SLOVENIA: '#/components/schemas/address_intl'
-          SOLOMON ISLANDS: '#/components/schemas/address_intl'
-          SOMALIA: '#/components/schemas/address_intl'
-          SOUTH AFRICA: '#/components/schemas/address_intl'
-          SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS: '#/components/schemas/address_intl'
-          SOUTH SUDAN: '#/components/schemas/address_intl'
-          SPAIN: '#/components/schemas/address_intl'
-          SRI LANKA: '#/components/schemas/address_intl'
-          SUDAN: '#/components/schemas/address_intl'
-          SURINAME: '#/components/schemas/address_intl'
-          SWEDEN: '#/components/schemas/address_intl'
-          SWITZERLAND: '#/components/schemas/address_intl'
-          SYRIAN ARAB REPUBLIC: '#/components/schemas/address_intl'
-          TAIWAN: '#/components/schemas/address_intl'
-          TAJIKISTAN: '#/components/schemas/address_intl'
-          TANZANIA: '#/components/schemas/address_intl'
-          THAILAND: '#/components/schemas/address_intl'
-          THE BAHAMAS: '#/components/schemas/address_intl'
-          TIMOR-LESTE: '#/components/schemas/address_intl'
-          TOGO: '#/components/schemas/address_intl'
-          TOKELAU: '#/components/schemas/address_intl'
-          TONGA: '#/components/schemas/address_intl'
-          TRINIDAD AND TOBAGO: '#/components/schemas/address_intl'
-          TUNISIA: '#/components/schemas/address_intl'
-          TURKEY: '#/components/schemas/address_intl'
-          TURKMENISTAN: '#/components/schemas/address_intl'
-          TURKS AND CAICOS ISLANDS: '#/components/schemas/address_intl'
-          TUVALU: '#/components/schemas/address_intl'
-          UGANDA: '#/components/schemas/address_intl'
-          UKRAINE: '#/components/schemas/address_intl'
-          UNITED ARAB EMIRATES: '#/components/schemas/address_intl'
-          UNITED KINGDOM: '#/components/schemas/address_intl'
-          URUGUAY: '#/components/schemas/address_intl'
-          UZBEKISTAN: '#/components/schemas/address_intl'
-          VANUATU: '#/components/schemas/address_intl'
-          VENEZUELA: '#/components/schemas/address_intl'
-          VIET NAM: '#/components/schemas/address_intl'
-          WESTERN SAHARA: '#/components/schemas/address_intl'
-          YEMEN: '#/components/schemas/address_intl'
-          ZAMBIA: '#/components/schemas/address_intl'
-          ZIMBABWE: '#/components/schemas/address_intl'
     count:
       type: integer
       description: number of resources in a set
@@ -1286,228 +1064,6 @@ components:
       oneOf:
         - $ref: '#/components/schemas/address_editable_us'
         - $ref: '#/components/schemas/address_editable_intl'
-      discriminator:
-        propertyName: address_country
-        mapping:
-          US: '#/components/schemas/address_editable_us'
-          AD: '#/components/schemas/address_editable_intl'
-          AE: '#/components/schemas/address_editable_intl'
-          AF: '#/components/schemas/address_editable_intl'
-          AG: '#/components/schemas/address_editable_intl'
-          AI: '#/components/schemas/address_editable_intl'
-          AL: '#/components/schemas/address_editable_intl'
-          AN: '#/components/schemas/address_editable_intl'
-          AO: '#/components/schemas/address_editable_intl'
-          AQ: '#/components/schemas/address_editable_intl'
-          AR: '#/components/schemas/address_editable_intl'
-          AS: '#/components/schemas/address_editable_intl'
-          AT: '#/components/schemas/address_editable_intl'
-          AU: '#/components/schemas/address_editable_intl'
-          AW: '#/components/schemas/address_editable_intl'
-          AZ: '#/components/schemas/address_editable_intl'
-          BA: '#/components/schemas/address_editable_intl'
-          BB: '#/components/schemas/address_editable_intl'
-          BD: '#/components/schemas/address_editable_intl'
-          BE: '#/components/schemas/address_editable_intl'
-          BF: '#/components/schemas/address_editable_intl'
-          BG: '#/components/schemas/address_editable_intl'
-          BH: '#/components/schemas/address_editable_intl'
-          BI: '#/components/schemas/address_editable_intl'
-          BJ: '#/components/schemas/address_editable_intl'
-          BM: '#/components/schemas/address_editable_intl'
-          BN: '#/components/schemas/address_editable_intl'
-          BO: '#/components/schemas/address_editable_intl'
-          BQ: '#/components/schemas/address_editable_intl'
-          BR: '#/components/schemas/address_editable_intl'
-          BS: '#/components/schemas/address_editable_intl'
-          BT: '#/components/schemas/address_editable_intl'
-          BW: '#/components/schemas/address_editable_intl'
-          BY: '#/components/schemas/address_editable_intl'
-          BZ: '#/components/schemas/address_editable_intl'
-          CA: '#/components/schemas/address_editable_intl'
-          CD: '#/components/schemas/address_editable_intl'
-          CG: '#/components/schemas/address_editable_intl'
-          CH: '#/components/schemas/address_editable_intl'
-          CI: '#/components/schemas/address_editable_intl'
-          CK: '#/components/schemas/address_editable_intl'
-          CL: '#/components/schemas/address_editable_intl'
-          CM: '#/components/schemas/address_editable_intl'
-          CN: '#/components/schemas/address_editable_intl'
-          CO: '#/components/schemas/address_editable_intl'
-          CR: '#/components/schemas/address_editable_intl'
-          CS: '#/components/schemas/address_editable_intl'
-          CU: '#/components/schemas/address_editable_intl'
-          CV: '#/components/schemas/address_editable_intl'
-          CW: '#/components/schemas/address_editable_intl'
-          CY: '#/components/schemas/address_editable_intl'
-          CZ: '#/components/schemas/address_editable_intl'
-          DE: '#/components/schemas/address_editable_intl'
-          DJ: '#/components/schemas/address_editable_intl'
-          DK: '#/components/schemas/address_editable_intl'
-          DM: '#/components/schemas/address_editable_intl'
-          DO: '#/components/schemas/address_editable_intl'
-          DZ: '#/components/schemas/address_editable_intl'
-          EC: '#/components/schemas/address_editable_intl'
-          EE: '#/components/schemas/address_editable_intl'
-          EG: '#/components/schemas/address_editable_intl'
-          EH: '#/components/schemas/address_editable_intl'
-          ER: '#/components/schemas/address_editable_intl'
-          ES: '#/components/schemas/address_editable_intl'
-          ET: '#/components/schemas/address_editable_intl'
-          FI: '#/components/schemas/address_editable_intl'
-          FJ: '#/components/schemas/address_editable_intl'
-          FK: '#/components/schemas/address_editable_intl'
-          FO: '#/components/schemas/address_editable_intl'
-          FR: '#/components/schemas/address_editable_intl'
-          GA: '#/components/schemas/address_editable_intl'
-          GB: '#/components/schemas/address_editable_intl'
-          GD: '#/components/schemas/address_editable_intl'
-          GE: '#/components/schemas/address_editable_intl'
-          GH: '#/components/schemas/address_editable_intl'
-          GI: '#/components/schemas/address_editable_intl'
-          GL: '#/components/schemas/address_editable_intl'
-          GM: '#/components/schemas/address_editable_intl'
-          GN: '#/components/schemas/address_editable_intl'
-          GQ: '#/components/schemas/address_editable_intl'
-          GR: '#/components/schemas/address_editable_intl'
-          GS: '#/components/schemas/address_editable_intl'
-          GT: '#/components/schemas/address_editable_intl'
-          GW: '#/components/schemas/address_editable_intl'
-          GY: '#/components/schemas/address_editable_intl'
-          HK: '#/components/schemas/address_editable_intl'
-          HN: '#/components/schemas/address_editable_intl'
-          HR: '#/components/schemas/address_editable_intl'
-          HT: '#/components/schemas/address_editable_intl'
-          HU: '#/components/schemas/address_editable_intl'
-          ID: '#/components/schemas/address_editable_intl'
-          IE: '#/components/schemas/address_editable_intl'
-          IL: '#/components/schemas/address_editable_intl'
-          IN: '#/components/schemas/address_editable_intl'
-          IO: '#/components/schemas/address_editable_intl'
-          IQ: '#/components/schemas/address_editable_intl'
-          IR: '#/components/schemas/address_editable_intl'
-          IS: '#/components/schemas/address_editable_intl'
-          IT: '#/components/schemas/address_editable_intl'
-          JM: '#/components/schemas/address_editable_intl'
-          JO: '#/components/schemas/address_editable_intl'
-          JP: '#/components/schemas/address_editable_intl'
-          KE: '#/components/schemas/address_editable_intl'
-          KG: '#/components/schemas/address_editable_intl'
-          KH: '#/components/schemas/address_editable_intl'
-          KI: '#/components/schemas/address_editable_intl'
-          KM: '#/components/schemas/address_editable_intl'
-          KN: '#/components/schemas/address_editable_intl'
-          KP: '#/components/schemas/address_editable_intl'
-          KR: '#/components/schemas/address_editable_intl'
-          KW: '#/components/schemas/address_editable_intl'
-          KY: '#/components/schemas/address_editable_intl'
-          KZ: '#/components/schemas/address_editable_intl'
-          LA: '#/components/schemas/address_editable_intl'
-          LB: '#/components/schemas/address_editable_intl'
-          LC: '#/components/schemas/address_editable_intl'
-          LI: '#/components/schemas/address_editable_intl'
-          LK: '#/components/schemas/address_editable_intl'
-          LR: '#/components/schemas/address_editable_intl'
-          LS: '#/components/schemas/address_editable_intl'
-          LT: '#/components/schemas/address_editable_intl'
-          LU: '#/components/schemas/address_editable_intl'
-          LV: '#/components/schemas/address_editable_intl'
-          LY: '#/components/schemas/address_editable_intl'
-          MA: '#/components/schemas/address_editable_intl'
-          MC: '#/components/schemas/address_editable_intl'
-          MD: '#/components/schemas/address_editable_intl'
-          ME: '#/components/schemas/address_editable_intl'
-          MG: '#/components/schemas/address_editable_intl'
-          MK: '#/components/schemas/address_editable_intl'
-          ML: '#/components/schemas/address_editable_intl'
-          MM: '#/components/schemas/address_editable_intl'
-          MN: '#/components/schemas/address_editable_intl'
-          MO: '#/components/schemas/address_editable_intl'
-          MR: '#/components/schemas/address_editable_intl'
-          MS: '#/components/schemas/address_editable_intl'
-          MT: '#/components/schemas/address_editable_intl'
-          MU: '#/components/schemas/address_editable_intl'
-          MV: '#/components/schemas/address_editable_intl'
-          MW: '#/components/schemas/address_editable_intl'
-          MX: '#/components/schemas/address_editable_intl'
-          MY: '#/components/schemas/address_editable_intl'
-          MZ: '#/components/schemas/address_editable_intl'
-          NA: '#/components/schemas/address_editable_intl'
-          NE: '#/components/schemas/address_editable_intl'
-          NF: '#/components/schemas/address_editable_intl'
-          NG: '#/components/schemas/address_editable_intl'
-          NI: '#/components/schemas/address_editable_intl'
-          NL: '#/components/schemas/address_editable_intl'
-          'NO': '#/components/schemas/address_editable_intl'
-          NP: '#/components/schemas/address_editable_intl'
-          NR: '#/components/schemas/address_editable_intl'
-          NU: '#/components/schemas/address_editable_intl'
-          NZ: '#/components/schemas/address_editable_intl'
-          OM: '#/components/schemas/address_editable_intl'
-          PA: '#/components/schemas/address_editable_intl'
-          PE: '#/components/schemas/address_editable_intl'
-          PG: '#/components/schemas/address_editable_intl'
-          PH: '#/components/schemas/address_editable_intl'
-          PK: '#/components/schemas/address_editable_intl'
-          PL: '#/components/schemas/address_editable_intl'
-          PN: '#/components/schemas/address_editable_intl'
-          PT: '#/components/schemas/address_editable_intl'
-          PY: '#/components/schemas/address_editable_intl'
-          QA: '#/components/schemas/address_editable_intl'
-          RO: '#/components/schemas/address_editable_intl'
-          RS: '#/components/schemas/address_editable_intl'
-          RU: '#/components/schemas/address_editable_intl'
-          RW: '#/components/schemas/address_editable_intl'
-          SA: '#/components/schemas/address_editable_intl'
-          SB: '#/components/schemas/address_editable_intl'
-          SC: '#/components/schemas/address_editable_intl'
-          SD: '#/components/schemas/address_editable_intl'
-          SE: '#/components/schemas/address_editable_intl'
-          SG: '#/components/schemas/address_editable_intl'
-          SH: '#/components/schemas/address_editable_intl'
-          SI: '#/components/schemas/address_editable_intl'
-          SK: '#/components/schemas/address_editable_intl'
-          SL: '#/components/schemas/address_editable_intl'
-          SM: '#/components/schemas/address_editable_intl'
-          SN: '#/components/schemas/address_editable_intl'
-          SO: '#/components/schemas/address_editable_intl'
-          SR: '#/components/schemas/address_editable_intl'
-          SS: '#/components/schemas/address_editable_intl'
-          ST: '#/components/schemas/address_editable_intl'
-          SV: '#/components/schemas/address_editable_intl'
-          SX: '#/components/schemas/address_editable_intl'
-          SY: '#/components/schemas/address_editable_intl'
-          SZ: '#/components/schemas/address_editable_intl'
-          TC: '#/components/schemas/address_editable_intl'
-          TD: '#/components/schemas/address_editable_intl'
-          TG: '#/components/schemas/address_editable_intl'
-          TH: '#/components/schemas/address_editable_intl'
-          TJ: '#/components/schemas/address_editable_intl'
-          TK: '#/components/schemas/address_editable_intl'
-          TL: '#/components/schemas/address_editable_intl'
-          TM: '#/components/schemas/address_editable_intl'
-          TN: '#/components/schemas/address_editable_intl'
-          TO: '#/components/schemas/address_editable_intl'
-          TR: '#/components/schemas/address_editable_intl'
-          TT: '#/components/schemas/address_editable_intl'
-          TV: '#/components/schemas/address_editable_intl'
-          TW: '#/components/schemas/address_editable_intl'
-          TZ: '#/components/schemas/address_editable_intl'
-          UA: '#/components/schemas/address_editable_intl'
-          UG: '#/components/schemas/address_editable_intl'
-          UY: '#/components/schemas/address_editable_intl'
-          UZ: '#/components/schemas/address_editable_intl'
-          VA: '#/components/schemas/address_editable_intl'
-          VC: '#/components/schemas/address_editable_intl'
-          VE: '#/components/schemas/address_editable_intl'
-          VG: '#/components/schemas/address_editable_intl'
-          VN: '#/components/schemas/address_editable_intl'
-          VU: '#/components/schemas/address_editable_intl'
-          WS: '#/components/schemas/address_editable_intl'
-          YE: '#/components/schemas/address_editable_intl'
-          ZA: '#/components/schemas/address_editable_intl'
-          ZM: '#/components/schemas/address_editable_intl'
-          ZW: '#/components/schemas/address_editable_intl'
     bank_id_no_description:
       type: string
       pattern: '^bank_[a-zA-Z0-9]+$'

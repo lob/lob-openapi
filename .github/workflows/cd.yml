@@ -29,18 +29,16 @@ jobs:
           LOB_API_TEST_TOKEN: ${{ secrets.LOB_API_TEST_TOKEN }}
           LOB_API_LIVE_TOKEN: ${{ secrets.LOB_API_LIVE_TOKEN }}
 
-      - name: commit & push bundle, collection and docs to branch
+      - name: Extract branch name
         shell: bash
-        run: |
-          set -x
-          git update-index -q --refresh
-          changes=$(git status --porcelain)
-          if [[ "${changes}" ]]; then
-            git config user.name lobot
-            git config user.email lobot@lob.com
-            git add --force dist/Lob-API-postman.json
-            git add --force dist/Lob-API-bundled.yml
-            git add --force docs/index.html
-            git commit -m "update bundled spec, zero-dependency docs"
-            git push --force
-          fi
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: save builds as artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.extract_branch.outputs.branch }}
+          path: |
+            dist/Lob-API-bundled.yml
+            dist/Lob-API-postman.json
+            docs/index.html

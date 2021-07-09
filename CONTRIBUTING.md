@@ -118,8 +118,10 @@ We test our API contracts using the [Prism client](https://meta.stoplight.io/doc
 
 To run the existing tests locally:
 
-- add a valid Lob test token to your environment as `LOB_API_TEST_TOKEN`. You can access test tokens in your [Dashboard settings](dashboard.lob.com).
-- add a valid Lob live token to your environment as `LOB_API_LIVE_TOKEN`.
+- Navigate to your [Dashboard settings](dashboard.lob.com) and grab both secret keys.
+- add the tokens to your environment by including `export LOB_API_LIVE_TOKEN="<live token>"` and `export LOB_API_TEST_TOKEN="<test token>"`
+  to your `~/.bash_profile` or `~/.zshrc` (if you're using a z-shell).
+- run `source ~/.bash_profile` (or `source ~/.zshrc`).
 - run `npm test`.
 
 ### Running a Single Test with `.only`

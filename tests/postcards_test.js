@@ -61,7 +61,8 @@ test("create, list, read then cancel a postcard", async function (t) {
         from: from,
         front:
           "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+        back:
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
       },
       { headers: prism.authHeader }
     )
@@ -153,7 +154,8 @@ test("create, list, read then cancel a postcard with full payload", async functi
         send_date: date.toISOString(),
         front:
           "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/6x11_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/6x11_pc_template.pdf",
+        back:
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/6x11_pc_template.pdf",
         size: "6x11",
         mail_type: "usps_standard",
         merge_variables: { name: "Harry" },
@@ -260,7 +262,8 @@ test("throws errors when input is not validated", async function (t) {
         },
         front:
           "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+        back:
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
       },
       { headers: prism.authHeader }
     )
@@ -289,7 +292,8 @@ test("throws errors when input is not validated", async function (t) {
         },
         front:
           "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+        back:
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
       },
       { headers: prism.authHeader }
     )

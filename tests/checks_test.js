@@ -11,6 +11,7 @@ const resource_endpoint = "/checks",
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
+// TODO: add full payload req
 test.serial.before(
   "create & validate verified bank account, and create & read a check",
   async function (t) {

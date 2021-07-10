@@ -48,12 +48,17 @@ post:
         example:
           description: demo
           to:
-            name: Harry
-            address_line1: 185 Berry St
+            description: "Harry - Office"
+            name: "Harry Zhang"
+            company: "Lob"
+            email: "harry@lob.com"
+            phone: "5555555555"
+            address_line1: "185 Berry St"
             address_line2: "# 6100"
-            address_city: San Francisco
-            address_state: CA
+            address_city: "San Francisco"
+            address_state: "CA"
             address_zip: "94107"
+            address_country: "US"
           from:
             name: Harry
             address_line1: 185 Berry St
@@ -72,10 +77,48 @@ post:
             name: Harry
           metadata:
             spiffy: true
+          send_date: "2017-11-01T00:00:00.000Z"
+          extra_service: registered
+          custom_envelope:
 
       application/x-www-form-urlencoded:
         schema:
           $ref: "models/letter_editable.yml"
+        example:
+          description: demo
+          to:
+            description: "Harry - Office"
+            name: "Harry Zhang"
+            company: "Lob"
+            email: "harry@lob.com"
+            phone: "5555555555"
+            address_line1: "185 Berry St"
+            address_line2: "# 6100"
+            address_city: "San Francisco"
+            address_state: "CA"
+            address_zip: "94107"
+            address_country: "US"
+          from:
+            name: Harry
+            address_line1: 185 Berry St
+            address_line2: "# 6100"
+            address_city: San Francisco
+            address_state: CA
+            address_zip: "94107"
+          file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>"
+          color: true
+          double_sided: false
+          address_placement: top_first_page
+          mail_type: usps_first_class
+          return_envelope: true
+          perforated_page: 1
+          merge_variables:
+            name: Harry
+          metadata:
+            spiffy: true
+          send_date: "2017-11-01T00:00:00.000Z"
+          extra_service: registered
+          custom_envelope:
         encoding:
           to:
             style: deepObject
@@ -93,6 +136,41 @@ post:
       multipart/form-data:
         schema:
           $ref: "models/letter_editable.yml"
+        example:
+          description: demo
+          to:
+            description: "Harry - Office"
+            name: "Harry Zhang"
+            company: "Lob"
+            email: "harry@lob.com"
+            phone: "5555555555"
+            address_line1: "185 Berry St"
+            address_line2: "# 6100"
+            address_city: "San Francisco"
+            address_state: "CA"
+            address_zip: "94107"
+            address_country: "US"
+          from:
+            name: Harry
+            address_line1: 185 Berry St
+            address_line2: "# 6100"
+            address_city: San Francisco
+            address_state: CA
+            address_zip: "94107"
+          file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>"
+          color: true
+          double_sided: false
+          address_placement: top_first_page
+          mail_type: usps_first_class
+          return_envelope: true
+          perforated_page: 1
+          merge_variables:
+            name: Harry
+          metadata:
+            spiffy: true
+          send_date: "2017-11-01T00:00:00.000Z"
+          extra_service: registered
+          custom_envelope:
 
   responses:
     "200":

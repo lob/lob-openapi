@@ -39,18 +39,75 @@ post:
           oneOf:
             - $ref: "models/multiple_components.yml"
             - $ref: "models/single_line_address.yml"
+        examples:
+          basic:
+            value:
+              primary_line: 185 Berry Street
+              city: San Francisco
+              state: CA
+              zip_code: "94107"
+          full_payload:
+            value:
+              recipient: Walgreens
+              primary_line: Ave Wilson Churchill 123
+              secondary_line: ""
+              urbanization: URB FAIR OAKS
+              city: RIO PIEDRAS
+              state: PR
+              zip_code: "00926"
+          single_line:
+            value:
+              address: "185 Berry Street 94107"
 
       application/x-www-form-urlencoded:
         schema:
           oneOf:
             - $ref: "models/multiple_components.yml"
             - $ref: "models/single_line_address.yml"
+        examples:
+          basic:
+            value:
+              primary_line: 185 Berry Street
+              city: San Francisco
+              state: CA
+              zip_code: "94107"
+          full_payload:
+            value:
+              recipient: Walgreens
+              primary_line: Ave Wilson Churchill 123
+              secondary_line: ""
+              urbanization: URB FAIR OAKS
+              city: RIO PIEDRAS
+              state: PR
+              zip_code: "00926"
+          single_line:
+            value:
+              address: "185 Berry Street 94107"
 
       multipart/form-data:
         schema:
           oneOf:
             - $ref: "models/multiple_components.yml"
             - $ref: "models/single_line_address.yml"
+        examples:
+          basic:
+            value:
+              primary_line: 185 Berry Street
+              city: San Francisco
+              state: CA
+              zip_code: "94107"
+          full_payload:
+            value:
+              recipient: Walgreens
+              primary_line: Ave Wilson Churchill 123
+              secondary_line: ""
+              urbanization: URB FAIR OAKS
+              city: RIO PIEDRAS
+              state: PR
+              zip_code: "00926"
+          single_line:
+            value:
+              address: "185 Berry Street 94107"
 
   responses:
     "200":

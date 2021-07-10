@@ -45,20 +45,27 @@ post:
       application/json:
         schema:
           $ref: "models/bank_account_base.yml"
+        example:
+          description: "Test Bank Account"
+          routing_number: "322271627"
+          account_number: "123456789"
+          signatory: "Jane Doe"
+          account_type: "individual"
+          metadata:
+            spiffy: true
 
       application/x-www-form-urlencoded:
         schema:
           $ref: "models/bank_account_base.yml"
+        example:
+          description: "Test Bank Account"
+          routing_number: "322271627"
+          account_number: "123456789"
+          signatory: "Jane Doe"
+          account_type: "individual"
+          metadata:
+            spiffy: true
         encoding:
-          to:
-            style: deepObject
-            explode: true
-          from:
-            style: deepObject
-            explode: true
-          merge_variables:
-            style: deepObject
-            explode: true
           metadata:
             style: deepObject
             explode: true
@@ -66,6 +73,14 @@ post:
       multipart/form-data:
         schema:
           $ref: "models/bank_account_base.yml"
+        example:
+          description: "Test Bank Account"
+          routing_number: "322271627"
+          account_number: "123456789"
+          signatory: "Jane Doe"
+          account_type: "individual"
+          metadata:
+            spiffy: true
 
   responses:
     "200":

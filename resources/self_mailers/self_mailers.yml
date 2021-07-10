@@ -51,17 +51,31 @@ post:
           from: adr_210a8d4b0b76d77b
           inside: "https://lob.com/selfmailerinside.pdf"
           outside: "https://lob.com/selfmaileroutside.pdf"
+          size: 12x9_bifold
+          metadata:
+            spiffy: true
+          mail_type: usps_standard
+          merge_variables:
+            name: Harry
+          send_date: "2017-11-01T00:00:00.000Z"
 
       application/x-www-form-urlencoded:
         schema:
           $ref: "models/self_mailer_editable.yml"
+        example:
+          description: Demo Self Mailer job
+          to: adr_bae820679f3f536b
+          from: adr_210a8d4b0b76d77b
+          inside: "https://lob.com/selfmailerinside.pdf"
+          outside: "https://lob.com/selfmaileroutside.pdf"
+          size: 12x9_bifold
+          metadata:
+            spiffy: true
+          mail_type: usps_standard
+          merge_variables:
+            name: Harry
+          send_date: "2017-11-01T00:00:00.000Z"
         encoding:
-          to:
-            style: deepObject
-            explode: true
-          from:
-            style: deepObject
-            explode: true
           merge_variables:
             style: deepObject
             explode: true
@@ -72,6 +86,19 @@ post:
       multipart/form-data:
         schema:
           $ref: "models/self_mailer_editable.yml"
+        example:
+          description: Demo Self Mailer job
+          to: adr_bae820679f3f536b
+          from: adr_210a8d4b0b76d77b
+          inside: "https://lob.com/selfmailerinside.pdf"
+          outside: "https://lob.com/selfmaileroutside.pdf"
+          size: 12x9_bifold
+          metadata:
+            spiffy: true
+          mail_type: usps_standard
+          merge_variables:
+            name: Harry
+          send_date: "2017-11-01T00:00:00.000Z"
 
   responses:
     "200":

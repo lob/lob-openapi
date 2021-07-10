@@ -45,10 +45,64 @@ post:
       application/json:
         schema:
           $ref: "../../shared/models/address/address_editable.yml"
+        examples:
+          full_us:
+            value:
+              description: "Harry - Office"
+              name: "Harry Zhang"
+              company: "Lob"
+              email: "harry@lob.com"
+              phone: "5555555555"
+              address_line1: "185 Berry St"
+              address_line2: "# 6100"
+              address_city: "San Francisco"
+              address_state: "CA"
+              address_zip: "94107"
+              address_country: "US"
+          full_intl:
+            value:
+              description: "Harry - Office"
+              name: "Harry Zhang"
+              company: "Lob"
+              email: "harry@lob.com"
+              phone: "5555555555"
+              address_line1: "370 WATER ST"
+              address_line2: ""
+              address_city: "SUMMERSIDE"
+              address_state: "PRINCE EDWARD ISLAND"
+              address_zip: "C1N 1C4"
+              address_country: "CA"
 
       application/x-www-form-urlencoded:
         schema:
           $ref: "../../shared/models/address/address_editable.yml"
+        examples:
+          full_us:
+            value:
+              description: "Harry - Office"
+              name: "Harry Zhang"
+              company: "Lob"
+              email: "harry@lob.com"
+              phone: "5555555555"
+              address_line1: "185 Berry St"
+              address_line2: "# 6100"
+              address_city: "San Francisco"
+              address_state: "CA"
+              address_zip: "94107"
+              address_country: "US"
+          full_intl:
+            value:
+              description: "Harry - Office"
+              name: "Harry Zhang"
+              company: "Lob"
+              email: "harry@lob.com"
+              phone: "5555555555"
+              address_line1: "370 WATER ST"
+              address_line2: ""
+              address_city: "SUMMERSIDE"
+              address_state: "PRINCE EDWARD ISLAND"
+              address_zip: "C1N 1C4"
+              address_country: "CA"
         encoding:
           metadata:
             style: deepObject
@@ -57,6 +111,33 @@ post:
       multipart/form-data:
         schema:
           $ref: "../../shared/models/address/address_editable.yml"
+        examples:
+          full_us:
+            value:
+              description: "Harry - Office"
+              name: "Harry Zhang"
+              company: "Lob"
+              email: "harry@lob.com"
+              phone: "5555555555"
+              address_line1: "185 Berry St"
+              address_line2: "# 6100"
+              address_city: "San Francisco"
+              address_state: "CA"
+              address_zip: "94107"
+              address_country: "US"
+          full_intl:
+            value:
+              description: "Harry - Office"
+              name: "Harry Zhang"
+              company: "Lob"
+              email: "harry@lob.com"
+              phone: "5555555555"
+              address_line1: "370 WATER ST"
+              address_line2: ""
+              address_city: "SUMMERSIDE"
+              address_state: "PRINCE EDWARD ISLAND"
+              address_zip: "C1N 1C4"
+              address_country: "CA"
 
   responses:
     "200":

@@ -20,9 +20,10 @@ post:
       application/json:
         schema:
           $ref: "models/intl_verification_payload.yml"
-
         example:
+          recipient: Harry Zhang
           primary_line: 370 Water St
+          secondary_line: ""
           city: Summerside
           state: Prince Edward Island
           postal code: C1N 1C4
@@ -31,10 +32,26 @@ post:
       application/x-www-form-urlencoded:
         schema:
           $ref: "models/intl_verification_payload.yml"
+        example:
+          recipient: Harry Zhang
+          primary_line: 370 Water St
+          secondary_line: ""
+          city: Summerside
+          state: Prince Edward Island
+          postal code: C1N 1C4
+          country: CA
 
       multipart/form-data:
         schema:
           $ref: "models/intl_verification_payload.yml"
+        example:
+          recipient: Harry Zhang
+          primary_line: 370 Water St
+          secondary_line: ""
+          city: Summerside
+          state: Prince Edward Island
+          postal code: C1N 1C4
+          country: CA
 
   responses:
     "200":

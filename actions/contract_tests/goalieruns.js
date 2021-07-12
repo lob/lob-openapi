@@ -22,7 +22,7 @@ module.exports.runTests = async function runTests() {
         test_command = 'ava "' + test + '"';
         exec(test_command, async function (err, stdout, stderr) {
           if (err) {
-            const formatted = "```" + stdout + "```";
+            const formatted = "```" + stdout.replaceAll("```", " ") + "```";
             failures.push(formatted);
           }
           // async: the code won't proceed to the next block until

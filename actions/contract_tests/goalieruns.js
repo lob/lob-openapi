@@ -46,6 +46,7 @@ module.exports.runTests = async function runTests() {
             core.setFailed(
               "An unexpected error surfaced in the contract tests."
             );
+            return 1;
           }
         });
         let errorMessage = "";

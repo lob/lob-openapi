@@ -20,7 +20,9 @@ get:
 
   responses:
     "200":
-      $ref: responses/template.yml
+      description: Returns a self_mailer object
+      content:
+        $ref: "responses/template.yml"
 
     default:
       $ref: "../../shared/responses/error.yml"
@@ -66,7 +68,7 @@ post:
 
   responses:
     "200":
-      $ref: responses/template.yml
+      $ref: responses/post_template.yml
 
     default:
       $ref: "../../shared/responses/error.yml"

@@ -45,6 +45,28 @@ test("autocomplete an address given a prefix with full payload", async function 
   t.assert(response.status === 200);
 });
 
+test("autocomplete an address given a prefix with full payload urlencoded", async function (t) {
+  t.plan(1);
+  const payload = new URLSearchParams({
+    address_prefix: address_prefix,
+    city: "San Francisco",
+    state: "CA",
+    zip_code: "94107",
+    geo_ip_sort: false,
+  }).toString();
+
+  const response = await prism.setup().then((client) =>
+    client.post(resource_endpoint, payload, {
+      headers: {
+        ...prism.authHeader,
+        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+    })
+  );
+
+  t.assert(response.status === 200);
+});
+
 test("errors when address_prefix is not passed in", async function (t) {
   t.plan(2);
   const response = await prism

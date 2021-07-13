@@ -16,4 +16,547 @@ properties:
       fail. [More about verification of mailing addresses](https://www.lob.com/guides#mailing_addresses)
     oneOf:
       - $ref: "../../../shared/attributes/model_ids/adr_id.yml"
-      - $ref: "../../../shared/models/address/inline_address_us.yml"
+      - type: object
+
+        required:
+          - address_line1
+          - address_city
+          - address_state
+          - address_zip
+
+        properties:
+          address_country:
+            type: string
+            enum:
+              - US
+            description: Value is US.
+            default: US
+          address_city:
+            type: string
+            maxLength: 200
+
+          address_state:
+            type: string
+            description: 2 letter state short-name code
+            pattern: "^[a-zA-Z]{2}$"
+
+          address_zip:
+            type: string
+            description: >
+              Must follow the ZIP format of `12345` or
+              ZIP+4 format of `12345-1234`.
+            pattern: '^\d{5}(-\d{4})?$'
+
+        allOf:
+          - $ref: "../../../shared/models/address/address_editable_base.yml"
+          - oneOf:
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 0
+                    maxLength: 0
+                  address_line2:
+                    type: string
+                    maxLength: 50
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 1
+                    maxLength: 1
+                  address_line2:
+                    type: string
+                    maxLength: 49
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 2
+                    maxLength: 2
+                  address_line2:
+                    type: string
+                    maxLength: 48
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 3
+                    maxLength: 3
+                  address_line2:
+                    type: string
+                    maxLength: 47
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 4
+                    maxLength: 4
+                  address_line2:
+                    type: string
+                    maxLength: 46
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 5
+                    maxLength: 5
+                  address_line2:
+                    type: string
+                    maxLength: 45
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 6
+                    maxLength: 6
+                  address_line2:
+                    type: string
+                    maxLength: 44
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 7
+                    maxLength: 7
+                  address_line2:
+                    type: string
+                    maxLength: 43
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 8
+                    maxLength: 8
+                  address_line2:
+                    type: string
+                    maxLength: 42
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 9
+                    maxLength: 9
+                  address_line2:
+                    type: string
+                    maxLength: 41
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 10
+                    maxLength: 10
+                  address_line2:
+                    type: string
+                    maxLength: 40
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 11
+                    maxLength: 11
+                  address_line2:
+                    type: string
+                    maxLength: 39
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 12
+                    maxLength: 12
+                  address_line2:
+                    type: string
+                    maxLength: 38
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 13
+                    maxLength: 13
+                  address_line2:
+                    type: string
+                    maxLength: 37
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 14
+                    maxLength: 14
+                  address_line2:
+                    type: string
+                    maxLength: 36
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 15
+                    maxLength: 15
+                  address_line2:
+                    type: string
+                    maxLength: 35
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 16
+                    maxLength: 16
+                  address_line2:
+                    type: string
+                    maxLength: 34
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 17
+                    maxLength: 17
+                  address_line2:
+                    type: string
+                    maxLength: 33
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 18
+                    maxLength: 18
+                  address_line2:
+                    type: string
+                    maxLength: 32
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 19
+                    maxLength: 19
+                  address_line2:
+                    type: string
+                    maxLength: 31
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 20
+                    maxLength: 20
+                  address_line2:
+                    type: string
+                    maxLength: 30
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 21
+                    maxLength: 21
+                  address_line2:
+                    type: string
+                    maxLength: 29
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 22
+                    maxLength: 22
+                  address_line2:
+                    type: string
+                    maxLength: 28
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 23
+                    maxLength: 23
+                  address_line2:
+                    type: string
+                    maxLength: 27
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 24
+                    maxLength: 24
+                  address_line2:
+                    type: string
+                    maxLength: 26
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 25
+                    maxLength: 25
+                  address_line2:
+                    type: string
+                    maxLength: 25
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 26
+                    maxLength: 26
+                  address_line2:
+                    type: string
+                    maxLength: 24
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 27
+                    maxLength: 27
+                  address_line2:
+                    type: string
+                    maxLength: 23
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 28
+                    maxLength: 28
+                  address_line2:
+                    type: string
+                    maxLength: 22
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 29
+                    maxLength: 29
+                  address_line2:
+                    type: string
+                    maxLength: 21
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 30
+                    maxLength: 30
+                  address_line2:
+                    type: string
+                    maxLength: 20
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 31
+                    maxLength: 31
+                  address_line2:
+                    type: string
+                    maxLength: 19
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 32
+                    maxLength: 32
+                  address_line2:
+                    type: string
+                    maxLength: 18
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 33
+                    maxLength: 33
+                  address_line2:
+                    type: string
+                    maxLength: 17
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 34
+                    maxLength: 34
+                  address_line2:
+                    type: string
+                    maxLength: 16
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 35
+                    maxLength: 35
+                  address_line2:
+                    type: string
+                    maxLength: 15
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 36
+                    maxLength: 36
+                  address_line2:
+                    type: string
+                    maxLength: 14
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 37
+                    maxLength: 37
+                  address_line2:
+                    type: string
+                    maxLength: 13
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 38
+                    maxLength: 38
+                  address_line2:
+                    type: string
+                    maxLength: 12
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 39
+                    maxLength: 39
+                  address_line2:
+                    type: string
+                    maxLength: 11
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 40
+                    maxLength: 40
+                  address_line2:
+                    type: string
+                    maxLength: 10
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 41
+                    maxLength: 41
+                  address_line2:
+                    type: string
+                    maxLength: 9
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 42
+                    maxLength: 42
+                  address_line2:
+                    type: string
+                    maxLength: 8
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 43
+                    maxLength: 43
+                  address_line2:
+                    type: string
+                    maxLength: 7
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 44
+                    maxLength: 44
+                  address_line2:
+                    type: string
+                    maxLength: 6
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 45
+                    maxLength: 45
+                  address_line2:
+                    type: string
+                    maxLength: 5
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 46
+                    maxLength: 46
+                  address_line2:
+                    type: string
+                    maxLength: 4
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 47
+                    maxLength: 47
+                  address_line2:
+                    type: string
+                    maxLength: 3
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 48
+                    maxLength: 48
+                  address_line2:
+                    type: string
+                    maxLength: 2
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 49
+                    maxLength: 49
+                  address_line2:
+                    type: string
+                    maxLength: 1
+                    nullable: true
+              - type: object
+                properties:
+                  address_line1:
+                    type: string
+                    minLength: 50
+                    maxLength: 50
+                  address_line2:
+                    type: string
+                    maxLength: 0
+                    nullable: true

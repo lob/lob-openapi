@@ -11,4 +11,12 @@ headers:
 content:
   application/json:
     schema:
-      $ref: "../../../shared/models/address/address.yml"
+      anyOf:
+        - $ref: "../../../shared/models/address/address.yml"
+        - $ref: "../../../shared/models/address/address_ncoa.yml"
+      discriminator:
+        propertyName: address_line1
+        mapping:
+          "NCOA": "../../../shared/models/address/address_ncoa.yml"
+
+  

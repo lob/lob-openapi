@@ -161,6 +161,32 @@ test("correctly creates an international address with mostly-empty input", async
   t.assert(response.data.address_country === "CANADA");
 });
 
+test("correctly returns an NCOA address", async function (t) {
+  t.plan(2);
+  const params = {
+    description: "Harry - Office",
+    company: "Lob",
+    email: "harry@lob.com",
+    phone: "5555555555",
+    address_line1: "NCOA",
+    address_line2: "",
+    address_city: "San Francisco",
+    address_state: "CA",
+    address_zip: "94107",
+    address_country: "US",
+  };
+
+  let response = await prism
+    .setup({ errors: false })
+    .then((client) =>
+      client.post(resource_endpoint, params, { headers: prism.authHeader })
+    );
+
+  t.assert(response.status === 200);
+  console.log("RESPONSE DATA: ", response.data);
+  t.assert(response.data.recipient_moved !== null);
+});
+
 test("does not treat input as international without country", async function (t) {
   t.plan(1);
   const params = {

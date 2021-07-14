@@ -22,13 +22,8 @@ module.exports.runTests = async function runTests() {
         test_command = 'ava "' + test + '"';
         exec(test_command, async function (err, stdout, stderr) {
           if (err) {
-            const startIndex = stdout.indexOf("─");
-            const endIndex = stdout.lastIndexOf("─");
-            if (stdout.slice(startIndex, endIndex)) {
-              const formatted =
-                "```" + stdout.slice(startIndex, endIndex) + "```";
-              failures.push(formatted);
-            }
+            const formatted = "```" + stdout.replaceAll("```", " ") + "```";
+            failures.push(formatted);
           }
           // async: the code won't proceed to the next block until
           // this block is resolved, so a resolve is returned after
@@ -51,6 +46,7 @@ module.exports.runTests = async function runTests() {
             core.setFailed(
               "An unexpected error surfaced in the contract tests."
             );
+            return 1;
           }
         });
         let errorMessage = "";
@@ -60,10 +56,14 @@ module.exports.runTests = async function runTests() {
           errorMessage = `There was 1 failure in the contract tests`;
         }
         try {
-          const result = await web.chat.postMessage({
+          const parent = await web.chat.postMessage({
             channel: pkg.config.goalieMappings[validated_arg].slackChannel,
-            text: `:party-dead: ${errorMessage}
-  ${failures.join("\n")}`,
+            text: `:party-dead: ${errorMessage}`,
+          });
+          const reply = await web.chat.postMessage({
+            channel: pkg.config.goalieMappings[validated_arg].slackChannel,
+            thread_ts: parent.ts,
+            text: `${failures.join("\n")}`,
           });
         } catch (slackError) {
           console.error(JSON.stringify(slackError, null, 2));

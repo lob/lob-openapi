@@ -125,6 +125,56 @@ tags:
       - [Java](https://github.com/lob/lob-java)
       - [Elixir](https://github.com/lob/lob-elixir)
 
+  - name: NCOA
+    x-traitTag: true
+    description: |
+      National Change of Address (NCOA) is a service offered by the USPS, which allows individuals
+      or businesses who have recently moved to have any mail forwarded from their previous address
+      to their new address. As a CASS-certified Address Verification Provider, Lob also offers NCOA
+      functionality to our Print & Mail customers. With the Lob NCOA feature enabled, Postcards,
+      Letters, Checks and Addresses can automatically be corrected to reflect an individual's or business's
+      new address in the case that they have moved (only if they have registered for NCOA with the USPS).
+      Due to privacy concerns and USPS constraints, for customers with NCOA enabled, our API responses
+      for a limited set of endpoints differ slightly in the case when an address has been changed through NCOA.
+
+      NOTE: This feature is exclusive to certain customers. Upgrade to the appropriate [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to gain access.
+
+      For more information, see our [NCOA guide](https://lob.com/guides#national_change).
+
+  - name: NCOA Live Environment
+    x-traitTag: true
+    description: |
+      Though there are no changes to API requests, there are significant changes to our API responses, but
+      only in the event that an address has been changed through NCOA. If an address has not been changed
+      through NCOA, the response would be identical to our standard responses, except the addition of a
+      `recipient_moved` field, which is `false` for unchanged addresses.
+
+      If an address has been changed through NCOA, we are required to suppress the following response
+      fields for that address:
+      - `address_line1`
+      - `address_line2`
+      - The +4 portion of the ZIP+4 (5-digit ZIP code will still be present)
+
+      See the `ncoa_us_live` example under [Responses](#operation/create_address) within the Create an Address section in Addresses
+      (along with the corresponding request under "Requests").
+
+  - name: NCOA Test Environment
+    x-traitTag: true
+    description: |
+      In addition to sending live requests, you may also want to simulate what an NCOA response might
+      look like so that you can ensure your application behaves as expected. The behavior of NCOA in
+      Lob's Test Environment is very similar to our [US Verifications Test Mode](https://docs.lob.com/#us-verification-test-environment).
+
+      To simulate an NCOA request, send a POST request to any of the four endpoints below with an `address_line1` field equal to `NCOA`:
+      - `POST /v1/addresses`
+      - `POST /v1/checks`
+      - `POST /v1/letters`
+      - `POST /v1/postcards`
+      - `POST /v1/self_mailers`
+
+      A static address will always be returned, as documented in the `ncoa_us_test` example under [Responses](#operation/create_address) within the Create an Address
+      section in Addresses (along with the corresponding request under "Requests").
+
   - name: Postcards
     description: Easily print and mail postcards.
 
@@ -206,7 +256,6 @@ x-tagGroups:
 
   - name: Print and Mail API
     tags:
-      - Addresses
       - Postcards
       - Self Mailers
       - Letters
@@ -214,6 +263,13 @@ x-tagGroups:
       - Bank Accounts
       - Templates
       - Template Versions
+
+  - name: Address Book
+    tags:
+      - Addresses
+      - NCOA
+      - NCOA Live Environment
+      - NCOA Test Environment
 
   - name: US Verification API
     tags:

@@ -142,6 +142,7 @@ tags:
       For more information, see our [NCOA guide](https://lob.com/guides#national_change).
 
   - name: NCOA Live Environment
+    x-traitTag: true
     description: |
       Though there are no changes to API requests, there are significant changes to our API responses, but
       only in the event that an address has been changed through NCOA. If an address has not been changed
@@ -154,9 +155,11 @@ tags:
       - `address_line2`
       - The +4 portion of the ZIP+4 (5-digit ZIP code will still be present)
 
-      See the `ncoa_us_live` example under [Responses](#operation/create_address) within the Create an Address section in Addresses.
+      See the `ncoa_us_live` example under [Responses](#operation/create_address) within the Create an Address section in Addresses
+      (along with the corresponding request under "Requests").
 
   - name: NCOA Test Environment
+    x-traitTag: true
     description: |
       In addition to sending live requests, you may also want to simulate what an NCOA response might
       look like so that you can ensure your application behaves as expected. The behavior of NCOA in
@@ -170,7 +173,7 @@ tags:
       - `POST /v1/self_mailers`
 
       A static address will always be returned, as documented in the `ncoa_us_test` example under [Responses](#operation/create_address) within the Create an Address
-      section in Addresses.
+      section in Addresses (along with the corresponding request under "Requests").
 
   - name: Postcards
     description: Easily print and mail postcards.

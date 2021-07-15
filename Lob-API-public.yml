@@ -129,8 +129,15 @@ tags:
       See the `test` request & response examples under [Intl Verification Examples](#operation/intl_verification) within the
       "Verify an international address section" in Intl Verifications.
 
+      You can rely on the response from these examples generally matching the response
+      you'd see in the live environment with an address of that type (excluding the recipient field).
+
+      The test API key does not perform any verification, automatic correction, or standardization
+      for addresses. If you wish to try these features out, use our [live demo](https://lob.com/address-verification)
+      or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).
+
   - name: Letters
-    description: Easily print and mail letters.
+    description: Easily print and mail letters.s
 
   - name: Libraries
     x-traitTag: true
@@ -173,7 +180,7 @@ tags:
       - `address_line2`
       - The +4 portion of the ZIP+4 (5-digit ZIP code will still be present)
 
-      See the `ncoa_us_live` example under [Responses](#operation/create_address) within the Create an Address section in Addresses
+      See the `ncoa_us_live` example under [Responses](#operation/create_address) within the "Create an Address" section in Addresses
       (along with the corresponding request under "Requests").
 
   - name: NCOA Test Environment
@@ -190,7 +197,7 @@ tags:
       - `POST /v1/postcards`
       - `POST /v1/self_mailers`
 
-      A static address will always be returned, as documented in the `ncoa_us_test` example under [Responses](#operation/create_address) within the Create an Address
+      A static address will always be returned, as documented in the `ncoa_us_test` example under [Responses](#operation/create_address) within the "Create an Address"
       section in Addresses (along with the corresponding request under "Requests").
 
   - name: Postcards
@@ -229,7 +236,11 @@ tags:
       key in your dashboard under Settings; test API keys are always prefixed
       with `test_` and production API keys with `live_`.
 
-  - name: US Autocomplete Test Environment
+  - name: US Autocompletions
+    description: >
+      Given partial address information, this endpoint returns up to 10 address suggestions.
+
+  - name: US Autocompletions Test Environment
     x-traitTag: true
     description: |
       Your test API key does not autocomplete US addresses and is used to simulate
@@ -247,10 +258,6 @@ tags:
 
       See the `test` request & response examples under [Autocomplete Examples](#operation/autocompletion) within the "Autocomplete
       a partial address" section in US Autocompletions.
-
-  - name: US Autocompletions
-    description: >
-      Given partial address information, this endpoint returns up to 10 address suggestions.
 
   - name: US Verifications
     description: >
@@ -284,6 +291,12 @@ tags:
 
       See the `test` request & response examples under [US Verification Examples](#operation/us_verification) within the
       "Verify a US or US territory address" section in US Verifications.
+
+      You can rely on the response from these examples generally matching the response you'd see in the live environment with an
+      address of that type (excluding the `recipient` field).
+
+      The test API key does not perform any verification, automatic correction, or standardization for addresses. If you wish to
+      try these features out, use our [live demo](https://lob.com/address-verification) or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).
 
   - name: Webhooks
     x-traitTag: true
@@ -342,7 +355,7 @@ x-tagGroups:
       - US Verifications Test Environment
       - Bulk US Verifications
       - US Autocompletions
-      - US Autocomplete Test Environment
+      - US Autocompletions Test Environment
       - Zip Lookups
 
   - name: Intl Verification API

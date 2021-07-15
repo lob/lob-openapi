@@ -111,6 +111,24 @@ tags:
   - name: Intl Verifications
     description: Address verification for non-US addresses
 
+  - name: Intl Verifications Test Environment
+    x-traitTag: true
+    description: |
+      When verifying international addresses, you'll likely want to test against
+      a wide array of addresses to ensure you're handling responses correctly.
+      With your test API key, requests that use specific values for `primary_line`
+      let you explore the responses to many types of addresses:
+
+      | DELIVERABILITY OF SAMPLE RESPONSE | SET `primary_line` TO    |
+      |-----------------------------------|--------------------------|
+      | `deliverable`                     | deliverable              |
+      | `deliverable_missing_info`        | deliverable missing info |
+      | `undeliverable`                   | undeliverable            |
+      | `no_match`                        | no match                 |
+
+      See the `test` request & response examples under [Intl Verification Examples](#operation/intl_verification) within the
+      Verify an international address section in Intl Verifications.
+
   - name: Letters
     description: Easily print and mail letters.
 
@@ -161,6 +179,25 @@ tags:
       key in your dashboard under Settings; test API keys are always prefixed
       with `test_` and production API keys with `live_`.
 
+  - name: US Autocomplete Test Environment
+    x-traitTag: true
+    description: |
+      Your test API key does not autocomplete US addresses and is used to simulate
+      behavior. With your test API key, requests with specific values for `address_prefix`
+      return predetermined values. When `address_prefix` is set to:
+
+      - `0 suggestions` - Returns no suggestions
+      - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.
+        `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.
+        Each additional letter in `suggestion` reduces the number of suggestions by one (e.g. 
+        `1 su` returns 9 suggested addresses). `[PRIMARY NUMBER]` does not affect the number of
+        suggestions returned.
+
+      City and state filters work as expected and filter the list of predetermined suggested addresses.
+
+      See the `test` request & response examples under [Autocomplete Examples](#operation/autocompletion) within the Autocomplete
+      a partial address section in US Autocompletions.
+
   - name: US Autocompletions
     description: >
       Given partial address information, this endpoint returns up to 10 address suggestions.
@@ -169,6 +206,34 @@ tags:
     description: >
       Validate, automatically correct, and standardize the addresses in your
       address book based on USPS's [Coding Accuracy Support System (CASS)](https://postalpro.usps.com/certifications/cass).
+
+  - name: US Verifications Test Environment
+    x-traitTag: true
+    description: |
+      When verifying US addresses, you'll likely want to test against a wide array of addresses to
+      ensure you're handling responses correctly. With your test API key, requests that use specific
+      values for `address` or `primary_line` and (if using `primary_line`) an arbitrary five digit
+      number for `zip_code` (e.g. "11111") let you explore the responses to many types of addresses:
+
+      | ADDRESS TYPE FOR SAMPLE RESPONSE                         | deliverability               | SET `primary_line` OR `address` TO |
+      |----------------------------------------------------------| -----------------------------|------------------------------------|
+      | Commercial highrise                                      | deliverable                  | `commercial highrise`              |
+      | Residential highrise                                     | deliverable                  | `residential highrise`             |
+      | Residential house                                        | deliverable                  | `residential house`                |
+      | PO Box                                                   | deliverable                  | `po box`                           |
+      | Rural route                                              | deliverable                  | `rural route`                      |
+      | Puerty Rico address w/ urbanization                      | deliverable                  | `puerto rico`                      |
+      | Military address                                         | deliverable                  | `military`                         |
+      | Department of state                                      | deliverable                  | `department of state`              |
+      | Generic deliverable                                      | deliverable                  | `deliverable`                      |
+      | Missing a suite number                                   | deliverable_missing_unit     | `missing unit`                     |
+      | Suite number doesn't exist                               | deliverable_incorrect_unit   | `incorrect unit`                   |
+      | Residential house with unnecessary suite number          | deliverable_unnecessary_unit | `unnecessary unit`                 |
+      | Undeliverable and block matched                          | undeliverable                | `undeliverable block match`        |
+      | Undeliverable and no block matched                       | undeliverable                | `undeliverable no match`           |
+
+      See the `test` request & response examples under [US Verification Examples](#operation/us_verification) within the
+      Verify a US or US territory address section in US Verifications.
 
   - name: Webhooks
     x-traitTag: true
@@ -218,14 +283,17 @@ x-tagGroups:
   - name: US Verification API
     tags:
       - US Verifications
+      - US Verifications Test Environment
       - Bulk US Verifications
       - US Autocompletions
+      - US Autocomplete Test Environment
       - Zip Lookups
 
   - name: Intl Verification API
     tags:
       - Intl Verifications
       - Bulk Intl Verifications
+      - Intl Verifications Test Environment
 
 components:
   securitySchemes:

@@ -11,22 +11,22 @@ const resource_endpoint = "/bank_accounts",
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
+const payload = {
+  description: "Test Bank Account",
+  routing_number: "322271627",
+  account_number: "123456789",
+  signatory: "Jane Doe",
+  account_type: "individual",
+};
+
 // contract tests happy path
 test("create, list, read, verify, then delete a bank_account", async function (t) {
   t.plan(6);
-  const create = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        description: "Test Bank Account",
-        routing_number: "322271627",
-        account_number: "123456789",
-        signatory: "Jane Doe",
-        account_type: "individual",
-      },
-      { headers: prism.authHeader }
-    )
-  );
+  const create = await prism
+    .setup()
+    .then((client) =>
+      client.post(resource_endpoint, payload, { headers: prism.authHeader })
+    );
   t.assert(create.status === 200);
 
   const list = await prism
@@ -65,16 +65,10 @@ test("create, list, read, verify, then delete a bank_account", async function (t
 
 test("create, list, read, verify, then delete a bank_account urlencoded", async function (t) {
   t.plan(6);
-  const payload = new URLSearchParams({
-    description: "Test Bank Account",
-    routing_number: "322271627",
-    account_number: "123456789",
-    signatory: "Jane Doe",
-    account_type: "individual",
-  }).toString();
+  const body = new URLSearchParams(payload).toString();
 
   const create = await prism.setup().then((client) =>
-    client.post(resource_endpoint, payload, {
+    client.post(resource_endpoint, body, {
       headers: {
         ...prism.authHeader,
         "content-type": "application/x-www-form-urlencoded; charset=UTF-8",

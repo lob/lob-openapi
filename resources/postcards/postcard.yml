@@ -20,7 +20,9 @@ get:
 
   responses:
     "200":
-      $ref: "responses/postcard.yml"
+      description: Returns a postcard object
+      content:
+        $ref: "responses/postcard.yml"
 
     default:
       $ref: "../../shared/responses/error.yml"

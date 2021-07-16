@@ -20,7 +20,9 @@ get:
 
   responses:
     "200":
-      $ref: responses/certificate.yml
+      description: Returns an certificate object if a valid identifier was provided.
+      content:
+        $ref: responses/certificate.yml
 
     default:
       $ref: "../../shared/responses/error.yml"
@@ -53,7 +55,9 @@ patch:
 
   responses:
     "200":
-      $ref: responses/certificate.yml
+      description: Returns an certificate object if a valid identifier was provided.
+      content:
+        $ref: responses/certificate.yml
 
     default:
       $ref: "../../shared/responses/error.yml"

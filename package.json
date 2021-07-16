@@ -51,7 +51,7 @@
     "clean": "rm -rf dist",
     "lint": "spectral lint $npm_package_config_specfile",
     "mock": "prism mock $npm_package_config_--dynamic $npm_package_config_specfile",
-    "singleTest": "func() { ava ./tests/\"$1\"_test.js; }; func",
+    "singleTest": "func() { ava --timeout=55s ./tests/\"$1\"_test.js; }; func",
     "pergoalie": "node actions/contract_tests/goalieruns.js",
     "postinstall": "husky install",
     "postman": "npm run bundle && openapi2postmanv2 --pretty --spec dist/$npm_package_config_bundlefile --output dist/$npm_package_config_postmanfile -O folderStrategy=Tags",
@@ -59,7 +59,7 @@
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
     "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --options.maxDisplayedEnumValues=15 --options.theme.sidebar.backgroundColor: \"#f7f9fa\" --options.expandResponses='200,201' --options.jsonSampleExpandLevel=3 --options.requiredPropsFirst=true -o docs/index.html",
-    "test": "ava './tests/**_test.js'"
+    "test": "ava --timeout=55s './tests/**_test.js'"
   },
   "repository": {
     "type": "git",

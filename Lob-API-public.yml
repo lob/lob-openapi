@@ -108,6 +108,91 @@ tags:
   - name: Checks
     description: Checks allow you to send payments via physical checks.
 
+  - name: Idempotent Requests
+    x-traitTag: true
+    description: >-
+      Lob supports idempotency for safely retrying `POST` requests to create
+      postcards, self mailers, letters, and checks without accidentally creating
+      duplicates.
+
+
+      For example, if a request to create a check fails due to a network error,
+      you can safely retry the same request with the same idempotency key and
+      guarantee that only one check will ultimately be created and sent. When a
+      request is sent with an idempotency key for an already created resource,
+      the response object for the existing resource will be returned.
+
+
+      To perform an idempotent `POST` request to one of the mailpiece product
+      endpoints, provide an additional `Idempotency-Key` header or an `idempotency_key`
+      query parameter to the request. If multiple idempotency keys are provided,
+      the request will fail. How you create unique keys is up to you, but we
+      suggest using random values, such as V4 UUIDs. Idempotency keys are intended
+      to prevent issues over a short periods of time, therefore keys expire after
+      24 hours. Keys are unique by mode (Test vs. Live) as well as by resource
+      (postcard vs. letter, etc.).
+
+
+      By default, all `GET` and `DELETE` requests are idempotent by nature, so
+      they do not require an additional idempotency key.
+
+
+      For more help integrating idempotency keys, refer to our
+      [implementation guide](https://lob.com/guides#idempotent_request).
+
+
+      **Headers**
+      <table>
+        <tbody>
+          <tr>
+            <td>Idempotency-Key:</td>
+            <td>
+              optional
+              <p style="color:#888;margin-top:0px;">
+                <font size="-1">
+                  A string of no longer than 256 characters
+                  that uniquely identifies this resource.
+                </font>
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      **Query Parameters**
+      <table>
+        <tbody>
+          <tr>
+            <td>idempotency-key:</td>
+            <td>
+              optional
+              <p style="color:#888;margin-top:0px;">
+                <font size="-1">
+                  A string of no longer than 256 characters
+                  that uniquely identifies this resource.
+                </font>
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      **<span style="color:#6683a2">Example Request</span>**
+
+
+      ```bash
+        curl https://api.lob.com/v1/postcards \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -H "Idempotency-Key: 026e7634-24d7-486c-a0bb-4a17fd0eebc5" \
+          -d "to=adr_bae820679f3f536b" \
+          -d "from=adr_210a8d4b0b76d77b" \
+          --data-urlencode "front=<html style='margin: 130px; font-size: 50;'>Front HTML for {{name}}</html>" \
+          --data-urlencode "back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>" \
+          -d "merge_variables[name]=Harry"
+      ```
+
   - name: Intl Verifications
     description: Address verification for non-US addresses
 
@@ -203,6 +288,203 @@ tags:
   - name: Postcards
     description: Easily print and mail postcards.
 
+  - name: Rate Limiting
+    x-traitTag: true
+    description: >-
+      To prevent misuse, we enforce a rate limit on an API Key and endpoint basis,
+      similar to the way many other APIs enforce rate limits. By default, all accounts
+      and their corresponding Test and Live API Keys have a rate limit of 150 requests
+      per 5 seconds per endpoint. The `POST /v1/us_verifications` and `POST /v1/us_autocompletions`
+      endpoints have a limit of 300 requests per 5 seconds for all accounts.
+
+
+      When your application exceeds the rate limit for a given API endpoint, the
+      Lob API will return an HTTP 429 "Too Many Requests" response code instead of
+      the variety of codes you would find across the other API endpoints.
+
+
+      **HTTP Headers**
+
+
+      HTTP headers are returned on each request to a rate limited endpoint. Ensure
+      that you inspect these headers during your requests as they provide relevant
+      data on how many more requests your application is allowed to make for the
+      endpoint you just utilized.
+
+
+      While the headers are documented here in titlecase, HTTP headers are case
+      insensitive and certain libraries may transform them to lowercase. Please
+      inspect your headers carefully to see how they will be represented in your
+      chosen development scenario.
+
+      <table>
+        <tbody>
+          <tr>
+            <td>X-Rate-Limit-Limit:</td>
+            <td>the rate limit ceiling for a given request</td>
+          </tr>
+          <tr>
+            <td>X-Rate-Limit-Remaining:</td>
+            <td>the number of requests remaining in this window</td>
+          </tr>
+          <tr>
+            <td>X-Rate-Limit-Reset:</td>
+            <td>the time at which the rate limit window resets (in <a  href="https://en.wikipedia.org/wiki/Unix_time"  target="_blank">UTC epoch seconds</a>)
+          </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      **<span style="color:#6683a2">Example HTTP Headers</span>**
+
+
+      ```
+        X-Rate-Limit-Limit:150
+        X-Rate-Limit-Remaining:100
+        X-Rate-Limit-Reset:1528749846
+      ```
+
+
+      **<span style="color:rgb(102,131,162)">Example Response</span>**
+
+
+      If you hit the rate limit on a given endpoint, this is the body of the HTTP
+      429 message that you will see:
+
+
+      ```javascript
+        {
+          "error": {
+            "message": "Rate limit exceeded. Please wait 5 seconds and try your request again.",
+            "code": "rate_limit_exceeded",
+            "status_code": 429
+          }
+        }
+      ```
+
+  - name: Request Bodies
+    x-traitTag: true
+    description: >-
+      When manually sending a POST HTTP request directly to the Lob API, without
+      the use of a library, you may represent the body as either a Form URL
+      Encoded request, a JSON document, or a Multipart Form Data request.
+
+
+      However, if you're using one of our [libraries](index.html#tag/Libraries),
+      the generation of the request bodies is done for you automatically and you don't
+      need to worry about the format.
+
+
+      **<span style="color:#6683a2">Form URL Encoded</span>**
+
+
+      This request body encoding is accompanied with the
+      `Content-Type: application/x-www-form-urlencoded` header. The content is an
+      example of what the [Verify a US address](index.html#operation/us_verification)
+      endpoint accepts. An example of a request body encoded in this format follows.
+
+
+      ```javascript
+        primary_line=185 Berry Street&city=San Francisco&state=CA&zip_code=94107
+      ```
+
+
+      **<span style="color:#6683a2">JSON</span>**
+
+
+      This request body encoding is accompanied with the `Content-Type: application/json` header.
+      The content is an example of what the [Verify a US address endpoint](index.html#operation/us_verification)
+      accepts. An example of a request body encoded in this format follows.
+
+
+      ```javascript
+        {
+          "primary_line": "185 Berry Street",
+          "city": "San Francisco",
+          "state": "CA",
+          "zip_code": "94107"
+        }
+      ```
+
+
+      **<span style="color:#6683a2">Multipart Form Data</span>**
+
+
+      This request body encoding is accompanied with the `Content-Type: multipart/form-data`
+      header. This is the only format that can be used for uploading a file to the API. The
+      content is an example of what the [Create a check](index.html#operation/create_check)
+      endpoint accepts. An example of a request body encoded in this format follows.
+
+
+      ```javascript
+        --------------------------7015ebe79c0a5f8c
+        Content-Disposition: form-data; name="description"
+
+        Demo Letter
+        --------------------------7015ebe79c0a5f8c
+        Content-Disposition: form-data; name="to"
+
+        adr_bae820679f3f536b
+        --------------------------7015ebe79c0a5f8c
+        Content-Disposition: form-data; name="from"
+
+        adr_210a8d4b0b76d77b
+        --------------------------7015ebe79c0a5f8c
+        Content-Disposition: form-data; name="file"; filename="file.pdf"
+        Content-Type: application/pdf
+
+        <FILE CONTENT>
+        --------------------------7015ebe79c0a5f8c
+        Content-Disposition: form-data; name="color"
+
+        true
+        --------------------------7015ebe79c0a5f8c--
+      ```
+
+  - name: Scheduled Mailings
+    x-traitTag: true
+    description: >-
+      Postcards, self mailers, letters, and checks can be scheduled to be sent up
+      to 180 days in advance. You can use this feature to:
+
+      - Create automated drip campaigns (e.g. send a postcard at 15, 30, and 60
+      days)
+      - Schedule recurring sends
+      - Plan your mailing schedule ahead of time
+
+
+      Up until the time a mailing is scheduled for, it can also be canceled.
+      If you use this feature in conjunction with [a cancellation window](
+      index.html#tag/Cancellation-Windows), the `send_date` parameter will always
+      take precedence.
+
+
+      For implementation details, see documentation below for each respective
+      endpoint. For more help, see our [Scheduled Mailings Guide](https://lob.com/guides#scheduled_mailing).
+
+
+      This feature is exclusive to certain customers. Upgrade to the appropriate
+      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to
+      gain access.
+
+
+      **<span style="color:#6683a2">
+        Example Create Request using Send Date
+      </span>**
+
+      ```bash
+        curl https://api.lob.com/v1/postcards \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Demo Future Postcard" \
+          -d "to=adr_bae820679f3f536b" \
+          -d "from=adr_210a8d4b0b76d77b" \
+          -d "front=tmpl_b846a20859ae11a" \
+          -d "back=tmpl_01b0d396a10c268" \
+          -d "merge_variables[name]=Harry" \
+          -d "send_date=2021-07-26"
+      ```
+
   - name: Self Mailers
     description: Easily print and mail self mailers.
 
@@ -250,7 +532,7 @@ tags:
       - `0 suggestions` - Returns no suggestions
       - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.
         `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.
-        Each additional letter in `suggestion` reduces the number of suggestions by one (e.g. 
+        Each additional letter in `suggestion` reduces the number of suggestions by one (e.g.
         `1 su` returns 9 suggested addresses). `[PRIMARY NUMBER]` does not affect the number of
         suggestions returned.
 
@@ -298,6 +580,28 @@ tags:
       The test API key does not perform any verification, automatic correction, or standardization for addresses. If you wish to
       try these features out, use our [live demo](https://lob.com/address-verification) or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).
 
+  - name: Versioning
+    x-traitTag: true
+    description: >-
+      When backwards-incompatible changes are made to the API, a new dated version
+      is released. The latest version of the API is version **2020-02-11**. You can
+      view your version and upgrade to the latest version in your
+      [Dashboard Settings](https://dashboard.lob.com/#/settings/keys). You will
+      only need to specify a version if you would like to test a newer version of
+      the API without doing a full upgrade. The API will return an error if a
+      version older than your current one is passed in. See API Changelog for a
+      full list of breaking changes.
+
+
+      **<span style="color:#6683a2">Example Request</span>**
+
+
+      ```bash
+        curl https://api.lob.com/v1/addresses \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -H "Lob-Version: 2020-02-11"
+      ```
+
   - name: Webhooks
     x-traitTag: true
     description: |
@@ -331,6 +635,11 @@ x-tagGroups:
       - Cancellation Windows
       - Libraries
       - Beta Program
+      - Request Bodies
+      - Rate Limiting
+      - Versioning
+      - Idempotent Requests
+      - Scheduled Mailings
 
   - name: Print and Mail API
     tags:

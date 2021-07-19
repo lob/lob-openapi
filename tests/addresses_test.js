@@ -68,7 +68,7 @@ test("create, retrieve, then delete an address", async function (t) {
 });
 
 test("allows creation with just a name", async function (t) {
-  t.plan(1);
+  t.plan(2);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -89,10 +89,19 @@ test("allows creation with just a name", async function (t) {
     );
 
   t.assert(response.status === 200);
+
+  // delete
+  const deletion = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${response.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+
+  t.assert(deletion.status === 200);
 });
 
 test("allows creation with just a company", async function (t) {
-  t.plan(1);
+  t.plan(2);
   const params = {
     description: "Harry - Office",
     company: "Lob",
@@ -113,10 +122,19 @@ test("allows creation with just a company", async function (t) {
     );
 
   t.assert(response.status === 200);
+
+  // delete
+  const deletion = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${response.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+
+  t.assert(deletion.status === 200);
 });
 
 test("correctly creates an international address", async function (t) {
-  t.plan(2);
+  t.plan(3);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -138,10 +156,19 @@ test("correctly creates an international address", async function (t) {
 
   t.assert(response.status === 200);
   t.assert(response.data.address_country === "CANADA");
+
+  // delete
+  const deletion = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${response.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+
+  t.assert(deletion.status === 200);
 });
 
 test("correctly creates an international address with mostly-empty input", async function (t) {
-  t.plan(2);
+  t.plan(3);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -159,6 +186,15 @@ test("correctly creates an international address with mostly-empty input", async
 
   t.assert(response.status === 200);
   t.assert(response.data.address_country === "CANADA");
+
+  // delete
+  const deletion = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${response.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+
+  t.assert(deletion.status === 200);
 });
 
 test("does not treat input as international without country", async function (t) {

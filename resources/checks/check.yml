@@ -20,7 +20,9 @@ get:
 
   responses:
     "200":
-      $ref: responses/check.yml
+      description: Returns a check object
+      content:
+        $ref: responses/check.yml
 
     default:
       $ref: "../../shared/responses/error.yml"

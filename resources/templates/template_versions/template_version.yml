@@ -26,7 +26,9 @@ get:
 
   responses:
     "200":
-      $ref: "responses/template_version.yml"
+      description: Returns the template version with the given template and version ids.
+      content:
+        $ref: "responses/template_version.yml"
 
     default:
       $ref: "../../../shared/responses/error.yml"
@@ -68,7 +70,7 @@ post:
 
   responses:
     "200":
-      $ref: "responses/template_version.yml"
+      $ref: "responses/post_template_version.yml"
 
     default:
       $ref: "../../../shared/responses/error.yml"

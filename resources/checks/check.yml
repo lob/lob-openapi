@@ -9,7 +9,7 @@ parameters:
 get:
   operationId: get_check
 
-  summary: Retrieve check with given id
+  summary: Retrieve
 
   description: >-
     Retrieves the details of an existing check. You need only supply
@@ -20,7 +20,9 @@ get:
 
   responses:
     "200":
-      $ref: responses/check.yml
+      description: Returns a check object
+      content:
+        $ref: responses/check.yml
 
     default:
       $ref: "../../shared/responses/error.yml"
@@ -30,7 +32,7 @@ get:
 delete:
   operationId: cancel_check
 
-  summary: Cancel a check
+  summary: Cancel
 
   description: >-
     Completely removes a check from production. This can only be done if

@@ -1,7 +1,7 @@
 get:
   operationId: list_addresses
 
-  summary: List all addresses
+  summary: List
 
   description: >-
     Returns a list of your addresses. The addresses are returned sorted by
@@ -28,16 +28,13 @@ get:
 post:
   operationId: create_address
 
-  summary: Creates a new address object
+  summary: Create
 
   description: >-
     Creates a new address given information
 
   tags:
     - Addresses
-
-  parameters:
-    - $ref: "../../shared/parameters/idempotency.yml"
 
   requestBody:
     required: true
@@ -55,6 +52,19 @@ post:
               phone: "5555555555"
               address_line1: "185 Berry St"
               address_line2: "# 6100"
+              address_city: "San Francisco"
+              address_state: "CA"
+              address_zip: "94107"
+              address_country: "US"
+          ncoa_us_test:
+            value:
+              description: "Harry - Office"
+              name: "Harry Zhang"
+              company: "Lob"
+              email: "harry@lob.com"
+              phone: "5555555555"
+              address_line1: "NCOA"
+              address_line2: "#6100"
               address_city: "San Francisco"
               address_state: "CA"
               address_zip: "94107"
@@ -90,6 +100,19 @@ post:
               address_state: "CA"
               address_zip: "94107"
               address_country: "US"
+          ncoa_us_test:
+            value:
+              description: "Harry - Office"
+              name: "Harry Zhang"
+              company: "Lob"
+              email: "harry@lob.com"
+              phone: "5555555555"
+              address_line1: "NCOA"
+              address_line2: "# 6100"
+              address_city: "San Francisco"
+              address_state: "CA"
+              address_zip: "94107"
+              address_country: "US"
           full_intl:
             value:
               description: "Harry - Office"
@@ -120,6 +143,19 @@ post:
               email: "harry@lob.com"
               phone: "5555555555"
               address_line1: "185 Berry St"
+              address_line2: "# 6100"
+              address_city: "San Francisco"
+              address_state: "CA"
+              address_zip: "94107"
+              address_country: "US"
+          ncoa_us_test:
+            value:
+              description: "Harry - Office"
+              name: "Harry Zhang"
+              company: "Lob"
+              email: "harry@lob.com"
+              phone: "5555555555"
+              address_line1: "NCOA"
               address_line2: "# 6100"
               address_city: "San Francisco"
               address_state: "CA"

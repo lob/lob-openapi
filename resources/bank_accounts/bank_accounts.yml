@@ -1,7 +1,7 @@
 get:
   operationId: list_bank_accounts
 
-  summary: List all bank_accounts
+  summary: List
 
   description: >-
     Returns a list of your bank_accounts. The bank_accounts are returned sorted by
@@ -28,16 +28,13 @@ get:
 post:
   operationId: create_bank_account
 
-  summary: Creates a new bank_account
+  summary: Create
 
   description: >-
     Creates a new bank_account with the provided properties.
 
   tags:
     - Bank Accounts
-
-  parameters:
-    - $ref: "../../shared/parameters/idempotency.yml"
 
   requestBody:
     required: true
@@ -84,7 +81,7 @@ post:
 
   responses:
     "200":
-      $ref: responses/bank_account.yml
+      $ref: responses/post_bank_account.yml
 
     default:
       $ref: "../../shared/responses/error.yml"

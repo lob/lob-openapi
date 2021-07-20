@@ -1,7 +1,7 @@
 get:
   operationId: list_postcards
 
-  summary: List all postcards
+  summary: List
 
   description: >-
     Returns a list of your postcards. The addresses are returned sorted by
@@ -28,7 +28,7 @@ get:
 post:
   operationId: create_postcard
 
-  summary: Creates a new postcard object
+  summary: Create
 
   description: >-
     Creates a new postcard given information
@@ -37,7 +37,8 @@ post:
     - Postcards
 
   parameters:
-    - $ref: "../../shared/parameters/idempotency.yml"
+    - $ref: "../../shared/parameters/idempotency.yml#/idem-header"
+    - $ref: "../../shared/parameters/idempotency.yml#/idem-query"
 
   requestBody:
     required: true
@@ -174,7 +175,7 @@ post:
 
   responses:
     "200":
-      $ref: responses/postcard.yml
+      $ref: responses/post_postcard.yml
 
     default:
       $ref: "../../shared/responses/error.yml"

@@ -1,7 +1,7 @@
 get:
   operationId: list_checks
 
-  summary: List all checks
+  summary: List
 
   description: >-
     Returns a list of your checks. The checks are returned sorted by
@@ -28,7 +28,7 @@ get:
 post:
   operationId: create_check
 
-  summary: Creates a new check
+  summary: Create
 
   description: >-
     Creates a new check with the provided properties.
@@ -37,7 +37,8 @@ post:
     - Checks
 
   parameters:
-    - $ref: "../../shared/parameters/idempotency.yml"
+    - $ref: "../../shared/parameters/idempotency.yml#/idem-header"
+    - $ref: "../../shared/parameters/idempotency.yml#/idem-query"
 
   requestBody:
     required: true
@@ -174,7 +175,7 @@ post:
 
   responses:
     "200":
-      $ref: responses/check.yml
+      $ref: responses/post_check.yml
 
     default:
       $ref: "../../shared/responses/error.yml"

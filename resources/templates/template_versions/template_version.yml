@@ -16,7 +16,7 @@ parameters:
 get:
   operationId: get_template_version
 
-  summary: Retrieve template version with given template and version ids.
+  summary: Retrieve
 
   description: >-
     Retrieves the template version with the given template and version ids.
@@ -26,7 +26,9 @@ get:
 
   responses:
     "200":
-      $ref: "responses/template_version.yml"
+      description: Returns the template version with the given template and version ids.
+      content:
+        $ref: "responses/template_version.yml"
 
     default:
       $ref: "../../../shared/responses/error.yml"
@@ -34,16 +36,13 @@ get:
 post:
   operationId: update_template_version
 
-  summary: Updates the template version with given template and version ids.
+  summary: Update
 
   description: >-
     Retrieves the template version with the given template and version ids.
 
   tags:
     - Template Versions
-
-  parameters:
-    - $ref: "../../../shared/parameters/idempotency.yml"
 
   requestBody:
     required: true
@@ -68,7 +67,7 @@ post:
 
   responses:
     "200":
-      $ref: "responses/template_version.yml"
+      $ref: "responses/post_template_version.yml"
 
     default:
       $ref: "../../../shared/responses/error.yml"
@@ -76,7 +75,7 @@ post:
 delete:
   operationId: delete_template_version
 
-  summary: Deletes the template version with given template and version ids if possible.
+  summary: Delete
 
   description: >-
     Permanently deletes a template version. A template's `published_version` can not be deleted.

@@ -1,7 +1,7 @@
 get:
   operationId: list_certificates
 
-  summary: List all certificates
+  summary: List
 
   description: >-
     Returns a list of your certificates. The certificates are returned sorted by
@@ -20,16 +20,13 @@ get:
 post:
   operationId: create_certificate
 
-  summary: Creates a new certificate object
+  summary: Create
 
   description: >-
     Creates a new certificate given information
 
   tags:
     - Certificates
-
-  parameters:
-    - $ref: "../../shared/parameters/idempotency.yml"
 
   requestBody:
     required: true
@@ -48,7 +45,7 @@ post:
 
   responses:
     "201":
-      $ref: responses/certificate.yml
+      $ref: responses/post_certificate.yml
 
     default:
       $ref: "../../shared/responses/error.yml"

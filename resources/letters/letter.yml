@@ -9,7 +9,7 @@ parameters:
 get:
   operationId: get_letter
 
-  summary: Retrieve letter with given id
+  summary: Retrieve
 
   description: >-
     Retrieves the details of an existing letter. You need only supply
@@ -20,7 +20,9 @@ get:
 
   responses:
     "200":
-      $ref: responses/letter.yml
+      description: Returns a letter object
+      content:
+        $ref: responses/letter.yml
 
     default:
       $ref: "../../shared/responses/error.yml"
@@ -28,7 +30,7 @@ get:
 delete:
   operationId: cancel_letter
 
-  summary: Cancel a letter
+  summary: Cancel
 
   description: >-
     Completely removes a letter from production. This can only be done if

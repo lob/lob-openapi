@@ -9,7 +9,7 @@ parameters:
 get:
   operationId: list_template_versions
 
-  summary: List all template_versions
+  summary: List
 
   description: >
     Returns a list of template versions for the passed `template_id`. The
@@ -36,16 +36,13 @@ get:
 post:
   operationId: create_template_version
 
-  summary: Creates a new template_version object
+  summary: Create
 
   description: >-
     Creates a new template version attached to the specified template.
 
   tags:
     - Template Versions
-
-  parameters:
-    - $ref: "../../../shared/parameters/idempotency.yml"
 
   requestBody:
     required: true
@@ -73,7 +70,7 @@ post:
 
   responses:
     "200":
-      $ref: responses/template_version.yml
+      $ref: "responses/post_template_version.yml"
 
     default:
       $ref: "../../../shared/responses/error.yml"

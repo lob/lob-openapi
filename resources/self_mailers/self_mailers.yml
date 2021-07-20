@@ -1,7 +1,7 @@
 get:
   operationId: list_self_mailers
 
-  summary: List all self_mailers
+  summary: List
 
   description: >-
     Returns a list of your self_mailers. The self_mailers are returned sorted by
@@ -28,7 +28,7 @@ get:
 post:
   operationId: create_self_mailer
 
-  summary: Creates a new self_mailer object
+  summary: Create
 
   description: >-
     Creates a new self_mailer given information
@@ -37,7 +37,8 @@ post:
     - Self Mailers
 
   parameters:
-    - $ref: "../../shared/parameters/idempotency.yml"
+    - $ref: "../../shared/parameters/idempotency.yml#/idem-header"
+    - $ref: "../../shared/parameters/idempotency.yml#/idem-query"
 
   requestBody:
     required: true
@@ -102,7 +103,7 @@ post:
 
   responses:
     "200":
-      $ref: responses/self_mailer.yml
+      $ref: responses/post_self_mailer.yml
 
     default:
       $ref: "../../shared/responses/error.yml"

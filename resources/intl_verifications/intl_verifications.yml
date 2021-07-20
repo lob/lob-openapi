@@ -1,7 +1,7 @@
 post:
   operationId: intl_verification
 
-  summary: Verify an international (except US or US territories) address with a live API key.
+  summary: Verify
 
   description: >-
     Verify an international (except US or US territories) address _with a live
@@ -20,38 +20,56 @@ post:
       application/json:
         schema:
           $ref: "models/intl_verification_payload.yml"
-        example:
-          recipient: Harry Zhang
-          primary_line: 370 Water St
-          secondary_line: ""
-          city: Summerside
-          state: Prince Edward Island
-          postal code: C1N 1C4
-          country: CA
+        examples:
+          basic:
+            value:
+              recipient: Harry Zhang
+              primary_line: 370 Water St
+              secondary_line: ""
+              city: Summerside
+              state: Prince Edward Island
+              postal code: C1N 1C4
+              country: CA
+          test:
+            value:
+              primary_line: deliverable
+              country: CA
 
       application/x-www-form-urlencoded:
         schema:
           $ref: "models/intl_verification_payload.yml"
-        example:
-          recipient: Harry Zhang
-          primary_line: 370 Water St
-          secondary_line: ""
-          city: Summerside
-          state: Prince Edward Island
-          postal code: C1N 1C4
-          country: CA
+        examples:
+          basic:
+            value:
+              recipient: Harry Zhang
+              primary_line: 370 Water St
+              secondary_line: ""
+              city: Summerside
+              state: Prince Edward Island
+              postal code: C1N 1C4
+              country: CA
+          test:
+            value:
+              primary_line: deliverable
+              country: CA
 
       multipart/form-data:
         schema:
           $ref: "models/intl_verification_payload.yml"
-        example:
-          recipient: Harry Zhang
-          primary_line: 370 Water St
-          secondary_line: ""
-          city: Summerside
-          state: Prince Edward Island
-          postal code: C1N 1C4
-          country: CA
+        examples:
+          basic:
+            value:
+              recipient: Harry Zhang
+              primary_line: 370 Water St
+              secondary_line: ""
+              city: Summerside
+              state: Prince Edward Island
+              postal code: C1N 1C4
+              country: CA
+          test:
+            value:
+              primary_line: deliverable
+              country: CA
 
   responses:
     "200":

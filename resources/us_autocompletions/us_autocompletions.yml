@@ -1,7 +1,7 @@
 post:
   operationId: autocompletion
 
-  summary: Autocomplete a partial US address.
+  summary: Autocomplete
 
   description: >-
     Given an address prefix consisting of a partial primary line, as well as
@@ -18,32 +18,47 @@ post:
       application/json:
         schema:
           $ref: "models/us_autocompletions.yml"
-        example:
-          address_prefix: 185 B
-          city: San Francisco
-          state: CA
-          zip_code: "94107"
-          geo_ip_sort: false
+        examples:
+          basic:
+            value:
+              address_prefix: 185 B
+              city: San Francisco
+              state: CA
+              zip_code: "94107"
+              geo_ip_sort: false
+          test:
+            value:
+              address_prefix: 1 sugg
 
       application/x-www-form-urlencoded:
         schema:
           $ref: "models/us_autocompletions.yml"
-        example:
-          address_prefix: 185 B
-          city: San Francisco
-          state: CA
-          zip_code: "94107"
-          geo_ip_sort: false
+        examples:
+          basic:
+            value:
+              address_prefix: 185 B
+              city: San Francisco
+              state: CA
+              zip_code: "94107"
+              geo_ip_sort: false
+          test:
+            value:
+              address_prefix: 1 sugg
 
       multipart/form-data:
         schema:
           $ref: "models/us_autocompletions.yml"
-        example:
-          address_prefix: 185 B
-          city: San Francisco
-          state: CA
-          zip_code: "94107"
-          geo_ip_sort: false
+        examples:
+          basic:
+            value:
+              address_prefix: 185 B
+              city: San Francisco
+              state: CA
+              zip_code: "94107"
+              geo_ip_sort: false
+          test:
+            value:
+              address_prefix: 1 sugg
 
   responses:
     "200":

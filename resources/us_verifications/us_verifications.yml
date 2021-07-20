@@ -1,7 +1,7 @@
 post:
   operationId: us_verification
 
-  summary: Verify a US or US territory address with a live API key.
+  summary: Verify
 
   description: >-
     Verify a US or US territory address _with a live API key_. The
@@ -58,6 +58,10 @@ post:
           single_line:
             value:
               address: "185 Berry Street 94107"
+          test:
+            value:
+              primary_line: "po box"
+              zip_code: "11111"
 
       application/x-www-form-urlencoded:
         schema:
@@ -83,6 +87,10 @@ post:
           single_line:
             value:
               address: "185 Berry Street 94107"
+          test:
+            value:
+              primary_line: "po box"
+              zip_code: "11111"
 
       multipart/form-data:
         schema:
@@ -108,6 +116,10 @@ post:
           single_line:
             value:
               address: "185 Berry Street 94107"
+          test:
+            value:
+              primary_line: "po box"
+              zip_code: "11111"
 
   responses:
     "200":

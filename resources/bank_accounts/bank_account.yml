@@ -1,7 +1,7 @@
 parameters:
   - in: path
     name: bank_id
-    description: id of the bank_account
+    description: id of the bank account
     required: true
     schema:
       $ref: "../../shared/attributes/model_ids/bank/bank_id.yml"
@@ -12,15 +12,15 @@ get:
   summary: Retrieve
 
   description: >-
-    Retrieves the details of an existing bank_account. You need only supply
-    the unique bank_account identifier that was returned upon bank_account creation.
+    Retrieves the details of an existing bank account. You need only supply
+    the unique bank account identifier that was returned upon bank account creation.
 
   tags:
     - Bank Accounts
 
   responses:
     "200":
-      description: Returns a bank_account object
+      description: Returns a bank account object
       content:
         $ref: responses/bank_account.yml
 

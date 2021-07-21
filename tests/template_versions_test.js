@@ -99,9 +99,10 @@ test.serial("delete template", async function (t) {
 
 test.after.always("clean up template", async function (t) {
   // clean up template too!
-  prism.setup().then((client) =>
+  let clean_up = await prism.setup().then((client) =>
     client.delete(t.context.tmpl_endpoint, {
       headers: prism.authHeader,
     })
   );
+  t.assert(clean_up.status === 200);
 });

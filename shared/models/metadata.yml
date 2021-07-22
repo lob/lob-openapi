@@ -6,7 +6,15 @@ description: >-
   be at most 40 characters and values must be at most 500 characters. Neither
   can contain the characters `"` and `\`. Nested objects are not supported.
 
-properties: {}
+properties:
+  '[^"\\]{0,20}':
+    oneOf:
+      - type: string
+      - type: number
+      - type: boolean
+    maxLength: 500
+    pattern: '[^"\\]{0,500}'
+
 maxProperties: 20
 
 example:

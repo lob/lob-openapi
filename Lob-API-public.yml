@@ -21,7 +21,9 @@ servers:
 
 tags:
   - name: Addresses
-    description: A frictionless address book for use with the print and mail API.
+    description: |
+      To add an address to your address book, you create a new address object. You can retrieve and delete individual 
+      addresses as well as get a list of addresses. Addresses are identified by a unique random ID.
 
   - name: API Keys
     x-traitTag: true
@@ -29,7 +31,8 @@ tags:
       Lob authenticates your API requests using your account's API keys.
       If you do not include your key when making an API request, or use
       one that is incorrect or outdated, Lob returns an error with a `401`
-      HTTP response code. You can find all API keys in your dashboard under Settings.
+      HTTP response code. You can find all API keys in your dashboard 
+      under [Settings](https://dashboard.lob.com/#/settings/keys).
 
       There are two types of API keys: *secret* and *publishable*.
 
@@ -43,7 +46,8 @@ tags:
       prefixed with `[environment]_pub`.
 
       Every type comes with a pair of keys: one for the testing environment and one for the
-      live environment. We recommend reading Test and Live Environments for more information.
+      live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments) 
+      for more information.
 
   - name: Asset URLs
     x-traitTag: true
@@ -53,8 +57,32 @@ tags:
       30 days to prevent mis-sharing. Each time a GET request is initiated, a
       new signed URL will be generated.
 
+  - name: Authentication
+    x-traitTag: true
+    description: |
+
+      Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication). 
+      In order to properly authenticate with the API you must use your API key as the username 
+      while leaving the password blank. Requests not properly authenticated will return a `401` 
+      [error code](#tag/Errors). You can find your account's API keys 
+      in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
+
+      **<span style="color:#6683a2">Example Request</span>**
+
+      curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a 
+      password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
+
+
+      ```bash
+      curl https://api.lob.com/v1/addresses \
+        -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      ```
+
   - name: Bank Accounts
-    description: Bank Accounts allow you to store your bank account securely in our system.
+    description: |
+      Bank Accounts allow you to store your bank account securely in our system. The API provides 
+      endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts, 
+      retrieving individual bank accounts, and retrieving a list of bank accounts.
 
   - name: Beta Program
     description: |
@@ -106,7 +134,109 @@ tags:
     description: A certificate store to manage client identities.
 
   - name: Checks
-    description: Checks allow you to send payments via physical checks.
+    description: |
+      Checks allow you to send payments via physical checks. The API provides endpoints 
+      for creating checks, retrieving individual checks, canceling checks, and retrieving a list of checks.
+
+  - name: Errors
+    x-traitTag: true
+    description: |
+      Lob uses RESTful HTTP response codes to indicate success or failure of an API request - read below for more information. In general, 2xx indicates success, 4xx indicate an input error, and 5xx indicates an error on Lob's end.
+
+      | ATTRIBUTE     | DESCRIPTION                                                                   |
+      |---------------| ------------------------------------------------------------------------------|
+      | code          | A consistent machine-keyable string identifying the error                     |
+      | status_code   | A conventional HTTP status code                                               |
+      | message       | A human-readable, subject-to-change message with more details about the error |
+
+
+      **<span style="color:#6683a2">HTTP Status Code Summary</span>**
+
+      | CODE          | STATUS_CODE          | MESSAGE                                                                     |
+      |---------------| ---------------------|-----------------------------------------------------------------------------|
+      | 200           | SUCCESS              | Successful API request                                                      |
+      | 401           | UNAUTHORIZED         | Authorization error with your API key or account                            |
+      | 403           | FORBIDDEN            | Forbidden error with your API key or account                                |
+      | 422           | BAD REQUEST          | The query or body parameters did not pass validation                        |
+      | 429           | TOO MANY REQUESTS    | Too many requests have been sent with an API key in a given amount of time  |
+      | 500           | SERVER ERROR         | An internal server error occurred, please contact support@lob.com           |
+
+      **<span style="color:#6683a2">Error Codes - Generic</span>**
+
+      | CODE          | STATUS_CODE              | MESSAGE                                                                              |
+      |---------------| -----------------------  |--------------------------------------------------------------------------------------|
+      | 403           | FEATURE_LIMIT_REACHED    | The account has reached its resource limit and requires upgrading to add more.       |
+      | 404           | NOT_FOUND                | The requested resource was not found.                                                |
+      | 404           | UNRECOGNIZED_ENDPOINT    | The requested endpoint doesn't exist.                                                |
+      | 404           | NOT FOUND                | The requested item does not exist                                                    |
+      | 408           | REQUEST_TIMEOUT          | The request took too long. Please try again.                                         |
+      | 409/422       | CONFLICT                 | This operation would leave data in a conflicted state.                               |
+      | 422           | BAD_REQUEST              | An invalid request was made. See error message for details.                          |
+      | 422           | INVALID                  | An invalid request was made. See error message for details.                          |
+      | 422           | UNSUPPORTED_LOB_VERSION  | An unsupported Lob API version was requested.                                        |
+      | 422           | NOT_DELETABLE            | An attempt was made to delete a resource, but the resource cannot be deleted.        |
+      | 500           | INTERNAL_SERVER_ERROR    | An error has occured on Lob's servers. Please try request again.                     |
+      | 503           | SERVICE_UNAVAILABLE      | The Lob servers are temporarily unavailable. Please try again.                       |
+
+      **<span style="color:#6683a2">Error Codes - Authentication</span>**
+
+      | CODE          | STATUS_CODE                  | MESSAGE                                                                                               |
+      |---------------| -----------------------------|-------------------------------------------------------------------------------------------------------|
+      | 401           | EMAIL_REQUIRED               | Account must have a verified email address before creating live resources.                            |
+      | 401           | UNAUTHORIZED                 | The request isn't authorized.                                                                         |
+      | 401           | UNAUTHORIZED_TOKEN           | Token isn't authorized.                                                                               |
+      | 401/403       | INVALID_API_KEY              | The API key is invalid.                                                                               |
+      | 403           | PUBLISHABLE_KEY_NOT_ALLOWED  | The requested operation needs a secret key, not a publishable key. See [API Keys](#tag/API-Keys) for more information. |
+      | 429           | RATE_LIMIT_EXCEEDED          | Requests were sent too quickly and must be slowed down.                                               |
+
+       **<span style="color:#6683a2">Error Codes - Advanced</span>**
+
+      | CODE          | STATUS_CODE                        | MESSAGE                                                                                                              |
+      |---------------| -----------------------------------|----------------------------------------------------------------------------------------------------------------------|
+      | 401           | PAYMENT_METHOD_UNVERIFIED          | You must have a verified bank account or credit card to submit live requests.                                        |
+      | 404           | DELETED_BANK_ACCOUNT               | Checks cannot be created with a deleted bank account.                                                                |
+      | 422           | ADDRESS_LENGTH_EXCEEDS_LIMIT       | The sum of to.address_line1 and to.address_line2 cannot surpass 50 characters.                                       |
+      | 422           | BANK_ACCOUNT_ALREADY_VERIFIED      | The bank account has already been verified.                                                                          |
+      | 422           | BANK_ERROR                         | There's an issue with the bank account.                                                                              |
+      | 422           | CUSTOM_ENVELOPE_INVENTORY_DEPLETED | Custom envelope inventory is depleted, and more will need to be ordered.                                             |
+      | 422           | FAILED_DELIVERABILITY_STRICTNESS   | The to address doesn't meet strictness requirements. See [Account Settings](https://dashboard.lob.com/#/settings/account) to configure strictness.                   |
+      | 422           | FILE_PAGES_BELOW_MIN               | Not enough pages.                                                                                                    |
+      | 422           | FILE_PAGES_EXCEED_MAX              | Too many pages.                                                                                                      |
+      | 422           | FILE_SIZE_EXCEEDS_LIMIT            | The file size is too large. See description for details.                                                             |
+      | 422           | FOREIGN_RETURN_ADDRESS             | The 'from' address must be a US address.                                                                             |
+      | 422           | INCONSISTENT_PAGE_DIMENSIONS       | All pages of the input file must have the same dimensions.                                                           |
+      | 422           | INVALID_BANK_ACCOUNT               | The provided bank routing number is invalid.                                                                         |
+      | 422           | INVALID_BANK_ACCOUNT_VERIFICATION  | Verification amounts do not match.                                                                                   |
+      | 422           | INVALID_CHECK_INTERNATIONAL        | Checks cannot be sent internationally.                                                                               |
+      | 422           | INVALID_COUNTRY_COVID              | The postal service in the specified country is currently unable to process the request due to COVID-19 restrictions. |
+      | 422           | INVALID_FILE                       | The file is invalid.                                                                                                 |
+      | 422           | INVALID_FILE_DIMENSIONS            | File dimensions are incorrect for the selected mail type.                                                            |
+      | 422           | INVALID_FILE_DOWNLOAD_TIME         | File download from remote server took too long.                                                                      |
+      | 422           | INVALID_FILE_URL                   | The file URL when creating a resource is invalid.                                                                    |
+      | 422           | INVALID_IMAGE_DPI                  | DPI must be at least 300.                                                                                            |
+      | 422           | INVALID_INTERNATIONAL_FEATURE      | The specified product cannot be sent to the destination.                                                             |
+      | 422           | INVALID_PERFORATION_RETURN_ENVELOPE| Both `return_envelope` and `perforation` must be used together.                                                          |
+      | 422           | INVALID_TEMPLATE_HTML              | The provided HTML is invalid.                                                                                        |
+      | 422           | MERGE_VARIABLE_REQUIRED            | A required merge variable is missing.                                                                                |
+      | 422           | MERGE_VARIABLE_WHITESPACE          | Merge variable names cannot contain whitespace.                                                                      |
+      | 422           | PDF_ENCRYPTED                      | An encrypted PDF was provided.                                                                                       |
+      | 422           | SPECIAL_CHARACTERS_RESTRICTED      | Cannot use special characters for merge variable names.                                                              |
+      | 422           | UNEMBEDDED_FONTS                   | The provided PDF contains non-standard unembedded fonts. See description for details.                                |
+
+  - name: Getting Started
+    x-traitTag: true
+    description: |
+      To get started you'll create an account at [Lob.com](https://dashboard.lob.com/#/register) to obtain some API Keys. 
+      The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.` 
+      for your Test API key and `live_*.` for your Live API key.
+
+       **<span style="color:#6683a2">Getting Started Guides</span>**
+
+      * [Postcards](https://www.lob.com/guides#getting_started)
+      * [Self-Mailers](https://www.lob.com/guides#getting_started_selfmailers)
+      * [Letters](https://www.lob.com/guides#getting_started_letters)
+      * [Checks](https://www.lob.com/guides#getting_started_checks)
+      * [Address Verification Elements](https://www.lob.com/guides#av-elements-quickstart)
 
   - name: Idempotent Requests
     x-traitTag: true
@@ -221,19 +351,29 @@ tags:
       for addresses. If you wish to try these features out, use our [live demo](https://lob.com/address-verification)
       or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).
 
-  - name: Letters
-    description: Easily print and mail letters.
-
-  - name: Libraries
+  - name: Introduction
     x-traitTag: true
     description: |
-      Please visit our [Github](https://www.github.com/lob) for a list of our supported libraries.
-      - [Ruby](https://github.com/lob/lob-ruby)
-      - [PHP](https://github.com/lob/lob-php)
-      - [Node.js](https://github.com/lob/lob-node)
-      - [Python](https://github.com/lob/lob-python)
-      - [Java](https://github.com/lob/lob-java)
-      - [Elixir](https://github.com/lob/lob-elixir)
+      Lob’s Print & Mail and Address Verification APIs helps companies transform outdated, 
+      manual print & mail processes and save 1,000s of hours in processing time by sending mail much more 
+      quickly, and increasing ROI on offline communications.
+
+      Automate direct mail by triggering on-demand postcards, letters, and checks directly from your 
+      CRM or customer data systems.
+
+      Address Verification corrects, standardizes, and cleanses address data for assured delivery with 
+      instant verification across 240+ countries and territories.
+
+      Lob's global print delivery network eliminates the hassle of vendor management with automated 
+      production and postage across a global network of vetted commercial printers.
+
+      Tracking & Analytics give you complete visibility of production and delivery for each piece of 
+      mail you send to meet compliance requirements and measure campaign performance.
+
+  - name: Letters
+    description: |
+      The letters endpoint allows you to easily print and mail letters. The API provides endpoints for 
+      creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
 
   - name: NCOA
     x-traitTag: true
@@ -273,7 +413,7 @@ tags:
     description: |
       In addition to sending live requests, you may also want to simulate what an NCOA response might
       look like so that you can ensure your application behaves as expected. The behavior of NCOA in
-      Lob's Test Environment is very similar to our [US Verifications Test Mode](https://docs.lob.com/#us-verification-test-environment).
+      Lob's Test Environment is very similar to our [US Verifications Test Mode](#tag/US-Verifications-Test-Environment).
 
       To simulate an NCOA request, send a POST request to any of the four endpoints below with an `address_line1` field equal to `NCOA`:
       - `POST /v1/addresses`
@@ -286,7 +426,9 @@ tags:
       section in Addresses (along with the corresponding request under "Requests").
 
   - name: Postcards
-    description: Easily print and mail postcards.
+    description: |
+      The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards, 
+      retrieving individual postcards, canceling postcards, and retrieving a list of postcards.
 
   - name: Rate Limiting
     x-traitTag: true
@@ -371,7 +513,7 @@ tags:
       Encoded request, a JSON document, or a Multipart Form Data request.
 
 
-      However, if you're using one of our [libraries](index.html#tag/Libraries),
+      However, if you're using one of our [SDKs](#tag/SDKs-and-Tools),
       the generation of the request bodies is done for you automatically and you don't
       need to worry about the format.
 
@@ -485,14 +627,29 @@ tags:
           -d "send_date=2021-07-26"
       ```
 
+  - name: SDKs and Tools
+    x-traitTag: true
+    description: |
+      Please visit our [Github](https://www.github.com/lob) for a list of our supported libraries.
+      - [Ruby](https://github.com/lob/lob-ruby)
+      - [PHP](https://github.com/lob/lob-php)
+      - [Node.js](https://github.com/lob/lob-node)
+      - [Python](https://github.com/lob/lob-python)
+      - [Java](https://github.com/lob/lob-java)
+      - [Elixir](https://github.com/lob/lob-elixir)
+
   - name: Self Mailers
-    description: Easily print and mail self mailers.
+    description: |
+      The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints 
+      for creating self mailers, retrieving individual self mailers, canceling self mailers, and retrieving a list of self mailers.
 
   - name: Template Versions
-    description: Versioning for your reusable HTML print and mail templates.
+    description: |
+      These API endpoints allow you to create, retrieve, update and delete versions of reusable HTML templates for use with the print & mail API.
 
   - name: Templates
-    description: Versioned, reusable HTML Templates for use with the print and mail API.
+    description: |
+      These API endpoints allow you to create, retrieve, update and delete reusable HTML templates for use with the print & mail API.
 
   - name: Test and Live Environments
     x-traitTag: true
@@ -627,19 +784,11 @@ tags:
 x-tagGroups:
   - name: Overview
     tags:
-      - Test and Live Environments
-      - Asset URLs
-      - Certificates
+      - Introduction
+      - Authentication
       - API Keys
-      - Webhooks
-      - Cancellation Windows
-      - Libraries
-      - Beta Program
-      - Request Bodies
-      - Rate Limiting
-      - Versioning
-      - Idempotent Requests
-      - Scheduled Mailings
+      - Getting Started
+      - SDKs and Tools
 
   - name: Print and Mail API
     tags:
@@ -650,6 +799,11 @@ x-tagGroups:
       - Bank Accounts
       - Templates
       - Template Versions
+  - name: Manage Mail
+    tags:
+      - Cancellation Windows
+      - Scheduled Mailings
+      - Webhooks
 
   - name: Address Book
     tags:
@@ -673,6 +827,18 @@ x-tagGroups:
       - Bulk Intl Verifications
       - Intl Verifications Test Environment
 
+  - name: Appendix
+    tags:
+      - Asset URLs
+      - Beta Program
+      - Certificates
+      - Errors
+      - Idempotent Requests
+      - Rate Limiting
+      - Request Bodies
+      - Test and Live Environments
+      - Versioning
+
 components:
   securitySchemes:
     basicAuth:
@@ -683,11 +849,11 @@ security:
   - basicAuth: []
 
 paths:
-  /addresses/{adr_id}:
-    $ref: resources/addresses/address.yml
-
   /addresses:
     $ref: resources/addresses/addresses.yml
+
+  /addresses/{adr_id}:
+    $ref: resources/addresses/address.yml
 
   /bank_accounts/{bank_id}/verify:
     $ref: resources/bank_accounts/bank_account_verify.yml

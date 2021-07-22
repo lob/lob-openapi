@@ -189,7 +189,7 @@ test("create, list, read then cancel a postcard with full payload", async functi
 });
 
 test("creates a postcard given a local filepath as the front", async function (t) {
-  t.plan(1);
+  t.plan(2);
   function streamToString(stream) {
     const chunks = [];
     return new Promise((resolve, reject) => {
@@ -233,6 +233,13 @@ test("creates a postcard given a local filepath as the front", async function (t
     )
   );
   t.assert(create.status === 200);
+
+  const cancel = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${create.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+  t.assert(cancel.status === 200);
 });
 
 // select failure cases:

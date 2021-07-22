@@ -22,7 +22,7 @@ servers:
 tags:
   - name: Addresses
     description: |
-      To add an address to your address book, you create a new address object. You can retrieve and delete individual 
+      To add an address to your address book, you create a new address object. You can retrieve and delete individual
       addresses as well as get a list of addresses. Addresses are identified by a unique random ID.
 
   - name: API Keys
@@ -31,7 +31,7 @@ tags:
       Lob authenticates your API requests using your account's API keys.
       If you do not include your key when making an API request, or use
       one that is incorrect or outdated, Lob returns an error with a `401`
-      HTTP response code. You can find all API keys in your dashboard 
+      HTTP response code. You can find all API keys in your dashboard
       under [Settings](https://dashboard.lob.com/#/settings/keys).
 
       There are two types of API keys: *secret* and *publishable*.
@@ -46,7 +46,7 @@ tags:
       prefixed with `[environment]_pub`.
 
       Every type comes with a pair of keys: one for the testing environment and one for the
-      live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments) 
+      live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments)
       for more information.
 
   - name: Asset URLs
@@ -61,15 +61,15 @@ tags:
     x-traitTag: true
     description: |
 
-      Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication). 
-      In order to properly authenticate with the API you must use your API key as the username 
-      while leaving the password blank. Requests not properly authenticated will return a `401` 
-      [error code](#tag/Errors). You can find your account's API keys 
+      Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).
+      In order to properly authenticate with the API you must use your API key as the username
+      while leaving the password blank. Requests not properly authenticated will return a `401`
+      [error code](#tag/Errors). You can find your account's API keys
       in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
 
       **<span style="color:#6683a2">Example Request</span>**
 
-      curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a 
+      curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
 
 
@@ -80,8 +80,8 @@ tags:
 
   - name: Bank Accounts
     description: |
-      Bank Accounts allow you to store your bank account securely in our system. The API provides 
-      endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts, 
+      Bank Accounts allow you to store your bank account securely in our system. The API provides
+      endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts,
       retrieving individual bank accounts, and retrieving a list of bank accounts.
 
   - name: Beta Program
@@ -133,9 +133,111 @@ tags:
   - name: Certificates
     description: A certificate store to manage client identities.
 
+  - name: Changelog
+    description: |
+      **2020-02-11**
+      - renders merge_variables into HTML with syntax that supports objects, conditionals, and loops
+
+      **2019-06-01**
+      - changed pagination model of GET endpoints for postcards, letters, checks, addresses, bank accounts, templates, and template versions to a cursor-based model
+      - offset parameter on these endpoints has been removed
+      - previous_url and next_url response fields have been added
+
+      **2018-06-05**
+      - remove rate-limit headers
+
+      **2018-03-30**
+      - updated letter template which includes a white box behind the address block area to ensure deliverability
+
+      **2018-03-01**
+      - US verification deliverability value no_match deprecated and merged into undeliverable
+      - US verification deliverability value deliverable_extra_secondary is split into deliverable_unnecessary_unit and deliverable_incorrect_unit
+      - US verification deliverability value deliverable_missing_secondary renamed to deliverable_missing_unit
+      - US verifications zip_code special values deprecated in favor of more comprehensive primary_line special values
+
+      **2018-02-08**
+      - enforce 50 character limit on the sum of address_line1 and address_line2 for check recipients
+
+      **2017-11-08**
+      - split extra_secondary_information into extra_secondary_designator and extra_secondary_number for /v1/us_verifications
+
+      **2017-10-17**
+      - remove support for the /v1/states endpoint
+      - remove support for the /v1/countries endpoint
+      - remove support for the message field from the POST /v1/postcards endpoint
+
+      **2017-09-08**
+      - renames input parameters and restructures response object for /v1/intl_verifications
+
+      **2017-08-14**
+      - automatically standardizes and corrects US addresses created via POST /v1/addresses. non-US addresses will be standardized into uppercase only.
+      - automatically standardizes and corrects inline US addresses used in POST /v1/postcards, POST /v1/letters, and POST /v1/checks. non-US addresses will be standardized into uppercase only.
+      - enforce 40 character limit on name and company for all addresses
+      - enforce 64 character limit on address_line1 and address_line2 for US addresses
+
+      **2017-06-16**
+      - enforce 10,000 character limit on HTML strings
+      - rename data parameter for all products to merge_variables
+
+      **2017-05-17**
+      - discontinues the /v1/verify endpoint - please use /v1/us_verifications or /v1/intl_verifications instead
+
+      **2016-06-30** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - unnest tracking object from postcard, letter, and check response objects
+
+      **2016-05-02** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - adds address_placement parameter to letters that defaults to top_first_page, template is no longer allowed
+
+      **2016-03-21** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - removes tracking numbers that do not provide any consumer-facing tracking information
+      - removes link from tracking responses
+      - requires account_type when creating a bank account
+
+      **2016-01-19** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - renames the count parameter to limit for all list endpoints
+      - removes the next_url and previous_url from list responses
+
+      **2015-12-22** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - adds size parameter to postcards that defaults to 4x6, setting is no longer allowed
+
+      **2015-11-23** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - remove price from letters
+      - remove pages from letters
+      - remove price from postcards
+      - renamed file parameter to check_bottom for checks
+
+      **2015-11-06** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - remove bank_address from bank_accounts
+      - remove account_address from bank_accounts and add from to checks
+      - remove price from checks
+
+      **2015-10-21** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - use the new HTML renderer for all products
+
+      **2015-06-25** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - remove the status field from all endpoints
+
+      **2015-04-11** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - errors on all endpoints are now single objects instead of arrays
+      - full_bleed is no longer allowed for postcards, objects, and area mails - all products are now full_bleed by default
+      - template is no longer allowed for postcards - all postcards must adhere to the template
+      - name is no longer allowed for area mails, bank accounts, checks, jobs, objects, and postcards - it has been replaced by description
+      - setting ID's 100 and 101 are no longer supported for objects - please use the Simple Letter Service instead
+      - service is no longer supported for jobs
+      - all boolean parameters now return true/false instead of 1/0
+      - double_sided is no longer allowed for objects - all products are default double sided if more than one page is allowed
+      - template is no longer allowed for objects
+
+      **2014-12-18** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - removed concept of packaging
+      - signatory is now a required field when creating a bank account
+      - bank_code is no longer an allowed field when creating a bank account
+      - service_id parameter replaced by service parameter in /jobs
+      - setting_id parameter replaced by setting parameter in /objects
+
   - name: Checks
     description: |
-      Checks allow you to send payments via physical checks. The API provides endpoints 
+      Checks allow you to send payments via physical checks. The API provides endpoints
       for creating checks, retrieving individual checks, canceling checks, and retrieving a list of checks.
 
   - name: Errors
@@ -226,8 +328,8 @@ tags:
   - name: Getting Started
     x-traitTag: true
     description: |
-      To get started you'll create an account at [Lob.com](https://dashboard.lob.com/#/register) to obtain some API Keys. 
-      The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.` 
+      To get started you'll create an account at [Lob.com](https://dashboard.lob.com/#/register) to obtain some API Keys.
+      The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.`
       for your Test API key and `live_*.` for your Live API key.
 
        **<span style="color:#6683a2">Getting Started Guides</span>**
@@ -354,25 +456,25 @@ tags:
   - name: Introduction
     x-traitTag: true
     description: |
-      Lob’s Print & Mail and Address Verification APIs helps companies transform outdated, 
-      manual print & mail processes and save 1,000s of hours in processing time by sending mail much more 
+      Lob’s Print & Mail and Address Verification APIs helps companies transform outdated,
+      manual print & mail processes and save 1,000s of hours in processing time by sending mail much more
       quickly, and increasing ROI on offline communications.
 
-      Automate direct mail by triggering on-demand postcards, letters, and checks directly from your 
+      Automate direct mail by triggering on-demand postcards, letters, and checks directly from your
       CRM or customer data systems.
 
-      Address Verification corrects, standardizes, and cleanses address data for assured delivery with 
+      Address Verification corrects, standardizes, and cleanses address data for assured delivery with
       instant verification across 240+ countries and territories.
 
-      Lob's global print delivery network eliminates the hassle of vendor management with automated 
+      Lob's global print delivery network eliminates the hassle of vendor management with automated
       production and postage across a global network of vetted commercial printers.
 
-      Tracking & Analytics give you complete visibility of production and delivery for each piece of 
+      Tracking & Analytics give you complete visibility of production and delivery for each piece of
       mail you send to meet compliance requirements and measure campaign performance.
 
   - name: Letters
     description: |
-      The letters endpoint allows you to easily print and mail letters. The API provides endpoints for 
+      The letters endpoint allows you to easily print and mail letters. The API provides endpoints for
       creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
 
   - name: NCOA
@@ -427,7 +529,7 @@ tags:
 
   - name: Postcards
     description: |
-      The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards, 
+      The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards,
       retrieving individual postcards, canceling postcards, and retrieving a list of postcards.
 
   - name: Rate Limiting
@@ -640,7 +742,7 @@ tags:
 
   - name: Self Mailers
     description: |
-      The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints 
+      The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints
       for creating self mailers, retrieving individual self mailers, canceling self mailers, and retrieving a list of self mailers.
 
   - name: Template Versions
@@ -746,8 +848,8 @@ tags:
       [Dashboard Settings](https://dashboard.lob.com/#/settings/keys). You will
       only need to specify a version if you would like to test a newer version of
       the API without doing a full upgrade. The API will return an error if a
-      version older than your current one is passed in. See API Changelog for a
-      full list of breaking changes.
+      version older than your current one is passed in. See
+      [API Changelog](#tag/Changelog) for a full list of breaking changes.
 
 
       **<span style="color:#6683a2">Example Request</span>**
@@ -832,6 +934,7 @@ x-tagGroups:
       - Asset URLs
       - Beta Program
       - Certificates
+      - Changelog
       - Errors
       - Idempotent Requests
       - Rate Limiting

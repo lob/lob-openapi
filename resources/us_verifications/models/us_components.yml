@@ -152,15 +152,8 @@ properties:
       - ""
     description: |
       A description of the type of address. Populated if a DPV match is made (`deliverability_analysis[dpv_confirmation]`
-      is `Y`, `S`, or `D`). For more detailed information about each record type, see [the appendix](https://docs.lob.com/#us_verification_details).
-      Will be one of:
-      * `street`
-      * `highrise`
-      * `firm`
-      * `po_box`
-      * `rural_route`
-      * `general_delivery`
-      * `''`
+      is `Y`, `S`, or `D`). For more detailed information about each record type, see
+      [US Verification Details](#tag/US-Verification-Details).
 
   default_building_address:
     type: boolean
@@ -187,12 +180,8 @@ properties:
       - po_box
       - general_delivery
     description: |
-      The type of `components[carrier_route]`. For more detailed information about each carrier route type, see [the appendix](https://docs.lob.com/#us_verification_details). Possible values are:
-      * `city_delivery` –– City delivery (starts with "C").
-      * `rural_route` –– Rural route (starts with "R").
-      * `highway_contract` –– Highway contract route (starts with "H")
-      * `po_box` –– P.O. Box route (starts with "B").
-      * `general_delivery` –– General delivery (starts with "G").
+      The type of `components[carrier_route]`. For more detailed information about
+      each carrier route type, see [US Verification Details](#tag/US-Verification-Details).
 
   latitude:
     type: number

@@ -22,7 +22,7 @@ servers:
 tags:
   - name: Addresses
     description: |
-      To add an address to your address book, you create a new address object. You can retrieve and delete individual 
+      To add an address to your address book, you create a new address object. You can retrieve and delete individual
       addresses as well as get a list of addresses. Addresses are identified by a unique random ID.
 
   - name: API Keys
@@ -31,7 +31,7 @@ tags:
       Lob authenticates your API requests using your account's API keys.
       If you do not include your key when making an API request, or use
       one that is incorrect or outdated, Lob returns an error with a `401`
-      HTTP response code. You can find all API keys in your dashboard 
+      HTTP response code. You can find all API keys in your dashboard
       under [Settings](https://dashboard.lob.com/#/settings/keys).
 
       There are two types of API keys: *secret* and *publishable*.
@@ -46,7 +46,7 @@ tags:
       prefixed with `[environment]_pub`.
 
       Every type comes with a pair of keys: one for the testing environment and one for the
-      live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments) 
+      live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments)
       for more information.
 
   - name: Asset URLs
@@ -61,15 +61,15 @@ tags:
     x-traitTag: true
     description: |
 
-      Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication). 
-      In order to properly authenticate with the API you must use your API key as the username 
-      while leaving the password blank. Requests not properly authenticated will return a `401` 
-      [error code](#tag/Errors). You can find your account's API keys 
+      Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).
+      In order to properly authenticate with the API you must use your API key as the username
+      while leaving the password blank. Requests not properly authenticated will return a `401`
+      [error code](#tag/Errors). You can find your account's API keys
       in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
 
       **<span style="color:#6683a2">Example Request</span>**
 
-      curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a 
+      curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
 
 
@@ -80,8 +80,8 @@ tags:
 
   - name: Bank Accounts
     description: |
-      Bank Accounts allow you to store your bank account securely in our system. The API provides 
-      endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts, 
+      Bank Accounts allow you to store your bank account securely in our system. The API provides
+      endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts,
       retrieving individual bank accounts, and retrieving a list of bank accounts.
 
   - name: Beta Program
@@ -135,7 +135,7 @@ tags:
 
   - name: Checks
     description: |
-      Checks allow you to send payments via physical checks. The API provides endpoints 
+      Checks allow you to send payments via physical checks. The API provides endpoints
       for creating checks, retrieving individual checks, canceling checks, and retrieving a list of checks.
 
   - name: Errors
@@ -226,8 +226,8 @@ tags:
   - name: Getting Started
     x-traitTag: true
     description: |
-      To get started you'll create an account at [Lob.com](https://dashboard.lob.com/#/register) to obtain some API Keys. 
-      The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.` 
+      To get started you'll create an account at [Lob.com](https://dashboard.lob.com/#/register) to obtain some API Keys.
+      The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.`
       for your Test API key and `live_*.` for your Live API key.
 
        **<span style="color:#6683a2">Getting Started Guides</span>**
@@ -354,25 +354,25 @@ tags:
   - name: Introduction
     x-traitTag: true
     description: |
-      Lob’s Print & Mail and Address Verification APIs helps companies transform outdated, 
-      manual print & mail processes and save 1,000s of hours in processing time by sending mail much more 
+      Lob’s Print & Mail and Address Verification APIs helps companies transform outdated,
+      manual print & mail processes and save 1,000s of hours in processing time by sending mail much more
       quickly, and increasing ROI on offline communications.
 
-      Automate direct mail by triggering on-demand postcards, letters, and checks directly from your 
+      Automate direct mail by triggering on-demand postcards, letters, and checks directly from your
       CRM or customer data systems.
 
-      Address Verification corrects, standardizes, and cleanses address data for assured delivery with 
+      Address Verification corrects, standardizes, and cleanses address data for assured delivery with
       instant verification across 240+ countries and territories.
 
-      Lob's global print delivery network eliminates the hassle of vendor management with automated 
+      Lob's global print delivery network eliminates the hassle of vendor management with automated
       production and postage across a global network of vetted commercial printers.
 
-      Tracking & Analytics give you complete visibility of production and delivery for each piece of 
+      Tracking & Analytics give you complete visibility of production and delivery for each piece of
       mail you send to meet compliance requirements and measure campaign performance.
 
   - name: Letters
     description: |
-      The letters endpoint allows you to easily print and mail letters. The API provides endpoints for 
+      The letters endpoint allows you to easily print and mail letters. The API provides endpoints for
       creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
 
   - name: NCOA
@@ -427,7 +427,7 @@ tags:
 
   - name: Postcards
     description: |
-      The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards, 
+      The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards,
       retrieving individual postcards, canceling postcards, and retrieving a list of postcards.
 
   - name: Rate Limiting
@@ -640,7 +640,7 @@ tags:
 
   - name: Self Mailers
     description: |
-      The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints 
+      The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints
       for creating self mailers, retrieving individual self mailers, canceling self mailers, and retrieving a list of self mailers.
 
   - name: Template Versions
@@ -697,6 +697,171 @@ tags:
 
       See the `test` request & response examples under [Autocomplete Examples](#operation/autocompletion) within the "Autocomplete
       a partial address" section in US Autocompletions.
+
+  - name: US Verification Details
+    x-traitTag: true
+    description: |
+      These are detailed definitions for various fields in the [US verification object](#operation/us_verification).
+
+      **<span style="color:#6683a2">ZIP Code Types - </span>**`components[zip_code_type]`
+
+      <table>
+        <tbody>
+          <tr>
+            <td style="white-space: nowrap"><code>standard</code></td>
+            <td>The default ZIP code type. Used when none of the other types apply.</td>
+          </tr>
+          <tr>
+            <td><code>po_box</code></td>
+            <td>The ZIP code contains only PO Boxes.</td>
+          </tr>
+          <tr>
+            <td><code>unique</code></td>
+            <td>The ZIP code is uniquely assigned to a single organization (such as a government agency) that receives a large volume of mail.</td>
+          </tr>
+          <tr>
+            <td><code>military</code></td>
+            <td>The ZIP code contains military addresses.</td>
+          </tr>
+          <tr>
+            <td><i>empty string</i></td>
+            <td>A match could not be made with the provided inputs.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      **<span style="color:#6683a2">Record Types - </span>**`components[record_type]`
+
+      <table>
+        <tbody>
+          <tr>
+            <td><code>street</code></td>
+            <td>The default address type.</td>
+          </tr>
+          <tr>
+            <td><code>highrise</code></td>
+            <td>The address is a commercial building, apartment complex, highrise, etc.</td>
+          </tr>
+          <tr>
+            <td><code>firm</code></td>
+            <td>The address is of an organizational entity which receives a minimum number of mailpieces per day.</td>
+          </tr>
+          <tr>
+            <td><code>po_box</code></td>
+            <td>The address is a PO Box.</td>
+          </tr>
+          <tr>
+            <td><code>rural_route</code></td>
+            <td>The address exists on a Rural Route. This is an older system of mail delivery which is still used in some parts of the country.</td>
+          </tr>
+          <tr>
+            <td style="white-space: nowrap"><code>general_delivery</code></td>
+            <td>The address is part of the USPS General Delivery service, which allows individuals without permanent addresses to receive mail.</td>
+          </tr>
+          <tr>
+            <td><i>empty string</i></td>
+            <td>A match could not be made with the provided inputs.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      **<span style="color:#6683a2">Carrier Route Types - </span>**`components[carrier_route_type]`
+
+      <table class="table-docs table-docs-code">
+        <tbody>
+          <tr>
+            <td><code>city_delivery</code></td>
+            <td>The default carrier route type. Used when none of the other types apply.</td>
+          </tr>
+          <tr>
+            <td><code>rural_route</code></td>
+            <td>The carrier route is a Rural Route. This is an older system of mail delivery which is still used in some parts of the country.</td>
+          </tr>
+          <tr>
+            <td><code>highway_contract</code></td>
+            <td>The carrier route is a Highway Contract Route. This is an older system of mail delivery which is still used in some parts of the country.</td>
+          </tr>
+          <tr>
+            <td><code>po_box</code></td>
+            <td>The carrier route consists of PO Boxes.</td>
+          </tr>
+          <tr>
+            <td style="white-space: nowrap"><code>general_delivery</code></td>
+            <td>The carrier route is part of the USPS General Delivery service, which allows individuals without permanent addresses to receive mail.</td>
+          </tr>
+          <tr>
+            <td><i>empty string</i></td>
+            <td>A match could not be made with the provided inputs.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      **<span style="color:#6683a2">DPV Footnotes - </span>**`deliverability_analysis[dpv_footnotes]`
+
+      <table class="table-docs table-docs-code">
+        <tbody>
+          <tr>
+            <td style="white-space: nowrap"><code>AA</code></td>
+            <td>Some parts of the address (such as the street and ZIP code) are valid.</td>
+          </tr>
+          <tr>
+            <td><code>A1</code></td>
+            <td>The address is invalid based on given inputs.</td>
+          </tr>
+          <tr>
+            <td><code>BB</code></td>
+            <td>The address is deliverable.</td>
+          </tr>
+          <tr>
+            <td><code>CC</code></td>
+            <td>The address is deliverable by removing the provided secondary unit designator.</td>
+          </tr>
+          <tr>
+            <td><code>N1</code></td>
+            <td>The address is deliverable but is missing a secondary information (apartment, unit, etc).</td>
+          </tr>
+          <tr>
+            <td><code>F1</code></td>
+            <td>The address is a deliverable military address.</td>
+          </tr>
+          <tr>
+            <td><code>G1</code></td>
+            <td>The address is a deliverable General Delivery address. General Delivery is a USPS service which allows individuals without permanent addresses to receive mail.</td>
+          </tr>
+          <tr>
+            <td><code>U1</code></td>
+            <td>The address is a deliverable unique address. A unique ZIP code is assigned to a single organization (such as a government agency) that receives a large volume of mail.</td>
+          </tr>
+          <tr>
+            <td><code>M1</code></td>
+            <td>The primary number is missing.</td>
+          </tr>
+          <tr>
+            <td><code>M3</code></td>
+            <td>The primary number is invalid.</td>
+          </tr>
+          <tr>
+            <td><code>P1</code></td>
+            <td>PO Box, Rural Route, or Highway Contract box number is missing.</td>
+          </tr>
+          <tr>
+            <td><code>P3</code></td>
+            <td>PO Box, Rural Route, or Highway Contract box number is invalid.</td>
+          </tr>
+          <tr>
+            <td><code>R1</code></td>
+            <td>The address matched to a <a href="https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency" target="_blank">CMRA</a> and private mailbox information is not present.</td>
+          </tr>
+          <tr>
+            <td><code>R7</code></td>
+            <td>The address matched to a Phantom Carrier Route (<code>carrier_route</code> of <code>R777</code>), which corresponds to physical addresses that are not eligible for delivery.</td>
+          </tr>
+          <tr>
+            <td><code>RR</code></td>
+            <td>The address matched to a <a href="https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency" target="_blank">CMRA</a> and private mailbox information is present.</td>
+          </tr>
+        </tbody>
+      </table>
 
   - name: US Verifications
     description: >
@@ -815,6 +980,7 @@ x-tagGroups:
   - name: US Verification API
     tags:
       - US Verifications
+      - US Verification Details
       - US Verifications Test Environment
       - Bulk US Verifications
       - US Autocompletions

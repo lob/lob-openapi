@@ -22,7 +22,7 @@ servers:
 tags:
   - name: Addresses
     description: |
-      To add an address to your address book, you create a new address object. You can retrieve and delete individual 
+      To add an address to your address book, you create a new address object. You can retrieve and delete individual
       addresses as well as get a list of addresses. Addresses are identified by a unique random ID.
 
   - name: API Keys
@@ -31,7 +31,7 @@ tags:
       Lob authenticates your API requests using your account's API keys.
       If you do not include your key when making an API request, or use
       one that is incorrect or outdated, Lob returns an error with a `401`
-      HTTP response code. You can find all API keys in your dashboard 
+      HTTP response code. You can find all API keys in your dashboard
       under [Settings](https://dashboard.lob.com/#/settings/keys).
 
       There are two types of API keys: *secret* and *publishable*.
@@ -46,7 +46,7 @@ tags:
       prefixed with `[environment]_pub`.
 
       Every type comes with a pair of keys: one for the testing environment and one for the
-      live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments) 
+      live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments)
       for more information.
 
   - name: Asset URLs
@@ -61,15 +61,15 @@ tags:
     x-traitTag: true
     description: |
 
-      Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication). 
-      In order to properly authenticate with the API you must use your API key as the username 
-      while leaving the password blank. Requests not properly authenticated will return a `401` 
-      [error code](#tag/Errors). You can find your account's API keys 
+      Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).
+      In order to properly authenticate with the API you must use your API key as the username
+      while leaving the password blank. Requests not properly authenticated will return a `401`
+      [error code](#tag/Errors). You can find your account's API keys
       in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
 
       **<span style="color:#6683a2">Example Request</span>**
 
-      curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a 
+      curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
 
 
@@ -80,8 +80,8 @@ tags:
 
   - name: Bank Accounts
     description: |
-      Bank Accounts allow you to store your bank account securely in our system. The API provides 
-      endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts, 
+      Bank Accounts allow you to store your bank account securely in our system. The API provides
+      endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts,
       retrieving individual bank accounts, and retrieving a list of bank accounts.
 
   - name: Beta Program
@@ -135,7 +135,7 @@ tags:
 
   - name: Checks
     description: |
-      Checks allow you to send payments via physical checks. The API provides endpoints 
+      Checks allow you to send payments via physical checks. The API provides endpoints
       for creating checks, retrieving individual checks, canceling checks, and retrieving a list of checks.
 
   - name: Errors
@@ -226,8 +226,8 @@ tags:
   - name: Getting Started
     x-traitTag: true
     description: |
-      To get started you'll create an account at [Lob.com](https://dashboard.lob.com/#/register) to obtain some API Keys. 
-      The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.` 
+      To get started you'll create an account at [Lob.com](https://dashboard.lob.com/#/register) to obtain some API Keys.
+      The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.`
       for your Test API key and `live_*.` for your Live API key.
 
        **<span style="color:#6683a2">Getting Started Guides</span>**
@@ -354,26 +354,62 @@ tags:
   - name: Introduction
     x-traitTag: true
     description: |
-      Lob’s Print & Mail and Address Verification APIs helps companies transform outdated, 
-      manual print & mail processes and save 1,000s of hours in processing time by sending mail much more 
+      Lob’s Print & Mail and Address Verification APIs helps companies transform outdated,
+      manual print & mail processes and save 1,000s of hours in processing time by sending mail much more
       quickly, and increasing ROI on offline communications.
 
-      Automate direct mail by triggering on-demand postcards, letters, and checks directly from your 
+      Automate direct mail by triggering on-demand postcards, letters, and checks directly from your
       CRM or customer data systems.
 
-      Address Verification corrects, standardizes, and cleanses address data for assured delivery with 
+      Address Verification corrects, standardizes, and cleanses address data for assured delivery with
       instant verification across 240+ countries and territories.
 
-      Lob's global print delivery network eliminates the hassle of vendor management with automated 
+      Lob's global print delivery network eliminates the hassle of vendor management with automated
       production and postage across a global network of vetted commercial printers.
 
-      Tracking & Analytics give you complete visibility of production and delivery for each piece of 
+      Tracking & Analytics give you complete visibility of production and delivery for each piece of
       mail you send to meet compliance requirements and measure campaign performance.
 
   - name: Letters
     description: |
-      The letters endpoint allows you to easily print and mail letters. The API provides endpoints for 
+      The letters endpoint allows you to easily print and mail letters. The API provides endpoints for
       creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
+
+  - name: Metadata
+    x-traitTag: true
+    description: |
+      When creating any Lob object, you can include a metadata object with up to 20 key-value pairs of
+      custom data. You can use metadata to store information like `metadata[customer_id] = "987654"` or
+      `metadata[campaign] = "NEWYORK2015"`. This is especially useful for filtering and matching to internal
+      systems.
+
+      Each metadata key must be less than 40 characters long and values must be less than 500 characters.
+      Metadata does not support nested objects.
+
+      **<span style="color:#6683a2">
+        Example Create Request with Metadata
+      </span>**
+
+      ```bash
+        curl https://api.lob.com/v1/postcards \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Demo Postcard job" \
+          -d "metadata[campaign]=NEWYORK2015" \
+          -d "to=adr_bae820679f3f536b" \
+          -d "from=adr_210a8d4b0b76d77b" \
+          --data-urlencode "front=<html style='margin: 130px; font-size: 50;'>Front HTML for {{name}}</html>" \
+          --data-urlencode "back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>" \
+          -d "merge_variables[name]=Harry"
+      ```
+
+      **<span style="color:#6683a2">
+        Example List Request with Metadata Filter
+      </span>**
+
+      ```bash
+        curl -g "https://api.lob.com/v1/postcards?metadata[campaign]=NEWYORK2015&limit=2" \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      ```
 
   - name: NCOA
     x-traitTag: true
@@ -427,7 +463,7 @@ tags:
 
   - name: Postcards
     description: |
-      The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards, 
+      The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards,
       retrieving individual postcards, canceling postcards, and retrieving a list of postcards.
 
   - name: Rate Limiting
@@ -640,7 +676,7 @@ tags:
 
   - name: Self Mailers
     description: |
-      The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints 
+      The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints
       for creating self mailers, retrieving individual self mailers, canceling self mailers, and retrieving a list of self mailers.
 
   - name: Template Versions
@@ -834,6 +870,7 @@ x-tagGroups:
       - Certificates
       - Errors
       - Idempotent Requests
+      - Metadata
       - Rate Limiting
       - Request Bodies
       - Test and Live Environments

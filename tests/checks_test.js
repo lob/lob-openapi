@@ -187,11 +187,13 @@ test.after.always("delete all checks", async function (t) {
     })
   );
   t.assert(remove.status === 200);
-  prism.setup().then((client) =>
+
+  const delete_bank_acc = await prism.setup().then((client) =>
     client.delete(`/bank_accounts/${t.context.bank_id}`, {
       headers: prism.authHeader,
     })
   );
+  t.assert(delete_bank_acc.status === 200);
 
   const remove2 = await prism.setup().then((client) =>
     client.delete(`${resource_endpoint}/${t.context.read2.data.id}`, {
@@ -199,9 +201,11 @@ test.after.always("delete all checks", async function (t) {
     })
   );
   t.assert(remove2.status === 200);
-  prism.setup().then((client) =>
+
+  const delete_bank_acc2 = await prism.setup().then((client) =>
     client.delete(`/bank_accounts/${t.context.bank_id2}`, {
       headers: prism.authHeader,
     })
   );
+  t.assert(delete_bank_acc2.status === 200);
 });

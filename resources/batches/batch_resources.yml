@@ -1,0 +1,120 @@
+parameters:
+  - in: path
+    name: bat_id
+    description: id of the template
+    required: true
+    schema:
+      $ref: "../../shared/attributes/model_ids/bat_id.yml"
+
+post:
+  operationId: add_batch_resource
+
+  summary: Add
+
+  description: >-
+    Creates a new batch resource attached to the specified batch.
+
+    Individual resources may be added to a batch once the batch has been created. Instead of creating a single resource at a time, multiple resources of up to 100 may be adde per request. This limit of 100 only applies to a single add request; a batch itself can contain up to 1,000,000 resources. Additional resources may be added by making additional requests. Essentially, this endpoint allows you to create resources using 1% of the requests compared to using the individual create endpoints.
+
+    Properties attached to individual resources will override the same properties that have been assigned to the batch. For example, if you set a `from` field on an individual resource, it will override the common `from` field set on the batch. However, if you omit the `from` field on the resource, it will default to the `from` field on the batch.
+
+    The `metadata` and `merge_variables` objects are special in that only individual properties inside of them will be replaced. For example, if a batch has metadata of `neighborhood: soma` and `campaign: 123`, and an individual resource has metadata of `neighborhood: mission` and `product: 12`, then the resulting resource will have the properties `neighborhood: mission`, `campaign: 123`, and `product: 12`.
+
+    Resources that are added to a batch will eventually appear as regular resources in the API and in your dashboard. These resources will have a `batch_id` field attached to them.
+
+    When adding resources the same resource type used when creating the batch will need to be repeated in the request as the `resource_type` field. An array of the resources to add is supplied using the `resources` field.
+
+
+    Individual resource fields that can be set when adding resources to a batch are very similar to the fields that can be set when creating individual resources. See the existing create letters and create postcards documentation for details. Note that you shouldn't override template properties and instead should set those at the batch level.
+
+    Note that you cannot switch modes (live vs test) nor switch API versions when creating a batch and adding resources. For example, a live batch cannot have test resources added to it. Also note that the request will fail if the resource type is mismatched, such as adding postcards to a letters batch.
+
+    The process of taking the resources specified in this endpoint and converting them into normal resources is an asynchronous one that can take multiple minutes, potentially hours if enough customers are creating batches in parallel. If an individual resource fails to be created then a `letter.rejected` or `check.rejected` webhook event will be sent.
+
+  # no real "batch resource"; just a normal resource with a batch_id property attached.
+  # To retrieve or delete individual resources added to a batch the consumer will still
+  # use the existing postcards/letters endpoints
+  tags:
+    - Batches
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/batch_resource_writable.yml"
+        example:
+          resource_type: postcards
+          resources:
+            - merge_variables:
+                name: Harry
+                fav_food: Malai Kofta
+              metadata:
+                product: "12"
+              to:
+                name: Sr Lobster
+                address_line1: 185 Berry St
+                address_line2: "# 6100"
+                address_city: San Francisco
+                address_state: CA
+                address_zip: "94107"
+            - merge_variables:
+                neighborhood: FiDi
+              metadata:
+                product: "13"
+              to: adr_abc123deadbeef
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/batch_resource_writable.yml"
+        example:
+          resource_type: postcards
+          resources:
+            - merge_variables:
+                name: Harry
+                fav_food: Malai Kofta
+              metadata:
+                product: "12"
+              to:
+                name: Sr Lobster
+                address_line1: 185 Berry St
+                address_line2: "# 6100"
+                address_city: San Francisco
+                address_state: CA
+                address_zip: "94107"
+            - merge_variables:
+                neighborhood: FiDi
+              metadata:
+                product: "13"
+              to: adr_abc123deadbeef
+
+      multipart/form-data:
+        schema:
+          $ref: "models/batch_resource_writable.yml"
+        example:
+          resource_type: postcards
+          resources:
+            - merge_variables:
+                name: Harry
+                fav_food: Malai Kofta
+              metadata:
+                product: "12"
+              to:
+                name: Sr Lobster
+                address_line1: 185 Berry St
+                address_line2: "# 6100"
+                address_city: San Francisco
+                address_state: CA
+                address_zip: "94107"
+            - merge_variables:
+                neighborhood: FiDi
+              metadata:
+                product: "13"
+              to: adr_abc123deadbeef
+
+  responses:
+    "200":
+      $ref: "responses/post_batch_resource.yml"
+
+    default:
+      $ref: responses/batch_error.yml

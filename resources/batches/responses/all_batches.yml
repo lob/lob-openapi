@@ -1,0 +1,62 @@
+description: >-
+  A dictionary with a data property that contains an array of
+  up to `limit` batches. Each entry in the array is a separate
+  batch. The previous and next page of batches can be retrieved
+  by calling the endpoint contained in the `previous_url` and
+  `next_url` fields in the API response respectively.<br>If no
+  more batches are available beyond the current set of returned results,
+  the `next_url` field will be empty.
+
+content:
+  application/json:
+    schema:
+      allOf:
+        - type: object
+          properties:
+            data:
+              type: array
+              description: list of batches
+              items:
+                $ref: "../models/batch.yml"
+
+        - $ref: "../../../shared/models/list.yml"
+
+    # TODO: Complete the examples. Use all the properties in the
+    # examples, not just the required ones, as the examples are
+    # validated against your models and will help ensure that you
+    # have described your model accurately!
+    example:
+      data:
+        - id: bat_d5a5a89da9106f8
+          description: Test batch
+          metadata: {}
+          date_created: "2019-07-27T23:49:01.511Z"
+          date_modified: "2019-07-27T23:49:01.511Z"
+          object: batch
+          resource_type: postcards
+          resource_specific_fields:
+            front: tmpl_849168615d0cc16
+            back: tmpl_9d0c5220cffc313
+            size: 6x9
+
+        - id: bat_59b2150ae120887
+          description: Test batch
+          metadata: {}
+          date_created: "2019-03-29T10:22:34.642Z"
+          date_modified: "2019-03-29T10:22:34.642Z"
+          object: batch
+          resource_type: letters
+          resource_specific_fields:
+            color: true
+            file: tmpl_849168615d0cc16
+            from:
+              name: Harry
+              address_line1: 185 Berry St
+              address_line2: "# 6100"
+              address_city: San Francisco
+              address_state: CA
+              address_zip: "94107"
+
+      object: list
+      next_url:
+      count: 2

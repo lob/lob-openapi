@@ -1,0 +1,28 @@
+# returned on Finish or Cancel batch
+type: object
+
+required:
+  - id
+  - description
+  - metadata
+  - date_modified
+  - object
+
+properties:
+  id:
+    $ref: "../attributes/bat_id.yml"
+
+  deleted:
+    $ref: "../../../shared/attributes/deleted.yml"
+
+  description:
+    $ref: "../../../shared/attributes/resource_description.yml"
+
+  metadata:
+    $ref: "../../../shared/models/metadata.yml"
+
+  date_modified:
+    $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+  object:
+    $ref: "../../../shared/attributes/object.yml"

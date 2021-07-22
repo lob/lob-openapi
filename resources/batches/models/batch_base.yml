@@ -1,0 +1,22 @@
+type: object
+
+# add editable properties unique to this form factor
+# that are stored as input (without transformation) here
+properties:
+  description:
+    $ref: "../../../shared/attributes/resource_description.yml"
+
+  metadata:
+    $ref: "../../../shared/models/metadata.yml"
+
+  mail_type:
+    $ref: "../../../shared/attributes/mail_type.yml"
+
+  merge_variables:
+    $ref: "../../../shared/models/merge_variables.yml"
+
+  resource_type:
+    type: string
+    enum:
+      - letters
+      - postcards

@@ -1,0 +1,131 @@
+get:
+  operationId: list_batches
+
+  summary: List
+
+  description: >-
+    Returns a list of your batches. The batches are returned sorted by
+    creation date, with the most recently created batches appearing first.
+
+  tags:
+    - Batches
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/before_after.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - $ref: "../../shared/parameters/metadata.yml"
+
+  responses:
+    "200":
+      $ref: responses/all_batches.yml
+
+    default:
+      $ref: responses/batch_error.yml
+
+post:
+  operationId: create_batch
+
+  summary: Create
+
+  description: >-
+    Creates a new batch with the provided properties.
+    Some basic information about the batch must be specified upon creation,
+    the most important of which is `resource_type`. This field decides what
+    type of resources may be added to the batch.
+
+
+    Most of the fields that may be specified when creating a letter or a
+    postcard resource can be repeated in the request payload when creating
+    a batch. For instance, if the `color` property is set to `true` when
+    creating a batch of letters, every letter in that batch will default to
+    having `color: true` applied.
+
+  tags:
+    - Batches
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/batch_editable.yml"
+        example:
+          # TODO: add full example
+          id: bat_d5a5a89da9106f8
+          resource_type: postcards
+          description: Description of Batch
+          # billing_group_id: bg_91beef3a4cafedead
+          # from: {}
+          merge_variables:
+            neighborhood: SoMA
+          metadata:
+            campaign: 123
+
+          front: tmpl_849168615d0cc16
+          back: tmpl_9d0c5220cffc313
+          size: 6x9
+          mail_type: usps_first_class
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/batch_editable.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+        example:
+          # TODO: add full example
+          id: bat_d5a5a89da9106f8
+          resource_type: postcards
+          description: Description of Batch
+          # billing_group_id: bg_91beef3a4cafedead
+          # from: {}
+          merge_variables:
+            neighborhood: SoMA
+          metadata:
+            campaign: 123
+
+          front: tmpl_849168615d0cc16
+          back: tmpl_9d0c5220cffc313
+          size: 6x9
+          mail_type: usps_first_class
+
+      multipart/form-data:
+        schema:
+          $ref: "models/batch_editable.yml"
+        example:
+          # TODO: add full example
+          id: bat_d5a5a89da9106f8
+          resource_type: postcards
+          description: Description of Batch
+          # billing_group_id: bg_91beef3a4cafedead
+          # from: {}
+          merge_variables:
+            neighborhood: SoMA
+          metadata:
+            campaign: 123
+
+          front: tmpl_849168615d0cc16
+          back: tmpl_9d0c5220cffc313
+          size: 6x9
+          mail_type: usps_first_class
+
+  responses:
+    "200":
+      description: Returns a batch object
+      content:
+        $ref: responses/batch.yml
+
+    default:
+      $ref: responses/batch_error.yml

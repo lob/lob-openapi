@@ -84,6 +84,41 @@ tags:
       endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts,
       retrieving individual bank accounts, and retrieving a list of bank accounts.
 
+  - name: Batches
+    description: |
+      The Batch API allows for the creation of large numbers of individual mailing resources
+      while reducing the overall number of requests made to the Lob API. While the individual
+      resource creation endpoints are suggested for creating transactional resources, the Batch
+      API can be beneficial for larger campaigns.
+
+      The Batch API offers a subset of the functionality provided by the individual resource
+      creation endpoints. For example, it's not possible to upload files on a per-resource
+      basis, such as PDFs. Instead, you'll want to create a template first and reference that.
+      Resources in a batch will also need to adhere to some of the same form factor restrictions.
+      For these reasons, a Batch should contain resources that are similar.
+
+      The driving force behind the Batch API is to maximize the rate at
+      which our customers can create large amounts of resources. To that
+      end, batches contain data that is used when creating individual
+      resources associated with that batch, thereby removing the need
+      to provide redundant data when specifying individual resources to
+      be created. For example any templates, the form factor, common
+      merge variables and metadata are specified when creating a batch.
+
+      The usual flow when working with a Batch is to first create the batch, then add large sets
+      of resources to the batch, then finish the batch.
+
+      Batches go through the following state change diagram, and this state is available as the `status` property:
+
+      ```
+        ( Start ) -> [ RECEIVING ] -> [ READY ] -> [ MAILING ] -> ( Done )
+                        |                  |
+                        +-> [ CANCELED ] <-+
+      ```
+
+      Let us know if you need batches with support for more than 1,000,000 resources
+      or Self Mailers or Checks.
+
   - name: Beta Program
     description: |
       Here at Lob, we pride ourselves on building high quality platform capabilities rapidly
@@ -1574,6 +1609,7 @@ x-tagGroups:
       - Bank Accounts
       - Templates
       - Template Versions
+      - Batches
 
   - name: Mail Content Design
     tags:
@@ -1680,6 +1716,15 @@ paths:
 
   /bank_accounts:
     $ref: resources/bank_accounts/bank_accounts.yml
+
+  /batches/{bat_id}/resources:
+    $ref: resources/batches/batch_resources.yml
+
+  /batches/{bat_id}:
+    $ref: resources/batches/batch.yml
+
+  /batches:
+    $ref: resources/batches/batches.yml
 
   /billing_groups/{bg_id}:
     $ref: resources/billing_groups/billing_group.yml

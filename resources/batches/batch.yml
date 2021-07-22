@@ -1,0 +1,143 @@
+parameters:
+  - in: path
+    name: bat_id
+    description: id of the batch
+    required: true
+    schema:
+      $ref: "attributes/bat_id.yml"
+
+get:
+  operationId: get_batch
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing batch. You need only supply
+    the unique batch identifier that was returned upon batch creation.
+
+  tags:
+    - Batches
+
+  responses:
+    "200":
+      description: Returns a batch object
+      content:
+        $ref: "responses/batch.yml"
+
+    default:
+      $ref: responses/batch_error.yml
+
+post:
+  operationId: finish_batch
+
+  summary: Finish
+
+  description: >-
+    Once you have added all of the resources to the batch it is ready to be
+    finished. Calling the finish endpoint lets Lob know that you won't be
+    adding any more resources and that the ones that have been added are
+    ready to be considered for mailing.
+
+  tags:
+    - Batches
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/batch_finish.yml"
+        example:
+          status: ready
+          send_date: "2021-07-21"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/batch_finish.yml"
+        example:
+          status: ready
+          send_date: "2021-07-21"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/batch_finish.yml"
+        example:
+          status: ready
+          send_date: "2021-07-21"
+
+  responses:
+    "200":
+      description: Returns some confirmation
+
+      headers:
+        ratelimit-limit:
+          $ref: "../../shared/headers/ratelimit.yml#/ratelimit-limit"
+        ratelimit-remaining:
+          $ref: "../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+        ratelimit-reset:
+          $ref: "../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+
+                required:
+                  - send_date
+                  - status
+
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - ready
+                  send_date:
+                    $ref: "../../shared/attributes/send_date.yml"
+
+              - $ref: responses/batch_thing.yml
+
+    default:
+      $ref: responses/batch_error.yml
+
+# For Form Factors, delete is actually cancel. If you need
+# delete verbiage, check Bank Accounts or Template Versions.
+delete:
+  operationId: cancel_batch
+
+  summary: Cancel
+
+  description: >-
+    Completely removes a batch from production. This can only be done if
+    the batch has a `send_date` and the `send_date` has not yet passed.
+    If the batch is successfully canceled, you will not be charged for it.
+    Read more on [cancellation windows](#tag/Cancellation-Windows)
+    and [scheduling](#tag/Scheduled-Mailings). Scheduling and
+    cancellation is a premium feature. Upgrade to the appropriate
+    Print & Mail Edition to gain access.
+
+  tags:
+    - Batches
+
+  responses:
+    "200":
+      description: Returns some confirmation
+
+      content:
+        application/json:
+          schema:
+            allOf:
+              - type: object
+                required:
+                  - deleted
+                  - status
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - canceled
+
+              - $ref: responses/batch_thing.yml
+
+    default:
+      $ref: responses/batch_error.yml

@@ -1,0 +1,30 @@
+type: object
+
+required:
+  - resource_type
+  - resources
+
+properties:
+  resource_type:
+    type: string
+
+  resources:
+    type: array
+    items:
+      allOf:
+        - $ref: "../../../shared/models/form_factor/input_to.yml"
+
+        - type: object
+
+          required:
+            - to
+
+          properties:
+            description:
+              $ref: "../../../shared/attributes/resource_description.yml"
+
+            metadata:
+              $ref: "../../../shared/models/metadata.yml"
+
+            merge_variables:
+              $ref: "../../../shared/models/merge_variables.yml"

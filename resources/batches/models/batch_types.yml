@@ -1,0 +1,81 @@
+full_letters:
+  allOf:
+    - $ref: "batch_base.yml"
+    - $ref: "#/letters"
+    - type: object
+      required:
+        - resource_type
+
+full_postcards:
+  allOf:
+    - $ref: "batch_base.yml"
+    - $ref: "#/postcards"
+    - type: object
+      required:
+        - resource_type
+
+letters:
+  allOf:
+    - $ref: "../../../shared/models/form_factor/input_from.yml"
+    - type: object
+
+      required:
+        - color
+        - file
+        - from
+
+      properties:
+        color:
+          $ref: "../../../shared/attributes/letter_color.yml"
+
+        file:
+          oneOf:
+            - $ref: "../../../shared/attributes/html_string.yml"
+            - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+            - $ref: "../../../shared/attributes/remote_file_url.yml"
+            - $ref: "../../../shared/attributes/local_file_path.yml"
+
+        double_sided:
+          $ref: "../../../shared/attributes/letter_double_sided.yml"
+
+        address_placement:
+          $ref: "../../../shared/attributes/letter_address_placement.yml"
+
+        return_envelope:
+          $ref: "../../../shared/attributes/letter_return_envelope.yml"
+
+        perforated_page:
+          $ref: "../../../shared/attributes/letter_perforated_page.yml"
+
+        extra_service:
+          $ref: "../../../shared/attributes/letter_extra_service.yml"
+
+        custom_envelope:
+          $ref: "../../../shared/attributes/letter_custom_envelope.yml"
+
+postcards:
+  allOf:
+    - $ref: "../../../shared/models/form_factor/input_from.yml"
+    - type: object
+
+      required:
+        - front
+        - back
+
+      properties:
+        front:
+          oneOf:
+            - $ref: "../../../shared/attributes/html_string.yml"
+            - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+            - $ref: "../../../shared/attributes/remote_file_url.yml"
+            - $ref: "../../../shared/attributes/local_file_path.yml"
+
+        back:
+          oneOf:
+            - $ref: "../../../shared/attributes/html_string.yml"
+            - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+            - $ref: "../../../shared/attributes/remote_file_url.yml"
+            - $ref: "../../../shared/attributes/local_file_path.yml"
+
+        size:
+          $ref: "../../../shared/attributes/postcard_size.yml"

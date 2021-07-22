@@ -1,0 +1,8 @@
+oneOf:
+  - $ref: "batch_types.yml#/full_postcards"
+  - $ref: "batch_types.yml#/full_letters"
+discriminator:
+  propertyName: resource_type
+  mapping:
+    postcards: "batch_types.yml#/full_postcards"
+    letters: "batch_types.yml#/full_letters"

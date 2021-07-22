@@ -1,0 +1,62 @@
+allOf:
+  - $ref: "batch_base.yml"
+  - $ref: "../../../shared/models/form_factor/from_us.yml"
+
+  - type: object
+
+    required:
+      - id
+      - resource_type
+      - resource_specific_fields
+
+    # Add any properties that are specific to this form factor
+    # that are generated when a new mailpiece is created here.
+    # Be sure to include the stored versions of any form factor
+    # specific input properties you added to the 'editable' schema.
+    properties:
+      id:
+        $ref: "../attributes/bat_id.yml"
+
+      object:
+        allOf:
+          - $ref: "../../../shared/attributes/object.yml"
+          - type: string
+            enum:
+              - "batch"
+            default: "batch"
+
+      api_version:
+        type: string
+        format: date
+        enum:
+          - "2020-02-11"
+          - "2019-06-01"
+          - "2018-06-05"
+          - "2018-03-30"
+          - "2018-03-01"
+          - "2018-02-08"
+          - "2017-11-08"
+          - "2017-10-17"
+          - "2017-09-08"
+          - "2017-08-14"
+          - "2017-06-16"
+          - "2017-05-17"
+          - "2016-06-30"
+          - "2016-05-02"
+          - "2016-03-21"
+          - "2016-01-19"
+          - "2015-12-22"
+          - "2015-11-23"
+          - "2015-11-06"
+          - "2015-10-21"
+          - "2015-06-25"
+          - "2015-04-11"
+          - "2014-12-18"
+
+      resource_specific_fields:
+        oneOf:
+          - title: postcards
+            $ref: "batch_types.yml#/postcards"
+
+          - title: letters
+            $ref: "batch_types.yml#/letters"

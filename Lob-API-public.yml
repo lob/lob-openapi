@@ -465,6 +465,42 @@ tags:
       The letters endpoint allows you to easily print and mail letters. The API provides endpoints for
       creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
 
+  - name: Metadata
+    x-traitTag: true
+    description: |
+      When creating any Lob object, you can include a metadata object with up to 20 key-value pairs of
+      custom data. You can use metadata to store information like `metadata[customer_id] = "987654"` or
+      `metadata[campaign] = "NEWYORK2015"`. This is especially useful for filtering and matching to internal
+      systems.
+
+      Each metadata key must be less than 40 characters long and values must be less than 500 characters.
+      Metadata does not support nested objects.
+
+      **<span style="color:#6683a2">
+        Example Create Request with Metadata
+      </span>**
+
+      ```bash
+        curl https://api.lob.com/v1/postcards \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Demo Postcard job" \
+          -d "metadata[campaign]=NEWYORK2015" \
+          -d "to=adr_bae820679f3f536b" \
+          -d "from=adr_210a8d4b0b76d77b" \
+          --data-urlencode "front=<html style='margin: 130px; font-size: 50;'>Front HTML for {{name}}</html>" \
+          --data-urlencode "back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>" \
+          -d "merge_variables[name]=Harry"
+      ```
+
+      **<span style="color:#6683a2">
+        Example List Request with Metadata Filter
+      </span>**
+
+      ```bash
+        curl -g "https://api.lob.com/v1/postcards?metadata[campaign]=NEWYORK2015&limit=2" \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      ```
+
   - name: NCOA
     x-traitTag: true
     description: |
@@ -997,6 +1033,7 @@ x-tagGroups:
       - Certificates
       - Errors
       - Idempotent Requests
+      - Metadata
       - Rate Limiting
       - Request Bodies
       - Test and Live Environments

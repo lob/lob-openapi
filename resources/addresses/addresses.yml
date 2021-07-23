@@ -180,3 +180,120 @@ post:
 
     default:
       $ref: "../../shared/responses/error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/addresses \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Harry - Office" \
+          -d "name=Harry Zhang" \
+          -d "company=Lob" \
+          -d "email=harry@lob.com" \
+          -d "phone=5555555555" \
+          -d "address_line1=185 Berry St" \
+          -d "address_line2=# 6100" \
+          -d "address_city=San Francisco" \
+          -d "address_state=CA" \
+          -d "address_zip=94107" \
+          -d "address_country=US"
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.addresses.create({
+          description: 'Harry - Office',
+          name: 'Harry Zhang',
+          company: 'Lob',
+          email: 'harry@lob.com',
+          phone: '5555555555',
+          address_line1: '185 Berry St',
+          address_line2: '# 6100',
+          address_city: 'San Francisco',
+          address_state: 'CA',
+          address_zip: '94107',
+          address_country: 'US',
+        }, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        @lob.addresses.create(
+          description: "Harry - Office",
+          name: "Harry Zhang",
+          company: "Lob",
+          email: "harry@lob.com",
+          phone: "5555555555",
+          address_line1: "185 Berry St",
+          address_line2: "# 6100",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_country: "US",
+          address_zip: "94107"
+        )
+      label: RUBY
+    - lang: Python
+      source: |
+        lob.Address.create(
+          description='Harry - Office',
+          name='Harry Zhang',
+          company='Lob',
+          email='harry@lob.com',
+          phone='5555555555',
+          address_line1='185 Berry St',
+          address_line2='# 6100',
+          address_city='San Francisco',
+          address_state='CA',
+          address_zip='94107',
+          address_country='US',
+        )
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->addresses()->create(array(
+          'description'       => 'Harry - Office',
+          'name'              => 'Harry Zhang',
+          'company'           => 'Lob',
+          'address_line1'     => '185 Berry St',
+          'address_line2'     => '# 6100',
+          'address_city'      => 'San Francisco',
+          'address_state'     => 'CA',
+          'address_country'   => 'US',
+          'address_zip'       => '94107',
+          'email'             => 'harry@lob.com',
+          'phone'             => '5555555555'
+        ));
+    - lang: Java
+      source: |
+        LobResponse<Address> response = new Address.RequestBuilder()
+                .setDescription("Harry - Office")
+                .setName("Harry Zhang")
+                .setCompany("Lob")
+                .setLine1("185 Berry St")
+                .setLine2("# 6100")
+                .setCity("San Francisco")
+                .setState("CA")
+                .setZip("94107")
+                .setCountry("US")
+                .setPhone("555-555-5555")
+                .setEmail("harry@lob.com")
+                .create();
+
+        Address address = response.getResponseBody();
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.Address.create(%{
+          description: "Harry - Office",
+          name: "Harry Zhang",
+          company: "Lob",
+          email: "harry@lob.com",
+          phone: "5555555555",
+          address_line1: "185 Berry St",
+          address_line2: "# 6100",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_country: "US",
+          address_zip: "94107"
+        })
+      label: ELIXIR

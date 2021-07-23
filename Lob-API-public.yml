@@ -889,6 +889,171 @@ tags:
       See the `test` request & response examples under [Autocomplete Examples](#operation/autocompletion) within the "Autocomplete
       a partial address" section in US Autocompletions.
 
+  - name: US Verification Details
+    x-traitTag: true
+    description: |
+      These are detailed definitions for various fields in the [US verification object](#operation/us_verification).
+
+      **<span style="color:#6683a2">ZIP Code Types - </span>**`components[zip_code_type]`
+
+      <table>
+        <tbody>
+          <tr>
+            <td style="white-space: nowrap"><code>standard</code></td>
+            <td>The default ZIP code type. Used when none of the other types apply.</td>
+          </tr>
+          <tr>
+            <td><code>po_box</code></td>
+            <td>The ZIP code contains only PO Boxes.</td>
+          </tr>
+          <tr>
+            <td><code>unique</code></td>
+            <td>The ZIP code is uniquely assigned to a single organization (such as a government agency) that receives a large volume of mail.</td>
+          </tr>
+          <tr>
+            <td><code>military</code></td>
+            <td>The ZIP code contains military addresses.</td>
+          </tr>
+          <tr>
+            <td><i>empty string</i></td>
+            <td>A match could not be made with the provided inputs.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      **<span style="color:#6683a2">Record Types - </span>**`components[record_type]`
+
+      <table>
+        <tbody>
+          <tr>
+            <td><code>street</code></td>
+            <td>The default address type.</td>
+          </tr>
+          <tr>
+            <td><code>highrise</code></td>
+            <td>The address is a commercial building, apartment complex, highrise, etc.</td>
+          </tr>
+          <tr>
+            <td><code>firm</code></td>
+            <td>The address is of an organizational entity which receives a minimum number of mailpieces per day.</td>
+          </tr>
+          <tr>
+            <td><code>po_box</code></td>
+            <td>The address is a PO Box.</td>
+          </tr>
+          <tr>
+            <td><code>rural_route</code></td>
+            <td>The address exists on a Rural Route. This is an older system of mail delivery which is still used in some parts of the country.</td>
+          </tr>
+          <tr>
+            <td style="white-space: nowrap"><code>general_delivery</code></td>
+            <td>The address is part of the USPS General Delivery service, which allows individuals without permanent addresses to receive mail.</td>
+          </tr>
+          <tr>
+            <td><i>empty string</i></td>
+            <td>A match could not be made with the provided inputs.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      **<span style="color:#6683a2">Carrier Route Types - </span>**`components[carrier_route_type]`
+
+      <table class="table-docs table-docs-code">
+        <tbody>
+          <tr>
+            <td><code>city_delivery</code></td>
+            <td>The default carrier route type. Used when none of the other types apply.</td>
+          </tr>
+          <tr>
+            <td><code>rural_route</code></td>
+            <td>The carrier route is a Rural Route. This is an older system of mail delivery which is still used in some parts of the country.</td>
+          </tr>
+          <tr>
+            <td><code>highway_contract</code></td>
+            <td>The carrier route is a Highway Contract Route. This is an older system of mail delivery which is still used in some parts of the country.</td>
+          </tr>
+          <tr>
+            <td><code>po_box</code></td>
+            <td>The carrier route consists of PO Boxes.</td>
+          </tr>
+          <tr>
+            <td style="white-space: nowrap"><code>general_delivery</code></td>
+            <td>The carrier route is part of the USPS General Delivery service, which allows individuals without permanent addresses to receive mail.</td>
+          </tr>
+          <tr>
+            <td><i>empty string</i></td>
+            <td>A match could not be made with the provided inputs.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      **<span style="color:#6683a2">DPV Footnotes - </span>**`deliverability_analysis[dpv_footnotes]`
+
+      <table class="table-docs table-docs-code">
+        <tbody>
+          <tr>
+            <td style="white-space: nowrap"><code>AA</code></td>
+            <td>Some parts of the address (such as the street and ZIP code) are valid.</td>
+          </tr>
+          <tr>
+            <td><code>A1</code></td>
+            <td>The address is invalid based on given inputs.</td>
+          </tr>
+          <tr>
+            <td><code>BB</code></td>
+            <td>The address is deliverable.</td>
+          </tr>
+          <tr>
+            <td><code>CC</code></td>
+            <td>The address is deliverable by removing the provided secondary unit designator.</td>
+          </tr>
+          <tr>
+            <td><code>N1</code></td>
+            <td>The address is deliverable but is missing a secondary information (apartment, unit, etc).</td>
+          </tr>
+          <tr>
+            <td><code>F1</code></td>
+            <td>The address is a deliverable military address.</td>
+          </tr>
+          <tr>
+            <td><code>G1</code></td>
+            <td>The address is a deliverable General Delivery address. General Delivery is a USPS service which allows individuals without permanent addresses to receive mail.</td>
+          </tr>
+          <tr>
+            <td><code>U1</code></td>
+            <td>The address is a deliverable unique address. A unique ZIP code is assigned to a single organization (such as a government agency) that receives a large volume of mail.</td>
+          </tr>
+          <tr>
+            <td><code>M1</code></td>
+            <td>The primary number is missing.</td>
+          </tr>
+          <tr>
+            <td><code>M3</code></td>
+            <td>The primary number is invalid.</td>
+          </tr>
+          <tr>
+            <td><code>P1</code></td>
+            <td>PO Box, Rural Route, or Highway Contract box number is missing.</td>
+          </tr>
+          <tr>
+            <td><code>P3</code></td>
+            <td>PO Box, Rural Route, or Highway Contract box number is invalid.</td>
+          </tr>
+          <tr>
+            <td><code>R1</code></td>
+            <td>The address matched to a <a href="https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency" target="_blank">CMRA</a> and private mailbox information is not present.</td>
+          </tr>
+          <tr>
+            <td><code>R7</code></td>
+            <td>The address matched to a Phantom Carrier Route (<code>carrier_route</code> of <code>R777</code>), which corresponds to physical addresses that are not eligible for delivery.</td>
+          </tr>
+          <tr>
+            <td><code>RR</code></td>
+            <td>The address matched to a <a href="https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency" target="_blank">CMRA</a> and private mailbox information is present.</td>
+          </tr>
+        </tbody>
+      </table>
+
   - name: US Verifications
     description: >
       Validate, automatically correct, and standardize the addresses in your
@@ -1014,6 +1179,7 @@ x-tagGroups:
   - name: US Verification API
     tags:
       - US Verifications
+      - US Verification Details
       - US Verifications Test Environment
       - Bulk US Verifications
       - US Autocompletions

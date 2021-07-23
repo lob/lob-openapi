@@ -238,6 +238,58 @@ tags:
       * [Checks](https://www.lob.com/guides#getting_started_checks)
       * [Address Verification Elements](https://www.lob.com/guides#av-elements-quickstart)
 
+  - name: HTML Examples
+    x-traitTag: true
+    description: |
+      Use a pre-designed template from our [gallery](https://lob.com/resources/template-gallery) or follow these
+      basic [guidelines](https://github.com/lob/examples) as starting points for creating custom Postcards,
+      Self Mailers, Letters, and Checks.
+
+      Please follow the standards used in these templates, such as:
+      - For any linked assets, you must use a performant file hosting provider with no rate limits such as Amazon
+      S3.
+      - Use inline styles or an internal stylesheet, do not link to external stylesheets.
+      - Link to images that are 300DPI and sized at the final desired size on the physical mailing. For example,
+      for a photo that is desired to be 1in x 1in on the final postcard, the image asset should be sized at 1in
+      x 1in at 300DPI (which equates to 300px by 300px).
+      - The sum of all linked assets should not exceed 5MB in file size.
+      - Use `-webkit` prefixes for CSS properties when recommended [here](http://shouldiprefix.com/).
+
+      Because different browsers have varying user-agent styles, the HTML you see in your browser will not
+      always look identical to what is produced through the API. It is **strongly** recommended that you test all
+      HTML requests by reviewing the final PDF files in your Test Environment, as these are the files that will be
+      printed.
+
+  - name: HTML Templates
+    x-traitTag: true
+    description: |
+      You can save commonly used HTML as templates within Lob to more easily manage them. You can reference
+      your saved templates in postcard, letter, and check requests instead of having to pass a long HTML
+      string on each request. Additionally, you can make changes to your HTML templates and update them
+      independently, without having to touch your API integration. Templates can be created, edited,
+      and viewed on your [Dashboard](https://dashboard.lob.com/#/templates). To use a template in a postcard,
+      letter, or check, see the documentation for each endpoint below. For help using templates, check out our
+      [HTML Templates Guide](https://lob.com/guides#html_templates) or get started with a
+      [pre-designed template from our gallery](https://lob.com/template-gallery). In Live mode, you can only have
+      as many templates as allotted in your current
+      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions). There is no limit in Test mode.
+
+      If you'd like to interact with templates programmatically, check out our Beta Program for API access
+      to the [HTML Templates Endpoints](#tag/Templates).
+
+      **<span style="color:#6683a2">Example Create Request using HTML Templates</span>**
+
+      ```bash
+        curl https://api.lob.com/v1/postcards \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Demo Postcard job" \
+          -d "to=adr_78c304d54912c502" \
+          -d "from=adr_61a0865c8c573139" \
+          -d "front=tmpl_b846a20859ae11a" \
+          -d "back=tmpl_01b0d396a10c268" \
+          -d "merge_variables[name]=Harry"
+      ```
+
   - name: Idempotent Requests
     x-traitTag: true
     description: >-
@@ -322,6 +374,44 @@ tags:
           --data-urlencode "back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>" \
           -d "merge_variables[name]=Harry"
       ```
+
+  - name: Image Prepping
+    x-traitTag: true
+    description: |
+      Currently we support the following file types for all endpoints:
+      - PDF
+      - PNG
+      - JPEG
+
+      **Templates**
+
+      You can find pre-made templates that already adhere to all of these guidelines here:
+      - [Postcards](#tag/Postcards)
+      - [Letters](#tag/Letters)
+      - [Checks](#tag/Checks)
+      - [Self Mailers](#tag/Self-Mailers)
+
+      **Prepping All Images**
+
+      The following guidelines apply to image types:
+      - Images should be 300 dpi or higher - PNG/JPEG files with less than 300 dpi will be rejected.
+      - Your artwork should include a 1/8" border around the final trim size. This means your final file size will be a total of 0.25" larger than your expected printed piece (ie, a 4"x6" postcard should be submitted as 4.25"x6.25"). There is no need to include crop marks in your submitted content.
+      - Include a safe zone – make sure no critical elements are within 1/8" from the edge of the final size.
+      - Do not include any additional postage marks or indicia.
+      - File sizes should be no larger than 5MB.
+
+      **Prepping PDFs**
+
+      To ensure that you are producing PDF's correctly please follow the guidelines below:
+      - [Make sure all non-standard fonts are embedded.](#tag/Standard-PDF-Fonts)
+      - Generated PDF's need to be be PDF/A compliant.
+
+      **Prepping PNGs/JPEGs**
+
+      To ensure that you are producing PNG's/JPEG's correctly please follow the guidelines below:
+
+      - Minimum 300 dpi. The dpi is calculated as (width of image in pixels) / (width of product in inches) and (length of image in pixels) / (length of product in inches). For Example: 1275px x 1875px image used to create a 4.25" x 6.25" postcard has a dpi of 300.
+      - Submitted images must have the same length to width ratio as the chosen product. Images will not be cropped or stretched by the API.
 
   - name: Intl Verifications
     description: Address verification for non-US addresses
@@ -679,6 +769,71 @@ tags:
       The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints
       for creating self mailers, retrieving individual self mailers, canceling self mailers, and retrieving a list of self mailers.
 
+  - name: Standard PDF Fonts
+    x-traitTag: true
+    description: |
+      Ideally, all fonts in provided PDFs should be embedded. Embedding a font in a PDF ensures that the final
+      printed product will look as it was designed. Fonts can vary greatly in size and shape, even within the
+      same family. If the exact font that was used to design the artwork is not used to print, the look and
+      placement of the text is not guaranteed to be the same.
+
+      In general, requests that provide PDFs with un-embedded fonts will be rejected. We make an exception for
+      "standard fonts", a set of fonts that we have identified as being common. PDFs that contain un-embedded
+      fonts that are found in the list, and match the accepted [font type](https://en.wikipedia.org/wiki/Category:Font_formats)
+      will be accepted. Otherwise, the request will be rejected.
+
+      Font embedding is an essential part of standard PDF workflows. Fonts should be embedded automatically by
+      PDF editing software that are compliant with PDF standards.
+
+      | FONT NAME                    | TYPES                          |
+      |------------------------------|--------------------------------|
+      | Arial                        | Type 1, TrueType, CID TrueType |
+      | Arial,Bold                   | Type 1, TrueType, CID TrueType |
+      | Arial,BoldItalic             | Type 1, TrueType, CID TrueType |
+      | Arial,Italic                 | TrueType, CID TrueType         |
+      | ArialMT                      | TrueType, CID TrueType         |
+      | Arial-BoldMT                 | TrueType                       |
+      | Arial-BoldItalicMT           | TrueType                       |
+      | Arial-ItalicMT	             | TrueType                       |
+      | ArialNarrow                  | TrueType                       |
+      | ArialNarrow-Bold             | TrueType                       |
+      | Calibri                      | TrueType                       |
+      | Calibri-Bold                 | TrueType                       |
+      | Calibri-Italic               | TrueType                       |
+      | Candara-Bold                 | TrueType                       |
+      | Courier                      | Type 1                         |
+      | Courier-Oblique              | Type 1                         |
+      | Courier-Bold                 | Type 1                         |
+      | Courier-BoldOblique          | Type 1                         |
+      | CourierNewPSMT               | TrueType                       |
+      | CourierNewPS-ItalicMT        | TrueType                       |
+      | CourierNewPS-BoldMT          | TrueType                       |
+      | Helvetica                    | Type 1                         |
+      | Helvetica-Bold               | Type 1                         |
+      | Helvetica-BoldOblique        | Type 1                         |
+      | Helvetica-Oblique            | Type 1                         |
+      | LucidaConsole	               | TrueType                       |
+      | MsSansSerif	                 | TrueType                       |
+      | MsSansSerif,Bold	           | TrueType                       |
+      | Symbol	                     | Type 1, TrueType               |
+      | Tahoma	                     | TrueType                       |
+      | Tahoma-Bold	                 | TrueType                       |
+      | Times-Bold	                 | Type 1                         |
+      | Times-BoldItalic	           | Type 1                         |
+      | Times-Italic	               | Type 1                         |
+      | Times-Roman	                 | Type 1                         |
+      | TimesNewRomanPS-BoldItalicMT | TrueType                       |
+      | TimesNewRomanPS-BoldMT	     | TrueType                       |
+      | TimesNewRomanPS-ItalicMT	   | TrueType                       |
+      | TimesNewRomanPSMT	           | TrueType, CID TrueType         |
+      | TimesNewRomanPSMT,Bold	     | TrueType                       |
+      | TrebuchetMS	                 | TrueType                       |
+      | Verdana	                     | TrueType                       |
+      | Verdana-Bold	               | TrueType                       |
+      | Verdana,Bold	               | TrueType                       |
+      | Verdana,Italic	             | TrueType                       |
+      | ZapfDingbats	               | Type 1                         |
+
   - name: Template Versions
     description: |
       These API endpoints allow you to create, retrieve, update and delete versions of reusable HTML templates for use with the print & mail API.
@@ -835,6 +990,14 @@ x-tagGroups:
       - Bank Accounts
       - Templates
       - Template Versions
+
+  - name: Mail Content Design
+    tags:
+      - HTML Templates
+      - HTML Examples
+      - Image Prepping
+      - Standard PDF Fonts
+
   - name: Manage Mail
     tags:
       - Cancellation Windows

@@ -77,3 +77,78 @@ post:
 
     default:
       $ref: "../../shared/responses/error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/intl_verifications \
+          -u <YOUR_LIVE_API_KEY>: \
+          -d "primary_line=370 Water St" \
+          -d "city=Summerside" \
+          -d "state=Prince Edward Island" \
+          -d "postal_code=C1N 1C4" \
+          -d "country=CA"
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.intlVerifications.verify({
+          primary_line: '370 Water St',
+          city: 'Summerside',
+          state: 'Prince Edward Island',
+          postal_code: 'C1N 1C4',
+          country: 'CA'
+        }, function (err, res) {
+          console.log (err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        @lob.intl_verifications.verify(
+          primary_line: "370 Water St",
+          city:         "Summerside",
+          state:        "Prince Edward Island",
+          postal_code:  "C1N 1C4",
+          country:      "CA"
+        )
+      label: RUBY
+    - lang: Python
+      source: |
+        lob.IntlVerification.create(
+          primary_line='370 Water St',
+          city='Summerside',
+          state='Prince Edward Island',
+          postal_code='C1N 1C4',
+          country='CA'
+        )
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->intlVerifications()->verify(array(
+          'primary_line' => '370 Water St',
+          'city'         => 'Summerside',
+          'state'        => 'Prince Edward Island',
+          'postal_code'  => 'C1N 1C4',
+          'country'      => 'CA',
+        ));
+    - lang: Java
+      source: |
+        LobResponse<IntlVerification> response = new IntlVerification.RequestBuilder()
+                .setPrimaryLine("370 Water St")
+                .setCity("Summerside")
+                .setState("Prince Edward Island")
+                .setPostalCode("C1N 1C4")
+                .setCountry("CA")
+                .verify();
+
+        IntlVerification intlVerification = response.getResponseBody();
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.IntlVerification.verify(%{
+          primary_line: "370 Water St",
+          city: "Summerside",
+          state: "Prince Edward Island",
+          postal_code: "C1N 1C4",
+          country: "CA"
+        })
+      label: ELIXIR

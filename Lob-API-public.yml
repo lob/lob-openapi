@@ -107,6 +107,12 @@ tags:
       If you are participating in a Beta program and want to provide feedback, please feel free to
       [contact us](https://lob.com/support#contact)!
 
+  - name: Billing Groups
+    description: |
+      Billing groups allow you to create and view labels that can be attached to certain consumption-based
+      usages of Letters, Checks, Postcards and Self-Mailers to customize your bill. Please check each
+      resource API section to learn more about how to attach billing groups in the API.
+
   - name: Bulk Intl Verifications
     description: Verify a list of non-US addresses.
 
@@ -1353,6 +1359,7 @@ x-tagGroups:
       - Bank Accounts
       - Templates
       - Template Versions
+      - Billing Groups
 
   - name: Mail Content Design
     tags:
@@ -1440,6 +1447,12 @@ paths:
 
   /bank_accounts:
     $ref: resources/bank_accounts/bank_accounts.yml
+
+  /billing_groups/{bg_id}:
+    $ref: resources/billing_groups/billing_group.yml
+
+  /billing_groups:
+    $ref: resources/billing_groups/billing_groups.yml
 
   /bulk/us_verifications:
     $ref: resources/bulk_us_verifications/bulk_us_verifications.yml

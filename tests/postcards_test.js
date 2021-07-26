@@ -60,21 +60,9 @@ test("list postcards' params", async function (t) {
 
   /* ################## DATE_CREATED ################## */
 
-  let deepObj = {
-    date_created: {
-      gt: "2021-05-03T04:30:00.000Z",
-      lt: "2021-05-03T05:00:00.000Z",
-    },
-  };
-
-  const date_body = new URLSearchParams({});
-  for (const key in deepObj) {
-    Object.entries(deepObj[key]).forEach(([innerKey, innerVal]) => {
-      date_body.append(`${key}[${innerKey}]`, `${innerVal}`);
-    });
-  }
-
-  const date_response = list(date_body.toString());
+  const date_response = list(
+    "date_created%5Bgt%5D=2021-05-03T04%3A30%3A00.000Z&date_created%5Blt%5D=2021-05-03T05%3A00%3A00.000Z"
+  );
 
   /* ################## FULL ################## */
 
@@ -86,17 +74,8 @@ test("list postcards' params", async function (t) {
     "metadata[name]": "Harry",
   });
 
-  deepObj = {
-    date_created: {
-      gt: "2021-05-03T04:30:00.000Z",
-      lt: "2021-05-03T05:00:00.000Z",
-    },
-  };
-  for (const key in deepObj) {
-    Object.entries(deepObj[key]).forEach(([innerKey, innerVal]) => {
-      full_body.append(`${key}[${innerKey}]`, `${innerVal}`);
-    });
-  }
+  full_body.append("date_created[gt]", "2021-05-03T04:30:00.000Z");
+  full_body.append("date_created[lt]", "2021-05-03T05:00:00.000Z");
 
   const full_response = list(full_body.toString());
 

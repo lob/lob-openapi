@@ -126,18 +126,9 @@ test.serial("list template versions' params", async function (t) {
 
   /* ################## DATE_CREATED ################## */
 
-  let deepObj = {
-    date_created: { gte: "2021-07-21T11:10:00.000Z" },
-  };
-
-  const date_body = new URLSearchParams({});
-  for (const key in deepObj) {
-    Object.entries(deepObj[key]).forEach(([innerKey, innerVal]) => {
-      date_body.append(`${key}[${innerKey}]`, `${innerVal}`);
-    });
-  }
-
-  const date_response = list(date_body.toString());
+  const date_response = list(
+    "date_created%5Bgte%5D=2021-07-21T11%3A10%3A00.000Z"
+  );
 
   /* ################## FULL ################## */
 
@@ -148,12 +139,7 @@ test.serial("list template versions' params", async function (t) {
     "include[]": "total_count",
   });
 
-  deepObj = { date_created: { lt: "2021-07-21T11:32:00.000Z" } };
-  for (const key in deepObj) {
-    Object.entries(deepObj[key]).forEach(([innerKey, innerVal]) => {
-      full_body.append(`${key}[${innerKey}]`, `${innerVal}`);
-    });
-  }
+  full_body.append("date_created[lt]", "2021-07-21T11:32:00.000Z");
 
   const full_response = list(full_body.toString());
 

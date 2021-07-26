@@ -57,18 +57,7 @@ test("list letters' params", async function (t) {
 
   /* ################## DATE_CREATED ################## */
 
-  let deepObj = {
-    date_created: { lt: "2021-03-30" },
-  };
-
-  const date_body = new URLSearchParams({});
-  for (const key in deepObj) {
-    Object.entries(deepObj[key]).forEach(([innerKey, innerVal]) => {
-      date_body.append(`${key}[${innerKey}]`, `${innerVal}`);
-    });
-  }
-
-  const date_response = list(date_body.toString());
+  const date_response = list("date_created%5Blt%5D=2021-03-30");
 
   /* ################## FULL ################## */
 
@@ -80,12 +69,7 @@ test("list letters' params", async function (t) {
     "metadata[name]": "Harry",
   });
 
-  deepObj = { date_created: { lt: "2021-03-30" } };
-  for (const key in deepObj) {
-    Object.entries(deepObj[key]).forEach(([innerKey, innerVal]) => {
-      full_body.append(`${key}[${innerKey}]`, `${innerVal}`);
-    });
-  }
+  full_body.append("date_created[lt]", "2021-03-30");
 
   const full_response = list(full_body.toString());
 

@@ -66,3 +66,71 @@ post:
 
     default:
       $ref: "../../shared/responses/error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/us_autocompletions \
+          -u <YOUR_LIVE_API_KEY>: \
+          -d "address_prefix=185 B" \
+          -d "city=San Francisco" \
+          -d "state=CA"
+          -d "zip_code=94107"
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.usAutocompletions.autocomplete({
+          address_prefix: '185 B',
+          city: 'San Francisco',
+          state: 'CA',
+          zip_code: '94107',
+        }, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        @lob.us_autocompletions.autocomplete(
+          address_prefix: "185 B",
+          city:           "San Francisco",
+          state:          "CA",
+          zip_code:       "94107"
+        )
+      label: RUBY
+    - lang: Python
+      source: |
+        lob.USAutocompletion.create(
+          address_prefix='185 B',
+          city='San Francisco',
+          state='CA',
+          zip_code='94107'
+        )
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->usAutocompletions()->autocomplete(array(
+          'address_prefix' => '185 B',
+          'city'           => 'San Francisco',
+          'state'          => 'CA',
+          'zip_code'       => '94107'
+        ));
+    - lang: Java
+      source: |
+        LobResponse<USAutocompletion> response = new USAutocompletion.RequestBuilder()
+            .setAddressPrefix("185 B")
+            .setCity("San Francisco")
+            .setState("CA")
+            .setZipCode("94107")
+            .autocomplete();
+
+        USAutocompletion usAutocompletion = response.getResponseBody();
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.USAutocompletion.autocomplete(%{
+          address_prefix: "185 B",
+          city:           "San Francisco",
+          state:          "CA",
+          zip_code:       "94107"
+        })
+      label: ELIXIR

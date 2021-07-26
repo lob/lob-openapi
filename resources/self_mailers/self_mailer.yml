@@ -27,6 +27,39 @@ get:
     default:
       $ref: "../../shared/responses/error.yml"
 
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/self_mailers/sfm_8ffbe811dea49dcf" \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.selfMailers.retrieve('sfm_8ffbe811dea49dcf', function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        @lob.self_mailers.find("sfm_8ffbe811dea49dcf")
+      label: RUBY
+    - lang: Python
+      source: |
+        lob.SelfMailer.retrieve('sfm_8ffbe811dea49dcf')
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->selfMailers()->get('sfm_8ffbe811dea49dcf');
+    - lang: Java
+      source: |
+        LobResponse<SelfMailer> response = SelfMailer.retrieve("sfm_8ffbe811dea49dcf");
+        SelfMailer selfMailer = response.getResponseBody();
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.SelfMailer.find("sfm_8ffbe811dea49dcf")
+      label: ELIXIR
+
 delete:
   operationId: delete_self_mailer
 
@@ -47,3 +80,35 @@ delete:
 
     default:
       $ref: "../../shared/responses/error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X DELETE https://api.lob.com/v1/self_mailers/sfm_8ffbe811dea49dcf \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.selfMailers.delete('sfm_8ffbe811dea49dcf', function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        @lob.self_mailers.destroy("sfm_8ffbe811dea49dcf")
+      label: RUBY
+    - lang: Python
+      source: |
+        lob.SelfMailer.delete('sfm_8ffbe811dea49dcf')
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->selfMailers()->delete('sfm_8ffbe811dea49dcf');
+    - lang: Java
+      source: |
+        LobResponse<SelfMailer> deleteResponse = SelfMailer.delete("sfm_8ffbe811dea49dcf");
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.SelfMailer.destroy("sfm_8ffbe811dea49dcf")
+      label: ELIXIR

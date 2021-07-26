@@ -127,3 +127,73 @@ post:
 
     default:
       $ref: "../../shared/responses/error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/us_verifications \
+          -u <YOUR_LIVE_API_KEY>: \
+          -d "primary_line=185 Berry Street" \
+          -d "city=San Francisco" \
+          -d "state=CA" \
+          -d "zip_code=94107"
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.usVerifications.verify({
+          primary_line: '185 Berry Street',
+          city: 'San Francisco',
+          state: 'CA',
+          zip_code: '94107'
+        }, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        @lob.us_verifications.verify(
+          primary_line: "185 Berry Street",
+          city:         "San Francisco",
+          state:        "CA",
+          zip_code:     "94107"
+        )
+      label: RUBY
+    - lang: Python
+      source: |
+        lob.USVerification.create(
+          primary_line='185 Berry Street',
+          city='San Francisco',
+          state='CA',
+          zip_code='94107'
+        )
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->usVerifications()->verify(array(
+          'primary_line' => '185 Berry Street',
+          'city'         => 'San Francisco',
+          'state'        => 'CA',
+          'zip_code'     => '94107'
+        ));
+    - lang: Java
+      source: |
+        LobResponse<USVerification> response = new USVerification.RequestBuilder()
+                .setRecipient("Donald")
+                .setPrimaryLine("185 Berry St")
+                .setSecondaryLine("Ste 6100")
+                .setCity("San Francisco")
+                .setState("CA")
+                .setZipCode("94107")
+                .verify();
+
+        USVerification usVerification = response.getResponseBody();
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.USVerification.verify(%{
+          primary_line: "185 Berry Street",
+          city: "San Francisco",
+          state: "CA",
+          zip_code: "94107"
+        })
+      label: ELIXIR

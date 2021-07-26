@@ -32,6 +32,36 @@ get:
     default:
       $ref: "../../../shared/responses/error.yml"
 
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/templates/tmpl_ea6e6a1abf01703/versions?limit=2" \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      label: CURL
+    - lang: Javascript
+      source: |
+        This feature is not currently supported by this library.
+      label: NODE
+    - lang: Ruby
+      source: |
+        This feature is not currently supported by this library.
+      label: RUBY
+    - lang: Python
+      source: |
+        This feature is not currently supported by this library.
+      label: PYTHON
+    - lang: PHP
+      source: |
+        This feature is not currently supported by this library.
+    - lang: Java
+      source: |
+        This feature is not currently supported by this library.
+      label: JAVA
+    - lang: Elixir
+      source: |
+        This feature is not currently supported by this library.
+      label: ELIXIR
+
 post:
   operationId: create_template_version
 
@@ -73,3 +103,35 @@ post:
 
     default:
       $ref: "../../../shared/responses/error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/templates/tmpl_4aa14648113e45b/versions \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Second Version" \
+          --data-urlencode "html=<html>Second HTML for {{name}}</html>"
+      label: CURL
+    - lang: Javascript
+      source: |
+        This feature is not currently supported by this library.
+      label: NODE
+    - lang: Ruby
+      source: |
+        This feature is not currently supported by this library.
+      label: RUBY
+    - lang: Python
+      source: |
+        This feature is not currently supported by this library.
+      label: PYTHON
+    - lang: PHP
+      source: |
+        This feature is not currently supported by this library.
+    - lang: Java
+      source: |
+        This feature is not currently supported by this library.
+      label: JAVA
+    - lang: Elixir
+      source: |
+        This feature is not currently supported by this library.
+      label: ELIXIR

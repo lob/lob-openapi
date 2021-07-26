@@ -27,6 +27,39 @@ get:
     default:
       $ref: "../../shared/responses/error.yml"
 
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/postcards/psc_5c002b86ce47537a \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.postcards.retrieve('psc_5c002b86ce47537a', function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        @lob.postcards.find("psc_5c002b86ce47537a")
+      label: RUBY
+    - lang: Python
+      source: |
+        lob.Postcard.retrieve('psc_5c002b86ce47537a')
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->postcards()->get('psc_5c002b86ce47537a');
+    - lang: Java
+      source: |
+        LobResponse<Postcard> response = Postcard.retrieve("psc_5c002b86ce47537a");
+        Postcard postcard = response.getResponseBody();
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.Postcard.find("psc_5c002b86ce47537a")
+      label: ELIXIR
+
 delete:
   operationId: delete_postcard
 
@@ -50,3 +83,35 @@ delete:
 
     default:
       $ref: "../../shared/responses/error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X DELETE https://api.lob.com/v1/postcards/psc_5c002b86ce47537a \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.postcards.delete('psc_5c002b86ce47537a', function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        @lob.postcards.destroy("psc_5c002b86ce47537a")
+      label: RUBY
+    - lang: Python
+      source: |
+        lob.Postcard.delete('psc_5c002b86ce47537a')
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->postcards()->delete('psc_5c002b86ce47537a');
+    - lang: Java
+      source: |
+        LobResponse<Postcard> deleteResponse = Postcard.delete("psc_5c002b86ce47537a");
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.Postcard.destroy("psc_5c002b86ce47537a")
+      label: ELIXIR

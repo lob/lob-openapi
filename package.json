@@ -57,7 +57,7 @@
     "pretty": "prettier --write .",
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
-    "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --options.noAutoAuth=true --options.maxDisplayedEnumValues=15 --options.theme.sidebar.backgroundColor: \"#f7f9fa\" --options.expandResponses='200,201' --options.jsonSampleExpandLevel=3 --options.requiredPropsFirst=true -o docs/index.html",
+    "redoc": "redoc-cli build $npm_package_config_specfile -t actions/redoc/template.hbs --title=\"DRAFT NEW Lob API documentation\" --options.noAutoAuth=true --options.maxDisplayedEnumValues=15 --options.theme.sidebar.backgroundColor=\"#f7f9fa\" --options.expandResponses='200,201' --options.jsonSampleExpandLevel=3 --options.requiredPropsFirst=true -o docs/index.html",
     "test": "ava --timeout=55s './tests/**_test.js'"
   },
   "repository": {

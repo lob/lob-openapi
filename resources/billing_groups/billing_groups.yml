@@ -1,0 +1,95 @@
+get:
+  operationId: list_billing_groups
+
+  summary: List all billing_groups
+
+  description: >-
+    Returns a list of your billing_groups. The billing_groups are returned sorted by
+    creation date, with the most recently created billing_groups appearing first.
+
+  tags:
+    - Billing Groups
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/offset.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - $ref: "../../shared/parameters/date_modified.yml"
+    - $ref: "../../shared/parameters/sort_by.yml"
+
+  responses:
+    "200":
+      description: Returns a list of billing_groups.
+      content:
+        $ref: responses/all_billing_groups.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"
+
+post:
+  operationId: create_billing_group
+
+  summary: Creates a billing_group
+
+  description: >-
+    Creates a new billing_group with the provided properties.
+
+  tags:
+    - Billing Groups
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: "models/billing_group_editable.yml"
+        example:
+          name: Marketing Dept
+          description: Usage group used for the Marketing Dept resource sends
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/billing_group_editable.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+        example:
+          description: encoded demo
+
+      multipart/form-data:
+        schema:
+          $ref: "models/billing_group_editable.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+
+  responses:
+    "200":
+      description: Creates a new billing_group.
+      content:
+        $ref: responses/billing_group.yml
+
+    default:
+      $ref: "../../shared/responses/error.yml"

@@ -52,12 +52,12 @@
     "mock": "prism mock $npm_package_config_--dynamic $npm_package_config_specfile",
     "singleTest": "func() { ava --timeout=55s ./tests/\"$1\"_test.js; }; func",
     "pergoalie": "node actions/contract_tests/goalieruns.js",
-    "postinstall": "husky install",
+    "postinstall": "husky install && npx patch-package",
     "postman": "npm run bundle && openapi2postmanv2 --pretty --spec dist/$npm_package_config_bundlefile --output dist/$npm_package_config_postmanfile -O folderStrategy=Tags",
     "pretty": "prettier --write .",
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
-    "redoc": "redoc-cli build $npm_package_config_specfile -t actions/redoc/template.hbs --title=\"DRAFT NEW Lob API documentation\" --options.noAutoAuth=true --options.maxDisplayedEnumValues=15 --options.theme.sidebar.backgroundColor=\"#f7f9fa\" --options.expandResponses='200,201' --options.jsonSampleExpandLevel=3 --options.requiredPropsFirst=true -o docs/index.html",
+    "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --templateOptions.segmentKey=$SEGMENT_API_KEY --title=\"DRAFT NEW Lob API documentation\" --options.noAutoAuth=true --options.maxDisplayedEnumValues=15 --options.theme.colors.primary.main=#27333c --options.theme.sidebar.backgroundColor=#f7f9fa --options.expandResponses='200,201' --options.jsonSampleExpandLevel=3 --options.requiredPropsFirst=true --options.theme.typography.code.backgroundColor=#ebf0f6 --options.theme.typography.code.fontFamily=JetBrainsMono --options.theme.typography.code.color=#27333c --options.theme.typography.fontFamily=\"Larsseit,sans-serif;\" --options.theme.typography.links.color=#0099d7 --options.theme.typography.links.textDecoration=none --options.theme.codeBlock.backgroundColor=#ecf0f5 --options.theme.rightPanel.backgroundColor=#f7f9fa --options.theme.rightPanel.textColor=#416581 -o docs/index.html",
     "test": "ava --timeout=55s './tests/**_test.js'"
   },
   "repository": {
@@ -87,7 +87,7 @@
     "joi": "^17.4.0",
     "openapi-to-postmanv2": "^2.6.0",
     "prettier": "^2.3.2",
-    "redoc-cli": "^0.12.1",
+    "redoc-cli": "^0.12.2",
     "uuid": "^8.3.2"
   },
   "engines": {

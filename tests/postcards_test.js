@@ -72,6 +72,8 @@ test("list postcards' params", async function (t) {
       "eyJkYXRlT2Zmc2V0IjoiMjAyMS0wNS0wNFQyMzozMzozOC42MTNaIiwiaWRPZmZzZXQiOiJjaGtfNTc5MjQ1YWEwNDk4MjMwYiJ9",
     "include[]": "total_count",
     "metadata[name]": "Harry",
+    "metadata[age]": 30,
+    "metadata[employee]": true,
   });
 
   full_body.append("date_created[gt]", "2021-05-03T04:30:00.000Z");
@@ -138,6 +140,7 @@ test("create, list, read then cancel a postcard", async function (t) {
     address_country: "US",
   });
 
+  // template type: remote upload
   const create = await prism.setup().then((client) =>
     client.post(
       resource_endpoint,
@@ -273,7 +276,7 @@ test("create, list, read then cancel a postcard with full payload", async functi
   await deleteAddress(from);
 });
 
-test("creates a postcard given a local filepath as the front", async function (t) {
+test("creates a postcard given a local filepath as the front & back", async function (t) {
   t.plan(2);
   function streamToString(stream) {
     const chunks = [];
@@ -291,6 +294,7 @@ test("creates a postcard given a local filepath as the front", async function (t
   );
   const frontBack = await streamToString(files);
 
+  // template type: local upload
   const create = await prism.setup().then((client) =>
     client.post(
       resource_endpoint,
@@ -313,6 +317,91 @@ test("creates a postcard given a local filepath as the front", async function (t
         },
         front: frontBack,
         back: frontBack,
+      },
+      { headers: prism.authHeader }
+    )
+  );
+  t.assert(create.status === 200);
+
+  const cancel = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${create.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+  t.assert(cancel.status === 200);
+});
+
+test("creates a postcard given an html string as the front & back", async function (t) {
+  t.plan(2);
+  const create = await prism.setup().then((client) =>
+    client.post(
+      resource_endpoint,
+      {
+        description: "Demo Postcard",
+        to: {
+          company: "Lob (old)",
+          address_line1: "185 Berry St",
+          address_line2: "# 6100",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107",
+        },
+        from: {
+          company: "Lob (new)",
+          address_line1: "210 King St",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107",
+          address_country: "US",
+        },
+        front:
+          "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
+        back: "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+        size: "6x11",
+        mail_type: "usps_standard",
+        merge_variables: { name: "Harry" },
+      },
+      { headers: prism.authHeader }
+    )
+  );
+  t.assert(create.status === 200);
+
+  const cancel = await prism.setup().then((client) =>
+    client.delete(`${resource_endpoint}/${create.data.id}`, {
+      headers: prism.authHeader,
+    })
+  );
+  t.assert(cancel.status === 200);
+});
+
+test("creates a postcard given template IDs for the front & back", async function (t) {
+  t.plan(2);
+  const create = await prism.setup().then((client) =>
+    client.post(
+      resource_endpoint,
+      {
+        description: "Demo Postcard",
+        to: {
+          company: "Lob (old)",
+          address_line1: "185 Berry St",
+          address_line2: "# 6100",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107",
+        },
+        from: {
+          company: "Lob (new)",
+          address_line1: "210 King St",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107",
+          address_country: "US",
+        },
+        front: "tmpl_55ba9d8ff619cef",
+        back: "tmpl_65eed611c85b650",
+        size: "6x11",
+        mail_type: "usps_standard",
+        merge_variables: { name: "Harry" },
       },
       { headers: prism.authHeader }
     )
@@ -387,4 +476,44 @@ test("throws errors when input is not validated", async function (t) {
     )
   );
   t.assert(create_intl.status === 422);
+});
+
+test("throws error when metadata is not string, number, or boolean", async function (t) {
+  t.plan(2);
+  // errors when one of the required fields (state) is missing
+  const create = await prism.setup({ errors: false }).then((client) =>
+    client.post(
+      resource_endpoint,
+      {
+        to: {
+          company: "Lob (old)",
+          address_line1: "185 Berry St",
+          address_line2: "# 6100",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107",
+        },
+        from: {
+          company: "Lob (new)",
+          address_line1: "210 King St",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107",
+          address_country: "US",
+        },
+        front:
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+        metadata: {
+          name: "Harry",
+          maps: {
+            key1: "This isn't a valid metadata object",
+          },
+        },
+      },
+      { headers: prism.authHeader }
+    )
+  );
+  t.assert(create.status === 422);
+  t.assert(create.data.error.message.includes("metadata"));
 });

@@ -130,9 +130,6 @@ tags:
       in the future by supplying the `send_date` parameter, that will override any
       cancellation window you may have for that product.
 
-  - name: Certificates
-    description: A certificate store to manage client identities.
-
   - name: Changelog
     description: |
       **2020-02-11**
@@ -1298,7 +1295,6 @@ x-tagGroups:
     tags:
       - Asset URLs
       - Beta Program
-      - Certificates
       - Changelog
       - Errors
       - Idempotent Requests
@@ -1338,12 +1334,6 @@ paths:
 
   /bulk/intl_verifications:
     $ref: resources/bulk_intl_verifications/bulk_intl_verifications.yml
-
-  /certificates/{id}:
-    $ref: resources/certificates/certificate.yml
-
-  /certificates:
-    $ref: resources/certificates/certificates.yml
 
   /checks/{chk_id}:
     $ref: resources/checks/check.yml

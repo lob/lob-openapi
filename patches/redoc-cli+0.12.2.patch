@@ -1,0 +1,13 @@
+diff --git a/node_modules/redoc-cli/index.js b/node_modules/redoc-cli/index.js
+index d9dd1ac..ba514b2 100755
+--- a/node_modules/redoc-cli/index.js
++++ b/node_modules/redoc-cli/index.js
+@@ -245,7 +245,7 @@ function getPageHTML(spec, pathToSpec, { ssr, cdn, title, disableGoogleFont, tem
+                 : '<script src="redoc.standalone.js"></script>',
+             title: title || spec.info.title || 'ReDoc documentation',
+             disableGoogleFont,
+-            templateOptions,
++            ...templateOptions,
+         });
+     });
+ }

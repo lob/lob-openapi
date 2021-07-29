@@ -27,6 +27,12 @@ get:
     default:
       $ref: "../../shared/responses/billing_group_list_error.yml"
 
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/billing_groups?limit=2" \
+        -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+
 post:
   operationId: create_billing_group
 
@@ -93,3 +99,11 @@ post:
 
     default:
       $ref: "../../shared/responses/billing_group_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/billing_groups \
+        -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+        -d "name=Marketing Department" \
+        -d "description=Usage group used for the Marketing Department's resource sends"

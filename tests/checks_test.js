@@ -65,14 +65,7 @@ test.serial.before(
             address_zip: "94107",
             address_country: "US",
           },
-          from: {
-            company: "Lob (new)",
-            address_line1: "210 King St",
-            address_city: "San Francisco",
-            address_state: "CA",
-            address_zip: "94107",
-            address_country: "US",
-          },
+          from: "adr_ae04aadb5f417fa6",
           bank_account: t.context.bank_id,
         },
         { headers: prism.authHeader }

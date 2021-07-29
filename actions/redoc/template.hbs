@@ -3,25 +3,643 @@
 
 <head>
   <meta charset="utf8" />
-  <title>DRAFT NEW Lob API documentation</title>
-  <!-- needed for adaptive design -->
+  <title>{{title}}</title>
+
+  <!-- Canonical -->
+  <link rel="canonical" href="{{canonicalUrl}}" />
+
+  <!-- Begin Meta -->
+  <meta content="text/html; charset=utf-8" http-equiv="content-type">
+  <meta name="keywords" content="{{keywords}}">
+  <meta name="ROBOTS" content="INDEX, FOLLOW">
+  <meta name="author" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-    }
-  </style>
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="description" content="{{description}}">
+
+  <!-- Verify Pinterest Account -->
+  <meta name="p:domain_verify" content="c87d7409437511b5d4d00fda8004af39">
+
+  <!-- Facebook Meta Data-->
+  <meta property="og:title" content="{{title}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:image" content="{{image}}">
+
+
+  <!-- Twitter Meta Data-->
+  <meta name="twitter:title" content="{{title}}">
+  <meta name="twitter:description" content="{{description}}">
+  <meta name="twitter:image" content="{{image}}">
+  <!-- End Meta -->
+
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css'/>
+  <link rel="stylesheet" href="https://use.typekit.net/kay8yxk.css">
+  <link rel="shortcut icon" type="image/png" href="https://s3-us-west-2.amazonaws.com/public.lob.com/sites/brand-favicon.ico">
+  <link rel='stylesheet' href='css/rebrand-nav-footer.min.css'/>
+  <link rel='stylesheet' href='css/main.min.css'/>
+  <link rel="stylesheet" href="css/prettify.min.css" type="text/css" />
+
+  <script src='https://cdn.freshmarketer.com/430856/1196718.js'></script>
+  <script type="text/javascript">
+    (function() {
+      var didInit = false;
+      function initMunchkin() {
+        if(didInit === false) {
+          didInit = true;
+          Munchkin.init('900-QJF-050');
+        }
+      }
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = 'https://munchkin.marketo.net/munchkin.js';
+      s.onreadystatechange = function() {
+        if (this.readyState == 'complete' || this.readyState == 'loaded') {
+          initMunchkin();
+        }
+      };
+      s.onload = initMunchkin;
+      document.getElementsByTagName('head')[0].appendChild(s);
+    })();
+  </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-41294851-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-41294851-1');
+  </script>
+
   {{{redocHead}}}
   {{#unless disableGoogleFont}}<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">{{/unless}}
 </head>
 
 <body>
-  <p style="padding: 1em">
-  >>> <a href="https://docs.lob.com/">Live Lob API Docs are over here!</a> <<< <br>
-  This documentation is generated from the OpenAPI v3 specification under development and is incomplete!</p>
+  <div class="navbar-sticky bg-white header">
+    <div class="navigation-container">
+      <div data-collapse="medium" data-animation="default" data-duration="400" role="banner" class="navbar-3 w-nav">
+        <div>
+          <a href="https://lob.com" class="brand w-nav-brand">
+            <img
+              src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/lob-logo.svg"
+              width="95" alt="" class="image-pop">
+            <img src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/lob-logo-1260.png"
+              width="90"
+              srcset="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/lob-logo-500.png 500w, https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/lob-logo-800.png 800w, https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/lob-logo-1260.png 1260w"
+              sizes="100vw" alt="" class="image-pop hidden">
+          </a>
+          <nav role="navigation" class="nav-menu-wrapper-4 w-nav-menu">
+            <div class="nav-links-wrapper">
+              <div class="nav-links nav-links-1">
+                <div data-delay="0" data-hover="1" data-w-id="w-dropdown-toggle-0"
+                  class="nav-dropdown dropdownlinkmega w-dropdown">
+                  <div class="nav-link-4 w-dropdown-toggle" id="w-dropdown-toggle-0" aria-controls="w-dropdown-list-0"
+                    data-toggle="collapse" aria-haspopup="menu" aria-expanded="false" role="" tabindex="0"
+                    style="outline: none;">
+                    <div class="row-2 no-wrap">
+                      <div class="text-block-68">Products</div><img
+                        src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/caret-down.svg"
+                        width="24" alt="" class="dropdown-icon">
+                    </div>
+                  </div>
+                  <nav class="dropdown-list-5 w-dropdown-list" id="w-dropdown-list-0" style="width: 430px;"
+                    aria-labelledby="w-dropdown-toggle-0">
+                    <div class="dropdown-menu dropdownmega snug2">
+                      <div class="text-small-4 meganavtitle sentencecase no-border-top">APIs</div>
+                      <div class="megadropdown-row">
+                        <a href="https://lob.com/print-mail" class="w-inline-block" tabindex="0"
+                          style="outline: none;">
+                          <img
+                            src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/print-mail.svg"
+                            alt="" class="megaicon">
+                        </a>
+                        <div class="megalinksub-2">
+                          <a href="https://lob.com/print-mail"
+                            class="dropdown-link-2 megalink w-dropdown-link" tabindex="0" style="outline: none;">Print
+                            &amp; Mail</a>
+                          <div class="text-small-4 muted-80 hidden-on-mobile">Program and control direct mail just like
+                            email</div>
+                        </div>
+                      </div>
+                      <div class="megadropdown-row">
+                        <a href="https://lob.com/address-verification" class="w-inline-block" tabindex="0"
+                          style="outline: none;">
+                          <img
+                            src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/address-verification.svg"
+                            alt="" class="megaicon">
+                        </a>
+                        <div class="megalinksub-2"><a href="https://lob.com/address-verification"
+                            class="dropdown-link-2 megalink w-dropdown-link" tabindex="0" style="outline: none;">
+                            Address Verification</a>
+                          <div class="text-small-4 muted-80 hidden-on-mobile">Validate, clean, and standardize address
+                            data</div>
+                        </div>
+                      </div>
+                      <div class="text-small-4 meganavtitle sentencecase">Partners</div>
+                      <div class="megadropdown-row">
+                        <a href="https://lob.com/"partner-program class="w-inline-block" tabindex="0"
+                          style="outline: none;">
+                          <img
+                            src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/build.svg"
+                            alt="" class="megaicon">
+                        </a>
+                        <div class="megalinksub-2">
+                          <a href="https://lob.com/partner-program"
+                            class="dropdown-link-2 megalink w-dropdown-link" tabindex="0" style="outline: none;">
+                            Build on Lob
+                          </a>
+                          <div class="text-small-4 muted-80 hidden-on-mobile">
+                            Add personalized offline communications to <br>your app
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+                <div data-delay="0" data-hover="1" data-w-id="w-dropdown-toggle-1"
+                  class="nav-dropdown dropdownlinkmega w-dropdown">
+                  <div class="nav-link-4 w-dropdown-toggle" id="w-dropdown-toggle-1" aria-controls="w-dropdown-list-1"
+                    data-toggle="collapse" aria-haspopup="menu" aria-expanded="false" role="" tabindex="0"
+                    style="outline: none;">
+                    <div class="row-2 no-wrap">
+                      <div class="text-block-68">Solutions</div><img
+                        src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/caret-down.svg"
+                        width="24" alt="" class="dropdown-icon">
+                    </div>
+                  </div>
+                  <nav class="dropdown-list-5 w-dropdown-list" id="w-dropdown-list-1" style="width: 430px;"
+                    aria-labelledby="w-dropdown-toggle-1">
+                    <div class="dropdown-menu dropdownmega">
+                      <div class='w-row'>
+                        <div class="w-col w-col-6 w-col-stack">
+                          <div class="text-small-4 meganavtitle sentencecase no-border-top">Industry</div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/financial-services" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/finance.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/financial-services"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">Financial Services</a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/insurance" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/insurance.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom"><a href="https://lob.com/insurance"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                Insurance</a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/healthcare" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/healthcare.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/healthcare"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                Healthcare
+                              </a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/retail" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/retail.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/retail"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                Retail &amp; eCommerce
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="w-col w-col-6 w-col-stack">
+                          <div class="text-small-4 meganavtitle sentencecase no-border-top">Role</div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/product-managers" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/product-manager.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/product-managers"
+                                class="dropdown-link-2 megalink w-dropdown-link" tabindex="0" style="outline: none;">Product Managers</a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/developers" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/developer.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom"><a href="https://lob.com/developers"
+                                class="dropdown-link-2 megalink w-dropdown-link" tabindex="0" style="outline: none;">
+                                Developers</a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/marketers" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/marketer.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/marketers"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                Marketers
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+                <div data-delay="0" data-hover="1" data-w-id="w-dropdown-toggle-2"
+                  class="nav-dropdown dropdownlinkmega w-dropdown">
+                  <div class="nav-link-4 w-dropdown-toggle" id="w-dropdown-toggle-2" aria-controls="w-dropdown-list-2"
+                    data-toggle="collapse" aria-haspopup="menu" aria-expanded="false" role="" tabindex="0"
+                    style="outline: none;">
+                    <div class="row-2 no-wrap">
+                      <div class="text-block-68">Pricing</div><img
+                        src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/caret-down.svg"
+                        width="24" alt="" class="dropdown-icon">
+                    </div>
+                  </div>
+                  <nav class="dropdown-list-5 w-dropdown-list" id="w-dropdown-list-2" style="width: 430px;"
+                    aria-labelledby="w-dropdown-toggle-2">
+                    <div class="dropdown-menu dropdownmega snug">
+                      <div class="text-small-4 meganavtitle sentencecase no-border-top">Pricing</div>
+                      <div class="megadropdown-row small">
+                        <a href="https://lob.com/pricing/print-mail" class="w-inline-block" tabindex="0"
+                          style="outline: none;">
+                          <img
+                            src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/print-mail.svg"
+                            alt="" class="megaicon small">
+                        </a>
+                        <div class="megalinksub-2 nobottom">
+                          <a href="https://lob.com/pricing/print-mail"
+                            class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">Print &amp; Mail</a>
+                        </div>
+                      </div>
+                      <div class="megadropdown-row small">
+                        <a href="https://lob.com/pricing/address-verification" class="w-inline-block" tabindex="0"
+                          style="outline: none;">
+                          <img
+                            src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/address-verification.svg"
+                            alt="" class="megaicon small">
+                        </a>
+                        <div class="megalinksub-2 nobottom"><a href="https://lob.com/pricing/address-verification"
+                            class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                            Address Verification</a>
+                        </div>
+                      </div>
+                      <div class="megadropdown-row small">
+                        <a href="https://lob.com/pricing/premium-support" class="w-inline-block" tabindex="0"
+                          style="outline: none;">
+                          <img
+                            src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/premium-support.svg"
+                            alt="" class="megaicon small">
+                        </a>
+                        <div class="megalinksub-2 nobottom">
+                          <a href="https://lob.com/pricing/premium-support"
+                            class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                            Premium Support
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+                <a href="https://lob.com/happy-customers" class="nav-link-4 w-nav-link">
+                  Customers
+                </a>
+                <div data-delay="0" data-hover="1" data-w-id="w-dropdown-toggle-5"
+                  class="nav-dropdown dropdownlinkmega w-dropdown">
+                  <div class="nav-link-4 w-dropdown-toggle" id="w-dropdown-toggle-5" aria-controls="w-dropdown-list-5"
+                    data-toggle="collapse" aria-haspopup="menu" aria-expanded="false" role="" tabindex="0"
+                    style="outline: none;">
+                    <div class="row-2 no-wrap">
+                      <div class="text-block-68">Resources</div><img
+                        src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/caret-down.svg"
+                        width="24" alt="" class="dropdown-icon">
+                    </div>
+                  </div>
+                  <nav class="dropdown-list-5 w-dropdown-list" id="w-dropdown-list-5" style="width: 430px;"
+                    aria-labelledby="w-dropdown-toggle-5">
+                    <div class="dropdown-menu dropdownmega">
+                      <div class="w-row">
+                        <div class="w-col w-col-6 w-col-stack">
+                          <div class="text-small-4 meganavtitle sentencecase no-border-top">Docs &amp; Resources</div>
+                            <div class="megadropdown-row small">
+                              <a href="/" class="w-inline-block" tabindex="0"
+                                style="outline: none;">
+                                <img
+                                  src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/icon-lookup.svg"
+                                  alt="" class="megaicon small">
+                              </a>
+                              <div class="megalinksub-2 nobottom">
+                                <a href="/"
+                                  class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">API Reference</a>
+                              </div>
+                            </div>
+                            <div class="megadropdown-row small">
+                              <a href="https://status.lob.com" class="w-inline-block" tabindex="0"
+                                style="outline: none;">
+                                <img
+                                  src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/icon-status.svg"
+                                  alt="" class="megaicon small">
+                              </a>
+                              <div class="megalinksub-2 nobottom"><a href="https://status.lob.com"
+                                  class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                  API Status</a>
+                              </div>
+                            </div>
+                            <div class="megadropdown-row small">
+                              <a href="https://lob.com/guides" class="w-inline-block" tabindex="0"
+                                style="outline: none;">
+                                <img
+                                  src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/guides.svg"
+                                  alt="" class="megaicon small">
+                              </a>
+                              <div class="megalinksub-2 nobottom">
+                                <a href="https://lob.com/guides"
+                                  class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                  Guides
+                                </a>
+                              </div>
+                            </div>
+                            <div class="megadropdown-row small">
+                              <a href="https://lob.com/template-gallery" class="w-inline-block" tabindex="0"
+                                style="outline: none;">
+                                <img
+                                  src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/template-gallery.svg"
+                                  alt="" class="megaicon small">
+                              </a>
+                              <div class="megalinksub-2 nobottom">
+                                <a href="https://lob.com/template-gallery"
+                                  class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                  Template Gallery
+                                </a>
+                              </div>
+                            </div>
+                            <div class="megadropdown-row small">
+                              <a href="https://support.lob.com/hc/en-us" class="w-inline-block" tabindex="0"
+                                style="outline: none;">
+                                <img
+                                  src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/help.svg"
+                                  alt="" class="megaicon small">
+                              </a>
+                              <div class="megalinksub-2 nobottom">
+                                <a href="https://support.lob.com/hc/en-us"
+                                  class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                  Help Center
+                                </a>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="w-col w-col-6 w-col-stack">
+                          <div class="text-small-4 meganavtitle sentencecase no-border-top">Content &amp; Events</div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/library" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/library.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/library"
+                                class="dropdown-link-2 megalink w-dropdown-link" tabindex="0" style="outline: none;">Library</a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/events" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/events.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom"><a href="https://lob.com/events"
+                                class="dropdown-link-2 megalink w-dropdown-link" tabindex="0" style="outline: none;">
+                                Events</a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/blog" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/blog.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/blog"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                Blog
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+                <div data-delay="0" data-hover="1" data-w-id="w-dropdown-toggle-3"
+                  class="nav-dropdown dropdownlinkmega w-dropdown">
+                  <div class="nav-link-4 w-dropdown-toggle" id="w-dropdown-toggle-3" aria-controls="w-dropdown-list-3"
+                    data-toggle="collapse" aria-haspopup="menu" aria-expanded="false" role="" tabindex="0"
+                    style="outline: none;">
+                    <div class="row-2 no-wrap">
+                      <div class="text-block-68">Company</div><img
+                        src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/caret-down.svg"
+                        width="24" alt="" class="dropdown-icon">
+                    </div>
+                  </div>
+                  <nav class="dropdown-list-5 w-dropdown-list" id="w-dropdown-list-3" style="width: 430px;"
+                    aria-labelledby="w-dropdown-toggle-3">
+                    <div class="dropdown-menu dropdownmega">
+                      <div class='w-row'>
+                        <div class="w-col w-col-6 w-col-stack">
+                          <div class="text-small-4 meganavtitle sentencecase no-border-top">About</div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/about" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/about.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/about"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">About Lob</a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/careers" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/careers.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom"><a href="https://lob.com/careers"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                Careers</a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.org" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/icon_heart.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom"><a href="https://lob.org"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                Lob.org</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="w-col w-col-6 w-col-stack">
+                          <div class="text-small-4 meganavtitle sentencecase no-border-top">Partners</div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/partners" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/icon-partnership.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/partners"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                Partnerships
+                              </a>
+                            </div>
+                          </div>
+                          <div class="megadropdown-row small">
+                            <a href="https://lob.com/print-partner" class="w-inline-block" tabindex="0"
+                              style="outline: none;">
+                              <img
+                                src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/icon-printer.svg"
+                                alt="" class="megaicon small">
+                            </a>
+                            <div class="megalinksub-2 nobottom">
+                              <a href="https://lob.com/print-partner"
+                                class="dropdown-link-2 megalink w-dropdown-link nobottomtext" tabindex="0" style="outline: none;">
+                                Print Network
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+            </div>
+
+            {{#if loggedIn}}
+            <div class="nav-functions-2 login">
+              <a href="https://dashboard.lob.com/#" class="button-4 rebrand-btn-blue w-button">Dashboard</a>
+            </div>
+            {{/if}}
+
+            {{#unless loggedIn}}
+            <div class="nav-functions-2 signup">
+              <a href="https://dashboard.lob.com/#/login" class="button-4 rebrand-btn-blue w-button">Sign up</a>
+            </div>
+            <div class="nav-functions-2 login">
+              <a href="https://dashboard.lob.com/#/register" class="button-4 bg-gray-4 rebrand-btn-gray w-button">Log in</a>
+            </div>
+            {{/unless}}
+          </nav>
+        </div>
+
+        <div style="display:flex;">
+          {{#unless loggedIn}}
+          <div class="div-block-40">
+            <a href="https://dashboard.lob.com/#/login" class="nav-link rebrand-btn-gray w-nav-link">Log in</a>
+          </div>
+          {{/unless}}
+          <div class="nav-menu-button-wrapper">
+            <div class="nav-functions-2">
+              {{#if loggedIn}}
+              <a href="https://dashboard.lob.com/#" class="button-4 bg-gray-4 w-button">Dashboard</a>
+              {{else}}
+              <a href="https://dashboard.lob.com/#/register" class="button-4 bg-gray-4 w-button">Sign up</a>
+              {{/if}}
+            </div>
+            <div class="menu-button w-nav-button">
+              <img src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/menu.svg"
+                alt="" class="menu-icon">
+              <img src="https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/x.svg"
+                alt="" class="menu-cross-icon">
+            </div>
+          </div>
+          <div class="w-nav-overlay" data-wf-ignore=""></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+  !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1";
+  analytics.load("{{segmentKey}}");
+  analytics.page()
+  }}();
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.37.0/autocomplete.jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
+  <script src="js/bundle.js"></script>
 
   {{{redocHTML}}}
+
+  <style>
+    code,.hoverable{color:#416581}
+    {{!-- extra styles to get around Redoc restrictions --}}
+    h3{color: #5f83a5;font-size: 15px;margin: 30px 0 20px;font-weight: 600}
+    .dFWqin pre[class*='language-']{background:#416581}
+    .dFWqin pre[class*='language-'] > code > span.token.string, .dFWqin pre[class*='language-'] > code > span.token.number, .dFWqin pre[class*='language-'] > code > span.token.constant, .dFWqin pre[class*='language-'] > code > span.token.boolean{color:#ecf0f5}
+    .dFWqin .token.property.string{color:#416581}
+    .coaOfs .token.property.string{color:#416581}
+    .coaOfs .token.boolean{color:#1878e0}
+    .coaOfs .token.atrule, .coaOfs .token.attr-value, .coaOfs .token.keyword{color:#1878e0}
+    .coaOfs .token.selector, .coaOfs .token.attr-name, .coaOfs .token.string, .coaOfs .token.char, .coaOfs .token.builtin, .coaOfs .token.inserted{color:#416581}
+    .dFWqin .token.selector, .dFWqin .token.attr-name, .dFWqin .token.string, .dFWqin .token.char, .dFWqin .token.builtin, .dFWqin .token.inserted{color:#416581}
+    .dFWqin .token.atrule, .dFWqin .token.attr-value, .dFWqin .token.keyword{color:#1878e0}
+    .dFWqin .token.boolean{color:#1878e0}
+    .dFWqin .token.selector + a, .dFWqin .token.attr-name + a, .dFWqin .token.string + a, .dFWqin .token.char + a, .dFWqin .token.builtin + a, .dFWqin .token.inserted + a, .dFWqin .token.selector + a:visited, .dFWqin .token.attr-name + a:visited, .dFWqin .token.string + a:visited, .dFWqin .token.char + a:visited, .dFWqin .token.builtin + a:visited, .dFWqin .token.inserted + a:visited{color:#416581}
+
+    div.react-tabs__tab-panel > div > div > span{color:#416581}
+    div.react-tabs__tab-panel > div > div > div > span{color:#416581}
+    ul > li.react-tabs__tab.react-tabs__tab--selected{color:#ecf0f5}
+    ul > li.tab-success.react-tabs__tab--selected{color:#F6FFF4}
+    ul > li.tab-error.react-tabs__tab--selected{color:#fbf1f0}
+    .react-tabs__tab-panel > div > pre > .token.string, .react-tabs__tab-panel > div > pre > .token.builtin{color:#416581}
+
+    .react-tabs__tab-panel > div > pre > .token.operator,
+    .react-tabs__tab-panel > div > pre > .token.variable{color:#324350}
+    div.react-tabs__tab-panel.react-tabs__tab-panel--selected{border-radius:10px}
+  </style>
 </body>
 
 </html>

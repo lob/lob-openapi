@@ -67,7 +67,7 @@ tags:
       [error code](#tag/Errors). You can find your account's API keys
       in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
 
-      **<span style="color:#6683a2">Example Request</span>**
+      <h3>Example Request</h3>
 
       curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
@@ -249,7 +249,7 @@ tags:
       | message       | A human-readable, subject-to-change message with more details about the error |
 
 
-      **<span style="color:#6683a2">HTTP Status Code Summary</span>**
+      <h3>HTTP Status Code Summary</h3>
 
       | CODE          | STATUS_CODE          | MESSAGE                                                                     |
       |---------------| ---------------------|-----------------------------------------------------------------------------|
@@ -260,14 +260,13 @@ tags:
       | 429           | TOO MANY REQUESTS    | Too many requests have been sent with an API key in a given amount of time  |
       | 500           | SERVER ERROR         | An internal server error occurred, please contact support@lob.com           |
 
-      **<span style="color:#6683a2">Error Codes - Generic</span>**
+      <h3>Error Codes - Generic</h3>
 
       | CODE          | STATUS_CODE              | MESSAGE                                                                              |
       |---------------| -----------------------  |--------------------------------------------------------------------------------------|
       | 403           | FEATURE_LIMIT_REACHED    | The account has reached its resource limit and requires upgrading to add more.       |
       | 404           | NOT_FOUND                | The requested resource was not found.                                                |
       | 404           | UNRECOGNIZED_ENDPOINT    | The requested endpoint doesn't exist.                                                |
-      | 404           | NOT FOUND                | The requested item does not exist                                                    |
       | 408           | REQUEST_TIMEOUT          | The request took too long. Please try again.                                         |
       | 409/422       | CONFLICT                 | This operation would leave data in a conflicted state.                               |
       | 422           | BAD_REQUEST              | An invalid request was made. See error message for details.                          |
@@ -277,7 +276,7 @@ tags:
       | 500           | INTERNAL_SERVER_ERROR    | An error has occured on Lob's servers. Please try request again.                     |
       | 503           | SERVICE_UNAVAILABLE      | The Lob servers are temporarily unavailable. Please try again.                       |
 
-      **<span style="color:#6683a2">Error Codes - Authentication</span>**
+      <h3>Error Codes - Authentication</h3>
 
       | CODE          | STATUS_CODE                  | MESSAGE                                                                                               |
       |---------------| -----------------------------|-------------------------------------------------------------------------------------------------------|
@@ -288,7 +287,7 @@ tags:
       | 403           | PUBLISHABLE_KEY_NOT_ALLOWED  | The requested operation needs a secret key, not a publishable key. See [API Keys](#tag/API-Keys) for more information. |
       | 429           | RATE_LIMIT_EXCEEDED          | Requests were sent too quickly and must be slowed down.                                               |
 
-       **<span style="color:#6683a2">Error Codes - Advanced</span>**
+       <h3>Error Codes - Advanced</h3>
 
       | CODE          | STATUS_CODE                        | MESSAGE                                                                                                              |
       |---------------| -----------------------------------|----------------------------------------------------------------------------------------------------------------------|
@@ -429,7 +428,7 @@ tags:
       The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.`
       for your Test API key and `live_*.` for your Live API key.
 
-       **<span style="color:#6683a2">Getting Started Guides</span>**
+       <h3>Getting Started Guides</h3>
 
       * [Postcards](https://www.lob.com/guides#getting_started)
       * [Self-Mailers](https://www.lob.com/guides#getting_started_selfmailers)
@@ -476,7 +475,7 @@ tags:
       If you'd like to interact with templates programmatically, check out our Beta Program for API access
       to the [HTML Templates Endpoints](#tag/Templates).
 
-      **<span style="color:#6683a2">Example Create Request using HTML Templates</span>**
+      <h3>Example Create Request using HTML Templates</h3>
 
       ```bash
         curl https://api.lob.com/v1/postcards \
@@ -560,7 +559,7 @@ tags:
       </table>
 
 
-      **<span style="color:#6683a2">Example Request</span>**
+      <h3>Example Request</h3>
 
 
       ```bash
@@ -675,9 +674,9 @@ tags:
       Each metadata key must be less than 40 characters long and values must be less than 500 characters.
       Metadata does not support nested objects.
 
-      **<span style="color:#6683a2">
+      <h3>
         Example Create Request with Metadata
-      </span>**
+      </h3>
 
       ```bash
         curl https://api.lob.com/v1/postcards \
@@ -691,9 +690,9 @@ tags:
           -d "merge_variables[name]=Harry"
       ```
 
-      **<span style="color:#6683a2">
+      <h3>
         Example List Request with Metadata Filter
-      </span>**
+      </h3>
 
       ```bash
         curl -g "https://api.lob.com/v1/postcards?metadata[campaign]=NEWYORK2015&limit=2" \
@@ -803,17 +802,17 @@ tags:
       </table>
 
 
-      **<span style="color:#6683a2">Example HTTP Headers</span>**
+      <h3>Example HTTP Headers</h3>
 
 
-      ```
+      ```bash
         X-Rate-Limit-Limit:150
         X-Rate-Limit-Remaining:100
         X-Rate-Limit-Reset:1528749846
       ```
 
 
-      **<span style="color:rgb(102,131,162)">Example Response</span>**
+      <h3>Example Response</h3>
 
 
       If you hit the rate limit on a given endpoint, this is the body of the HTTP
@@ -843,7 +842,7 @@ tags:
       need to worry about the format.
 
 
-      **<span style="color:#6683a2">Form URL Encoded</span>**
+      <h3>Form URL Encoded</h3>
 
 
       This request body encoding is accompanied with the
@@ -857,7 +856,7 @@ tags:
       ```
 
 
-      **<span style="color:#6683a2">JSON</span>**
+      <h3>JSON</h3>
 
 
       This request body encoding is accompanied with the `Content-Type: application/json` header.
@@ -875,7 +874,7 @@ tags:
       ```
 
 
-      **<span style="color:#6683a2">Multipart Form Data</span>**
+      <h3>Multipart Form Data</h3>
 
 
       This request body encoding is accompanied with the `Content-Type: multipart/form-data`
@@ -936,9 +935,9 @@ tags:
       gain access.
 
 
-      **<span style="color:#6683a2">
+      <h3>
         Example Create Request using Send Date
-      </span>**
+      </h3>
 
       ```bash
         curl https://api.lob.com/v1/postcards \
@@ -1093,7 +1092,7 @@ tags:
     description: |
       These are detailed definitions for various fields in the [US verification object](#operation/us_verification).
 
-      **<span style="color:#6683a2">ZIP Code Types - </span>**`components[zip_code_type]`
+      <h3>ZIP Code Types - </h3>`components[zip_code_type]`
 
       <table>
         <tbody>
@@ -1120,7 +1119,7 @@ tags:
         </tbody>
       </table>
 
-      **<span style="color:#6683a2">Record Types - </span>**`components[record_type]`
+      <h3>Record Types - </h3>`components[record_type]`
 
       <table>
         <tbody>
@@ -1155,7 +1154,7 @@ tags:
         </tbody>
       </table>
 
-      **<span style="color:#6683a2">Carrier Route Types - </span>**`components[carrier_route_type]`
+      <h3>Carrier Route Types - </h3>`components[carrier_route_type]`
 
       <table class="table-docs table-docs-code">
         <tbody>
@@ -1186,7 +1185,7 @@ tags:
         </tbody>
       </table>
 
-      **<span style="color:#6683a2">DPV Footnotes - </span>**`deliverability_analysis[dpv_footnotes]`
+      <h3>DPV Footnotes - </h3>`deliverability_analysis[dpv_footnotes]`
 
       <table class="table-docs table-docs-code">
         <tbody>
@@ -1305,7 +1304,7 @@ tags:
       [API Changelog](#tag/Changelog) for a full list of breaking changes.
 
 
-      **<span style="color:#6683a2">Example Request</span>**
+      <h3>Example Request</h3>
 
 
       ```bash

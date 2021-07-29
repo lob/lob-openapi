@@ -1,0 +1,39 @@
+type: object
+
+required:
+  - id
+  - body
+  - reference_id
+  - event_type
+  - date_created
+  - object
+
+properties:
+  id:
+    type: string
+    description: Unique identifier prefixed with `us_ver_`.
+    pattern: "^evt_[a-zA-Z0-9_]+$"
+
+  body:
+    type: object
+    description: >-
+      The body of the associated resource as they were at the time of the event, i.e. the [postcard object](https://docs.lob.com/#postcards_object),
+      [the letter object](https://docs.lob.com/#letters_object), [the check object](https://docs.lob.com/#checks_object), [the address object](https://docs.lob.com/#addresses_object), or [the bank account object](https://docs.lob.com/#bankaccounts_object). For .deleted events,
+      the body matches the response for the corresponding delete endpoint for that resource (e.g. the [postcard delete response](https://lob.com/docs#postcards_delete)).
+
+  reference_id:
+    type: string
+
+  event_type:
+    $ref: event_type.yml
+
+  date_created:
+    $ref: "../../../shared/parameters/date_created.yml"
+
+  object:
+    allOf:
+      - $ref: "../../../shared/attributes/object.yml"
+      - type: string
+        enum:
+          - event
+        default: event

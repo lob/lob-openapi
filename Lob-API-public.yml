@@ -322,6 +322,106 @@ tags:
       | 422           | SPECIAL_CHARACTERS_RESTRICTED      | Cannot use special characters for merge variable names.                                                              |
       | 422           | UNEMBEDDED_FONTS                   | The provided PDF contains non-standard unembedded fonts. See description for details.                                |
 
+  - name: Events
+    description: |
+      When various notable things happen within the Lob architecture, Events will be created. To get these events sent to your server
+      automatically when they occur, you can set up [Webhooks](https://docs.lob.com/#webhooks).
+
+      **<span style="color:#6683a2">Postcards</span>**
+
+      | EVENT TYPE                        | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                         |
+      |-----------------------------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `postcard.created`                | false     | A postcard is successfully created (Lob returns a 200 status code).                                                                                                                            |
+      | `postcard.rendered_pdf`           | false     | A postcard's PDF proof is successfully rendered.                                                                                                                                               |
+      | `postcard.rendered_thumbnails`    | false     | A postcard's thumbnails are successfully rendered.                                                                                                                                             |
+      | `postcard.deleted`                | false     | A postcard is successfully canceled.                                                                                                                                                           |
+      | `postcard.mailed`                 | true      | A postcard receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
+      | `postcard.in_transit`             | true      | A postcard receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |                                               
+      | `postcard.in_local_area`          | true      | A postcard receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
+      | `postcard.processed_for_delivery` | true      | A postcard receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |            
+      | `postcard.re-routed`              | true      | A postcard receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
+      | `postcard.returned_to_sender`     | true      | A postcard receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |                                                                                                                                  |
+
+
+      **<span style="color:#6683a2">Self Mailers</span>**
+
+      | EVENT TYPE                           | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                            |
+      |--------------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `self_mailer.created`                | false     | A self mailer is successfully created (Lob returns a 200 status code).                                                                                                                            |
+      | `self_mailer.rendered_pdf`           | false     | A self mailer's PDF proof is successfully rendered.                                                                                                                                               |
+      | `self_mailer.rendered_thumbnails`    | false     | A self mailer's thumbnails are successfully rendered.                                                                                                                                             |
+      | `self_mailer.deleted`                | false     | A self mailer is successfully canceled.                                                                                                                                                           |
+      | `self_mailer.mailed`                 | true      | A self mailer receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
+      | `self_mailer.in_transit`             | true      | A self mailer receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |                                               
+      | `self_mailer.in_local_area`          | true      | A self mailer receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
+      | `self_mailer.processed_for_delivery` | true      | A self mailer receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |            
+      | `self_mailer.re-routed`              | true      | A self mailer receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
+      | `self_mailer.returned_to_sender`     | true      | A self mailer receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |
+
+
+      **<span style="color:#6683a2">Letters</span>**
+
+      | EVENT TYPE                                      | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                                 |
+      |-------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `letter.created`                                | false     | A letter is successfully created (Lob returns a 200 status code).                                                                                                                                      |
+      | `letter.rendered_pdf`                           | false     | A letter's PDF proof is successfully rendered.                                                                                                                                                         |
+      | `letter.rendered_thumbnails`                    | false     | A letter's thumbnails are successfully rendered.                                                                                                                                                       |
+      | `letter.deleted`                                | false     | A letter is successfully canceled.                                                                                                                                                                     |
+      | `letter.mailed`                                 | true      | A letter receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).           |
+      | `letter.in_transit`                             | true      | A letter receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                                       |                                               
+      | `letter.in_local_area`                          | true      | A letter receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                                    |
+      | `letter.processed_for_delivery`                 | true      | A letter receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                             |            
+      | `letter.re-routed`                              | true      | A letter receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                                        |
+      | `letter.returned_to_sender`                     | true      | A letter receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                                 |
+      | `letter.certified.mailed`                       | true      | A certified letter receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
+      | `letter.certified.in_transit`                   | true      | A certified letter receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |                                               
+      | `letter.certified.in_local_area`                | true      | A certified letter receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
+      | `letter.certified.processed_for_delivery`       | true      | A certified letter receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |            
+      | `letter.certified.re-routed`                    | true      | A certified letter receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
+      | `letter.certified.returned_to_sender`           | true      | A certified letter receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |
+      | `letter.certified.delivered`                    | true      | A certified letter receives a "Delivered" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                                |
+      | `letter.certified.pickup_available`             | true      | A certified letter receives a "Pickup Available" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                         | 
+      | `letter.certified.issue`                        | true      | A certified letter receives an "Issue" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                                   |
+      | `letter.return_envelope.created`                | false     | A return envelope is created (occurs simultaneously with Letter creation).                                                                                                                             |
+      | `letter.return_envelope.in_transit`             | true      | A return envelope receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |                                               
+      | `letter.return_envelope.in_local_area`          | true      | A return envelope receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                           |
+      | `letter.return_envelope.processed_for_delivery` | true      | A return envelope receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                    |            
+      | `letter.return_envelope.re-routed`              | true      | A return envelope receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                               |
+      | `letter.return_envelope.returned_to_sender`     | true      | A return envelope receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                        |
+
+
+      **<span style="color:#6683a2">Checks</span>**
+
+      | EVENT TYPE                     | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                      |
+      |--------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `check.created`                | false     | A check is successfully created (Lob returns a 200 status code).                                                                                                                            |
+      | `check.rendered_pdf`           | false     | A check's PDF proof is successfully rendered.                                                                                                                                               |
+      | `check.rendered_thumbnails`    | false     | A check's thumbnails are successfully rendered.                                                                                                                                             |
+      | `check.deleted`                | false     | A check is successfully canceled.                                                                                                                                                           |
+      | `check.mailed`                 | true      | A check receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
+      | `check.in_transit`             | true      | A check receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |                                               
+      | `check.in_local_area`          | true      | A check receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
+      | `check.processed_for_delivery` | true      | A check receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |            
+      | `check.re-routed`              | true      | A check receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
+      | `check.returned_to_sender`     | true      | A check receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |
+
+
+      **<span style="color:#6683a2">Addresses</span>**
+
+      | EVENT TYPE        | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                              |
+      |-------------------|-----------|---------------------------------------------------------------------|
+      | `address.created` | false     | An address is successfully created (Lob returns a 200 status code). |
+      | `address.deleted` | false     | An address is successfully deleted.                                 |
+
+
+      **<span style="color:#6683a2">Bank Accounts</span>**
+
+      | EVENT TYPE              | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                  |
+      |-------------------------|-----------|-------------------------------------------------------------------------|
+      | `bank_account.created`  | false     | A bank account is successfully created (Lob returns a 200 status code). |
+      | `bank_account.deleted`  | false     | A bank account is successfully deleted.                                 |
+      | `bank_account.verified` | false     | A bank account is successfully verified.                                |
+
   - name: Getting Started
     x-traitTag: true
     description: |
@@ -1267,6 +1367,7 @@ x-tagGroups:
       - Cancellation Windows
       - Scheduled Mailings
       - Webhooks
+      - Events
 
   - name: Address Book
     tags:
@@ -1312,6 +1413,18 @@ components:
 
 security:
   - basicAuth: []
+
+x-webhooks:
+  events:
+    post:
+      summary: Events webhook
+      description: Information about an event
+      operationId: event
+      tags:
+        - Events
+      responses:
+        "200":
+          $ref: resources/events/responses/events.yml
 
 paths:
   /addresses:

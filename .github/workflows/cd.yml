@@ -31,14 +31,18 @@ jobs:
 
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/} | tr "\":<>|*?\\/" "_")"
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
 
-      - name: save builds as artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ steps.extract_branch.outputs.branch }}
-          path: |
-            dist/Lob-API-bundled.yml
-            dist/Lob-API-postman.json
-            docs/index.html
+      - name: push builds to `deployment`
+        shell: bash
+        run: |
+          set -x
+          git config user.name lobot
+          git config user.email lobot@lob.com
+          git update-index -q --refresh
+          git add --force dist/Lob-API-postman.json
+          git add --force dist/Lob-API-bundled.yml
+          git add --force docs/index.html
+          git commit -m "pushing builds" --no-verify
+          git push --force origin ${{ steps.extract_branch.outputs.branch }}:deployment

@@ -1,0 +1,7 @@
+name: "redoc-cli"
+description: "generate docs via patched redoc-cli"
+shell: bash
+run: |
+  set -x
+  npm i redoc-cli && npx patch-package
+  npm run redoc

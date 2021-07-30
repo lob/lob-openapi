@@ -1,0 +1,40 @@
+type: object
+
+required:
+  - id
+  - body
+  - reference_id
+  - event_type
+  - date_created
+  - object
+
+properties:
+  id:
+    type: string
+    description: Unique identifier prefixed with `evt_`.
+    pattern: "^evt_[a-zA-Z0-9_]+$"
+
+  body:
+    type: object
+    description: >-
+      The body of the associated resource as they were at the time of the event, i.e. the [postcard object](#operation/get_postcard),
+      [the letter object](#operation/get_letter), [the check object](#operation/get_check), [the address object](#operation/get_address), or [the bank account object](#operation/get_bank_account). For `.deleted` events,
+      the body matches the response for the corresponding delete endpoint for that resource (e.g. the [postcard delete response](#operation/delete_postcard)).
+
+  reference_id:
+    description: Unique identifier of the related resource for the event.
+    type: string
+
+  event_type:
+    $ref: event_type.yml
+
+  date_created:
+    $ref: "../../../shared/parameters/date_created.yml"
+
+  object:
+    allOf:
+      - $ref: "../../../shared/attributes/object.yml"
+      - type: string
+        enum:
+          - event
+        default: event

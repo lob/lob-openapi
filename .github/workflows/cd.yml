@@ -19,7 +19,11 @@ jobs:
           bundled-spec: "dist/Lob-API-bundled.yml"
 
       - name: build zero-dependency docs
-        uses: ./actions/redoc
+        shell: bash
+        run: |
+          set -x
+          npm i redoc-cli --save-dev && npx patch-package
+          npm run redoc
 
       - name: build postman collection
         uses: ./actions/contract_tests

@@ -29,3 +29,13 @@ properties:
         - medium — Between 40% and 70% of mailpieces Lob has sent to this address were delivered successfully.
         - low — Less than 40% of mailpieces Lob has sent to this address were delivered successfully.
         - '' — No tracking data exists for this address.
+
+  recent_success:
+    type: string
+    enum:
+      - high
+      - medium
+      - low
+      - ""
+    description: |
+      Indicates the likelihood that the address is valid, mail-receiving address.

@@ -424,11 +424,41 @@ tags:
   - name: Getting Started
     x-traitTag: true
     description: |
-      To get started you'll create an account at [Lob.com](https://dashboard.lob.com/#/register) to obtain some API Keys.
-      The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.`
-      for your Test API key and `live_*.` for your Live API key.
+      ### 1. Get Setup
 
-       <h3>Getting Started Guides</h3>
+      * Create an account at <a href="https://dashboard.lob.com/#/register">Lob.com</a>      
+      * Obtain your API keys in the Lob dashboard <a href="https://dashboard.lob.com/#/settings/keys">settings</a>
+      * You'll use the format, `test_*.` for your Test API key and `live_*.` for your Live API key.
+
+      ### 2. Explore
+      * Try out in Postman:    
+      <div class="postman-run-button"
+      data-postman-action="collection/fork"
+      data-postman-var-1="16169677-975ecb9f-ea22-4d8f-a4f9-53a42f2aee03"
+      data-postman-collection-url="entityId=16169677-975ecb9f-ea22-4d8f-a4f9-53a42f2aee03&entityType=collection&workspaceId=5404d3a5-5a84-4df6-b078-a1547e1a68a7"></div>
+      <script type="text/javascript">
+        (function (p,o,s,t,m,a,n) {
+          !p[s] && (p[s] = function () { (p[t] || (p[t] = [])).push(arguments); });
+          !o.getElementById(s+t) && o.getElementsByTagName("head")[0].appendChild((
+            (n = o.createElement("script")),
+            (n.id = s+t), (n.async = 1), (n.src = m), n
+          ));
+        }(window, document, "_pm", "PostmanRunObject", "https://run.pstmn.io/button.js"));
+      </script>
+
+      * Launch your terminal and copy/paste a CURL command.
+
+
+      ```bash
+      curl https://api.lob.com/v1/addresses \
+        -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      ```
+
+      * Download a [Lob SDK](#tag/SDKs-and-Tools) into your favorite IDE (integrated development environment)
+
+      ### 3. Learn more
+
+      Review our getting started guides for more details on use cases
 
       * [Postcards](https://www.lob.com/guides#getting_started)
       * [Self-Mailers](https://www.lob.com/guides#getting_started_selfmailers)

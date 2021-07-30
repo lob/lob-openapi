@@ -32,6 +32,7 @@ jobs:
           LOB_API_LIVE_TOKEN: ${{ secrets.LOB_API_LIVE_TOKEN }}
 
       - name: invoke build
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: benc-uk/workflow-dispatch@v1.1.0
         with:
           workflow: CD

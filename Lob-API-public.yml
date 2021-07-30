@@ -67,7 +67,7 @@ tags:
       [error code](#tag/Errors). You can find your account's API keys
       in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
 
-      **<span style="color:#6683a2">Example Request</span>**
+      <h3>Example Request</h3>
 
       curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
@@ -129,9 +129,6 @@ tags:
       If you schedule a postcard, self mailer, letter, or check for up to 180 days
       in the future by supplying the `send_date` parameter, that will override any
       cancellation window you may have for that product.
-
-  - name: Certificates
-    description: A certificate store to manage client identities.
 
   - name: Changelog
     description: |
@@ -252,7 +249,7 @@ tags:
       | message       | A human-readable, subject-to-change message with more details about the error |
 
 
-      **<span style="color:#6683a2">HTTP Status Code Summary</span>**
+      <h3>HTTP Status Code Summary</h3>
 
       | CODE          | STATUS_CODE          | MESSAGE                                                                     |
       |---------------| ---------------------|-----------------------------------------------------------------------------|
@@ -263,14 +260,13 @@ tags:
       | 429           | TOO MANY REQUESTS    | Too many requests have been sent with an API key in a given amount of time  |
       | 500           | SERVER ERROR         | An internal server error occurred, please contact support@lob.com           |
 
-      **<span style="color:#6683a2">Error Codes - Generic</span>**
+      <h3>Error Codes - Generic</h3>
 
       | CODE          | STATUS_CODE              | MESSAGE                                                                              |
       |---------------| -----------------------  |--------------------------------------------------------------------------------------|
       | 403           | FEATURE_LIMIT_REACHED    | The account has reached its resource limit and requires upgrading to add more.       |
       | 404           | NOT_FOUND                | The requested resource was not found.                                                |
       | 404           | UNRECOGNIZED_ENDPOINT    | The requested endpoint doesn't exist.                                                |
-      | 404           | NOT FOUND                | The requested item does not exist                                                    |
       | 408           | REQUEST_TIMEOUT          | The request took too long. Please try again.                                         |
       | 409/422       | CONFLICT                 | This operation would leave data in a conflicted state.                               |
       | 422           | BAD_REQUEST              | An invalid request was made. See error message for details.                          |
@@ -280,7 +276,7 @@ tags:
       | 500           | INTERNAL_SERVER_ERROR    | An error has occured on Lob's servers. Please try request again.                     |
       | 503           | SERVICE_UNAVAILABLE      | The Lob servers are temporarily unavailable. Please try again.                       |
 
-      **<span style="color:#6683a2">Error Codes - Authentication</span>**
+      <h3>Error Codes - Authentication</h3>
 
       | CODE          | STATUS_CODE                  | MESSAGE                                                                                               |
       |---------------| -----------------------------|-------------------------------------------------------------------------------------------------------|
@@ -291,7 +287,7 @@ tags:
       | 403           | PUBLISHABLE_KEY_NOT_ALLOWED  | The requested operation needs a secret key, not a publishable key. See [API Keys](#tag/API-Keys) for more information. |
       | 429           | RATE_LIMIT_EXCEEDED          | Requests were sent too quickly and must be slowed down.                                               |
 
-       **<span style="color:#6683a2">Error Codes - Advanced</span>**
+       <h3>Error Codes - Advanced</h3>
 
       | CODE          | STATUS_CODE                        | MESSAGE                                                                                                              |
       |---------------| -----------------------------------|----------------------------------------------------------------------------------------------------------------------|
@@ -325,6 +321,106 @@ tags:
       | 422           | SPECIAL_CHARACTERS_RESTRICTED      | Cannot use special characters for merge variable names.                                                              |
       | 422           | UNEMBEDDED_FONTS                   | The provided PDF contains non-standard unembedded fonts. See description for details.                                |
 
+  - name: Events
+    description: |
+      When various notable things happen within the Lob architecture, Events will be created. To get these events sent to your server
+      automatically when they occur, you can set up [Webhooks](#tag/Webhooks).
+
+      **<span style="color:#6683a2">Postcards</span>**
+
+      | EVENT TYPE                        | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                         |
+      |-----------------------------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `postcard.created`                | false     | A postcard is successfully created (Lob returns a 200 status code).                                                                                                                            |
+      | `postcard.rendered_pdf`           | false     | A postcard's PDF proof is successfully rendered.                                                                                                                                               |
+      | `postcard.rendered_thumbnails`    | false     | A postcard's thumbnails are successfully rendered.                                                                                                                                             |
+      | `postcard.deleted`                | false     | A postcard is successfully canceled.                                                                                                                                                           |
+      | `postcard.mailed`                 | true      | A postcard receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
+      | `postcard.in_transit`             | true      | A postcard receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |                                               
+      | `postcard.in_local_area`          | true      | A postcard receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
+      | `postcard.processed_for_delivery` | true      | A postcard receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |            
+      | `postcard.re-routed`              | true      | A postcard receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
+      | `postcard.returned_to_sender`     | true      | A postcard receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |                                                                                                                                  |
+
+
+      **<span style="color:#6683a2">Self Mailers</span>**
+
+      | EVENT TYPE                           | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                            |
+      |--------------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `self_mailer.created`                | false     | A self mailer is successfully created (Lob returns a 200 status code).                                                                                                                            |
+      | `self_mailer.rendered_pdf`           | false     | A self mailer's PDF proof is successfully rendered.                                                                                                                                               |
+      | `self_mailer.rendered_thumbnails`    | false     | A self mailer's thumbnails are successfully rendered.                                                                                                                                             |
+      | `self_mailer.deleted`                | false     | A self mailer is successfully canceled.                                                                                                                                                           |
+      | `self_mailer.mailed`                 | true      | A self mailer receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
+      | `self_mailer.in_transit`             | true      | A self mailer receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |                                               
+      | `self_mailer.in_local_area`          | true      | A self mailer receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
+      | `self_mailer.processed_for_delivery` | true      | A self mailer receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |            
+      | `self_mailer.re-routed`              | true      | A self mailer receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
+      | `self_mailer.returned_to_sender`     | true      | A self mailer receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |
+
+
+      **<span style="color:#6683a2">Letters</span>**
+
+      | EVENT TYPE                                      | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                                 |
+      |-------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `letter.created`                                | false     | A letter is successfully created (Lob returns a 200 status code).                                                                                                                                      |
+      | `letter.rendered_pdf`                           | false     | A letter's PDF proof is successfully rendered.                                                                                                                                                         |
+      | `letter.rendered_thumbnails`                    | false     | A letter's thumbnails are successfully rendered.                                                                                                                                                       |
+      | `letter.deleted`                                | false     | A letter is successfully canceled.                                                                                                                                                                     |
+      | `letter.mailed`                                 | true      | A letter receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).           |
+      | `letter.in_transit`                             | true      | A letter receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                                       |                                               
+      | `letter.in_local_area`                          | true      | A letter receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                                    |
+      | `letter.processed_for_delivery`                 | true      | A letter receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                             |            
+      | `letter.re-routed`                              | true      | A letter receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                                        |
+      | `letter.returned_to_sender`                     | true      | A letter receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                                 |
+      | `letter.certified.mailed`                       | true      | A certified letter receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
+      | `letter.certified.in_transit`                   | true      | A certified letter receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |                                               
+      | `letter.certified.in_local_area`                | true      | A certified letter receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
+      | `letter.certified.processed_for_delivery`       | true      | A certified letter receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |            
+      | `letter.certified.re-routed`                    | true      | A certified letter receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
+      | `letter.certified.returned_to_sender`           | true      | A certified letter receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |
+      | `letter.certified.delivered`                    | true      | A certified letter receives a "Delivered" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                                |
+      | `letter.certified.pickup_available`             | true      | A certified letter receives a "Pickup Available" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                         | 
+      | `letter.certified.issue`                        | true      | A certified letter receives an "Issue" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                                   |
+      | `letter.return_envelope.created`                | false     | A return envelope is created (occurs simultaneously with Letter creation).                                                                                                                             |
+      | `letter.return_envelope.in_transit`             | true      | A return envelope receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |                                               
+      | `letter.return_envelope.in_local_area`          | true      | A return envelope receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                           |
+      | `letter.return_envelope.processed_for_delivery` | true      | A return envelope receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                    |            
+      | `letter.return_envelope.re-routed`              | true      | A return envelope receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                               |
+      | `letter.return_envelope.returned_to_sender`     | true      | A return envelope receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                        |
+
+
+      **<span style="color:#6683a2">Checks</span>**
+
+      | EVENT TYPE                     | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                      |
+      |--------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+      | `check.created`                | false     | A check is successfully created (Lob returns a 200 status code).                                                                                                                            |
+      | `check.rendered_pdf`           | false     | A check's PDF proof is successfully rendered.                                                                                                                                               |
+      | `check.rendered_thumbnails`    | false     | A check's thumbnails are successfully rendered.                                                                                                                                             |
+      | `check.deleted`                | false     | A check is successfully canceled.                                                                                                                                                           |
+      | `check.mailed`                 | true      | A check receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
+      | `check.in_transit`             | true      | A check receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |                                               
+      | `check.in_local_area`          | true      | A check receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
+      | `check.processed_for_delivery` | true      | A check receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |            
+      | `check.re-routed`              | true      | A check receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
+      | `check.returned_to_sender`     | true      | A check receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |
+
+
+      **<span style="color:#6683a2">Addresses</span>**
+
+      | EVENT TYPE        | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                              |
+      |-------------------|-----------|---------------------------------------------------------------------|
+      | `address.created` | false     | An address is successfully created (Lob returns a 200 status code). |
+      | `address.deleted` | false     | An address is successfully deleted.                                 |
+
+
+      **<span style="color:#6683a2">Bank Accounts</span>**
+
+      | EVENT TYPE              | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                  |
+      |-------------------------|-----------|-------------------------------------------------------------------------|
+      | `bank_account.created`  | false     | A bank account is successfully created (Lob returns a 200 status code). |
+      | `bank_account.deleted`  | false     | A bank account is successfully deleted.                                 |
+      | `bank_account.verified` | false     | A bank account is successfully verified.                                |
+
   - name: Getting Started
     x-traitTag: true
     description: |
@@ -332,7 +428,7 @@ tags:
       The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.`
       for your Test API key and `live_*.` for your Live API key.
 
-       **<span style="color:#6683a2">Getting Started Guides</span>**
+       <h3>Getting Started Guides</h3>
 
       * [Postcards](https://www.lob.com/guides#getting_started)
       * [Self-Mailers](https://www.lob.com/guides#getting_started_selfmailers)
@@ -379,7 +475,7 @@ tags:
       If you'd like to interact with templates programmatically, check out our Beta Program for API access
       to the [HTML Templates Endpoints](#tag/Templates).
 
-      **<span style="color:#6683a2">Example Create Request using HTML Templates</span>**
+      <h3>Example Create Request using HTML Templates</h3>
 
       ```bash
         curl https://api.lob.com/v1/postcards \
@@ -463,7 +559,7 @@ tags:
       </table>
 
 
-      **<span style="color:#6683a2">Example Request</span>**
+      <h3>Example Request</h3>
 
 
       ```bash
@@ -578,9 +674,9 @@ tags:
       Each metadata key must be less than 40 characters long and values must be less than 500 characters.
       Metadata does not support nested objects.
 
-      **<span style="color:#6683a2">
+      <h3>
         Example Create Request with Metadata
-      </span>**
+      </h3>
 
       ```bash
         curl https://api.lob.com/v1/postcards \
@@ -594,9 +690,9 @@ tags:
           -d "merge_variables[name]=Harry"
       ```
 
-      **<span style="color:#6683a2">
+      <h3>
         Example List Request with Metadata Filter
-      </span>**
+      </h3>
 
       ```bash
         curl -g "https://api.lob.com/v1/postcards?metadata[campaign]=NEWYORK2015&limit=2" \
@@ -706,17 +802,17 @@ tags:
       </table>
 
 
-      **<span style="color:#6683a2">Example HTTP Headers</span>**
+      <h3>Example HTTP Headers</h3>
 
 
-      ```
+      ```bash
         X-Rate-Limit-Limit:150
         X-Rate-Limit-Remaining:100
         X-Rate-Limit-Reset:1528749846
       ```
 
 
-      **<span style="color:rgb(102,131,162)">Example Response</span>**
+      <h3>Example Response</h3>
 
 
       If you hit the rate limit on a given endpoint, this is the body of the HTTP
@@ -746,7 +842,7 @@ tags:
       need to worry about the format.
 
 
-      **<span style="color:#6683a2">Form URL Encoded</span>**
+      <h3>Form URL Encoded</h3>
 
 
       This request body encoding is accompanied with the
@@ -760,7 +856,7 @@ tags:
       ```
 
 
-      **<span style="color:#6683a2">JSON</span>**
+      <h3>JSON</h3>
 
 
       This request body encoding is accompanied with the `Content-Type: application/json` header.
@@ -778,7 +874,7 @@ tags:
       ```
 
 
-      **<span style="color:#6683a2">Multipart Form Data</span>**
+      <h3>Multipart Form Data</h3>
 
 
       This request body encoding is accompanied with the `Content-Type: multipart/form-data`
@@ -839,9 +935,9 @@ tags:
       gain access.
 
 
-      **<span style="color:#6683a2">
+      <h3>
         Example Create Request using Send Date
-      </span>**
+      </h3>
 
       ```bash
         curl https://api.lob.com/v1/postcards \
@@ -996,7 +1092,7 @@ tags:
     description: |
       These are detailed definitions for various fields in the [US verification object](#operation/us_verification).
 
-      **<span style="color:#6683a2">ZIP Code Types - </span>**`components[zip_code_type]`
+      <h3>ZIP Code Types - </h3>`components[zip_code_type]`
 
       <table>
         <tbody>
@@ -1023,7 +1119,7 @@ tags:
         </tbody>
       </table>
 
-      **<span style="color:#6683a2">Record Types - </span>**`components[record_type]`
+      <h3>Record Types - </h3>`components[record_type]`
 
       <table>
         <tbody>
@@ -1058,7 +1154,7 @@ tags:
         </tbody>
       </table>
 
-      **<span style="color:#6683a2">Carrier Route Types - </span>**`components[carrier_route_type]`
+      <h3>Carrier Route Types - </h3>`components[carrier_route_type]`
 
       <table class="table-docs table-docs-code">
         <tbody>
@@ -1089,7 +1185,7 @@ tags:
         </tbody>
       </table>
 
-      **<span style="color:#6683a2">DPV Footnotes - </span>**`deliverability_analysis[dpv_footnotes]`
+      <h3>DPV Footnotes - </h3>`deliverability_analysis[dpv_footnotes]`
 
       <table class="table-docs table-docs-code">
         <tbody>
@@ -1244,7 +1340,7 @@ tags:
       [API Changelog](#tag/Changelog) for a full list of breaking changes.
 
 
-      **<span style="color:#6683a2">Example Request</span>**
+      <h3>Example Request</h3>
 
 
       ```bash
@@ -1306,6 +1402,7 @@ x-tagGroups:
       - Cancellation Windows
       - Scheduled Mailings
       - Webhooks
+      - Events
 
   - name: Address Book
     tags:
@@ -1334,7 +1431,6 @@ x-tagGroups:
     tags:
       - Asset URLs
       - Beta Program
-      - Certificates
       - Changelog
       - Errors
       - Idempotent Requests
@@ -1352,6 +1448,18 @@ components:
 
 security:
   - basicAuth: []
+
+x-webhooks:
+  events:
+    post:
+      summary: Events Webhook
+      description: Information about an event
+      operationId: event
+      tags:
+        - Events
+      responses:
+        "200":
+          $ref: resources/events/responses/events.yml
 
 paths:
   /addresses:
@@ -1374,12 +1482,6 @@ paths:
 
   /bulk/intl_verifications:
     $ref: resources/bulk_intl_verifications/bulk_intl_verifications.yml
-
-  /certificates/{id}:
-    $ref: resources/certificates/certificate.yml
-
-  /certificates:
-    $ref: resources/certificates/certificates.yml
 
   /checks/{chk_id}:
     $ref: resources/checks/check.yml

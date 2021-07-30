@@ -222,6 +222,7 @@ test("create, list, read, then cancel a self mailer with full payload", async fu
     phone: "5555555555",
     email: "harry.zhang@lob.com",
   });
+  // testing just a date string
   const date = new Date();
   date.setDate(date.getDate() + 1); // adding a day to today's date so clearly within 180 days of today
 
@@ -232,7 +233,7 @@ test("create, list, read, then cancel a self mailer with full payload", async fu
         description: "Demo Self Mailer Job",
         to: to,
         from: from,
-        send_date: date.toISOString(),
+        send_date: date.toISOString().split("T")[0],
         outside: "<html>Outside HTML</html>",
         inside: "<html>Inside HTML</html>",
         size: "6x18_bifold",

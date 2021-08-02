@@ -17,24 +17,28 @@ allOf:
         $ref: "../attributes/sfm_id.yml"
 
       outside_template_id:
+        description: The unique ID of the HTML template used for the outside of the self mailer.
         allOf:
           - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
           - type: string
             nullable: true
 
       inside_template_id:
+        description: The unique ID of the HTML template used for the inside of the self mailer.
         allOf:
           - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
           - type: string
             nullable: true
 
       outside_template_version_id:
+        description: The unique ID of the specific version of the HTML template used for the outside of the self mailer.
         allOf:
           - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
           - type: string
             nullable: true
 
       inside_template_version_id:
+        description: The unique ID of the specific version of the HTML template used for the inside of the self mailer.
         allOf:
           - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
           - type: string
@@ -47,3 +51,10 @@ allOf:
             enum:
               - self_mailer
             default: self_mailer
+
+      tracking_events:
+        description: >-
+          An array of certified tracking events ordered by ascending `time`. Not populated in test mode.
+        type: array
+        items:
+          $ref: "../../../shared/resources/tracking_events/tracking_event_certified.yml"

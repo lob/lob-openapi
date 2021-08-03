@@ -16,6 +16,62 @@ get:
     - $ref: "../../shared/parameters/include.yml"
     - $ref: "../../shared/parameters/date_created.yml"
     - $ref: "../../shared/parameters/metadata.yml"
+    - in: query
+      name: size
+      description: Specifies the size of the postcard. Only `4x6` postcards can be sent to international destinations.
+      schema:
+        $ref: "attributes/postcard_size.yml"
+
+    - in: query
+      name: scheduled
+      description: |
+        * `true` - only return orders (past or future) where `send_date` is
+        greater than `date_created`
+        * `false` - only return orders where `send_date` is equal to `date_created`
+      schema:
+        type: boolean
+
+    - in: query
+      name: send_date
+      description: >
+        Filter by ISO-8601 date or datetime, e.g.
+        `{ gt: '2012-01-01', lt: '2012-01-31T12:34:56Z' }`
+        where `gt` is >, `lt` is <, `gte` is ≥, and `lte` is ≤.
+      schema:
+        $ref: "../../shared/attributes/send_date.yml"
+
+    - in: query
+      name: mail_type
+      description: >
+        A string designating the mail postage type:
+        * `usps_first_class` - (default)
+        * `usps_standard` - a [cheaper option](https://lob.com/pricing/print-mail#compare) which is
+        less predictable and takes longer to deliver. `usps_standard` cannot be used with `4x6`
+        postcards or for any postcards sent outside of the United States.
+
+      schema:
+        $ref: "../../shared/attributes/mail_type.yml"
+
+    - in: query
+      name: sort_by
+      description: >
+        Sorts postcards by ascending or descending dates.
+      schema:
+        oneOf:
+          - type: object
+            properties:
+              date_created:
+                type: string
+                enum:
+                  - asc
+                  - desc
+          - type: object
+            properties:
+              send_date:
+                type: string
+                enum:
+                  - asc
+                  - desc
 
   responses:
     "200":

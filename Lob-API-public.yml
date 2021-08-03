@@ -424,11 +424,41 @@ tags:
   - name: Getting Started
     x-traitTag: true
     description: |
-      To get started you'll create an account at [Lob.com](https://dashboard.lob.com/#/register) to obtain some API Keys.
-      The keys are available in the dashboard [settings](https://dashboard.lob.com/#/settings/keys) and use the format, `test_*.`
-      for your Test API key and `live_*.` for your Live API key.
+      ### 1. Get Setup
 
-       <h3>Getting Started Guides</h3>
+      * Create an account at <a href="https://dashboard.lob.com/#/register">Lob.com</a>      
+      * Obtain your API keys in the Lob dashboard <a href="https://dashboard.lob.com/#/settings/keys">settings</a>
+      * You'll use the format, `test_*.` for your Test API key and `live_*.` for your Live API key.
+
+      ### 2. Explore
+      * Try out in Postman:    
+      <div class="postman-run-button"
+      data-postman-action="collection/fork"
+      data-postman-var-1="16169677-975ecb9f-ea22-4d8f-a4f9-53a42f2aee03"
+      data-postman-collection-url="entityId=16169677-975ecb9f-ea22-4d8f-a4f9-53a42f2aee03&entityType=collection&workspaceId=5404d3a5-5a84-4df6-b078-a1547e1a68a7"></div>
+      <script type="text/javascript">
+        (function (p,o,s,t,m,a,n) {
+          !p[s] && (p[s] = function () { (p[t] || (p[t] = [])).push(arguments); });
+          !o.getElementById(s+t) && o.getElementsByTagName("head")[0].appendChild((
+            (n = o.createElement("script")),
+            (n.id = s+t), (n.async = 1), (n.src = m), n
+          ));
+        }(window, document, "_pm", "PostmanRunObject", "https://run.pstmn.io/button.js"));
+      </script>
+
+      * Launch your terminal and copy/paste a CURL command.
+
+
+      ```bash
+      curl https://api.lob.com/v1/addresses \
+        -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      ```
+
+      * Download a [Lob SDK](#tag/SDKs-and-Tools) into your favorite IDE (integrated development environment)
+
+      ### 3. Learn more
+
+      Review our "Getting Started" guides for more details on use cases
 
       * [Postcards](https://www.lob.com/guides#getting_started)
       * [Self-Mailers](https://www.lob.com/guides#getting_started_selfmailers)
@@ -1064,6 +1094,189 @@ tags:
       key in your dashboard under Settings; test API keys are always prefixed
       with `test_` and production API keys with `live_`.
 
+  - name: Tracking Events
+    description: |
+      As mailpieces travel through the mail stream, USPS scans their unique barcodes, and Lob processes these mail scans to generate tracking events.
+
+      **<span style="color:#6683a2">Certified Tracking Event Details</span>**
+
+      Letters sent with USPS Certified Mail are fully tracked by USPS, and
+      therefore their [tracking events](#operation/tracking_event) have an
+      additional `details` object with more detailed information about the
+      tracking event. The table to the right shows the potential values for
+      the fields in the `details` object mapped to the tracking event `name`.
+
+      <table>
+        <tr>
+          <th style="white-space: nowrap">NAME</th>
+          <th style="white-space: nowrap">EVENT</th>
+          <th style="white-space: nowrap">DESCRIPTION</th>
+          <th style="white-space: nowrap">ACTION REQUIRED</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Mailed</td>
+          <td style="white-space: nowrap"><code>package_accepted</code></td>
+          <td>Package has been accepted into the carrier network for delivery.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">In Transit</td>
+          <td style="white-space: nowrap"><code>package_arrived</code></td>
+          <td>Package has arrived at an intermediate location in the carrier network.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">In Transit</td>
+          <td style="white-space: nowrap"><code>package_departed</code></td>
+          <td>Package has departed from an intermediate location in the carrier network.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">In Transit</td>
+          <td style="white-space: nowrap"><code>package_processing</code></td>
+          <td>Package is processing at an intermediate location in the carrier network.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">In Transit</td>
+          <td style="white-space: nowrap"><code>package_processed</code></td>
+          <td>Package has been processed at an intermediate location.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">In Local Area</td>
+          <td style="white-space: nowrap"><code>package_in_local_area</code></td>
+          <td>Package is at a location near the end destination.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Processed For Delivery</td>
+          <td style="white-space: nowrap"><code>delivery_scheduled</code></td>
+          <td>Package is scheduled for delivery.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Processed For Delivery</td>
+          <td style="white-space: nowrap"><code>out_for_delivery</code></td>
+          <td>Package is out for delivery.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Pickup Available</td>
+          <td style="white-space: nowrap"><code>pickup_available</code></td>
+          <td>Package is available for pickup at carrier location.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Delivered</td>
+          <td style="white-space: nowrap"><code>delivered</code></td>
+          <td>Package has been delivered.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Re-Routed</td>
+          <td style="white-space: nowrap"><code>package_forwarded</code></td>
+          <td>Package has been forwarded.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Returned to Sender</td>
+          <td style="white-space: nowrap"><code>returned_to_sender</code></td>
+          <td>Package is to be returned to sender.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>address_issue</code></td>
+          <td>Address information is incorrect. Contact carrier to ensure delivery.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>contact_carrier</code></td>
+          <td>Contact the carrier for more information.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>delayed</code></td>
+          <td>Delivery of package is delayed.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>delivery_attempted</code></td>
+          <td>Delivery of package has been attempted. Contact carrier to ensure delivery.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>delivery_rescheduled</code></td>
+          <td>Delivery of package has been rescheduled.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>location_inaccessible</code></td>
+          <td>Delivery location inaccessible to carrier. Contact carrier to ensure delivery.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>notice_left</code></td>
+          <td>Carrier left notice during attempted delivery. Follow carrier instructions on notice.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>package_damaged</code></td>
+          <td>Package has been damaged. Contact carrier for more details.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>package_disposed</code></td>
+          <td>Package has been disposed.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>package_held</code></td>
+          <td>Package held at carrier location. Contact carrier for more details.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>package_lost</code></td>
+          <td>Package has been lost. Contact carrier for more details.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>package_unclaimed</code></td>
+          <td>Package is unclaimed.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>package_undeliverable</code></td>
+          <td>Package is not able to be delivered.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>reschedule_delivery</code></td>
+          <td>Contact carrier to reschedule delivery.</td>
+          <td style="white-space: nowrap"><code>true</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Issue</td>
+          <td style="white-space: nowrap"><code>other</code></td>
+          <td>Unrecognized carrier status.</td>
+          <td style="white-space: nowrap"><code>false</code></td>
+        </tr>
+      </table>
+
   - name: US Autocompletions
     description: >
       Given partial address information, this endpoint returns up to 10 address suggestions.
@@ -1365,8 +1578,12 @@ x-tagGroups:
     tags:
       - Cancellation Windows
       - Scheduled Mailings
+
+  - name: Webhooks
+    tags:
       - Webhooks
       - Events
+      - Tracking Events
 
   - name: Address Book
     tags:
@@ -1416,7 +1633,7 @@ security:
 x-webhooks:
   events:
     post:
-      summary: Events Webhook
+      summary: Events
       description: Information about an event
       operationId: event
       tags:
@@ -1424,6 +1641,16 @@ x-webhooks:
       responses:
         "200":
           $ref: resources/events/responses/events.yml
+  tracking_events:
+    post:
+      summary: Tracking Events
+      description: Information about tracking events
+      operationId: tracking_event
+      tags:
+        - Tracking Events
+      responses:
+        "200":
+          $ref: shared/resources/tracking_events/responses/tracking_events.yml
 
 paths:
   /addresses:

@@ -11,6 +11,9 @@ allOf:
       - to
       - url
       - carrier
+      - date_created
+      - date_modified
+      - object
 
     properties:
       id:
@@ -28,16 +31,24 @@ allOf:
         $ref: "../../bank_accounts/models/bank_account.yml"
 
       check_bottom_template_id:
-        $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+        allOf:
+          - description: The unique ID of the HTML template used for the check bottom.
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
 
       attachment_template_id:
-        $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+        allOf:
+          - description: The unique ID of the HTML template used for the attachment.
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
 
       check_bottom_template_version_id:
-        $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+        allOf:
+          - description: The unique ID of the specific version of the HTML template used for the check bottom.
+          - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
 
       attachment_template_version_id:
-        $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+        allOf:
+          - description: The unique ID of the specific version of the HTML template used for the attachment.
+          - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
 
       url:
         allOf:
@@ -76,3 +87,22 @@ allOf:
             enum:
               - check
             default: check
+
+      tracking_events:
+        # TODO: add tracking_event objs link
+        description: An array of tracking_event objects ordered by ascending `time`. Will not be populated for postcards created in test mode.
+        type: array
+        items:
+          $ref: "../../../shared/resources/tracking_events/tracking_event_normal.yml"
+        nullable: true
+
+      # the following added manually from lob_base to avoid "recursive" use of
+      # of lob_base in bank_account property
+      date_created:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+      date_modified:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+      deleted:
+        $ref: "../../../shared/attributes/deleted.yml"

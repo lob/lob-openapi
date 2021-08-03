@@ -1,17 +1,21 @@
 description: >-
-  The artwork to use on the bottom of the check page. Accepts an HTML
-  string of under 10,000 characters, the ID of a saved [HTML
-  template](https://lob.github.io/lob-openapi/#tag/Templates), or a
-  remote URL or a local upload of an HTML, PDF, PNG, or JPG file. Remote
-  URLs have a 20 MB file size limit and must be downloaded within 40
-  seconds. HTML files passed as remote URLs or local file uploads have
-  no character limit. HTML merge variables should not include delimiting
-  whitespace. PDF, PNG, and JPGs must be sized at 8.5"x11" at 300 DPI,
-  while supplied HTML will be rendered and trimmed to fit on a 8.5"x11"
-  page. The check bottom will always be printed in black & white. Must
-  conform to [this
+  The artwork to use on the bottom of the check page.
+
+
+  Notes:
+
+  - HTML merge variables should not include delimiting whitespace.
+
+  - PDF, PNG, and JPGs must be sized at 8.5"x11" at 300 DPI, while supplied
+  HTML will be rendered and trimmed to fit on a 8.5"x11" page.
+
+  - The check bottom will always be printed in black & white.
+
+  - Must conform to [this
   template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_bottom_template.pdf).
-  Need more help? Consult our HTML examples.
+
+
+  Need more help? Consult our [HTML examples](#tag/HTML-Examples).
 
 oneOf:
   - $ref: "../../../shared/attributes/html_string.yml"

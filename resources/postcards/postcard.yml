@@ -72,14 +72,25 @@ delete:
     Read more on [cancellation windows](#tag/Cancellation-Windows)
     and [scheduling](#tag/Scheduled-Mailings). Scheduling and
     cancellation is a premium feature. Upgrade to the appropriate
-    Print & Mail Edition to gain access.
+    [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions)
+    to gain access.
 
   tags:
     - Postcards
 
   responses:
     "200":
-      $ref: "../../shared/responses/deleted.yml"
+      description: Success
+
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: "attributes/psc_id.yml"
+              deleted:
+                $ref: "../../shared/attributes/deleted.yml"
 
     default:
       $ref: "../../shared/responses/mailpiece_error.yml"

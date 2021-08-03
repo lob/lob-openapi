@@ -20,10 +20,11 @@ allOf:
           character limit. HTML merge variables should not include delimiting
           whitespace. All pages of a supplied PDF file must be sized at 8.5"x11",
           while supplied HTML will be rendered and trimmed to as many 8.5"x11" pages
-          as necessary. For design specifications, please see our [PDF](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf)
-          and [HTML](https://docs.lob.com/#html-examples)
-          templates. If a `custom_envelope` is used, follow [this template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf). For
-          domestic destinations, the file limit is 60 pages single-sided or 120
+          as necessary. For design specifications, please see our
+          [PDF](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf)
+          and [HTML](#tag/HTML-Examples) templates. If a `custom_envelope` is used, follow
+          [this template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf).
+          For domestic destinations, the file limit is 60 pages single-sided or 120
           pages double-sided. For international destinations, the file limit is 6
           pages single-sided or 12 pages double-sided. PDFs that surpass the file
           limit will error, while HTML that renders more pages than the file limit
@@ -59,8 +60,9 @@ allOf:
           will not be sent, and an error will be returned. If the letter has more
           than 6 sheets, it will be sent in a blank flat envelope. Custom envelopes
           may be created and ordered from the dashboard. This feature is exclusive
-          to certain customers. Upgrade to the appropriate Print & Mail Edition to
-          gain access.
+          to certain customers. Upgrade to the appropriate
+          [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions)
+          to gain access.
         required:
           - id
           - url

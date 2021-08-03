@@ -146,7 +146,17 @@ delete:
 
   responses:
     "200":
-      $ref: "../../../shared/responses/deleted.yml"
+      description: Success
+
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+              deleted:
+                $ref: "../../../shared/attributes/deleted.yml"
 
     default:
       $ref: "../../../shared/responses/template_error.yml"

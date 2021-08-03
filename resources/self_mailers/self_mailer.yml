@@ -76,7 +76,17 @@ delete:
 
   responses:
     "200":
-      $ref: "../../shared/responses/deleted.yml"
+      description: Success
+
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: "attributes/sfm_id.yml"
+              deleted:
+                $ref: "../../shared/attributes/deleted.yml"
 
     default:
       $ref: "../../shared/responses/mailpiece_error.yml"

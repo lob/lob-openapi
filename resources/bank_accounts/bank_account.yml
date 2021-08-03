@@ -72,7 +72,17 @@ delete:
 
   responses:
     "200":
-      $ref: "../../shared/responses/deleted.yml"
+      description: Success
+
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: "../../shared/attributes/model_ids/bank/bank_id.yml"
+              deleted:
+                $ref: "../../shared/attributes/deleted.yml"
 
     default:
       $ref: responses/bank_account_error.yml

@@ -11,6 +11,7 @@ allOf:
       - inside_template_id
       - outside_template_version_id
       - inside_template_version_id
+      - url
 
     properties:
       id:
@@ -58,3 +59,8 @@ allOf:
         type: array
         items:
           $ref: "../../../shared/resources/tracking_events/tracking_event_certified.yml"
+
+      url:
+        allOf:
+          - description: A [signed link](#tag/Asset-URLs) to the rendered self mailer.
+          - $ref: "../../../shared/attributes/signed_link.yml"

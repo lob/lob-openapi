@@ -1,18 +1,10 @@
-parameters:
-  - in: path
-    name: tmpl_id
-    description: id of the template
-    required: true
-    schema:
-      $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
-
 get:
   operationId: list_template_versions
 
   summary: List
 
   description: >
-    Returns a list of template versions for the passed `template_id`. The
+    Returns a list of template versions for the passed template ID. The
     template versions are sorted by creation date, with the most recently
     created appearing first.
 
@@ -20,6 +12,13 @@ get:
     - Template Versions
 
   parameters:
+    - in: path
+      name: tmpl_id
+      description: The ID of the template associated with the retrieved versions
+      required: true
+      schema:
+        $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+
     - $ref: "../../../shared/parameters/limit.yml"
     - $ref: "../../../shared/parameters/before_after.yml"
     - $ref: "../../../shared/parameters/include.yml"
@@ -72,6 +71,14 @@ post:
 
   tags:
     - Template Versions
+
+  parameters:
+    - in: path
+      name: tmpl_id
+      description: The ID of the template the new version will be attached to
+      required: true
+      schema:
+        $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
 
   requestBody:
     required: true

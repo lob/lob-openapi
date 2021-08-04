@@ -1,0 +1,94 @@
+parameters:
+  - in: path
+    name: bg_id
+    description: id of the billing_group
+    required: true
+    schema:
+      $ref: "attributes/bg_id.yml"
+
+get:
+  operationId: get_billing_group
+
+  summary: Retrieve billing_group with given id
+
+  description: >-
+    Retrieves the details of an existing billing_group. You need only supply
+    the unique billing_group identifier that was returned upon billing_group creation.
+
+  tags:
+    - Billing Groups
+
+  responses:
+    "200":
+      description: Returns a billing_group object.
+      content:
+        $ref: responses/billing_group.yml
+
+    default:
+      $ref: "../../shared/responses/billing_group_list_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/billing_groups/bg_4bb02b527a72667d0 \
+        -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+
+post:
+  operationId: replace_billing_group
+
+  summary: Update all editable attributes of a billing_group.
+
+  description: >-
+    Updates all editable attributes of the billing_group with the given id.
+
+  tags:
+    - Billing Groups
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: "models/billing_group_updatable.yml"
+        example:
+          description: demo replacement
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/billing_group_updatable.yml"
+        encoding:
+          to:
+            style: deepObject
+            explode: true
+          from:
+            style: deepObject
+            explode: true
+          merge_variables:
+            style: deepObject
+            explode: true
+          metadata:
+            style: deepObject
+            explode: true
+        example:
+          description: demo replacement
+
+      multipart/form-data:
+        schema:
+          $ref: "models/billing_group_updatable.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/billing_groups/bg_759954f540a1bfdb5 \
+        -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+        -d "description=demo replacement" \
+
+  responses:
+    "200":
+      description: Updates a billing_group.
+      content:
+        $ref: responses/billing_group.yml
+
+    default:
+      $ref: "../../shared/responses/billing_group_error.yml"

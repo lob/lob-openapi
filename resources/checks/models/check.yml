@@ -88,14 +88,6 @@ allOf:
               - check
             default: check
 
-      tracking_events:
-        # TODO: add tracking_event objs link
-        description: An array of tracking_event objects ordered by ascending `time`. Will not be populated for postcards created in test mode.
-        type: array
-        items:
-          $ref: "../../../shared/resources/tracking_events/tracking_event_normal.yml"
-        nullable: true
-
       # the following added manually from lob_base to avoid "recursive" use of
       # of lob_base in bank_account property
       date_created:

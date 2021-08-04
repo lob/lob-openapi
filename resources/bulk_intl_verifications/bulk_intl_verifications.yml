@@ -17,7 +17,45 @@ post:
       application/json:
         schema:
           $ref: "models/intl_verifications_payload.yml"
-      # TODO: other content types?
+        example:
+          addresses:
+            - recipient: "John Doe"
+              primary_line: "370 Water St"
+              secondary_line: ""
+              city: "Summerside"
+              state: "Prince Edwards Island"
+              postal_code: "C1N 1C4"
+              country: "CA"
+            - recipient: "Jane Doe"
+              primary_line: "UL. DOLSKAYA 1"
+              secondary_line: ""
+              city: "MOSCOW"
+              state: "MOSCOW G"
+              postal_code: "115569"
+              country: "RU"
+
+      # application/x-www-form-urlencoded excluded b/c
+      # openapi can't handle arrays in objects
+
+      multipart/form-data:
+        schema:
+          $ref: "models/intl_verifications_payload.yml"
+        example:
+          addresses:
+            - recipient: "John Doe"
+              primary_line: "370 Water St"
+              secondary_line: ""
+              city: "Summerside"
+              state: "Prince Edwards Island"
+              postal_code: "C1N 1C4"
+              country: "CA"
+            - recipient: "Jane Doe"
+              primary_line: "UL. DOLSKAYA 1"
+              secondary_line: ""
+              city: "MOSCOW"
+              state: "MOSCOW G"
+              postal_code: "115569"
+              country: "RU"
 
   responses:
     "200":

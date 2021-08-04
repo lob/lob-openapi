@@ -17,16 +17,7 @@ allOf:
           Used by frontend, true if the template uses advanced features.
 
       engine:
-        type: string
-        description: >
-          The engine used to combine html template with merge variables.
-            * legacy - Lob's original engine
-            * handlebars
-        enum:
-          - legacy
-          - handlebars
-        nullable: true
-        default: legacy
+        $ref: "../../../../shared/attributes/engine.yml"
 
       object:
         allOf:

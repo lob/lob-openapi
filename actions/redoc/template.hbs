@@ -71,6 +71,13 @@
 
     gtag('config', 'UA-41294851-1');
   </script>
+  <script>
+    var ffWidgetId = '16a23fe0-c29a-48ec-a531-5123fd9f60bf';
+    var ffWidgetScript  = document.createElement('script');
+    ffWidgetScript.type = 'text/javascript';
+    ffWidgetScript.src = 'https://cdn.freddyfeedback.com/widget/freddyfeedback.js';
+    document.head.appendChild(ffWidgetScript);
+  </script>
 
   {{{redocHead}}}
   {{#unless disableGoogleFont}}<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">{{/unless}}
@@ -610,6 +617,36 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js"></script>
   <script src="js/bundle.js"></script>
+
+  <button
+    id="feedback"
+    style="
+      border-radius: 20px 20px 0 0;
+      color: white;
+      position: fixed;
+      transform: rotate(-90deg);
+      right: -40px;
+      bottom: 20vh;
+      background: #c5d6e6;
+      border: none;
+      font-size: large;
+      font-family: Larsseit,sans-serif;
+      padding: 10px;
+      z-index: 10;
+      cursor: pointer;
+      box-shadow: -2px -2px 6px #416581;
+      text-shadow: 0 0.5px #324350;
+      font-weight: 600;
+      text-transform: uppercase;
+    "
+  >
+    FEEDBACK
+  </button>
+  <script>
+    document.getElementById('feedback').addEventListener('click', function() {
+      freddyWidget.show();
+    });
+  </script>
 
   {{{redocHTML}}}
 

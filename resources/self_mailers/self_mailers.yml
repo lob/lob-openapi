@@ -16,6 +16,16 @@ get:
     - $ref: "../../shared/parameters/include.yml"
     - $ref: "../../shared/parameters/date_created.yml"
     - $ref: "../../shared/parameters/metadata.yml"
+    - in: query
+      name: size
+      description: THe self mailer sizes to be returned.
+      schema:
+        $ref: "attributes/self_mailer_size.yml"
+
+    - $ref: "../../shared/parameters/scheduled.yml"
+    - $ref: "../../shared/parameters/send_date.yml"
+    - $ref: "../../shared/parameters/mail_type.yml"
+    - $ref: "../../shared/parameters/sort_by.yml"
 
   responses:
     "200":

@@ -4,10 +4,12 @@ required:
   - primary_line
 
 anyOf:
-  - required:
+  - title: US verification object with `city` and `state`
+    required:
       - city
       - state
-  - required:
+  - title: US verification object with `zip_code`
+    required:
       - zip_code
 
 properties:
@@ -38,4 +40,9 @@ properties:
     maxLength: 50
 
   zip_code:
-    $ref: "../../../shared/attributes/address/zip_code.yml"
+    allOf:
+      - description: >-
+          Required if `city` and `state` are not passed in.
+          If included, must be formatted as a US ZIP or ZIP+4 (e.g. `94107`,
+          `941072282`, `94107-2282`).
+      - $ref: "../../../shared/attributes/address/zip_code.yml"

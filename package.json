@@ -59,6 +59,8 @@
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
     "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --templateOptions.segmentKey=$SEGMENT_API_KEY --title=\"DRAFT NEW Lob API documentation\" --options.noAutoAuth=true --options.maxDisplayedEnumValues=15 --options.theme.colors.primary.main=#27333c --options.theme.sidebar.backgroundColor=#f7f9fa --options.expandResponses='200,201' --options.jsonSampleExpandLevel=3 --options.requiredPropsFirst=true --options.theme.typography.code.backgroundColor=#ebf0f6 --options.theme.typography.code.fontFamily=JetBrainsMono --options.theme.typography.code.color=#27333c --options.theme.typography.fontFamily=\"Larsseit,sans-serif;\" --options.theme.typography.links.color=#0099d7 --options.theme.typography.links.textDecoration=none --options.theme.codeBlock.backgroundColor=#ecf0f5 --options.theme.rightPanel.backgroundColor=#f7f9fa --options.theme.rightPanel.textColor=#416581 --options.theme.typography.fontSize=16 -o docs/index.html",
+    "spectral": "spectral lint Lob-API-public.yml --fail-severity=error --display-only-failures",
+    "spectral-warn": "spectral lint Lob-API-public.yml --fail-severity=warn --display-only-failures",
     "test": "ava --timeout=55s './tests/**_test.js'"
   },
   "repository": {

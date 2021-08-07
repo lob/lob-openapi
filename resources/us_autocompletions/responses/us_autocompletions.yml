@@ -26,7 +26,11 @@ content:
             $ref: "../models/suggestions.yml"
 
         object:
-          $ref: "../../../shared/attributes/object.yml"
+          allOf:
+            - $ref: "../../../shared/attributes/object.yml"
+            - type: string
+              enum:
+                - us_autocompletion
 
     examples:
       basic:

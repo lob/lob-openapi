@@ -16,6 +16,16 @@ get:
     - $ref: "../../shared/parameters/include.yml"
     - $ref: "../../shared/parameters/date_created.yml"
     - $ref: "../../shared/parameters/metadata.yml"
+    - in: query
+      name: color
+      description: Set to `true` to return only color letters. Set to `false` to return only black & white letters.
+      schema:
+        type: boolean
+
+    - $ref: "../../shared/parameters/scheduled.yml"
+    - $ref: "../../shared/parameters/send_date.yml"
+    - $ref: "../../shared/parameters/mail_type.yml"
+    - $ref: "../../shared/parameters/sort_by.yml"
 
   responses:
     "200":

@@ -1,5 +1,7 @@
 type: object
 
+description: A nested object containing a breakdown of the deliverability of an address.
+
 required:
   - dpv_confirmation
   - dpv_cmra
@@ -25,7 +27,7 @@ properties:
       * `Y` –– The address is deliverable by the USPS.
       * `S` –– The address is deliverable by removing the provided secondary unit designator. This information may be incorrect or unnecessary.
       * `D` –– The address is deliverable to the building's default address but is missing a secondary unit designator and/or number.
-                          There is a chance the mail will not reach the intended recipient.
+        There is a chance the mail will not reach the intended recipient.
       * `N` –– The address is not deliverable according to the USPS, but parts of the address are valid (such as the street and ZIP code).
       * `''` –– This address is not deliverable. No matching street could be found within the city or ZIP code.
     example: "Y"
@@ -65,8 +67,11 @@ properties:
     description: >
       Corresponds to the USPS field `dpv_no_stat`. Indicates that an address has been vacated in the recent past, and is
       no longer receiving deliveries. If it's been unoccupied for 90+ days, or temporarily vacant, this will be flagged. Possible values are:
+
       * `Y` –– Address is active.
+
       * `N` –– Address is not active.
+
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "Y"
 
@@ -93,16 +98,25 @@ properties:
       - "N"
       - ""
     description: |
-      Indicates whether this address has been converted by [LACSLink](https://postalpro.usps.com/address-quality/lacslink). Possible values are:
-      * `Y` –– New address produced with a matching record in LACSLink.
-      * `N` –– New address could not be produced with a matching record in LACSLink.
+      Indicates whether this address has been converted by
+      [LACS<sup>Link</sup>](https://postalpro.usps.com/address-quality/lacslink).
+      LACS<sup>Link</sup> corrects outdated addresses into their modern counterparts.
+      Possible values are:
+      * `Y` –– New address produced with a matching record in LACS<sup>Link</sup>.
+      * `N` –– New address could not be produced with a matching record in LACS<sup>Link</sup>.
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: ""
 
   lacs_return_code:
     type: string
-    description: >
-      Any return code associated with the LACSLink form of this address.
+    description: |
+      A code indicating how `deliverability_analysis[lacs_indicator]` was determined.
+      Possible values are:
+      * `A` — A new address was produced because a match was found in LACS<sup>Link</sup>.
+      * `92` — A LACS<sup>Link</sup> record was matched after dropping secondary information.
+      * `14` — A match was found in LACS<sup>Link</sup>, but could not be converted to a deliverable address.
+      * `00` — A match was not found in LACS<sup>Link</sup>, and no new address was produced.
+      * `''` — LACS<sup>Link</sup> was not attempted.
     example: ""
 
   suite_return_code:
@@ -112,8 +126,11 @@ properties:
       - "00"
       - ""
     description: |
-      Any return code associated with the [SuiteLink](https://postalpro.usps.com/address-quality-solutions/suitelink) form of this address. Possible values are:
-      * `A` –– A SuiteLink match was found and secondary information was added.
-      * `00` –– A SuiteLink match could not be found and no secondary information was added.
-      * `''` –– SuiteLink lookup was not attempted.
+      A return code that indicates whether the address was matched and corrected by
+      [Suite<sup>Link</sup>](https://postalpro.usps.com/address-quality-solutions/suitelink).
+      Suite<sup>Link</sup> attempts to provide secondary information to business addresses.
+      Possible values are:
+      * `A` –– A Suite<sup>Link</sup> match was found and secondary information was added.
+      * `00` –– A Suite<sup>Link</sup> match could not be found and no secondary information was added.
+      * `''` –– Suite<sup>Link</sup> lookup was not attempted.
     example: ""

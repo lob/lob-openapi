@@ -1,14 +1,15 @@
 # ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
-- [What is this project?](#what-is-this-project)
-- [Contributing](#contributing)
-- [Design](#design)
-- [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
-- [Readability](#readability)
-- [OAS v3.1 compatibility](#oas-v31-compatibility)
-- [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
-- [Bundled spec](#bundled-spec)
-- [See also](#see-also)
+- [!CI ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification](#--lob-openapi-v3-specification)
+  - [What is this project?](#what-is-this-project)
+  - [Contributing](#contributing)
+  - [Design](#design)
+  - [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
+  - [Readability](#readability)
+  - [OAS v3.1 compatibility](#oas-v31-compatibility)
+  - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
+  - [Bundled spec](#bundled-spec)
+  - [See also](#see-also)
 
 ## What is this project?
 
@@ -89,13 +90,16 @@ We will move to v3.1 as soon as is practical. In the meantime, we're working to 
 
 ## Previewing the spec as docs (aka QAing your work)
 
-Each time a commit is pushed to github, we generate documentation for the
-API from the spec using [redoc](https://github.com/Redocly/redoc). The generated
-docs are pushed to `docs/index.html` in the branch.
+You can generate documentation for the API from the spec by running
+`npm run redoc`, which uses [redoc](https://github.com/Redocly/redoc). The
+generated docs will apppear in `docs/index.html`. Then you can point
+your browser to the absolute path of that file to review your local
+version of the docs.
 
-In addition to the file generated on push to github, you can
-generate the same single file version of the documentation
-(`docs/index.html`) at any time locally by running `npm run redoc`.
+In addition, a GitHub action workflow generates the docs on every merge into
+`main` and pushes them into the `deployment` branch, where the docs are hosted
+on GitHub pages. The latest version of the docs live at
+[https://lob.github.io/lob-openapi/](https://lob.github.io/lob-openapi/).
 
 ## Bundled spec
 
@@ -103,13 +107,22 @@ A lot of tooling for working with OpenAPI specs does not support the full
 specification. In particular, many tools do not support multiple file specs.
 We maintain a single file 'bundled' version of the spec for use with such
 tools. The bundled version is generated as part of CI/CD, and can be found
-on github at `dist/Lob-API-bundled.yml` in each branch.
+on github at `dist/Lob-API-bundled.yml` on the `deployment` branch.
 
 You can also generate a bundled version locally at any time using `npm run bundle`.
 
 The CLI tool used by `npm run bundle` can do much more than bundle a multiple file spec
 into a single file. It can convert specs between `YAML` and `JSON`, fully
 dereference a spec, and more.
+
+## Postman Collection
+
+You can generate a big JSON representing a Postman Collection for this spec
+locally with `npm run postman`. The resulting `dist/Lob-API-postman.json` can be
+imported into Postman so that you can get started on making requests to Lob API.
+[Here](https://www.youtube.com/watch?v=JDrxdzqghuQ)'s a video tutorial on that.
+
+This JSON is also created on every push to `main` and pushed into `deployment`.
 
 ## See also
 

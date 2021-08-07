@@ -2,12 +2,21 @@ type: string
 
 description: >
   An HTML string of less than 100,000 characters to be used as the
-  `published_version` of this template. For details, see our Guide to
-  designing HTML templates. Please see endpoint specific documentation for
-  any other product-specific HTML details.  Merge variables should not
-  include delimiting whitespace.  If there is a syntax error with your
-  variable names within your HTML, then an error will be thrown, e.g. using
-  a `{{#users}}` opening tag without the corresponding closing tag
-  `{{/users}}`.
+  `published_version` of this template. See [here](#tag/HTML-Examples) for
+  guidance on designing HTML templates. Please see endpoint specific documentation
+  for any other product-specific HTML details:
+
+  - [Postcards](#operation/create_postcard) - `front` and `back`
+
+  - [Self Mailers](#operation/create_self_mailer) - `inside` and `outside`
+
+  - [Letters](#operation/create_letter) - `file`
+
+  - [Checks](#operation/create_check) - `check_bottom` and `attachment`
+
+
+  If there is a syntax error with your variable names within your HTML,
+  then an error will be thrown, e.g. using a `{{#users}}` opening tag
+  without the corresponding closing tag `{{/users}}`.
 
 maxLength: 100000

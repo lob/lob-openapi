@@ -60,7 +60,11 @@ post:
   summary: Create
 
   description: >-
-    Creates a new template given information
+    Creates a new template for use with the Print & Mail API. In Live mode,
+    you can only have as many non-deleted templates as allotted in your
+    current [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions).
+    If you attempt to create a template past your limit, you will receive a
+    `403` error. There is no limit in Test mode.
 
   tags:
     - Templates
@@ -100,7 +104,18 @@ post:
 
   responses:
     "200":
-      $ref: responses/post_template.yml
+      description: Returns a template object
+
+      headers:
+        ratelimit-limit:
+          $ref: "../../shared/headers/ratelimit.yml#/ratelimit-limit"
+        ratelimit-remaining:
+          $ref: "../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+        ratelimit-reset:
+          $ref: "../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+      content:
+        $ref: responses/template.yml
 
     default:
       $ref: "../../shared/responses/template_error.yml"

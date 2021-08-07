@@ -11,6 +11,7 @@ allOf:
       - back_template_id
       - front_template_version_id
       - back_template_version_id
+      - url
 
     properties:
       id:
@@ -18,30 +19,34 @@ allOf:
 
       front_template_id:
         oneOf:
-          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
-          - title: null value
-            type: string
+          - allOf:
+              - description: The unique ID of the HTML template used for the front of the postcard.
+              - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - type: string
             nullable: true
 
       back_template_id:
         oneOf:
-          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
-          - title: null value
-            type: string
+          - allOf:
+              - description: The unique ID of the HTML template used for the back of the postcard.
+              - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - type: string
             nullable: true
 
       front_template_version_id:
         oneOf:
-          - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
-          - title: null value
-            type: string
+          - allOf:
+              - description: The unique ID of the specific version of the HTML template used for the front of the postcard.
+              - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+          - type: string
             nullable: true
 
       back_template_version_id:
         oneOf:
-          - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
-          - title: null value
-            type: string
+          - allOf:
+              - description: The unique ID of the specific version of the HTML template used for the back of the postcard.
+              - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+          - type: string
             nullable: true
 
       tracking_events:
@@ -59,3 +64,8 @@ allOf:
             enum:
               - postcard
             default: postcard
+
+      url:
+        allOf:
+          - description: A [signed link](#tag/Asset-URLs) to the rendered postcard.
+          - $ref: "../../../shared/attributes/signed_link.yml"

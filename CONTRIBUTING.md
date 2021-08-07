@@ -130,7 +130,7 @@ To run a single test, use `.only` as usual.
 
 ### Running a Single Test File
 
-To run just, say, the tests related to the addresses endpoints, do
+To run a single suite of tests, such as `postcards_test.js`, use
 `npm run singleTest addresses`.
 More generally, it's `npm run singleTest <PLURAL_OF_RESOURCE>`.
 

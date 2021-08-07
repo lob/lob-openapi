@@ -1,19 +1,21 @@
 # Contributing Guide
 
-- [Introduction](#introduction)
-- [Documentation Style](#documentation-style)
-- [Adding a Form Factor (aka Resource)](#adding-a-form-factor-aka-resource)
-  - [Generating a Resource Skeleton](#generating-a-resource-skeleton)
-  - [Resource IDs](#resource-ids)
-  - [Resource Structure](#resource-structure)
-- [Adding a new Route](#adding-a-new-route)
-- [Contract Testing](#contract-testing)
-  - [Running a Single Test with `.only`](#running-a-single-test-with-only)
-  - [Adding a Test](#adding-a-test)
-    - [Local File Inputs](#local-file-inputs)
-  - [Notes about Test Design](#notes-about-test-design)
-- [Debugging: Prism as a Validation Proxy](#debugging-prism-as-a-validation-proxy)
-- [Development: Mock Server](#development-mock-server)
+- [Contributing Guide](#contributing-guide)
+  - [Introduction](#introduction)
+  - [Documentation Style](#documentation-style)
+  - [Adding a Form Factor (aka Resource)](#adding-a-form-factor-aka-resource)
+    - [Generating a Resource Skeleton](#generating-a-resource-skeleton)
+    - [Resource IDs](#resource-ids)
+    - [Resource Structure](#resource-structure)
+  - [Adding a new Route](#adding-a-new-route)
+  - [Contract Testing](#contract-testing)
+    - [Running a Single Test with `.only`](#running-a-single-test-with-only)
+    - [Running a Single Test File](#running-a-single-test-file)
+    - [Adding a Test](#adding-a-test)
+      - [Local File Inputs](#local-file-inputs)
+    - [Notes about Test Design](#notes-about-test-design)
+  - [Debugging: Prism as a Validation Proxy](#debugging-prism-as-a-validation-proxy)
+  - [Development: Mock Server](#development-mock-server)
 
 ## Introduction
 
@@ -28,12 +30,10 @@ If you are adding or modifying endpoints, keep your work in the branch until the
 feature is shipped in `lob-api`. Before the feature ships, you can generate a
 [mock server](MOCKING.md) to assist in development.
 
-This project uses CI/CD; as you push your branch to github, github actions will run tests and, if
-those tests pass, build release artifacts (bundled spec, postman collection, ...) and push them
-to your branch on github under the `dist/` directory. Because the CI/CD cycle on github pushes
-additional commits to your branch, you will either need to pull those commits or force push (`git push -f`)
-when pushing additional work to the branch. Don't be afraid to force push: the actions build each
-artifact anew on each push.
+This project uses CI/CD; as you merge your branch into `origin main`, github actions
+will run tests and, if those tests pass, build release artifacts (bundled spec,
+postman collection, ...) and push them to the `deployment` branch under the `dist/`
+directory.
 
 ## Documentation Style
 
@@ -127,6 +127,12 @@ To run the existing tests locally:
 ### Running a Single Test with `.only`
 
 To run a single test, use `.only` as usual.
+
+### Running a Single Test File
+
+To run a single suite of tests, such as `postcards_test.js`, use
+`npm run singleTest postcards`.
+More generally, it's `npm run singleTest <TEST FILE NAME minus "test">`.
 
 ### Adding a Test
 

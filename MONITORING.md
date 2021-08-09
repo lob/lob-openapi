@@ -1,14 +1,15 @@
 # Contract Monitoring
 
-- [Introduction](#introduction)
-- [Monitoring in GitHub](#monitoring-in-github)
-- [Controlling the Monitoring Workflow](#controlling-the-monitoring-workflow)
-- [Test Scripts](#test-scripts)
-- [Alerts](#alerts)
+- [Contract Monitoring](#contract-monitoring)
+  - [Introduction](#introduction)
+  - [Monitoring in GitHub](#monitoring-in-github)
+  - [Controlling the Monitoring Workflow](#controlling-the-monitoring-workflow)
+  - [Test Scripts](#test-scripts)
+  - [Alerts](#alerts)
 
 ## Introduction
 
-Monitoring tests exist for all of the endpoints specified by Lob OpenAPI. These tests are automatically scheduled to run every 5 minutes, against the production version of each endpoint. The following document will explain all the components which go into running monitoring tests smoothly.
+Monitoring tests exist for all of the endpoints specified by Lob OpenAPI. These tests are automatically scheduled to run every 30 minutes, against the production version of each endpoint. The following document will explain all the components which go into running monitoring tests smoothly.
 
 ## Monitoring in GitHub
 
@@ -18,12 +19,12 @@ We use GitHub Actions to run the monitoring tests. To view the monitor runs, cli
 
 The monitoring tests are controlled by a GitHub workflow: `.github/workflows/monitor.yml`. This section will provide a comprehensive breakdown of the information in that file.
 
-The first part is what schedules the tests to run every 5 minutes:
+The first part is what schedules the tests to run every 30 minutes:
 
 ```
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/30 * * * *"
 ```
 
 There are multiple ways to configure this (such as on pull request), which are discussed [here](https://docs.github.com/en/actions/reference/events-that-trigger-workflows).

@@ -30,7 +30,11 @@ properties:
     $ref: "../../../shared/attributes/address/state.yml"
 
   zip_code:
-    $ref: "../../../shared/attributes/address/zip_code.yml"
+    allOf:
+      - description: >
+          Must be formatted as a US ZIP or ZIP+4 (e.g. `94107`,
+          `941072282`, `94107-2282`).
+      - $ref: "../../../shared/attributes/address/zip_code.yml"
 
   object:
     allOf:

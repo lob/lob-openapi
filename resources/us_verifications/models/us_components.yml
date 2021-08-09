@@ -1,5 +1,7 @@
 type: object
 
+description: A nested object containing a breakdown of each component of an address.
+
 required:
   - primary_number
   - street_predirection
@@ -25,8 +27,6 @@ required:
   - county_fips
   - carrier_route
   - carrier_route_type
-  - latitude
-  - longitude
 
 properties:
   primary_number:
@@ -110,12 +110,14 @@ properties:
     $ref: "../../../shared/attributes/address/state.yml"
 
   zip_code:
-    $ref: "../../../shared/attributes/address/zip_code.yml"
+    type: string
+    description: The 5-digit ZIP code
+    pattern: ^\d{5}$
 
   zip_code_plus_4:
     type: string
-    description: >
-      The 4-digit ZIP add-on code.
+    description: The 4-digit ZIP add-on code
+    pattern: ^\d{4}$
 
   zip_code_type:
     $ref: "../../../shared/attributes/address/zip_code_type.yml"
@@ -134,7 +136,9 @@ properties:
       - commercial
       - ""
     description: |
-      Uses USPS's Residential Delivery Indicator (RDI) to identify whether an address is classified as residential or
+      Uses USPS's [Residential Delivery Indicator
+      (RDI)](https://www.usps.com/nationalpremieraccounts/rdi.htm) to identify
+      whether an address is classified as residential or
       business. Possible values are:
       * `residential` –– The address is residential or a PO Box.
       * `commercial` –– The address is commercial.
@@ -190,6 +194,7 @@ properties:
       A positive or negative decimal indicating the geographic latitude of the address, specifying the north-to-south position of a
       location. This should be used with `longitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
       or military addresses (state is `AA`, `AE`, or `AP`).
+    nullable: true
 
   longitude:
     type: number
@@ -198,3 +203,4 @@ properties:
       A positive or negative decimal indicating the geographic longitude of the address, specifying the north-to-south position of a
       location. This should be used with `latitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
       or military addresses (state is `AA`, `AE`, or `AP`).
+    nullable: true

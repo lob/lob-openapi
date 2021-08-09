@@ -1,11 +1,20 @@
 in: query
-
 name: sort_by
-
 description: >
-  Sorts billing_group in a desired order.
-  `sort_by` accepts an object with the key being either `date_created` or `date_modified`
-  and the value being either `asc` or `desc`.
-
+  Sorts postcards by ascending or descending dates.
 schema:
-  type: string
+  oneOf:
+    - type: object
+      properties:
+        date_created:
+          type: string
+          enum:
+            - asc
+            - desc
+    - type: object
+      properties:
+        send_date:
+          type: string
+          enum:
+            - asc
+            - desc

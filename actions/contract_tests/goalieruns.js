@@ -22,7 +22,7 @@ module.exports.runTests = async function runTests() {
         test_command = 'ava "' + test + '"';
         exec(test_command, async function (err, stdout, stderr) {
           if (err) {
-            const formatted = "```" + stdout.replaceAll("```", " ") + "```";
+            const formatted = "```" + stdout.replace(/```/g, " ") + "```";
             failures.push(formatted);
           }
           // async: the code won't proceed to the next block until
@@ -35,18 +35,27 @@ module.exports.runTests = async function runTests() {
       }
     }).then(async function () {
       if (failures.length > 0) {
-        failures.forEach((f) => {
-          const noWhitespace = f.replace(" ", "");
+        failures.every(async function (f, index) {
+          const noWhitespace = f.replace(/ /g, "").replace(/\n/g, "");
           // each correctly formatted entry should be roughly 250 characters
           // based on the ava output. if they are way too long or are blank (only have the tick marks),
           // the errors being surfaced by ava are unexpected & don't come from the tests.
-          if (noWhitespace.length > 500) {
-            f =
-              "An unexpected error surfaced in the contract tests. This does not originate from any Lob endpoint.";
+          if (noWhitespace.length > 1000) {
+            failures[index] =
+              "*An unexpected error surfaced in the contract tests. This does not originate from any Lob endpoint.*";
+            try {
+              const generic_failure = await web.chat.postMessage({
+                channel: pkg.config.goalieMappings[validated_arg].slackChannel,
+                text: `:woman-shrugging::skin-tone-4: An unexpected error surfaced in the contract tests. This does not originate from any Lob endpoint.`,
+              });
+            } catch (slackError) {
+              console.error(JSON.stringify(slackError, null, 2));
+              core.setFailed("There was an error with web.chat.postMessage");
+              process.exit();
+            }
             core.setFailed(
               "An unexpected error surfaced in the contract tests."
             );
-            return 1;
           }
         });
         let errorMessage = "";
@@ -58,7 +67,7 @@ module.exports.runTests = async function runTests() {
         try {
           const parent = await web.chat.postMessage({
             channel: pkg.config.goalieMappings[validated_arg].slackChannel,
-            text: `:party-dead: ${errorMessage}`,
+            text: `:octagonal_sign: ${errorMessage}`,
           });
           const reply = await web.chat.postMessage({
             channel: pkg.config.goalieMappings[validated_arg].slackChannel,
@@ -70,11 +79,13 @@ module.exports.runTests = async function runTests() {
           core.setFailed("There was an error with web.chat.postMessage");
         }
         core.setFailed(errorMessage);
+        process.exit();
       }
     });
   } catch (joiError) {
     console.error(JSON.stringify(joiError, null, 2));
     core.setFailed("There was an error with the JOI validation");
+    process.exit();
   }
 };
 

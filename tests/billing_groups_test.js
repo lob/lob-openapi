@@ -18,14 +18,19 @@ let create = null;
 
 // contract tests happy path
 test("create, list, read, replace, update, then delete a billing_group", async function (t) {
-  create = await prism
+  // JSON.stringify(slackError, null, 2)
+  try {
+    create = await prism
     .setup()
     .then((client) =>
       client.post(resource_endpoint, payload, { headers: prism.authHeader })
     );
-  t.assert(create.status === 200);
-  t.assert(create.data.name === payload.name);
-  t.assert(create.data.description === payload.description);
+    t.assert(create.status === 200);
+    t.assert(create.data.name === payload.name);
+    t.assert(create.data.description === payload.description);
+  } catch (err) {
+    console.log(JSON.stringify(err, null, 2));
+  }
 
   const list = await prism
     .setup()

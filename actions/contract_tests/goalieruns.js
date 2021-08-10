@@ -19,7 +19,7 @@ module.exports.runTests = async function runTests() {
       let count = 0;
       for (let i = 0; i < test_set.length; ++i) {
         test = test_set[i];
-        test_command = 'ava "' + test + '"';
+        test_command = 'ava --timeout=5m "' + test + '"';
         exec(test_command, async function (err, stdout, stderr) {
           if (err) {
             const formatted = "```" + stdout.replace(/```/g, " ") + "```";

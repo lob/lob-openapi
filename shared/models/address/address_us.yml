@@ -94,64 +94,6 @@ allOf:
       address_country:
         type: string
         enum:
-          - address
-        default: address
-        description:
-          $ref: "../../../shared/attributes/resource_description.yml"
-
-      name:
-        type: string
-        description: >
-          Either `name` or `company` is required,
-          you may also add both. Must be no longer than 40 characters.
-          If both `name` and `company` are provided,
-          they will be printed on two separate lines above the rest of the address.
-        maxLength: 40
-        nullable: true
-
-      company:
-        $ref: "../../../shared/attributes/address/company.yml"
-
-      phone:
-        type: string
-        description: Must be no longer than 40 characters.
-        maxLength: 40
-        nullable: true
-
-      email:
-        type: string
-        description: Must be no longer than 100 characters.
-        maxLength: 100
-        nullable: true
-
-      address_line1:
-        type: string
-        maxLength: 64
-
-      address_line2:
-        type: string
-        maxLength: 64
-        nullable: true
-
-      address_city:
-        type: string
-        maxLength: 200
-
-      address_state:
-        type: string
-        description: 2 letter state short-name code
-        pattern: "^[a-zA-Z]{2}$"
-
-      address_zip:
-        type: string
-        description: >
-          Must follow the ZIP format of `12345` or
-          ZIP+4 format of `12345-1234`.
-        pattern: '^\d{5}(-\d{4})?$'
-
-      address_country:
-        type: string
-        enum:
           - UNITED STATES
         description: Full name of country
         minLength: 13
@@ -159,12 +101,6 @@ allOf:
 
       metadata:
         $ref: "../../../shared/models/metadata.yml"
-
-      date_created:
-        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
-
-      date_modified:
-        $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
 
       recipient_moved:
         type: boolean
@@ -180,24 +116,21 @@ allOf:
           feature was added to your account.
         nullable: true
 
-      deleted:
-        $ref: "../../../shared/attributes/deleted.yml"
-
-example:
-  id: adr_e68217bd744d65c8
-  description: Harry - Office
-  name: HARRY ZHANG
-  company: LOB
-  phone: "5555555555"
-  email: harry@lob.com
-  address_line1: 185 BERRY ST STE 6100
-  address_line2:
-  address_city: SAN FRANCISCO
-  address_state: CA
-  address_zip: 94107-1741
-  address_country: UNITED STATES
-  metadata: {}
-  recipient_moved: false
-  date_created: "2019-08-12T00:16:00.361Z"
-  date_modified: "2019-08-12T00:16:00.361Z"
-  object: address
+    example:
+      id: adr_e68217bd744d65c8
+      description: Harry - Office
+      name: HARRY ZHANG
+      company: LOB
+      phone: "5555555555"
+      email: harry@lob.com
+      address_line1: 185 BERRY ST STE 6100
+      address_line2:
+      address_city: SAN FRANCISCO
+      address_state: CA
+      address_zip: 94107-1741
+      address_country: UNITED STATES
+      metadata: {}
+      recipient_moved: false
+      date_created: "2019-08-12T00:16:00.361Z"
+      date_modified: "2019-08-12T00:16:00.361Z"
+      object: address

@@ -12,7 +12,7 @@ const resource_endpoint = "/billing_groups",
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 const payload = {
   name: "OpenAPI Test",
-  description: "OpenAPI testing",
+  description: "OpenAPI testing for Billing Groups",
 };
 let create = null;
 

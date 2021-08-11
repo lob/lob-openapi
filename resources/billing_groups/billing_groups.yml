@@ -58,44 +58,20 @@ post:
       application/x-www-form-urlencoded:
         schema:
           $ref: "models/billing_group_editable.yml"
-        encoding:
-          to:
-            style: deepObject
-            explode: true
-          from:
-            style: deepObject
-            explode: true
-          merge_variables:
-            style: deepObject
-            explode: true
-          metadata:
-            style: deepObject
-            explode: true
         example:
-          description: encoded demo
+          name: Marketing Dept
+          description: Usage group used for the Marketing Dept resource sends
 
       multipart/form-data:
         schema:
           $ref: "models/billing_group_editable.yml"
-        encoding:
-          to:
-            style: deepObject
-            explode: true
-          from:
-            style: deepObject
-            explode: true
-          merge_variables:
-            style: deepObject
-            explode: true
-          metadata:
-            style: deepObject
-            explode: true
+        example:
+          name: Marketing Dept
+          description: Usage group used for the Marketing Dept resource sends
 
   responses:
     "200":
-      description: Creates a new billing_group.
-      content:
-        $ref: responses/billing_group.yml
+      $ref: responses/post_billing_group.yml
 
     default:
       $ref: "../../shared/responses/billing_group_error.yml"

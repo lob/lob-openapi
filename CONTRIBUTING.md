@@ -98,7 +98,9 @@ Then navigate to the top-level `resources/checks/checks.yml`. It might initially
 
 LIST, RETRIEVE, and DELETE will follow similar patterns for most resources, so check out how they're organised in `resources/checks/models/postcards.yml` and `resources/checks/models/postcard.yml` in order to proceed with this.
 
-In between adding to your resource, you should run `spectral lint Lob-API-public.yml` quite frequently. That way, you can catch linting errors easily rather than wasting an entire day poking around the code to hunt down a persistent error before discovering that it was an indentation issue (no, I'm not bitter or anything, why do you ask?).
+In between adding to your resource, you should run `npm run spectral` quite frequently. That way, you can catch linting errors easily rather than wasting an entire day poking around the code to hunt down a persistent error before discovering that it was an indentation issue (no, I'm not bitter or anything, why do you ask?).
+
+If you would prefer a stricter linting which treats warnings as errors, run `npm run spectral-warn`.
 
 ## Adding a new Route
 

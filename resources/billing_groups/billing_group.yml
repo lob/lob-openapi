@@ -50,32 +50,21 @@ post:
       application/json:
         schema:
           type: object
-          $ref: "models/billing_group_updatable.yml"
+          $ref: "models/billing_group_base.yml"
         example:
-          description: demo replacement
+          name: Marketing Dept
+          description: Usage group used for the Marketing Dept resource sends
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/billing_group_updatable.yml"
-        encoding:
-          to:
-            style: deepObject
-            explode: true
-          from:
-            style: deepObject
-            explode: true
-          merge_variables:
-            style: deepObject
-            explode: true
-          metadata:
-            style: deepObject
-            explode: true
+          $ref: "models/billing_group_base.yml"
         example:
-          description: demo replacement
+          name: Marketing Dept
+          description: Usage group used for the Marketing Dept resource sends
 
       multipart/form-data:
         schema:
-          $ref: "models/billing_group_updatable.yml"
+          $ref: "models/billing_group_base.yml"
 
   x-codeSamples:
     - lang: Shell
@@ -86,9 +75,7 @@ post:
 
   responses:
     "200":
-      description: Updates a billing_group.
-      content:
-        $ref: responses/billing_group.yml
+      $ref: responses/post_billing_group.yml
 
     default:
       $ref: "../../shared/responses/billing_group_error.yml"

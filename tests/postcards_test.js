@@ -16,13 +16,17 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 // contract tests happy path
 test("list postcards' params", async function (t) {
   const list = async (body) => {
-    const response = await prism.setup().then((client) =>
-      client.get(`${resource_endpoint}?${body}`, {
-        headers: prism.authHeader,
-      })
-    );
-    t.assert(response.status === 200);
-    return response.data;
+    try {
+      const response = await prism.setup().then((client) =>
+        client.get(`${resource_endpoint}?${body}`, {
+          headers: prism.authHeader,
+        })
+      );
+      t.assert(response.status === 200);
+      return response.data;
+    } catch (prismError) {
+      console.error(JSON.stringify(prismError, null, 2));
+    }
   };
 
   /* ################## LIMIT ################## */
@@ -83,198 +87,217 @@ test("list postcards' params", async function (t) {
 
   /* ################## RUN EVERYTHING ASYNC ################## */
 
-  const finale = await Promise.all([
-    limit_response,
-    before_response,
-    after_response,
-    include_response,
-    metadata_response,
-    date_response,
-    full_response,
-  ]);
+  try {
+    const finale = await Promise.all([
+      limit_response,
+      before_response,
+      after_response,
+      include_response,
+      metadata_response,
+      date_response,
+      full_response,
+    ]);
 
-  t.assert(finale[0].count <= 4);
-  t.assert(finale[3].hasOwnProperty("total_count"));
-  t.assert(finale[4].count === 0);
-  t.assert(finale[5].count === 2);
-  t.assert(finale[6].hasOwnProperty("total_count"));
-  t.assert(finale[6].count === 0);
+    t.assert(finale[0].count <= 4);
+    t.assert(finale[3].hasOwnProperty("total_count"));
+    t.assert(finale[4].count === 0);
+    t.assert(finale[5].count === 2);
+    t.assert(finale[6].hasOwnProperty("total_count"));
+    t.assert(finale[6].count === 0);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
-test("create, list, read then cancel a postcard", async function (t) {
-  t.plan(6);
-  const makeAddress = async (address_data) => {
-    let response = await prism
+test.serial.before(
+  "create a letter, letter with full payload, and certified letter",
+  async function (t) {
+    t.plan(6);
+    // NORMAL POSTCARD
+    const makeAddress = async (address_data) => {
+      try {
+        let response = await prism.setup().then((client) =>
+          client.post("/addresses", address_data, {
+            headers: prism.authHeader,
+          })
+        );
+        t.assert(response.status === 200);
+        return response.data.id;
+      } catch (prismError) {
+        console.error(JSON.stringify(prismError, null, 2));
+        return prismError;
+      }
+    };
+    t.context.to = await makeAddress({
+      company: "Lob (old)",
+      address_line1: "185 Berry St",
+      address_line2: "# 6100",
+      address_city: "San Francisco",
+      phone: "5555555555",
+      address_state: "CA",
+      address_zip: "94107",
+    });
+    t.context.from = await makeAddress({
+      company: "Lob (new)",
+      address_line1: "210 King St",
+      address_city: "San Francisco",
+      address_state: "CA",
+      address_zip: "94107",
+      address_country: "US",
+    });
+
+    try {
+      // template type: remote upload
+      const create = await prism.setup().then((client) =>
+        client.post(
+          resource_endpoint,
+          {
+            to: t.context.to,
+            from: t.context.from,
+            front:
+              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+            back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+          },
+          { headers: prism.authHeader }
+        )
+      );
+      t.assert(create.status === 200);
+      t.context.normal_id = create.data.id;
+    } catch (prismError) {
+      console.error(JSON.stringify(prismError, null, 2));
+    }
+
+    // FULL PAYLOAD POSTCARD
+    const date = new Date();
+    date.setDate(date.getDate() + 1); // adding a day to today's date so clearly within 180 days of today
+    t.context.to_full = await makeAddress({
+      description: "Harry - Old Office",
+      name: "Harry Zhang",
+      company: "Lob (old)",
+      address_line1: "185 Berry St",
+      address_line2: "# 6100",
+      address_city: "San Francisco",
+      address_state: "CA",
+      address_zip: "94107",
+      address_country: "US",
+      phone: "5555555555",
+      email: "harry.zhang@lob.com",
+    });
+    t.context.from_full = await makeAddress({
+      description: "Harry - New Office",
+      name: "Harry Zhang",
+      company: "Lob (new)",
+      address_line1: "210 King St",
+      address_city: "San Francisco",
+      address_state: "CA",
+      address_zip: "94107",
+      address_country: "US",
+      phone: "5555555555",
+      email: "harry.zhang@lob.com",
+    });
+    try {
+      const create = await prism.setup().then((client) =>
+        client.post(
+          resource_endpoint,
+          {
+            description: "Demo Postcard",
+            to: t.context.to_full,
+            from: t.context.from_full,
+            send_date: date.toISOString(),
+            front:
+              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/6x11_pc_template.pdf",
+            back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/6x11_pc_template.pdf",
+            size: "6x11",
+            mail_type: "usps_standard",
+            merge_variables: { name: "Harry" },
+          },
+          { headers: prism.authHeader }
+        )
+      );
+      t.assert(create.status === 200);
+      t.context.full_id = create.data.id;
+    } catch (prismError) {
+      console.error(JSON.stringify(prismError, null, 2));
+    }
+  }
+);
+
+test.serial("list, read then cancel a postcard", async function (t) {
+  t.plan(3);
+
+  try {
+    const list = await prism
       .setup()
       .then((client) =>
-        client.post("/addresses", address_data, { headers: prism.authHeader })
+        client.get(resource_endpoint, { headers: prism.authHeader })
       );
+    t.assert(list.status === 200);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 
-    return response.data.id;
-  };
-  const deleteAddress = async (address_id) => {
-    const response = await prism
-      .setup()
-      .then((client) =>
-        client.delete(`/addresses/${address_id}`, { headers: prism.authHeader })
-      );
-
-    t.assert(response.status === 200);
-    return response;
-  };
-  const to = await makeAddress({
-    company: "Lob (old)",
-    address_line1: "185 Berry St",
-    address_line2: "# 6100",
-    address_city: "San Francisco",
-    phone: "5555555555",
-    address_state: "CA",
-    address_zip: "94107",
-  });
-  const from = await makeAddress({
-    company: "Lob (new)",
-    address_line1: "210 King St",
-    address_city: "San Francisco",
-    address_state: "CA",
-    address_zip: "94107",
-    address_country: "US",
-  });
-
-  // template type: remote upload
-  const create = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        to: to,
-        from: from,
-        front:
-          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(create.status === 200);
-
-  const list = await prism
-    .setup()
-    .then((client) =>
-      client.get(resource_endpoint, { headers: prism.authHeader })
+  try {
+    const read = await prism.setup().then((client) =>
+      client.get(`${resource_endpoint}/${t.context.normal_id}`, {
+        headers: prism.authHeader,
+      })
     );
-  t.assert(list.status === 200);
+    t.assert(read.status === 200);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 
-  const read = await prism.setup().then((client) =>
-    client.get(`${resource_endpoint}/${create.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-  t.assert(read.status === 200);
-
-  const cancel = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${read.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-  t.assert(cancel.status === 200);
-
-  await deleteAddress(to);
-  await deleteAddress(from);
-});
-
-test("create, list, read then cancel a postcard with full payload", async function (t) {
-  t.plan(6);
-  const makeAddress = async (address_data) => {
-    let response = await prism
-      .setup()
-      .then((client) =>
-        client.post("/addresses", address_data, { headers: prism.authHeader })
-      );
-
-    return response.data.id;
-  };
-  const deleteAddress = async (address_id) => {
-    const response = await prism
-      .setup()
-      .then((client) =>
-        client.delete(`/addresses/${address_id}`, { headers: prism.authHeader })
-      );
-
-    t.assert(response.status === 200);
-    return response;
-  };
-
-  const to = await makeAddress({
-    description: "Harry - Old Office",
-    name: "Harry Zhang",
-    company: "Lob (old)",
-    address_line1: "185 Berry St",
-    address_line2: "# 6100",
-    address_city: "San Francisco",
-    address_state: "CA",
-    address_zip: "94107",
-    address_country: "US",
-    phone: "5555555555",
-    email: "harry.zhang@lob.com",
-  });
-  const from = await makeAddress({
-    description: "Harry - New Office",
-    name: "Harry Zhang",
-    company: "Lob (new)",
-    address_line1: "210 King St",
-    address_city: "San Francisco",
-    address_state: "CA",
-    address_zip: "94107",
-    address_country: "US",
-    phone: "5555555555",
-    email: "harry.zhang@lob.com",
-  });
-  const date = new Date();
-  date.setDate(date.getDate() + 1); // adding a day to today's date so clearly within 180 days of today
-
-  const create = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        description: "Demo Postcard",
-        to: to,
-        from: from,
-        send_date: date.toISOString(),
-        front:
-          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/6x11_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/6x11_pc_template.pdf",
-        size: "6x11",
-        mail_type: "usps_standard",
-        merge_variables: { name: "Harry" },
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(create.status === 200);
-
-  const list = await prism
-    .setup()
-    .then((client) =>
-      client.get(resource_endpoint, { headers: prism.authHeader })
+  try {
+    const cancel = await prism.setup().then((client) =>
+      client.delete(`${resource_endpoint}/${t.context.normal_id}`, {
+        headers: prism.authHeader,
+      })
     );
-  t.assert(list.status === 200);
-
-  const read = await prism.setup().then((client) =>
-    client.get(`${resource_endpoint}/${create.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-  t.assert(read.status === 200);
-
-  const cancel = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${read.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-  t.assert(cancel.status === 200);
-
-  await deleteAddress(to);
-  await deleteAddress(from);
+    t.assert(cancel.status === 200);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
+
+test.serial(
+  "list, read then cancel a postcard with full payload",
+  async function (t) {
+    t.plan(3);
+
+    try {
+      const list = await prism
+        .setup()
+        .then((client) =>
+          client.get(resource_endpoint, { headers: prism.authHeader })
+        );
+      t.assert(list.status === 200);
+    } catch (prismError) {
+      console.error(JSON.stringify(prismError, null, 2));
+    }
+
+    try {
+      const read = await prism.setup().then((client) =>
+        client.get(`${resource_endpoint}/${t.context.full_id}`, {
+          headers: prism.authHeader,
+        })
+      );
+      t.assert(read.status === 200);
+    } catch (prismError) {
+      console.error(JSON.stringify(prismError, null, 2));
+    }
+
+    try {
+      const cancel = await prism.setup().then((client) =>
+        client.delete(`${resource_endpoint}/${t.context.full_id}`, {
+          headers: prism.authHeader,
+        })
+      );
+      t.assert(cancel.status === 200);
+    } catch (prismError) {
+      console.error(JSON.stringify(prismError, null, 2));
+    }
+  }
+);
 
 test("creates a postcard given a local filepath as the front & back", async function (t) {
   t.plan(2);
@@ -292,228 +315,276 @@ test("creates a postcard given a local filepath as the front & back", async func
       "tests/assets/customer-thank-you-postcard-template-4x6-front.html"
     )
   );
-  const frontBack = await streamToString(files);
+  try {
+    const frontBack = await streamToString(files);
 
-  // template type: local upload
-  const create = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        to: {
-          company: "Lob (old)",
-          address_line1: "185 Berry St",
-          address_line2: "# 6100",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
+    // template type: local upload
+    const create = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          to: {
+            company: "Lob (old)",
+            address_line1: "185 Berry St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          },
+          from: {
+            company: "Lob (new)",
+            address_line1: "210 King St",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+            address_country: "US",
+          },
+          front: frontBack,
+          back: frontBack,
         },
-        from: {
-          company: "Lob (new)",
-          address_line1: "210 King St",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
-          address_country: "US",
-        },
-        front: frontBack,
-        back: frontBack,
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(create.status === 200);
+        { headers: prism.authHeader }
+      )
+    );
+    t.assert(create.status === 200);
 
-  const cancel = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${create.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-  t.assert(cancel.status === 200);
+    const cancel = await prism.setup().then((client) =>
+      client.delete(`${resource_endpoint}/${create.data.id}`, {
+        headers: prism.authHeader,
+      })
+    );
+    t.assert(cancel.status === 200);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("creates a postcard given an html string as the front & back", async function (t) {
   t.plan(2);
-  const create = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        description: "Demo Postcard",
-        to: {
-          company: "Lob (old)",
-          address_line1: "185 Berry St",
-          address_line2: "# 6100",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
+  try {
+    const create = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          description: "Demo Postcard",
+          to: {
+            company: "Lob (old)",
+            address_line1: "185 Berry St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          },
+          from: {
+            company: "Lob (new)",
+            address_line1: "210 King St",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+            address_country: "US",
+          },
+          front:
+            "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
+          back: "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+          size: "6x11",
+          mail_type: "usps_standard",
+          merge_variables: { name: "Harry" },
         },
-        from: {
-          company: "Lob (new)",
-          address_line1: "210 King St",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
-          address_country: "US",
-        },
-        front:
-          "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
-        back: "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
-        size: "6x11",
-        mail_type: "usps_standard",
-        merge_variables: { name: "Harry" },
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(create.status === 200);
+        { headers: prism.authHeader }
+      )
+    );
+    t.assert(create.status === 200);
 
-  const cancel = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${create.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-  t.assert(cancel.status === 200);
+    const cancel = await prism.setup().then((client) =>
+      client.delete(`${resource_endpoint}/${create.data.id}`, {
+        headers: prism.authHeader,
+      })
+    );
+    t.assert(cancel.status === 200);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("creates a postcard given template IDs for the front & back", async function (t) {
   t.plan(2);
-  const create = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        description: "Demo Postcard",
-        to: {
-          company: "Lob (old)",
-          address_line1: "185 Berry St",
-          address_line2: "# 6100",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
+  try {
+    const create = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          description: "Demo Postcard",
+          to: {
+            company: "Lob (old)",
+            address_line1: "185 Berry St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          },
+          from: {
+            company: "Lob (new)",
+            address_line1: "210 King St",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+            address_country: "US",
+          },
+          front: "tmpl_55ba9d8ff619cef",
+          back: "tmpl_65eed611c85b650",
+          size: "6x11",
+          mail_type: "usps_standard",
+          merge_variables: { name: "Harry" },
         },
-        from: {
-          company: "Lob (new)",
-          address_line1: "210 King St",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
-          address_country: "US",
-        },
-        front: "tmpl_55ba9d8ff619cef",
-        back: "tmpl_65eed611c85b650",
-        size: "6x11",
-        mail_type: "usps_standard",
-        merge_variables: { name: "Harry" },
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(create.status === 200);
+        { headers: prism.authHeader }
+      )
+    );
+    t.assert(create.status === 200);
 
-  const cancel = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${create.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-  t.assert(cancel.status === 200);
+    const cancel = await prism.setup().then((client) =>
+      client.delete(`${resource_endpoint}/${create.data.id}`, {
+        headers: prism.authHeader,
+      })
+    );
+    t.assert(cancel.status === 200);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 // select failure cases:
 test("throws errors when input is not validated", async function (t) {
   t.plan(2);
   // errors when one of the required fields (state) is missing
-  const create_domestic = await prism.setup({ errors: false }).then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        to: {
-          company: "Lob (old)",
-          address_line1: "185 Berry St",
-          address_line2: "# 6100",
-          address_city: "San Francisco",
-          address_zip: "94107",
-        },
-        from: {
-          company: "Lob (new)",
-          address_line1: "210 King St",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
-          address_country: "US",
-        },
-        front:
-          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(create_domestic.status === 422);
+  try {
+    const create_domestic = await prism
+      .setup({ errors: false })
+      .then((client) =>
+        client.post(
+          resource_endpoint,
+          {
+            to: {
+              company: "Lob (old)",
+              address_line1: "185 Berry St",
+              address_line2: "# 6100",
+              address_city: "San Francisco",
+              address_zip: "94107",
+            },
+            from: {
+              company: "Lob (new)",
+              address_line1: "210 King St",
+              address_city: "San Francisco",
+              address_state: "CA",
+              address_zip: "94107",
+              address_country: "US",
+            },
+            front:
+              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+            back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+          },
+          { headers: prism.authHeader }
+        )
+      );
+    t.assert(create_domestic.status === 422);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 
   // errors when no country is provided for international address
-  const create_intl = await prism.setup({ errors: false }).then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        to: {
-          company: "Lobster House",
-          address_line1: "370 Water St",
-          address_city: "Summerside",
-          address_state: "Prince Edward Island",
-          address_zip: "C1N 1C4",
+  try {
+    const create_intl = await prism.setup({ errors: false }).then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          to: {
+            company: "Lobster House",
+            address_line1: "370 Water St",
+            address_city: "Summerside",
+            address_state: "Prince Edward Island",
+            address_zip: "C1N 1C4",
+          },
+          from: {
+            company: "Lob (new)",
+            address_line1: "210 King St",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+            address_country: "US",
+          },
+          front:
+            "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+          back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
         },
-        from: {
-          company: "Lob (new)",
-          address_line1: "210 King St",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
-          address_country: "US",
-        },
-        front:
-          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(create_intl.status === 422);
+        { headers: prism.authHeader }
+      )
+    );
+    t.assert(create_intl.status === 422);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("throws error when metadata is not string, number, or boolean", async function (t) {
   t.plan(2);
-  // errors when one of the required fields (state) is missing
-  const create = await prism.setup({ errors: false }).then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        to: {
-          company: "Lob (old)",
-          address_line1: "185 Berry St",
-          address_line2: "# 6100",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
-        },
-        from: {
-          company: "Lob (new)",
-          address_line1: "210 King St",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
-          address_country: "US",
-        },
-        front:
-          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        metadata: {
-          name: "Harry",
-          maps: {
-            key1: "This isn't a valid metadata object",
+  try {
+    const create = await prism.setup({ errors: false }).then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          to: {
+            company: "Lob (old)",
+            address_line1: "185 Berry St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          },
+          from: {
+            company: "Lob (new)",
+            address_line1: "210 King St",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+            address_country: "US",
+          },
+          front:
+            "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+          back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+          metadata: {
+            name: "Harry",
+            maps: {
+              key1: "This isn't a valid metadata object",
+            },
           },
         },
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(create.status === 422);
-  t.assert(create.data.error.message.includes("metadata"));
+        { headers: prism.authHeader }
+      )
+    );
+    t.assert(create.status === 422);
+    t.assert(create.data.error.message.includes("metadata"));
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
+});
+
+test.after.always("delete addresses", async function (t) {
+  t.plan(4);
+  const deleteAddress = async (address_id) => {
+    try {
+      const response = await prism.setup().then((client) =>
+        client.delete(`/addresses/${address_id}`, {
+          headers: prism.authHeader,
+        })
+      );
+
+      t.assert(response.status === 200);
+      return response;
+    } catch (prismError) {
+      console.error(JSON.stringify(prismError, null, 2));
+      return prismError;
+    }
+  };
+  await deleteAddress(t.context.to);
+  await deleteAddress(t.context.to_full);
+  await deleteAddress(t.context.from);
+  await deleteAddress(t.context.from_full);
 });

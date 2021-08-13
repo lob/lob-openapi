@@ -13,31 +13,39 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 test("lookup a US zip code", async function (t) {
   t.plan(1);
-  const response = await prism
-    .setup()
-    .then((client) =>
-      client.post(
-        resource_endpoint,
-        { zip_code: zip },
-        { headers: prism.authHeader }
-      )
-    );
+  try {
+    const response = await prism
+      .setup()
+      .then((client) =>
+        client.post(
+          resource_endpoint,
+          { zip_code: zip },
+          { headers: prism.authHeader }
+        )
+      );
 
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("use an incorrectly formatted zip code", async function (t) {
   t.plan(2);
-  const response = await prism
-    .setup({ errors: false })
-    .then((client) =>
-      client.post(
-        resource_endpoint,
-        { zip_code: "123456" },
-        { headers: prism.authHeader }
-      )
-    );
+  try {
+    const response = await prism
+      .setup({ errors: false })
+      .then((client) =>
+        client.post(
+          resource_endpoint,
+          { zip_code: "123456" },
+          { headers: prism.authHeader }
+        )
+      );
 
-  t.assert(response.status === 422);
-  t.assert(response.data.error.message.includes("zip_code"));
+    t.assert(response.status === 422);
+    t.assert(response.data.error.message.includes("zip_code"));
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });

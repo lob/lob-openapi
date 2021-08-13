@@ -14,23 +14,36 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 // contract tests
 test("list addresses", async function (t) {
   t.plan(1);
-  const response = await prism
-    .setup()
-    .then((client) =>
-      client.get(resource_endpoint, { headers: prism.authHeader })
-    );
-  t.assert(response.status === 200);
+  try {
+    const response = await prism
+      .setup()
+      .then((client) =>
+        client.get(resource_endpoint, { headers: prism.authHeader })
+      );
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("list addresses' parameters", async function (t) {
   const list = async (body) => {
-    const response = await prism.setup().then((client) =>
-      client.get(`${resource_endpoint}?${body}`, {
-        headers: prism.authHeader,
-      })
-    );
-    t.assert(response.status === 200);
-    return response.data;
+    try {
+      const response = await prism.setup().then((client) =>
+        client.get(`${resource_endpoint}?${body}`, {
+          headers: prism.authHeader,
+        })
+      );
+      t.assert(response.status === 200);
+      return response.data;
+    } catch (prismError) {
+      prismError.message =
+        "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+      console.error(JSON.stringify(prismError, null, 2));
+      return prismError;
+    }
   };
 
   /* ################## LIMIT ################## */
@@ -89,24 +102,30 @@ test("list addresses' parameters", async function (t) {
 
   /* ################## RUN EVERYTHING ASYNC ################## */
 
-  const finale = await Promise.all([
-    limit_response,
-    before_response,
-    after_response,
-    include_response,
-    metadata_response,
-    date_response,
-    full_response,
-  ]);
+  try {
+    const finale = await Promise.all([
+      limit_response,
+      before_response,
+      after_response,
+      include_response,
+      metadata_response,
+      date_response,
+      full_response,
+    ]);
 
-  t.assert(finale[0].count <= 8);
-  t.assert(finale[3].hasOwnProperty("total_count"));
-  t.assert(finale[4].count === 4);
-  t.assert(finale[4].data[0].metadata.name === "Harry");
-  t.assert(finale[5].count === 3);
-  t.assert(finale[6].count > 0 && finale[6].count <= 2);
-  t.assert(finale[6].hasOwnProperty("total_count"));
-  t.assert(finale[6].data[0].metadata.name === "Harry");
+    t.assert(finale[0].count <= 8);
+    t.assert(finale[3].hasOwnProperty("total_count"));
+    t.assert(finale[4].count === 4);
+    t.assert(finale[4].data[0].metadata.name === "Harry");
+    t.assert(finale[5].count === 3);
+    t.assert(finale[6].count > 0 && finale[6].count <= 2);
+    t.assert(finale[6].hasOwnProperty("total_count"));
+    t.assert(finale[6].data[0].metadata.name === "Harry");
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("create, retrieve, then delete an address", async function (t) {
@@ -125,33 +144,39 @@ test("create, retrieve, then delete an address", async function (t) {
     address_country: "US",
   };
 
-  let response = await prism
-    .setup()
-    .then((client) =>
-      client.post(resource_endpoint, params, { headers: prism.authHeader })
+  try {
+    let response = await prism
+      .setup()
+      .then((client) =>
+        client.post(resource_endpoint, params, { headers: prism.authHeader })
+      );
+
+    t.assert(response.status === 200);
+
+    const adr_id = response.data.id;
+
+    // retrieve
+    response = await prism.setup().then((client) =>
+      client.get(`${resource_endpoint}/${adr_id}`, {
+        headers: prism.authHeader,
+      })
     );
 
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
 
-  const adr_id = response.data.id;
+    // delete
+    response = await prism.setup().then((client) =>
+      client.delete(`${resource_endpoint}/${adr_id}`, {
+        headers: prism.authHeader,
+      })
+    );
 
-  // retrieve
-  response = await prism.setup().then((client) =>
-    client.get(`${resource_endpoint}/${adr_id}`, {
-      headers: prism.authHeader,
-    })
-  );
-
-  t.assert(response.status === 200);
-
-  // delete
-  response = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${adr_id}`, {
-      headers: prism.authHeader,
-    })
-  );
-
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("allows creation with just a name", async function (t) {
@@ -169,22 +194,28 @@ test("allows creation with just a name", async function (t) {
     address_country: "US",
   };
 
-  let response = await prism
-    .setup()
-    .then((client) =>
-      client.post(resource_endpoint, params, { headers: prism.authHeader })
+  try {
+    let response = await prism
+      .setup()
+      .then((client) =>
+        client.post(resource_endpoint, params, { headers: prism.authHeader })
+      );
+
+    t.assert(response.status === 200);
+
+    // delete
+    const deletion = await prism.setup().then((client) =>
+      client.delete(`${resource_endpoint}/${response.data.id}`, {
+        headers: prism.authHeader,
+      })
     );
 
-  t.assert(response.status === 200);
-
-  // delete
-  const deletion = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${response.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-
-  t.assert(deletion.status === 200);
+    t.assert(deletion.status === 200);
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("allows creation with just a company", async function (t) {
@@ -202,22 +233,28 @@ test("allows creation with just a company", async function (t) {
     address_country: "US",
   };
 
-  let response = await prism
-    .setup()
-    .then((client) =>
-      client.post(resource_endpoint, params, { headers: prism.authHeader })
+  try {
+    let response = await prism
+      .setup()
+      .then((client) =>
+        client.post(resource_endpoint, params, { headers: prism.authHeader })
+      );
+
+    t.assert(response.status === 200);
+
+    // delete
+    const deletion = await prism.setup().then((client) =>
+      client.delete(`${resource_endpoint}/${response.data.id}`, {
+        headers: prism.authHeader,
+      })
     );
 
-  t.assert(response.status === 200);
-
-  // delete
-  const deletion = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${response.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-
-  t.assert(deletion.status === 200);
+    t.assert(deletion.status === 200);
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("correctly creates an international address", async function (t) {
@@ -235,23 +272,29 @@ test("correctly creates an international address", async function (t) {
     address_country: "CA",
   };
 
-  let response = await prism
-    .setup({ errors: false })
-    .then((client) =>
-      client.post(resource_endpoint, params, { headers: prism.authHeader })
+  try {
+    let response = await prism
+      .setup({ errors: false })
+      .then((client) =>
+        client.post(resource_endpoint, params, { headers: prism.authHeader })
+      );
+
+    t.assert(response.status === 200);
+    t.assert(response.data.address_country === "CANADA");
+
+    // delete
+    const deletion = await prism.setup().then((client) =>
+      client.delete(`${resource_endpoint}/${response.data.id}`, {
+        headers: prism.authHeader,
+      })
     );
 
-  t.assert(response.status === 200);
-  t.assert(response.data.address_country === "CANADA");
-
-  // delete
-  const deletion = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${response.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-
-  t.assert(deletion.status === 200);
+    t.assert(deletion.status === 200);
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("correctly creates an international address with mostly-empty input", async function (t) {
@@ -265,23 +308,29 @@ test("correctly creates an international address with mostly-empty input", async
     address_country: "CA",
   };
 
-  let response = await prism
-    .setup({ errors: false })
-    .then((client) =>
-      client.post(resource_endpoint, params, { headers: prism.authHeader })
+  try {
+    let response = await prism
+      .setup({ errors: false })
+      .then((client) =>
+        client.post(resource_endpoint, params, { headers: prism.authHeader })
+      );
+
+    t.assert(response.status === 200);
+    t.assert(response.data.address_country === "CANADA");
+
+    // delete
+    const deletion = await prism.setup().then((client) =>
+      client.delete(`${resource_endpoint}/${response.data.id}`, {
+        headers: prism.authHeader,
+      })
     );
 
-  t.assert(response.status === 200);
-  t.assert(response.data.address_country === "CANADA");
-
-  // delete
-  const deletion = await prism.setup().then((client) =>
-    client.delete(`${resource_endpoint}/${response.data.id}`, {
-      headers: prism.authHeader,
-    })
-  );
-
-  t.assert(deletion.status === 200);
+    t.assert(deletion.status === 200);
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("does not treat input as international without country", async function (t) {
@@ -298,13 +347,19 @@ test("does not treat input as international without country", async function (t)
     address_zip: "C1N 1C4",
   };
 
-  let response = await prism
-    .setup({ errors: false })
-    .then((client) =>
-      client.post(resource_endpoint, params, { headers: prism.authHeader })
-    );
+  try {
+    let response = await prism
+      .setup({ errors: false })
+      .then((client) =>
+        client.post(resource_endpoint, params, { headers: prism.authHeader })
+      );
 
-  t.assert(response.status === 422);
+    t.assert(response.status === 422);
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("errors when attempting to create an address with neither name nor company", async function (t) {
@@ -321,14 +376,20 @@ test("errors when attempting to create an address with neither name nor company"
     address_country: "US",
   };
 
-  let response = await prism
-    .setup({ errors: false })
-    .then((client) =>
-      client.post(resource_endpoint, params, { headers: prism.authHeader })
-    );
+  try {
+    let response = await prism
+      .setup({ errors: false })
+      .then((client) =>
+        client.post(resource_endpoint, params, { headers: prism.authHeader })
+      );
 
-  t.assert(response.status === 422);
-  t.assert(response.data.error.message.includes("name"));
+    t.assert(response.status === 422);
+    t.assert(response.data.error.message.includes("name"));
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("errors when attempting to create a US address without city and state", async function (t) {
@@ -343,14 +404,20 @@ test("errors when attempting to create a US address without city and state", asy
     address_country: "US",
   };
 
-  let response = await prism
-    .setup({ errors: false })
-    .then((client) =>
-      client.post(resource_endpoint, params, { headers: prism.authHeader })
-    );
+  try {
+    let response = await prism
+      .setup({ errors: false })
+      .then((client) =>
+        client.post(resource_endpoint, params, { headers: prism.authHeader })
+      );
 
-  t.assert(response.status === 422);
-  t.assert(response.data.error.message.includes("address_city"));
+    t.assert(response.status === 422);
+    t.assert(response.data.error.message.includes("address_city"));
+  } catch (prismError) {
+    prismError.message =
+      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("errors at the promise level", async function (t) {

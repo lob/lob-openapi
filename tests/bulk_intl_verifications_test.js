@@ -20,67 +20,87 @@ const address = {
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 
 test("verify list of valid international addresses", async function (t) {
-  const response = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        addresses: [address],
-      },
-      { headers: prism.authHeader }
-    )
-  );
+  t.plan(1);
+  try {
+    const response = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          addresses: [address],
+        },
+        { headers: prism.authHeader }
+      )
+    );
 
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("verify list of valid international addresses with full payload", async function (t) {
-  const response = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        addresses: [
-          {
-            ...address,
-            recipient: "John Doe",
-            secondary_line: "",
-          },
-        ],
-      },
-      { headers: prism.authHeader }
-    )
-  );
+  t.plan(1);
+  try {
+    const response = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          addresses: [
+            {
+              ...address,
+              recipient: "John Doe",
+              secondary_line: "",
+            },
+          ],
+        },
+        { headers: prism.authHeader }
+      )
+    );
 
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("errors when given an empty array", async function (t) {
-  const response = await prism.setup({ errors: false }).then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        addresses: [],
-      },
-      { headers: prism.authHeader }
-    )
-  );
+  t.plan(2);
+  try {
+    const response = await prism.setup({ errors: false }).then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          addresses: [],
+        },
+        { headers: prism.authHeader }
+      )
+    );
 
-  t.assert(response.status === 422);
-  t.assert(response.data.error.message.includes("items"));
+    t.assert(response.status === 422);
+    t.assert(response.data.error.message.includes("items"));
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });
 
 test("errors when given more than 10 addresses", async function (t) {
-  const addresses = Array(11).fill(address);
+  t.plan(2);
+  try {
+    const addresses = Array(11).fill(address);
 
-  const response = await prism.setup({ errors: false }).then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        addresses: addresses,
-      },
-      { headers: prism.authHeader }
-    )
-  );
+    const response = await prism.setup({ errors: false }).then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          addresses: addresses,
+        },
+        { headers: prism.authHeader }
+      )
+    );
 
-  t.assert(response.status === 422);
-  t.assert(response.data.error.message.includes("items"));
+    t.assert(response.status === 422);
+    t.assert(response.data.error.message.includes("items"));
+  } catch (prismError) {
+    console.error(JSON.stringify(prismError, null, 2));
+  }
 });

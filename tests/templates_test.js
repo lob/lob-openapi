@@ -25,12 +25,12 @@ test.serial.before("fill out context", async function (t) {
     );
     t.context.tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial("retrieve template", async function (t) {
-  t.plan(1);
   try {
     let response = await prism
       .setup()
@@ -40,12 +40,12 @@ test.serial("retrieve template", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial("create and update template", async function (t) {
-  t.plan(2);
   try {
     // create new version
     let response = await prism.setup().then((client) =>
@@ -75,12 +75,12 @@ test.serial("create and update template", async function (t) {
     );
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial("list templates", async function (t) {
-  t.plan(1);
   // list
   try {
     const response = await prism
@@ -91,7 +91,8 @@ test.serial("list templates", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
@@ -107,7 +108,8 @@ test("list templates' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
       return prismError;
     }
   };
@@ -185,13 +187,13 @@ test("list templates' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 // contract tests
 test.after.always("delete a template", async function (t) {
-  t.plan(1);
   // delete
   try {
     const response = await prism
@@ -202,6 +204,7 @@ test.after.always("delete a template", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });

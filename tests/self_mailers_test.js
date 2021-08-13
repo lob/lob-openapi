@@ -23,7 +23,8 @@ test("list self mailers' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
       return prismError;
     }
   };
@@ -101,14 +102,14 @@ test("list self mailers' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial.before(
   "create a letter, letter with full payload, and certified letter",
   async function (t) {
-    t.plan(6);
     // NORMAL SELF MAILER
     const makeAddress = async (address_data) => {
       try {
@@ -120,7 +121,8 @@ test.serial.before(
         t.assert(response.status === 200);
         return response.data.id;
       } catch (prismError) {
-        console.error(JSON.stringify(prismError, null, 2));
+        console.error(prismError);
+        t.assert(false);
         return prismError;
       }
     };
@@ -160,7 +162,8 @@ test.serial.before(
       t.assert(create.status === 200);
       t.context.normal_id = create.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     // FULL PAYLOAD SELF MAILER
@@ -214,14 +217,13 @@ test.serial.before(
       t.assert(create.status === 200);
       t.context.full_id = create.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
 
 test.serial("list, read, then cancel a self mailer", async function (t) {
-  t.plan(3);
-
   // read, replace, update and delete created endpoint
   const sfm_endpoint = `${resource_endpoint}/${t.context.normal_id}`;
 
@@ -233,7 +235,8 @@ test.serial("list, read, then cancel a self mailer", async function (t) {
       );
     t.assert(list.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   try {
@@ -244,7 +247,8 @@ test.serial("list, read, then cancel a self mailer", async function (t) {
       );
     t.assert(read.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   try {
@@ -255,15 +259,14 @@ test.serial("list, read, then cancel a self mailer", async function (t) {
     );
     t.assert(cancel.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial(
   "create, list, read, then cancel a self mailer with full payload",
   async function (t) {
-    t.plan(3);
-
     // read, replace, update and delete created endpoint
     const sfm_endpoint = `${resource_endpoint}/${t.context.full_id}`;
 
@@ -275,7 +278,8 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -286,7 +290,8 @@ test.serial(
         );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -297,13 +302,13 @@ test.serial(
       );
       t.assert(cancel.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
 
 test.after.always("delete addresses", async function (t) {
-  t.plan(4);
   const deleteAddress = async (address_id) => {
     try {
       const response = await prism.setup().then((client) =>
@@ -315,7 +320,8 @@ test.after.always("delete addresses", async function (t) {
       t.assert(response.status === 200);
       return response;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
       return prismError;
     }
   };

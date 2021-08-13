@@ -19,7 +19,6 @@ const address = {
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 
 test("verify list of valid US addresses", async function (t) {
-  t.plan(1);
   try {
     const response = await prism.setup().then((client) =>
       client.post(
@@ -33,12 +32,12 @@ test("verify list of valid US addresses", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("verify list of valid US addresses with full payload", async function (t) {
-  t.plan(1);
   try {
     const response = await prism.setup().then((client) =>
       client.post(
@@ -62,12 +61,12 @@ test("verify list of valid US addresses with full payload", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("errors when given an empty array", async function (t) {
-  t.plan(2);
   try {
     const response = await prism.setup({ errors: false }).then((client) =>
       client.post(
@@ -82,12 +81,12 @@ test("errors when given an empty array", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("items"));
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("errors when given more than 10 addresses", async function (t) {
-  t.plan(2);
   try {
     const addresses = Array(11).fill(address);
 
@@ -104,6 +103,7 @@ test("errors when given more than 10 addresses", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("items"));
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });

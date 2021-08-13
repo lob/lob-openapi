@@ -25,7 +25,8 @@ test("list postcards' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   };
 
@@ -105,14 +106,14 @@ test("list postcards' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial.before(
   "create a letter, letter with full payload, and certified letter",
   async function (t) {
-    t.plan(6);
     // NORMAL POSTCARD
     const makeAddress = async (address_data) => {
       try {
@@ -124,7 +125,8 @@ test.serial.before(
         t.assert(response.status === 200);
         return response.data.id;
       } catch (prismError) {
-        console.error(JSON.stringify(prismError, null, 2));
+        console.error(prismError);
+        t.assert(false);
         return prismError;
       }
     };
@@ -164,7 +166,8 @@ test.serial.before(
       t.assert(create.status === 200);
       t.context.normal_id = create.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     // FULL PAYLOAD POSTCARD
@@ -217,14 +220,13 @@ test.serial.before(
       t.assert(create.status === 200);
       t.context.full_id = create.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
 
 test.serial("list, read then cancel a postcard", async function (t) {
-  t.plan(3);
-
   try {
     const list = await prism
       .setup()
@@ -233,7 +235,8 @@ test.serial("list, read then cancel a postcard", async function (t) {
       );
     t.assert(list.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   try {
@@ -244,7 +247,8 @@ test.serial("list, read then cancel a postcard", async function (t) {
     );
     t.assert(read.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   try {
@@ -255,15 +259,14 @@ test.serial("list, read then cancel a postcard", async function (t) {
     );
     t.assert(cancel.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial(
   "list, read then cancel a postcard with full payload",
   async function (t) {
-    t.plan(3);
-
     try {
       const list = await prism
         .setup()
@@ -272,7 +275,8 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -283,7 +287,8 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -294,13 +299,13 @@ test.serial(
       );
       t.assert(cancel.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
 
 test("creates a postcard given a local filepath as the front & back", async function (t) {
-  t.plan(2);
   function streamToString(stream) {
     const chunks = [];
     return new Promise((resolve, reject) => {
@@ -354,12 +359,12 @@ test("creates a postcard given a local filepath as the front & back", async func
     );
     t.assert(cancel.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("creates a postcard given an html string as the front & back", async function (t) {
-  t.plan(2);
   try {
     const create = await prism.setup().then((client) =>
       client.post(
@@ -401,12 +406,12 @@ test("creates a postcard given an html string as the front & back", async functi
     );
     t.assert(cancel.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("creates a postcard given template IDs for the front & back", async function (t) {
-  t.plan(2);
   try {
     const create = await prism.setup().then((client) =>
       client.post(
@@ -447,13 +452,13 @@ test("creates a postcard given template IDs for the front & back", async functio
     );
     t.assert(cancel.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 // select failure cases:
 test("throws errors when input is not validated", async function (t) {
-  t.plan(2);
   // errors when one of the required fields (state) is missing
   try {
     const create_domestic = await prism
@@ -486,7 +491,8 @@ test("throws errors when input is not validated", async function (t) {
       );
     t.assert(create_domestic.status === 422);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   // errors when no country is provided for international address
@@ -519,12 +525,12 @@ test("throws errors when input is not validated", async function (t) {
     );
     t.assert(create_intl.status === 422);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("throws error when metadata is not string, number, or boolean", async function (t) {
-  t.plan(2);
   try {
     const create = await prism.setup({ errors: false }).then((client) =>
       client.post(
@@ -562,12 +568,12 @@ test("throws error when metadata is not string, number, or boolean", async funct
     t.assert(create.status === 422);
     t.assert(create.data.error.message.includes("metadata"));
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.after.always("delete addresses", async function (t) {
-  t.plan(4);
   const deleteAddress = async (address_id) => {
     try {
       const response = await prism.setup().then((client) =>
@@ -579,7 +585,8 @@ test.after.always("delete addresses", async function (t) {
       t.assert(response.status === 200);
       return response;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
       return prismError;
     }
   };

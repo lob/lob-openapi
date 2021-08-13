@@ -22,7 +22,6 @@ const payload = {
 test.serial.before(
   "create & validate verified bank account, and create & read a check",
   async function (t) {
-    t.plan(3);
     try {
       // We need a verified bank account to create a check, so let's make that first
       const result = await prism.setup().then((client) =>
@@ -41,7 +40,8 @@ test.serial.before(
 
       t.context.bank_id = result.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -56,7 +56,8 @@ test.serial.before(
         );
       t.assert(verify.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -82,7 +83,8 @@ test.serial.before(
       );
       t.assert(t.context.create.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -93,7 +95,8 @@ test.serial.before(
       );
       t.assert(t.context.read.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
@@ -101,7 +104,6 @@ test.serial.before(
 test.serial.before(
   "create & validate verified bank account, and create & read a check urlencoded",
   async function (t) {
-    t.plan(3);
     try {
       // We need a verified bank account to create a check, so let's make that first
       const result = await prism.setup().then((client) =>
@@ -120,7 +122,8 @@ test.serial.before(
 
       t.context.bank_id2 = result.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -135,7 +138,8 @@ test.serial.before(
         );
       t.assert(verify.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     let body = new URLSearchParams({
@@ -180,7 +184,8 @@ test.serial.before(
       );
       t.assert(t.context.create2.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -191,7 +196,8 @@ test.serial.before(
       );
       t.assert(t.context.read2.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
@@ -205,7 +211,8 @@ test("list check", async function (t) {
       );
     t.assert(list.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
@@ -220,7 +227,8 @@ test("list checks' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
       return prismError;
     }
   };
@@ -296,7 +304,8 @@ test("list checks' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
@@ -309,7 +318,8 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(remove.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   try {
@@ -320,7 +330,8 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(delete_bank_acc.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   try {
@@ -331,7 +342,8 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(remove2.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   try {
@@ -342,6 +354,7 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(delete_bank_acc2.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });

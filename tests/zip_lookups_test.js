@@ -12,7 +12,6 @@ const resource_endpoint = "/us_zip_lookups",
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 test("lookup a US zip code", async function (t) {
-  t.plan(1);
   try {
     const response = await prism
       .setup()
@@ -26,12 +25,12 @@ test("lookup a US zip code", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("use an incorrectly formatted zip code", async function (t) {
-  t.plan(2);
   try {
     const response = await prism
       .setup({ errors: false })
@@ -46,6 +45,7 @@ test("use an incorrectly formatted zip code", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("zip_code"));
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });

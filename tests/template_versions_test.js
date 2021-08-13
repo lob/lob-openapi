@@ -15,7 +15,6 @@ let vrsn_endpoint = "/templates/tmpl_bdaadfdffd1938e/versions";
 test.serial.before(
   "create and update templates & endpoints to use in tests",
   async function (t) {
-    t.plan(1);
     try {
       // create a template to use for test
       const result = await prism.setup().then((client) =>
@@ -46,13 +45,13 @@ test.serial.before(
       t.assert(response.status === 200);
       t.context.vrsn_endpoint = `${t.context.resource_endpoint}/${response.data.id}`;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
 
 test.serial("retrieve a new template version", async function (t) {
-  t.plan(1);
   try {
     const response = await prism.setup().then((client) =>
       client.get(t.context.vrsn_endpoint, {
@@ -62,12 +61,12 @@ test.serial("retrieve a new template version", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial("update a new template version", async function (t) {
-  t.plan(1);
   try {
     const response = await prism
       .setup()
@@ -81,12 +80,12 @@ test.serial("update a new template version", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial("list template versions", async function (t) {
-  t.plan(1);
   try {
     const response = await prism
       .setup()
@@ -96,7 +95,8 @@ test.serial("list template versions", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
@@ -111,7 +111,8 @@ test.serial("list template versions' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
       return prismError;
     }
   };
@@ -183,12 +184,12 @@ test.serial("list template versions' params", async function (t) {
     t.assert(finale[5].count === 1);
     t.assert(finale[5].hasOwnProperty("total_count"));
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial("delete template version", async function (t) {
-  t.plan(1);
   // delete
   try {
     let response = await prism.setup().then((client) =>
@@ -199,7 +200,8 @@ test.serial("delete template version", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
@@ -213,6 +215,7 @@ test.after.always("clean up template", async function (t) {
     );
     t.assert(clean_up.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });

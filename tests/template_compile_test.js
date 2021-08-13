@@ -12,7 +12,6 @@ const specFile = "./Lob-API-public.yml";
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 test.serial.before("create template and endpoints", async function (t) {
-  t.plan(1);
   try {
     const response = await prism.setup().then((client) =>
       client.post(
@@ -30,12 +29,12 @@ test.serial.before("create template and endpoints", async function (t) {
     t.context.tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
     t.context.tmpl_compile_endpoint = `${resource_endpoint}/${response.data.id}/compile`;
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial("compile a template", async function (t) {
-  t.plan(2);
   try {
     const response = await prism.setup().then((client) =>
       client.get(
@@ -51,13 +50,13 @@ test.serial("compile a template", async function (t) {
     t.assert(response.status === 200);
     t.assert(response.data === "<html>HTML Compile for compile test</html>");
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 // contract tests
 test.serial("delete a template", async function (t) {
-  t.plan(1);
   try {
     let response = await prism
       .setup()
@@ -67,6 +66,7 @@ test.serial("delete a template", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });

@@ -30,7 +30,8 @@ test("list bank accounts' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
       return prismError;
     }
   };
@@ -107,14 +108,14 @@ test("list bank accounts' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].data[0].metadata.name === "Harry");
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.serial.before(
   "create a bank account (json and urlencoded)",
   async function (t) {
-    t.plan(2);
     try {
       const create = await prism
         .setup()
@@ -124,7 +125,8 @@ test.serial.before(
       t.assert(create.status === 200);
       t.context.create = create.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     const body = new URLSearchParams(payload).toString();
@@ -140,7 +142,8 @@ test.serial.before(
       t.assert(create.status === 200);
       t.context.create_urlencoded = create.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
@@ -149,8 +152,6 @@ test.serial.before(
 test.serial(
   "create, list, read, verify, then delete a bank_account",
   async function (t) {
-    t.plan(5);
-
     try {
       const list = await prism
         .setup()
@@ -159,7 +160,8 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -170,7 +172,8 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -193,7 +196,8 @@ test.serial(
       );
       t.assert(remove.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
@@ -201,8 +205,6 @@ test.serial(
 test.serial(
   "create, list, read, verify, then delete a bank_account urlencoded",
   async function (t) {
-    t.plan(5);
-
     try {
       const list = await prism
         .setup()
@@ -211,7 +213,8 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -222,7 +225,8 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -245,7 +249,8 @@ test.serial(
       );
       t.assert(remove.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );

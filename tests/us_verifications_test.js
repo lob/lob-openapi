@@ -15,7 +15,6 @@ const sla = "185 BERRY ST 94107";
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 
 test("verify a US address given primary line, city, and state", async function (t) {
-  t.plan(1);
   try {
     const response = await prism
       .setup()
@@ -29,12 +28,12 @@ test("verify a US address given primary line, city, and state", async function (
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("verify a US address given primary line and zip code", async function (t) {
-  t.plan(1);
   try {
     const response = await prism
       .setup()
@@ -48,12 +47,12 @@ test("verify a US address given primary line and zip code", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("verify a US address given a single-line address", async function (t) {
-  t.plan(1);
   try {
     const response = await prism
       .setup()
@@ -67,12 +66,12 @@ test("verify a US address given a single-line address", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("verify a US address with full payload", async function (t) {
-  t.plan(1);
   try {
     const response = await prism.setup().then((client) =>
       client.post(
@@ -91,13 +90,13 @@ test("verify a US address with full payload", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 // tests request validation
 test("errors when not given a primary line", async function (t) {
-  t.plan(1);
   try {
     await prism
       .setup()
@@ -116,7 +115,6 @@ test("errors when not given a primary line", async function (t) {
 
 // set prism error-surfacing to false for these tests, to gauge the endpoint's response
 test("errors when given a primary line without city/state or zip", async function (t) {
-  t.plan(2);
   try {
     const response = await prism
       .setup({ errors: false })
@@ -131,12 +129,12 @@ test("errors when given a primary line without city/state or zip", async functio
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("zip_code"));
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("errors when given a city without state or zip", async function (t) {
-  t.plan(2);
   try {
     const response = await prism
       .setup({ errors: false })
@@ -151,12 +149,12 @@ test("errors when given a city without state or zip", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("state"));
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("errors when given a state without city or zip", async function (t) {
-  t.plan(2);
   try {
     const response = await prism
       .setup({ errors: false })
@@ -171,12 +169,12 @@ test("errors when given a state without city or zip", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("city"));
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("errors when given extraneous information alongside a single-line address", async function (t) {
-  t.plan(2);
   try {
     const response = await prism
       .setup({ errors: false })
@@ -191,6 +189,7 @@ test("errors when given extraneous information alongside a single-line address",
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("zip_code"));
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });

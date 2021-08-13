@@ -22,7 +22,8 @@ test("list letters' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   };
 
@@ -97,7 +98,8 @@ test("list letters' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
@@ -115,7 +117,8 @@ test.serial.before(
         t.assert(response.status === 200);
         return response.data.id;
       } catch (prismError) {
-        console.error(JSON.stringify(prismError, null, 2));
+        console.error(prismError);
+        t.assert(false);
         return prismError;
       }
     };
@@ -155,7 +158,8 @@ test.serial.before(
       t.assert(!create.data.tracking_number);
       t.context.normal_id = create.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     // FULL PAYLOAD LETTER
@@ -214,7 +218,8 @@ test.serial.before(
       t.assert(!create.data.tracking_number);
       t.context.full_id = create.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     // CERTIFIED LETTER
@@ -251,7 +256,8 @@ test.serial.before(
       t.assert(create.data.tracking_number);
       t.context.certified_id = create.data.id;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
@@ -259,8 +265,6 @@ test.serial.before(
 test.serial(
   "list, read, then cancel, a letter with no extra services",
   async function (t) {
-    t.plan(3);
-
     try {
       const list = await prism
         .setup()
@@ -269,7 +273,8 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -281,7 +286,8 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -292,7 +298,8 @@ test.serial(
       );
       t.assert(cancel.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
@@ -300,8 +307,6 @@ test.serial(
 test.serial(
   "list, read, then cancel, a letter with no extra services and full payload",
   async function (t) {
-    t.plan(3);
-
     try {
       const list = await prism
         .setup()
@@ -310,7 +315,8 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -321,7 +327,8 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
 
     try {
@@ -332,15 +339,14 @@ test.serial(
       );
       t.assert(cancel.status === 200);
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
     }
   }
 );
 
 // add any failure cases you need here
 test.serial("list, read then cancel a certified letter", async function (t) {
-  t.plan(3);
-
   try {
     const list = await prism
       .setup()
@@ -349,7 +355,8 @@ test.serial("list, read then cancel a certified letter", async function (t) {
       );
     t.assert(list.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   try {
@@ -360,7 +367,8 @@ test.serial("list, read then cancel a certified letter", async function (t) {
     );
     t.assert(read.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 
   try {
@@ -371,12 +379,12 @@ test.serial("list, read then cancel a certified letter", async function (t) {
     );
     t.assert(cancel.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test.after.always("delete addresses", async function (t) {
-  t.plan(4);
   const deleteAddress = async (address_id) => {
     try {
       const response = await prism.setup().then((client) =>
@@ -388,7 +396,8 @@ test.after.always("delete addresses", async function (t) {
       t.assert(response.status === 200);
       return response;
     } catch (prismError) {
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
       return prismError;
     }
   };

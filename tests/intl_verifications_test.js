@@ -32,7 +32,6 @@ const address_response_ru = {
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 
 test("verify an Intl address given primary line, and country", async function (t) {
-  t.plan(1);
   try {
     const response = await prism.setup().then((client) =>
       client.post(
@@ -49,12 +48,12 @@ test("verify an Intl address given primary line, and country", async function (t
     );
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("verify an Intl address with full payload", async function (t) {
-  t.plan(1);
   try {
     const response = await prism.setup().then((client) =>
       client.post(
@@ -73,12 +72,12 @@ test("verify an Intl address with full payload", async function (t) {
     );
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("errors when not given a country", async function (t) {
-  t.plan(1);
   try {
     await prism.setup().then((client) =>
       client.post(
@@ -99,7 +98,6 @@ test("errors when not given a country", async function (t) {
 });
 
 test("errors when given Puerto Rico", async function (t) {
-  t.plan(1);
   try {
     await prism.setup().then((client) =>
       client.post(
@@ -121,7 +119,6 @@ test("errors when given Puerto Rico", async function (t) {
 });
 
 test("errors when not given a primary line", async function (t) {
-  t.plan(1);
   try {
     await prism.setup().then((client) =>
       client.post(
@@ -142,7 +139,6 @@ test("errors when not given a primary line", async function (t) {
 });
 
 test("validate a native language response", async function (t) {
-  t.plan(3);
   try {
     prism.authHeader["x-lang-output"] = "native";
     const response = await prism.setup().then((client) =>
@@ -155,6 +151,7 @@ test("validate a native language response", async function (t) {
     t.assert(response.data.primary_line === address_response_ru.primary_line);
     t.assert(response.data.last_line === address_response_ru.state);
   } catch (prismError) {
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });

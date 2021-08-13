@@ -13,7 +13,6 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 // contract tests
 test("list addresses", async function (t) {
-  t.plan(1);
   try {
     const response = await prism
       .setup()
@@ -22,9 +21,8 @@ test("list addresses", async function (t) {
       );
     t.assert(response.status === 200);
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
@@ -39,9 +37,8 @@ test("list addresses' parameters", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      prismError.message =
-        "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-      console.error(JSON.stringify(prismError, null, 2));
+      console.error(prismError);
+      t.assert(false);
       return prismError;
     }
   };
@@ -122,14 +119,12 @@ test("list addresses' parameters", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].data[0].metadata.name === "Harry");
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("create, retrieve, then delete an address", async function (t) {
-  t.plan(3);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -173,14 +168,12 @@ test("create, retrieve, then delete an address", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("allows creation with just a name", async function (t) {
-  t.plan(2);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -212,14 +205,12 @@ test("allows creation with just a name", async function (t) {
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("allows creation with just a company", async function (t) {
-  t.plan(2);
   const params = {
     description: "Harry - Office",
     company: "Lob",
@@ -251,14 +242,12 @@ test("allows creation with just a company", async function (t) {
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("correctly creates an international address", async function (t) {
-  t.plan(3);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -291,14 +280,12 @@ test("correctly creates an international address", async function (t) {
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("correctly creates an international address with mostly-empty input", async function (t) {
-  t.plan(3);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",
@@ -327,14 +314,12 @@ test("correctly creates an international address with mostly-empty input", async
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("does not treat input as international without country", async function (t) {
-  t.plan(1);
   const params = {
     description: "Harry - Office",
     company: "Lob",
@@ -356,14 +341,12 @@ test("does not treat input as international without country", async function (t)
 
     t.assert(response.status === 422);
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("errors when attempting to create an address with neither name nor company", async function (t) {
-  t.plan(2);
   const params = {
     description: "Harry - Office",
     email: "harry@lob.com",
@@ -386,14 +369,12 @@ test("errors when attempting to create an address with neither name nor company"
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("name"));
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("errors when attempting to create a US address without city and state", async function (t) {
-  t.plan(2);
   const params = {
     description: "Harry - Office",
     email: "harry@lob.com",
@@ -414,14 +395,12 @@ test("errors when attempting to create a US address without city and state", asy
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("address_city"));
   } catch (prismError) {
-    prismError.message =
-      "An error occurred while trying to access the endpoint. Please double-check your request payload.";
-    console.error(JSON.stringify(prismError, null, 2));
+    console.error(prismError);
+    t.assert(false);
   }
 });
 
 test("errors at the promise level", async function (t) {
-  t.plan(1);
   const params = {
     description: "Harry - Office",
     name: "Harry Zhang",

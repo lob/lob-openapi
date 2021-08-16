@@ -45,7 +45,11 @@ test.serial.before(
       t.assert(response.status === 200);
       t.context.vrsn_endpoint = `${t.context.resource_endpoint}/${response.data.id}`;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
   }
 );
@@ -60,7 +64,11 @@ test.serial("retrieve a new template version", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -78,7 +86,11 @@ test.serial("update a new template version", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -92,7 +104,11 @@ test.serial("list template versions", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -107,7 +123,11 @@ test.serial("list template versions' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
       return prismError;
     }
   };
@@ -179,7 +199,11 @@ test.serial("list template versions' params", async function (t) {
     t.assert(finale[5].count === 1);
     t.assert(finale[5].hasOwnProperty("total_count"));
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -194,7 +218,11 @@ test.serial("delete template version", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -208,6 +236,10 @@ test.after.always("clean up template", async function (t) {
     );
     t.assert(clean_up.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });

@@ -22,7 +22,11 @@ test("list letters' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
   };
 
@@ -97,7 +101,11 @@ test("list letters' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -156,7 +164,11 @@ test.serial.before(
       t.assert(!create.data.tracking_number);
       t.context.normal_id = create.data.id;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     // FULL PAYLOAD LETTER
@@ -215,7 +227,11 @@ test.serial.before(
       t.assert(!create.data.tracking_number);
       t.context.full_id = create.data.id;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     // CERTIFIED LETTER
@@ -252,7 +268,11 @@ test.serial.before(
       t.assert(create.data.tracking_number);
       t.context.certified_id = create.data.id;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
   }
 );
@@ -268,7 +288,11 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     try {
@@ -280,7 +304,11 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     try {
@@ -291,7 +319,11 @@ test.serial(
       );
       t.assert(cancel.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
   }
 );
@@ -307,7 +339,11 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     try {
@@ -318,7 +354,11 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     try {
@@ -329,7 +369,11 @@ test.serial(
       );
       t.assert(cancel.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
   }
 );
@@ -344,7 +388,11 @@ test.serial("list, read then cancel a certified letter", async function (t) {
       );
     t.assert(list.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 
   try {
@@ -355,7 +403,11 @@ test.serial("list, read then cancel a certified letter", async function (t) {
     );
     t.assert(read.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 
   try {
@@ -366,7 +418,11 @@ test.serial("list, read then cancel a certified letter", async function (t) {
     );
     t.assert(cancel.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -382,7 +438,11 @@ test.after.always("delete addresses", async function (t) {
       t.assert(response.status === 200);
       return response;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
       return prismError;
     }
   };

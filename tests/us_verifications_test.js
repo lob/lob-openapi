@@ -28,7 +28,11 @@ test("verify a US address given primary line, city, and state", async function (
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -46,7 +50,11 @@ test("verify a US address given primary line and zip code", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -64,7 +72,11 @@ test("verify a US address given a single-line address", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -87,7 +99,11 @@ test("verify a US address with full payload", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -125,7 +141,11 @@ test("errors when given a primary line without city/state or zip", async functio
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("zip_code"));
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -144,7 +164,11 @@ test("errors when given a city without state or zip", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("state"));
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -163,7 +187,11 @@ test("errors when given a state without city or zip", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("city"));
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -182,6 +210,10 @@ test("errors when given extraneous information alongside a single-line address",
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("zip_code"));
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });

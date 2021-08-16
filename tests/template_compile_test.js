@@ -29,7 +29,11 @@ test.serial.before("create template and endpoints", async function (t) {
     t.context.tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
     t.context.tmpl_compile_endpoint = `${resource_endpoint}/${response.data.id}/compile`;
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -49,7 +53,11 @@ test.serial("compile a template", async function (t) {
     t.assert(response.status === 200);
     t.assert(response.data === "<html>HTML Compile for compile test</html>");
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -64,6 +72,10 @@ test.serial("delete a template", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });

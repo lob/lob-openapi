@@ -33,7 +33,11 @@ test("verify list of valid international addresses", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -57,7 +61,11 @@ test("verify list of valid international addresses with full payload", async fun
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -76,7 +84,11 @@ test("errors when given an empty array", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("items"));
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -97,6 +109,10 @@ test("errors when given more than 10 addresses", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("items"));
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });

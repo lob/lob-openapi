@@ -1,14 +1,14 @@
 # ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
-  - [What is this project?](#what-is-this-project)
-  - [Contributing](#contributing)
-  - [Design](#design)
-  - [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
-  - [Readability](#readability)
-  - [OAS v3.1 compatibility](#oas-v31-compatibility)
-  - [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
-  - [Bundled spec](#bundled-spec)
-  - [See also](#see-also)
+- [What is this project?](#what-is-this-project)
+- [Contributing](#contributing)
+- [Design](#design)
+- [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
+- [Readability](#readability)
+- [OAS v3.1 compatibility](#oas-v31-compatibility)
+- [Previewing the spec as docs (aka QAing your work)](#previewing-the-spec-as-docs-aka-qaing-your-work)
+- [Bundled spec](#bundled-spec)
+- [See also](#see-also)
 
 ## What is this project?
 

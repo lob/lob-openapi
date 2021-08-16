@@ -40,7 +40,11 @@ test.serial.before(
 
       t.context.bank_id = result.data.id;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     try {
@@ -55,7 +59,11 @@ test.serial.before(
         );
       t.assert(verify.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     try {
@@ -81,7 +89,11 @@ test.serial.before(
       );
       t.assert(t.context.create.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     try {
@@ -92,7 +104,11 @@ test.serial.before(
       );
       t.assert(t.context.read.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
   }
 );
@@ -118,7 +134,11 @@ test.serial.before(
 
       t.context.bank_id2 = result.data.id;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     try {
@@ -133,7 +153,11 @@ test.serial.before(
         );
       t.assert(verify.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     let body = new URLSearchParams({
@@ -178,7 +202,11 @@ test.serial.before(
       );
       t.assert(t.context.create2.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
 
     try {
@@ -189,7 +217,11 @@ test.serial.before(
       );
       t.assert(t.context.read2.status === 200);
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
     }
   }
 );
@@ -203,7 +235,11 @@ test("list check", async function (t) {
       );
     t.assert(list.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -218,7 +254,11 @@ test("list checks' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
       return prismError;
     }
   };
@@ -294,7 +334,11 @@ test("list checks' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -307,7 +351,11 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(remove.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 
   try {
@@ -318,7 +366,11 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(delete_bank_acc.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 
   try {
@@ -329,7 +381,11 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(remove2.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 
   try {
@@ -340,6 +396,10 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(delete_bank_acc2.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });

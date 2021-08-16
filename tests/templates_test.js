@@ -25,7 +25,11 @@ test.serial.before("fill out context", async function (t) {
     );
     t.context.tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -39,7 +43,11 @@ test.serial("retrieve template", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -73,7 +81,11 @@ test.serial("create and update template", async function (t) {
     );
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -88,7 +100,11 @@ test.serial("list templates", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -104,7 +120,11 @@ test("list templates' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
       return prismError;
     }
   };
@@ -182,7 +202,11 @@ test("list templates' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -198,6 +222,10 @@ test.after.always("delete a template", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });

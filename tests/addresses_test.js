@@ -21,7 +21,11 @@ test("list addresses", async function (t) {
       );
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -36,7 +40,11 @@ test("list addresses' parameters", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      t.fail(JSON.stringify(prismError, null, 2));
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
       return prismError;
     }
   };
@@ -117,7 +125,11 @@ test("list addresses' parameters", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].data[0].metadata.name === "Harry");
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -165,7 +177,11 @@ test("create, retrieve, then delete an address", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -201,7 +217,11 @@ test("allows creation with just a name", async function (t) {
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -237,7 +257,11 @@ test("allows creation with just a company", async function (t) {
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -274,7 +298,11 @@ test("correctly creates an international address", async function (t) {
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -307,7 +335,11 @@ test("correctly creates an international address with mostly-empty input", async
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -333,7 +365,11 @@ test("does not treat input as international without country", async function (t)
 
     t.assert(response.status === 422);
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -360,7 +396,11 @@ test("errors when attempting to create an address with neither name nor company"
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("name"));
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 
@@ -385,7 +425,11 @@ test("errors when attempting to create a US address without city and state", asy
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("address_city"));
   } catch (prismError) {
-    t.fail(JSON.stringify(prismError, null, 2));
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
   }
 });
 

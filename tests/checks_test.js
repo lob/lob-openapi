@@ -40,8 +40,7 @@ test.serial.before(
 
       t.context.bank_id = result.data.id;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -56,8 +55,7 @@ test.serial.before(
         );
       t.assert(verify.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -83,8 +81,7 @@ test.serial.before(
       );
       t.assert(t.context.create.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -95,8 +92,7 @@ test.serial.before(
       );
       t.assert(t.context.read.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   }
 );
@@ -122,8 +118,7 @@ test.serial.before(
 
       t.context.bank_id2 = result.data.id;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -138,8 +133,7 @@ test.serial.before(
         );
       t.assert(verify.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     let body = new URLSearchParams({
@@ -184,8 +178,7 @@ test.serial.before(
       );
       t.assert(t.context.create2.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -196,8 +189,7 @@ test.serial.before(
       );
       t.assert(t.context.read2.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   }
 );
@@ -211,8 +203,7 @@ test("list check", async function (t) {
       );
     t.assert(list.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -227,8 +218,7 @@ test("list checks' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
       return prismError;
     }
   };
@@ -304,8 +294,7 @@ test("list checks' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -318,8 +307,7 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(remove.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 
   try {
@@ -330,8 +318,7 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(delete_bank_acc.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 
   try {
@@ -342,8 +329,7 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(remove2.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 
   try {
@@ -354,7 +340,6 @@ test.after.always("delete all checks", async function (t) {
     );
     t.assert(delete_bank_acc2.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });

@@ -30,8 +30,7 @@ test("list bank accounts' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
       return prismError;
     }
   };
@@ -108,8 +107,7 @@ test("list bank accounts' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].data[0].metadata.name === "Harry");
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -125,8 +123,7 @@ test.serial.before(
       t.assert(create.status === 200);
       t.context.create = create.data.id;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     const body = new URLSearchParams(payload).toString();
@@ -142,8 +139,7 @@ test.serial.before(
       t.assert(create.status === 200);
       t.context.create_urlencoded = create.data.id;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   }
 );
@@ -160,8 +156,7 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -172,8 +167,7 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -196,8 +190,7 @@ test.serial(
       );
       t.assert(remove.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   }
 );
@@ -213,8 +206,7 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -225,8 +217,7 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -249,8 +240,7 @@ test.serial(
       );
       t.assert(remove.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   }
 );

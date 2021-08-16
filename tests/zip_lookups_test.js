@@ -25,8 +25,7 @@ test("lookup a US zip code", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -45,7 +44,6 @@ test("use an incorrectly formatted zip code", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("zip_code"));
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });

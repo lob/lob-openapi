@@ -21,8 +21,7 @@ test("list addresses", async function (t) {
       );
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -37,8 +36,7 @@ test("list addresses' parameters", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
       return prismError;
     }
   };
@@ -119,8 +117,7 @@ test("list addresses' parameters", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].data[0].metadata.name === "Harry");
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -168,8 +165,7 @@ test("create, retrieve, then delete an address", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -205,8 +201,7 @@ test("allows creation with just a name", async function (t) {
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -242,8 +237,7 @@ test("allows creation with just a company", async function (t) {
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -280,8 +274,7 @@ test("correctly creates an international address", async function (t) {
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -314,8 +307,7 @@ test("correctly creates an international address with mostly-empty input", async
 
     t.assert(deletion.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -341,8 +333,7 @@ test("does not treat input as international without country", async function (t)
 
     t.assert(response.status === 422);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -369,8 +360,7 @@ test("errors when attempting to create an address with neither name nor company"
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("name"));
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -395,8 +385,7 @@ test("errors when attempting to create a US address without city and state", asy
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("address_city"));
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 

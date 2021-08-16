@@ -32,8 +32,7 @@ test("verify list of valid US addresses", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -61,8 +60,7 @@ test("verify list of valid US addresses with full payload", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -81,8 +79,7 @@ test("errors when given an empty array", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("items"));
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -103,7 +100,6 @@ test("errors when given more than 10 addresses", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("items"));
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });

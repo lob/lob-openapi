@@ -45,8 +45,7 @@ test.serial.before(
       t.assert(response.status === 200);
       t.context.vrsn_endpoint = `${t.context.resource_endpoint}/${response.data.id}`;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   }
 );
@@ -61,8 +60,7 @@ test.serial("retrieve a new template version", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -80,8 +78,7 @@ test.serial("update a new template version", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -95,8 +92,7 @@ test.serial("list template versions", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -111,8 +107,7 @@ test.serial("list template versions' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
       return prismError;
     }
   };
@@ -184,8 +179,7 @@ test.serial("list template versions' params", async function (t) {
     t.assert(finale[5].count === 1);
     t.assert(finale[5].hasOwnProperty("total_count"));
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -200,8 +194,7 @@ test.serial("delete template version", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -215,7 +208,6 @@ test.after.always("clean up template", async function (t) {
     );
     t.assert(clean_up.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });

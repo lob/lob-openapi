@@ -22,8 +22,7 @@ test("list letters' params", async function (t) {
       t.assert(response.status === 200);
       return response.data;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   };
 
@@ -98,8 +97,7 @@ test("list letters' params", async function (t) {
     t.assert(finale[6].hasOwnProperty("total_count"));
     t.assert(finale[6].count === 0);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -158,8 +156,7 @@ test.serial.before(
       t.assert(!create.data.tracking_number);
       t.context.normal_id = create.data.id;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     // FULL PAYLOAD LETTER
@@ -218,8 +215,7 @@ test.serial.before(
       t.assert(!create.data.tracking_number);
       t.context.full_id = create.data.id;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     // CERTIFIED LETTER
@@ -256,8 +252,7 @@ test.serial.before(
       t.assert(create.data.tracking_number);
       t.context.certified_id = create.data.id;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   }
 );
@@ -273,8 +268,7 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -286,8 +280,7 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -298,8 +291,7 @@ test.serial(
       );
       t.assert(cancel.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   }
 );
@@ -315,8 +307,7 @@ test.serial(
         );
       t.assert(list.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -327,8 +318,7 @@ test.serial(
       );
       t.assert(read.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
 
     try {
@@ -339,8 +329,7 @@ test.serial(
       );
       t.assert(cancel.status === 200);
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
     }
   }
 );
@@ -355,8 +344,7 @@ test.serial("list, read then cancel a certified letter", async function (t) {
       );
     t.assert(list.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 
   try {
@@ -367,8 +355,7 @@ test.serial("list, read then cancel a certified letter", async function (t) {
     );
     t.assert(read.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 
   try {
@@ -379,8 +366,7 @@ test.serial("list, read then cancel a certified letter", async function (t) {
     );
     t.assert(cancel.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -396,8 +382,7 @@ test.after.always("delete addresses", async function (t) {
       t.assert(response.status === 200);
       return response;
     } catch (prismError) {
-      console.error(prismError);
-      t.assert(false);
+      t.fail(JSON.stringify(prismError, null, 2));
       return prismError;
     }
   };

@@ -25,8 +25,7 @@ test("autocomplete an address given a prefix", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -48,8 +47,7 @@ test("autocomplete an address given a prefix with full payload", async function 
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -74,8 +72,7 @@ test("autocomplete an address given a prefix with full payload urlencoded", asyn
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -90,7 +87,6 @@ test("errors when address_prefix is not passed in", async function (t) {
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("address_prefix"));
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });

@@ -29,8 +29,7 @@ test.serial.before("create template and endpoints", async function (t) {
     t.context.tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
     t.context.tmpl_compile_endpoint = `${resource_endpoint}/${response.data.id}/compile`;
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -50,8 +49,7 @@ test.serial("compile a template", async function (t) {
     t.assert(response.status === 200);
     t.assert(response.data === "<html>HTML Compile for compile test</html>");
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });
 
@@ -66,7 +64,6 @@ test.serial("delete a template", async function (t) {
 
     t.assert(response.status === 200);
   } catch (prismError) {
-    console.error(prismError);
-    t.assert(false);
+    t.fail(JSON.stringify(prismError, null, 2));
   }
 });

@@ -25,39 +25,13 @@ tags:
       To add an address to your address book, you create a new address object. You can retrieve and delete individual
       addresses as well as get a list of addresses. Addresses are identified by a unique random ID.
 
-  - name: API Keys
-    x-traitTag: true
+  - name: Bank Accounts
     description: |
-      Lob authenticates your API requests using your account's API keys.
-      If you do not include your key when making an API request, or use
-      one that is incorrect or outdated, Lob returns an error with a `401`
-      HTTP response code. You can find all API keys in your dashboard
-      under [Settings](https://dashboard.lob.com/#/settings/keys).
+      Bank Accounts allow you to store your bank account securely in our system. The API provides
+      endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts,
+      retrieving individual bank accounts, and retrieving a list of bank accounts.
 
-      There are two types of API keys: *secret* and *publishable*.
-
-      - **Secret API keys** should be kept confidential and only stored on your own servers.
-      Your account's secret API key can perform any API request to Lob without restriction.
-
-      - **Publishable API keys** are limited to US verifications, international verifications,
-      and US autocomplete requests. While we encourage you to use a secret key for maximum
-      security, you can publish these keys to JavaScript code or in an Android or iPhone app
-      without exposing print and mail services or your secret key. Publishable keys are always
-      prefixed with `[environment]_pub`.
-
-      Every type comes with a pair of keys: one for the testing environment and one for the
-      live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments)
-      for more information.
-
-  - name: Asset URLs
-    x-traitTag: true
-    description: >-
-      All asset URLs returned by the Lob API (postcards, letters, thumbnails,
-      etc) are signed links served over HTTPS. All links returned will expire in
-      30 days to prevent mis-sharing. Each time a GET request is initiated, a
-      new signed URL will be generated.
-
-  - name: Authentication
+  - name: Basic Authentication
     x-traitTag: true
     description: |
 
@@ -67,7 +41,7 @@ tags:
       [error code](#tag/Errors). You can find your account's API keys
       in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
 
-      <h3>Example Request</h3>
+      ### Example Request
 
       curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
@@ -75,14 +49,30 @@ tags:
 
       ```bash
       curl https://api.lob.com/v1/addresses \
-        -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+        -u test_0dc8dXXXXXXXXXXXXXXXXXXXXXX5b0cc:
       ```
 
-  - name: Bank Accounts
-    description: |
-      Bank Accounts allow you to store your bank account securely in our system. The API provides
-      endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts,
-      retrieving individual bank accounts, and retrieving a list of bank accounts.
+      ## API Keys
+        Lob authenticates your API requests using your account's API keys.
+        If you do not include your key when making an API request, or use
+        one that is incorrect or outdated, Lob returns an error with a `401`
+        HTTP response code. You can find all API keys in your dashboard
+        under [Settings](https://dashboard.lob.com/#/settings/keys).
+
+        There are two types of API keys: *secret* and *publishable*.
+
+        - **Secret API keys** should be kept confidential and only stored on your own servers.
+        Your account's secret API key can perform any API request to Lob without restriction.
+
+        - **Publishable API keys** are limited to US verifications, international verifications,
+        and US autocomplete requests. While we encourage you to use a secret key for maximum
+        security, you can publish these keys to JavaScript code or in an Android or iPhone app
+        without exposing print and mail services or your secret key. Publishable keys are always
+        prefixed with `[environment]_pub`.
+
+        Every type comes with a pair of keys: one for the testing environment and one for the
+        live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments)
+        for more information.
 
   - name: Beta Program
     description: |
@@ -113,131 +103,6 @@ tags:
       usages of Letters, Checks, Postcards and Self-Mailers to customize your bill. Please check each
       resource API section to learn more about how to attach billing groups in the API.
 
-  - name: Bulk Intl Verifications
-    description: Verify a list of non-US addresses.
-
-  - name: Bulk US Verifications
-    description: Verify a list of US addresses.
-
-  - name: Cancellation Windows
-    x-traitTag: true
-    description: |
-      By default, all new accounts have a 5 minute cancellation window for postcards,
-      self mailers, letters, and checks. Within that timeframe, you can cancel
-      mailings from production, free of charge. Once the window has passed for a
-      postcard, self mailer, letter, or check, the mailing is no longer cancelable.
-      In addition, certain customers can customize their cancellation windows by
-      product in their [Dashboard Settings](https://dashboard.lob.com/#). Upgrade to
-      the appropriate [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions)
-      to automatically gain access to this ability. For more details on this feature,
-      check out our [Cancellation Guide](https://lob.com/guides#cancellation_windows).
-
-      If you schedule a postcard, self mailer, letter, or check for up to 180 days
-      in the future by supplying the `send_date` parameter, that will override any
-      cancellation window you may have for that product.
-
-  - name: Changelog
-    description: |
-      **2020-02-11**
-      - renders merge_variables into HTML with syntax that supports objects, conditionals, and loops
-
-      **2019-06-01**
-      - changed pagination model of GET endpoints for postcards, letters, checks, addresses, bank accounts, templates, and template versions to a cursor-based model
-      - offset parameter on these endpoints has been removed
-      - previous_url and next_url response fields have been added
-
-      **2018-06-05**
-      - remove rate-limit headers
-
-      **2018-03-30**
-      - updated letter template which includes a white box behind the address block area to ensure deliverability
-
-      **2018-03-01**
-      - US verification deliverability value no_match deprecated and merged into undeliverable
-      - US verification deliverability value deliverable_extra_secondary is split into deliverable_unnecessary_unit and deliverable_incorrect_unit
-      - US verification deliverability value deliverable_missing_secondary renamed to deliverable_missing_unit
-      - US verifications zip_code special values deprecated in favor of more comprehensive primary_line special values
-
-      **2018-02-08**
-      - enforce 50 character limit on the sum of address_line1 and address_line2 for check recipients
-
-      **2017-11-08**
-      - split extra_secondary_information into extra_secondary_designator and extra_secondary_number for /v1/us_verifications
-
-      **2017-10-17**
-      - remove support for the /v1/states endpoint
-      - remove support for the /v1/countries endpoint
-      - remove support for the message field from the POST /v1/postcards endpoint
-
-      **2017-09-08**
-      - renames input parameters and restructures response object for /v1/intl_verifications
-
-      **2017-08-14**
-      - automatically standardizes and corrects US addresses created via POST /v1/addresses. non-US addresses will be standardized into uppercase only.
-      - automatically standardizes and corrects inline US addresses used in POST /v1/postcards, POST /v1/letters, and POST /v1/checks. non-US addresses will be standardized into uppercase only.
-      - enforce 40 character limit on name and company for all addresses
-      - enforce 64 character limit on address_line1 and address_line2 for US addresses
-
-      **2017-06-16**
-      - enforce 10,000 character limit on HTML strings
-      - rename data parameter for all products to merge_variables
-
-      **2017-05-17**
-      - discontinues the /v1/verify endpoint - please use /v1/us_verifications or /v1/intl_verifications instead
-
-      **2016-06-30** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - unnest tracking object from postcard, letter, and check response objects
-
-      **2016-05-02** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - adds address_placement parameter to letters that defaults to top_first_page, template is no longer allowed
-
-      **2016-03-21** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - removes tracking numbers that do not provide any consumer-facing tracking information
-      - removes link from tracking responses
-      - requires account_type when creating a bank account
-
-      **2016-01-19** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - renames the count parameter to limit for all list endpoints
-      - removes the next_url and previous_url from list responses
-
-      **2015-12-22** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - adds size parameter to postcards that defaults to 4x6, setting is no longer allowed
-
-      **2015-11-23** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - remove price from letters
-      - remove pages from letters
-      - remove price from postcards
-      - renamed file parameter to check_bottom for checks
-
-      **2015-11-06** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - remove bank_address from bank_accounts
-      - remove account_address from bank_accounts and add from to checks
-      - remove price from checks
-
-      **2015-10-21** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - use the new HTML renderer for all products
-
-      **2015-06-25** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - remove the status field from all endpoints
-
-      **2015-04-11** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - errors on all endpoints are now single objects instead of arrays
-      - full_bleed is no longer allowed for postcards, objects, and area mails - all products are now full_bleed by default
-      - template is no longer allowed for postcards - all postcards must adhere to the template
-      - name is no longer allowed for area mails, bank accounts, checks, jobs, objects, and postcards - it has been replaced by description
-      - setting ID's 100 and 101 are no longer supported for objects - please use the Simple Letter Service instead
-      - service is no longer supported for jobs
-      - all boolean parameters now return true/false instead of 1/0
-      - double_sided is no longer allowed for objects - all products are default double sided if more than one page is allowed
-      - template is no longer allowed for objects
-
-      **2014-12-18** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
-      - removed concept of packaging
-      - signatory is now a required field when creating a bank account
-      - bank_code is no longer an allowed field when creating a bank account
-      - service_id parameter replaced by service parameter in /jobs
-      - setting_id parameter replaced by setting parameter in /objects
-
   - name: Checks
     description: |
       Checks allow you to send payments via physical checks. The API provides endpoints
@@ -255,7 +120,7 @@ tags:
       | message       | A human-readable, subject-to-change message with more details about the error |
 
 
-      <h3>HTTP Status Code Summary</h3>
+      ### HTTP Status Code Summary
 
       | CODE          | STATUS_CODE          | MESSAGE                                                                     |
       |---------------| ---------------------|-----------------------------------------------------------------------------|
@@ -266,7 +131,7 @@ tags:
       | 429           | TOO MANY REQUESTS    | Too many requests have been sent with an API key in a given amount of time  |
       | 500           | SERVER ERROR         | An internal server error occurred, please contact support@lob.com           |
 
-      <h3>Error Codes - Generic</h3>
+      ### Error Codes - Generic
 
       | CODE          | STATUS_CODE              | MESSAGE                                                                              |
       |---------------| -----------------------  |--------------------------------------------------------------------------------------|
@@ -282,7 +147,7 @@ tags:
       | 500           | INTERNAL_SERVER_ERROR    | An error has occured on Lob's servers. Please try request again.                     |
       | 503           | SERVICE_UNAVAILABLE      | The Lob servers are temporarily unavailable. Please try again.                       |
 
-      <h3>Error Codes - Authentication</h3>
+      ### Error Codes - Authentication
 
       | CODE          | STATUS_CODE                  | MESSAGE                                                                                               |
       |---------------| -----------------------------|-------------------------------------------------------------------------------------------------------|
@@ -293,7 +158,7 @@ tags:
       | 403           | PUBLISHABLE_KEY_NOT_ALLOWED  | The requested operation needs a secret key, not a publishable key. See [API Keys](#tag/API-Keys) for more information. |
       | 429           | RATE_LIMIT_EXCEEDED          | Requests were sent too quickly and must be slowed down.                                               |
 
-       <h3>Error Codes - Advanced</h3>
+       ### Error Codes - Advanced
 
       | CODE          | STATUS_CODE                        | MESSAGE                                                                                                              |
       |---------------| -----------------------------------|----------------------------------------------------------------------------------------------------------------------|
@@ -475,188 +340,13 @@ tags:
       * [Checks](https://www.lob.com/guides#getting_started_checks)
       * [Address Verification Elements](https://www.lob.com/guides#av-elements-quickstart)
 
-  - name: HTML Examples
-    x-traitTag: true
-    description: |
-      Use a pre-designed template from our [gallery](https://lob.com/resources/template-gallery) or follow these
-      basic [guidelines](https://github.com/lob/examples) as starting points for creating custom Postcards,
-      Self Mailers, Letters, and Checks.
-
-      Please follow the standards used in these templates, such as:
-      - For any linked assets, you must use a performant file hosting provider with no rate limits such as Amazon
-      S3.
-      - Use inline styles or an internal stylesheet, do not link to external stylesheets.
-      - Link to images that are 300DPI and sized at the final desired size on the physical mailing. For example,
-      for a photo that is desired to be 1in x 1in on the final postcard, the image asset should be sized at 1in
-      x 1in at 300DPI (which equates to 300px by 300px).
-      - The sum of all linked assets should not exceed 5MB in file size.
-      - Use `-webkit` prefixes for CSS properties when recommended [here](http://shouldiprefix.com/).
-
-      Because different browsers have varying user-agent styles, the HTML you see in your browser will not
-      always look identical to what is produced through the API. It is **strongly** recommended that you test all
-      HTML requests by reviewing the final PDF files in your Test Environment, as these are the files that will be
-      printed.
-
-  - name: HTML Templates
-    x-traitTag: true
-    description: |
-      You can save commonly used HTML as templates within Lob to more easily manage them. You can reference
-      your saved templates in postcard, letter, and check requests instead of having to pass a long HTML
-      string on each request. Additionally, you can make changes to your HTML templates and update them
-      independently, without having to touch your API integration. Templates can be created, edited,
-      and viewed on your [Dashboard](https://dashboard.lob.com/#/templates). To use a template in a postcard,
-      letter, or check, see the documentation for each endpoint below. For help using templates, check out our
-      [HTML Templates Guide](https://lob.com/guides#html_templates) or get started with a
-      [pre-designed template from our gallery](https://lob.com/template-gallery). In Live mode, you can only have
-      as many templates as allotted in your current
-      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions). There is no limit in Test mode.
-
-      If you'd like to interact with templates programmatically, check out our Beta Program for API access
-      to the [HTML Templates Endpoints](#tag/Templates).
-
-      <h3>Example Create Request using HTML Templates</h3>
-
-
-      ```bash
-        curl https://api.lob.com/v1/postcards \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
-          -d "description=Demo Postcard job" \
-          -d "to=adr_78c304d54912c502" \
-          -d "from=adr_61a0865c8c573139" \
-          -d "front=tmpl_b846a20859ae11a" \
-          -d "back=tmpl_01b0d396a10c268" \
-          -d "merge_variables[name]=Harry"
-      ```
-
-  - name: Idempotent Requests
-    x-traitTag: true
-    description: >-
-      Lob supports idempotency for safely retrying `POST` requests to create
-      postcards, self mailers, letters, and checks without accidentally creating
-      duplicates.
-
-
-      For example, if a request to create a check fails due to a network error,
-      you can safely retry the same request with the same idempotency key and
-      guarantee that only one check will ultimately be created and sent. When a
-      request is sent with an idempotency key for an already created resource,
-      the response object for the existing resource will be returned.
-
-
-      To perform an idempotent `POST` request to one of the mailpiece product
-      endpoints, provide an additional `Idempotency-Key` header or an `idempotency_key`
-      query parameter to the request. If multiple idempotency keys are provided,
-      the request will fail. How you create unique keys is up to you, but we
-      suggest using random values, such as V4 UUIDs. Idempotency keys are intended
-      to prevent issues over a short periods of time, therefore keys expire after
-      24 hours. Keys are unique by mode (Test vs. Live) as well as by resource
-      (postcard vs. letter, etc.).
-
-
-      By default, all `GET` and `DELETE` requests are idempotent by nature, so
-      they do not require an additional idempotency key.
-
-
-      For more help integrating idempotency keys, refer to our
-      [implementation guide](https://lob.com/guides#idempotent_request).
-
-
-      **Headers**
-      <table>
-        <tbody>
-          <tr>
-            <td>Idempotency-Key:</td>
-            <td>
-              optional
-              <p style="color:#888;margin-top:0px;">
-                <font size="-1">
-                  A string of no longer than 256 characters
-                  that uniquely identifies this resource.
-                </font>
-              </p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-
-      **Query Parameters**
-      <table>
-        <tbody>
-          <tr>
-            <td>idempotency-key:</td>
-            <td>
-              optional
-              <p style="color:#888;margin-top:0px;">
-                <font size="-1">
-                  A string of no longer than 256 characters
-                  that uniquely identifies this resource.
-                </font>
-              </p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-
-      <h3>Example Request</h3>
-
-
-      ```bash
-        curl https://api.lob.com/v1/postcards \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
-          -H "Idempotency-Key: 026e7634-24d7-486c-a0bb-4a17fd0eebc5" \
-          -d "to=adr_bae820679f3f536b" \
-          -d "from=adr_210a8d4b0b76d77b" \
-          --data-urlencode "front=<html style='margin: 130px; font-size: 50;'>Front HTML for {{name}}</html>" \
-          --data-urlencode "back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>" \
-          -d "merge_variables[name]=Harry"
-      ```
-
-  - name: Image Prepping
-    x-traitTag: true
-    description: |
-      Currently we support the following file types for all endpoints:
-      - PDF
-      - PNG
-      - JPEG
-
-      **Templates**
-
-      You can find pre-made templates that already adhere to all of these guidelines here:
-      - [Postcards](#tag/Postcards)
-      - [Letters](#tag/Letters)
-      - [Checks](#tag/Checks)
-      - [Self Mailers](#tag/Self-Mailers)
-
-      **Prepping All Images**
-
-      The following guidelines apply to image types:
-      - Images should be 300 dpi or higher - PNG/JPEG files with less than 300 dpi will be rejected.
-      - Your artwork should include a 1/8" border around the final trim size. This means your final file size will be a total of 0.25" larger than your expected printed piece (ie, a 4"x6" postcard should be submitted as 4.25"x6.25"). There is no need to include crop marks in your submitted content.
-      - Include a safe zone – make sure no critical elements are within 1/8" from the edge of the final size.
-      - Do not include any additional postage marks or indicia.
-      - File sizes should be no larger than 5MB.
-
-      **Prepping PDFs**
-
-      To ensure that you are producing PDF's correctly please follow the guidelines below:
-      - [Make sure all non-standard fonts are embedded.](#tag/Standard-PDF-Fonts)
-      - Generated PDF's need to be be PDF/A compliant.
-
-      **Prepping PNGs/JPEGs**
-
-      To ensure that you are producing PNG's/JPEG's correctly please follow the guidelines below:
-
-      - Minimum 300 dpi. The dpi is calculated as (width of image in pixels) / (width of product in inches) and (length of image in pixels) / (length of product in inches). For Example: 1275px x 1875px image used to create a 4.25" x 6.25" postcard has a dpi of 300.
-      - Submitted images must have the same length to width ratio as the chosen product. Images will not be cropped or stretched by the API.
-
   - name: Intl Verifications
-    description: Address verification for non-US addresses
-
-  - name: Intl Verifications Test Environment
-    x-traitTag: true
     description: |
+
+      Address verification for non-US addresses
+
+      ## Test Environment
+
       When verifying international addresses, you'll likely want to test against
       a wide array of addresses to ensure you're handling responses correctly.
       With your test API key, requests that use specific values for `primary_line`
@@ -703,43 +393,62 @@ tags:
       The letters endpoint allows you to easily print and mail letters. The API provides endpoints for
       creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
 
-  - name: Metadata
+  - name: Manage Mail
     x-traitTag: true
     description: |
-      When creating any Lob object, you can include a metadata object with up to 20 key-value pairs of
-      custom data. You can use metadata to store information like `metadata[customer_id] = "987654"` or
-      `metadata[campaign] = "NEWYORK2015"`. This is especially useful for filtering and matching to internal
-      systems.
 
-      Each metadata key must be less than 40 characters long and values must be less than 500 characters.
-      Metadata does not support nested objects.
+      ## Cancellation Windows
 
-      <h3>
-        Example Create Request with Metadata
-      </h3>
+      By default, all new accounts have a 5 minute cancellation window for postcards,
+      self mailers, letters, and checks. Within that timeframe, you can cancel
+      mailings from production, free of charge. Once the window has passed for a
+      postcard, self mailer, letter, or check, the mailing is no longer cancelable.
+      In addition, certain customers can customize their cancellation windows by
+      product in their [Dashboard Settings](https://dashboard.lob.com/#). Upgrade to
+      the appropriate [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions)
+      to automatically gain access to this ability. For more details on this feature,
+      check out our [Cancellation Guide](https://lob.com/guides#cancellation_windows).
+
+      If you schedule a postcard, self mailer, letter, or check for up to 180 days
+      in the future by supplying the `send_date` parameter, that will override any
+      cancellation window you may have for that product.
+
+      ## Scheduled Mailings
+
+      Postcards, self mailers, letters, and checks can be scheduled to be sent up
+      to 180 days in advance. You can use this feature to:
+      - Create automated drip campaigns (e.g. send a postcard at 15, 30, and 60
+      days)
+      - Schedule recurring sends
+      - Plan your mailing schedule ahead of time
+
+      Up until the time a mailing is scheduled for, it can also be canceled.
+      If you use this feature in conjunction with [a cancellation window](
+      index.html#tag/Cancellation-Windows), the `send_date` parameter will always
+      take precedence.
+
+      For implementation details, see documentation below for each respective
+      endpoint. For more help, see our [Scheduled Mailings Guide](https://lob.com/guides#scheduled_mailing).
+
+      This feature is exclusive to certain customers. Upgrade to the appropriate
+      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to
+      gain access.
+
+      ### Example Create Request using Send Date
 
       ```bash
         curl https://api.lob.com/v1/postcards \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
-          -d "description=Demo Postcard job" \
-          -d "metadata[campaign]=NEWYORK2015" \
+          -d "description=Demo Future Postcard" \
           -d "to=adr_bae820679f3f536b" \
           -d "from=adr_210a8d4b0b76d77b" \
-          --data-urlencode "front=<html style='margin: 130px; font-size: 50;'>Front HTML for {{name}}</html>" \
-          --data-urlencode "back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>" \
-          -d "merge_variables[name]=Harry"
+          -d "front=tmpl_b846a20859ae11a" \
+          -d "back=tmpl_01b0d396a10c268" \
+          -d "merge_variables[name]=Harry" \
+          -d "send_date=2021-07-26"
       ```
 
-      <h3>
-        Example List Request with Metadata Filter
-      </h3>
-
-      ```bash
-        curl -g "https://api.lob.com/v1/postcards?metadata[campaign]=NEWYORK2015&limit=2" \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
-      ```
-
-  - name: NCOA
+  - name: National Change of Address
     x-traitTag: true
     description: |
       National Change of Address (NCOA) is a service offered by the USPS, which allows individuals
@@ -755,9 +464,7 @@ tags:
 
       For more information, see our [NCOA guide](https://lob.com/guides#national_change).
 
-  - name: NCOA Live Environment
-    x-traitTag: true
-    description: |
+      ## NCOA Live Environment
       Though there are no changes to API requests, there are significant changes to our API responses, but
       only in the event that an address has been changed through NCOA. If an address has not been changed
       through NCOA, the response would be identical to our standard responses, except the addition of a
@@ -772,9 +479,8 @@ tags:
       See the `ncoa_us_live` example under [Responses](#operation/create_address) within the "Create an Address" section in Addresses
       (along with the corresponding request under "Requests").
 
-  - name: NCOA Test Environment
-    x-traitTag: true
-    description: |
+      ## NCOA Test Environment
+
       In addition to sending live requests, you may also want to simulate what an NCOA response might
       look like so that you can ensure your application behaves as expected. The behavior of NCOA in
       Lob's Test Environment is very similar to our [US Verifications Test Mode](#tag/US-Verifications-Test-Environment).
@@ -842,7 +548,7 @@ tags:
       </table>
 
 
-      <h3>Example HTTP Headers</h3>
+      ### Example HTTP Headers
 
 
       ```bash
@@ -852,7 +558,7 @@ tags:
       ```
 
 
-      <h3>Example Response</h3>
+      ### Example Response
 
 
       If you hit the rate limit on a given endpoint, this is the body of the HTTP
@@ -869,21 +575,137 @@ tags:
         }
       ```
 
-  - name: Request Bodies
+  - name: Requests and Responses
     x-traitTag: true
-    description: >-
+    description: |
+
+      ## Asset URLs
+
+      All asset URLs returned by the Lob API (postcards, letters, thumbnails,
+      etc) are signed links served over HTTPS. All links returned will expire in
+      30 days to prevent mis-sharing. Each time a GET request is initiated, a
+      new signed URL will be generated.
+
+      ## Idempotent Requests
+
+      Lob supports idempotency for safely retrying `POST` requests to create
+      postcards, self mailers, letters, and checks without accidentally creating
+      duplicates.
+
+      For example, if a request to create a check fails due to a network error,
+      you can safely retry the same request with the same idempotency key and
+      guarantee that only one check will ultimately be created and sent. When a
+      request is sent with an idempotency key for an already created resource,
+      the response object for the existing resource will be returned.
+
+      To perform an idempotent `POST` request to one of the mailpiece product
+      endpoints, provide an additional `Idempotency-Key` header or an `idempotency_key`
+      query parameter to the request. If multiple idempotency keys are provided,
+      the request will fail. How you create unique keys is up to you, but we
+      suggest using random values, such as V4 UUIDs. Idempotency keys are intended
+      to prevent issues over a short periods of time, therefore keys expire after
+      24 hours. Keys are unique by mode (Test vs. Live) as well as by resource
+      (postcard vs. letter, etc.).
+
+      By default, all `GET` and `DELETE` requests are idempotent by nature, so
+      they do not require an additional idempotency key.
+
+      For more help integrating idempotency keys, refer to our
+      [implementation guide](https://lob.com/guides#idempotent_request).
+
+      **Headers**
+      <table>
+        <tbody>
+          <tr>
+            <td>Idempotency-Key:</td>
+            <td>
+              optional
+              <p style="color:#888;margin-top:0px;">
+                <font size="-1">
+                  A string of no longer than 256 characters
+                  that uniquely identifies this resource.
+                </font>
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      **Query Parameters**
+      <table>
+        <tbody>
+          <tr>
+            <td>idempotency-key:</td>
+            <td>
+              optional
+              <p style="color:#888;margin-top:0px;">
+                <font size="-1">
+                  A string of no longer than 256 characters
+                  that uniquely identifies this resource.
+                </font>
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      ### Example Request
+
+      ```bash
+        curl https://api.lob.com/v1/postcards \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -H "Idempotency-Key: 026e7634-24d7-486c-a0bb-4a17fd0eebc5" \
+          -d "to=adr_bae820679f3f536b" \
+          -d "from=adr_210a8d4b0b76d77b" \
+          --data-urlencode "front=<html style='margin: 130px; font-size: 50;'>Front HTML for {{name}}</html>" \
+          --data-urlencode "back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>" \
+          -d "merge_variables[name]=Harry"
+      ```
+
+      ## Metadata
+
+      When creating any Lob object, you can include a metadata object with up to 20 key-value pairs of
+      custom data. You can use metadata to store information like `metadata[customer_id] = "987654"` or
+      `metadata[campaign] = "NEWYORK2015"`. This is especially useful for filtering and matching to internal
+      systems.
+
+      Each metadata key must be less than 40 characters long and values must be less than 500 characters.
+      Metadata does not support nested objects.
+
+      ### Example Create Request with Metadata
+
+      ```bash
+        curl https://api.lob.com/v1/postcards \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Demo Postcard job" \
+          -d "metadata[campaign]=NEWYORK2015" \
+          -d "to=adr_bae820679f3f536b" \
+          -d "from=adr_210a8d4b0b76d77b" \
+          --data-urlencode "front=<html style='margin: 130px; font-size: 50;'>Front HTML for {{name}}</html>" \
+          --data-urlencode "back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>" \
+          -d "merge_variables[name]=Harry"
+      ```
+
+      ### Example List Request with Metadata Filter
+
+      ```bash
+        curl -g "https://api.lob.com/v1/postcards?metadata[campaign]=NEWYORK2015&limit=2" \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      ```
+
+
+      ## Request Body
+
       When manually sending a POST HTTP request directly to the Lob API, without
       the use of a library, you may represent the body as either a Form URL
       Encoded request, a JSON document, or a Multipart Form Data request.
-
 
       However, if you're using one of our [SDKs](#tag/SDKs-and-Tools),
       the generation of the request bodies is done for you automatically and you don't
       need to worry about the format.
 
-
-      <h3>Form URL Encoded</h3>
-
+      ### Form URL Encoded
 
       This request body encoding is accompanied with the
       `Content-Type: application/x-www-form-urlencoded` header. The content is an
@@ -895,9 +717,7 @@ tags:
         primary_line=185 Berry Street&city=San Francisco&state=CA&zip_code=94107
       ```
 
-
-      <h3>JSON</h3>
-
+      ### JSON
 
       This request body encoding is accompanied with the `Content-Type: application/json` header.
       The content is an example of what the [Verify a US address endpoint](index.html#operation/us_verification)
@@ -913,9 +733,7 @@ tags:
         }
       ```
 
-
-      <h3>Multipart Form Data</h3>
-
+      ### Multipart Form Data
 
       This request body encoding is accompanied with the `Content-Type: multipart/form-data`
       header. This is the only format that can be used for uploading a file to the API. The
@@ -948,42 +766,6 @@ tags:
         --------------------------7015ebe79c0a5f8c--
       ```
 
-  - name: Scheduled Mailings
-    x-traitTag: true
-    description: |
-      Postcards, self mailers, letters, and checks can be scheduled to be sent up
-      to 180 days in advance. You can use this feature to:
-      - Create automated drip campaigns (e.g. send a postcard at 15, 30, and 60
-      days)
-      - Schedule recurring sends
-      - Plan your mailing schedule ahead of time
-
-      Up until the time a mailing is scheduled for, it can also be canceled.
-      If you use this feature in conjunction with [a cancellation window](
-      index.html#tag/Cancellation-Windows), the `send_date` parameter will always
-      take precedence.
-
-      For implementation details, see documentation below for each respective
-      endpoint. For more help, see our [Scheduled Mailings Guide](https://lob.com/guides#scheduled_mailing).
-
-      This feature is exclusive to certain customers. Upgrade to the appropriate
-      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to
-      gain access.
-
-      <h3>Example Create Request using Send Date</h3>
-
-      ```bash
-        curl https://api.lob.com/v1/postcards \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
-          -d "description=Demo Future Postcard" \
-          -d "to=adr_bae820679f3f536b" \
-          -d "from=adr_210a8d4b0b76d77b" \
-          -d "front=tmpl_b846a20859ae11a" \
-          -d "back=tmpl_01b0d396a10c268" \
-          -d "merge_variables[name]=Harry" \
-          -d "send_date=2021-07-26"
-      ```
-
   - name: SDKs and Tools
     x-traitTag: true
     description: |
@@ -1005,9 +787,94 @@ tags:
     description: |
       The following are descriptions of Lob endpoints, like `v1/billing_groups`, which are available by special access to customers.
 
-  - name: Standard PDF Fonts
+  - name: Template Design
     x-traitTag: true
     description: |
+      ## HTML Templates
+      You can save commonly used HTML as templates within Lob to more easily manage them. You can reference
+      your saved templates in postcard, letter, and check requests instead of having to pass a long HTML
+      string on each request. Additionally, you can make changes to your HTML templates and update them
+      independently, without having to touch your API integration. Templates can be created, edited,
+      and viewed on your [Dashboard](https://dashboard.lob.com/#/templates). To use a template in a postcard,
+      letter, or check, see the documentation for each endpoint below. For help using templates, check out our
+      [HTML Templates Guide](https://lob.com/guides#html_templates) or get started with a
+      [pre-designed template from our gallery](https://lob.com/template-gallery). In Live mode, you can only have
+      as many templates as allotted in your current
+      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions). There is no limit in Test mode.
+
+      If you'd like to interact with templates programmatically, check out our Beta Program for API access
+      to the [HTML Templates Endpoints](#tag/Templates).
+
+      ### Example Create Request using HTML Templates
+
+      ## HTML Examples
+      Use a pre-designed template from our [gallery](https://lob.com/resources/template-gallery) or follow these
+      basic [guidelines](https://github.com/lob/examples) as starting points for creating custom Postcards,
+      Self Mailers, Letters, and Checks.
+
+      Please follow the standards used in these templates, such as:
+      - For any linked assets, you must use a performant file hosting provider with no rate limits such as Amazon
+      S3.
+      - Use inline styles or an internal stylesheet, do not link to external stylesheets.
+      - Link to images that are 300DPI and sized at the final desired size on the physical mailing. For example,
+      for a photo that is desired to be 1in x 1in on the final postcard, the image asset should be sized at 1in
+      x 1in at 300DPI (which equates to 300px by 300px).
+      - The sum of all linked assets should not exceed 5MB in file size.
+      - Use `-webkit` prefixes for CSS properties when recommended [here](http://shouldiprefix.com/).
+
+      Because different browsers have varying user-agent styles, the HTML you see in your browser will not
+      always look identical to what is produced through the API. It is **strongly** recommended that you test all
+      HTML requests by reviewing the final PDF files in your Test Environment, as these are the files that will be
+      printed.
+
+      ```bash
+        curl https://api.lob.com/v1/postcards \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Demo Postcard job" \
+          -d "to=adr_78c304d54912c502" \
+          -d "from=adr_61a0865c8c573139" \
+          -d "front=tmpl_b846a20859ae11a" \
+          -d "back=tmpl_01b0d396a10c268" \
+          -d "merge_variables[name]=Harry"
+      ```
+
+      ## Image Prepping
+      Currently we support the following file types for all endpoints:
+      - PDF
+      - PNG
+      - JPEG
+
+      **Templates**
+
+      You can find pre-made templates that already adhere to all of these guidelines here:
+      - [Postcards](#tag/Postcards)
+      - [Letters](#tag/Letters)
+      - [Checks](#tag/Checks)
+      - [Self Mailers](#tag/Self-Mailers)
+
+      **Prepping All Images**
+
+      The following guidelines apply to image types:
+      - Images should be 300 dpi or higher - PNG/JPEG files with less than 300 dpi will be rejected.
+      - Your artwork should include a 1/8" border around the final trim size. This means your final file size will be a total of 0.25" larger than your expected printed piece (ie, a 4"x6" postcard should be submitted as 4.25"x6.25"). There is no need to include crop marks in your submitted content.
+      - Include a safe zone – make sure no critical elements are within 1/8" from the edge of the final size.
+      - Do not include any additional postage marks or indicia.
+      - File sizes should be no larger than 5MB.
+
+      **Prepping PDFs**
+
+      To ensure that you are producing PDF's correctly please follow the guidelines below:
+      - [Make sure all non-standard fonts are embedded.](#tag/Standard-PDF-Fonts)
+      - Generated PDF's need to be be PDF/A compliant.
+
+      **Prepping PNGs/JPEGs**
+
+      To ensure that you are producing PNG's/JPEG's correctly please follow the guidelines below:
+
+      - Minimum 300 dpi. The dpi is calculated as (width of image in pixels) / (width of product in inches) and (length of image in pixels) / (length of product in inches). For Example: 1275px x 1875px image used to create a 4.25" x 6.25" postcard has a dpi of 300.
+      - Submitted images must have the same length to width ratio as the chosen product. Images will not be cropped or stretched by the API.
+
+      ## Standard PDF Fonts
       Ideally, all fonts in provided PDFs should be embedded. Embedding a font in a PDF ensures that the final
       printed product will look as it was designed. Fonts can vary greatly in size and shape, even within the
       same family. If the exact font that was used to design the artwork is not used to print, the look and
@@ -1289,9 +1156,8 @@ tags:
     description: >
       Given partial address information, this endpoint returns up to 10 address suggestions.
 
-  - name: US Autocompletions Test Environment
-    x-traitTag: true
-    description: |
+      ## Test Environment
+
       Your test API key does not autocomplete US addresses and is used to simulate
       behavior. With your test API key, requests with specific values for `address_prefix`
       return predetermined values. When `address_prefix` is set to:
@@ -1308,7 +1174,7 @@ tags:
       See the `test` request & response examples under [Autocomplete Examples](#operation/autocompletion) within the "Autocomplete
       a partial address" section in US Autocompletions.
 
-  - name: US Verification Details
+  - name: US Verification Types
     x-traitTag: true
     description: |
       These are detailed definitions for various fields in the [US verification object](#operation/us_verification).
@@ -1474,13 +1340,12 @@ tags:
       </table>
 
   - name: US Verifications
-    description: >
+    description: |
       Validate, automatically correct, and standardize the addresses in your
       address book based on USPS's [Coding Accuracy Support System (CASS)](https://postalpro.usps.com/certifications/cass).
 
-  - name: US Verifications Test Environment
-    x-traitTag: true
-    description: |
+      ## Test Environment
+
       When verifying US addresses, you'll likely want to test against a wide array of addresses to
       ensure you're handling responses correctly. With your test API key, requests that use specific
       values for `address` or `primary_line` and (if using `primary_line`) an arbitrary five digit
@@ -1512,9 +1377,12 @@ tags:
       The test API key does not perform any verification, automatic correction, or standardization for addresses. If you wish to
       try these features out, use our [live demo](https://lob.com/address-verification) or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).
 
-  - name: Versioning
+  - name: Versioning and Changelog
     x-traitTag: true
-    description: >-
+    description: |
+
+      ### Versioning 
+
       When backwards-incompatible changes are made to the API, a new dated version
       is released. The latest version of the API is version **2020-02-11**. You can
       view your version and upgrade to the latest version in your
@@ -1524,15 +1392,115 @@ tags:
       version older than your current one is passed in. See
       [API Changelog](#tag/Changelog) for a full list of breaking changes.
 
-
-      <h3>Example Request</h3>
-
+      ### Example Request
 
       ```bash
         curl https://api.lob.com/v1/addresses \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
           -H "Lob-Version: 2020-02-11"
       ```
+
+      ### Changelog
+
+      **2020-02-11**
+      - renders merge_variables into HTML with syntax that supports objects, conditionals, and loops
+
+      **2019-06-01**
+      - changed pagination model of GET endpoints for postcards, letters, checks, addresses, bank accounts, templates, and template versions to a cursor-based model
+      - offset parameter on these endpoints has been removed
+      - previous_url and next_url response fields have been added
+
+      **2018-06-05**
+      - remove rate-limit headers
+
+      **2018-03-30**
+      - updated letter template which includes a white box behind the address block area to ensure deliverability
+
+      **2018-03-01**
+      - US verification deliverability value no_match deprecated and merged into undeliverable
+      - US verification deliverability value deliverable_extra_secondary is split into deliverable_unnecessary_unit and deliverable_incorrect_unit
+      - US verification deliverability value deliverable_missing_secondary renamed to deliverable_missing_unit
+      - US verifications zip_code special values deprecated in favor of more comprehensive primary_line special values
+
+      **2018-02-08**
+      - enforce 50 character limit on the sum of address_line1 and address_line2 for check recipients
+
+      **2017-11-08**
+      - split extra_secondary_information into extra_secondary_designator and extra_secondary_number for /v1/us_verifications
+
+      **2017-10-17**
+      - remove support for the /v1/states endpoint
+      - remove support for the /v1/countries endpoint
+      - remove support for the message field from the POST /v1/postcards endpoint
+
+      **2017-09-08**
+      - renames input parameters and restructures response object for /v1/intl_verifications
+
+      **2017-08-14**
+      - automatically standardizes and corrects US addresses created via POST /v1/addresses. non-US addresses will be standardized into uppercase only.
+      - automatically standardizes and corrects inline US addresses used in POST /v1/postcards, POST /v1/letters, and POST /v1/checks. non-US addresses will be standardized into uppercase only.
+      - enforce 40 character limit on name and company for all addresses
+      - enforce 64 character limit on address_line1 and address_line2 for US addresses
+
+      **2017-06-16**
+      - enforce 10,000 character limit on HTML strings
+      - rename data parameter for all products to merge_variables
+
+      **2017-05-17**
+      - discontinues the /v1/verify endpoint - please use /v1/us_verifications or /v1/intl_verifications instead
+
+      **2016-06-30** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - unnest tracking object from postcard, letter, and check response objects
+
+      **2016-05-02** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - adds address_placement parameter to letters that defaults to top_first_page, template is no longer allowed
+
+      **2016-03-21** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - removes tracking numbers that do not provide any consumer-facing tracking information
+      - removes link from tracking responses
+      - requires account_type when creating a bank account
+
+      **2016-01-19** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - renames the count parameter to limit for all list endpoints
+      - removes the next_url and previous_url from list responses
+
+      **2015-12-22** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - adds size parameter to postcards that defaults to 4x6, setting is no longer allowed
+
+      **2015-11-23** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - remove price from letters
+      - remove pages from letters
+      - remove price from postcards
+      - renamed file parameter to check_bottom for checks
+
+      **2015-11-06** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - remove bank_address from bank_accounts
+      - remove account_address from bank_accounts and add from to checks
+      - remove price from checks
+
+      **2015-10-21** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - use the new HTML renderer for all products
+
+      **2015-06-25** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - remove the status field from all endpoints
+
+      **2015-04-11** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - errors on all endpoints are now single objects instead of arrays
+      - full_bleed is no longer allowed for postcards, objects, and area mails - all products are now full_bleed by default
+      - template is no longer allowed for postcards - all postcards must adhere to the template
+      - name is no longer allowed for area mails, bank accounts, checks, jobs, objects, and postcards - it has been replaced by description
+      - setting ID's 100 and 101 are no longer supported for objects - please use the Simple Letter Service instead
+      - service is no longer supported for jobs
+      - all boolean parameters now return true/false instead of 1/0
+      - double_sided is no longer allowed for objects - all products are default double sided if more than one page is allowed
+      - template is no longer allowed for objects
+
+      **2014-12-18** <span style="background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;">Sunsetted</span>
+      - removed concept of packaging
+      - signatory is now a required field when creating a bank account
+      - bank_code is no longer an allowed field when creating a bank account
+      - service_id parameter replaced by service parameter in /jobs
+      - setting_id parameter replaced by setting parameter in /objects
 
   - name: Webhooks
     x-traitTag: true
@@ -1560,10 +1528,14 @@ x-tagGroups:
   - name: Overview
     tags:
       - Introduction
-      - Authentication
-      - API Keys
+      - Basic Authentication
       - Getting Started
       - SDKs and Tools
+
+  - name: Address Book
+    tags:
+      - Addresses
+      - National Change of Address
 
   - name: Print and Mail API
     tags:
@@ -1574,47 +1546,22 @@ x-tagGroups:
       - Bank Accounts
       - Templates
       - Template Versions
+      - Template Design
+      - Manage Mail
 
-  - name: Mail Content Design
+  - name: Address Verification API
     tags:
-      - HTML Templates
-      - HTML Examples
-      - Image Prepping
-      - Standard PDF Fonts
-
-  - name: Manage Mail
-    tags:
-      - Cancellation Windows
-      - Scheduled Mailings
+      - US Verifications
+      - US Verification Types
+      - US Autocompletions
+      - Zip Lookups
+      - Intl Verifications
 
   - name: Webhooks
     tags:
       - Webhooks
       - Events
       - Tracking Events
-
-  - name: Address Book
-    tags:
-      - Addresses
-      - NCOA
-      - NCOA Live Environment
-      - NCOA Test Environment
-
-  - name: US Verification API
-    tags:
-      - US Verifications
-      - US Verification Details
-      - US Verifications Test Environment
-      - Bulk US Verifications
-      - US Autocompletions
-      - US Autocompletions Test Environment
-      - Zip Lookups
-
-  - name: Intl Verification API
-    tags:
-      - Intl Verifications
-      - Bulk Intl Verifications
-      - Intl Verifications Test Environment
 
   - name: Special Features
     tags:
@@ -1623,16 +1570,12 @@ x-tagGroups:
 
   - name: Appendix
     tags:
-      - Asset URLs
       - Beta Program
-      - Changelog
       - Errors
-      - Idempotent Requests
-      - Metadata
       - Rate Limiting
-      - Request Bodies
+      - Requests and Responses
       - Test and Live Environments
-      - Versioning
+      - Versioning and Changelog
 
 components:
   securitySchemes:

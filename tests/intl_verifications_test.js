@@ -32,45 +32,58 @@ const address_response_ru = {
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 
 test("verify an Intl address given primary line, and country", async function (t) {
-  t.plan(1);
-  const response = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        primary_line: primary_line,
-        city: city,
-        state: state,
-        postal_code: postal_code,
-        country: country,
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(response.status === 200);
+  try {
+    const response = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          primary_line: primary_line,
+          city: city,
+          state: state,
+          postal_code: postal_code,
+          country: country,
+        },
+        { headers: prism.authHeader }
+      )
+    );
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });
 
 test("verify an Intl address with full payload", async function (t) {
-  t.plan(1);
-  const response = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        recipient: recipient,
-        primary_line: primary_line,
-        secondary_line: secondary_line,
-        city: city,
-        state: state,
-        postal_code: postal_code,
-        country: country,
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(response.status === 200);
+  try {
+    const response = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          recipient: recipient,
+          primary_line: primary_line,
+          secondary_line: secondary_line,
+          city: city,
+          state: state,
+          postal_code: postal_code,
+          country: country,
+        },
+        { headers: prism.authHeader }
+      )
+    );
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });
 
 test("errors when not given a country", async function (t) {
-  t.plan(1);
   try {
     await prism.setup().then((client) =>
       client.post(
@@ -91,7 +104,6 @@ test("errors when not given a country", async function (t) {
 });
 
 test("errors when given Puerto Rico", async function (t) {
-  t.plan(1);
   try {
     await prism.setup().then((client) =>
       client.post(
@@ -113,7 +125,6 @@ test("errors when given Puerto Rico", async function (t) {
 });
 
 test("errors when not given a primary line", async function (t) {
-  t.plan(1);
   try {
     await prism.setup().then((client) =>
       client.post(
@@ -134,15 +145,22 @@ test("errors when not given a primary line", async function (t) {
 });
 
 test("validate a native language response", async function (t) {
-  t.plan(3);
-  prism.authHeader["x-lang-output"] = "native";
-  const response = await prism
-    .setup()
-    .then((client) =>
-      client.post(resource_endpoint, address_ru, { headers: prism.authHeader })
+  try {
+    prism.authHeader["x-lang-output"] = "native";
+    const response = await prism.setup().then((client) =>
+      client.post(resource_endpoint, address_ru, {
+        headers: prism.authHeader,
+      })
     );
 
-  t.assert(response.status === 200);
-  t.assert(response.data.primary_line === address_response_ru.primary_line);
-  t.assert(response.data.last_line === address_response_ru.state);
+    t.assert(response.status === 200);
+    t.assert(response.data.primary_line === address_response_ru.primary_line);
+    t.assert(response.data.last_line === address_response_ru.state);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });

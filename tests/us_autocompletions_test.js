@@ -12,69 +12,97 @@ const resource_endpoint = "/us_autocompletions",
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 test("autocomplete an address given a prefix", async function (t) {
-  t.plan(1);
-  const response = await prism
-    .setup()
-    .then((client) =>
+  try {
+    const response = await prism
+      .setup()
+      .then((client) =>
+        client.post(
+          resource_endpoint,
+          { address_prefix: address_prefix },
+          { headers: prism.authHeader }
+        )
+      );
+
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
+});
+
+test("autocomplete an address given a prefix with full payload", async function (t) {
+  try {
+    const response = await prism.setup().then((client) =>
       client.post(
         resource_endpoint,
-        { address_prefix: address_prefix },
+        {
+          address_prefix: address_prefix,
+          city: "San Francisco",
+          state: "CA",
+          zip_code: "94107",
+          geo_ip_sort: false,
+        },
         { headers: prism.authHeader }
       )
     );
 
-  t.assert(response.status === 200);
-});
-
-test("autocomplete an address given a prefix with full payload", async function (t) {
-  t.plan(1);
-  const response = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        address_prefix: address_prefix,
-        city: "San Francisco",
-        state: "CA",
-        zip_code: "94107",
-        geo_ip_sort: false,
-      },
-      { headers: prism.authHeader }
-    )
-  );
-
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });
 
 test("autocomplete an address given a prefix with full payload urlencoded", async function (t) {
-  t.plan(1);
-  const payload = new URLSearchParams({
-    address_prefix: address_prefix,
-    city: "San Francisco",
-    state: "CA",
-    zip_code: "94107",
-    geo_ip_sort: false,
-  }).toString();
+  try {
+    const payload = new URLSearchParams({
+      address_prefix: address_prefix,
+      city: "San Francisco",
+      state: "CA",
+      zip_code: "94107",
+      geo_ip_sort: false,
+    }).toString();
 
-  const response = await prism.setup().then((client) =>
-    client.post(resource_endpoint, payload, {
-      headers: {
-        ...prism.authHeader,
-        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-      },
-    })
-  );
+    const response = await prism.setup().then((client) =>
+      client.post(resource_endpoint, payload, {
+        headers: {
+          ...prism.authHeader,
+          "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+      })
+    );
 
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });
 
 test("errors when address_prefix is not passed in", async function (t) {
-  t.plan(2);
-  const response = await prism
-    .setup({ errors: false })
-    .then((client) =>
-      client.post(resource_endpoint, {}, { headers: prism.authHeader })
-    );
+  try {
+    const response = await prism
+      .setup({ errors: false })
+      .then((client) =>
+        client.post(resource_endpoint, {}, { headers: prism.authHeader })
+      );
 
-  t.assert(response.status === 422);
-  t.assert(response.data.error.message.includes("address_prefix"));
+    t.assert(response.status === 422);
+    t.assert(response.data.error.message.includes("address_prefix"));
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });

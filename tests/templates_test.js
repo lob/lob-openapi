@@ -12,87 +12,121 @@ const resource_endpoint = "/templates",
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 test.serial.before("fill out context", async function (t) {
-  t.context.response = await prism.setup().then((client) =>
-    client.post(
-      resource_endpoint,
-      {
-        description: "Test Template",
-        html: "<html>HTML for {{name}}</html>",
-      },
-      { headers: prism.authHeader }
-    )
-  );
-});
-
-// guaranteed to run after the first one
-test.serial.before("fill out template endpoint", async function (t) {
-  t.context.tmpl_endpoint = `${resource_endpoint}/${t.context.response.data.id}`;
+  try {
+    const response = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          description: "Test Template",
+          html: "<html>HTML for {{name}}</html>",
+        },
+        { headers: prism.authHeader }
+      )
+    );
+    t.context.tmpl_endpoint = `${resource_endpoint}/${response.data.id}`;
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });
 
 test.serial("retrieve template", async function (t) {
-  t.plan(1);
-  let response = await prism
-    .setup()
-    .then((client) =>
-      client.get(t.context.tmpl_endpoint, { headers: prism.authHeader })
-    );
+  try {
+    let response = await prism
+      .setup()
+      .then((client) =>
+        client.get(t.context.tmpl_endpoint, { headers: prism.authHeader })
+      );
 
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });
 
 test.serial("create and update template", async function (t) {
-  t.plan(2);
-  // create new version
-  let response = await prism.setup().then((client) =>
-    client.post(
-      `${t.context.tmpl_endpoint}/versions`,
-      {
-        description: "Newer Template",
-        html: "<html>Updated HTML for {{name}}</html>",
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  // check creation, since original was done in non-test before hook
-  t.assert(response.status === 200);
-  const updated_version = response.data.id;
+  try {
+    // create new version
+    let response = await prism.setup().then((client) =>
+      client.post(
+        `${t.context.tmpl_endpoint}/versions`,
+        {
+          description: "Newer Template",
+          html: "<html>Updated HTML for {{name}}</html>",
+        },
+        { headers: prism.authHeader }
+      )
+    );
+    // check creation, since original was done in non-test before hook
+    t.assert(response.status === 200);
+    const updated_version = response.data.id;
 
-  // update template
-  response = await prism.setup().then((client) =>
-    client.post(
-      t.context.tmpl_endpoint,
-      {
-        description: "Updated Template",
-        published_version: updated_version,
-      },
-      { headers: prism.authHeader }
-    )
-  );
-  t.assert(response.status === 200);
+    // update template
+    response = await prism.setup().then((client) =>
+      client.post(
+        t.context.tmpl_endpoint,
+        {
+          description: "Updated Template",
+          published_version: updated_version,
+        },
+        { headers: prism.authHeader }
+      )
+    );
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });
 
 test.serial("list templates", async function (t) {
-  t.plan(1);
   // list
-  let response = await prism
-    .setup()
-    .then((client) =>
-      client.get(resource_endpoint, { headers: prism.authHeader })
-    );
+  try {
+    const response = await prism
+      .setup()
+      .then((client) =>
+        client.get(resource_endpoint, { headers: prism.authHeader })
+      );
 
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });
 
 test("list templates' params", async function (t) {
   const list = async (body) => {
-    const response = await prism.setup().then((client) =>
-      client.get(`${resource_endpoint}?${body}`, {
-        headers: prism.authHeader,
-      })
-    );
-    if (response.status === 422) console.log(response);
-    t.assert(response.status === 200);
-    return response.data;
+    try {
+      const response = await prism.setup().then((client) =>
+        client.get(`${resource_endpoint}?${body}`, {
+          headers: prism.authHeader,
+        })
+      );
+      if (response.status === 422) console.log(response);
+      t.assert(response.status === 200);
+      return response.data;
+    } catch (prismError) {
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+        return prismError;
+      }
+    }
   };
 
   /* ################## LIMIT ################## */
@@ -150,33 +184,48 @@ test("list templates' params", async function (t) {
 
   /* ################## RUN EVERYTHING ASYNC ################## */
 
-  const finale = await Promise.all([
-    limit_response,
-    before_response,
-    after_response,
-    include_response,
-    metadata_response,
-    date_response,
-    full_response,
-  ]);
+  try {
+    const finale = await Promise.all([
+      limit_response,
+      before_response,
+      after_response,
+      include_response,
+      metadata_response,
+      date_response,
+      full_response,
+    ]);
 
-  t.assert(finale[0].count <= 4);
-  t.assert(finale[3].hasOwnProperty("total_count"));
-  t.assert(finale[4].count === 0);
-  t.assert(finale[5].count === 2);
-  t.assert(finale[6].hasOwnProperty("total_count"));
-  t.assert(finale[6].count === 0);
+    t.assert(finale[0].count <= 4);
+    t.assert(finale[3].hasOwnProperty("total_count"));
+    t.assert(finale[4].count === 0);
+    t.assert(finale[5].count === 2);
+    t.assert(finale[6].hasOwnProperty("total_count"));
+    t.assert(finale[6].count === 0);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });
 
 // contract tests
-test.serial("delete a template", async function (t) {
-  t.plan(1);
+test.after.always("delete a template", async function (t) {
   // delete
-  let response = await prism
-    .setup()
-    .then((client) =>
-      client.delete(t.context.tmpl_endpoint, { headers: prism.authHeader })
-    );
+  try {
+    const response = await prism
+      .setup()
+      .then((client) =>
+        client.delete(t.context.tmpl_endpoint, { headers: prism.authHeader })
+      );
 
-  t.assert(response.status === 200);
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
 });

@@ -27,8 +27,8 @@ test("list self mailers' params", async function (t) {
         t.fail(JSON.stringify(prismError, null, 2));
       } else {
         t.fail(prismError.toString());
+        return prismError;
       }
-      return prismError;
     }
   };
 
@@ -354,8 +354,8 @@ test.after.always("delete addresses", async function (t) {
         t.fail(JSON.stringify(prismError, null, 2));
       } else {
         t.fail(prismError.toString());
+        return prismError;
       }
-      return prismError;
     }
   };
   await deleteAddress(t.context.to);

@@ -44,8 +44,8 @@ test("list addresses' parameters", async function (t) {
         t.fail(JSON.stringify(prismError, null, 2));
       } else {
         t.fail(prismError.toString());
+        return prismError;
       }
-      return prismError;
     }
   };
 

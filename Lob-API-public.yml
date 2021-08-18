@@ -155,7 +155,7 @@ tags:
       | 401           | UNAUTHORIZED                 | The request isn't authorized.                                                                         |
       | 401           | UNAUTHORIZED_TOKEN           | Token isn't authorized.                                                                               |
       | 401/403       | INVALID_API_KEY              | The API key is invalid.                                                                               |
-      | 403           | PUBLISHABLE_KEY_NOT_ALLOWED  | The requested operation needs a secret key, not a publishable key. See [API Keys](#tag/API-Keys) for more information. |
+      | 403           | PUBLISHABLE_KEY_NOT_ALLOWED  | The requested operation needs a secret key, not a publishable key. See [API Keys](#section/API-Keys) for more information. |
       | 429           | RATE_LIMIT_EXCEEDED          | Requests were sent too quickly and must be slowed down.                                               |
 
        ### Error Codes - Advanced
@@ -345,7 +345,7 @@ tags:
 
       Address verification for non-US addresses
 
-      ## Test Environment
+      ## Intl Verifications Test Env
 
       When verifying international addresses, you'll likely want to test against
       a wide array of addresses to ensure you're handling responses correctly.
@@ -424,7 +424,7 @@ tags:
 
       Up until the time a mailing is scheduled for, it can also be canceled.
       If you use this feature in conjunction with [a cancellation window](
-      index.html#tag/Cancellation-Windows), the `send_date` parameter will always
+      index.html#section/Cancellation-Windows), the `send_date` parameter will always
       take precedence.
 
       For implementation details, see documentation below for each respective
@@ -483,7 +483,7 @@ tags:
 
       In addition to sending live requests, you may also want to simulate what an NCOA response might
       look like so that you can ensure your application behaves as expected. The behavior of NCOA in
-      Lob's Test Environment is very similar to our [US Verifications Test Mode](#tag/US-Verifications-Test-Environment).
+      Lob's Test Environment is very similar to our [US Verifications Test Mode](#section/US-Verifications-Test-Env).
 
       To simulate an NCOA request, send a POST request to any of the four endpoints below with an `address_line1` field equal to `NCOA`:
       - `POST /v1/addresses`
@@ -782,11 +782,6 @@ tags:
       The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints
       for creating self mailers, retrieving individual self mailers, canceling self mailers, and retrieving a list of self mailers.
 
-  - name: Special Features
-    x-traitTag: true
-    description: |
-      The following are descriptions of Lob endpoints, like `v1/billing_groups`, which are available by special access to customers.
-
   - name: Template Design
     x-traitTag: true
     description: |
@@ -864,7 +859,7 @@ tags:
       **Prepping PDFs**
 
       To ensure that you are producing PDF's correctly please follow the guidelines below:
-      - [Make sure all non-standard fonts are embedded.](#tag/Standard-PDF-Fonts)
+      - [Make sure all non-standard fonts are embedded.](#section/Standard-PDF-Fonts)
       - Generated PDF's need to be be PDF/A compliant.
 
       **Prepping PNGs/JPEGs**
@@ -1156,7 +1151,7 @@ tags:
     description: >
       Given partial address information, this endpoint returns up to 10 address suggestions.
 
-      ## Test Environment
+      ## Autocompletion Test Env
 
       Your test API key does not autocomplete US addresses and is used to simulate
       behavior. With your test API key, requests with specific values for `address_prefix`
@@ -1344,7 +1339,7 @@ tags:
       Validate, automatically correct, and standardize the addresses in your
       address book based on USPS's [Coding Accuracy Support System (CASS)](https://postalpro.usps.com/certifications/cass).
 
-      ## Test Environment
+      ## US Verifications Test Env
 
       When verifying US addresses, you'll likely want to test against a wide array of addresses to
       ensure you're handling responses correctly. With your test API key, requests that use specific
@@ -1390,7 +1385,7 @@ tags:
       only need to specify a version if you would like to test a newer version of
       the API without doing a full upgrade. The API will return an error if a
       version older than your current one is passed in. See
-      [API Changelog](#tag/Changelog) for a full list of breaking changes.
+      [API Changelog](#tag/Versioning-and-Changelog) for a full list of breaking changes.
 
       ### Example Request
 
@@ -1565,7 +1560,6 @@ x-tagGroups:
 
   - name: Special Features
     tags:
-      - Special Features
       - Billing Groups
 
   - name: Appendix

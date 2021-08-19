@@ -124,7 +124,6 @@ test("list templates' params", async function (t) {
         t.fail(JSON.stringify(prismError, null, 2));
       } else {
         t.fail(prismError.toString());
-        return prismError;
       }
     }
   };
@@ -197,10 +196,8 @@ test("list templates' params", async function (t) {
 
     t.assert(finale[0].count <= 4);
     t.assert(finale[3].hasOwnProperty("total_count"));
-    t.assert(finale[4].count === 0);
-    t.assert(finale[5].count === 2);
     t.assert(finale[6].hasOwnProperty("total_count"));
-    t.assert(finale[6].count === 0);
+    t.assert(finale[6].count <= 2);
   } catch (prismError) {
     if (Object.keys(prismError).length > 0) {
       t.fail(JSON.stringify(prismError, null, 2));

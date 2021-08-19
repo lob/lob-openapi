@@ -6,7 +6,7 @@ description: >-
   in the format `2017-11-01` is passed, it will evaluate to midnight UTC of that date (`2017-11-01T00:00:00.000Z`).
   If a datetime is passed, that exact time will be used. A `send_date` passed with no time zone will default to UTC,
   while a `send_date` passed with a time zone will be converted to UTC.
-oneOf:
+anyOf:
   - type: string
     format: date-time
 

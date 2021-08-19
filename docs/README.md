@@ -15,4 +15,4 @@ You can generate the file yourself at any time by running `npm run redoc`.
 
 ## Dealing with merge conflicts
 
-You may occassionally encounter merge conflicts in this file. You may safely ignore such conflicts, choosing either version of the file, as the file is generated anew on each push to github.
+You may occasionally encounter merge conflicts in this file. You may safely ignore such conflicts, choosing either version of the file, as the file is generated anew on each push to github.

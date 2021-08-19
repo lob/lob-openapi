@@ -5,7 +5,7 @@ info:
   version: "2020-02-11"
   description: >
     The Lob API is organized around REST. Our API is designed to have predictable,
-    resource-oriented URLs and uses HTTP response codes to indicate any API errors
+    resource-oriented URLs and uses HTTP response codes to indicate any API errors.
   license:
     name: MIT
     url: https://mit-license.org/
@@ -34,49 +34,40 @@ tags:
   - name: Basic Authentication
     x-traitTag: true
     description: |
-
       Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).
       In order to properly authenticate with the API you must use your API key as the username
       while leaving the password blank. Requests not properly authenticated will return a `401`
       [error code](#tag/Errors). You can find your account's API keys
       in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
-
       ### Example Request
-
       curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
-
-
       ```bash
       curl https://api.lob.com/v1/addresses \
         -u test_0dc8dXXXXXXXXXXXXXXXXXXXXXX5b0cc:
       ```
-
       ## API Keys
         Lob authenticates your API requests using your account's API keys.
         If you do not include your key when making an API request, or use
         one that is incorrect or outdated, Lob returns an error with a `401`
         HTTP response code. You can find all API keys in your dashboard
         under [Settings](https://dashboard.lob.com/#/settings/keys).
-
         There are two types of API keys: *secret* and *publishable*.
-
         - **Secret API keys** should be kept confidential and only stored on your own servers.
         Your account's secret API key can perform any API request to Lob without restriction.
-
         - **Publishable API keys** are limited to US verifications, international verifications,
         and US autocomplete requests. While we encourage you to use a secret key for maximum
         security, you can publish these keys to JavaScript code or in an Android or iPhone app
         without exposing print and mail services or your secret key. Publishable keys are always
         prefixed with `[environment]_pub`.
-
         Every type comes with a pair of keys: one for the testing environment and one for the
         live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments)
         for more information.
 
   - name: Beta Program
+    x-traitTag: true
     description: |
-      Here at Lob, we pride ourselves on building high quality platform capabilities rapidly
+      At Lob, we pride ourselves on building high quality platform capabilities rapidly
       and iteratively, so we can constantly be delivering additional value to our customers.
       When evaluating a new product or feature from Lob, you may see that it has been released in Beta.
 
@@ -99,9 +90,15 @@ tags:
 
   - name: Billing Groups
     description: |
-      Billing groups allow you to create and view labels that can be attached to certain consumption-based
+      The Billing Groups API allows you to create and view labels that can be attached to certain consumption-based
       usages of Letters, Checks, Postcards and Self-Mailers to customize your bill. Please check each
-      resource API section to learn more about how to attach billing groups in the API.
+      resource API section to learn more about how to access the Billing Groups API.
+
+  - name: Bulk Intl Verifications
+    description: Verify a list of non-US addresses.
+
+  - name: Bulk US Verifications
+    description: Verify a list of US addresses.
 
   - name: Checks
     description: |
@@ -113,194 +110,707 @@ tags:
     description: |
       Lob uses RESTful HTTP response codes to indicate success or failure of an API request - read below for more information. In general, 2xx indicates success, 4xx indicate an input error, and 5xx indicates an error on Lob's end.
 
-      | ATTRIBUTE     | DESCRIPTION                                                                   |
-      |---------------| ------------------------------------------------------------------------------|
-      | code          | A consistent machine-keyable string identifying the error                     |
-      | status_code   | A conventional HTTP status code                                               |
-      | message       | A human-readable, subject-to-change message with more details about the error |
-
+      <table>
+        <tr>
+          <th style="white-space: nowrap">ATTRIBUTE</th>
+          <th style="white-space: nowrap">DESCRIPTION</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>code</code></td>
+          <td style="white-space: nowrap">A consistent machine-keyable string identifying the error</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>status_code</code></td>
+          <td style="white-space: nowrap">A conventional HTTP status code</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>message</code></td>
+          <td style="white-space: nowrap">A human-readable, subject-to-change message with more details about the error</td>
+        </tr>
+      </table>
 
       ### HTTP Status Code Summary
 
-      | CODE          | STATUS_CODE          | MESSAGE                                                                     |
-      |---------------| ---------------------|-----------------------------------------------------------------------------|
-      | 200           | SUCCESS              | Successful API request                                                      |
-      | 401           | UNAUTHORIZED         | Authorization error with your API key or account                            |
-      | 403           | FORBIDDEN            | Forbidden error with your API key or account                                |
-      | 422           | BAD REQUEST          | The query or body parameters did not pass validation                        |
-      | 429           | TOO MANY REQUESTS    | Too many requests have been sent with an API key in a given amount of time  |
-      | 500           | SERVER ERROR         | An internal server error occurred, please contact support@lob.com           |
+      <table>
+        <tr>
+          <th style="white-space: nowrap">CODE</th>
+          <th style="white-space: nowrap">STATUS_CODE</th>
+          <th style="white-space: nowrap">MESSAGE</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>200</code></td>
+          <td style="white-space: nowrap">SUCCESS</td>
+          <td style="white-space: nowrap">Successful API request</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>401</code></td>
+          <td style="white-space: nowrap">UNAUTHORIZED</td>
+          <td style="white-space: nowrap">Authorization error with your API key or account</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>403</code></td>
+          <td style="white-space: nowrap">FORBIDDEN</td>
+          <td style="white-space: nowrap">Forbidden error with your API key or account</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>404</code></td>
+          <td style="white-space: nowrap">NOT FOUND</td>
+          <td style="white-space: nowrap">The requested item does not exist</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">BAD REQUEST</td>
+          <td style="white-space: nowrap">The query or body parameters did not pass validation</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>429</code></td>
+          <td style="white-space: nowrap">TOO MANY REQUESTS</td>
+          <td style="white-space: nowrap">Too many requests have been sent with an API key in a given amount of time</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>500</code></td>
+          <td style="white-space: nowrap">SERVER ERROR</td>
+          <td style="white-space: nowrap">An internal server error occurred, please contact support@lob.com</td>
+        </tr>
+      </table>
 
       ### Error Codes - Generic
 
-      | CODE          | STATUS_CODE              | MESSAGE                                                                              |
-      |---------------| -----------------------  |--------------------------------------------------------------------------------------|
-      | 403           | FEATURE_LIMIT_REACHED    | The account has reached its resource limit and requires upgrading to add more.       |
-      | 404           | NOT_FOUND                | The requested resource was not found.                                                |
-      | 404           | UNRECOGNIZED_ENDPOINT    | The requested endpoint doesn't exist.                                                |
-      | 408           | REQUEST_TIMEOUT          | The request took too long. Please try again.                                         |
-      | 409/422       | CONFLICT                 | This operation would leave data in a conflicted state.                               |
-      | 422           | BAD_REQUEST              | An invalid request was made. See error message for details.                          |
-      | 422           | INVALID                  | An invalid request was made. See error message for details.                          |
-      | 422           | UNSUPPORTED_LOB_VERSION  | An unsupported Lob API version was requested.                                        |
-      | 422           | NOT_DELETABLE            | An attempt was made to delete a resource, but the resource cannot be deleted.        |
-      | 500           | INTERNAL_SERVER_ERROR    | An error has occured on Lob's servers. Please try request again.                     |
-      | 503           | SERVICE_UNAVAILABLE      | The Lob servers are temporarily unavailable. Please try again.                       |
+      <table>
+        <tr>
+          <th style="white-space: nowrap">CODE</th>
+          <th style="white-space: nowrap">STATUS_CODE</th>
+          <th style="white-space: nowrap">MESSAGE</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">BAD_REQUEST</td>
+          <td style="white-space: nowrap">An invalid request was made. See error message for details.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>409/422</code></td>
+          <td style="white-space: nowrap">CONFLICT</td>
+          <td style="white-space: nowrap">This operation would leave data in a conflicted state.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>403</code></td>
+          <td style="white-space: nowrap">FEATURE_LIMIT_REACHED</td>
+          <td style="white-space: nowrap">The account has reached its resource limit and requires upgrading to add more.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>500</code></td>
+          <td style="white-space: nowrap">INTERNAL_SERVER_ERROR</td>
+          <td style="white-space: nowrap">An error has occured on Lob's servers. Please try request again.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID</td>
+          <td style="white-space: nowrap">An invalid request was made. See error message for details.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">NOT_DELETABLE</td>
+          <td style="white-space: nowrap">An attempt was made to delete a resource, but the resource cannot be deleted.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>404</code></td>
+          <td style="white-space: nowrap">NOT_FOUND</td>
+          <td style="white-space: nowrap">The requested resource was not found.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>408</code></td>
+          <td style="white-space: nowrap">REQUEST_TIMEOUT</td>
+          <td style="white-space: nowrap">The request took too long. Please try again.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>503</code></td>
+          <td style="white-space: nowrap">SERVICE_UNAVAILABLE</td>
+          <td style="white-space: nowrap">The Lob servers are temporarily unavailable. Please try again.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>404</code></td>
+          <td style="white-space: nowrap">UNRECOGNIZED_ENDPOINT</td>
+          <td style="white-space: nowrap">The requested endpoint doesn't exist.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">UNSUPPORTED_LOB_VERSION</td>
+          <td style="white-space: nowrap">An unsupported Lob API version was requested.</td>
+        </tr>
+      </table>
 
       ### Error Codes - Authentication
 
-      | CODE          | STATUS_CODE                  | MESSAGE                                                                                               |
-      |---------------| -----------------------------|-------------------------------------------------------------------------------------------------------|
-      | 401           | EMAIL_REQUIRED               | Account must have a verified email address before creating live resources.                            |
-      | 401           | UNAUTHORIZED                 | The request isn't authorized.                                                                         |
-      | 401           | UNAUTHORIZED_TOKEN           | Token isn't authorized.                                                                               |
-      | 401/403       | INVALID_API_KEY              | The API key is invalid.                                                                               |
-      | 403           | PUBLISHABLE_KEY_NOT_ALLOWED  | The requested operation needs a secret key, not a publishable key. See [API Keys](#section/API-Keys) for more information. |
-      | 429           | RATE_LIMIT_EXCEEDED          | Requests were sent too quickly and must be slowed down.                                               |
+      <table>
+        <tr>
+          <th style="white-space: nowrap">CODE</th>
+          <th style="white-space: nowrap">STATUS_CODE</th>
+          <th style="white-space: nowrap">MESSAGE</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>401</code></td>
+          <td style="white-space: nowrap">EMAIL_REQUIRED</td>
+          <td style="white-space: nowrap">Account must have a verified email address before creating live resources.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>401</code></td>
+          <td style="white-space: nowrap">UNAUTHORIZED</td>
+          <td style="white-space: nowrap">The request isn't authorized.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>401</code></td>
+          <td style="white-space: nowrap">UNAUTHORIZED_TOKEN</td>
+          <td style="white-space: nowrap">Token isn't authorized.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>401/403</code></td>
+          <td style="white-space: nowrap">INVALID_API_KEY</td>
+          <td style="white-space: nowrap">The API key is invalid.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>403</code></td>
+          <td style="white-space: nowrap">PUBLISHABLE_KEY_NOT_ALLOWED</td>
+          <td style="white-space: nowrap">The requested operation needs a secret key, not a publishable key. See [API Keys](#tag/API-Keys) for more information.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>429</code></td>
+          <td style="white-space: nowrap">RATE_LIMIT_EXCEEDED</td>
+          <td style="white-space: nowrap">Requests were sent too quickly and must be slowed down.</td>
+        </tr>
+      </table>
 
        ### Error Codes - Advanced
 
-      | CODE          | STATUS_CODE                        | MESSAGE                                                                                                              |
-      |---------------| -----------------------------------|----------------------------------------------------------------------------------------------------------------------|
-      | 401           | PAYMENT_METHOD_UNVERIFIED          | You must have a verified bank account or credit card to submit live requests.                                        |
-      | 404           | DELETED_BANK_ACCOUNT               | Checks cannot be created with a deleted bank account.                                                                |
-      | 422           | ADDRESS_LENGTH_EXCEEDS_LIMIT       | The sum of to.address_line1 and to.address_line2 cannot surpass 50 characters.                                       |
-      | 422           | BANK_ACCOUNT_ALREADY_VERIFIED      | The bank account has already been verified.                                                                          |
-      | 422           | BANK_ERROR                         | There's an issue with the bank account.                                                                              |
-      | 422           | CUSTOM_ENVELOPE_INVENTORY_DEPLETED | Custom envelope inventory is depleted, and more will need to be ordered.                                             |
-      | 422           | FAILED_DELIVERABILITY_STRICTNESS   | The to address doesn't meet strictness requirements. See [Account Settings](https://dashboard.lob.com/#/settings/account) to configure strictness.                   |
-      | 422           | FILE_PAGES_BELOW_MIN               | Not enough pages.                                                                                                    |
-      | 422           | FILE_PAGES_EXCEED_MAX              | Too many pages.                                                                                                      |
-      | 422           | FILE_SIZE_EXCEEDS_LIMIT            | The file size is too large. See description for details.                                                             |
-      | 422           | FOREIGN_RETURN_ADDRESS             | The 'from' address must be a US address.                                                                             |
-      | 422           | INCONSISTENT_PAGE_DIMENSIONS       | All pages of the input file must have the same dimensions.                                                           |
-      | 422           | INVALID_BANK_ACCOUNT               | The provided bank routing number is invalid.                                                                         |
-      | 422           | INVALID_BANK_ACCOUNT_VERIFICATION  | Verification amounts do not match.                                                                                   |
-      | 422           | INVALID_CHECK_INTERNATIONAL        | Checks cannot be sent internationally.                                                                               |
-      | 422           | INVALID_COUNTRY_COVID              | The postal service in the specified country is currently unable to process the request due to COVID-19 restrictions. |
-      | 422           | INVALID_FILE                       | The file is invalid.                                                                                                 |
-      | 422           | INVALID_FILE_DIMENSIONS            | File dimensions are incorrect for the selected mail type.                                                            |
-      | 422           | INVALID_FILE_DOWNLOAD_TIME         | File download from remote server took too long.                                                                      |
-      | 422           | INVALID_FILE_URL                   | The file URL when creating a resource is invalid.                                                                    |
-      | 422           | INVALID_IMAGE_DPI                  | DPI must be at least 300.                                                                                            |
-      | 422           | INVALID_INTERNATIONAL_FEATURE      | The specified product cannot be sent to the destination.                                                             |
-      | 422           | INVALID_PERFORATION_RETURN_ENVELOPE| Both `return_envelope` and `perforation` must be used together.                                                          |
-      | 422           | INVALID_TEMPLATE_HTML              | The provided HTML is invalid.                                                                                        |
-      | 422           | MERGE_VARIABLE_REQUIRED            | A required merge variable is missing.                                                                                |
-      | 422           | MERGE_VARIABLE_WHITESPACE          | Merge variable names cannot contain whitespace.                                                                      |
-      | 422           | PDF_ENCRYPTED                      | An encrypted PDF was provided.                                                                                       |
-      | 422           | SPECIAL_CHARACTERS_RESTRICTED      | Cannot use special characters for merge variable names.                                                              |
-      | 422           | UNEMBEDDED_FONTS                   | The provided PDF contains non-standard unembedded fonts. See description for details.                                |
+       <table>
+        <tr>
+          <th style="white-space: nowrap">CODE</th>
+          <th style="white-space: nowrap">STATUS_CODE</th>
+          <th style="white-space: nowrap">MESSAGE</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>401</code></td>
+          <td style="white-space: nowrap">PAYMENT_METHOD_UNVERIFIED</td>
+          <td style="white-space: nowrap">You must have a verified bank account or credit card to submit live requests.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>404</code></td>
+          <td style="white-space: nowrap">DELETED_BANK_ACCOUNT</td>
+          <td style="white-space: nowrap">Checks cannot be created with a deleted bank account.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">ADDRESS_LENGTH_EXCEEDS_LIMIT</td>
+          <td style="white-space: nowrap">The sum of to.address_line1 and to.address_line2 cannot surpass 50 characters.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">BANK_ACCOUNT_ALREADY_VERIFIED</td>
+          <td style="white-space: nowrap">The bank account has already been verified.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">BANK_ERROR</td>
+          <td style="white-space: nowrap">There's an issue with the bank account.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">CUSTOM_ENVELOPE_INVENTORY_DEPLETED</td>
+          <td style="white-space: nowrap">Custom envelope inventory is depleted, and more will need to be ordered.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">FAILED_DELIVERABILITY_STRICTNESS</td>
+          <td style="white-space: nowrap">The to address doesn't meet strictness requirements. See [Account Settings](https://dashboard.lob.com/#/settings/account) to configure strictness.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">FILE_PAGES_BELOW_MIN</td>
+          <td style="white-space: nowrap">Not enough pages.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">FILE_PAGES_EXCEED_MAX</td>
+          <td style="white-space: nowrap">Too many pages.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">FILE_SIZE_EXCEEDS_LIMIT</td>
+          <td style="white-space: nowrap">The file size is too large. See description for details.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">FOREIGN_RETURN_ADDRESS</td>
+          <td style="white-space: nowrap">The 'from' address must be a US address.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INCONSISTENT_PAGE_DIMENSIONS</td>
+          <td style="white-space: nowrap">All pages of the input file must have the same dimensions.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_BANK_ACCOUNT</td>
+          <td style="white-space: nowrap">The provided bank routing number is invalid.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_BANK_ACCOUNT_VERIFICATION</td>
+          <td style="white-space: nowrap">Verification amounts do not match.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_CHECK_INTERNATIONAL</td>
+          <td style="white-space: nowrap">Checks cannot be sent internationally.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_COUNTRY_COVID</td>
+          <td style="white-space: nowrap">The postal service in the specified country is currently unable to process the request due to COVID-19 restrictions.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_FILE</td>
+          <td style="white-space: nowrap">The file is invalid.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_FILE_DIMENSIONS</td>
+          <td style="white-space: nowrap">File dimensions are incorrect for the selected mail type.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_FILE_DOWNLOAD_TIME</td>
+          <td style="white-space: nowrap">File download from remote server took too long.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_FILE_URL</td>
+          <td style="white-space: nowrap">The file URL when creating a resource is invalid.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_IMAGE_DPI</td>
+          <td style="white-space: nowrap">DPI must be at least 300.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_INTERNATIONAL_FEATURE</td>
+          <td style="white-space: nowrap">The specified product cannot be sent to the destination.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_PERFORATION_RETURN_ENVELOPE</td>
+          <td style="white-space: nowrap">Both `return_envelope` and `perforation` must be used together.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">INVALID_TEMPLATE_HTML</td>
+          <td style="white-space: nowrap">The provided HTML is invalid.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">MERGE_VARIABLE_REQUIRED</td>
+          <td style="white-space: nowrap">A required merge variable is missing.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">MERGE_VARIABLE_WHITESPACE</td>
+          <td style="white-space: nowrap">Merge variable names cannot contain whitespace.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">PDF_ENCRYPTED</td>
+          <td style="white-space: nowrap">An encrypted PDF was provided.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">SPECIAL_CHARACTERS_RESTRICTED</td>
+          <td style="white-space: nowrap">Cannot use special characters for merge variable names.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">UNEMBEDDED_FONTS</td>
+          <td style="white-space: nowrap">The provided PDF contains non-standard unembedded fonts. See description for details.</td>
+        </tr>
+      </table>
 
   - name: Events
     description: |
       When various notable things happen within the Lob architecture, Events will be created. To get these events sent to your server
       automatically when they occur, you can set up [Webhooks](#tag/Webhooks).
 
-      **<span style="color:#6683a2">Postcards</span>**
+      <h3>Postcards</h3>
 
-      | EVENT TYPE                        | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                         |
-      |-----------------------------------|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-      | `postcard.created`                | false     | A postcard is successfully created (Lob returns a 200 status code).                                                                                                                            |
-      | `postcard.rendered_pdf`           | false     | A postcard's PDF proof is successfully rendered.                                                                                                                                               |
-      | `postcard.rendered_thumbnails`    | false     | A postcard's thumbnails are successfully rendered.                                                                                                                                             |
-      | `postcard.deleted`                | false     | A postcard is successfully canceled.                                                                                                                                                           |
-      | `postcard.mailed`                 | true      | A postcard receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
-      | `postcard.in_transit`             | true      | A postcard receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |
-      | `postcard.in_local_area`          | true      | A postcard receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
-      | `postcard.processed_for_delivery` | true      | A postcard receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |
-      | `postcard.re-routed`              | true      | A postcard receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
-      | `postcard.returned_to_sender`     | true      | A postcard receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |                                                                                                                                  |
+      <table>
+        <tr>
+          <th style="white-space: nowrap">EVENT TYPE</th>
+          <th style="white-space: nowrap">LIVE-ONLY</th>
+          <th style="white-space: nowrap">WHEN EVENT TYPE OCCURS</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.created</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A postcard is successfully created (Lob returns a 200 status code).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.rendered_pdf</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A postcard's PDF proof is successfully rendered.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.rendered_thumbnails</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A postcard's thumbnails are successfully rendered.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.deleted</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A postcard is successfully canceled.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.mailed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A postcard receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain <a href='https://dashboard.lob.com/#/settings/editions'>Print & Mail Editions</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.in_transit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A postcard receives an "In Transit" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.in_local_area</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A postcard receives an "In Local Area" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.processed_for_delivery</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A postcard receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.re-routed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A postcard receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.returned_to_sender</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A postcard receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+      </table>
 
+      <h3>Self Mailers</h3>
 
-      **<span style="color:#6683a2">Self Mailers</span>**
+      <table>
+        <tr>
+          <th style="white-space: nowrap">EVENT TYPE</th>
+          <th style="white-space: nowrap">LIVE-ONLY</th>
+          <th style="white-space: nowrap">WHEN EVENT TYPE OCCURS</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.created</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A self_mailer is successfully created (Lob returns a 200 status code).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.rendered_pdf</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A self_mailer's PDF proof is successfully rendered.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.rendered_thumbnails</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A self_mailer's thumbnails are successfully rendered.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.deleted</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A self_mailer is successfully canceled.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.mailed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A self_mailer receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.in_transit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A self_mailer receives an "In Transit" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.in_local_area</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A self_mailer receives an "In Local Area" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.processed_for_delivery</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A self_mailer receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.re-routed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A self_mailer receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.returned_to_sender</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A self_mailer receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+      </table>
 
-      | EVENT TYPE                           | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                            |
-      |--------------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-      | `self_mailer.created`                | false     | A self mailer is successfully created (Lob returns a 200 status code).                                                                                                                            |
-      | `self_mailer.rendered_pdf`           | false     | A self mailer's PDF proof is successfully rendered.                                                                                                                                               |
-      | `self_mailer.rendered_thumbnails`    | false     | A self mailer's thumbnails are successfully rendered.                                                                                                                                             |
-      | `self_mailer.deleted`                | false     | A self mailer is successfully canceled.                                                                                                                                                           |
-      | `self_mailer.mailed`                 | true      | A self mailer receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
-      | `self_mailer.in_transit`             | true      | A self mailer receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |
-      | `self_mailer.in_local_area`          | true      | A self mailer receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
-      | `self_mailer.processed_for_delivery` | true      | A self mailer receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |
-      | `self_mailer.re-routed`              | true      | A self mailer receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
-      | `self_mailer.returned_to_sender`     | true      | A self mailer receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |
+      <h3>Letters</h3>
 
+      <table>
+        <tr>
+          <th style="white-space: nowrap">EVENT TYPE</th>
+          <th style="white-space: nowrap">LIVE-ONLY</th>
+          <th style="white-space: nowrap">WHEN EVENT TYPE OCCURS</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.created</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A letter is successfully created (Lob returns a 200 status code).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.rendered_pdf</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A letter's PDF proof is successfully rendered.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.rendered_thumbnails</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A letter's thumbnails are successfully rendered.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.deleted</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A letter is successfully canceled.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.mailed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.in_transit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A letter receives an "In Transit" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.in_local_area</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A letter receives an "In Local Area" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.processed_for_delivery</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A letter receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.re-routed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A letter receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.returned_to_sender</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A letter receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.mailed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.in_transit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives an "In Transit" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.in_local_area</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives an "In Transit" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.in_local_area</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives an "In Local Area" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.processed_for_delivery</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.re-routed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.returned_to_sender</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.delivered</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives a "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.pickup_available</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives a "Pickup Available" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.certified.issue</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A certified letter receives an "Issue" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.return_envelope.created</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A return envelope is created (occurs simultaneously with letter creation).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.return_envelope.in_transit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A return envelope receives an "In Transit" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.return_envelope.in_local_area</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A return envelope receives an "In Local Area" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.return_envelope.processed_for_delivery</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A return envelope receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.return_envelope.re-routed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A return envelope receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.return_envelope.returned_to_senders</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A return envelope receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+      </table>
 
-      **<span style="color:#6683a2">Letters</span>**
+      <h3>Checks</h3>
 
-      | EVENT TYPE                                      | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                                 |
-      |-------------------------------------------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-      | `letter.created`                                | false     | A letter is successfully created (Lob returns a 200 status code).                                                                                                                                      |
-      | `letter.rendered_pdf`                           | false     | A letter's PDF proof is successfully rendered.                                                                                                                                                         |
-      | `letter.rendered_thumbnails`                    | false     | A letter's thumbnails are successfully rendered.                                                                                                                                                       |
-      | `letter.deleted`                                | false     | A letter is successfully canceled.                                                                                                                                                                     |
-      | `letter.mailed`                                 | true      | A letter receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).           |
-      | `letter.in_transit`                             | true      | A letter receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                                       |
-      | `letter.in_local_area`                          | true      | A letter receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                                    |
-      | `letter.processed_for_delivery`                 | true      | A letter receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                             |
-      | `letter.re-routed`                              | true      | A letter receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                                        |
-      | `letter.returned_to_sender`                     | true      | A letter receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                                 |
-      | `letter.certified.mailed`                       | true      | A certified letter receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
-      | `letter.certified.in_transit`                   | true      | A certified letter receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |
-      | `letter.certified.in_local_area`                | true      | A certified letter receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
-      | `letter.certified.processed_for_delivery`       | true      | A certified letter receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |
-      | `letter.certified.re-routed`                    | true      | A certified letter receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
-      | `letter.certified.returned_to_sender`           | true      | A certified letter receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |
-      | `letter.certified.delivered`                    | true      | A certified letter receives a "Delivered" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                                |
-      | `letter.certified.pickup_available`             | true      | A certified letter receives a "Pickup Available" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                         |
-      | `letter.certified.issue`                        | true      | A certified letter receives an "Issue" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                                   |
-      | `letter.return_envelope.created`                | false     | A return envelope is created (occurs simultaneously with Letter creation).                                                                                                                             |
-      | `letter.return_envelope.in_transit`             | true      | A return envelope receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
-      | `letter.return_envelope.in_local_area`          | true      | A return envelope receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                           |
-      | `letter.return_envelope.processed_for_delivery` | true      | A return envelope receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                    |
-      | `letter.return_envelope.re-routed`              | true      | A return envelope receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                               |
-      | `letter.return_envelope.returned_to_sender`     | true      | A return envelope receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                        |
+      <table>
+        <tr>
+          <th style="white-space: nowrap">EVENT TYPE</th>
+          <th style="white-space: nowrap">LIVE-ONLY</th>
+          <th style="white-space: nowrap">WHEN EVENT TYPE OCCURS</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.created</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A check is successfully created (Lob returns a 200 status code).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.rendered_pdf</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A check's PDF proof is successfully rendered.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.rendered_thumbnails</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A check's thumbnails are successfully rendered.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.deleted</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A check is successfully canceled.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.mailed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A check receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.in_transit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A check receives an "In Transit" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.in_local_area</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A check receives an "In Local Area" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.processed_for_delivery</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A check receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.re-routed</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A check receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.returned_to_sender</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A check receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+      </table>
 
+      <h3>Addresses</h3>
 
-      **<span style="color:#6683a2">Checks</span>**
+      <table>
+        <tr>
+          <th style="white-space: nowrap">EVENT TYPE</th>
+          <th style="white-space: nowrap">LIVE-ONLY</th>
+          <th style="white-space: nowrap">WHEN EVENT TYPE OCCURS</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>address.created</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">An address is successfully created (Lob returns a 200 status code).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>address.deleted</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">An address is successfully deleted.</td>
+        </tr>
+      </table>
 
-      | EVENT TYPE                     | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                                                                                                                                      |
-      |--------------------------------|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-      | `check.created`                | false     | A check is successfully created (Lob returns a 200 status code).                                                                                                                            |
-      | `check.rendered_pdf`           | false     | A check's PDF proof is successfully rendered.                                                                                                                                               |
-      | `check.rendered_thumbnails`    | false     | A check's thumbnails are successfully rendered.                                                                                                                                             |
-      | `check.deleted`                | false     | A check is successfully canceled.                                                                                                                                                           |
-      | `check.mailed`                 | true      | A check receives a "Mailed" [tracking event](https://docs.lob.com/#tracking_event_object). Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions). |
-      | `check.in_transit`             | true      | A check receives an "In Transit" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                             |
-      | `check.in_local_area`          | true      | A check receives an "In Local Area" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                          |
-      | `check.processed_for_delivery` | true      | A check receives a "Processed for Delivery" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                   |
-      | `check.re-routed`              | true      | A check receives an "Re-Routed" [tracking event](https://docs.lob.com/#tracking_event_object).                                                                                              |
-      | `check.returned_to_sender`     | true      | A check receives a "Returned to Sender" [tracking event](https://docs.lob.com/#tracking_event_object)                                                                                       |
+      <h3>Bank Accounts</h3>
 
-
-      **<span style="color:#6683a2">Addresses</span>**
-
-      | EVENT TYPE        | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                              |
-      |-------------------|-----------|---------------------------------------------------------------------|
-      | `address.created` | false     | An address is successfully created (Lob returns a 200 status code). |
-      | `address.deleted` | false     | An address is successfully deleted.                                 |
-
-
-      **<span style="color:#6683a2">Bank Accounts</span>**
-
-      | EVENT TYPE              | LIVE-ONLY | WHEN EVENT TYPE OCCURS                                                  |
-      |-------------------------|-----------|-------------------------------------------------------------------------|
-      | `bank_account.created`  | false     | A bank account is successfully created (Lob returns a 200 status code). |
-      | `bank_account.deleted`  | false     | A bank account is successfully deleted.                                 |
-      | `bank_account.verified` | false     | A bank account is successfully verified.                                |
+      <table>
+        <tr>
+          <th style="white-space: nowrap">EVENT TYPE</th>
+          <th style="white-space: nowrap">LIVE-ONLY</th>
+          <th style="white-space: nowrap">WHEN EVENT TYPE OCCURS</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>bank_account.created</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A bank account is successfully created (Lob returns a 200 status code).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>bank_account.deleted</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A bank account is successfully deleted.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>bank_account.verified</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A bank account is successfully verified.</td>
+        </tr>
+      </table>
 
   - name: Getting Started
     x-traitTag: true
     description: |
       ### 1. Get Setup
-
       * Create an account at <a href="https://dashboard.lob.com/#/register">Lob.com</a>
       * Obtain your API keys in the Lob dashboard <a href="https://dashboard.lob.com/#/settings/keys">settings</a>
       * You'll use the format, `test_*.` for your Test API key and `live_*.` for your Live API key.
-
       ### 2. Explore
       * Try out in Postman:
       <div class="postman-run-button"
@@ -319,21 +829,14 @@ tags:
           ));
         }(window, document, "_pm", "PostmanRunObject", "https://run.pstmn.io/button.js"));
       </script>
-
       * Launch your terminal and copy/paste a CURL command.
-
-
       ```bash
       curl https://api.lob.com/v1/addresses \
         -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       ```
-
       * Download a [Lob SDK](#tag/SDKs-and-Tools) into your favorite IDE (integrated development environment)
-
       ### 3. Learn more
-
       Review our "Getting Started" guides for more details on use cases
-
       * [Postcards](https://www.lob.com/guides#getting_started)
       * [Self-Mailers](https://www.lob.com/guides#getting_started_selfmailers)
       * [Letters](https://www.lob.com/guides#getting_started_letters)
@@ -342,9 +845,8 @@ tags:
 
   - name: Intl Verifications
     description: |
-
       Address verification for non-US addresses
-
+        
       ## Intl Verifications Test Env
 
       When verifying international addresses, you'll likely want to test against
@@ -352,12 +854,28 @@ tags:
       With your test API key, requests that use specific values for `primary_line`
       let you explore the responses to many types of addresses:
 
-      | DELIVERABILITY OF SAMPLE RESPONSE | SET `primary_line` TO    |
-      |-----------------------------------|--------------------------|
-      | `deliverable`                     | deliverable              |
-      | `deliverable_missing_info`        | deliverable missing info |
-      | `undeliverable`                   | undeliverable            |
-      | `no_match`                        | no match                 |
+      <table>
+        <tr>
+          <th style="white-space: nowrap">DELIVERABILITY OF SAMPLE RESPONSE</th>
+          <th style="white-space: nowrap">SET <code>primary_line</code>) TO</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap">deliverable</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>deliverable_missing_info</code></td>
+          <td style="white-space: nowrap">deliverable missing info</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>undeliverable</code></td>
+          <td style="white-space: nowrap">undeliverable</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>no_match</code></td>
+          <td style="white-space: nowrap">no match</td>
+        </tr>
+      </table>
 
       See the `test` request & response examples under [Intl Verification Examples](#operation/intl_verification) within the
       "Verify an international address section" in Intl Verifications.
@@ -372,9 +890,9 @@ tags:
   - name: Introduction
     x-traitTag: true
     description: |
-      Lob’s Print & Mail and Address Verification APIs helps companies transform outdated,
-      manual print & mail processes and save 1,000s of hours in processing time by sending mail much more
-      quickly, and increasing ROI on offline communications.
+      Lob’s Print & Mail and Address Verification APIs help companies transform outdated,
+      manual print-and-mail processes; save 1,000s of hours in processing time by sending mail much more
+      quickly; and increase ROI on offline communications.
 
       Automate direct mail by triggering on-demand postcards, letters, and checks directly from your
       CRM or customer data systems.
@@ -382,10 +900,10 @@ tags:
       Address Verification corrects, standardizes, and cleanses address data for assured delivery with
       instant verification across 240+ countries and territories.
 
-      Lob's global print delivery network eliminates the hassle of vendor management with automated
+      Lob's print delivery network eliminates the hassle of vendor management with automated
       production and postage across a global network of vetted commercial printers.
 
-      Tracking & Analytics give you complete visibility of production and delivery for each piece of
+      Tracking & Analytics gives you complete visibility of production and delivery for each piece of
       mail you send to meet compliance requirements and measure campaign performance.
 
   - name: Letters
@@ -396,7 +914,6 @@ tags:
   - name: Manage Mail
     x-traitTag: true
     description: |
-
       ## Cancellation Windows
 
       By default, all new accounts have a 5 minute cancellation window for postcards,
@@ -453,14 +970,17 @@ tags:
     description: |
       National Change of Address (NCOA) is a service offered by the USPS, which allows individuals
       or businesses who have recently moved to have any mail forwarded from their previous address
-      to their new address. As a CASS-certified Address Verification Provider, Lob also offers NCOA
+      to their new address.
+
+      As a CASS-certified Address Verification Provider, Lob also offers NCOA
       functionality to our Print & Mail customers. With the Lob NCOA feature enabled, Postcards,
       Letters, Checks and Addresses can automatically be corrected to reflect an individual's or business's
       new address in the case that they have moved (only if they have registered for NCOA with the USPS).
+
       Due to privacy concerns and USPS constraints, for customers with NCOA enabled, our API responses
       for a limited set of endpoints differ slightly in the case when an address has been changed through NCOA.
 
-      NOTE: This feature is exclusive to certain customers. Upgrade to the appropriate [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to gain access.
+      **NOTE**: This feature is exclusive to certain customers. Upgrade to the appropriate <a href='https://dashboard.lob.com/#/settings/editions'>Print & Mail Editions</a> to gain access.
 
       For more information, see our [NCOA guide](https://lob.com/guides#national_change).
 
@@ -476,8 +996,7 @@ tags:
       - `address_line2`
       - The +4 portion of the ZIP+4 (5-digit ZIP code will still be present)
 
-      See the `ncoa_us_live` example under [Responses](#operation/create_address) within the "Create an Address" section in Addresses
-      (along with the corresponding request under "Requests").
+      See the `ncoa_us_live` example under [Response samples](#operation/create_address) within the "Create an Address" section in Addresses
 
       ## NCOA Test Environment
 
@@ -492,8 +1011,8 @@ tags:
       - `POST /v1/postcards`
       - `POST /v1/self_mailers`
 
-      A static address will always be returned, as documented in the `ncoa_us_test` example under [Responses](#operation/create_address) within the "Create an Address"
-      section in Addresses (along with the corresponding request under "Requests").
+      A static address will always be returned, as documented in the `ncoa_us_test` example under [Response samples](#operation/create_address) within the "Create an Address"
+      section in Addresses (along with the corresponding request under "Request samples").
 
   - name: Postcards
     description: |
@@ -578,7 +1097,6 @@ tags:
   - name: Requests and Responses
     x-traitTag: true
     description: |
-
       ## Asset URLs
 
       All asset URLs returned by the Lob API (postcards, letters, thumbnails,
@@ -883,54 +1401,196 @@ tags:
       Font embedding is an essential part of standard PDF workflows. Fonts should be embedded automatically by
       PDF editing software that are compliant with PDF standards.
 
-      | FONT NAME                    | TYPES                          |
-      |------------------------------|--------------------------------|
-      | Arial                        | Type 1, TrueType, CID TrueType |
-      | Arial,Bold                   | Type 1, TrueType, CID TrueType |
-      | Arial,BoldItalic             | Type 1, TrueType, CID TrueType |
-      | Arial,Italic                 | TrueType, CID TrueType         |
-      | ArialMT                      | TrueType, CID TrueType         |
-      | Arial-BoldMT                 | TrueType                       |
-      | Arial-BoldItalicMT           | TrueType                       |
-      | Arial-ItalicMT	             | TrueType                       |
-      | ArialNarrow                  | TrueType                       |
-      | ArialNarrow-Bold             | TrueType                       |
-      | Calibri                      | TrueType                       |
-      | Calibri-Bold                 | TrueType                       |
-      | Calibri-Italic               | TrueType                       |
-      | Candara-Bold                 | TrueType                       |
-      | Courier                      | Type 1                         |
-      | Courier-Oblique              | Type 1                         |
-      | Courier-Bold                 | Type 1                         |
-      | Courier-BoldOblique          | Type 1                         |
-      | CourierNewPSMT               | TrueType                       |
-      | CourierNewPS-ItalicMT        | TrueType                       |
-      | CourierNewPS-BoldMT          | TrueType                       |
-      | Helvetica                    | Type 1                         |
-      | Helvetica-Bold               | Type 1                         |
-      | Helvetica-BoldOblique        | Type 1                         |
-      | Helvetica-Oblique            | Type 1                         |
-      | LucidaConsole	               | TrueType                       |
-      | MsSansSerif	                 | TrueType                       |
-      | MsSansSerif,Bold	           | TrueType                       |
-      | Symbol	                     | Type 1, TrueType               |
-      | Tahoma	                     | TrueType                       |
-      | Tahoma-Bold	                 | TrueType                       |
-      | Times-Bold	                 | Type 1                         |
-      | Times-BoldItalic	           | Type 1                         |
-      | Times-Italic	               | Type 1                         |
-      | Times-Roman	                 | Type 1                         |
-      | TimesNewRomanPS-BoldItalicMT | TrueType                       |
-      | TimesNewRomanPS-BoldMT	     | TrueType                       |
-      | TimesNewRomanPS-ItalicMT	   | TrueType                       |
-      | TimesNewRomanPSMT	           | TrueType, CID TrueType         |
-      | TimesNewRomanPSMT,Bold	     | TrueType                       |
-      | TrebuchetMS	                 | TrueType                       |
-      | Verdana	                     | TrueType                       |
-      | Verdana-Bold	               | TrueType                       |
-      | Verdana,Bold	               | TrueType                       |
-      | Verdana,Italic	             | TrueType                       |
-      | ZapfDingbats	               | Type 1                         |
+      <table>
+        <tr>
+          <th style="white-space: nowrap">FONT NAME</th>
+          <th style="white-space: nowrap">TYPES</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Arial</code></td>
+          <td style="white-space: nowrap">Type 1, TrueType, CID TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Arial,Bold</code></td>
+          <td style="white-space: nowrap">Type 1, TrueType, CID TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Arial,BoldItalic</code></td>
+          <td style="white-space: nowrap">Type 1, TrueType, CID TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Arial,Italic</code></td>
+          <td style="white-space: nowrap">TrueType, CID TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>ArialMT</code></td>
+          <td style="white-space: nowrap">TrueType, CID TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Arial-BoldMT</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Arial-BoldItalicMT</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Arial-ItalicMT</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>ArialNarrow</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>ArialNarrow-Bold</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Calibri</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Calibri-Bold</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Calibri-Italic</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Candara-Bold</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Courier</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Courier-Oblique</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Courier-Bold</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Courier-BoldOblique</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>CourierNewPSMT</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>CourierNewPS-ItalicMT</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>CourierNewPS-BoldMT</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Helvetica</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Helvetica-Bold</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Helvetica-BoldOblique</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Helvetica-Oblique</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>LucidaConsole</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>MsSansSerif</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>MsSansSerif,Bold</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Symbol</code></td>
+          <td style="white-space: nowrap">Type 1, TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Tahoma</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Tahoma-Bold</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Times-Bold</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Times-BoldItalic</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Times-Italic</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Times-Roman</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>TimesNewRomanPS-BoldItalicMT</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>TimesNewRomanPS-BoldMT</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>TimesNewRomanPS-ItalicMT</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>TimesNewRomanPSMT</code></td>
+          <td style="white-space: nowrap">TrueType, CID TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>TimesNewRomanPSMT,Bold</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>TrebuchetMS</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Verdana</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Verdana-Bold</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Verdana,Bold</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>Verdana,Italic</code></td>
+          <td style="white-space: nowrap">TrueType</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>ZapfDingbats</code></td>
+          <td style="white-space: nowrap">Type 1</td>
+        </tr>
+      </table>
 
   - name: Template Versions
     description: |
@@ -942,23 +1602,27 @@ tags:
 
   - name: Test and Live Environments
     x-traitTag: true
-    description: >-
+    description: |
       To make the API as explorable as possible, accounts have test and live
       environment API keys. You're not charged any fees in the test environment,
       so we encourage you to use it to try out services, perform quality
       assurance, and run automated testing. Objects―addresses, letters, checks,
       etc―in one environment cannot be manipulated by objects in the other.
+
       In general, a payment method (either credit card or ACH account) must be
       added to your account to make live API requests. However, a payment method
       is not required for the first 300 live requests per month to the
       `/v1/us_verifications` endpoint. After the first 300 requests, you will
       begin receiving errors with status code `403`.
+
       Requests made in the test environment always validate request arguments,
       simulate live environment behavior, and enforce rate limits. _They never
       print, mail nor, for verification services, verify addresses._ The US &
       International verification services trigger behavior with specific
-      argument values, and, if you plan on using those, we recommend reading US
-      Verification Test Environment and Intl Verification Test Environment.
+      argument values, and, if you plan on using those, we recommend reading
+      [US Verification Test Environment](#tag/US-Verifications-Test-Environment)
+      and [Intl Verification Test Environment](#tag/Intl-Verifications-Test-Environment).
+
       To switch between environments, use the appropriate key for that
       environment when performing a request. You can find each environment's API
       key in your dashboard under Settings; test API keys are always prefixed
@@ -968,7 +1632,7 @@ tags:
     description: |
       As mailpieces travel through the mail stream, USPS scans their unique barcodes, and Lob processes these mail scans to generate tracking events.
 
-      **<span style="color:#6683a2">Certified Tracking Event Details</span>**
+      <h3>Certified Tracking Event Details</h3>
 
       Letters sent with USPS Certified Mail are fully tracked by USPS, and
       therefore their [tracking events](#operation/tracking_event) have an
@@ -1174,7 +1838,7 @@ tags:
     description: |
       These are detailed definitions for various fields in the [US verification object](#operation/us_verification).
 
-      <h3>ZIP Code Types - </h3>`components[zip_code_type]`
+      <h3>ZIP Code Types - </h3><code>components[zip_code_type]</code>
 
       <table>
         <tbody>
@@ -1201,7 +1865,7 @@ tags:
         </tbody>
       </table>
 
-      <h3>Record Types - </h3>`components[record_type]`
+      <h3>Record Types - </h3><code>components[record_type]</code>
 
       <table>
         <tbody>
@@ -1236,7 +1900,7 @@ tags:
         </tbody>
       </table>
 
-      <h3>Carrier Route Types - </h3>`components[carrier_route_type]`
+      <h3>Carrier Route Types - </h3><code>components[carrier_route_type]</code>
 
       <table class="table-docs table-docs-code">
         <tbody>
@@ -1267,7 +1931,7 @@ tags:
         </tbody>
       </table>
 
-      <h3>DPV Footnotes - </h3>`deliverability_analysis[dpv_footnotes]`
+      <h3>DPV Footnotes - </h3><code>deliverability_analysis[dpv_footnotes]</code>
 
       <table class="table-docs table-docs-code">
         <tbody>
@@ -1346,22 +2010,83 @@ tags:
       values for `address` or `primary_line` and (if using `primary_line`) an arbitrary five digit
       number for `zip_code` (e.g. "11111") let you explore the responses to many types of addresses:
 
-      | ADDRESS TYPE FOR SAMPLE RESPONSE                         | deliverability               | SET `primary_line` OR `address` TO |
-      |----------------------------------------------------------| -----------------------------|------------------------------------|
-      | Commercial highrise                                      | deliverable                  | `commercial highrise`              |
-      | Residential highrise                                     | deliverable                  | `residential highrise`             |
-      | Residential house                                        | deliverable                  | `residential house`                |
-      | PO Box                                                   | deliverable                  | `po box`                           |
-      | Rural route                                              | deliverable                  | `rural route`                      |
-      | Puerty Rico address w/ urbanization                      | deliverable                  | `puerto rico`                      |
-      | Military address                                         | deliverable                  | `military`                         |
-      | Department of state                                      | deliverable                  | `department of state`              |
-      | Generic deliverable                                      | deliverable                  | `deliverable`                      |
-      | Missing a suite number                                   | deliverable_missing_unit     | `missing unit`                     |
-      | Suite number doesn't exist                               | deliverable_incorrect_unit   | `incorrect unit`                   |
-      | Residential house with unnecessary suite number          | deliverable_unnecessary_unit | `unnecessary unit`                 |
-      | Undeliverable and block matched                          | undeliverable                | `undeliverable block match`        |
-      | Undeliverable and no block matched                       | undeliverable                | `undeliverable no match`           |
+      <table>
+        <tr>
+          <th style="white-space: nowrap">ADDRESS TYPE FOR SAMPLE RESPONSE</th>
+          <th style="white-space: nowrap">DELIVERABILITY</th>
+          <th style="white-space: nowrap">SET <code>primary_line</code> OR <code>address</code> TO</th>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Commercial highrise</td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap"><code>commercial highrise</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Residential highrise</td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap"><code>residential highrise</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Residential house</td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap"><code>residential house</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">PO Box</td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap"><code>po box</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Rural route</td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap"><code>rural route</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Puerty Rico address w/ urbanization</td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap"><code>puerto rico</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Military address</td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap"><code>military</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Department of state</td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap"><code>department of state</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Generic deliverable</td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+          <td style="white-space: nowrap"><code>deliverable</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Missing a suite number</td>
+          <td style="white-space: nowrap"><code>deliverable_missing_unit</code></td>
+          <td style="white-space: nowrap"><code>missing unit</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Suite number doesn't exist</td>
+          <td style="white-space: nowrap"><code>deliverable_incorrect_unit</code></td>
+          <td style="white-space: nowrap"><code>incorrect unit</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Residential house with unnecessary suite number</td>
+          <td style="white-space: nowrap"><code>deliverable_unnecessary_unit</code></td>
+          <td style="white-space: nowrap"><code>unnecessary unit</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Undeliverable and block matched</td>
+          <td style="white-space: nowrap"><code>undeliverable</code></td>
+          <td style="white-space: nowrap"><code>undeliverable block match</code></td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap">Undeliverable and no block matched</td>
+          <td style="white-space: nowrap"><code>undeliverable</code></td>
+          <td style="white-space: nowrap"><code>undeliverable no match</code></td>
+        </tr>
+      </table>
 
       See the `test` request & response examples under [US Verification Examples](#operation/us_verification) within the
       "Verify a US or US territory address" section in US Verifications.
@@ -1375,7 +2100,6 @@ tags:
   - name: Versioning and Changelog
     x-traitTag: true
     description: |
-
       ### Versioning 
 
       When backwards-incompatible changes are made to the API, a new dated version
@@ -1508,7 +2232,6 @@ tags:
       HTTP POST request. In Live mode, you can only have as many webhooks as allotted
       in your current [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions).
       There is no limit in Test mode.
-
       You can view and create [webhooks](https://dashboard.lob.com/#/webhooks) on the
       Lob Dashboard, as well as view your [events](https://dashboard.lob.com/#/events).
       See our [Webhooks Integration Guide](https://lob.com/guides#webhooks_block) for more

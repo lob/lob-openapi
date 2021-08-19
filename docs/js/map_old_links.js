@@ -1,5 +1,10 @@
 // document loaded
 document.addEventListener("DOMContentLoaded", function(event) {
+    [...document.querySelectorAll("a[href='#section/Authentication/basicAuth']")]
+        .forEach((a) => a.addEventListener('click', function () {
+            window.location.href = "#tag/Authentication";
+        }));
+
     if (window.location.hash) {
         // Fragment exists
         const hash = window.location.hash.substring(1);

@@ -1321,6 +1321,16 @@ tags:
       to the [HTML Templates Endpoints](#tag/Templates).
 
       ### Example Create Request using HTML Templates
+      ```bash
+        curl https://api.lob.com/v1/postcards \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Demo Postcard job" \
+          -d "to=adr_78c304d54912c502" \
+          -d "from=adr_61a0865c8c573139" \
+          -d "front=tmpl_b846a20859ae11a" \
+          -d "back=tmpl_01b0d396a10c268" \
+          -d "merge_variables[name]=Harry"
+      ```
 
       ## HTML Examples
       Use a pre-designed template from our [gallery](https://lob.com/resources/template-gallery) or follow these
@@ -1341,17 +1351,6 @@ tags:
       always look identical to what is produced through the API. It is **strongly** recommended that you test all
       HTML requests by reviewing the final PDF files in your Test Environment, as these are the files that will be
       printed.
-
-      ```bash
-        curl https://api.lob.com/v1/postcards \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
-          -d "description=Demo Postcard job" \
-          -d "to=adr_78c304d54912c502" \
-          -d "from=adr_61a0865c8c573139" \
-          -d "front=tmpl_b846a20859ae11a" \
-          -d "back=tmpl_01b0d396a10c268" \
-          -d "merge_variables[name]=Harry"
-      ```
 
       ## Image Prepping
       Currently we support the following file types for all endpoints:

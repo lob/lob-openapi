@@ -24,5 +24,4 @@ $(function () {
 });
 
 require("./analytics");
-require("./docs");
 require("./nav");

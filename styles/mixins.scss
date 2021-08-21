@@ -1,0 +1,183 @@
+@mixin border-radius($radius: 5px) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin border-top-left-radius($radius: 5px) {
+  -webkit-border-top-left-radius: $radius;
+  -moz-border-top-left-radius: $radius;
+  border-top-left-radius: $radius;
+}
+
+@mixin border-bottom-left-radius($radius: 5px) {
+  -webkit-border-bottom-left-radius: $radius;
+  -moz-border-bottom-left-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+
+@mixin border-top-right-radius($radius: 5px) {
+  -webkit-border-top-right-radius: $radius;
+  -moz-border-top-right-radius: $radius;
+  border-top-right-radius: $radius;
+}
+
+@mixin border-bottom-right-radius($radius: 5px) {
+  -webkit-border-bottom-right-radius: $radius;
+  -moz-border-bottom-right-radius: $radius;
+  border-bottom-right-radius: $radius;
+}
+
+@mixin box-shadow($hor, $vert, $color) {
+  -webkit-box-shadow: $hor $vert $color;
+  -moz-box-shadow: $hor $vert $color;
+  box-shadow: $hor $vert $color;
+}
+
+@mixin background-size($size) {
+  -webkit-background-size: $size;
+  -moz-background-size: $size;
+  -o-background-size: $size;
+  background-size: $size;
+}
+
+@mixin gradient($start-color: #eee, $end-color: #fff) {
+  background-color: $start-color;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from($start-color),
+    to($end-color)
+  );
+  background: -webkit-linear-gradient(top, $start-color, $end-color);
+  background: -moz-linear-gradient(top, $start-color, $end-color);
+  background: -ms-linear-gradient(top, $start-color, $end-color);
+  background: -o-linear-gradient(top, $start-color, $end-color);
+}
+
+@mixin transition($string) {
+  transition: $string;
+  -o-transition: $string;
+  -webkit-transition: $string;
+  -moz-transition: $string;
+}
+
+@mixin transform-scale($string) {
+  -moz-transform: scale($string);
+  -o-transform: scale($string);
+  -ms-transform: scale($string);
+  -webkit-transform: scale($string);
+  transform: scale($string);
+}
+
+@mixin transform-rotate($string) {
+  -ms-transform: rotate($string);
+  -webkit-transform: rotate($string);
+  transform: rotate($string);
+}
+
+@mixin transform-skew($xstring, $ystring) {
+  -ms-transform: skew($xstring, $ystring);
+  -webkit-transform: skew($xstring, $ystring);
+  transform: skew($xstring, $ystring);
+}
+
+@mixin transform-origin($string) {
+  -ms-transform-origin: $string;
+  -webkit-transform-origin: $string;
+  transform-origin: $string;
+}
+
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin align-items($string) {
+  -webkit-align-items: $string;
+  -moz-align-items: $string;
+  align-items: $string;
+}
+
+@mixin align-self($string) {
+  -webkit-align-self: $string;
+  align-self: $string;
+}
+
+@mixin justify-content($string) {
+  -webkit-justify-content: $string;
+  -moz-justify-content: $string;
+  -ms-justify-content: $string;
+  justify-content: $string;
+}
+
+@mixin flex-direction($string) {
+  -webkit-flex-direction: $string;
+  flex-direction: $string;
+}
+
+@mixin flex-wrap($string) {
+  -webkit-flex-wrap: $string;
+  flex-wrap: $string;
+}
+
+@mixin flex-grow($string) {
+  -webkit-flex-grow: $string;
+  flex-grow: $string;
+}
+
+@mixin flex-shrink($string) {
+  -webkit-flex-shrink: $string;
+  flex-shrink: $string;
+}
+
+@mixin flex-basis($string) {
+  -webkit-flex-basis: $string;
+  flex-basis: $string;
+}
+
+@mixin flex($string) {
+  -webkit-flex: $string;
+  -ms-flex: $string;
+  flex: $string;
+}
+
+@mixin column-width($string) {
+  -moz-column-width: $string;
+  -webkit-column-width: $string;
+  column-width: $string;
+}
+
+@mixin placeholder($string) {
+  &::-webkit-input-placeholder {
+    color: $string;
+  }
+  &:-moz-placeholder {
+    color: $string;
+  }
+  &::-moz-placeholder {
+    color: $string;
+  }
+  &:-ms-input-placeholder {
+    color: $string;
+  }
+}
+
+@mixin object-fit($string) {
+  -o-object-fit: $string;
+  object-fit: $string;
+}
+
+@mixin font-smoothing($value: antialiased) {
+  @if $value == antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  } @else {
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+  }
+}

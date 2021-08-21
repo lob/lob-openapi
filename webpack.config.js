@@ -5,9 +5,9 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 var paths = {
   sassFiles: [
+    "./styles/rebrand-nav-footer.scss",
     "./styles/main.scss",
     "./styles/prettify.scss",
-    "./styles/rebrand-nav-footer.scss",
   ],
   dist: "./docs/chunks",
   styleFiles: "./styles/**/*.scss",

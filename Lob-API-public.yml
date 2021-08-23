@@ -1,8 +1,8 @@
 openapi: 3.0.3
 
 info:
-  title: Lob API
-  version: "2020-02-11"
+  title: Lob API (2020-02-11) | Specification
+  version: "1.0.0"
   description: >
     The Lob API is organized around REST. Our API is designed to have predictable,
     resource-oriented URLs and uses HTTP response codes to indicate any API errors.
@@ -2103,7 +2103,7 @@ tags:
   - name: Versioning and Changelog
     x-traitTag: true
     description: |
-      ### Versioning
+      ### API Versioning
 
       When backwards-incompatible changes are made to the API, a new dated version
       is released. The latest version of the API is version **2020-02-11**. You can
@@ -2121,6 +2121,21 @@ tags:
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
           -H "Lob-Version: 2020-02-11"
       ```
+
+      ### Specification Versioning
+      You might be wondering why our API and specification use different versioning schemes.
+      Lob's API predates our specification and follows the [Stripe versioning](https://stripe.com/blog/api-versioning) 
+      approach. This works well to manage backwards-incompatible changes to our API.
+
+      For our API specification (used to create this documentation), we've chosen [semantic 
+      versioning](https://semver.org/). This versioning reflects the backward-compatible 
+      changes that do not require a versioning of Lob's API.  
+
+      Lob's API specification will be used to generate artifacts like documentation, client SDKs, 
+      and other developer tooling. Semantic versioning of our specification will inform how we 
+      version those artifacts like SDKs. It is helpful to know the version of a specification 
+      used to produce an artifact in order reference the specification release notes.
+
 
       ### Changelog
 

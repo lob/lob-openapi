@@ -38,23 +38,28 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.addresses.destroy("adr_43769b47aed248c2")
+        @lob.addresses.list(limit: 2)
       label: RUBY
     - lang: Python
       source: |
-        lob.Address.delete('adr_43769b47aed248c2')
+        lob.Address.list(limit=2)
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->addresses()->delete('adr_43769b47aed248c2');
+        $lob->addresses()->all(array(
+          'limit' => 2
+        ));
     - lang: Java
       source: |
-        LobResponse<Address> response = Address.delete("adr_43769b47aed248c2");
-        Address address = response.getResponseBody();
+        Map<String, Object> params = new HashMap<>();
+        params.put("limit", 2);
+
+        LobResponse<AddressCollection> response = Address.list(params);
+        AddressCollection addresses = response.getResponseBody();
       label: JAVA
     - lang: Elixir
       source: |
-        Lob.Address.delete("adr_43769b47aed248c2")
+        Lob.Address.list(%{limit: 2})
       label: ELIXIR
 
 post:

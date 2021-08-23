@@ -87,7 +87,11 @@ We will move to v3.1 as soon as is practical. In the meantime, we're working to 
 
 ## Previewing changes
 
-You can generate documentation for the API from the spec by running
+If you've changed the css and js, you need to run `npm run build` to
+create the uglified js and css files that your local docs will depend on.
+The new chunks will show up in `docs/chunks`.
+
+You can then generate documentation for the API from the spec by running
 `npm run redoc`, which uses [redoc](https://github.com/Redocly/redoc). The
 generated docs will apppear in `docs/index.html`. Then you can point
 your browser to the absolute path of that file to review your local

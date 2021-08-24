@@ -7,7 +7,7 @@ const Prism = require("./setup.js");
 // test specific data
 const resource_endpoint = "/self_mailers";
 const lobUri = "https://api.lob.com/v1";
-const specFile = "./Lob-API-public.yml";
+const specFile = "./lob-api-public.yml";
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 

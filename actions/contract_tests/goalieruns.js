@@ -45,7 +45,7 @@ module.exports.runTests = async function runTests() {
               "*An unexpected error surfaced in the contract tests. This does not originate from any Lob endpoint.*";
             try {
               const generic_failure = await web.chat.postMessage({
-                channel: pkg.config.goalieMappings[validated_arg].slackChannel,
+                channel: "#devex-test-alerts",
                 text: `:woman-shrugging::skin-tone-4: An unexpected error surfaced in the contract tests. This does not originate from any Lob endpoint.`,
               });
             } catch (slackError) {

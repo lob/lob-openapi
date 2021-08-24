@@ -15,8 +15,8 @@ jobs:
       - name: bundle
         uses: hilary/openapi-cli-bundle-action@v0.0.2
         with:
-          base-spec: "./Lob-API-public.yml"
-          bundled-spec: "dist/Lob-API-bundled.yml"
+          base-spec: "./lob-api-public.yml"
+          bundled-spec: "dist/lob-api-bundled.yml"
 
       - name: build zero-dependency docs
         shell: bash
@@ -45,8 +45,8 @@ jobs:
           git config user.name lobot
           git config user.email lobot@lob.com
           git update-index -q --refresh
-          git add --force dist/Lob-API-postman.json
-          git add --force dist/Lob-API-bundled.yml
+          git add --force dist/lob-api-postman.json
+          git add --force dist/lob-api-bundled.yml
           git add --force docs/index.html
           git commit -m "pushing builds" --no-verify
           git push --force origin ${{ steps.extract_branch.outputs.branch }}:deployment

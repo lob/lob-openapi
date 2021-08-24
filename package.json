@@ -6,9 +6,9 @@
   "main": "",
   "config": {
     "--dynamic": "false",
-    "bundlefile": "Lob-API-bundled.yml",
-    "postmanfile": "Lob-API-postman.json",
-    "specfile": "Lob-API-public.yml",
+    "bundlefile": "lob-api-bundled.yml",
+    "postmanfile": "lob-api-postman.json",
+    "specfile": "lob-api-public.yml",
     "servers": {
       "sandbox": "http://0.0.0.0:8443/v1",
       "staging": "https://api.lob-staging.com/v1",
@@ -59,9 +59,9 @@
     "pretty-one": "prettier --write \"$1\".js",
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
-    "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --options.hideDownloadButton=true --options.expandResponses='200,201' --templateOptions.segmentKey=0ysbW8vXHeRAnY2saZPMlRSZFfPwd1RO --templateOptions.SUPPORT_URL=https://support.lob.com/hc/en-us --templateOptions.LOB_ASSETS_URL=https://s3-us-west-2.amazonaws.com/public.lob.com --templateOptions.canonicalUrl=https://docs.lob.com/ --templateOptions.keywords=\"Direct Mail, Address Verification\" --templateOptions.description=\"Detailed developer documentation for Lob's address verification API and print & mail API. Learn how to easily integrate Lob's APIs within your product or technology stack.\" --templateOptions.LOB_URL=https://lob.com --templateOptions.image=https://s3-us-west-2.amazonaws.com/public.lob.com/marketing/opengraph2.png --templateOptions.DASHBOARD_URL=https://dashboard.lob.com/# --title=\"Lob API documentation\" --options.noAutoAuth=true --options.maxDisplayedEnumValues=15 --options.theme.colors.primary.main=#27333c --options.theme.sidebar.backgroundColor=#f7f9fa --options.jsonSampleExpandLevel=1 --options.requiredPropsFirst=true --options.theme.typography.code.backgroundColor=#ebf0f6 --options.theme.typography.code.fontFamily=JetBrainsMono --options.theme.typography.code.color=#27333c --options.theme.typography.fontFamily=\"Larsseit,sans-serif;\" --options.theme.typography.links.color=#0099d7 --options.theme.typography.links.textDecoration=none --options.theme.codeBlock.backgroundColor=#ecf0f5 --options.theme.rightPanel.backgroundColor=#f7f9fa --options.theme.rightPanel.textColor=#416581 --options.theme.typography.fontSize=16 -o docs/index.html",
-    "spectral": "spectral lint Lob-API-public.yml --fail-severity=error --display-only-failures",
-    "spectral-warn": "spectral lint Lob-API-public.yml --fail-severity=warn --display-only-failures",
+    "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --templateOptions.segmentKey=0ysbW8vXHeRAnY2saZPMlRSZFfPwd1RO --templateOptions.SUPPORT_URL=https://support.lob.com/hc/en-us --templateOptions.LOB_ASSETS_URL=https://s3-us-west-2.amazonaws.com/public.lob.com --templateOptions.canonicalUrl=https://docs.lob.com/ --templateOptions.keywords=\"Direct Mail, Address Verification\" --templateOptions.description=\"Detailed developer documentation for Lob's address verification API and print & mail API. Learn how to easily integrate Lob's APIs within your product or technology stack.\" --templateOptions.LOB_URL=https://lob.com --templateOptions.image=https://s3-us-west-2.amazonaws.com/public.lob.com/marketing/opengraph2.png --templateOptions.DASHBOARD_URL=https://dashboard.lob.com/# --options=docs/redocOptions.json --title=\"Lob API documentation\" -o docs/index.html",
+    "spectral": "spectral lint lob-api-public.yml --fail-severity=error --display-only-failures",
+    "spectral-warn": "spectral lint lob-api-public.yml --fail-severity=warn --display-only-failures",
     "test": "ava --timeout=55s './tests/**_test.js'"
   },
   "repository": {
@@ -92,7 +92,7 @@
     "husky": "^5.0.9",
     "joi": "^17.4.0",
     "mini-css-extract-plugin": "^2.2.0",
-    "openapi-to-postmanv2": "^2.6.0",
+    "openapi-to-postmanv2": "^2.10.1",
     "prettier": "^2.3.2",
     "redoc-cli": "^0.12.3",
     "sass": "^1.37.5",

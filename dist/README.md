@@ -4,8 +4,8 @@ Anything in this folder is built automatically on push to github.
 
 ## What's Here?
 
-* Lob-API-bundled.yml - A single file of the Lob API v1 OpenAPI v3.0 description, organized in the traditional structure.
-* Lob-API-postman.json - A postman collection created using the [openapi2postmanv2 cli](https://www.npmjs.com/package/openapi-to-postmanv2#command-line-interface).
+* lob-api-bundled.yml - A single file of the Lob API v1 OpenAPI v3.0 description, organized in the traditional structure.
+* lob-api-postman.json - A postman collection created using the [openapi2postmanv2 cli](https://www.npmjs.com/package/openapi-to-postmanv2#command-line-interface).
 
 ## For Developers
 

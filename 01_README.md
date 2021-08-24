@@ -26,7 +26,7 @@ Our spec is a multifile spec organized semantically, by _resource_, instead of s
 ```
 .
 .
-├── Lob-API-public.yml            # base file (metadata, tags, servers, ...)
+├── lob-api-public.yml            # base file (metadata, tags, servers, ...)
 ├── resources
 │   ├── postcards                 # elements specific to postcards
 │   │   ├── postcards.yml         # operations on /postcards
@@ -103,11 +103,11 @@ A lot of tooling for working with OpenAPI specs does not support the full
 specification. In particular, many tools do not support multiple file specs.
 We maintain a single file 'bundled' version of the spec for use with such
 tools. The bundled version is generated as part of CI/CD, and can be found
-on github at `dist/Lob-API-bundled.yml` on the `deployment` branch.
+on github at `dist/lob-api-bundled.yml` on the `deployment` branch.
 
 ## Postman Collection
 
 You can generate a big JSON representing a Postman Collection for this spec
-locally with `npm run postman`. The resulting `dist/Lob-API-postman.json` can be
+locally with `npm run postman`. The resulting `dist/lob-api-postman.json` can be
 imported into Postman so that you can get started on making requests to Lob API.
 [Here](https://www.youtube.com/watch?v=JDrxdzqghuQ)'s a video tutorial on that.

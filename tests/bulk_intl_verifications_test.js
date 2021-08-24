@@ -7,7 +7,7 @@ const Prism = require("./setup.js");
 // test specific data
 const resource_endpoint = "/bulk/intl_verifications",
   lobUri = "https://api.lob.com/v1",
-  specFile = "./Lob-API-public.yml";
+  specFile = "./lob-api-public.yml";
 
 const address = {
   primary_line: "370 Water St",

@@ -41,12 +41,10 @@ module.exports.runTests = async function runTests() {
           // based on the ava output. if they are way too long or are blank (only have the tick marks),
           // the errors being surfaced by ava are unexpected & don't come from the tests.
           if (noWhitespace.length > 1000) {
-            failures[index] =
-              "*An unexpected error surfaced in the contract tests. This does not originate from any Lob endpoint.*";
             try {
               const generic_failure = await web.chat.postMessage({
                 channel: "#devex-test-alerts",
-                text: `:woman-shrugging::skin-tone-4: An unexpected error surfaced in the contract tests. This does not originate from any Lob endpoint.`,
+                text: failures[index],
               });
             } catch (slackError) {
               console.error(JSON.stringify(slackError, null, 2));

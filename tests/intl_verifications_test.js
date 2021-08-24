@@ -5,7 +5,7 @@ const Prism = require("./setup.js");
 
 const resource_endpoint = "/intl_verifications",
   lobUri = "https://api.lob.com/v1",
-  specFile = "./Lob-API-public.yml",
+  specFile = "./lob-api-public.yml",
   primary_line = "370 Water St",
   city = "Summerside",
   state = "Prince Edwards Island",

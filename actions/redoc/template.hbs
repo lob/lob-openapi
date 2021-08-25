@@ -1,3 +1,35 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@sudoku-lord 
+lob
+/
+lob-openapi
+Template
+23
+4
+3
+Code
+Issues
+Pull requests
+1
+Actions
+Security
+Insights
+Settings
+lob-openapi/actions/redoc/template.hbs
+@sudoku-lord
+sudoku-lord fixed redoc script & collapser button colour (#221)
+Latest commit a3fdc6c 7 days ago
+ History
+ 3 contributors
+@jho44@sudoku-lord@hilary
+701 lines (677 sloc)  38.8 KB
+  
 <!DOCTYPE html>
 <html>
 
@@ -66,14 +98,16 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'UA-41294851-1');
   </script>
+
+  <script src="js/determine_widget.js"></script>
   <script>
-    var ffWidgetId = '16a23fe0-c29a-48ec-a531-5123fd9f60bf';
+    var ffWidgetId = getId(window.location.host);
+    console.log("Yeetaroni!");
     var ffWidgetScript  = document.createElement('script');
     ffWidgetScript.type = 'text/javascript';
-    ffWidgetScript.src = 'https://cdn.freddyfeedback.com/widget/freddyfeedback.js';
+    ffWidgetScript.src = 'https://freddyfeedback.com/widget/freddyfeedback.js';
     document.head.appendChild(ffWidgetScript);
   </script>
 
@@ -684,14 +718,12 @@
     .crBktj .token.selector, .crBktj .token.attr-name, .crBktj .token.string, .crBktj .token.char, .crBktj .token.builtin, .crBktj .token.inserted{color:#416581}
     .crBktj .token.boolean{color:#1878e0}
     .jnkRQj .collapser{color:#000000}
-
     div.react-tabs__tab-panel > div > div > span{color:#416581}
     div.react-tabs__tab-panel > div > div > div > span{color:#416581}
     ul > li.react-tabs__tab.react-tabs__tab--selected{color:#ecf0f5}
     ul > li.tab-success.react-tabs__tab--selected{color:#F6FFF4}
     ul > li.tab-error.react-tabs__tab--selected{color:#fbf1f0}
     .react-tabs__tab-panel > div > pre > .token.string, .react-tabs__tab-panel > div > pre > .token.builtin{color:#416581}
-
     .react-tabs__tab-panel > div > pre > .token.operator,
     .react-tabs__tab-panel > div > pre > .token.variable{color:#324350}
     div.react-tabs__tab-panel.react-tabs__tab-panel--selected{border-radius:10px}
@@ -699,3 +731,16 @@
 </body>
 
 </html>
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Loading complete

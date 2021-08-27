@@ -25,23 +25,6 @@ properties:
       * ZIP code (`zip_code`)
       * ZIP+4 (`zip_code_plus_4`)
 
-  enhanced_deliverability:
-    type: string
-    enum:
-      - deliverable
-      - deliverable_unnecessary_unit
-      - deliverable_incorrect_unit
-      - deliverable_missing_unit
-      - undeliverable
-    description: |
-      Summarizes the deliverability of the `us_verification` object based on Lob delivery data and backed up by USPS data.
-      For full details, see the `lob_confidence_score` field. Possible values are:
-      * `deliverable` – The address is deliverable according to our delivery data and backed up by the USPS.
-      * `deliverable_unnecessary_unit` – Deliverability data was unable to make a decision and defaults to the USPS decision that the address is deliverable, but the secondary unit information is unnecessary.
-      * `deliverable_incorrect_unit` – Deliverability data was unable to make a decision and defaults to the USPS decision that the address is deliverable to the building's default address but the secondary unit provided may not exist. There is a chance the mail will not reach the intended recipient.
-      * `deliverable_missing_unit` – Deliverability data was unable to make a decision and defaults to the USPS decision that the address is deliverable to the building's default address but is missing secondary unit information. There is a chance the mail will not reach the intended recipient.
-      * `undeliverable` – The address is not deliverable according to our delivery data and backed up by the USPS.
-
   deliverability:
     type: string
     enum:

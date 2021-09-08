@@ -22,7 +22,7 @@ test("autocomplete an address given a prefix", async function (t) {
           { headers: prism.authHeader }
         )
       );
-
+    console.log(response);
     t.assert(response.status === 200);
   } catch (prismError) {
     if (Object.keys(prismError).length > 0) {
@@ -49,6 +49,7 @@ test("autocomplete an address given a prefix with full payload", async function 
       )
     );
 
+    console.log(response);
     t.assert(response.status === 200);
   } catch (prismError) {
     if (Object.keys(prismError).length > 0) {
@@ -77,7 +78,7 @@ test("autocomplete an address given a prefix with full payload urlencoded", asyn
         },
       })
     );
-
+    console.log(response);
     t.assert(response.status === 200);
   } catch (prismError) {
     if (Object.keys(prismError).length > 0) {
@@ -97,6 +98,7 @@ test("errors when address_prefix is not passed in", async function (t) {
       );
 
     t.assert(response.status === 422);
+    console.log(response);
     t.assert(response.data.error.message.includes("address_prefix"));
   } catch (prismError) {
     if (Object.keys(prismError).length > 0) {

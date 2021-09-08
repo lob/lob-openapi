@@ -118,6 +118,7 @@ test.serial.before(
             headers: prism.authHeader,
           })
         );
+        console.log(response);
         t.assert(response.status === 200);
         return response.data.id;
       } catch (prismError) {

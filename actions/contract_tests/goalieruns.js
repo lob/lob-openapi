@@ -14,25 +14,21 @@ module.exports.runTests = async function runTests() {
   try {
     let failures = [];
     validated_arg = await Joi.compile(validator).validateAsync(process.argv[2]);
-    test_set = pkg.config.goalieMappings[validated_arg].resources;
+    // test_set = pkg.config.goalieMappings[validated_arg].resources;
     new Promise(async function (resolve) {
-      let count = 0;
-      for (let i = 0; i < test_set.length; ++i) {
-        test = test_set[i];
-        test_command = 'ava --timeout=5m "' + test + '"';
-        exec(test_command, async function (err, stdout, stderr) {
-          if (err) {
-            const formatted = "```" + stdout.replace(/```/g, " ") + "```";
-            failures.push(formatted);
-          }
-          // async: the code won't proceed to the next block until
-          // this block is resolved, so a resolve is returned after
-          // all the tests are done
-          if (++count == test_set.length) {
-            return resolve();
-          }
-        });
-      }
+      test_command = 'ava --timeout=5m "tests/letters_test.js"';
+      exec(test_command, async function (err, stdout, stderr) {
+        if (err) {
+          const formatted = "```" + stdout.replace(/```/g, " ") + "```";
+          failures.push(formatted);
+        }
+        // async: the code won't proceed to the next block until
+        // this block is resolved, so a resolve is returned after
+        // all the tests are done
+        // if (++count == test_set.length) {
+          return resolve();
+        // }
+      });
     }).then(async function () {
       if (failures.length > 0) {
         failures.every(async function (f, index) {

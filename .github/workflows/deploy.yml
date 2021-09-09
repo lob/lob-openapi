@@ -9,21 +9,36 @@ jobs:
     name: Publish release to Netlify
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v1
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - name: Build stuff
-        run: |
-          npm install
-          npm run redoc
-          npm run build
-      - name: push builds to `deployment` branch
+      - name: checkout
         uses: actions/checkout@v2
         with:
-          ref: deployment
+          token: ${{ secrets.LOBOT_TOKEN }}
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: create necessary files to push to deployment
+        run: |
+          npm install
+          npm run bundle
+          npm run postman
+          npm run redoc
+          npm run build
+      - name: push to `deployment`
+        run: |
+          set -x
+          git config --global user.name lobot
+          git config --global user.email lobot@lob.com
+          git update-index -q --refresh
+          git add --force dist/lob-api-postman.json
+          git add --force dist/lob-api-bundled.yml
+          git add --force docs/index.html
+          git commit -m "pushing builds" --no-verify
+          git push --force origin ${{ steps.extract_branch.outputs.branch }}:deployment
       - name: Deploy production to Netlify
         uses: netlify/actions/cli@master
         env:

@@ -18,12 +18,10 @@ allOf:
         $ref: "../attributes/psc_id.yml"
 
       front_template_id:
-        oneOf:
-          - allOf:
-              - description: The unique ID of the HTML template used for the front of the postcard.
-              - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
-          - type: string
-            nullable: true
+        - description: The unique ID of the HTML template used for the front of the postcard.
+        - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+        - type: string
+          nullable: true
 
       back_template_id:
         oneOf:

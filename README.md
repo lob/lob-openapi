@@ -17,7 +17,7 @@ This repo contains the spec as well as a growing set of tooling for working with
 
 ## Contributing
 
-[Contributing Guide](02_CONTRIBUTING.md)
+[Contributing Guide](CONTRIBUTING.md)
 
 ## Design
 

@@ -37,16 +37,3 @@ jobs:
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
-
-      - name: push builds to `deployment`
-        shell: bash
-        run: |
-          set -x
-          git config user.name lobot
-          git config user.email lobot@lob.com
-          git update-index -q --refresh
-          git add --force dist/lob-api-postman.json
-          git add --force dist/lob-api-bundled.yml
-          git add --force docs/index.html
-          git commit -m "pushing builds" --no-verify
-          git push --force origin ${{ steps.extract_branch.outputs.branch }}:deployment

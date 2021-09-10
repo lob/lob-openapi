@@ -2124,16 +2124,16 @@ tags:
 
       ### Specification Versioning
       You might be wondering why our API and specification use different versioning schemes.
-      Lob's API predates our specification and follows the [Stripe versioning](https://stripe.com/blog/api-versioning) 
+      Lob's API predates our specification and follows the [Stripe versioning](https://stripe.com/blog/api-versioning)
       approach. This works well to manage backwards-incompatible changes to our API.
 
-      For our API specification (used to create this documentation), we've chosen [semantic 
-      versioning](https://semver.org/). This versioning reflects the backward-compatible 
-      changes that do not require a versioning of Lob's API.  
+      For our API specification (used to create this documentation), we've chosen [semantic
+      versioning](https://semver.org/). This versioning reflects the backward-compatible
+      changes that do not require a versioning of Lob's API.
 
-      Lob's API specification will be used to generate artifacts like documentation, client SDKs, 
-      and other developer tooling. Semantic versioning of our specification will inform how we 
-      version those artifacts like SDKs. It is helpful to know the version of a specification 
+      Lob's API specification will be used to generate artifacts like documentation, client SDKs,
+      and other developer tooling. Semantic versioning of our specification will inform how we
+      version those artifacts like SDKs. It is helpful to know the version of a specification
       used to produce an artifact in order reference the specification release notes.
 
 
@@ -2403,9 +2403,6 @@ paths:
 
   /templates/{tmpl_id}/versions:
     $ref: resources/templates/template_versions/template_versions.yml
-
-  /templates/{tmpl_id}/compile:
-    $ref: resources/templates/template_compile.yml
 
   /templates/{tmpl_id}:
     $ref: resources/templates/template.yml

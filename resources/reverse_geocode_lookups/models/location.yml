@@ -1,0 +1,20 @@
+type: object
+
+required:
+  - latitude
+  - longitude
+
+properties:
+  latitude:
+    allOf:
+      - description: >
+          A positive or negative decimal indicating the geographic latitude of the address, specifying the north-to-south position of a
+          location. This should be used with `longitude` to pinpoint locations on a map.
+      - $ref: "../../../shared/attributes/location/latitude.yml"
+
+  longitude:
+    allOf:
+      - description: >
+          A positive or negative decimal indicating the geographic longitude of the address, specifying the north-to-south position of a
+          location. This should be used with `latitude` to pinpoint locations on a map.
+      - $ref: "../../../shared/attributes/location/longitude.yml"

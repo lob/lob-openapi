@@ -110,14 +110,14 @@ properties:
     $ref: "../../../shared/attributes/address/state.yml"
 
   zip_code:
-    type: string
-    description: The 5-digit ZIP code
-    pattern: ^\d{5}$
+    allOf:
+      - description: The 5-digit ZIP code
+      - $ref: "../../../shared/attributes/address/zip_code.yml"
 
   zip_code_plus_4:
-    type: string
-    description: The 4-digit ZIP add-on code
-    pattern: ^\d{4}$
+    allOf:
+      - description: The 4-digit ZIP add-on code
+      - $ref: "../../../shared/attributes/address/zip_code_plus_4.yml"
 
   zip_code_type:
     $ref: "../../../shared/attributes/address/zip_code_type.yml"
@@ -188,19 +188,17 @@ properties:
       each carrier route type, see [US Verification Details](#tag/US-Verification-Types).
 
   latitude:
-    type: number
-    format: float
-    description: >
-      A positive or negative decimal indicating the geographic latitude of the address, specifying the north-to-south position of a
-      location. This should be used with `longitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
-      or military addresses (state is `AA`, `AE`, or `AP`).
-    nullable: true
+    allOf:
+      - description: >
+          A positive or negative decimal indicating the geographic latitude of the address, specifying the north-to-south position of a
+          location. This should be used with `longitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
+          or military addresses (state is `AA`, `AE`, or `AP`).
+      - $ref: "../../../shared/attributes/location/latitude.yml"
 
   longitude:
-    type: number
-    format: float
-    description: >
-      A positive or negative decimal indicating the geographic longitude of the address, specifying the north-to-south position of a
-      location. This should be used with `latitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
-      or military addresses (state is `AA`, `AE`, or `AP`).
-    nullable: true
+    allOf:
+      - description: >
+          A positive or negative decimal indicating the geographic longitude of the address, specifying the north-to-south position of a
+          location. This should be used with `latitude` to pinpoint locations on a map. Will not be returned for undeliverable addresses
+          or military addresses (state is `AA`, `AE`, or `AP`).
+      - $ref: "../../../shared/attributes/location/longitude.yml"

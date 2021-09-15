@@ -46,8 +46,7 @@ test("use a string input rather than a float input", async function (t) {
         )
       );
 
-    t.assert(response.status === 422);
-    t.assert(response.data.error.message.includes("zip_code"));
+    t.assert(response.status === 200);
   } catch (prismError) {
     if (Object.keys(prismError).length > 0) {
       t.fail(JSON.stringify(prismError, null, 2));

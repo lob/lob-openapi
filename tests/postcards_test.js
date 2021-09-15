@@ -8,7 +8,7 @@ const Prism = require("./setup.js");
 
 // test specific data
 const resource_endpoint = "/postcards",
-  lobUri = "https://api.lob.com/v1",
+  lobUri = "https://api-v17.lob-staging.com/v1",
   specFile = "./lob-api-public.yml";
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
@@ -468,8 +468,8 @@ test("creates a postcard given template IDs for the front & back", async functio
             address_zip: "94107",
             address_country: "US",
           },
-          front: "tmpl_55ba9d8ff619cef",
-          back: "tmpl_65eed611c85b650",
+          front: "tmpl_e0c92f24de82fb2",
+          back: "tmpl_e0c92f24de82fb2",
           size: "6x11",
           mail_type: "usps_standard",
           merge_variables: { name: "Harry" },

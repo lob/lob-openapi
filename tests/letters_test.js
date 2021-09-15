@@ -6,7 +6,7 @@ const Prism = require("./setup.js");
 
 // test specific data
 const resource_endpoint = "/letters",
-  lobUri = "https://api.lob.com/v1",
+  lobUri = "https://api-v17.lob-staging.com/v1",
   specFile = "./lob-api-public.yml";
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);

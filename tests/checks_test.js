@@ -6,7 +6,7 @@ const Prism = require("./setup.js");
 
 // test specific data
 const resource_endpoint = "/checks",
-  lobUri = "https://api.lob.com/v1",
+  lobUri = "https://api-v17.lob-staging.com/v1",
   specFile = "./lob-api-public.yml";
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
@@ -81,7 +81,7 @@ test.serial.before(
               address_zip: "94107",
               address_country: "US",
             },
-            from: "adr_ae04aadb5f417fa6",
+            from: "adr_63d0cabb8cb64b37",
             bank_account: t.context.bank_id,
           },
           { headers: prism.authHeader }

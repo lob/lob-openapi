@@ -4,7 +4,7 @@ const test = require("ava");
 const Prism = require("./setup.js");
 
 const resource_endpoint = "/intl_verifications",
-  lobUri = "https://api.lob.com/v1",
+  lobUri = "https://api-v17.lob-staging.com/v1",
   specFile = "./lob-api-public.yml",
   primary_line = "370 Water St",
   city = "Summerside",

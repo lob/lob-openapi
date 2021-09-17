@@ -116,7 +116,7 @@ test("list postcards' params", async function (t) {
 });
 
 test.serial.before(
-  "create a letter, letter with full payload, and certified letter",
+  "create a postcardd, postcard with full payload, and postcard using remote template",
   async function (t) {
     // NORMAL POSTCARD
     const makeAddress = async (address_data) => {

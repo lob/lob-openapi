@@ -2975,8 +2975,8 @@ x-tagGroups:
       - US Verifications
       - US Verification Types
       - US Autocompletions
-      - Zip Lookups
       - Reverse Geocode Lookups
+      - Zip Lookups
       - Intl Verifications
   - name: Webhooks
     tags:
@@ -4595,22 +4595,6 @@ components:
         identifies `components[county]`. It consists of a 2-digit state code and
         a 3-digit county code.
       pattern: '\d{5}'
-    latitude:
-      type: number
-      format: float
-      description: >
-        A positive or negative decimal indicating the geographic latitude of the
-        address, specifying the north-to-south position of a location. This
-        should be input with `longitude` to pinpoint locations on a map.
-      nullable: true
-    longitude:
-      type: number
-      format: float
-      description: >
-        A positive or negative decimal indicating the geographic longitude of
-        the address, specifying the north-to-south position of a location. This
-        should be input with `latitude` to pinpoint locations on a map.
-      nullable: true
     us_components:
       type: object
       description: A nested object containing a breakdown of each component of an address.
@@ -4715,9 +4699,9 @@ components:
         state:
           $ref: '#/components/schemas/state'
         zip_code:
-          allOf:
-            - description: The 5-digit ZIP code
-            - $ref: '#/components/schemas/zip_code'
+          type: string
+          description: The 5-digit ZIP code
+          pattern: '^\d{5}$'
         zip_code_plus_4:
           allOf:
             - description: The 4-digit ZIP add-on code
@@ -4800,23 +4784,30 @@ components:
             each carrier route type, see [US Verification
             Details](#tag/US-Verification-Types).
         latitude:
-          allOf:
-            - description: >
-                A positive or negative decimal indicating the geographic
-                latitude of the address, specifying the north-to-south position
-                of a location. This should be used with `longitude` to pinpoint
-                locations on a map. Will not be returned for undeliverable
-                addresses or military addresses (state is `AA`, `AE`, or `AP`).
-            - $ref: '#/components/schemas/latitude'
+          latitude: null
+          type: number
+          minimum: -90
+          maximum: 90
+          format: float
+          description: >
+            A positive or negative decimal indicating the geographic latitude of
+            the address, specifying the north-to-south position of a location.
+            This should be used with `longitude` to pinpoint locations on a map.
+            Will not be returned for undeliverable addresses or military
+            addresses (state is `AA`, `AE`, or `AP`).
+          nullable: true
         longitude:
-          allOf:
-            - description: >
-                A positive or negative decimal indicating the geographic
-                longitude of the address, specifying the north-to-south position
-                of a location. This should be used with `latitude` to pinpoint
-                locations on a map. Will not be returned for undeliverable
-                addresses or military addresses (state is `AA`, `AE`, or `AP`).
-            - $ref: '#/components/schemas/longitude'
+          type: number
+          minimum: -90
+          maximum: 90
+          format: float
+          description: >
+            A positive or negative decimal indicating the geographic longitude
+            of the address, specifying the north-to-south position of a
+            location. This should be used with `latitude` to pinpoint locations
+            on a map. Will not be returned for undeliverable addresses or
+            military addresses (state is `AA`, `AE`, or `AP`).
+          nullable: true
     dpv_footnote:
       type: string
       enum:
@@ -7074,21 +7065,27 @@ components:
         - longitude
       properties:
         latitude:
-          allOf:
-            - description: >
-                A positive or negative decimal indicating the geographic
-                latitude of the address, specifying the north-to-south position
-                of a location. This should be used with `longitude` to pinpoint
-                locations on a map.
-            - $ref: '#/components/schemas/latitude'
+          type: number
+          minimum: -90
+          maximum: 90
+          format: float
+          description: >
+            A positive or negative decimal indicating the geographic latitude of
+            the address, specifying the north-to-south position of a location.
+            This should be input with `longitude` to pinpoint locations on a
+            map.
+          nullable: true
         longitude:
-          allOf:
-            - description: >
-                A positive or negative decimal indicating the geographic
-                longitude of the address, specifying the north-to-south position
-                of a location. This should be used with `latitude` to pinpoint
-                locations on a map.
-            - $ref: '#/components/schemas/longitude'
+          type: number
+          minimum: -180
+          maximum: 180
+          format: float
+          description: >
+            A positive or negative decimal indicating the geographic longitude
+            of the address, specifying the north-to-south position of a
+            location. This should be input with `latitude` to pinpoint locations
+            on a map.
+          nullable: true
     reverse_geocode_id:
       type: string
       description: Unique identifier prefixed with `us_reverse_geocode_`.
@@ -7103,9 +7100,9 @@ components:
         - zip_code_plus_4
       properties:
         zip_code:
-          allOf:
-            - description: A 5-digit ZIP code
-            - $ref: '#/components/schemas/zip_code'
+          type: string
+          description: The 5-digit ZIP code
+          pattern: '^\d{5}$'
         zip_code_plus_4:
           allOf:
             - description: A 4-digit ZIP add-on code
@@ -7121,27 +7118,29 @@ components:
         - distance
       properties:
         latitude:
-          allOf:
-            - minimum: -90
-            - maximum: 90
-            - description: >
-                A positive or negative decimal indicating the geographic
-                latitude of the address, specifying the north-to-south position
-                of a location. This should be used with `longitude` to pinpoint
-                locations on a map. Will not be returned for undeliverable
-                addresses or military addresses (state is `AA`, `AE`, or `AP`).
-            - $ref: '#/components/schemas/latitude'
+          type: number
+          minimum: -90
+          maximum: 90
+          format: float
+          description: >
+            A positive or negative decimal indicating the geographic latitude of
+            the address, specifying the north-to-south position of a location.
+            This should be used with `longitude` to pinpoint locations on a map.
+            Will not be returned for undeliverable addresses or military
+            addresses (state is `AA`, `AE`, or `AP`).
+          nullable: true
         longitude:
-          allOf:
-            - minimum: -180
-            - maximum: 180
-            - description: >
-                A positive or negative decimal indicating the geographic
-                longitude of the address, specifying the north-to-south position
-                of a location. This should be used with `latitude` to pinpoint
-                locations on a map. Will not be returned for undeliverable
-                addresses or military addresses (state is `AA`, `AE`, or `AP`).
-            - $ref: '#/components/schemas/longitude'
+          type: number
+          minimum: -90
+          maximum: 90
+          format: float
+          description: >
+            A positive or negative decimal indicating the geographic longitude
+            of the address, specifying the north-to-south position of a
+            location. This should be used with `latitude` to pinpoint locations
+            on a map. Will not be returned for undeliverable addresses or
+            military addresses (state is `AA`, `AE`, or `AP`).
+          nullable: true
         distance:
           type: number
           format: float

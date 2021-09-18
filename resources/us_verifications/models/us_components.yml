@@ -110,9 +110,9 @@ properties:
     $ref: "../../../shared/attributes/address/state.yml"
 
   zip_code:
-    allOf:
-      - description: The 5-digit ZIP code
-      - $ref: "../../../shared/attributes/address/zip_code.yml"
+    type: string
+    description: The 5-digit ZIP code
+    pattern: ^\d{5}$
 
   zip_code_plus_4:
     allOf:

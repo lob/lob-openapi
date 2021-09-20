@@ -19,7 +19,9 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/intl_verification_payload.yml"
+          oneOf:
+            - $ref: "models/multiple_components.yml"
+            - $ref: "models/single_line_address.yml"
         examples:
           basic:
             value:
@@ -29,6 +31,19 @@ post:
               city: Summerside
               state: Prince Edward Island
               postal code: C1N 1C4
+              country: CA
+          full_payload:
+            value:
+              recipient: Harry Zhang
+              primary_line: 370 Water St
+              secondary_line: ""
+              city: Summerside
+              state: Prince Edward Island
+              postal code: C1N 1C4
+              country: CA
+          single_line:
+            value:
+              address: "370 Water St C1N 1C4"
               country: CA
           test:
             value:
@@ -37,7 +52,9 @@ post:
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/intl_verification_payload.yml"
+          oneOf:
+            - $ref: "models/multiple_components.yml"
+            - $ref: "models/single_line_address.yml"
         examples:
           basic:
             value:
@@ -47,6 +64,19 @@ post:
               city: Summerside
               state: Prince Edward Island
               postal code: C1N 1C4
+              country: CA
+          full_payload:
+            value:
+              recipient: Harry Zhang
+              primary_line: 370 Water St
+              secondary_line: ""
+              city: Summerside
+              state: Prince Edward Island
+              postal code: C1N 1C4
+              country: CA
+          single_line:
+            value:
+              address: "370 Water St C1N 1C4"
               country: CA
           test:
             value:
@@ -55,7 +85,9 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "models/intl_verification_payload.yml"
+          oneOf:
+            - $ref: "models/multiple_components.yml"
+            - $ref: "models/single_line_address.yml"
         examples:
           basic:
             value:
@@ -65,6 +97,19 @@ post:
               city: Summerside
               state: Prince Edward Island
               postal code: C1N 1C4
+              country: CA
+          full_payload:
+            value:
+              recipient: Harry Zhang
+              primary_line: 370 Water St
+              secondary_line: ""
+              city: Summerside
+              state: Prince Edward Island
+              postal code: C1N 1C4
+              country: CA
+          single_line:
+            value:
+              address: "370 Water St C1N 1C4"
               country: CA
           test:
             value:

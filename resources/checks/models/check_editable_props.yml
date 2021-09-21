@@ -1,7 +1,6 @@
 allOf:
   - $ref: "check_base.yml"
   - $ref: "check_input_to.yml"
-  - $ref: "../../../shared/models/form_factor/input_from_us.yml"
   - type: object
 
     required:
@@ -11,6 +10,16 @@ allOf:
       - amount
 
     properties:
+      from:
+        description: >-
+          Must either be an address ID or an inline object with correct address
+          parameters. Must either be an address ID or an inline object with correct
+          address parameters. All addresses will be standardized into uppercase
+          without being modified by verification.
+        oneOf:
+          - $ref: "../../../shared/attributes/model_ids/adr_id.yml"
+          - $ref: "../../../shared/models/address/inline_address_us.yml"
+
       bank_account:
         allOf:
           - $ref: "../../../shared/attributes/model_ids/bank/bank_id_no_description.yml"

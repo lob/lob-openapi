@@ -131,7 +131,7 @@ test.serial.before(
     };
     t.context.to = await makeAddress({
       company: "Lob (old)",
-      address_line1: "185 Berry St",
+      address_line1: "210 King St",
       address_line2: "# 6100",
       address_city: "San Francisco",
       address_state: "CA",
@@ -179,7 +179,7 @@ test.serial.before(
       description: "Harry - Old Office",
       name: "Harry Zhang",
       company: "Lob (old)",
-      address_line1: "185 Berry St",
+      address_line1: "210 King St",
       address_line2: "# 6100",
       address_city: "San Francisco",
       address_state: "CA",

@@ -6,8 +6,8 @@ post:
   description: >-
     Verify a US or US territory address _with a live API key_. The
     address can be in components (e.g. `primary_line` is
-    "185 Berry Street", `zip_code` is "94107") or as a
-    single string (e.g. "185 Berry Street 94107"), but not as both.
+    "210 King Street", `zip_code` is "94107") or as a
+    single string (e.g. "210 King Street 94107"), but not as both.
     Requests using a test API key validate required fields but
     return empty values unless specific `primary_line`
     values are provided. See the [US Verifications Test
@@ -43,7 +43,7 @@ post:
         examples:
           basic:
             value:
-              primary_line: 185 Berry Street
+              primary_line: 210 King Street
               city: San Francisco
               state: CA
               zip_code: "94107"
@@ -58,7 +58,7 @@ post:
               zip_code: "00926"
           single_line:
             value:
-              address: "185 Berry Street 94107"
+              address: "210 King Street 94107"
           test:
             value:
               primary_line: "po box"
@@ -72,7 +72,7 @@ post:
         examples:
           basic:
             value:
-              primary_line: 185 Berry Street
+              primary_line: 210 King Street
               city: San Francisco
               state: CA
               zip_code: "94107"
@@ -87,7 +87,7 @@ post:
               zip_code: "00926"
           single_line:
             value:
-              address: "185 Berry Street 94107"
+              address: "210 King Street 94107"
           test:
             value:
               primary_line: "po box"
@@ -101,7 +101,7 @@ post:
         examples:
           basic:
             value:
-              primary_line: 185 Berry Street
+              primary_line: 210 King Street
               city: San Francisco
               state: CA
               zip_code: "94107"
@@ -116,7 +116,7 @@ post:
               zip_code: "00926"
           single_line:
             value:
-              address: "185 Berry Street 94107"
+              address: "210 King Street 94107"
           test:
             value:
               primary_line: "po box"
@@ -134,7 +134,7 @@ post:
       source: |
         curl https://api.lob.com/v1/us_verifications \
           -u <YOUR_LIVE_API_KEY>: \
-          -d "primary_line=185 Berry Street" \
+          -d "primary_line=210 King Street" \
           -d "city=San Francisco" \
           -d "state=CA" \
           -d "zip_code=94107"
@@ -142,7 +142,7 @@ post:
     - lang: Javascript
       source: |
         Lob.usVerifications.verify({
-          primary_line: '185 Berry Street',
+          primary_line: '210 King Street',
           city: 'San Francisco',
           state: 'CA',
           zip_code: '94107'
@@ -153,7 +153,7 @@ post:
     - lang: Ruby
       source: |
         @lob.us_verifications.verify(
-          primary_line: "185 Berry Street",
+          primary_line: "210 King Street",
           city:         "San Francisco",
           state:        "CA",
           zip_code:     "94107"
@@ -162,7 +162,7 @@ post:
     - lang: Python
       source: |
         lob.USVerification.create(
-          primary_line='185 Berry Street',
+          primary_line='210 King Street',
           city='San Francisco',
           state='CA',
           zip_code='94107'
@@ -171,7 +171,7 @@ post:
     - lang: PHP
       source: |
         $lob->usVerifications()->verify(array(
-          'primary_line' => '185 Berry Street',
+          'primary_line' => '210 King Street',
           'city'         => 'San Francisco',
           'state'        => 'CA',
           'zip_code'     => '94107'
@@ -180,7 +180,7 @@ post:
       source: |
         LobResponse<USVerification> response = new USVerification.RequestBuilder()
                 .setRecipient("Donald")
-                .setPrimaryLine("185 Berry St")
+                .setPrimaryLine("210 King St")
                 .setSecondaryLine("Ste 6100")
                 .setCity("San Francisco")
                 .setState("CA")
@@ -192,7 +192,7 @@ post:
     - lang: Elixir
       source: |
         Lob.USVerification.verify(%{
-          primary_line: "185 Berry Street",
+          primary_line: "210 King Street",
           city: "San Francisco",
           state: "CA",
           zip_code: "94107"

@@ -115,9 +115,9 @@ properties:
     pattern: ^\d{5}$
 
   zip_code_plus_4:
-    type: string
-    description: The 4-digit ZIP add-on code
-    pattern: ^\d{4}$
+    allOf:
+      - description: The 4-digit ZIP add-on code
+      - $ref: "../../../shared/attributes/address/zip_code_plus_4.yml"
 
   zip_code_type:
     $ref: "../../../shared/attributes/address/zip_code_type.yml"

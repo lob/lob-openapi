@@ -72,20 +72,7 @@ delete:
 
   responses:
     "200":
-      description: Success
-
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              id:
-                $ref: "../../shared/attributes/model_ids/adr_id.yml"
-              deleted:
-                $ref: "../../shared/attributes/deleted.yml"
-
-    default:
-      $ref: responses/address_error.yml
+      $ref: ../../shared/responses/deleted.yml
 
   x-codeSamples:
     - lang: Shell

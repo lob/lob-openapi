@@ -136,7 +136,7 @@ test.serial.before(
     };
     t.context.to = await makeAddress({
       company: "Lob (old)",
-      address_line1: "185 Berry St",
+      address_line1: "210 King St",
       address_line2: "# 6100",
       address_city: "San Francisco",
       phone: "5555555555",
@@ -184,7 +184,7 @@ test.serial.before(
       description: "Harry - Old Office",
       name: "Harry Zhang",
       company: "Lob (old)",
-      address_line1: "185 Berry St",
+      address_line1: "210 King St",
       address_line2: "# 6100",
       address_city: "San Francisco",
       address_state: "CA",
@@ -358,7 +358,7 @@ test("creates a postcard given a local filepath as the front & back", async func
         {
           to: {
             company: "Lob (old)",
-            address_line1: "185 Berry St",
+            address_line1: "210 King St",
             address_line2: "# 6100",
             address_city: "San Francisco",
             address_state: "CA",
@@ -404,7 +404,7 @@ test("creates a postcard given an html string as the front & back", async functi
           description: "Demo Postcard",
           to: {
             company: "Lob (old)",
-            address_line1: "185 Berry St",
+            address_line1: "210 King St",
             address_line2: "# 6100",
             address_city: "San Francisco",
             address_state: "CA",
@@ -454,7 +454,7 @@ test("creates a postcard given template IDs for the front & back", async functio
           description: "Demo Postcard",
           to: {
             company: "Lob (old)",
-            address_line1: "185 Berry St",
+            address_line1: "210 King St",
             address_line2: "# 6100",
             address_city: "San Francisco",
             address_state: "CA",
@@ -506,7 +506,7 @@ test("throws errors when input is not validated", async function (t) {
           {
             to: {
               company: "Lob (old)",
-              address_line1: "185 Berry St",
+              address_line1: "210 King St",
               address_line2: "# 6100",
               address_city: "San Francisco",
               address_zip: "94107",
@@ -581,7 +581,7 @@ test("throws error when metadata is not string, number, or boolean", async funct
         {
           to: {
             company: "Lob (old)",
-            address_line1: "185 Berry St",
+            address_line1: "210 King St",
             address_line2: "# 6100",
             address_city: "San Francisco",
             address_state: "CA",

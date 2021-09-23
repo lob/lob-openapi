@@ -6,11 +6,11 @@ const Prism = require("./setup.js");
 const resource_endpoint = "/us_verifications",
   lobUri = "https://api.lob.com/v1",
   specFile = "./lob-api-public.yml";
-const primary_line = "185 BERRY ST";
+const primary_line = "210 KING ST";
 const city = "SAN FRANCISCO";
 const state = "CA";
 const zip_code = "94107";
-const sla = "185 BERRY ST 94107";
+const sla = "210 KING ST 94107";
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_LIVE_TOKEN);
 

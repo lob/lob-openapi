@@ -10,7 +10,7 @@ const resource_endpoint = "/bulk/us_verifications",
   specFile = "./lob-api-public.yml";
 
 const address = {
-  primary_line: "185 BERRY ST",
+  primary_line: "210 KING ST",
   city: "SAN FRANCISCO",
   state: "CA",
   zip_code: "94107",

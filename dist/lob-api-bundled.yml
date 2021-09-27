@@ -1534,7 +1534,7 @@ tags:
 
 
       ```javascript
-        primary_line=185 Berry Street&city=San Francisco&state=CA&zip_code=94107
+        primary_line=210 King Street&city=San Francisco&state=CA&zip_code=94107
       ```
 
 
@@ -1553,7 +1553,7 @@ tags:
 
       ```javascript
         {
-          "primary_line": "185 Berry Street",
+          "primary_line": "210 King Street",
           "city": "San Francisco",
           "state": "CA",
           "zip_code": "94107"
@@ -3615,7 +3615,7 @@ components:
             company: LOB
             phone: '5555555555'
             email: harry@lob.com
-            address_line1: 185 BERRY ST STE 6100
+            address_line1: 210 KING ST STE 6100
             address_line2: null
             address_city: SAN FRANCISCO
             address_state: CA
@@ -4288,6 +4288,16 @@ components:
       oneOf:
         - $ref: '#/components/schemas/address_editable_us'
         - $ref: '#/components/schemas/address_editable_intl'
+    address_deletion:
+      description: >-
+        Lob uses RESTful HTTP response codes to indicate success or failure of
+        an API request. In general, 2xx indicates success, 4xx indicate an input
+        error, and 5xx indicates an error on Lob's end.
+      properties:
+        id:
+          $ref: '#/components/schemas/adr_id'
+        deleted:
+          $ref: '#/components/schemas/deleted'
     bank_id_no_description:
       type: string
       pattern: '^bank_[a-zA-Z0-9]+$'
@@ -4784,10 +4794,7 @@ components:
             each carrier route type, see [US Verification
             Details](#tag/US-Verification-Types).
         latitude:
-          latitude: null
           type: number
-          minimum: -90
-          maximum: 90
           format: float
           description: >
             A positive or negative decimal indicating the geographic latitude of
@@ -4798,8 +4805,6 @@ components:
           nullable: true
         longitude:
           type: number
-          minimum: -90
-          maximum: 90
           format: float
           description: >
             A positive or negative decimal indicating the geographic longitude
@@ -5725,17 +5730,6 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address_us'
-    input_from_us:
-      type: object
-      properties:
-        from:
-          description: >-
-            Must either be an address ID or an inline object with correct
-            address parameters. All addresses will be standardized into
-            uppercase without being modified by verification.
-          oneOf:
-            - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/inline_address_us'
     html_string:
       type: string
       description: 'An HTML string of under 10,000 characters.'
@@ -5787,7 +5781,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/check_base'
         - $ref: '#/components/schemas/check_input_to'
-        - $ref: '#/components/schemas/input_from_us'
         - type: object
           required:
             - bank_account
@@ -5795,6 +5788,16 @@ components:
             - from
             - amount
           properties:
+            from:
+              description: >-
+                Must either be an address ID or an inline object with correct
+                address parameters. Must either be an address ID or an inline
+                object with correct address parameters. All addresses will be
+                standardized into uppercase without being modified by
+                verification.
+              oneOf:
+                - $ref: '#/components/schemas/adr_id'
+                - $ref: '#/components/schemas/inline_address_us'
             bank_account:
               allOf:
                 - $ref: '#/components/schemas/bank_id_no_description'
@@ -6550,6 +6553,19 @@ components:
                     A [signed link](#section/Asset-URLs) to the rendered
                     postcard.
                 - $ref: '#/components/schemas/signed_link'
+    input_from_us:
+      type: object
+      properties:
+        from:
+          description: >-
+            *Required* if `to` address is international. Must either be an
+            address ID or an inline object with correct address parameters. Must
+            either be an address ID or an inline object with correct address
+            parameters. All addresses will be standardized into uppercase
+            without being modified by verification.
+          oneOf:
+            - $ref: '#/components/schemas/adr_id'
+            - $ref: '#/components/schemas/inline_address_us'
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -6986,7 +7002,7 @@ components:
         address:
           type: string
           description: >
-            The entire address in one string (e.g., "185 Berry Street 94107").
+            The entire address in one string (e.g., "210 King Street 94107").
             _Does not support a recipient and will error when other payload
             parameters are provided._
           maxLength: 500
@@ -7131,8 +7147,8 @@ components:
           nullable: true
         longitude:
           type: number
-          minimum: -90
-          maximum: 90
+          minimum: -180
+          maximum: 180
           format: float
           description: >
             A positive or negative decimal indicating the geographic longitude
@@ -7375,7 +7391,7 @@ components:
                 company: LOB
                 phone: '5555555555'
                 email: harry@lob.com
-                address_line1: 185 BERRY ST STE 6100
+                address_line1: 210 KING ST STE 6100
                 address_line2: null
                 address_city: SAN FRANCISCO
                 address_state: CA
@@ -7428,7 +7444,7 @@ components:
                 company: LOB
                 phone: '5555555555'
                 email: harry@lob.com
-                address_line1: 185 BERRY ST STE 6100
+                address_line1: 210 KING ST STE 6100
                 address_city: SAN FRANCISCO
                 address_state: CA
                 address_zip: '94107'
@@ -7483,6 +7499,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/address'
+    address_deleted:
+      description: Deleted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/address_deletion'
+          example:
+            id: adr_123456789
+            deleted: true
     bank_account_error:
       description: Error
       content:
@@ -7646,7 +7671,7 @@ components:
             addresses:
               - id: us_ver_c7cb63d68f8d6
                 recipient: LOB.COM
-                primary_line: 185 BERRY ST STE 6100
+                primary_line: 210 KING ST STE 6100
                 secondary_line: ''
                 urbanization: ''
                 last_line: SAN FRANCISCO CA 94107-1728
@@ -7654,7 +7679,7 @@ components:
                 components:
                   primary_number: '185'
                   street_predirection: ''
-                  street_name: BERRY
+                  street_name: KING
                   street_suffix: ST
                   street_postdirection: ''
                   secondary_designator: STE
@@ -7786,7 +7811,7 @@ components:
                   company: LOB
                   email: harry@lob.com
                   phone: '5555555555'
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: ''
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -7800,7 +7825,7 @@ components:
                 from:
                   id: adr_210a8d4b0b76d77b
                   name: LEORE AVIDAR
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_city: SAN FRANCISCO
                   address_state: CA
                   address_zip: 94107-1741
@@ -7863,7 +7888,7 @@ components:
                 to:
                   id: adr_bae820679f3f536b
                   name: HARRY ZHANG
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_city: SAN FRANCISCO
                   address_state: CA
                   address_zip: 94107-1741
@@ -7875,7 +7900,7 @@ components:
                 from:
                   id: adr_210a8d4b0b76d77b
                   name: LEORE AVIDAR
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_city: SAN FRANCISCO
                   address_state: CA
                   address_zip: 94107-1741
@@ -7959,7 +7984,7 @@ components:
               company: LOB
               email: harry@lob.com
               phone: '5555555555'
-              address_line1: 185 BERRY ST STE 6100
+              address_line1: 210 KING ST STE 6100
               address_line2: ''
               address_city: SAN FRANCISCO
               address_state: CA
@@ -7973,7 +7998,7 @@ components:
             from:
               id: adr_b8fb5acf3a2b55db
               name: LEORE AVIDAR
-              address_line1: 185 BERRY ST STE 6100
+              address_line1: 210 KING ST STE 6100
               address_city: SAN FRANCISCO
               address_state: CA
               address_zip: 94107-1741
@@ -8120,7 +8145,7 @@ components:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -8181,7 +8206,7 @@ components:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -8198,7 +8223,7 @@ components:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -8263,7 +8288,7 @@ components:
               company: null
               phone: null
               email: null
-              address_line1: 185 BERRY ST STE 6100
+              address_line1: 210 KING ST STE 6100
               address_line2: null
               address_city: SAN FRANCISCO
               address_state: CA
@@ -8281,7 +8306,7 @@ components:
               company: null
               phone: null
               email: null
-              address_line1: 185 BERRY ST STE 6100
+              address_line1: 210 KING ST STE 6100
               address_line2: null
               address_city: SAN FRANCISCO
               address_state: CA
@@ -8351,7 +8376,7 @@ components:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -8400,7 +8425,7 @@ components:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -8463,7 +8488,7 @@ components:
                   company: LOB
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -8514,7 +8539,7 @@ components:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -8598,7 +8623,7 @@ components:
                   company: LOB
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -8667,7 +8692,7 @@ components:
                   company: LOB
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -8736,7 +8761,7 @@ components:
               company: null
               phone: null
               email: null
-              address_line1: 185 BERRY ST STE 6100
+              address_line1: 210 KING ST STE 6100
               address_line2: null
               address_city: SAN FRANCISCO
               address_state: CA
@@ -8754,7 +8779,7 @@ components:
               company: null
               phone: null
               email: null
-              address_line1: 185 BERRY ST STE 6100
+              address_line1: 210 KING ST STE 6100
               address_line2: null
               address_city: SAN FRANCISCO
               address_state: CA
@@ -9000,7 +9025,7 @@ components:
                     city: SAN FRANCISCO
                     state: CA
                     zip_code: '94107'
-                  - primary_line: 185 BERRY ST
+                  - primary_line: 210 KING ST
                     city: SAN FRANCISCO
                     state: CA
                     zip_code: '94107'
@@ -9060,7 +9085,7 @@ components:
               value:
                 id: us_ver_c7cb63d68f8d6
                 recipient: LOB.COM
-                primary_line: 185 BERRY ST STE 6100
+                primary_line: 210 KING ST STE 6100
                 secondary_line: ''
                 urbanization: ''
                 last_line: SAN FRANCISCO CA 94107-1728
@@ -9068,7 +9093,7 @@ components:
                 components:
                   primary_number: '185'
                   street_predirection: ''
-                  street_name: BERRY
+                  street_name: KING
                   street_suffix: ST
                   street_postdirection: ''
                   secondary_designator: STE
@@ -9468,7 +9493,7 @@ paths:
                   company: Lob
                   email: harry@lob.com
                   phone: '5555555555'
-                  address_line1: 185 Berry St
+                  address_line1: 210 King St
                   address_line2: '# 6100'
                   address_city: San Francisco
                   address_state: CA
@@ -9511,7 +9536,7 @@ paths:
                   company: Lob
                   email: harry@lob.com
                   phone: '5555555555'
-                  address_line1: 185 Berry St
+                  address_line1: 210 King St
                   address_line2: '# 6100'
                   address_city: San Francisco
                   address_state: CA
@@ -9558,7 +9583,7 @@ paths:
                   company: Lob
                   email: harry@lob.com
                   phone: '5555555555'
-                  address_line1: 185 Berry St
+                  address_line1: 210 King St
                   address_line2: '# 6100'
                   address_city: San Francisco
                   address_state: CA
@@ -9605,7 +9630,7 @@ paths:
               -d "company=Lob" \
               -d "email=harry@lob.com" \
               -d "phone=5555555555" \
-              -d "address_line1=185 Berry St" \
+              -d "address_line1=210 King St" \
               -d "address_line2=# 6100" \
               -d "address_city=San Francisco" \
               -d "address_state=CA" \
@@ -9620,7 +9645,7 @@ paths:
               company: 'Lob',
               email: 'harry@lob.com',
               phone: '5555555555',
-              address_line1: '185 Berry St',
+              address_line1: '210 King St',
               address_line2: '# 6100',
               address_city: 'San Francisco',
               address_state: 'CA',
@@ -9638,7 +9663,7 @@ paths:
               company: "Lob",
               email: "harry@lob.com",
               phone: "5555555555",
-              address_line1: "185 Berry St",
+              address_line1: "210 King St",
               address_line2: "# 6100",
               address_city: "San Francisco",
               address_state: "CA",
@@ -9654,7 +9679,7 @@ paths:
               company='Lob',
               email='harry@lob.com',
               phone='5555555555',
-              address_line1='185 Berry St',
+              address_line1='210 King St',
               address_line2='# 6100',
               address_city='San Francisco',
               address_state='CA',
@@ -9668,7 +9693,7 @@ paths:
               'description'       => 'Harry - Office',
               'name'              => 'Harry Zhang',
               'company'           => 'Lob',
-              'address_line1'     => '185 Berry St',
+              'address_line1'     => '210 King St',
               'address_line2'     => '# 6100',
               'address_city'      => 'San Francisco',
               'address_state'     => 'CA',
@@ -9683,7 +9708,7 @@ paths:
                     .setDescription("Harry - Office")
                     .setName("Harry Zhang")
                     .setCompany("Lob")
-                    .setLine1("185 Berry St")
+                    .setLine1("210 King St")
                     .setLine2("# 6100")
                     .setCity("San Francisco")
                     .setState("CA")
@@ -9703,7 +9728,7 @@ paths:
               company: "Lob",
               email: "harry@lob.com",
               phone: "5555555555",
-              address_line1: "185 Berry St",
+              address_line1: "210 King St",
               address_line2: "# 6100",
               address_city: "San Francisco",
               address_state: "CA",
@@ -9776,18 +9801,7 @@ paths:
         - Addresses
       responses:
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    $ref: '#/components/schemas/adr_id'
-                  deleted:
-                    $ref: '#/components/schemas/deleted'
-        default:
-          $ref: '#/components/responses/address_error'
+          $ref: '#/components/responses/address_deleted'
       x-codeSamples:
         - lang: Shell
           source: >
@@ -10444,7 +10458,7 @@ paths:
               $ref: '#/components/schemas/multiple_components_list'
             example:
               addresses:
-                - primary_line: 185 Berry Street
+                - primary_line: 210 King Street
                   city: San Francisco
                   state: CA
                   zip_code: '94107'
@@ -10460,7 +10474,7 @@ paths:
               $ref: '#/components/schemas/multiple_components_list'
             example:
               addresses:
-                - primary_line: 185 Berry Street
+                - primary_line: 210 King Street
                   city: San Francisco
                   state: CA
                   zip_code: '94107'
@@ -10476,7 +10490,7 @@ paths:
               $ref: '#/components/schemas/multiple_components_list'
             example:
               addresses:
-                - primary_line: 185 Berry Street
+                - primary_line: 210 King Street
                   city: San Francisco
                   state: CA
                   zip_code: '94107'
@@ -10587,7 +10601,7 @@ paths:
                   company: LOB
                   email: harry@lob.com
                   phone: '5555555555'
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: ''
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -10601,7 +10615,7 @@ paths:
                 from:
                   id: adr_b8fb5acf3a2b55db
                   name: LEORE AVIDAR
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_city: SAN FRANCISCO
                   address_state: CA
                   address_zip: 94107-1741
@@ -10827,7 +10841,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -10835,7 +10849,7 @@ paths:
                 address_country: US
               from:
                 name: Leore Avidar
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -10865,7 +10879,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -10873,7 +10887,7 @@ paths:
                 address_country: US
               from:
                 name: Leore Avidar
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -10916,7 +10930,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -10924,7 +10938,7 @@ paths:
                 address_country: US
               from:
                 name: Leore Avidar
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -10958,7 +10972,7 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
               -d "description=Demo Check" \
               -d "to[name]=Harry Zhang" \
-              -d "to[address_line1]=185 Berry St" \
+              -d "to[address_line1]=210 King St" \
               -d "to[address_line2]=# 6100" \
               -d "to[address_city]=San Francisco" \
               -d "to[address_state]=CA" \
@@ -10978,7 +10992,7 @@ paths:
               bank_account: 'bank_8cad8df5354d33f',
               to: {
                 name: 'Harry Zhang',
-                address_line1: '185 Berry St',
+                address_line1: '210 King St',
                 address_line2: '# 6100',
                 address_city: 'San Francisco',
                 address_state: 'CA',
@@ -11003,7 +11017,7 @@ paths:
               bank_account: "bank_8cad8df5354d33f",
               to: {
                 name: "Harry Zhang",
-                address_line1: "185 Berry St",
+                address_line1: "210 King St",
                 address_line2: "# 6100",
                 address_city: "San Francisco",
                 address_state: "CA",
@@ -11025,7 +11039,7 @@ paths:
               description = 'Demo Check',
               to_address = {
                 'name': 'Harry Zhang',
-                'address_line1': '185 Berry St',
+                'address_line1': '210 King St',
                 'address_line2': '# 6100',
                 'address_city': 'San Francisco',
                 'address_state': 'CA',
@@ -11047,7 +11061,7 @@ paths:
             $lob->checks()->create(array(
               'description'           => 'Demo Check',
               'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '185 Berry St',
+              'to[address_line1]'     => '210 King St',
               'to[address_line2]'     => '# 6100',
               'to[address_city]'      => 'San Francisco',
               'to[address_zip]'       => '94107',
@@ -11075,7 +11089,7 @@ paths:
                     .setTo(
                             new Address.RequestBuilder()
                                     .setName("Harry Zhang")
-                                    .setLine1("185 Berry St Ste 6100")
+                                    .setLine1("210 King St Ste 6100")
                                     .setCity("San Francisco")
                                     .setState("CA")
                                     .setZip("94107")
@@ -11093,7 +11107,7 @@ paths:
               bank_account: "bank_8cad8df5354d33f",
               to: %{
                 name: "Harry Zhang",
-                address_line1: "185 Berry St",
+                address_line1: "210 King St",
                 address_line2: "# 6100",
                 address_city: "San Francisco",
                 address_state: "CA",
@@ -11289,7 +11303,7 @@ paths:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -11307,7 +11321,7 @@ paths:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -11533,7 +11547,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -11541,7 +11555,7 @@ paths:
                 address_country: US
               from:
                 name: Harry
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -11573,7 +11587,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -11581,7 +11595,7 @@ paths:
                 address_country: US
               from:
                 name: Harry
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -11626,7 +11640,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -11634,7 +11648,7 @@ paths:
                 address_country: US
               from:
                 name: Harry
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -11667,7 +11681,7 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
               -d "description=Demo Letter" \
               -d "to[name]=Harry Zhang" \
-              -d "to[address_line1]=185 Berry St" \
+              -d "to[address_line1]=210 King St" \
               -d "to[address_line2]=# 6100" \
               -d "to[address_city]=San Francisco" \
               -d "to[address_state]=CA" \
@@ -11683,7 +11697,7 @@ paths:
               description: 'Demo Letter',
               to: {
                 name: 'Harry Zhang',
-                address_line1: '185 Berry St',
+                address_line1: '210 King St',
                 address_line2: '# 6100',
                 address_city: 'San Francisco',
                 address_state: 'CA',
@@ -11705,7 +11719,7 @@ paths:
               description: "Demo Letter",
               to: {
                 name: "Harry Zhang",
-                address_line1: "185 Berry St",
+                address_line1: "210 King St",
                 address_line2: "# 6100",
                 address_city: "San Francisco",
                 address_state: "CA",
@@ -11725,7 +11739,7 @@ paths:
               description = 'Demo Letter',
               to_address = {
                   'name': 'Harry Zhang',
-                  'address_line1': '185 Berry St',
+                  'address_line1': '210 King St',
                   'address_line2': '# 6100',
                   'address_city': 'San Francisco',
                   'address_state': 'CA',
@@ -11744,7 +11758,7 @@ paths:
             $lob->letters()->create(array(
               'description'           => 'Demo Letter',
               'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '185 Berry St',
+              'to[address_line1]'     => '210 King St',
               'to[address_line2]'     => '# 6100',
               'to[address_city]'      => 'San Francisco',
               'to[address_zip]'       => '94107',
@@ -11767,7 +11781,7 @@ paths:
                     .setTo(
                             new Address.RequestBuilder()
                                     .setName("Harry Zhang")
-                                    .setLine1("185 Berry St Ste 6100")
+                                    .setLine1("210 King St Ste 6100")
                                     .setCity("San Francisco")
                                     .setState("CA")
                                     .setZip("94107")
@@ -11783,7 +11797,7 @@ paths:
               description: "Demo Letter",
               to: %{
                 name: "Harry Zhang",
-                address_line1: "185 Berry St",
+                address_line1: "210 King St",
                 address_line2: "# 6100",
                 address_city: "San Francisco",
                 address_state: "CA",
@@ -11833,7 +11847,7 @@ paths:
                       company: LOB
                       phone: null
                       email: null
-                      address_line1: 185 BERRY ST STE 6100
+                      address_line1: 210 KING ST STE 6100
                       address_line2: null
                       address_city: SAN FRANCISCO
                       address_state: CA
@@ -11884,7 +11898,7 @@ paths:
                       company: null
                       phone: null
                       email: null
-                      address_line1: 185 BERRY ST STE 6100
+                      address_line1: 210 KING ST STE 6100
                       address_line2: null
                       address_city: SAN FRANCISCO
                       address_state: CA
@@ -12105,7 +12119,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -12117,7 +12131,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -12143,7 +12157,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -12155,7 +12169,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -12194,7 +12208,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -12206,7 +12220,7 @@ paths:
                 company: Lob
                 email: harry@lob.com
                 phone: '5555555555'
-                address_line1: 185 Berry St
+                address_line1: 210 King St
                 address_line2: '# 6100'
                 address_city: San Francisco
                 address_state: CA
@@ -12233,7 +12247,7 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
               -d "description=Demo Postcard job" \
               -d "to[name]=Harry Zhang" \
-              -d "to[address_line1]=185 Berry St" \
+              -d "to[address_line1]=210 King St" \
               -d "to[address_line2]=# 6100" \
               -d "to[address_city]=San Francisco" \
               -d "to[address_state]=CA" \
@@ -12249,7 +12263,7 @@ paths:
               description: 'Demo Postcard job',
               to: {
                 name: 'Harry Zhang',
-                address_line1: '185 Berry St',
+                address_line1: '210 King St',
                 address_line2: '# 6100',
                 address_city: 'San Francisco',
                 address_state: 'CA',
@@ -12271,7 +12285,7 @@ paths:
               description: "Demo Postcard job",
               to: {
                 name: "Harry Zhang",
-                address_line1: "185 Berry St",
+                address_line1: "210 King St",
                 address_line2: "# 6100",
                 address_city: "San Francisco",
                 address_state: "CA",
@@ -12291,7 +12305,7 @@ paths:
               description = 'Demo Postcard job',
               to_address = {
                 'name': 'Harry Zhang',
-                'address_line1': '185 Berry St',
+                'address_line1': '210 King St',
                 'address_line2': '# 6100',
                 'address_city': 'San Francisco',
                 'address_state': 'CA',
@@ -12310,7 +12324,7 @@ paths:
             $lob->postcards()->create(array(
               'description'           => 'Demo Postcard job',
               'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '185 Berry St',
+              'to[address_line1]'     => '210 King St',
               'to[address_line2]'     => '# 6100',
               'to[address_city]'      => 'San Francisco',
               'to[address_zip]'       => '94107',
@@ -12330,7 +12344,7 @@ paths:
                     .setTo(
                             new Address.RequestBuilder()
                                     .setName("Harry Zhang")
-                                    .setLine1("185 Berry St")
+                                    .setLine1("210 King St")
                                     .setLine2("# 6100")
                                     .setCity("San Francisco")
                                     .setState("CA")
@@ -12350,7 +12364,7 @@ paths:
               description: "Demo Postcard job",
               to: %{
                 name: "Harry Zhang",
-                address_line1: "185 Berry St",
+                address_line1: "210 King St",
                 address_line2: "# 6100",
                 address_city: "San Francisco",
                 address_state: "CA",
@@ -12399,7 +12413,7 @@ paths:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -12417,7 +12431,7 @@ paths:
                   company: null
                   phone: null
                   email: null
-                  address_line1: 185 BERRY ST STE 6100
+                  address_line1: 210 KING ST STE 6100
                   address_line2: null
                   address_city: SAN FRANCISCO
                   address_state: CA
@@ -13673,8 +13687,8 @@ paths:
       summary: Single Verify
       description: >-
         Verify a US or US territory address _with a live API key_. The address
-        can be in components (e.g. `primary_line` is "185 Berry Street",
-        `zip_code` is "94107") or as a single string (e.g. "185 Berry Street
+        can be in components (e.g. `primary_line` is "210 King Street",
+        `zip_code` is "94107") or as a single string (e.g. "210 King Street
         94107"), but not as both. Requests using a test API key validate
         required fields but return empty values unless specific `primary_line`
         values are provided. See the [US Verifications Test
@@ -13708,7 +13722,7 @@ paths:
             examples:
               basic:
                 value:
-                  primary_line: 185 Berry Street
+                  primary_line: 210 King Street
                   city: San Francisco
                   state: CA
                   zip_code: '94107'
@@ -13723,7 +13737,7 @@ paths:
                   zip_code: 00926
               single_line:
                 value:
-                  address: 185 Berry Street 94107
+                  address: 210 King Street 94107
               test:
                 value:
                   primary_line: po box
@@ -13736,7 +13750,7 @@ paths:
             examples:
               basic:
                 value:
-                  primary_line: 185 Berry Street
+                  primary_line: 210 King Street
                   city: San Francisco
                   state: CA
                   zip_code: '94107'
@@ -13751,7 +13765,7 @@ paths:
                   zip_code: 00926
               single_line:
                 value:
-                  address: 185 Berry Street 94107
+                  address: 210 King Street 94107
               test:
                 value:
                   primary_line: po box
@@ -13764,7 +13778,7 @@ paths:
             examples:
               basic:
                 value:
-                  primary_line: 185 Berry Street
+                  primary_line: 210 King Street
                   city: San Francisco
                   state: CA
                   zip_code: '94107'
@@ -13779,7 +13793,7 @@ paths:
                   zip_code: 00926
               single_line:
                 value:
-                  address: 185 Berry Street 94107
+                  address: 210 King Street 94107
               test:
                 value:
                   primary_line: po box
@@ -13794,7 +13808,7 @@ paths:
           source: |
             curl https://api.lob.com/v1/us_verifications \
               -u <YOUR_LIVE_API_KEY>: \
-              -d "primary_line=185 Berry Street" \
+              -d "primary_line=210 King Street" \
               -d "city=San Francisco" \
               -d "state=CA" \
               -d "zip_code=94107"
@@ -13802,7 +13816,7 @@ paths:
         - lang: Javascript
           source: |
             Lob.usVerifications.verify({
-              primary_line: '185 Berry Street',
+              primary_line: '210 King Street',
               city: 'San Francisco',
               state: 'CA',
               zip_code: '94107'
@@ -13813,7 +13827,7 @@ paths:
         - lang: Ruby
           source: |
             @lob.us_verifications.verify(
-              primary_line: "185 Berry Street",
+              primary_line: "210 King Street",
               city:         "San Francisco",
               state:        "CA",
               zip_code:     "94107"
@@ -13822,7 +13836,7 @@ paths:
         - lang: Python
           source: |
             lob.USVerification.create(
-              primary_line='185 Berry Street',
+              primary_line='210 King Street',
               city='San Francisco',
               state='CA',
               zip_code='94107'
@@ -13831,7 +13845,7 @@ paths:
         - lang: PHP
           source: |
             $lob->usVerifications()->verify(array(
-              'primary_line' => '185 Berry Street',
+              'primary_line' => '210 King Street',
               'city'         => 'San Francisco',
               'state'        => 'CA',
               'zip_code'     => '94107'
@@ -13841,7 +13855,7 @@ paths:
             LobResponse<USVerification> response = new
             USVerification.RequestBuilder()
                     .setRecipient("Donald")
-                    .setPrimaryLine("185 Berry St")
+                    .setPrimaryLine("210 King St")
                     .setSecondaryLine("Ste 6100")
                     .setCity("San Francisco")
                     .setState("CA")
@@ -13853,7 +13867,7 @@ paths:
         - lang: Elixir
           source: |
             Lob.USVerification.verify(%{
-              primary_line: "185 Berry Street",
+              primary_line: "210 King Street",
               city: "San Francisco",
               state: "CA",
               zip_code: "94107"

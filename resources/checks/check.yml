@@ -82,17 +82,7 @@ delete:
 
   responses:
     "200":
-      description: Success
-
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              id:
-                $ref: "attributes/chk_id.yml"
-              deleted:
-                $ref: "../../shared/attributes/deleted.yml"
+      $ref: ../../shared/responses/check_canceled.yml
 
     default:
       $ref: "../../shared/responses/mailpiece_error.yml"

@@ -76,17 +76,7 @@ delete:
 
   responses:
     "200":
-      description: Success
-
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              id:
-                $ref: "attributes/sfm_id.yml"
-              deleted:
-                $ref: "../../shared/attributes/deleted.yml"
+      $ref: "../../shared/responses/self_mailer_deleted.yml"
 
     default:
       $ref: "../../shared/responses/mailpiece_error.yml"

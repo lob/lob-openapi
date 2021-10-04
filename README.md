@@ -7,6 +7,7 @@
 - [Readability](#readability)
 - [OAS v3.1 compatibility](#oas-v31-compatibility)
 - [Previewing changes](#previewing-changes)
+- [E2E Testing](#e2e-testing)
 - [Bundled spec](#bundled-spec)
 - [Postman Collection](#postman-collection)
 
@@ -96,6 +97,10 @@ You can then generate documentation for the API from the spec by running
 generated docs will apppear in `docs/index.html`. Then you can point
 your browser to the absolute path of that file to review your local
 version of the docs.
+
+## E2E Testing
+
+You can run the currently available end-to-end tests with the command `npm run docsTest`.
 
 ## Bundled spec
 

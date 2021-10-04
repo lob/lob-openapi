@@ -1,32 +1,22 @@
 type: object
 
-required:
-  - address_prefix
-
 properties:
-  address_prefix:
-    type: string
-    description: >
-      Only accepts numbers and street names in an alphanumeric format.
+  id:
+    $ref: "../attributes/us_auto_id.yml"
 
-  city:
-    type: string
+  suggestions:
+    type: array
     description: >
-      An optional city input used to filter suggestions. Case insensitive and
-      does not match partial abbreviations.
+      An array of objects representing suggested addresses.
+    minItems: 0
+    maxItems: 10
+    items:
+      $ref: "suggestions.yml"
 
-  state:
-    type: string
-    description: >
-      An optional state input used to filter suggestions. Case insensitive and does not match
-      partial abbreviations.
-
-  zip_code:
-    type: string
-    description: >
-      An optional ZIP Code input used to filter suggestions. Matches partial entries.
-
-  geo_ip_sort:
-    type: boolean
-    description: >
-      If `true`, sort suggestions by proximity to the IP set in the `X-Forwarded-For` header.
+  object:
+    allOf:
+      - $ref: "../../../shared/attributes/object.yml"
+      - type: string
+        enum:
+          - us_autocompletion
+        default: us_autocompletion

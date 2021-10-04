@@ -11,26 +11,7 @@ headers:
 content:
   application/json:
     schema:
-      type: object
-      properties:
-        id:
-          $ref: "../attributes/us_auto_id.yml"
-
-        suggestions:
-          type: array
-          description: >
-            An array of objects representing suggested addresses.
-          minItems: 0
-          maxItems: 10
-          items:
-            $ref: "../models/suggestions.yml"
-
-        object:
-          allOf:
-            - $ref: "../../../shared/attributes/object.yml"
-            - type: string
-              enum:
-                - us_autocompletion
+      $ref: "../models/us_autocompletions.yml"
 
     examples:
       basic:

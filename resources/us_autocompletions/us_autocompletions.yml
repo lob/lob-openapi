@@ -17,7 +17,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/us_autocompletions.yml"
+          $ref: "models/us_autocompletions_writable.yml"
         examples:
           basic:
             value:
@@ -32,7 +32,7 @@ post:
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/us_autocompletions.yml"
+          $ref: "models/us_autocompletions_writable.yml"
         examples:
           basic:
             value:
@@ -47,7 +47,7 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "models/us_autocompletions.yml"
+          $ref: "models/us_autocompletions_writable.yml"
         examples:
           basic:
             value:
@@ -62,10 +62,10 @@ post:
 
   responses:
     "200":
-      $ref: responses/us_autocompletions.yml
+      $ref: "responses/us_autocompletions.yml"
 
     default:
-      $ref: responses/us_autocompletions_error.yml
+      $ref: "responses/us_autocompletions_error.yml"
 
   x-codeSamples:
     - lang: Shell

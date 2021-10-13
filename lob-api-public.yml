@@ -102,6 +102,16 @@ tags:
   - name: Bulk US Verifications
     description: Verify a list of US addresses.
 
+  - name: Card Orders
+    description: |
+      The card orders endpoint allows you to easily create card orders for existing cards.
+      The API provides endpoints for creating card orders and listing card orders for a given card.
+
+  - name: Cards
+    description: |
+      The cards endpoint allows you to easily create cards that can later be affixed to Letters.
+      The API provides endpoints for creating cards, retrieving individual cards, creating card orders, and retrieving a list of cards.
+
   - name: Checks
     description: |
       Checks allow you to send payments via physical checks. The API provides endpoints
@@ -2282,6 +2292,8 @@ x-tagGroups:
       - Self Mailers
       - Letters
       - Checks
+      - Cards
+      - Card Orders
       - Bank Accounts
       - Templates
       - Template Versions
@@ -2374,6 +2386,15 @@ paths:
 
   /bulk/intl_verifications:
     $ref: resources/bulk_intl_verifications/bulk_intl_verifications.yml
+
+  /cards:
+    $ref: resources/cards/cards.yml
+
+  /cards/{card_id}:
+    $ref: resources/cards/card.yml
+
+  /cards/{card_id}/orders:
+    $ref: resources/cards/card_orders/card_orders.yml
 
   /checks/{chk_id}:
     $ref: resources/checks/check.yml

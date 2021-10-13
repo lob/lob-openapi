@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Lob API (2020-02-11) | Specification
+  title: Lob API (2020-02-11) - Specification
   version: 1.2.0
   description: >
     The Lob API is organized around REST. Our API is designed to have
@@ -10092,7 +10092,7 @@ paths:
         the unique bank account identifier that was returned upon bank account
         creation.
       tags:
-        - Bank Accounts
+        - BankAccounts
       responses:
         '200':
           description: Returns a bank account object
@@ -10157,7 +10157,7 @@ paths:
       summary: Delete
       description: Permanently deletes a bank account. It cannot be undone.
       tags:
-        - Bank Accounts
+        - BankAccounts
       responses:
         '200':
           $ref: '#/components/responses/bank_account_deleted'
@@ -10208,7 +10208,7 @@ paths:
         sorted by creation date, with the most recently created bank accounts
         appearing first.
       tags:
-        - Bank Accounts
+        - BankAccounts
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/before_after'
@@ -10270,7 +10270,7 @@ paths:
         being able to send live checks. The deposits will appear in the bank
         account in 2-3 business days and have the description "VERIFICATION".
       tags:
-        - Bank Accounts
+        - BankAccounts
       requestBody:
         required: true
         content:

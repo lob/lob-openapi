@@ -1,0 +1,77 @@
+post:
+  operationId: card
+
+  summary: Do Thing
+
+  description: >-
+    Does something to card
+
+  tags:
+    - Cards
+
+  parameters:
+    - $ref: "../../shared/parameters/lang_spec.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/cards.yml"
+        example:
+          description: demo
+          # complete example using all create payload properties
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/cards.yml"
+        encoding: # be sure to check which encodings apply
+          example-prop:
+            style: deepObject
+            explode: true
+        example:
+          description: encoded demo
+          # complete example using all create payload properties
+          # matching encoding style
+
+      multipart/form-data:
+        schema:
+          $ref: "models/cards.yml"
+        example:
+          description: demo
+          # complete example using all create payload properties
+
+  responses:
+    "200":
+      $ref: responses/cards.yml
+
+    default:
+      $ref: responses/cards_error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      label: CURL
+      source: |
+
+    - lang: Javascript
+      label: NODE
+      source: |
+
+    - lang: Ruby
+      label: RUBY
+      source: |
+
+    - lang: Python
+      label: PYTHON
+      source: |
+
+    - lang: PHP
+      source: |
+
+    - lang: Java
+      label: JAVA
+      source: |
+
+    - lang: Elixir
+      label: ELIXIR
+      source: |

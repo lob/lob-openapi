@@ -4,10 +4,9 @@ Fixes #\<INSERT ISSUE NUMBER HERE\>
 
 - [ ] Up to date with `main`
 - [ ] All the tests are passing
-  - [ ] Prettier
-  - [ ] Spectral Lint
-  - [ ] Contract Tests
-    - [ ] Delete all resources created in contract tests
+  - [ ] Delete all resources created in tests
+- [ ] Prettier
+- [ ] Spectral Lint
 - [ ] `npm run bundle` outputs nothing suspect
 - [ ] `npm run postman` outputs nothing suspect
 

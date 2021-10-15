@@ -1,0 +1,508 @@
+# TODO: deconstruct this into the various lob-openapi files.
+openapi: 3.0.2
+info:
+  title: Lob OpenAPI Demo
+  description: 'For prototyping Lob OpenAPI changes.
+
+
+    See `/openapi.yaml` for a yaml OpenAPI spec.'
+  version: 0.0.3b
+paths:
+  /v1/cards:
+    get:
+      summary: 'List '
+      operationId: list__v1_cards_get
+      parameters:
+      - description: Page size
+        required: false
+        schema:
+          title: Limit
+          type: integer
+          description: Page size
+          default: 10
+        name: limit
+        in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardsPaginated'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Create
+      operationId: create_v1_cards_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardCreate'
+            example:
+              description: My new card
+              front: https://example.com/card_front.pdf
+              back: https://s3.us-west-2.amazonaws.com/public.lob.com/assets/card_blank_horizontal.pdf
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/cards/{id}:
+    get:
+      summary: Retrieve
+      operationId: retrieve_v1_cards__id__get
+      parameters:
+      - required: true
+        schema:
+          title: Id
+          type: string
+        name: id
+        in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '404':
+          description: Item not found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Cancel
+      operationId: cancel_v1_cards__id__delete
+      parameters:
+      - required: true
+        schema:
+          title: Id
+          type: string
+        name: id
+        in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v1/cards/{cardId}/orders:
+    get:
+      summary: List Orders
+      description: Should admin only routes be documented?
+      operationId: list_orders_v1_cards__cardId__orders_get
+      parameters:
+      - required: true
+        schema:
+          title: Cardid
+          type: string
+        name: cardId
+        in: path
+      - description: Page size
+        required: false
+        schema:
+          title: Limit
+          type: integer
+          description: Page size
+          default: 10
+        name: limit
+        in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardOrdersPaginated'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Create Order
+      description: Should admin only routes be documented?
+      operationId: create_order_v1_cards__cardId__orders_post
+      parameters:
+      - required: true
+        schema:
+          title: Cardid
+          type: string
+        name: cardId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardOrderCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CardOrder'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Card:
+      title: Card
+      required:
+      - url
+      - raw_url
+      - front_original_url
+      - thumbnails
+      type: object
+      properties:
+        id:
+          title: Id
+          pattern: card_[a-zA-Z0-9]+$
+          type: string
+          example: card_103919e8
+        description:
+          title: Description
+          maxLength: 255
+          type: string
+        url:
+          title: Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        size:
+          title: Size
+          type: string
+          default: 2.125x3.375
+        auto_reorder:
+          title: Auto Reorder
+          type: boolean
+          default: false
+        reorder_quantity:
+          title: Reorder Quantity
+          type: integer
+        raw_url:
+          title: Raw Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        front_original_url:
+          title: Front Original Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        back_original_url:
+          title: Back Original Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        thumbnails:
+          title: Thumbnails
+          type: array
+          items:
+            $ref: '#/components/schemas/Thumbnail'
+        available_quantity:
+          title: Available Quantity
+          type: integer
+          default: 0
+        pending_quantity:
+          title: Pending Quantity
+          type: integer
+          default: 0
+        deleted:
+          title: Deleted
+          type: boolean
+          default: false
+        status:
+          title: Status
+          enum:
+          - processed
+          - rendered
+          type: string
+        orientation:
+          title: Orientation
+          enum:
+          - horizontal
+          type: string
+          default: horizontal
+        threshold_amount:
+          title: Threshold Amount
+          type: integer
+          default: 0
+        object:
+          title: Object
+          enum:
+          - card
+          type: string
+          default: card
+    CardCreate:
+      title: CardCreate
+      required:
+      - front
+      type: object
+      properties:
+        description:
+          title: Description
+          maxLength: 255
+          type: string
+        front:
+          title: Front
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        back:
+          title: Back
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+          default: https://s3.us-west-2.amazonaws.com/public.lob.com/assets/card_blank_horizontal.pdf
+        size:
+          title: Size
+          enum:
+          - 2.125x3.375
+          type: string
+          default: 2.125x3.375
+    CardOrder:
+      title: CardOrder
+      required:
+      - id
+      - card_id
+      - status
+      - inventory
+      - quantity_ordered
+      - unit_price
+      - partner_quantity
+      - statement_id
+      - expected_availability_date
+      - date_created
+      - date_modified
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+          example: co_123abc
+        card_id:
+          title: Card Id
+          type: string
+          example: card_123abc
+        status:
+          title: Status
+          enum:
+          - pending
+          - printing
+          - available
+          - cancelled
+          type: string
+        inventory:
+          title: Inventory
+          type: integer
+        quantity_ordered:
+          title: Quantity Ordered
+          maximum: 10000000.0
+          minimum: 10000.0
+          type: integer
+        unit_price:
+          title: Unit Price
+          type: number
+        partner_id:
+          title: Partner Id
+          type: string
+        partner_quantity:
+          title: Partner Quantity
+          type: integer
+        partner_price:
+          title: Partner Price
+          type: number
+        cancelled_reason:
+          title: Cancelled Reason
+          type: string
+        statement_id:
+          title: Statement Id
+          type: string
+          example: stmt_12345
+        partner_price_currency:
+          title: Partner Price Currency
+          type: string
+        availability_date:
+          title: Availability Date
+          type: string
+          format: date-time
+        expected_availability_date:
+          title: Expected Availability Date
+          type: string
+          format: date-time
+        date_created:
+          title: Date Created
+          type: string
+          format: date-time
+        date_modified:
+          title: Date Modified
+          type: string
+          format: date-time
+        object:
+          title: Object
+          enum:
+          - card_order
+          type: string
+          default: card_order
+    CardOrderCreate:
+      title: CardOrderCreate
+      required:
+      - quantity
+      type: object
+      properties:
+        quantity:
+          title: Quantity
+          maximum: 10000000.0
+          minimum: 10000.0
+          type: integer
+    CardOrdersPaginated:
+      title: CardOrdersPaginated
+      type: object
+      properties:
+        data:
+          title: Data
+          type: array
+          items:
+            $ref: '#/components/schemas/CardOrder'
+          default: []
+        object:
+          title: Object
+          type: string
+          default: list
+        next_url:
+          title: Next Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        previous_url:
+          title: Previous Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        count:
+          title: Count
+          type: integer
+          default: 0
+    CardsPaginated:
+      title: CardsPaginated
+      type: object
+      properties:
+        data:
+          title: Data
+          type: array
+          items:
+            $ref: '#/components/schemas/Card'
+          default: []
+        object:
+          title: Object
+          type: string
+          default: list
+        next_url:
+          title: Next Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        previous_url:
+          title: Previous Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        count:
+          title: Count
+          type: integer
+          default: 0
+    HTTPValidationError:  # Error models are incorrect
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    Thumbnail:
+      title: Thumbnail
+      required:
+      - small
+      - medium
+      - large
+      type: object
+      properties:
+        small:
+          title: Small
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        medium:
+          title: Medium
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        large:
+          title: Large
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+    ValidationError:  # Error models are incorrect
+      title: ValidationError
+      required:
+      - loc
+      - msg
+      - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string

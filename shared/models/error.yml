@@ -26,7 +26,7 @@ properties:
         $ref: "../attributes/failure_status_code.yml"
 
       code:
-        anyOf:
+        oneOf:
           - $ref: "errors/generic.yml"
           - $ref: "errors/authentication.yml"
           - $ref: "errors/advanced.yml"

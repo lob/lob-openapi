@@ -9,14 +9,14 @@ info:
     documentation](https://lob.github.io/legacy-docs/)?
   license:
     name: MIT
-    url: 'https://mit-license.org/'
+    url: https://mit-license.org/
   contact:
     name: Lob Developer Experience
-    url: 'https://support.lob.com/'
+    url: https://support.lob.com/
     email: lob-openapi@lob.com
-  termsOfService: 'https://www.lob.com/legal'
+  termsOfService: https://www.lob.com/legal
 servers:
-  - url: 'https://api.lob.com/v1'
+  - url: https://api.lob.com/v1
     description: production
 tags:
   - name: Addresses
@@ -148,6 +148,20 @@ tags:
     description: Verify a list of non-US addresses.
   - name: Bulk US Verifications
     description: Verify a list of US addresses.
+  - name: Card Orders
+    description: >
+      The card orders endpoint allows you to easily create card orders for
+      existing cards.
+
+      The API provides endpoints for creating card orders and listing card
+      orders for a given card.
+  - name: Cards
+    description: >
+      The cards endpoint allows you to easily create cards that can later be
+      affixed to Letters.
+
+      The API provides endpoints for creating cards, retrieving individual
+      cards, creating card orders, and retrieving a list of cards.
   - name: Checks
     description: >
       Checks allow you to send payments via physical checks. The API provides
@@ -2986,6 +3000,8 @@ x-tagGroups:
   - name: Special Features
     tags:
       - Billing Groups
+      - Cards
+      - Card Orders
   - name: Appendix
     tags:
       - Beta Program
@@ -3060,7 +3076,7 @@ components:
     metadata:
       in: query
       name: metadata
-      description: 'Filter by metadata key-value pair, e.g. `metadata[customer_id]=987654`.'
+      description: Filter by metadata key-value pair, e.g. `metadata[customer_id]=987654`.
       schema:
         $ref: '#/components/schemas/metadata'
       style: deepObject
@@ -3498,7 +3514,7 @@ components:
     adr_id:
       type: string
       description: Unique identifier prefixed with `adr_`.
-      pattern: '^adr_[a-zA-Z0-9]+$'
+      pattern: ^adr_[a-zA-Z0-9]+$
     resource_description:
       type: string
       description: >
@@ -3579,13 +3595,13 @@ components:
             address_state:
               type: string
               description: 2 letter state short-name code
-              pattern: '^[a-zA-Z]{2}$'
+              pattern: ^[a-zA-Z]{2}$
             address_zip:
               type: string
               description: >
                 Must follow the ZIP format of `12345` or ZIP+4 format of
                 `12345-1234`.
-              pattern: '^\d{5}(-\d{4})?$'
+              pattern: ^\d{5}(-\d{4})?$
             address_country:
               type: string
               enum:
@@ -3623,8 +3639,8 @@ components:
             address_country: UNITED STATES
             metadata: {}
             recipient_moved: false
-            date_created: '2019-08-12T00:16:00.361Z'
-            date_modified: '2019-08-12T00:16:00.361Z'
+            date_created: 2019-08-12T00:16:00.361Z
+            date_modified: 2019-08-12T00:16:00.361Z
             object: address
     company:
       type: string
@@ -3730,7 +3746,7 @@ components:
                 - BERMUDA
                 - BHUTAN
                 - BOLIVIA (PLURINATIONAL STATE OF)
-                - 'BONAIRE, SAINT EUSTATIUS AND SABA'
+                - BONAIRE, SAINT EUSTATIUS AND SABA
                 - BOSNIA AND HERZEGOVINA
                 - BOTSWANA
                 - BRAZIL
@@ -3752,7 +3768,7 @@ components:
                 - COLOMBIA
                 - COMOROS
                 - CONGO
-                - 'CONGO, DEMOCRATIC REPUBLIC OF THE'
+                - CONGO, DEMOCRATIC REPUBLIC OF THE
                 - COOK ISLANDS
                 - COSTA RICA
                 - CÔTE D'IVOIRE
@@ -3811,7 +3827,7 @@ components:
                 - KENYA
                 - KIRIBATI
                 - KOREA (DEMOCRATIC PEOPLE’S REPUBLIC OF)
-                - 'KOREA, REPUBLIC OF'
+                - KOREA, REPUBLIC OF
                 - KUWAIT
                 - KYRGYZSTAN
                 - LAO PEOPLE’S DEMOCRATIC REPUBLIC
@@ -3834,7 +3850,7 @@ components:
                 - MAURITANIA
                 - MAURITIUS
                 - MEXICO
-                - 'MOLDOVA, REPUBLIC OF'
+                - MOLDOVA, REPUBLIC OF
                 - MONACO
                 - MONGOLIA
                 - MONTENEGRO
@@ -3970,13 +3986,13 @@ components:
         address_state:
           type: string
           description: 2 letter state short-name code
-          pattern: '^[a-zA-Z]{2}$'
+          pattern: ^[a-zA-Z]{2}$
         address_zip:
           type: string
           description: >
             Must follow the ZIP format of `12345` or ZIP+4 format of
             `12345-1234`.
-          pattern: '^\d{5}(-\d{4})?$'
+          pattern: ^\d{5}(-\d{4})?$
     address_editable_us:
       allOf:
         - $ref: '#/components/schemas/address_fields_us'
@@ -4325,7 +4341,7 @@ components:
           $ref: '#/components/schemas/deleted'
     bank_id_no_description:
       type: string
-      pattern: '^bank_[a-zA-Z0-9]+$'
+      pattern: ^bank_[a-zA-Z0-9]+$
     bank_id:
       allOf:
         - $ref: '#/components/schemas/bank_id_no_description'
@@ -4394,7 +4410,7 @@ components:
         returned will expire in 30 days to prevent mis-sharing. Each time a GET
         request is initiated, a new signed URL will be generated.
       pattern: >-
-        ^https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*&)?expires=[0-9]{10}&signature=[a-zA-Z0-9-_]+$
+        ^https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers|cards)/[a-z]{3,4}_[a-z0-9]{15,16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*&)?expires=[0-9]{10}&signature=[a-zA-Z0-9-_]+$
     bank_account:
       allOf:
         - $ref: '#/components/schemas/bank_account_base'
@@ -4409,7 +4425,7 @@ components:
               allOf:
                 - type: string
                   nullable: true
-                  description: 'A [signed link](#section/Asset-URLs) to the signature image.'
+                  description: A [signed link](#section/Asset-URLs) to the signature image.
                 - $ref: '#/components/schemas/signed_link'
             bank_name:
               description: >-
@@ -4443,8 +4459,8 @@ components:
         account_type: individual
         metadat:
           spiffy: true
-        date_created: '2019-08-08T19:34:47.571Z'
-        date_modified: '2019-08-08T19:34:47.571Z'
+        date_created: 2019-08-08T19:34:47.571Z
+        date_modified: 2019-08-08T19:34:47.571Z
     bank_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of
@@ -4458,8 +4474,8 @@ components:
     bg_id:
       type: string
       description: Unique identifier prefixed with `bg_`.
-      pattern: '^bg_[a-zA-Z0-9]+$'
-    description:
+      pattern: ^bg_[a-zA-Z0-9]+$
+    bg_description:
       type: string
       description: Description of the billing group.
       maxLength: 255
@@ -4471,7 +4487,7 @@ components:
       type: object
       properties:
         description:
-          $ref: '#/components/schemas/description'
+          $ref: '#/components/schemas/bg_description'
         name:
           $ref: '#/components/schemas/name'
     billing_group:
@@ -4499,7 +4515,7 @@ components:
             - name
     recipient:
       type: string
-      description: 'The intended recipient, typically a person''s or firm''s name.'
+      description: The intended recipient, typically a person's or firm's name.
       nullable: true
       maxLength: 500
     primary_line_us:
@@ -4536,7 +4552,7 @@ components:
       maxLength: 200
     zip_code:
       type: string
-      pattern: '^\d{5}((-)?\d{4})?$'
+      pattern: ^\d{5}((-)?\d{4})?$
     multiple_components:
       type: object
       required:
@@ -4593,7 +4609,7 @@ components:
     us_ver_id:
       type: string
       description: Unique identifier prefixed with `us_ver_`.
-      pattern: '^us_ver_[a-zA-Z0-9_]+$'
+      pattern: ^us_ver_[a-zA-Z0-9_]+$
     primary_number:
       type: string
       description: >-
@@ -4615,7 +4631,7 @@ components:
       maxLength: 2
     zip_code_plus_4:
       type: string
-      pattern: '^\d{4}$'
+      pattern: ^\d{4}$
     zip_code_type:
       type: string
       enum:
@@ -4639,7 +4655,7 @@ components:
         code](https://en.wikipedia.org/wiki/FIPS_county_code) which uniquely
         identifies `components[county]`. It consists of a 2-digit state code and
         a 3-digit county code.
-      pattern: '\d{5}'
+      pattern: \d{5}
     us_components:
       type: object
       description: A nested object containing a breakdown of each component of an address.
@@ -4746,7 +4762,7 @@ components:
         zip_code:
           type: string
           description: The 5-digit ZIP code
-          pattern: '^\d{5}$'
+          pattern: ^\d{5}$
         zip_code_plus_4:
           allOf:
             - description: The 4-digit ZIP add-on code
@@ -5230,7 +5246,7 @@ components:
     intl_ver_id:
       type: string
       description: Unique identifier prefixed with `intl_ver_`.
-      pattern: '^intl_ver_[a-zA-Z0-9]+$'
+      pattern: ^intl_ver_[a-zA-Z0-9]+$
     country_short:
       type: string
       description: >-
@@ -5408,10 +5424,258 @@ components:
             Indicates whether any errors occurred during the verification
             process.
           type: boolean
+    card_description:
+      type: string
+      description: Description of the card.
+      maxLength: 255
+    card_base:
+      type: object
+      properties:
+        description:
+          allOf:
+            - $ref: '#/components/schemas/card_description'
+            - nullable: true
+        size:
+          description: The size of the card
+          enum:
+            - 3.375x2.125
+            - 2.125x3.375
+          type: string
+          default: 2.125x3.375
+    thumbnail:
+      type: object
+      properties:
+        small:
+          $ref: '#/components/schemas/signed_link'
+        medium:
+          $ref: '#/components/schemas/signed_link'
+        large:
+          $ref: '#/components/schemas/signed_link'
+    card:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/card_base'
+        - required:
+            - description
+        - type: object
+          required:
+            - id
+            - url
+            - auto_reorder
+            - reorder_quantity
+            - raw_url
+            - front_original_url
+            - back_original_url
+            - thumbnails
+            - available_quantity
+            - pending_quantity
+            - deleted
+            - status
+            - orientation
+            - threshold_amount
+            - object
+          properties:
+            id:
+              description: null
+              pattern: card_[a-zA-Z0-9]+$
+              type: string
+              example: card_103919e8
+            url:
+              title: Url
+              maxLength: 2083
+              minLength: 1
+              type: string
+              format: uri
+            auto_reorder:
+              title: Auto Reorder
+              type: boolean
+              default: false
+            reorder_quantity:
+              title: Reorder Quantity
+              type: integer
+              nullable: true
+            raw_url:
+              title: Raw Url
+              maxLength: 2083
+              minLength: 1
+              type: string
+              format: uri
+            front_original_url:
+              title: Front Original Url
+              maxLength: 2083
+              minLength: 1
+              type: string
+              format: uri
+            back_original_url:
+              title: Back Original Url
+              maxLength: 2083
+              minLength: 1
+              type: string
+              format: uri
+            thumbnails:
+              title: Thumbnails
+              type: array
+              items:
+                $ref: '#/components/schemas/thumbnail'
+            available_quantity:
+              title: Available Quantity
+              type: integer
+              default: 0
+            pending_quantity:
+              title: Pending Quantity
+              type: integer
+              default: 0
+            status:
+              title: Status
+              enum:
+                - processed
+                - rendered
+              type: string
+            orientation:
+              title: Orientation
+              enum:
+                - horizontal
+              type: string
+              default: horizontal
+            threshold_amount:
+              title: Threshold Amount
+              type: integer
+              default: 0
+            object:
+              title: Object
+              enum:
+                - card
+              type: string
+              default: card
+    remote_file_url:
+      type: string
+      description: >
+        The location of a remote file. Remote URLs have a 20 MB file size limit
+        and must be downloaded within 40 seconds.
+      pattern: ^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$
+    local_file_path:
+      type: string
+      description: The path to a local file.
+      pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$
+    card_editable:
+      allOf:
+        - $ref: '#/components/schemas/card_base'
+        - type: object
+          required:
+            - front
+          properties:
+            front:
+              description: A PDF template for the front of the card
+              oneOf:
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+            back:
+              description: A PDF template for the back of the card
+              oneOf:
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+              default: >-
+                https://s3.us-west-2.amazonaws.com/public.lob.com/assets/card_blank_horizontal.pdf
+            size:
+              description: The size of the card
+              enum:
+                - 3.375x2.125
+                - 2.125x3.375
+              type: string
+              default: 2.125x3.375
+            description:
+              $ref: '#/components/schemas/card_description'
+    card_id:
+      type: string
+      description: Unique identifier prefixed with `card_`.
+      pattern: ^card_[a-zA-Z0-9]+$
+    card_updatable:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/card_description'
+        status:
+          description: The status of the card (only displayed for admin accounts).
+          type: string
+          enum:
+            - processed
+            - rendered
+        auto_reorder:
+          description: Allows for auto reordering
+          type: boolean
+        reorder_quantity:
+          description: >-
+            The quantity of items to be reordered (only displayed when
+            auto_reorder is true).
+          type: boolean
+    co_id:
+      type: string
+      description: Unique identifier prefixed with `co_`.
+      pattern: ^co_[a-zA-Z0-9]+$
+    card_order:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/co_id'
+        card_id:
+          $ref: '#/components/schemas/card_id'
+        status:
+          title: Status
+          enum:
+            - pending
+            - printing
+            - available
+            - cancelled
+            - depleted
+          type: string
+        inventory:
+          title: Inventory
+          type: integer
+          default: 0
+        quantity_ordered:
+          title: Quantity ordered
+          type: integer
+          default: 0
+        unit_price:
+          title: Unit price
+          type: number
+          default: 0
+        cancelled_reason:
+          title: Cancelled reason
+          type: string
+        availability_date:
+          type: string
+          format: date-time
+          description: A timestamp in ISO 8601 format of the date the resource was created.
+        expected_availability_date:
+          type: string
+          format: date-time
+          description: A timestamp in ISO 8601 format of the date the resource was created.
+        date_created:
+          type: string
+          format: date-time
+          description: A timestamp in ISO 8601 format of the date the resource was created.
+        date_modified:
+          type: string
+          format: date-time
+          description: >-
+            A timestamp in ISO 8601 format of the date the resource was last
+            modified.
+        object:
+          title: Object
+          type: string
+          default: card order
+    card_order_writable:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          minimum: 0
+          maximum: 10000000
     chk_id:
       type: string
       description: Unique identifier prefixed with `chk_`.
-      pattern: '^chk_[a-zA-Z0-9]+$'
+      pattern: ^chk_[a-zA-Z0-9]+$
     merge_variables:
       type: object
       description: >-
@@ -5509,20 +5773,11 @@ components:
       description: >-
         Unique identifier prefixed with `tmpl_`. ID of a saved [HTML
         template](#section/HTML-Templates).
-      pattern: '^tmpl_[a-zA-Z0-9]+$'
+      pattern: ^tmpl_[a-zA-Z0-9]+$
     vrsn_id:
       type: string
       description: Unique identifier prefixed with `vrsn_`.
-      pattern: '^vrsn_[a-zA-Z0-9]+$'
-    thumbnail:
-      type: object
-      properties:
-        small:
-          $ref: '#/components/schemas/signed_link'
-        medium:
-          $ref: '#/components/schemas/signed_link'
-        large:
-          $ref: '#/components/schemas/signed_link'
+      pattern: ^vrsn_[a-zA-Z0-9]+$
     expected_delivery_date:
       type: string
       description: >-
@@ -5532,7 +5787,7 @@ components:
     evnt_id:
       type: string
       description: Unique identifier prefixed with `evnt_`.
-      pattern: '^evnt_[a-zA-Z0-9]+$'
+      pattern: ^evnt_[a-zA-Z0-9]+$
     tracking_event_base:
       type: object
       description: >-
@@ -5573,7 +5828,7 @@ components:
             - name
           properties:
             type:
-              description: 'non-Certified postcards, self mailers, letters, and checks'
+              description: non-Certified postcards, self mailers, letters, and checks
               type: string
               enum:
                 - normal
@@ -5679,7 +5934,7 @@ components:
                 - $ref: '#/components/schemas/vrsn_id'
             url:
               allOf:
-                - description: 'A [signed link](#section/Asset-URLs) to the rendered check.'
+                - description: A [signed link](#section/Asset-URLs) to the rendered check.
                 - $ref: '#/components/schemas/signed_link'
             to:
               $ref: '#/components/schemas/address_us'
@@ -5777,19 +6032,9 @@ components:
             - $ref: '#/components/schemas/inline_address_us'
     html_string:
       type: string
-      description: 'An HTML string of under 10,000 characters.'
+      description: An HTML string of under 10,000 characters.
       maxLength: 10000
       pattern: <
-    remote_file_url:
-      type: string
-      description: >
-        The location of a remote file. Remote URLs have a 20 MB file size limit
-        and must be downloaded within 40 seconds.
-      pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
-    local_file_path:
-      type: string
-      description: The path to a local file.
-      pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
     check_bottom:
       description: >-
         The artwork to use on the bottom of the check page.
@@ -5872,9 +6117,9 @@ components:
                   * `png` or `jpg`
               oneOf:
                 - type: string
-                  pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$'
+                  pattern: ^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$
                 - type: string
-                  pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$'
+                  pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$
             check_bottom:
               $ref: '#/components/schemas/check_bottom'
             attachment:
@@ -5937,7 +6182,7 @@ components:
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.
-      pattern: '^ltr_[a-zA-Z0-9]+$'
+      pattern: ^ltr_[a-zA-Z0-9]+$
     tracking_event_details:
       type: object
       required:
@@ -6494,7 +6739,7 @@ components:
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - type: string
-                  pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$'
+                  pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
             extra_service:
               type: string
               nullable: true
@@ -6512,10 +6757,21 @@ components:
                   * `registered` - provides tracking and confirmation for international addresses
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
+            cards:
+              description: >-
+                A single-element array containing an existing card id in a
+                string format. See [cards](https://docs.lob.com/#tag/Cards) for
+                more information.
+              type: array
+              items:
+                $ref: '#/components/schemas/card_id'
+              minItems: 0
+              maxItems: 1
+              nullable: true
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
-      pattern: '^psc_[a-zA-Z0-9]+$'
+      pattern: ^psc_[a-zA-Z0-9]+$
     editable:
       type: object
       properties:
@@ -6706,7 +6962,7 @@ components:
     sfm_id:
       type: string
       description: Unique identifier prefixed with `sfm_`.
-      pattern: '^sfm_[a-zA-Z0-9]+$'
+      pattern: ^sfm_[a-zA-Z0-9]+$
     self_mailer_size:
       type: string
       enum:
@@ -7048,7 +7304,7 @@ components:
     us_auto_id:
       type: string
       description: Unique identifier prefixed with `us_auto_`.
-      pattern: '^us_auto_[a-zA-Z0-9]+$'
+      pattern: ^us_auto_[a-zA-Z0-9]+$
     suggestions:
       type: object
       required:
@@ -7142,12 +7398,12 @@ components:
         zip_code:
           type: string
           description: A 5-digit ZIP code.
-          pattern: '^\d{5}$'
+          pattern: ^\d{5}$
           example: '94107'
     zip_id:
       type: string
       description: Unique identifier prefixed with `us_zip_`.
-      pattern: '^us_zip_[a-zA-Z0-9]+$'
+      pattern: ^us_zip_[a-zA-Z0-9]+$
     zip_lookup_city:
       type: object
       required:
@@ -7233,7 +7489,7 @@ components:
     reverse_geocode_id:
       type: string
       description: Unique identifier prefixed with `us_reverse_geocode_`.
-      pattern: '^us_reverse_geocode_[a-zA-Z0-9_]+$'
+      pattern: ^us_reverse_geocode_[a-zA-Z0-9_]+$
     components:
       type: object
       description: >-
@@ -7246,7 +7502,7 @@ components:
         zip_code:
           type: string
           description: The 5-digit ZIP code
-          pattern: '^\d{5}$'
+          pattern: ^\d{5}$
         zip_code_plus_4:
           allOf:
             - description: A 4-digit ZIP add-on code
@@ -7451,7 +7707,7 @@ components:
         id:
           type: string
           description: Unique identifier prefixed with `evt_`.
-          pattern: '^evt_[a-zA-Z0-9_]+$'
+          pattern: ^evt_[a-zA-Z0-9_]+$
         body:
           type: object
           description: >-
@@ -7526,8 +7782,8 @@ components:
                 address_zip: 94107-1741
                 address_country: UNITED STATES
                 metadata: {}
-                date_created: '2019-08-12T00:16:00.361Z'
-                date_modified: '2019-08-12T00:16:00.361Z'
+                date_created: 2019-08-12T00:16:00.361Z
+                date_modified: 2019-08-12T00:16:00.361Z
                 object: address
               - id: adr_asdi2y3riuasasoi
                 description: Harry - Office
@@ -7542,8 +7798,8 @@ components:
                 address_state: PRINCE EDWARD ISLAND
                 address_zip: C1N 1C4
                 address_country: CANADA
-                date_created: '2019-09-20T00:14:00.361Z'
-                date_modified: '2019-09-20T00:14:00.361Z'
+                date_created: 2019-09-20T00:14:00.361Z
+                date_modified: 2019-09-20T00:14:00.361Z
                 object: address
             object: list
             next_url: >-
@@ -7578,8 +7834,8 @@ components:
                 address_zip: '94107'
                 address_country: US
                 metadata: {}
-                date_created: '2017-09-05T17:47:53.767Z'
-                date_modified: '2017-09-05T17:47:53.767Z'
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
                 object: address
             ncoa_us_live:
               value:
@@ -7596,8 +7852,8 @@ components:
                 address_zip: '94107'
                 address_country: US
                 metadata: {}
-                date_created: '2017-09-05T17:47:53.767Z'
-                date_modified: '2017-09-05T17:47:53.767Z'
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
                 recipient_moved: true
                 inline: false
                 object: address
@@ -7616,8 +7872,8 @@ components:
                 address_zip: '94107'
                 address_country: US
                 metadata: {}
-                date_created: '2019-12-05T19:39:19.932Z'
-                date_modified: '2019-12-05T19:39:19.932Z'
+                date_created: 2019-12-05T19:39:19.932Z
+                date_modified: 2019-12-05T19:39:19.932Z
                 recipient_moved: true
                 inline: false
                 object: address
@@ -7670,10 +7926,10 @@ components:
             account_number: '123456789'
             account_type: company
             signatory: John Doe
-            bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+            bank_name: J.P. MORGAN CHASE BANK, N.A.
             verified: false
-            date_created: '2015-11-06T19:24:24.440Z'
-            date_modified: '2015-11-06T19:24:24.440Z'
+            date_created: 2015-11-06T19:24:24.440Z
+            date_modified: 2015-11-06T19:24:24.440Z
             object: bank_account
     bank_account_deleted:
       description: Deleted
@@ -7716,10 +7972,10 @@ components:
                 account_number: '1234564789'
                 account_type: company
                 signatory: John Doe
-                bank_name: 'JPMORGAN CHASE BANK, NA'
+                bank_name: JPMORGAN CHASE BANK, NA
                 verified: true
-                date_created: '2019-03-30T13:13:22.200Z'
-                date_modified: '2019-03-30T13:13:23.385Z'
+                date_created: 2019-03-30T13:13:22.200Z
+                date_modified: 2019-03-30T13:13:23.385Z
                 object: bank_account
               - id: bank_eba93f7de3c02d9
                 description: Example bank account
@@ -7728,10 +7984,10 @@ components:
                 account_number: '1234564789'
                 account_type: company
                 signatory: John Doe
-                bank_name: 'JPMORGAN CHASE BANK, NA'
+                bank_name: JPMORGAN CHASE BANK, NA
                 verified: true
-                date_created: '2019-03-30T13:11:06.809Z'
-                date_modified: '2019-03-30T13:11:07.872Z'
+                date_created: 2019-03-30T13:11:06.809Z
+                date_modified: 2019-03-30T13:11:07.872Z
                 object: bank_account
             object: list
             next_url: >-
@@ -7777,8 +8033,8 @@ components:
             id: bg_c94e83ca2cd5121
             name: Marketing Dept
             description: Usage group used for the Marketing Dept resource sends
-            date_created: '2017-11-07T22:56:10.962Z'
-            date_modified: '2017-11-07T22:56:10.962Z'
+            date_created: 2017-11-07T22:56:10.962Z
+            date_modified: 2017-11-07T22:56:10.962Z
             object: billing_group
     us_verifications_error:
       description: Error
@@ -7911,6 +8167,17 @@ components:
               code: not_found
               message: to address not found
               status_code: 404
+    template_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: invalid
+              message: html is required
+              status_code: 422
     check_canceled:
       description: Deleted
       content:
@@ -7964,8 +8231,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:08:43.446Z'
-                  date_modified: '2018-12-08T03:08:43.446Z'
+                  date_created: 2018-12-08T03:08:43.446Z
+                  date_modified: 2018-12-08T03:08:43.446Z
                   object: address
                   recipient_moved: false
                 from:
@@ -7977,8 +8244,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 bank_account:
                   id: bank_8cad8df5354d33f
@@ -7988,10 +8255,10 @@ components:
                   account_number: '123456789'
                   account_type: individual
                   signatory: John Doe
-                  bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+                  bank_name: J.P. MORGAN CHASE BANK, N.A.
                   verified: true
-                  date_created: '2015-11-06T19:24:24.440Z'
-                  date_modified: '2015-11-06T19:41:28.312Z'
+                  date_created: 2015-11-06T19:24:24.440Z
+                  date_modified: 2015-11-06T19:41:28.312Z
                   object: bank_account
                   signature_url: >-
                     https://lob-assets.com/bank-accounts/asd_asdfghjkqwertyui.pdf?expires=1234567890&signature=aksdf
@@ -8010,11 +8277,11 @@ components:
                       https://lob-assets.com/checks/chk_0176bf6197100185_thumb_medium_2.png?version=v1&expires=1568239682&signature=sdgnJMzusEfndu7dNmk37eKc0AV7Hmqev6TQAqkCESs5pg7j6dDTsp7v4pnDvhsj8d7SIMcahl1aGiysoom0CA
                     large: >-
                       https://lob-assets.com/checks/chk_0176bf6197100185_thumb_large_2.png?version=v1&expires=1568239682&signature=ybe8ovBh8Gf-AWKGRs4CB4XkU-erPVbY66umXARhTiJG2Dg1QlyCb9WmBXWt0tBCwD5NGMl20mHeAgHwecLxBA
-                expected_delivery_date: '2019-08-16'
+                expected_delivery_date: 2019-08-16
                 mail_type: usps_first_class
-                date_created: '2019-08-08T19:34:47.571Z'
-                date_modified: '2019-08-08T19:34:49.612Z'
-                send_date: '2019-08-08'
+                date_created: 2019-08-08T19:34:47.571Z
+                date_modified: 2019-08-08T19:34:49.612Z
+                send_date: 2019-08-08
                 message: pancakes are good
                 object: check
                 check_bottom_template_id: tmpl_a
@@ -8040,8 +8307,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:08:43.446Z'
-                  date_modified: '2018-12-08T03:08:43.446Z'
+                  date_created: 2018-12-08T03:08:43.446Z
+                  date_modified: 2018-12-08T03:08:43.446Z
                   object: address
                 from:
                   id: adr_210a8d4b0b76d77b
@@ -8052,8 +8319,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 bank_account:
                   id: bank_8cad8df5354d33f
@@ -8063,10 +8330,10 @@ components:
                   account_number: '123456789'
                   account_type: individual
                   signatory: John Doe
-                  bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+                  bank_name: J.P. MORGAN CHASE BANK, N.A.
                   verified: true
-                  date_created: '2015-11-06T19:24:24.440Z'
-                  date_modified: '2015-11-06T19:41:28.312Z'
+                  date_created: 2015-11-06T19:24:24.440Z
+                  date_modified: 2015-11-06T19:41:28.312Z
                   object: bank_account
                 carrier: USPS
                 tracking_events: []
@@ -8090,11 +8357,11 @@ components:
                     large: >-
                       https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_large_3.png?version=v1&expires=1568239682&signature=If4tXlN13WYy7JDPpFkWw0HAQpYNJHqi2UstiPHxUA_8IAj6vXORb-22acI124Pd1bR1QSjBHAW1gbiJ0kjiAQ
                 merge_variables: null
-                expected_delivery_date: '2019-08-16'
+                expected_delivery_date: 2019-08-16
                 mail_type: usps_first_class
-                date_created: '2019-08-08T19:34:27.802Z'
-                date_modified: '2019-08-08T19:34:30.582Z'
-                send_date: '2019-08-08T19:34:27.802Z'
+                date_created: 2019-08-08T19:34:27.802Z
+                date_modified: 2019-08-08T19:34:30.582Z
+                send_date: 2019-08-08T19:34:27.802Z
                 object: check
             object: list
             next_url: >-
@@ -8137,8 +8404,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: '2018-12-08T03:08:43.446Z'
-              date_modified: '2018-12-08T03:08:43.446Z'
+              date_created: 2018-12-08T03:08:43.446Z
+              date_modified: 2018-12-08T03:08:43.446Z
               object: address
               recipient_moved: false
             from:
@@ -8150,8 +8417,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: '2017-09-05T17:47:53.767Z'
-              date_modified: '2017-09-05T17:47:53.767Z'
+              date_created: 2017-09-05T17:47:53.767Z
+              date_modified: 2017-09-05T17:47:53.767Z
               object: address
             bank_account:
               id: bank_8cad8df5354d33f
@@ -8160,11 +8427,11 @@ components:
               routing_number: '322271627'
               account_number: '123456789'
               signatory: John Doe
-              bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+              bank_name: J.P. MORGAN CHASE BANK, N.A.
               verified: true
               account_type: company
-              date_created: '2015-11-06T19:24:24.440Z'
-              date_modified: '2015-11-06T19:41:28.312Z'
+              date_created: 2015-11-06T19:24:24.440Z
+              date_modified: 2015-11-06T19:41:28.312Z
               object: bank_account
               signature_url: >-
                 https://lob-assets.com/bank-accounts/asd_asdfghjkqwertyui.pdf?expires=1234567890&signature=aksdf
@@ -8179,11 +8446,11 @@ components:
                   https://lob-assets.com/checks/chk_534f10783683daa0_thumb_large_1.png?expires=1540372221&signature=04nLEwE9d2qgQJNgJYWSOgPnU0FZbEv
             merge_variables:
               name: Harry
-            expected_delivery_date: '2017-09-12'
+            expected_delivery_date: 2017-09-12
             mail_type: usps_first_class
-            date_created: '2017-09-05T17:47:53.896Z'
-            date_modified: '2017-09-05T17:47:53.896Z'
-            send_date: '2017-09-05T17:47:53.896Z'
+            date_created: 2017-09-05T17:47:53.896Z
+            date_modified: 2017-09-05T17:47:53.896Z
+            send_date: 2017-09-05T17:47:53.896Z
             object: check
             message: pancakes are good
             check_bottom_template_id: tmpl_a
@@ -8290,8 +8557,8 @@ components:
                   address_zip: C1N 1C4
                   address_country: CANADA
                   recipient_moved: false
-                  date_created: '2019-09-20T00:14:00.361Z'
-                  date_modified: '2019-09-20T00:14:00.361Z'
+                  date_created: 2019-09-20T00:14:00.361Z
+                  date_modified: 2019-09-20T00:14:00.361Z
                   object: address
                 from:
                   id: adr_210a8d4b0b76d77b
@@ -8307,8 +8574,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 color: true
                 double_sided: false
@@ -8332,12 +8599,12 @@ components:
                     details:
                       event: delivered
                       description: Package has been delivered.
-                      notes: 'Delivered, Front Desk/Reception/Mail Room'
+                      notes: Delivered, Front Desk/Reception/Mail Room
                       action_required: false
                     location: '33408'
-                    time: '2019-10-08T19:41:00Z'
-                    date_created: '2019-10-08T19:41:00Z'
-                    date_modified: '2019-10-08T19:41:00Z'
+                    time: 2019-10-08T19:41:00Z
+                    date_created: 2019-10-08T19:41:00Z
+                    date_modified: 2019-10-08T19:41:00Z
                     object: tracking_event
                 thumbnails:
                   - small: >-
@@ -8346,10 +8613,46 @@ components:
                       https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_medium_1.png?version=v1&expires=1568239830&signature=H7354Qpcm9S4aXbrMsBe6QJ6lSNi9IWPgMJtLWLi4Kyx9tHF8Mp9YEc_IL9x89Jfw4-yRzKDXA410X4W0PssBQ
                     large: >-
                       https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_large_1.png?version=v1&expires=1568239830&signature=54LUIDKZyItA9pnC87d1pJVAuw8bhKLCsMpNWkB3LgdVWxPxxb_c1IyIWAbSR-dyOYEOlDBCc40J4Kns-O_mAg
-                expected_delivery_date: '2019-08-16'
-                date_created: '2019-08-08T17:09:14.514Z'
-                date_modified: '2019-08-08T17:09:16.850Z'
-                send_date: '2019-08-08'
+                expected_delivery_date: 2019-08-16
+                date_created: 2019-08-08T17:09:14.514Z
+                date_modified: 2019-08-08T17:09:16.850Z
+                send_date: 2019-08-08
+                cards:
+                  - id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: null
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
                 object: letter
               - id: ltr_da8267c6a6545cd6
                 description: Demo Letter
@@ -8368,8 +8671,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 from:
                   id: adr_210a8d4b0b76d77b
@@ -8385,8 +8688,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 color: true
                 double_sided: false
@@ -8409,10 +8712,11 @@ components:
                       https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_medium_1.png?version=v1&expires=1568239830&signature=gz63l0yi3sK_sXjYfIVdLSvkknJFr_O5TWRulo_iKIgS-PosIl6J0tDR6bx_Tv5Ab_w7DABg3qdKZ846MZ7TCw
                     large: >-
                       https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_large_1.png?version=v1&expires=1568239830&signature=4Y1OIymaWkSO3aBIHCeshFAVnF-pDcF2FFqkx_jovaUFuk4FT1SI24L7_POwTRXQHlETMGlzkP_CGgqselRUAA
-                expected_delivery_date: '2019-08-16'
-                date_created: '2019-08-08T17:08:12.224Z'
-                date_modified: '2019-08-08T17:08:13.990Z'
-                send_date: '2019-08-08T17:08:12.224Z'
+                expected_delivery_date: 2019-08-16
+                date_created: 2019-08-08T17:08:12.224Z
+                date_modified: 2019-08-08T17:08:13.990Z
+                send_date: 2019-08-08T17:08:12.224Z
+                cards: null
                 object: letter
             object: list
             next_url: >-
@@ -8450,8 +8754,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: '2017-09-05T15:54:53.264Z'
-              date_modified: '2017-09-05T15:54:53.264Z'
+              date_created: 2017-09-05T15:54:53.264Z
+              date_modified: 2017-09-05T15:54:53.264Z
               deleted: true
               object: address
             from:
@@ -8468,8 +8772,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: '2017-09-05T15:54:53.264Z'
-              date_modified: '2017-09-05T15:54:53.264Z'
+              date_created: 2017-09-05T15:54:53.264Z
+              date_modified: 2017-09-05T15:54:53.264Z
               deleted: true
               object: address
             color: true
@@ -8494,10 +8798,46 @@ components:
                   https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
             merge_variables:
               name: Harry
-            expected_delivery_date: '2017-09-12'
-            date_created: '2017-09-05T15:54:53.346Z'
-            date_modified: '2017-09-05T15:54:53.346Z'
-            send_date: '2017-09-05T15:54:53.346Z'
+            expected_delivery_date: 2017-09-12
+            date_created: 2017-09-05T15:54:53.346Z
+            date_modified: 2017-09-05T15:54:53.346Z
+            send_date: 2017-09-05T15:54:53.346Z
+            cards:
+              - id: card_7a6d73c5c8457fc
+                account_id: fa9ea650fc7b31a89f92
+                description: null
+                url: >-
+                  https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                size: 2.125x3.375
+                auto_reorder: false
+                reorder_quantity: null
+                raw_url: >-
+                  https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                front_original_url: >-
+                  https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                back_original_url: >-
+                  https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                thumbnails:
+                  - small: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                    medium: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                    large: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                  - small: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                    medium: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                    large: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                available_quantity: 10000
+                pending_quantity: 0
+                countries: null
+                status: rendered
+                mode: test
+                orientation: horizontal
+                threshold_amount: 0
+                object: card
             object: letter
     postcard_deleted:
       description: Deleted
@@ -8547,8 +8887,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -8557,9 +8897,9 @@ components:
                 back_template_id: null
                 front_template_version_id: null
                 back_template_version_id: null
-                date_created: '2021-03-24T22:51:42.838Z'
-                date_modified: '2021-03-24T22:51:42.838Z'
-                send_date: '2021-03-24T22:51:42.838Z'
+                date_created: 2021-03-24T22:51:42.838Z
+                date_modified: 2021-03-24T22:51:42.838Z
+                send_date: 2021-03-24T22:51:42.838Z
                 object: postcard
               - id: psc_0e03d1ad7d31f151
                 description: null
@@ -8578,8 +8918,8 @@ components:
                   address_zip: C1N 1C4
                   address_country: CANADA
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                   recipient_moved: false
                 from:
@@ -8596,8 +8936,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -8617,10 +8957,10 @@ components:
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_medium_1.png?expires=1540372221&signature=bAzL8sv935PY09FWSkpDpWKkyvGSWYF
                     large: >-
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
-                expected_delivery_date: '2021-03-30'
-                date_created: '2021-03-24T22:51:42.838Z'
-                date_modified: '2021-03-24T22:51:42.838Z'
-                send_date: '2021-03-24T22:51:42.838Z'
+                expected_delivery_date: 2021-03-30
+                date_created: 2021-03-24T22:51:42.838Z
+                date_modified: 2021-03-24T22:51:42.838Z
+                send_date: 2021-03-24T22:51:42.838Z
                 object: postcard
             object: list
             previous_url: null
@@ -8659,8 +8999,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -8669,9 +9009,9 @@ components:
                 back_template_id: null
                 front_template_version_id: null
                 back_template_version_id: null
-                date_created: '2021-03-24T22:51:42.838Z'
-                date_modified: '2021-03-24T22:51:42.838Z'
-                send_date: '2021-03-24T22:51:42.838Z'
+                date_created: 2021-03-24T22:51:42.838Z
+                date_modified: 2021-03-24T22:51:42.838Z
+                send_date: 2021-03-24T22:51:42.838Z
                 object: postcard
             full:
               value:
@@ -8692,8 +9032,8 @@ components:
                   address_zip: C1N 1C4
                   address_country: CANADA
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                   recipient_moved: false
                 from:
@@ -8710,8 +9050,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -8731,10 +9071,10 @@ components:
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_medium_1.png?expires=1540372221&signature=bAzL8sv935PY09FWSkpDpWKkyvGSWYF
                     large: >-
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
-                expected_delivery_date: '2021-03-30'
-                date_created: '2021-03-24T22:51:42.838Z'
-                date_modified: '2021-03-24T22:51:42.838Z'
-                send_date: '2021-03-24T22:51:42.838Z'
+                expected_delivery_date: 2021-03-30
+                date_created: 2021-03-24T22:51:42.838Z
+                date_modified: 2021-03-24T22:51:42.838Z
+                send_date: 2021-03-24T22:51:42.838Z
                 object: postcard
     self_mailer_deleted:
       description: Deleted
@@ -8786,8 +9126,8 @@ components:
                   address_zip: C1N 1C4
                   address_country: CANADA
                   recipient_moved: false
-                  date_created: '2019-09-20T00:14:00.361Z'
-                  date_modified: '2019-09-20T00:14:00.361Z'
+                  date_created: 2019-09-20T00:14:00.361Z
+                  date_modified: 2019-09-20T00:14:00.361Z
                   object: address
                 from:
                   id: adr_210a8d4b0b76d77b
@@ -8803,8 +9143,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 url: >-
                   https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf.pdf?version=v1&expires=1618781264&signature=YP_bCwrgVA2lz1Gr1YVCJN1f-WspUGsH0aJp2ihjfLXU7lDUV12_xRv4uPch0mfWeOOxEqpyP8hGpgvjmQKNAw
@@ -8831,10 +9171,10 @@ components:
                   name: null
                 size: 6x18_bifold
                 mail_type: usps_first_class
-                expected_delivery_date: '2021-03-24'
-                date_created: '2021-03-16T18:40:40.504Z'
-                date_modified: '2021-03-16T18:41:06.691Z'
-                send_date: '2021-03-16T18:45:40.493Z'
+                expected_delivery_date: 2021-03-24
+                date_created: 2021-03-16T18:40:40.504Z
+                date_modified: 2021-03-16T18:41:06.691Z
+                send_date: 2021-03-16T18:45:40.493Z
                 deleted: true
                 object: self_mailer
               - id: sfm_8ffbe811dea49dcf
@@ -8854,8 +9194,8 @@ components:
                   address_zip: 28209-1314
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2021-03-16T18:40:40.410Z'
-                  date_modified: '2021-03-16T18:40:40.410Z'
+                  date_created: 2021-03-16T18:40:40.410Z
+                  date_modified: 2021-03-16T18:40:40.410Z
                   deleted: true
                   object: address
                 from:
@@ -8872,8 +9212,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:01:07.651Z'
-                  date_modified: '2018-12-08T03:01:07.651Z'
+                  date_created: 2018-12-08T03:01:07.651Z
+                  date_modified: 2018-12-08T03:01:07.651Z
                   object: address
                 url: >-
                   https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf.pdf?version=v1&expires=1618781264&signature=YP_bCwrgVA2lz1Gr1YVCJN1f-WspUGsH0aJp2ihjfLXU7lDUV12_xRv4uPch0mfWeOOxEqpyP8hGpgvjmQKNAw
@@ -8900,10 +9240,10 @@ components:
                   name: null
                 size: 6x18_bifold
                 mail_type: usps_first_class
-                expected_delivery_date: '2021-03-24'
-                date_created: '2021-03-16T18:40:40.504Z'
-                date_modified: '2021-03-16T18:41:06.691Z'
-                send_date: '2021-03-16T18:45:40.493Z'
+                expected_delivery_date: 2021-03-24
+                date_created: 2021-03-16T18:40:40.504Z
+                date_modified: 2021-03-16T18:41:06.691Z
+                send_date: 2021-03-16T18:45:40.493Z
                 deleted: true
                 object: self_mailer
             object: list
@@ -8941,8 +9281,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: '2017-09-05T17:47:53.767Z'
-              date_modified: '2017-09-05T17:47:53.767Z'
+              date_created: 2017-09-05T17:47:53.767Z
+              date_modified: 2017-09-05T17:47:53.767Z
               deleted: true
               object: address
             from:
@@ -8959,8 +9299,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: '2017-09-05T17:47:53.767Z'
-              date_modified: '2017-09-05T17:47:53.767Z'
+              date_created: 2017-09-05T17:47:53.767Z
+              date_modified: 2017-09-05T17:47:53.767Z
               deleted: true
               object: address
             url: >-
@@ -8988,22 +9328,11 @@ components:
               name: null
             size: 6x18_bifold
             mail_type: usps_first_class
-            expected_delivery_date: '2021-03-24'
-            date_created: '2021-03-16T18:40:40.504Z'
-            date_modified: '2021-03-16T18:40:40.504Z'
-            send_date: '2021-03-16T18:45:40.493Z'
+            expected_delivery_date: 2021-03-24
+            date_created: 2021-03-16T18:40:40.504Z
+            date_modified: 2021-03-16T18:40:40.504Z
+            send_date: 2021-03-16T18:45:40.493Z
             object: self_mailer
-    template_error:
-      description: Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          example:
-            error:
-              code: invalid
-              message: html is required
-              status_code: 422
     post_template_version:
       description: Returns the template version with the given template and version ids.
       headers:
@@ -9020,9 +9349,9 @@ components:
           example:
             id: vrsn_534e339882d2282
             description: Second Version
-            html: '<html>Second HTML for {{name}}</html>'
-            date_created: '2017-11-09T04:49:38.016Z'
-            date_modified: '2017-11-09T04:49:38.016Z'
+            html: <html>Second HTML for {{name}}</html>
+            date_created: 2017-11-09T04:49:38.016Z
+            date_modified: 2017-11-09T04:49:38.016Z
             object: version
     template_version_deleted:
       description: Deleted
@@ -9060,14 +9389,14 @@ components:
               - id: vrsn_4d6ff5d868bf630
                 description: Second Version
                 html: 'Second HTML for '
-                date_created: '2017-11-09T05:09:03.665Z'
-                date_modified: '2018-05-22T22:01:10.479Z'
+                date_created: 2017-11-09T05:09:03.665Z
+                date_modified: 2018-05-22T22:01:10.479Z
                 object: version
               - id: vrsn_2a17159c1911919
                 description: Test Template
                 html: 'HTML for '
-                date_created: '2017-11-09T05:08:40.004Z'
-                date_modified: '2018-05-22T22:01:11.309Z'
+                date_created: 2017-11-09T05:08:40.004Z
+                date_modified: 2018-05-22T22:01:11.309Z
                 object: version
             object: list
             count: 2
@@ -9111,8 +9440,8 @@ components:
                     description: Test Template
                     engine: legacy
                     html: 'HTML for '
-                    date_created: '2019-07-27T23:49:01.512Z'
-                    date_modified: '2019-07-27T23:49:01.512Z'
+                    date_created: 2019-07-27T23:49:01.512Z
+                    date_modified: 2019-07-27T23:49:01.512Z
                     object: version
                 published_version:
                   id: vrsn_232a02fb8224791
@@ -9120,12 +9449,12 @@ components:
                   description: Test Template
                   engine: handlebars
                   html: 'HTML for '
-                  date_created: '2019-07-27T23:49:01.512Z'
-                  date_modified: '2019-07-27T23:49:01.512Z'
+                  date_created: 2019-07-27T23:49:01.512Z
+                  date_modified: 2019-07-27T23:49:01.512Z
                   object: version
                 metadata: {}
-                date_created: '2019-07-27T23:49:01.511Z'
-                date_modified: '2019-07-27T23:49:01.511Z'
+                date_created: 2019-07-27T23:49:01.511Z
+                date_modified: 2019-07-27T23:49:01.511Z
                 object: template
               - id: tmpl_59b2150ae120887
                 description: Test Template
@@ -9133,19 +9462,19 @@ components:
                   - id: vrsn_2a7eb63ccb795b9
                     description: Test Template
                     html: 'HTML for '
-                    date_created: '2019-03-29T10:22:34.643Z'
-                    date_modified: '2019-03-29T10:22:34.643Z'
+                    date_created: 2019-03-29T10:22:34.643Z
+                    date_modified: 2019-03-29T10:22:34.643Z
                     object: version
                 published_version:
                   id: vrsn_2a7eb63ccb795b9
                   description: Test Template
                   html: 'HTML for '
-                  date_created: '2019-03-29T10:22:34.643Z'
-                  date_modified: '2019-03-29T10:22:34.643Z'
+                  date_created: 2019-03-29T10:22:34.643Z
+                  date_modified: 2019-03-29T10:22:34.643Z
                   object: version
                 metadata: {}
-                date_created: '2019-03-29T10:22:34.642Z'
-                date_modified: '2019-03-29T10:22:34.642Z'
+                date_created: 2019-03-29T10:22:34.642Z
+                date_modified: 2019-03-29T10:22:34.642Z
                 object: template
             object: list
             previous_url: null
@@ -9448,7 +9777,7 @@ components:
               object: event_type
             reference_id: psc_d2d10a2e9cba991c
             id: evt_d95ff8ffd2b5cfb4
-            date_created: '2016-12-04T22:50:08.180Z'
+            date_created: 2016-12-04T22:50:08.180Z
             body:
               id: psc_d2d10a2e9cba991c
               description: Test Postcard
@@ -9467,8 +9796,8 @@ components:
                 address_zip: '94107'
                 address_country: UNITED STATES
                 metadata: {}
-                date_created: '2016-12-04T10:51:51.844Z'
-                date_modified: '2016-12-04T10:51:51.844Z'
+                date_created: 2016-12-04T10:51:51.844Z
+                date_modified: 2016-12-04T10:51:51.844Z
                 object: address
               from:
                 id: adr_d2e26faf793ed422
@@ -9484,8 +9813,8 @@ components:
                 address_zip: '94107'
                 address_country: UNITED STATES
                 metadata: {}
-                date_created: '2016-12-04T10:51:51.845Z'
-                date_modified: '2016-12-04T10:51:51.845Z'
+                date_created: 2016-12-04T10:51:51.845Z
+                date_modified: 2016-12-04T10:51:51.845Z
                 object: address
               url: >-
                 https://lob-assets.com/postcards/psc_d2d10a2e9cba991c.pdf?expires=1540372221&signature=dNE8OtbDymujUxBIMYle4H1cv1aZNFk
@@ -9509,10 +9838,10 @@ components:
               merge_variables: null
               mail_type: usps_first_class
               size: 4x6
-              expected_delivery_date: '2016-12-09'
-              date_created: '2016-12-04T10:51:51.843Z'
-              date_modified: '2016-12-04T10:51:51.843Z'
-              send_date: '2016-12-04T10:56:51.843Z'
+              expected_delivery_date: 2016-12-09
+              date_created: 2016-12-04T10:51:51.843Z
+              date_modified: 2016-12-04T10:51:51.843Z
+              send_date: 2016-12-04T10:56:51.843Z
               object: postcard
             object: event
     tracking_events:
@@ -9531,9 +9860,9 @@ components:
                 name: In Local Area
                 details: null
                 location: '72231'
-                time: '2016-06-30T15:51:41.000Z'
-                date_created: '2016-06-30T17:41:59.771Z'
-                date_modified: '2016-06-30T17:41:59.771Z'
+                time: 2016-06-30T15:51:41.000Z
+                date_created: 2016-06-30T17:41:59.771Z
+                date_modified: 2016-06-30T17:41:59.771Z
                 object: tracking_event
             certified:
               value:
@@ -9543,12 +9872,12 @@ components:
                 details:
                   event: delivered
                   description: Package has been delivered.
-                  notes: 'Delivered, Front Desk/Reception/Mail Room'
+                  notes: Delivered, Front Desk/Reception/Mail Room
                   action_required: false
                 location: '33408'
-                time: '2019-10-08T19:41:00Z'
-                date_created: '2019-10-08T19:41:00Z'
-                date_modified: '2019-10-08T19:41:00Z'
+                time: 2019-10-08T19:41:00Z
+                date_created: 2019-10-08T19:41:00Z
+                date_modified: 2019-10-08T19:41:00Z
                 object: tracking_event
   headers:
     ratelimit-limit:
@@ -9912,7 +10241,7 @@ paths:
               address_zip: "94107"
             })
           label: ELIXIR
-  '/addresses/{adr_id}':
+  /addresses/{adr_id}:
     parameters:
       - in: path
         name: adr_id
@@ -10015,7 +10344,7 @@ paths:
           source: |
             Lob.Address.delete("adr_43769b47aed248c2")
           label: ELIXIR
-  '/bank_accounts/{bank_id}/verify':
+  /bank_accounts/{bank_id}/verify:
     parameters:
       - in: path
         name: bank_id
@@ -10101,7 +10430,7 @@ paths:
           source: |
             Lob.BankAccount.verify("bank_dfceb4a2a05b57e", %{amounts: [25, 63]})
           label: ELIXIR
-  '/bank_accounts/{bank_id}':
+  /bank_accounts/{bank_id}:
     parameters:
       - in: path
         name: bank_id
@@ -10135,10 +10464,10 @@ paths:
                 account_number: '123456789'
                 account_type: company
                 signatory: John Doe
-                bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+                bank_name: J.P. MORGAN CHASE BANK, N.A.
                 verified: false
-                date_created: '2015-11-06T19:24:24.440Z'
-                date_modified: '2015-11-06T19:24:24.440Z'
+                date_created: 2015-11-06T19:24:24.440Z
+                date_modified: 2015-11-06T19:24:24.440Z
                 object: bank_account
         default:
           $ref: '#/components/responses/bank_account_error'
@@ -10415,7 +10744,7 @@ paths:
               account_type: "company"
             })
           label: ELIXIR
-  '/billing_groups/{bg_id}':
+  /billing_groups/{bg_id}:
     parameters:
       - in: path
         name: bg_id
@@ -10443,8 +10772,8 @@ paths:
                 id: bg_c94e83ca2cd5121
                 name: Marketing Dept
                 description: Usage group used for the Marketing Dept resource sends
-                date_created: '2017-11-07T22:56:10.962Z'
-                date_modified: '2017-11-07T22:56:10.962Z'
+                date_created: 2017-11-07T22:56:10.962Z
+                date_modified: 2017-11-07T22:56:10.962Z
                 object: billing_group
         default:
           $ref: '#/components/responses/billing_group_list_error'
@@ -10529,14 +10858,14 @@ paths:
                   - id: bg_d5a5a89da9106f8
                     description: Test billing_group
                     metadata: {}
-                    date_created: '2019-07-27T23:49:01.511Z'
-                    date_modified: '2019-07-27T23:49:01.511Z'
+                    date_created: 2019-07-27T23:49:01.511Z
+                    date_modified: 2019-07-27T23:49:01.511Z
                     object: billing_group
                   - id: bg_59b2150ae120887
                     description: Test billing_group
                     metadata: {}
-                    date_created: '2019-03-29T10:22:34.642Z'
-                    date_modified: '2019-03-29T10:22:34.642Z'
+                    date_created: 2019-03-29T10:22:34.642Z
+                    date_modified: 2019-03-29T10:22:34.642Z
                     object: billing_group
                 object: list
                 next_url: null
@@ -10637,7 +10966,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: 00926
+                  zip_code: '00926'
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/multiple_components_list'
@@ -10653,7 +10982,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: 00926
+                  zip_code: '00926'
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/multiple_components_list'
@@ -10669,7 +10998,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: 00926
+                  zip_code: '00926'
       responses:
         '200':
           $ref: '#/components/responses/bulk_us_verifications'
@@ -10731,7 +11060,606 @@ paths:
           $ref: '#/components/responses/bulk_intl_verifications'
         default:
           $ref: '#/components/responses/intl_verifications_error'
-  '/checks/{chk_id}':
+  /cards:
+    get:
+      operationId: list_cards
+      summary: List
+      description: >-
+        Returns a list of your cards. The cards are returned sorted by creation
+        date, with the most recently created addresses appearing first.
+      tags:
+        - Cards
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/before_after'
+        - $ref: '#/components/parameters/sort_by'
+      responses:
+        '200':
+          description: Returns a list of card objects
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/list'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        description: list of cards
+                        items:
+                          $ref: '#/components/schemas/card'
+              example:
+                data:
+                  - id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: null
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+                object: list
+                previous_url: null
+                next_url: null
+                count: 1
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X GET "https://api.lob.com/v1/cards?limit=2" \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cards.list({limit: 2}, function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.Card.list(limit=2)
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cards()->all(array(
+              'limit' => 2
+            ));
+    post:
+      operationId: create_card
+      summary: Create
+      description: Creates a new card given information
+      tags:
+        - Cards
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/card_editable'
+            example:
+              description: Test card
+              front: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              back: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              size: 2.125x3.375
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/card_editable'
+            example:
+              description: Test card
+              front: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              back: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              size: 2.125x3.375
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/card_editable'
+            example:
+              description: Test card
+              front: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              back: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              size: 2.125x3.375
+      responses:
+        '200':
+          description: Card created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card'
+              examples:
+                basic:
+                  value:
+                    id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test card
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/cards \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+              -d "description=Test card" \
+              -d "front=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf" \
+              -d "back=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf" \
+              -d "size=2.125x3.375"
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cards.create({
+              description: 'Test card',
+              front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              size: '2.125x3.375'
+            }, function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.Card.create(
+              description = 'Test card',
+              front = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              back = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              size = '2.125x3.375'
+            )
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cards()->create(array(
+              'description'           => 'Test card',
+              'front'                 => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              'back'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              'size' =>               => '2.125x3.375'
+            ));
+  /cards/{card_id}:
+    parameters:
+      - in: path
+        name: card_id
+        description: id of the card
+        required: true
+        schema:
+          $ref: '#/components/schemas/card_id'
+    get:
+      operationId: get_card
+      summary: Retrieve
+      description: >-
+        Retrieves the details of an existing card. You need only supply the
+        unique customer identifier that was returned upon card creation.
+      tags:
+        - Cards
+      responses:
+        '200':
+          description: Returns a card object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card'
+              examples:
+                basic:
+                  value:
+                    id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test card
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cards.retrieve('card_7a6d73c5c8457fc', function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.Card.retrieve('card_7a6d73c5c8457fc')
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cards()->get('card_7a6d73c5c8457fc');
+    post:
+      operationId: update_card
+      summary: Update
+      description: >-
+        Update the details of an existing card. You need only supply the unique
+        identifier that was returned upon card creation.
+      tags:
+        - Cards
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/card_updatable'
+            example:
+              description: Test card
+              auto_reorder: true
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/card_updatable'
+            example:
+              description: Test card
+              auto_reorder: true
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/card_updatable'
+            example:
+              description: Test card
+              auto_reorder: true
+      responses:
+        '200':
+          description: Returns a card object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card'
+              examples:
+                basic:
+                  value:
+                    id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test card
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X POST https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+              -d "description=Awesome card" \
+              -d "auto_reorder=true"
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cards.update('card_7a6d73c5c8457fc', {
+              description: 'Awesome card',
+              auto_reorder: true
+            }, function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+    delete:
+      operationId: delete_card
+      summary: Delete
+      description: >-
+        Delete an existing card. You need only supply the unique identifier that
+        was returned upon card creation.
+      tags:
+        - Cards
+      responses:
+        '200':
+          description: Returns a deleted card object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card'
+              examples:
+                basic:
+                  value:
+                    id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test card
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X DELETE https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cards.delete('card_7a6d73c5c8457fc', function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.Card.delete('card_7a6d73c5c8457fc')
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cards()->delete('card_7a6d73c5c8457fc');
+  /cards/{card_id}/orders:
+    parameters:
+      - in: path
+        name: card_id
+        description: The ID of the card to which the card orders belong.
+        required: true
+        schema:
+          $ref: '#/components/schemas/card_id'
+    get:
+      operationId: get_card_orders
+      summary: Retrieve
+      description: Retrieves the card orders associated with the given card id.
+      tags:
+        - Card Orders
+      responses:
+        '200':
+          description: Returns the card orders associated with the given card id
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/list'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        description: List of card orders
+                        items:
+                          $ref: '#/components/schemas/card_order'
+              example:
+                data:
+                  - id: co_e0f8a0562a06bea7f
+                    card_id: card_6afffd19045076c
+                    status: available
+                    inventory: 9500
+                    quantity_ordered: 10000
+                    unit_price: 0.75
+                    cancelled_reason: No longer needed
+                    availability_date: 2021-10-12T21:41:48.326Z
+                    expected_availability_date: 2021-11-04T21:03:18.871Z
+                    date_created: 2021-10-07T21:03:18.871Z
+                    date_modified: 2021-10-16T01:00:30.144Z
+                    object: card_order
+                object: list
+                next_url: null
+                previous_url: null
+                count: 1
+        default:
+          $ref: '#/components/responses/template_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/cards/card_6afffd19045076c/orders/ \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cardOrders.list('card_6afffd19045076c', function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.CardOrder.list('card_6afffd19045076c')
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cardOrders('card_6afffd19045076c')->all();
+    post:
+      operationId: create_card_order
+      summary: Create
+      description: Creates a new card order given information
+      tags:
+        - Card Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/card_order_writable'
+            example:
+              quantity: 5000
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/card_order_writable'
+            example:
+              quantity: 5000
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/card_order_writable'
+            example:
+              quantity: 5000
+      responses:
+        '200':
+          description: Card order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card_order'
+              examples:
+                basic:
+                  value:
+                    id: co_e0f8a0562a06bea7f
+                    card_id: card_6afffd19045076c
+                    status: available
+                    inventory: 9500
+                    quantity_ordered: 10000
+                    unit_price: 0.75
+                    cancelled_reason: No longer needed
+                    availability_date: 2021-10-12T21:41:48.326Z
+                    expected_availability_date: 2021-11-04T21:03:18.871Z
+                    date_created: 2021-10-07T21:03:18.871Z
+                    date_modified: 2021-10-16T01:00:30.144Z
+                    object: card_order
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/cards/card_6afffd19045076c/orders \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+              -d "quantity=5000"
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cardOrders.create('card_6afffd19045076c', {
+              quantity: 5000
+            }, function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.CardOrder.create('card_6afffd19045076c', quantity = 5000)
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cardOrders('card_6afffd19045076c')->create(array(
+              'quantity'           => 5000
+            ));
+  /checks/{chk_id}:
     parameters:
       - in: path
         name: chk_id
@@ -10777,8 +11705,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2018-12-08T03:08:43.446Z'
-                  date_modified: '2018-12-08T03:08:43.446Z'
+                  date_created: 2018-12-08T03:08:43.446Z
+                  date_modified: 2018-12-08T03:08:43.446Z
                   object: address
                   recipient_moved: false
                 from:
@@ -10790,8 +11718,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2017-09-05T17:47:53.767Z'
-                  date_modified: '2017-09-05T17:47:53.767Z'
+                  date_created: 2017-09-05T17:47:53.767Z
+                  date_modified: 2017-09-05T17:47:53.767Z
                   object: address
                 bank_account:
                   id: bank_8cad8df5354d33f
@@ -10800,11 +11728,11 @@ paths:
                   routing_number: '322271627'
                   account_number: '123456789'
                   signatory: John Doe
-                  bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
+                  bank_name: J.P. MORGAN CHASE BANK, N.A.
                   verified: true
                   account_type: company
-                  date_created: '2015-11-06T19:24:24.440Z'
-                  date_modified: '2015-11-06T19:41:28.312Z'
+                  date_created: 2015-11-06T19:24:24.440Z
+                  date_modified: 2015-11-06T19:41:28.312Z
                   object: bank_account
                   signature_url: >-
                     https://lob-assets.com/bank-accounts/asd_asdfghjkqwertyui.pdf?expires=1234567890&signature=aksdf
@@ -10819,11 +11747,11 @@ paths:
                       https://lob-assets.com/checks/chk_534f10783683daa0_thumb_large_1.png?expires=1540372221&signature=04nLEwE9d2qgQJNgJYWSOgPnU0FZbEv
                 merge_variables:
                   name: Harry
-                expected_delivery_date: '2017-09-12'
+                expected_delivery_date: 2017-09-12
                 mail_type: usps_first_class
-                date_created: '2017-09-05T17:47:53.896Z'
-                date_modified: '2017-09-05T17:47:53.896Z'
-                send_date: '2017-09-05T17:47:53.896Z'
+                date_created: 2017-09-05T17:47:53.896Z
+                date_modified: 2017-09-05T17:47:53.896Z
+                send_date: 2017-09-05T17:47:53.896Z
                 object: check
                 message: pancakes are good
                 check_bottom_template_id: tmpl_a
@@ -11025,7 +11953,7 @@ paths:
               metadata:
                 memo: rafting trip
               attachment: ./cool.pdf
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
               mail_type: usps_first_class
               check_number: 10001
           application/x-www-form-urlencoded:
@@ -11063,7 +11991,7 @@ paths:
               metadata:
                 memo: rafting trip
               attachment: ./cool.pdf
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
               mail_type: usps_first_class
               check_number: 10001
             encoding:
@@ -11114,12 +12042,12 @@ paths:
               metadata:
                 memo: rafting trip
               attachment: ./cool.pdf
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
               mail_type: usps_first_class
               check_number: 10001
             encoding:
               logo:
-                contentType: 'image/png, image/jpeg'
+                contentType: image/png, image/jpeg
       responses:
         '200':
           $ref: '#/components/responses/post_check'
@@ -11474,7 +12402,7 @@ paths:
               country: "CA"
             })
           label: ELIXIR
-  '/letters/{ltr_id}':
+  /letters/{ltr_id}:
     parameters:
       - in: path
         name: ltr_id
@@ -11515,8 +12443,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2017-09-05T15:54:53.264Z'
-                  date_modified: '2017-09-05T15:54:53.264Z'
+                  date_created: 2017-09-05T15:54:53.264Z
+                  date_modified: 2017-09-05T15:54:53.264Z
                   deleted: true
                   object: address
                 from:
@@ -11533,8 +12461,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2017-09-05T15:54:53.264Z'
-                  date_modified: '2017-09-05T15:54:53.264Z'
+                  date_created: 2017-09-05T15:54:53.264Z
+                  date_modified: 2017-09-05T15:54:53.264Z
                   deleted: true
                   object: address
                 color: true
@@ -11559,10 +12487,46 @@ paths:
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
                 merge_variables:
                   name: Harry
-                expected_delivery_date: '2017-09-12'
-                date_created: '2017-09-05T15:54:53.346Z'
-                date_modified: '2017-09-05T15:54:53.346Z'
-                send_date: '2017-09-05T15:54:53.346Z'
+                expected_delivery_date: 2017-09-12
+                date_created: 2017-09-05T15:54:53.346Z
+                date_modified: 2017-09-05T15:54:53.346Z
+                send_date: 2017-09-05T15:54:53.346Z
+                cards:
+                  - id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: null
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
                 object: letter
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -11760,6 +12724,8 @@ paths:
                 <html style='padding-top: 3in; margin: .5in;'>HTML Letter for
                 {{name}}</html>
               color: true
+              cards:
+                - card_7a6d73c5c8457fc
               double_sided: false
               address_placement: bottom_first_page
               mail_type: usps_first_class
@@ -11769,7 +12735,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: true
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
               extra_service: registered
               custom_envelope: null
           application/x-www-form-urlencoded:
@@ -11800,6 +12766,8 @@ paths:
                 <html style='padding-top: 3in; margin: .5in;'>HTML Letter for
                 {{name}}</html>
               color: true
+              cards:
+                - card_7a6d73c5c8457fc
               double_sided: false
               address_placement: top_first_page
               mail_type: usps_first_class
@@ -11809,7 +12777,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: true
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
               extra_service: registered
               custom_envelope: null
             encoding:
@@ -11853,6 +12821,8 @@ paths:
                 <html style='padding-top: 3in; margin: .5in;'>HTML Letter for
                 {{name}}</html>
               color: true
+              cards:
+                - card_7a6d73c5c8457fc
               double_sided: false
               address_placement: top_first_page
               mail_type: usps_first_class
@@ -11862,7 +12832,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: true
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
               extra_service: registered
               custom_envelope: null
       responses:
@@ -12007,7 +12977,7 @@ paths:
               color: true
             })
           label: ELIXIR
-  '/postcards/{psc_id}':
+  /postcards/{psc_id}:
     parameters:
       - in: path
         name: psc_id
@@ -12050,8 +13020,8 @@ paths:
                       address_zip: 94107-1741
                       address_country: UNITED STATES
                       metadata: {}
-                      date_created: '2018-12-08T03:01:07.651Z'
-                      date_modified: '2018-12-08T03:01:07.651Z'
+                      date_created: 2018-12-08T03:01:07.651Z
+                      date_modified: 2018-12-08T03:01:07.651Z
                       object: address
                     url: >-
                       https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -12060,9 +13030,9 @@ paths:
                     back_template_id: null
                     front_template_version_id: null
                     back_template_version_id: null
-                    date_created: '2021-03-24T22:51:42.838Z'
-                    date_modified: '2021-03-24T22:51:42.838Z'
-                    send_date: '2021-03-24T22:51:42.838Z'
+                    date_created: 2021-03-24T22:51:42.838Z
+                    date_modified: 2021-03-24T22:51:42.838Z
+                    send_date: 2021-03-24T22:51:42.838Z
                     object: postcard
                 full:
                   value:
@@ -12083,8 +13053,8 @@ paths:
                       address_zip: C1N 1C4
                       address_country: CANADA
                       metadata: {}
-                      date_created: '2018-12-08T03:01:07.651Z'
-                      date_modified: '2018-12-08T03:01:07.651Z'
+                      date_created: 2018-12-08T03:01:07.651Z
+                      date_modified: 2018-12-08T03:01:07.651Z
                       object: address
                       recipient_moved: false
                     from:
@@ -12101,8 +13071,8 @@ paths:
                       address_zip: 94107-1741
                       address_country: UNITED STATES
                       metadata: {}
-                      date_created: '2018-12-08T03:01:07.651Z'
-                      date_modified: '2018-12-08T03:01:07.651Z'
+                      date_created: 2018-12-08T03:01:07.651Z
+                      date_modified: 2018-12-08T03:01:07.651Z
                       object: address
                     url: >-
                       https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -12122,10 +13092,10 @@ paths:
                           https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_medium_1.png?expires=1540372221&signature=bAzL8sv935PY09FWSkpDpWKkyvGSWYF
                         large: >-
                           https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
-                    expected_delivery_date: '2021-03-30'
-                    date_created: '2021-03-24T22:51:42.838Z'
-                    date_modified: '2021-03-24T22:51:42.838Z'
-                    send_date: '2021-03-24T22:51:42.838Z'
+                    expected_delivery_date: 2021-03-30
+                    date_created: 2021-03-24T22:51:42.838Z
+                    date_modified: 2021-03-24T22:51:42.838Z
+                    send_date: 2021-03-24T22:51:42.838Z
                     object: postcard
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -12332,7 +13302,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: true
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/postcard_editable'
@@ -12370,7 +13340,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: true
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
             encoding:
               to:
                 style: deepObject
@@ -12421,7 +13391,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: true
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
       responses:
         '200':
           $ref: '#/components/responses/post_postcard'
@@ -12565,7 +13535,7 @@ paths:
               }
             })
           label: ELIXIR
-  '/self_mailers/{sfm_id}':
+  /self_mailers/{sfm_id}:
     parameters:
       - in: path
         name: sfm_id
@@ -12607,8 +13577,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2017-09-05T17:47:53.767Z'
-                  date_modified: '2017-09-05T17:47:53.767Z'
+                  date_created: 2017-09-05T17:47:53.767Z
+                  date_modified: 2017-09-05T17:47:53.767Z
                   deleted: true
                   object: address
                 from:
@@ -12625,8 +13595,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: '2017-09-05T17:47:53.767Z'
-                  date_modified: '2017-09-05T17:47:53.767Z'
+                  date_created: 2017-09-05T17:47:53.767Z
+                  date_modified: 2017-09-05T17:47:53.767Z
                   deleted: true
                   object: address
                 url: >-
@@ -12654,10 +13624,10 @@ paths:
                   name: null
                 size: 6x18_bifold
                 mail_type: usps_first_class
-                expected_delivery_date: '2021-03-24'
-                date_created: '2021-03-16T18:40:40.504Z'
-                date_modified: '2021-03-16T18:40:40.504Z'
-                send_date: '2021-03-16T18:45:40.493Z'
+                expected_delivery_date: 2021-03-24
+                date_created: 2021-03-16T18:40:40.504Z
+                date_modified: 2021-03-16T18:40:40.504Z
+                send_date: 2021-03-16T18:45:40.493Z
                 object: self_mailer
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -12837,15 +13807,15 @@ paths:
               description: Demo Self Mailer job
               to: adr_bae820679f3f536b
               from: adr_210a8d4b0b76d77b
-              inside: 'https://lob.com/selfmailerinside.pdf'
-              outside: 'https://lob.com/selfmaileroutside.pdf'
+              inside: https://lob.com/selfmailerinside.pdf
+              outside: https://lob.com/selfmaileroutside.pdf
               size: 12x9_bifold
               metadata:
                 spiffy: true
               mail_type: usps_standard
               merge_variables:
                 name: Harry
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'
@@ -12853,15 +13823,15 @@ paths:
               description: Demo Self Mailer job
               to: adr_bae820679f3f536b
               from: adr_210a8d4b0b76d77b
-              inside: 'https://lob.com/selfmailerinside.pdf'
-              outside: 'https://lob.com/selfmaileroutside.pdf'
+              inside: https://lob.com/selfmailerinside.pdf
+              outside: https://lob.com/selfmaileroutside.pdf
               size: 12x9_bifold
               metadata:
                 spiffy: true
               mail_type: usps_standard
               merge_variables:
                 name: Harry
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
             encoding:
               merge_variables:
                 style: deepObject
@@ -12876,15 +13846,15 @@ paths:
               description: Demo Self Mailer job
               to: adr_bae820679f3f536b
               from: adr_210a8d4b0b76d77b
-              inside: 'https://lob.com/selfmailerinside.pdf'
-              outside: 'https://lob.com/selfmaileroutside.pdf'
+              inside: https://lob.com/selfmailerinside.pdf
+              outside: https://lob.com/selfmaileroutside.pdf
               size: 12x9_bifold
               metadata:
                 spiffy: true
               mail_type: usps_standard
               merge_variables:
                 name: Harry
-              send_date: '2017-11-01T00:00:00.000Z'
+              send_date: 2017-11-01T00:00:00.000Z
       responses:
         '200':
           $ref: '#/components/responses/post_self_mailer'
@@ -13021,7 +13991,7 @@ paths:
               }
             })
           label: ELIXIR
-  '/templates/{tmpl_id}/versions/{vrsn_id}':
+  /templates/{tmpl_id}/versions/{vrsn_id}:
     parameters:
       - in: path
         name: tmpl_id
@@ -13053,9 +14023,9 @@ paths:
               example:
                 id: vrsn_534e339882d2282
                 description: Second Version
-                html: '<html>Second HTML for {{name}}</html>'
-                date_created: '2017-11-09T04:49:38.016Z'
-                date_modified: '2017-11-09T04:49:38.016Z'
+                html: <html>Second HTML for {{name}}</html>
+                date_created: 2017-11-09T04:49:38.016Z
+                date_modified: 2017-11-09T04:49:38.016Z
                 object: version
         default:
           $ref: '#/components/responses/template_error'
@@ -13195,7 +14165,7 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
-  '/templates/{tmpl_id}/versions':
+  /templates/{tmpl_id}/versions:
     get:
       operationId: list_template_versions
       summary: List
@@ -13273,19 +14243,19 @@ paths:
               $ref: '#/components/schemas/template_version_writable'
             example:
               description: Some Description
-              html: '<html>HTML for {{name}}</html>'
+              html: <html>HTML for {{name}}</html>
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/template_version_writable'
             example:
               description: Some Description
-              html: '<html>HTML for {{name}}</html>'
+              html: <html>HTML for {{name}}</html>
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/template_version_writable'
             example:
               description: Some Description
-              html: '<html>HTML for {{name}}</html>'
+              html: <html>HTML for {{name}}</html>
       responses:
         '200':
           $ref: '#/components/responses/post_template_version'
@@ -13323,7 +14293,7 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
-  '/templates/{tmpl_id}':
+  /templates/{tmpl_id}:
     parameters:
       - in: path
         name: tmpl_id
@@ -13354,22 +14324,22 @@ paths:
                     suggest_json_editor: true
                     description: Test Template
                     engine: legacy
-                    html: '<html>HTML for {{name}}</html>'
-                    date_created: '2017-11-07T22:56:10.962Z'
-                    date_modified: '2017-11-07T22:56:10.962Z'
+                    html: <html>HTML for {{name}}</html>
+                    date_created: 2017-11-07T22:56:10.962Z
+                    date_modified: 2017-11-07T22:56:10.962Z
                     object: version
                 published_version:
                   id: vrsn_362184d96d9b0c9
                   suggest_json_editor: false
                   description: Test Template
                   engine: handlebars
-                  html: '<html>HTML for {{name}}</html>'
-                  date_created: '2017-11-07T22:56:10.962Z'
-                  date_modified: '2017-11-07T22:56:10.962Z'
+                  html: <html>HTML for {{name}}</html>
+                  date_created: 2017-11-07T22:56:10.962Z
+                  date_modified: 2017-11-07T22:56:10.962Z
                   object: version
                 metadata: {}
-                date_created: '2017-11-07T22:56:10.962Z'
-                date_modified: '2017-11-07T22:56:10.962Z'
+                date_created: 2017-11-07T22:56:10.962Z
+                date_modified: 2017-11-07T22:56:10.962Z
                 object: template
         default:
           $ref: '#/components/responses/template_error'
@@ -13454,22 +14424,22 @@ paths:
                     suggest_json_editor: true
                     description: Test Template
                     engine: legacy
-                    html: '<html>HTML for {{name}}</html>'
-                    date_created: '2017-11-07T22:56:10.962Z'
-                    date_modified: '2017-11-07T22:56:10.962Z'
+                    html: <html>HTML for {{name}}</html>
+                    date_created: 2017-11-07T22:56:10.962Z
+                    date_modified: 2017-11-07T22:56:10.962Z
                     object: version
                 published_version:
                   id: vrsn_362184d96d9b0c9
                   suggest_json_editor: false
                   description: Test Template
                   engine: handlebars
-                  html: '<html>HTML for {{name}}</html>'
-                  date_created: '2017-11-07T22:56:10.962Z'
-                  date_modified: '2017-11-07T22:56:10.962Z'
+                  html: <html>HTML for {{name}}</html>
+                  date_created: 2017-11-07T22:56:10.962Z
+                  date_modified: 2017-11-07T22:56:10.962Z
                   object: version
                 metadata: {}
-                date_created: '2017-11-07T22:56:10.962Z'
-                date_modified: '2017-11-07T22:56:10.962Z'
+                date_created: 2017-11-07T22:56:10.962Z
+                date_modified: 2017-11-07T22:56:10.962Z
                 object: template
         default:
           $ref: '#/components/responses/template_error'
@@ -13617,7 +14587,7 @@ paths:
               $ref: '#/components/schemas/template_writable'
             example:
               description: demo
-              html: '<html>HTML for {{name}}</html>'
+              html: <html>HTML for {{name}}</html>
               metadata:
                 spiffy: true
               engine: handlebars
@@ -13626,7 +14596,7 @@ paths:
               $ref: '#/components/schemas/template_writable'
             example:
               description: demo
-              html: '<html>HTML for {{name}}</html>'
+              html: <html>HTML for {{name}}</html>
               metadata:
                 spiffy: true
               engine: handlebars
@@ -13635,7 +14605,7 @@ paths:
               $ref: '#/components/schemas/template_writable'
             example:
               description: demo
-              html: '<html>HTML for {{name}}</html>'
+              html: <html>HTML for {{name}}</html>
               metadata:
                 spiffy: true
               engine: handlebars
@@ -13661,22 +14631,22 @@ paths:
                     suggest_json_editor: true
                     description: Test Template
                     engine: legacy
-                    html: '<html>HTML for {{name}}</html>'
-                    date_created: '2017-11-07T22:56:10.962Z'
-                    date_modified: '2017-11-07T22:56:10.962Z'
+                    html: <html>HTML for {{name}}</html>
+                    date_created: 2017-11-07T22:56:10.962Z
+                    date_modified: 2017-11-07T22:56:10.962Z
                     object: version
                 published_version:
                   id: vrsn_362184d96d9b0c9
                   suggest_json_editor: false
                   description: Test Template
                   engine: handlebars
-                  html: '<html>HTML for {{name}}</html>'
-                  date_created: '2017-11-07T22:56:10.962Z'
-                  date_modified: '2017-11-07T22:56:10.962Z'
+                  html: <html>HTML for {{name}}</html>
+                  date_created: 2017-11-07T22:56:10.962Z
+                  date_modified: 2017-11-07T22:56:10.962Z
                   object: version
                 metadata: {}
-                date_created: '2017-11-07T22:56:10.962Z'
-                date_modified: '2017-11-07T22:56:10.962Z'
+                date_created: 2017-11-07T22:56:10.962Z
+                date_modified: 2017-11-07T22:56:10.962Z
                 object: template
         default:
           $ref: '#/components/responses/template_error'
@@ -13894,7 +14864,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: 00926
+                  zip_code: '00926'
               single_line:
                 value:
                   address: 210 King Street 94107
@@ -13922,7 +14892,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: 00926
+                  zip_code: '00926'
               single_line:
                 value:
                   address: 210 King Street 94107
@@ -13950,7 +14920,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: 00926
+                  zip_code: '00926'
               single_line:
                 value:
                   address: 210 King Street 94107

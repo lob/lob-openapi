@@ -1,0 +1,113 @@
+parameters:
+  - in: path
+    name: card_id
+    description: The ID of the card to which the card orders belong.
+    required: true
+    schema:
+      $ref: "../../../shared/attributes/model_ids/card_id.yml"
+
+get:
+  operationId: get_card_orders
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the card orders associated with the given card id.
+
+  tags:
+    - Card Orders
+
+  responses:
+    "200":
+      description: Returns the card orders associated with the given card id
+      content:
+        $ref: "responses/all_card_orders.yml"
+
+    default:
+      $ref: "../../../shared/responses/template_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/cards/card_6afffd19045076c/orders/ \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.cardOrders.list('card_6afffd19045076c', function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Python
+      source: |
+        lob.CardOrder.list('card_6afffd19045076c')
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->cardOrders('card_6afffd19045076c')->all();
+
+post:
+  operationId: create_card_order
+
+  summary: Create
+
+  description: >-
+    Creates a new card order given information
+
+  tags:
+    - Card Orders
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/card_order_writable.yml"
+        example:
+          quantity: 5000
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/card_order_writable.yml"
+        example:
+          quantity: 5000
+
+      multipart/form-data:
+        schema:
+          $ref: "models/card_order_writable.yml"
+        example:
+          quantity: 5000
+
+  responses:
+    "200":
+      description: Card order created successfully
+      content:
+        $ref: "responses/card_order.yml"
+
+    default:
+      $ref: "../../../shared/responses/mailpiece_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/cards/card_6afffd19045076c/orders \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "quantity=5000"
+      label: CURL
+    - lang: Javascript
+      source: |
+        Lob.cardOrders.create('card_6afffd19045076c', {
+          quantity: 5000
+        }, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Python
+      source: |
+        lob.CardOrder.create('card_6afffd19045076c', quantity = 5000)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $lob->cardOrders('card_6afffd19045076c')->create(array(
+          'quantity'           => 5000
+        ));

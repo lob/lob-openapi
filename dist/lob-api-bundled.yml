@@ -148,6 +148,20 @@ tags:
     description: Verify a list of non-US addresses.
   - name: Bulk US Verifications
     description: Verify a list of US addresses.
+  - name: Card Orders
+    description: >
+      The card orders endpoint allows you to easily create card orders for
+      existing cards.
+
+      The API provides endpoints for creating card orders and listing card
+      orders for a given card.
+  - name: Cards
+    description: >
+      The cards endpoint allows you to easily create cards that can later be
+      affixed to Letters.
+
+      The API provides endpoints for creating cards, retrieving individual
+      cards, creating card orders, and retrieving a list of cards.
   - name: Checks
     description: >
       Checks allow you to send payments via physical checks. The API provides
@@ -2965,6 +2979,8 @@ x-tagGroups:
       - Self Mailers
       - Letters
       - Checks
+      - Cards
+      - Card Orders
       - Bank Accounts
       - Templates
       - Template Versions
@@ -4394,7 +4410,7 @@ components:
         returned will expire in 30 days to prevent mis-sharing. Each time a GET
         request is initiated, a new signed URL will be generated.
       pattern: >-
-        ^https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers)/[a-z]{3}_[a-z0-9]{16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*&)?expires=[0-9]{10}&signature=[a-zA-Z0-9-_]+$
+        ^https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers|cards)/[a-z]{3,4}_[a-z0-9]{15,16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*&)?expires=[0-9]{10}&signature=[a-zA-Z0-9-_]+$
     bank_account:
       allOf:
         - $ref: '#/components/schemas/bank_account_base'
@@ -5408,6 +5424,223 @@ components:
             Indicates whether any errors occurred during the verification
             process.
           type: boolean
+    thumbnail:
+      type: object
+      properties:
+        small:
+          $ref: '#/components/schemas/signed_link'
+        medium:
+          $ref: '#/components/schemas/signed_link'
+        large:
+          $ref: '#/components/schemas/signed_link'
+    card_base:
+      type: object
+      properties:
+        id:
+          title: Id
+          pattern: 'card_[a-zA-Z0-9]+$'
+          type: string
+          example: card_103919e8
+        description:
+          title: Description
+          maxLength: 255
+          type: string
+          nullable: true
+        url:
+          title: Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        size:
+          title: Size
+          type: string
+          default: 2.125x3.375
+        auto_reorder:
+          title: Auto Reorder
+          type: boolean
+          default: false
+        reorder_quantity:
+          title: Reorder Quantity
+          type: integer
+          nullable: true
+        raw_url:
+          title: Raw Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        front_original_url:
+          title: Front Original Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        back_original_url:
+          title: Back Original Url
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        thumbnails:
+          title: Thumbnails
+          type: array
+          items:
+            $ref: '#/components/schemas/thumbnail'
+        available_quantity:
+          title: Available Quantity
+          type: integer
+          default: 0
+        pending_quantity:
+          title: Pending Quantity
+          type: integer
+          default: 0
+        deleted:
+          title: Deleted
+          type: boolean
+          default: false
+        status:
+          title: Status
+          enum:
+            - processed
+            - rendered
+          type: string
+        orientation:
+          title: Orientation
+          enum:
+            - horizontal
+          type: string
+          default: horizontal
+        threshold_amount:
+          title: Threshold Amount
+          type: integer
+          default: 0
+        object:
+          title: Object
+          enum:
+            - card
+          type: string
+          default: card
+    card:
+      allOf:
+        - $ref: '#/components/schemas/card_base'
+    remote_file_url:
+      type: string
+      description: >
+        The location of a remote file. Remote URLs have a 20 MB file size limit
+        and must be downloaded within 40 seconds.
+      pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
+    local_file_path:
+      type: string
+      description: The path to a local file.
+      pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
+    card_creatable:
+      type: object
+      properties:
+        description:
+          title: Description
+          maxLength: 255
+          type: string
+        front:
+          title: Front
+          description: A PDF for the front of your card
+          oneOf:
+            - $ref: '#/components/schemas/remote_file_url'
+            - $ref: '#/components/schemas/local_file_path'
+          format: uri
+        back:
+          title: Back
+          description: A PDF for the back of your card
+          oneOf:
+            - $ref: '#/components/schemas/remote_file_url'
+            - $ref: '#/components/schemas/local_file_path'
+          format: uri
+          default: >-
+            https://s3.us-west-2.amazonaws.com/public.lob.com/assets/card_blank_horizontal.pdf
+        size:
+          title: Size
+          enum:
+            - 2.125x3.375
+          type: string
+          default: 2.125x3.375
+    card_id:
+      type: string
+      description: Unique identifier prefixed with `card_`.
+      pattern: '^card_[a-zA-Z0-9]+$'
+    card_editable:
+      type: object
+      properties:
+        description:
+          title: Description
+          maxLength: 255
+          type: string
+        auto_reorder:
+          title: Auto reorder
+          type: boolean
+    co_id:
+      type: string
+      description: Unique identifier prefixed with `co_`.
+      pattern: '^co_[a-zA-Z0-9]+$'
+    card_order:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/co_id'
+        card_id:
+          $ref: '#/components/schemas/card_id'
+        status:
+          title: Status
+          enum:
+            - pending
+            - printing
+            - available
+            - cancelled
+            - depleted
+          type: string
+        inventory:
+          title: Inventory
+          type: integer
+          default: 0
+        quantity_ordered:
+          title: Quantity ordered
+          type: integer
+          default: 0
+        unit_price:
+          title: Unit price
+          type: number
+          default: 0
+        cancelled_reason:
+          title: Cancelled reason
+          type: string
+        availability_date:
+          type: string
+          format: date-time
+          description: A timestamp in ISO 8601 format of the date the resource was created.
+        expected_availability_date:
+          type: string
+          format: date-time
+          description: A timestamp in ISO 8601 format of the date the resource was created.
+        date_created:
+          type: string
+          format: date-time
+          description: A timestamp in ISO 8601 format of the date the resource was created.
+        date_modified:
+          type: string
+          format: date-time
+          description: >-
+            A timestamp in ISO 8601 format of the date the resource was last
+            modified.
+        object:
+          title: Object
+          type: string
+          default: card order
+    card_order_writable:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          minimum: 0
+          maximum: 10000000
     chk_id:
       type: string
       description: Unique identifier prefixed with `chk_`.
@@ -5514,15 +5747,6 @@ components:
       type: string
       description: Unique identifier prefixed with `vrsn_`.
       pattern: '^vrsn_[a-zA-Z0-9]+$'
-    thumbnail:
-      type: object
-      properties:
-        small:
-          $ref: '#/components/schemas/signed_link'
-        medium:
-          $ref: '#/components/schemas/signed_link'
-        large:
-          $ref: '#/components/schemas/signed_link'
     expected_delivery_date:
       type: string
       description: >-
@@ -5780,16 +6004,6 @@ components:
       description: 'An HTML string of under 10,000 characters.'
       maxLength: 10000
       pattern: <
-    remote_file_url:
-      type: string
-      description: >
-        The location of a remote file. Remote URLs have a 20 MB file size limit
-        and must be downloaded within 40 seconds.
-      pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
-    local_file_path:
-      type: string
-      description: The path to a local file.
-      pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
     check_bottom:
       description: >-
         The artwork to use on the bottom of the check page.
@@ -6512,6 +6726,16 @@ components:
                   * `registered` - provides tracking and confirmation for international addresses
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
+            cards:
+              description: >-
+                A single-element array containing an existing card id in a
+                string format. See [cards](https://docs.lob.com/#tag/Cards) for more information.
+              type: array
+              items:
+                $ref: '#/components/schemas/card_id'
+              minItems: 0
+              maxItems: 1
+              nullable: true
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
@@ -7911,6 +8135,17 @@ components:
               code: not_found
               message: to address not found
               status_code: 404
+    template_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: invalid
+              message: html is required
+              status_code: 422
     check_canceled:
       description: Deleted
       content:
@@ -8350,6 +8585,42 @@ components:
                 date_created: '2019-08-08T17:09:14.514Z'
                 date_modified: '2019-08-08T17:09:16.850Z'
                 send_date: '2019-08-08'
+                cards:
+                  - id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: null
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
                 object: letter
               - id: ltr_da8267c6a6545cd6
                 description: Demo Letter
@@ -8413,6 +8684,7 @@ components:
                 date_created: '2019-08-08T17:08:12.224Z'
                 date_modified: '2019-08-08T17:08:13.990Z'
                 send_date: '2019-08-08T17:08:12.224Z'
+                cards: null
                 object: letter
             object: list
             next_url: >-
@@ -8498,6 +8770,42 @@ components:
             date_created: '2017-09-05T15:54:53.346Z'
             date_modified: '2017-09-05T15:54:53.346Z'
             send_date: '2017-09-05T15:54:53.346Z'
+            cards:
+              - id: card_7a6d73c5c8457fc
+                account_id: fa9ea650fc7b31a89f92
+                description: null
+                url: >-
+                  https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                size: 2.125x3.375
+                auto_reorder: false
+                reorder_quantity: null
+                raw_url: >-
+                  https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                front_original_url: >-
+                  https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                back_original_url: >-
+                  https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                thumbnails:
+                  - small: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                    medium: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                    large: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                  - small: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                    medium: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                    large: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                available_quantity: 10000
+                pending_quantity: 0
+                countries: null
+                status: rendered
+                mode: test
+                orientation: horizontal
+                threshold_amount: 0
+                object: card
             object: letter
     postcard_deleted:
       description: Deleted
@@ -8993,17 +9301,6 @@ components:
             date_modified: '2021-03-16T18:40:40.504Z'
             send_date: '2021-03-16T18:45:40.493Z'
             object: self_mailer
-    template_error:
-      description: Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          example:
-            error:
-              code: invalid
-              message: html is required
-              status_code: 422
     post_template_version:
       description: Returns the template version with the given template and version ids.
       headers:
@@ -10731,6 +11028,596 @@ paths:
           $ref: '#/components/responses/bulk_intl_verifications'
         default:
           $ref: '#/components/responses/intl_verifications_error'
+  /cards:
+    get:
+      operationId: list_cards
+      summary: List
+      description: >-
+        Returns a list of your cards. The cards are returned sorted by creation
+        date, with the most recently created addresses appearing first.
+      tags:
+        - Cards
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/before_after'
+        - $ref: '#/components/parameters/sort_by'
+      responses:
+        '200':
+          description: Returns a list of card objects
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/list'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        description: list of cards
+                        items:
+                          $ref: '#/components/schemas/card'
+              example:
+                data:
+                  - id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: null
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+                object: list
+                previous_url: null
+                next_url: null
+                count: 1
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X GET "https://api.lob.com/v1/cards?limit=2" \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cards.list({limit: 2}, function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.Card.list(limit=2)
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cards()->all(array(
+              'limit' => 2
+            ));
+    post:
+      operationId: create_card
+      summary: Create
+      description: Creates a new card given information
+      tags:
+        - Cards
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/card_creatable'
+            example:
+              description: Test card
+              front: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              back: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              size: 2.125x3.375
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/card_creatable'
+            example:
+              description: Test card
+              front: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              back: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              size: 2.125x3.375
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/card_creatable'
+            example:
+              description: Test card
+              front: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              back: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
+              size: 2.125x3.375
+      responses:
+        '200':
+          description: Card created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card'
+              examples:
+                basic:
+                  value:
+                    id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test card
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/cards \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+              -d "description=Test card" \
+              -d "front=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf" \
+              -d "back=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf" \
+              -d "size=2.125x3.375"
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cards.create({
+              description: 'Test card',
+              front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              size: '2.125x3.375'
+            }, function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.Card.create(
+              description = 'Test card',
+              front = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              back = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              size = '2.125x3.375'
+            )
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cards()->create(array(
+              'description'           => 'Test card',
+              'front'                 => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              'back'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              'size' =>               => '2.125x3.375'
+            ));
+  '/cards/{card_id}':
+    parameters:
+      - in: path
+        name: card_id
+        description: id of the card
+        required: true
+        schema:
+          $ref: '#/components/schemas/card_id'
+    get:
+      operationId: get_card
+      summary: Retrieve
+      description: >-
+        Retrieves the details of an existing card. You need only supply the
+        unique customer identifier that was returned upon card creation.
+      tags:
+        - Cards
+      responses:
+        '200':
+          description: Returns a card object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card'
+              examples:
+                basic:
+                  value:
+                    id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test card
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cards.retrieve('card_7a6d73c5c8457fc', function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.Card.retrieve('card_7a6d73c5c8457fc')
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cards()->get('card_7a6d73c5c8457fc');
+    post:
+      operationId: update_card
+      summary: Update
+      description: >-
+        Update the details of an existing card. You need only supply the unique
+        identifier that was returned upon card creation.
+      tags:
+        - Cards
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/card_editable'
+            example:
+              description: Test card
+              auto_reorder: true
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/card_editable'
+            example:
+              description: Test card
+              auto_reorder: true
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/card_editable'
+            example:
+              description: Test card
+              auto_reorder: true
+      responses:
+        '200':
+          description: Returns a card object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card'
+              examples:
+                basic:
+                  value:
+                    id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test card
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X POST https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+              -d "description=Awesome card" \
+              -d "auto_reorder=true"
+          label: CURL
+    delete:
+      operationId: delete_card
+      summary: Delete
+      description: >-
+        Delete an existing card. You need only supply the unique identifier that
+        was returned upon card creation.
+      tags:
+        - Cards
+      responses:
+        '200':
+          description: Returns a deleted card object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card'
+              examples:
+                basic:
+                  value:
+                    id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test card
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X DELETE https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cards.delete('card_7a6d73c5c8457fc', function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.Card.delete('card_7a6d73c5c8457fc')
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cards()->delete('card_7a6d73c5c8457fc');
+  '/cards/{card_id}/orders':
+    parameters:
+      - in: path
+        name: card_id
+        description: The ID of the card to which the card orders belong.
+        required: true
+        schema:
+          $ref: '#/components/schemas/card_id'
+    get:
+      operationId: get_card_orders
+      summary: Retrieve
+      description: Retrieves the card orders associated with the given card id.
+      tags:
+        - Card Orders
+      responses:
+        '200':
+          description: Returns the card orders associated with the given card id
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/list'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        description: List of card orders
+                        items:
+                          $ref: '#/components/schemas/card_order'
+              example:
+                data:
+                  - id: co_e0f8a0562a06bea7f
+                    card_id: card_6afffd19045076c
+                    status: available
+                    inventory: 9500
+                    quantity_ordered: 10000
+                    unit_price: 0.75
+                    cancelled_reason: No longer needed
+                    availability_date: '2021-10-12T21:41:48.326Z'
+                    expected_availability_date: '2021-11-04T21:03:18.871Z'
+                    date_created: '2021-10-07T21:03:18.871Z'
+                    date_modified: '2021-10-16T01:00:30.144Z'
+                    object: card_order
+                object: list
+                next_url: null
+                previous_url: null
+                count: 1
+        default:
+          $ref: '#/components/responses/template_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/cards/card_6afffd19045076c/orders/ \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cardOrders.list('card_6afffd19045076c', function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.CardOrder.list('card_6afffd19045076c')
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cardOrders('card_6afffd19045076c')->all();
+    post:
+      operationId: create_card_order
+      summary: Create
+      description: Creates a new card order given information
+      tags:
+        - Card Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/card_order_writable'
+            example:
+              quantity: 5000
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/card_order_writable'
+            example:
+              quantity: 5000
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/card_order_writable'
+            example:
+              quantity: 5000
+      responses:
+        '200':
+          description: Card order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card_order'
+              examples:
+                basic:
+                  value:
+                    id: co_e0f8a0562a06bea7f
+                    card_id: card_6afffd19045076c
+                    status: available
+                    inventory: 9500
+                    quantity_ordered: 10000
+                    unit_price: 0.75
+                    cancelled_reason: No longer needed
+                    availability_date: '2021-10-12T21:41:48.326Z'
+                    expected_availability_date: '2021-11-04T21:03:18.871Z'
+                    date_created: '2021-10-07T21:03:18.871Z'
+                    date_modified: '2021-10-16T01:00:30.144Z'
+                    object: card_order
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/cards/card_6afffd19045076c/orders \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+              -d "quantity=5000"
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.cardOrders.create('card_6afffd19045076c', {
+              quantity: 5000
+            }, function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Python
+          source: |
+            lob.CardOrder.create('card_6afffd19045076c', quantity = 5000)
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->cardOrders('card_6afffd19045076c')->create(array(
+              'quantity'           => 5000
+            ));
   '/checks/{chk_id}':
     parameters:
       - in: path
@@ -11563,6 +12450,42 @@ paths:
                 date_created: '2017-09-05T15:54:53.346Z'
                 date_modified: '2017-09-05T15:54:53.346Z'
                 send_date: '2017-09-05T15:54:53.346Z'
+                cards:
+                  - id: card_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: null
+                    url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/cards/card_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/cards/card_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    available_quantity: 10000
+                    pending_quantity: 0
+                    countries: null
+                    status: rendered
+                    mode: test
+                    orientation: horizontal
+                    threshold_amount: 0
+                    object: card
                 object: letter
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -11760,6 +12683,8 @@ paths:
                 <html style='padding-top: 3in; margin: .5in;'>HTML Letter for
                 {{name}}</html>
               color: true
+              cards:
+                - card_7a6d73c5c8457fc
               double_sided: false
               address_placement: bottom_first_page
               mail_type: usps_first_class
@@ -11800,6 +12725,8 @@ paths:
                 <html style='padding-top: 3in; margin: .5in;'>HTML Letter for
                 {{name}}</html>
               color: true
+              cards:
+                - card_7a6d73c5c8457fc
               double_sided: false
               address_placement: top_first_page
               mail_type: usps_first_class
@@ -11853,6 +12780,8 @@ paths:
                 <html style='padding-top: 3in; margin: .5in;'>HTML Letter for
                 {{name}}</html>
               color: true
+              cards:
+                - card_7a6d73c5c8457fc
               double_sided: false
               address_placement: top_first_page
               mail_type: usps_first_class

@@ -1,0 +1,87 @@
+type: object
+properties:
+  id:
+    title: Id
+    pattern: card_[a-zA-Z0-9]+$
+    type: string
+    example: card_103919e8
+  description:
+    title: Description
+    maxLength: 255
+    type: string
+    nullable: true
+  url:
+    title: Url
+    maxLength: 2083
+    minLength: 1
+    type: string
+    format: uri
+  size:
+    title: Size
+    type: string
+    default: 2.125x3.375
+  auto_reorder:
+    title: Auto Reorder
+    type: boolean
+    default: false
+  reorder_quantity:
+    title: Reorder Quantity
+    type: integer
+    nullable: true
+  raw_url:
+    title: Raw Url
+    maxLength: 2083
+    minLength: 1
+    type: string
+    format: uri
+  front_original_url:
+    title: Front Original Url
+    maxLength: 2083
+    minLength: 1
+    type: string
+    format: uri
+  back_original_url:
+    title: Back Original Url
+    maxLength: 2083
+    minLength: 1
+    type: string
+    format: uri
+  thumbnails:
+    title: Thumbnails
+    type: array
+    items:
+      $ref: "../../../shared/models/thumbnail.yml"
+  available_quantity:
+    title: Available Quantity
+    type: integer
+    default: 0
+  pending_quantity:
+    title: Pending Quantity
+    type: integer
+    default: 0
+  deleted:
+    title: Deleted
+    type: boolean
+    default: false
+  status:
+    title: Status
+    enum:
+      - processed
+      - rendered
+    type: string
+  orientation:
+    title: Orientation
+    enum:
+      - horizontal
+    type: string
+    default: horizontal
+  threshold_amount:
+    title: Threshold Amount
+    type: integer
+    default: 0
+  object:
+    title: Object
+    enum:
+      - card
+    type: string
+    default: card

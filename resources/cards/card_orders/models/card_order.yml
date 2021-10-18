@@ -1,0 +1,50 @@
+type: object
+properties:
+  id:
+    $ref: "../../../../shared/attributes/model_ids/co_id.yml"
+  card_id:
+    $ref: "../../../../shared/attributes/model_ids/card_id.yml"
+  status:
+    title: Status
+    enum:
+      - pending
+      - printing
+      - available
+      - cancelled
+      - depleted
+    type: string
+  inventory:
+    title: Inventory
+    type: integer
+    default: 0
+  quantity_ordered:
+    title: Quantity ordered
+    type: integer
+    default: 0
+  unit_price:
+    title: Unit price
+    type: number
+    default: 0
+  cancelled_reason:
+    title: Cancelled reason
+    type: string
+  availability_date:
+    type: string
+    format: date-time
+    description: A timestamp in ISO 8601 format of the date the resource was created.
+  expected_availability_date:
+    type: string
+    format: date-time
+    description: A timestamp in ISO 8601 format of the date the resource was created.
+  date_created:
+    type: string
+    format: date-time
+    description: A timestamp in ISO 8601 format of the date the resource was created.
+  date_modified:
+    type: string
+    format: date-time
+    description: A timestamp in ISO 8601 format of the date the resource was last modified.
+  object:
+    title: Object
+    type: string
+    default: card order

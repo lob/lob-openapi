@@ -10,6 +10,15 @@ allOf:
 
       return_address:
         $ref: "../attributes/return_address.yml"
+      
+      cards:
+        description: A single-element array containing an existing card id in a string format. See [cards](https://docs.lob.com/#tag/Cards) for more information.
+        type: array
+        items:
+          $ref: "../../../shared/attributes/model_ids/card_id.yml"
+        minItems: 0
+        maxItems: 1
+        nullable: true
 
   - $ref: "letter_base.yml"
   - $ref: "letter_generated_base.yml"

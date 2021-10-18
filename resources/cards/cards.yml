@@ -28,7 +28,7 @@ get:
     - lang: Shell
       source: |
         curl -X GET "https://api.lob.com/v1/cards?limit=2" \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          -u <YOUR API KEY>:
       label: CURL
     - lang: Javascript
       source: |
@@ -62,7 +62,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/card_creatable.yml"
+          $ref: "models/card_editable.yml"
         example:
           description: Test card
           front: https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
@@ -71,7 +71,7 @@ post:
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/card_creatable.yml"
+          $ref: "models/card_editable.yml"
         example:
           description: Test card
           front: https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
@@ -80,7 +80,7 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "models/card_creatable.yml"
+          $ref: "models/card_editable.yml"
         example:
           description: Test card
           front: https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf
@@ -100,7 +100,7 @@ post:
     - lang: Shell
       source: |
         curl https://api.lob.com/v1/cards \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u <YOUR API KEY>: \
           -d "description=Test card" \
           -d "front=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf" \
           -d "back=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf" \

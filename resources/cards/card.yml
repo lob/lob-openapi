@@ -31,7 +31,7 @@ get:
     - lang: Shell
       source: |
         curl https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          -u <YOUR API KEY>:
       label: CURL
     - lang: Javascript
       source: |
@@ -64,21 +64,21 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/card_editable.yml"
+          $ref: "models/card_updatable.yml"
         example:
           description: Test card
           auto_reorder: true
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/card_editable.yml"
+          $ref: "models/card_updatable.yml"
         example:
           description: Test card
           auto_reorder: true
 
       multipart/form-data:
         schema:
-          $ref: "models/card_editable.yml"
+          $ref: "models/card_updatable.yml"
         example:
           description: Test card
           auto_reorder: true
@@ -96,24 +96,23 @@ post:
     - lang: Shell
       source: |
         curl -X POST https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u <YOUR API KEY>: \
           -d "description=Awesome card" \
           -d "auto_reorder=true"
       label: CURL
-    # JS SDK update not implemented yet
-    # - lang: Javascript
-    #   source: |
-    #     Lob.cards.update('card_7a6d73c5c8457fc', {
-    #       description: 'Awesome card',
-    #       auto_reorder: true
-    #     }, function (err, res) {
-    #       console.log(err, res);
-    #     });
-    #   label: NODE
+    - lang: Javascript
+      source: |
+        Lob.cards.update('card_7a6d73c5c8457fc', {
+          description: 'Awesome card',
+          auto_reorder: true
+        }, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
     # - lang: Python
     #   source: |
     #     lob.Card.update('card_7a6d73c5c8457fc')
-    # label: PYTHON
+    #   label: PYTHON
     # - lang: PHP
     #   source: |
     #     $lob->cards()->update('card_7a6d73c5c8457fc');
@@ -132,9 +131,7 @@ delete:
 
   responses:
     "200":
-      description: Returns a deleted card object
-      content:
-        $ref: "responses/card.yml"
+      $ref: "../../shared/responses/card_deleted.yml"
 
     default:
       $ref: "../../shared/responses/mailpiece_error.yml"
@@ -143,7 +140,7 @@ delete:
     - lang: Shell
       source: |
         curl -X DELETE https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          -u <YOUR API KEY>:
       label: CURL
     - lang: Javascript
       source: |

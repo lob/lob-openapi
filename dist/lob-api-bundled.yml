@@ -6600,6 +6600,8 @@ components:
             tracking_events:
               description: Tracking events are not populated for registered letters.
               type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_normal'
               maxItems: 0
             return_address:
               $ref: '#/components/schemas/return_address'

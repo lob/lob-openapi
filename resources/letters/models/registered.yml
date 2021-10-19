@@ -24,6 +24,8 @@ allOf:
       tracking_events:
         description: Tracking events are not populated for registered letters.
         type: array
+        items:
+          $ref: "../../../shared/resources/tracking_events/models/tracking_event_normal.yml"
         maxItems: 0
 
       return_address:

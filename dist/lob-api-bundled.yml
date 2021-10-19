@@ -4,8 +4,8 @@ info:
   version: 1.3.0
   description: >
     The Lob API is organized around REST. Our API is designed to have
-    predictable, resource-oriented URLs and uses HTTP response codes to indicate
-    any API errors. <p> Looking for our [previous
+    predictable, resource-oriented URLs and uses HTTP response codes to
+    sindicate any API errors. <p> Looking for our [previous
     documentation](https://lob.github.io/legacy-docs/)?
   license:
     name: MIT
@@ -73,7 +73,7 @@ tags:
         Every type comes with a pair of keys: one for the testing environment and one for the
         live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments)
         for more information.
-  - name: Bank Accounts
+  - name: BankAccounts
     description: >
       Bank Accounts allow you to store your bank account securely in our system.
       The API provides
@@ -83,7 +83,7 @@ tags:
 
       retrieving individual bank accounts, and retrieving a list of bank
       accounts.
-  - name: Beta Program
+  - name: BetaProgram
     x-traitTag: true
     description: >
       At Lob, we pride ourselves on building high quality platform capabilities
@@ -134,7 +134,7 @@ tags:
       please feel free to
 
       [contact us](https://lob.com/support#contact)!
-  - name: Billing Groups
+  - name: BillingGroups
     description: >
       The Billing Groups API allows you to create and view labels that can be
       attached to certain consumption-based
@@ -144,11 +144,11 @@ tags:
 
       resource API section to learn more about how to access the Billing Groups
       API.
-  - name: Bulk Intl Verifications
+  - name: BulkIntlVerifications
     description: Verify a list of non-US addresses.
-  - name: Bulk US Verifications
+  - name: BulkUSVerifications
     description: Verify a list of US addresses.
-  - name: Card Orders
+  - name: CardOrders
     description: >
       The card orders endpoint allows you to easily create card orders for
       existing cards.
@@ -890,7 +890,7 @@ tags:
           <td style="white-space: nowrap">A bank account is successfully verified.</td>
         </tr>
       </table>
-  - name: Getting Started
+  - name: GettingStarted
     x-traitTag: true
     description: >
       ### 1. Get Setup
@@ -958,7 +958,7 @@ tags:
 
       * [Address Verification
       Elements](https://www.lob.com/guides#av-elements-quickstart)
-  - name: Intl Verifications
+  - name: IntlVerifications
     description: >
       Address verification for non-US addresses
 
@@ -1064,7 +1064,7 @@ tags:
 
       creating letters, retrieving individual letters, canceling letters, and
       retrieving a list of letters.
-  - name: Manage Mail
+  - name: ManageMail
     x-traitTag: true
     description: >
       ## Cancellation Windows
@@ -1158,7 +1158,7 @@ tags:
           -d "merge_variables[name]=Harry" \
           -d "send_date=2021-07-26"
       ```
-  - name: National Change of Address
+  - name: NationalChangeOfAddress
     x-traitTag: true
     description: >
       National Change of Address (NCOA) is a service offered by the USPS, which
@@ -1269,7 +1269,7 @@ tags:
 
       retrieving individual postcards, canceling postcards, and retrieving a
       list of postcards.
-  - name: Rate Limiting
+  - name: RateLimiting
     x-traitTag: true
     description: >-
       To prevent misuse, we enforce a rate limit on an API Key and endpoint
@@ -1344,7 +1344,7 @@ tags:
           }
         }
       ```
-  - name: Requests and Responses
+  - name: RequestsAndResponses
     x-traitTag: true
     description: >
       ## Asset URLs
@@ -1616,11 +1616,11 @@ tags:
         true
         --------------------------7015ebe79c0a5f8c--
       ```
-  - name: Reverse Geocode Lookups
+  - name: ReverseGeocode
     description: >
       Find a list of zip codes associated with a valid US location via latitude
       and longitude.
-  - name: SDKs and Tools
+  - name: SDKsAndTools
     x-traitTag: true
     description: >
       Please visit our [Github](https://www.github.com/lob) for a list of our
@@ -1637,14 +1637,14 @@ tags:
       - [Java](https://github.com/lob/lob-java)
 
       - [Elixir](https://github.com/lob/lob-elixir)
-  - name: Self Mailers
+  - name: SelfMailers
     description: >
       The self mailer endpoint allows you to easily print and mail self mailers.
       The API provides endpoints
 
       for creating self mailers, retrieving individual self mailers, canceling
       self mailers, and retrieving a list of self mailers.
-  - name: Template Design
+  - name: TemplateDesign
     x-traitTag: true
     description: >
       ## HTML Templates
@@ -2045,7 +2045,7 @@ tags:
           <td style="white-space: nowrap">Type 1</td>
         </tr>
       </table>
-  - name: Template Versions
+  - name: TemplateVersions
     description: >
       These API endpoints allow you to create, retrieve, update and delete
       versions of reusable HTML templates for use with the Print & Mail API.
@@ -2053,7 +2053,7 @@ tags:
     description: >
       These API endpoints allow you to create, retrieve, update and delete
       reusable HTML templates for use with the Print & Mail API.
-  - name: Test and Live Environments
+  - name: TestAndLiveEnvironments
     x-traitTag: true
     description: >
       To make the API as explorable as possible, accounts have test and live
@@ -2101,7 +2101,7 @@ tags:
       key in your dashboard under Settings; test API keys are always prefixed
 
       with `test_` and production API keys with `live_`.
-  - name: Tracking Events
+  - name: TrackingEvents
     description: >
       As mailpieces travel through the mail stream, USPS scans their unique
       barcodes, and Lob processes these mail scans to generate tracking events.
@@ -2291,7 +2291,7 @@ tags:
           <td style="white-space: nowrap"><code>false</code></td>
         </tr>
       </table>
-  - name: US Autocompletions
+  - name: USAutocompletions
     description: >
       Given partial address information, this endpoint returns up to 10 address
       suggestions.
@@ -2316,7 +2316,7 @@ tags:
       See the `test` request & response examples under [Autocomplete
       Examples](#operation/autocompletion) within the "Autocomplete a partial
       address" section in US Autocompletions.
-  - name: US Verification Types
+  - name: USVerificationTypes
     x-traitTag: true
     description: >
       These are detailed definitions for various fields in the [US verification
@@ -2490,7 +2490,7 @@ tags:
           </tr>
         </tbody>
       </table>
-  - name: US Verifications
+  - name: USVerifications
     description: >
       Validate, automatically correct, and standardize the addresses in your
 
@@ -2611,7 +2611,7 @@ tags:
       try these features out, use our [live
       demo](https://lob.com/address-verification) or the free plan (see [our
       pricing](https://lob.com/pricing/address-verification) for details).
-  - name: Versioning and Changelog
+  - name: VersioningAndChangelog
     x-traitTag: true
     description: >
       ### API Versioning
@@ -2958,7 +2958,7 @@ tags:
       available for
 
       subscription here.
-  - name: Zip Lookups
+  - name: Zip
     description: >
       Find a list of cities, states and associated information about a US ZIP
       code.
@@ -2967,49 +2967,49 @@ x-tagGroups:
     tags:
       - Introduction
       - Authentication
-      - Getting Started
-      - SDKs and Tools
+      - GettingStarted
+      - SDKsAndTools
   - name: Address Book
     tags:
       - Addresses
-      - National Change of Address
+      - NationalChangeOfAddress
   - name: Print and Mail API
     tags:
       - Postcards
-      - Self Mailers
+      - SelfMailers
       - Letters
       - Checks
-      - Bank Accounts
+      - BankAccounts
       - Templates
-      - Template Versions
-      - Template Design
-      - Manage Mail
+      - TemplateVersions
+      - TemplateDesign
+      - ManageMail
   - name: Address Verification API
     tags:
-      - US Verifications
-      - US Verification Types
-      - US Autocompletions
-      - Reverse Geocode Lookups
-      - Zip Lookups
-      - Intl Verifications
+      - USVerifications
+      - USVerificationTypes
+      - USAutocompletions
+      - ReverseGeocode
+      - Zip
+      - IntlVerifications
   - name: Webhooks
     tags:
       - Webhooks
       - Events
-      - Tracking Events
+      - TrackingEvents
   - name: Special Features
     tags:
-      - Billing Groups
+      - BillingGroups
       - Cards
-      - Card Orders
+      - CardOrders
   - name: Appendix
     tags:
-      - Beta Program
+      - BetaProgram
       - Errors
-      - Rate Limiting
-      - Requests and Responses
-      - Test and Live Environments
-      - Versioning and Changelog
+      - RateLimiting
+      - RequestsAndResponses
+      - TestAndLiveEnvironments
+      - VersioningAndChangelog
 components:
   securitySchemes:
     basicAuth:
@@ -3035,26 +3035,24 @@ components:
         `before` and `after` are both optional but only one of them can be in
         the query at a time.
       schema:
-        allOf:
-          - type: object
-            properties:
+        type: object
+        oneOf:
+          - properties:
               before:
                 type: string
                 description: >
                   A reference to a list entry used for paginating to the
                   previous set of entries. This field is pre-populated in the
                   `previous_url` field in the return response.
+            additionalProperties: false
+          - properties:
               after:
                 type: string
                 description: >
                   A reference to a list entry used for paginating to the next
                   set of entries. This field is pre-populated in the `next_url`
                   field in the return response.
-          - oneOf:
-              - required:
-                  - before
-              - required:
-                  - after
+            additionalProperties: false
     include:
       in: query
       name: include
@@ -3078,7 +3076,7 @@ components:
     metadata:
       in: query
       name: metadata
-      description: Filter by metadata key-value pair`.
+      description: 'Filter by metadata key-value pair, e.g. `metadata[customer_id]=987654`.'
       schema:
         $ref: '#/components/schemas/metadata'
       style: deepObject
@@ -3106,11 +3104,10 @@ components:
     sort_by:
       in: query
       name: sort_by
-      description: >
-        Sorts items by ascending or descending dates. Use either `date_created`
-        or `send_date`, not both.
+      description: |
+        Sorts items by ascending or descending dates.
       schema:
-        allOf:
+        oneOf:
           - type: object
             properties:
               date_created:
@@ -3118,16 +3115,13 @@ components:
                 enum:
                   - asc
                   - desc
+          - type: object
+            properties:
               send_date:
                 type: string
                 enum:
                   - asc
                   - desc
-          - oneOf:
-              - required:
-                  - date_created
-              - required:
-                  - send_date
     scheduled:
       in: query
       name: scheduled
@@ -3205,17 +3199,31 @@ components:
   schemas:
     metadata:
       type: object
-      additionalProperties:
-        type: string
       description: >-
         Use metadata to store custom information for tagging and labeling back
         to your internal systems. Must be an object with up to 20 key-value
         pairs. Keys must be at most 40 characters and values must be at most 500
-        characters. Neither can contain the characters `"` and `\`. i.e.
-        '{"customer_id" : "NEWYORK2015"}' Nested objects are not supported.  See
-        [Metadata](#section/Metadata) for more information.
-      maxLength: 500
-      pattern: '[^"\\]{0,500}'
+        characters. Neither can contain the characters `"` and `\`. Nested
+        objects are not supported. See [Metadata](#section/Metadata) for more
+        information.
+      properties:
+        '[^"\\]{0,20}':
+          oneOf:
+            - type: string
+            - type: number
+            - type: boolean
+          maxLength: 500
+          pattern: '[^"\\]{0,500}'
+      maxProperties: 20
+      example:
+        type: object
+        properties:
+          customer_id:
+            type: string
+            example: '987654'
+          campaign:
+            type: string
+            example: NEWYORK2015
     failure_status_code:
       type: integer
       enum:
@@ -3235,6 +3243,195 @@ components:
           * `422` - The query or body parameters did not pass validation
           * `429` - Too many requests have been sent with an API key in a given amount of time
           * `500` - An internal server error occurred, please contact support@lob.com
+    generic:
+      type: string
+      enum:
+        - bad_request
+        - conflict
+        - feature_limit_reached
+        - internal_server_error
+        - invalid
+        - not_deletable
+        - not_found
+        - request_timeout
+        - service_unavailable
+        - unrecognized_endpoint
+        - unsupported_lob_version
+      description: >
+        A pre-defined string identifying a generic error
+
+        * `bad_request` - 422: an invalid request was made. See error message
+        for details.
+
+        * `conflict` - 409/422: this operation would leave data in a conflicted
+        state.
+
+        * `feature_limit_reached` - 403: the account has reached its resource
+        limit and requires upgrading to add more.
+
+        * `internal_server_error` - 500: an error has occured on Lob's servers.
+        Please try request again.
+
+        * `invalid` - 422: an invalid request was made. See error message for
+        details.
+
+        * `not_deletable` - 422: an attempt was made to delete a resource, but
+        the resource cannot be deleted.
+
+        * `not_found` - 404: the requested resource was not found.
+
+        * `request_timeout` - 408: the request took too long. Please try again.
+
+        * `service_unavailable` - 503: the Lob servers are temporarily
+        unavailable. Please try agian.
+
+        * `unrecognized_endpoint` - 404: the requested endpoint doesn't exist.
+
+        * `unsupported_lob_version` - 422: an unsupported Lob API version was
+        requested.
+    authentication:
+      type: string
+      enum:
+        - email_required
+        - invalid_api_key
+        - publishable_key_not_allowed
+        - rate_limit_exceeded
+        - unauthorized
+        - unauthorized_token
+      description: >
+        A pre-defined string identifying authentication errors
+
+        * `email_required` - 401: account must have a verified email address
+        before creating live resources.
+
+        * `invalid_api_key` - 401/403: the API key is invalid.
+
+        * `publishable_key_not_allowed` - 403: the requested operation needs a
+        secret key, not a publishable key. See [API Keys](#section/API-Keys) for
+        more information.
+
+        * `rate_limit_exceeded` - 429: requests were sent too quickly and must
+        be slowed down.
+
+        * `unauthorized` - 401: the request isn't authorized.
+
+        * `unauthorized_token` - 401: token isn't authorized.
+    advanced:
+      type: string
+      enum:
+        - address_length_exceeds_limit
+        - bank_account_already_verified
+        - bank_error
+        - custom_envelope_inventory_depleted
+        - deleted_bank_account
+        - failed_deliverability_strictness
+        - file_pages_below_min
+        - file_pages_exceed_max
+        - file_size_exceeds_limit
+        - foreign_return_address
+        - inconsistent_page_dimensions
+        - invalid_bank_account
+        - invalid_bank_account_verification
+        - invalid_check_international
+        - invalid_country_covid
+        - invalid_file
+        - invalid_file_dimensions
+        - invalid_file_download_time
+        - invalid_file_url
+        - invalid_image_dpi
+        - invalid_international_feature
+        - invalid_perforation_return_envelope
+        - invalid_template_html
+        - merge_variable_required
+        - merge_variable_whitespace
+        - payment_method_unverified
+        - pdf_encrypted
+        - special_characters_restricted
+        - unembedded_fonts
+      description: >
+        A pre-defined string identifying Lob-specific errors
+
+        * `address_length_exceeds_limit` - 422: the sum of to.address_line1 and
+        to.address_line2 cannot surpass 50 characters.
+
+        * `bank_account_already_verified` - 422: the bank account has already
+        been verified.
+
+        * `bank_error` - 422: there's an issue with the bank account.
+
+        * `custom_envelope_inventory_depleted` - 422: custom envelope inventory
+        is depleted, and more will need to be ordered.
+
+        * `deleted_bank_account` - 404: checks cannot be created with a deleted
+        bank account.
+
+        * `failed_deliverability_strictness` - 422: the `to` address doesn't
+        meet strictness requirements. See [Account
+        Settings](https://dashboard.lob.com/#/settings/account) to configure
+        strictness.
+
+        * `file_pages_below_min` - 422: not enough pages.
+
+        * `file_pages_exceed_max` - 422: too many pages.
+
+        * `file_size_exceeds_limit` - 422: the file size is too large. See
+        description for details.
+
+        * `foreign_return_address` - 422: the `from` address must be a US
+        address.
+
+        * `inconsistent_page_dimensions` - 422: all pages of the input file must
+        have the same dimensions.
+
+        * `invalid_bank_account` - 422: the provided bank routing number is
+        invalid.
+
+        * `invalid_bank_account_verification` - 422: verification amounts do not
+        match.
+
+        * `invalid_check_international` - 422: checks cannot be sent
+        internationally.
+
+        * `invalid_country_covid` - 422: the postal service in the specified
+        country is currently unable to process the request due to COVID-19
+        restrictions.
+
+        * `invalid_file` - 422: the file is invalid.
+
+        * `invalid_file_dimensions` - 422: file dimensions are incorrect for the
+        selected mail type.
+
+        * `invalid_file_download_time` - 422: file download from remote server
+        took too long.
+
+        * `invalid_file_url` - 422: the file URL when creating a resource is
+        invalid.
+
+        * `invalid_image_dpi` - 422: DPI must be at least 300.
+
+        * `invalid_international_feature` - 422: the specified product cannot be
+        sent to the destination.
+
+        * `invalid_perforation_return_envelope` - 422: both `return_envelope`
+        and `perforation` must be used together.
+
+        * `invalid_template_html` - 422: the provided HTML is invalid.
+
+        * `merge_variable_required` - 422: a required merge variable is missing.
+
+        * `merge_variable_whitespace` - 422: merge variable names cannot contain
+        whitespace.
+
+        * `payment_method_unverified` - 401: you must have a verified bank
+        account or credit card to submit live requests.
+
+        * `pdf_encrypted` - 422: an encrypted PDF was provided.
+
+        * `special_characters_restricted` - 422: cannot use special characters
+        for merge variable names.
+
+        * `unembedded_fonts` - 422: the provided PDF contains non-standard
+        unembedded fonts. See description for details.
     error:
       type: object
       description: >-
@@ -3260,198 +3457,10 @@ components:
             status_code:
               $ref: '#/components/schemas/failure_status_code'
             code:
-              type: string
-              enum:
-                - bad_request
-                - conflict
-                - feature_limit_reached
-                - internal_server_error
-                - invalid
-                - not_deletable
-                - not_found
-                - request_timeout
-                - service_unavailable
-                - unrecognized_endpoint
-                - unsupported_lob_version
-                - address_length_exceeds_limit
-                - bank_account_already_verified
-                - bank_error
-                - custom_envelope_inventory_depleted
-                - deleted_bank_account
-                - failed_deliverability_strictness
-                - file_pages_below_min
-                - file_pages_exceed_max
-                - file_size_exceeds_limit
-                - foreign_return_address
-                - inconsistent_page_dimensions
-                - invalid_bank_account
-                - invalid_bank_account_verification
-                - invalid_check_international
-                - invalid_country_covid
-                - invalid_file
-                - invalid_file_dimensions
-                - invalid_file_download_time
-                - invalid_file_url
-                - invalid_image_dpi
-                - invalid_international_feature
-                - invalid_perforation_return_envelope
-                - invalid_template_html
-                - merge_variable_required
-                - merge_variable_whitespace
-                - payment_method_unverified
-                - pdf_encrypted
-                - special_characters_restricted
-                - unembedded_fonts
-                - email_required
-                - invalid_api_key
-                - publishable_key_not_allowed
-                - rate_limit_exceeded
-                - unauthorized
-                - unauthorized_token
-              description: >
-                A pre-defined string identifying an error. Error codes fall into
-                three categories:
-
-
-                **GENERIC**
-
-                * `bad_request` - 422: an invalid request was made. See error
-                message for details.
-
-                * `conflict` - 409/422: this operation would leave data in a
-                conflicted state.
-
-                * `feature_limit_reached` - 403: the account has reached its
-                resource limit and requires upgrading to add more.
-
-                * `internal_server_error` - 500: an error has occured on Lob's
-                servers. Please try request again.
-
-                * `invalid` - 422: an invalid request was made. See error
-                message for details.
-
-                * `not_deletable` - 422: an attempt was made to delete a
-                resource, but the resource cannot be deleted.
-
-                * `not_found` - 404: the requested resource was not found.
-
-                * `request_timeout` - 408: the request took too long. Please try
-                again.
-
-                * `service_unavailable` - 503: the Lob servers are temporarily
-                unavailable. Please try agian.
-
-                * `unrecognized_endpoint` - 404: the requested endpoint doesn't
-                exist.
-
-                * `unsupported_lob_version` - 422: an unsupported Lob API
-                version was requested.
-
-
-                **ADVANCED**
-
-                * `address_length_exceeds_limit` - 422: the sum of
-                to.address_line1 and to.address_line2 cannot surpass 50
-                characters.
-
-                * `bank_account_already_verified` - 422: the bank account has
-                already been verified.
-
-                * `bank_error` - 422: there's an issue with the bank account.
-
-                * `custom_envelope_inventory_depleted` - 422: custom envelope
-                inventory is depleted, and more will need to be ordered.
-
-                * `deleted_bank_account` - 404: checks cannot be created with a
-                deleted bank account.
-
-                * `failed_deliverability_strictness` - 422: the `to` address
-                doesn't meet strictness requirements. See [Account
-                Settings](https://dashboard.lob.com/#/settings/account) to
-                configure strictness.
-
-                * `file_pages_below_min` - 422: not enough pages.
-
-                * `file_pages_exceed_max` - 422: too many pages.
-
-                * `file_size_exceeds_limit` - 422: the file size is too large.
-                See description for details.
-
-                * `foreign_return_address` - 422: the `from` address must be a
-                US address.
-
-                * `inconsistent_page_dimensions` - 422: all pages of the input
-                file must have the same dimensions.
-
-                * `invalid_bank_account` - 422: the provided bank routing number
-                is invalid.
-
-                * `invalid_bank_account_verification` - 422: verification
-                amounts do not match.
-
-                * `invalid_check_international` - 422: checks cannot be sent
-                internationally.
-
-                * `invalid_country_covid` - 422: the postal service in the
-                specified country is currently unable to process the request due
-                to COVID-19 restrictions.
-
-                * `invalid_file` - 422: the file is invalid.
-
-                * `invalid_file_dimensions` - 422: file dimensions are incorrect
-                for the selected mail type.
-
-                * `invalid_file_download_time` - 422: file download from remote
-                server took too long.
-
-                * `invalid_file_url` - 422: the file URL when creating a
-                resource is invalid.
-
-                * `invalid_image_dpi` - 422: DPI must be at least 300.
-
-                * `invalid_international_feature` - 422: the specified product
-                cannot be sent to the destination.
-
-                * `invalid_perforation_return_envelope` - 422: both
-                `return_envelope` and `perforation` must be used together.
-
-                * `invalid_template_html` - 422: the provided HTML is invalid.
-
-                * `merge_variable_required` - 422: a required merge variable is
-                missing.
-
-                * `merge_variable_whitespace` - 422: merge variable names cannot
-                contain whitespace.
-
-                * `payment_method_unverified` - 401: you must have a verified
-                bank account or credit card to submit live requests.
-
-                * `pdf_encrypted` - 422: an encrypted PDF was provided.
-
-                * `special_characters_restricted` - 422: cannot use special
-                characters for merge variable names.
-
-                * `unembedded_fonts` - 422: the provided PDF contains
-                non-standard unembedded fonts. See description for details.
-
-
-                **AUTHENTICATION**
-
-                * `email_required` - 401: account must have a verified email
-                address before creating live resources.
-
-                * `invalid_api_key` - 401/403: the API key is invalid.
-
-                * `publishable_key_not_allowed` - 403: the requested operation
-                needs a secret key, not a publishable key. See [API
-                Keys](#section/API-Keys) for more information.
-
-                * `rate_limit_exceeded` - 429: requests were sent too quickly
-                and must be slowed down.
-
-                * `unauthorized` - 401: the request isn't authorized.
-
-                * `unauthorized_token` - 401: token isn't authorized.
+              oneOf:
+                - $ref: '#/components/schemas/generic'
+                - $ref: '#/components/schemas/authentication'
+                - $ref: '#/components/schemas/advanced'
     object:
       type: string
       description: Value is type of resource.
@@ -4449,7 +4458,7 @@ components:
         signatory: Jane Doe
         account_type: individual
         metadat:
-          spiffy: 'true'
+          spiffy: true
         date_created: '2019-08-08T19:34:47.571Z'
         date_modified: '2019-08-08T19:34:47.571Z'
     bank_deletion:
@@ -4545,48 +4554,47 @@ components:
       type: string
       pattern: '^\d{5}((-)?\d{4})?$'
     multiple_components:
-      allOf:
-        - anyOf:
-            - title: US verification object with `city` and `state`
-              required:
-                - city
-                - state
-            - title: US verification object with `zip_code`
-              required:
-                - zip_code
-        - type: object
+      type: object
+      required:
+        - primary_line
+      anyOf:
+        - title: US verification object with `city` and `state`
           required:
-            - primary_line
-          properties:
-            recipient:
-              $ref: '#/components/schemas/recipient'
-            primary_line:
-              $ref: '#/components/schemas/primary_line_us'
-            secondary_line:
-              $ref: '#/components/schemas/secondary_line'
-            urbanization:
-              $ref: '#/components/schemas/urbanization'
-            city:
-              allOf:
-                - $ref: '#/components/schemas/city_no_description'
-                - type: string
-                  description: >-
-                    The name of the city. `city` and `state` are required if no
-                    `zip_code` is passed.
-            state:
-              type: string
+            - city
+            - state
+        - title: US verification object with `zip_code`
+          required:
+            - zip_code
+      properties:
+        recipient:
+          $ref: '#/components/schemas/recipient'
+        primary_line:
+          $ref: '#/components/schemas/primary_line_us'
+        secondary_line:
+          $ref: '#/components/schemas/secondary_line'
+        urbanization:
+          $ref: '#/components/schemas/urbanization'
+        city:
+          allOf:
+            - $ref: '#/components/schemas/city_no_description'
+            - type: string
               description: >-
-                The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US)
-                two letter code or subdivision name for the state. `city` and
-                `state` are required if no `zip_code` is passed.
-              maxLength: 50
-            zip_code:
-              allOf:
-                - description: >-
-                    Required if `city` and `state` are not passed in. If
-                    included, must be formatted as a US ZIP or ZIP+4 (e.g.
-                    `94107`, `941072282`, `94107-2282`).
-                - $ref: '#/components/schemas/zip_code'
+                The name of the city. `city` and `state` are required if no
+                `zip_code` is passed.
+        state:
+          type: string
+          description: >-
+            The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US) two
+            letter code or subdivision name for the state. `city` and `state`
+            are required if no `zip_code` is passed.
+          maxLength: 50
+        zip_code:
+          allOf:
+            - description: >-
+                Required if `city` and `state` are not passed in. If included,
+                must be formatted as a US ZIP or ZIP+4 (e.g. `94107`,
+                `941072282`, `94107-2282`).
+            - $ref: '#/components/schemas/zip_code'
     multiple_components_list:
       type: object
       required:
@@ -6164,10 +6172,6 @@ components:
           maxLength: 500
         country:
           $ref: '#/components/schemas/country_extended'
-    intl_verification_writable:
-      oneOf:
-        - $ref: '#/components/schemas/multiple_components_intl'
-        - $ref: '#/components/schemas/single_line_address_intl'
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.
@@ -7387,10 +7391,6 @@ components:
             _Does not support a recipient and will error when other payload
             parameters are provided._
           maxLength: 500
-    us_verifications_writable:
-      oneOf:
-        - $ref: '#/components/schemas/multiple_components'
-        - $ref: '#/components/schemas/single_line_address'
     zip5:
       type: object
       required:
@@ -7954,7 +7954,6 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -7962,6 +7961,7 @@ components:
                     description: list of bank_accounts
                     items:
                       $ref: '#/components/schemas/bank_account'
+              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: bank_0e3fb07eba0b35b
@@ -8209,7 +8209,6 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -8217,6 +8216,7 @@ components:
                     description: list of checks
                     items:
                       $ref: '#/components/schemas/check'
+              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: chk_0176bf6197100185
@@ -8777,7 +8777,7 @@ components:
             date_modified: '2017-09-05T15:54:53.346Z'
             send_date: '2017-09-05T15:54:53.346Z'
             cards:
-              - id: card_c51ae96f5cebf3e
+              - id: card_7a6d73c5c8457fc
                 account_id: fa9ea650fc7b31a89f92
                 description: null
                 url: >-
@@ -9074,7 +9074,6 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -9082,6 +9081,7 @@ components:
                     description: list of self_mailers
                     items:
                       $ref: '#/components/schemas/self_mailer'
+              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: sfm_7239rhwqkrfaskas
@@ -9352,7 +9352,6 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -9360,6 +9359,7 @@ components:
                     description: list of template versions
                     items:
                       $ref: '#/components/schemas/template_version'
+              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: vrsn_4d6ff5d868bf630
@@ -9398,7 +9398,6 @@ components:
         application/json:
           schema:
             allOf:
-              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -9406,6 +9405,7 @@ components:
                     description: list of templates
                     items:
                       $ref: '#/components/schemas/template'
+              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: tmpl_d5a5a89da9106f8
@@ -9892,7 +9892,7 @@ x-webhooks:
       description: Information about tracking events
       operationId: tracking_event
       tags:
-        - Tracking Events
+        - TrackingEvents
       responses:
         '200':
           $ref: '#/components/responses/tracking_events'
@@ -10333,7 +10333,7 @@ paths:
       summary: Verify
       description: Verify a bank account in order to create a check.
       tags:
-        - Bank Accounts
+        - BankAccounts
       requestBody:
         required: true
         content:
@@ -10422,7 +10422,7 @@ paths:
         the unique bank account identifier that was returned upon bank account
         creation.
       tags:
-        - Bank Accounts
+        - BankAccounts
       responses:
         '200':
           description: Returns a bank account object
@@ -10487,7 +10487,7 @@ paths:
       summary: Delete
       description: Permanently deletes a bank account. It cannot be undone.
       tags:
-        - Bank Accounts
+        - BankAccounts
       responses:
         '200':
           $ref: '#/components/responses/bank_account_deleted'
@@ -10538,7 +10538,7 @@ paths:
         sorted by creation date, with the most recently created bank accounts
         appearing first.
       tags:
-        - Bank Accounts
+        - BankAccounts
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/before_after'
@@ -10600,7 +10600,7 @@ paths:
         being able to send live checks. The deposits will appear in the bank
         account in 2-3 business days and have the description "VERIFICATION".
       tags:
-        - Bank Accounts
+        - BankAccounts
       requestBody:
         required: true
         content:
@@ -10614,7 +10614,7 @@ paths:
               signatory: Jane Doe
               account_type: individual
               metadata:
-                spiffy: 'true'
+                spiffy: true
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/bank_account_base'
@@ -10625,7 +10625,7 @@ paths:
               signatory: Jane Doe
               account_type: individual
               metadata:
-                spiffy: 'true'
+                spiffy: true
             encoding:
               metadata:
                 style: deepObject
@@ -10640,7 +10640,7 @@ paths:
               signatory: Jane Doe
               account_type: individual
               metadata:
-                spiffy: 'true'
+                spiffy: true
       responses:
         '200':
           $ref: '#/components/responses/post_bank_account'
@@ -10736,7 +10736,7 @@ paths:
         the unique billing_group identifier that was returned upon billing_group
         creation.
       tags:
-        - Billing Groups
+        - BillingGroups
       responses:
         '200':
           description: Returns a billing_group object.
@@ -10763,7 +10763,7 @@ paths:
       summary: Update
       description: Updates all editable attributes of the billing_group with the given id.
       tags:
-        - Billing Groups
+        - BillingGroups
       requestBody:
         required: true
         content:
@@ -10806,7 +10806,7 @@ paths:
         sorted by creation date, with the most recently created billing_groups
         appearing first.
       tags:
-        - Billing Groups
+        - BillingGroups
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/offset'
@@ -10821,7 +10821,6 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/list'
                   - type: object
                     properties:
                       data:
@@ -10829,6 +10828,7 @@ paths:
                         description: list of billing_groups
                         items:
                           $ref: '#/components/schemas/billing_group'
+                  - $ref: '#/components/schemas/list'
               example:
                 data:
                   - id: bg_d5a5a89da9106f8
@@ -10859,7 +10859,7 @@ paths:
       summary: Create
       description: Creates a new billing_group with the provided properties.
       tags:
-        - Billing Groups
+        - BillingGroups
       requestBody:
         required: true
         content:
@@ -10907,7 +10907,7 @@ paths:
         Requests to this endpoint with a test API key will return a dummy
         response based on the primary line you input.
       tags:
-        - US Verifications
+        - USVerifications
       parameters:
         - in: query
           name: case
@@ -10989,7 +10989,7 @@ paths:
         _with a live API key_. Requests to this endpoint with a test API key
         will return a dummy response based on the primary line you input.
       tags:
-        - Intl Verifications
+        - IntlVerifications
       requestBody:
         required: true
         content:
@@ -11478,7 +11478,7 @@ paths:
       summary: Retrieve
       description: Retrieves the card orders associated with the given card id.
       tags:
-        - Card Orders
+        - CardOrders
       responses:
         '200':
           description: Returns the card orders associated with the given card id
@@ -11538,7 +11538,7 @@ paths:
       summary: Create
       description: Creates a new card order given information
       tags:
-        - Card Orders
+        - CardOrders
       requestBody:
         required: true
         content:
@@ -12166,7 +12166,7 @@ paths:
         live API key_. Requests to this endpoint with a test API key will return
         a dummy response based on the primary line you input.
       tags:
-        - Intl Verifications
+        - IntlVerifications
       parameters:
         - $ref: '#/components/parameters/lang_spec'
       requestBody:
@@ -12174,7 +12174,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/intl_verification_writable'
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components_intl'
+                - $ref: '#/components/schemas/single_line_address_intl'
             examples:
               basic:
                 value:
@@ -12204,7 +12206,9 @@ paths:
                   country: CA
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/intl_verification_writable'
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components_intl'
+                - $ref: '#/components/schemas/single_line_address_intl'
             examples:
               basic:
                 value:
@@ -12234,7 +12238,9 @@ paths:
                   country: CA
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/intl_verification_writable'
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components_intl'
+                - $ref: '#/components/schemas/single_line_address_intl'
             examples:
               basic:
                 value:
@@ -12432,7 +12438,7 @@ paths:
                 date_modified: '2017-09-05T15:54:53.346Z'
                 send_date: '2017-09-05T15:54:53.346Z'
                 cards:
-                  - id: card_c51ae96f5cebf3e
+                  - id: card_7a6d73c5c8457fc
                     account_id: fa9ea650fc7b31a89f92
                     description: null
                     url: >-
@@ -12667,7 +12673,7 @@ paths:
                 {{name}}</html>
               color: true
               cards:
-                - card_c51ae96f5cebf3e
+                - card_7a6d73c5c8457fc
               double_sided: false
               address_placement: bottom_first_page
               mail_type: usps_first_class
@@ -12676,7 +12682,7 @@ paths:
               merge_variables:
                 name: Harry
               metadata:
-                spiffy: 'true'
+                spiffy: true
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
@@ -12709,7 +12715,7 @@ paths:
                 {{name}}</html>
               color: true
               cards:
-                - card_c51ae96f5cebf3e
+                - card_7a6d73c5c8457fc
               double_sided: false
               address_placement: top_first_page
               mail_type: usps_first_class
@@ -12718,7 +12724,7 @@ paths:
               merge_variables:
                 name: Harry
               metadata:
-                spiffy: 'true'
+                spiffy: true
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
@@ -12764,7 +12770,7 @@ paths:
                 {{name}}</html>
               color: true
               cards:
-                - card_c51ae96f5cebf3e
+                - card_7a6d73c5c8457fc
               double_sided: false
               address_placement: top_first_page
               mail_type: usps_first_class
@@ -12773,7 +12779,7 @@ paths:
               merge_variables:
                 name: Harry
               metadata:
-                spiffy: 'true'
+                spiffy: true
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
@@ -12786,7 +12792,7 @@ paths:
         - lang: Shell
           source: |
             curl https://api.lob.com/v1/letters \
-              -u YOUR_API_KEY \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
               -d "description=Demo Letter" \
               -d "to[name]=Harry Zhang" \
               -d "to[address_line1]=210 King St" \
@@ -12797,8 +12803,7 @@ paths:
               -d "from=adr_210a8d4b0b76d77b" \
               --data-urlencode "file=<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>" \
               -d "merge_variables[name]=Harry" \
-              -d "color=true" \
-              -d "cards[]=card_c51ae96f5cebf3e"
+              -d "color=true"
           label: CURL
         - lang: Javascript
           source: |
@@ -12817,8 +12822,7 @@ paths:
               merge_variables: {
                 name: 'Harry'
               },
-              color: true,
-              cards: ['card_c51ae96f5cebf3e']
+              color: true
             }, function (err, res) {
               console.log(err, res);
             });
@@ -12840,8 +12844,7 @@ paths:
               merge_variables: {
                 name: "Harry"
               },
-              color: true,
-              cards: ["card_c51ae96f5cebf3e"]
+              color: true
             )
           label: RUBY
         - lang: Python
@@ -12861,8 +12864,7 @@ paths:
               merge_variables = {
                 'name': 'Harry'
               },
-              color = True,
-              cards = ['card_c51ae96f5cebf3e']
+              color = True
             )
           label: PYTHON
         - lang: PHP
@@ -12878,8 +12880,7 @@ paths:
               'from'                  => 'adr_210a8d4b0b76d77b',
               'file'                  => '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
               'merge_variables[name]' => 'Harry',
-              'color'                 => true,
-              'cards'                 => ['card_c51ae96f5cebf3e']
+              'color'                 => true
             ));
         - lang: Java
           source: |
@@ -12900,7 +12901,6 @@ paths:
                                     .setZip("94107")
                     )
                     .setFrom("adr_210a8d4b0b76d77b")
-                    .setCards("card_c51ae96f5cebf3e")
                     .create();
 
             Letter letter = response.getResponseBody();
@@ -12922,8 +12922,7 @@ paths:
               merge_variables: %{
                 name: "Harry"
               },
-              color: true,
-              cards: ["card_c51ae96f5cebf3e"]
+              color: true
             })
           label: ELIXIR
   '/postcards/{psc_id}':
@@ -13244,13 +13243,13 @@ paths:
                 address_zip: '94107'
                 address_country: US
               front: tmpl_a1234dddg
-              back: tmpl_a1234dddg
+              back: ./nifty.htm
               size: 6x9
               mail_type: usps_first_class
               merge_variables:
                 name: Harry
               metadata:
-                spiffy: 'true'
+                spiffy: true
               send_date: '2017-11-01T00:00:00.000Z'
           application/x-www-form-urlencoded:
             schema:
@@ -13281,14 +13280,14 @@ paths:
                 address_state: CA
                 address_zip: '94107'
                 address_country: US
-              front: tmpl_c94e83ca2cd5121
-              back: tmpl_c94e83ca2cd5121
+              front: tmpl_a1234dddg
+              back: ./nifty.htm
               size: 6x9
               mail_type: usps_first_class
               merge_variables:
                 name: Harry
               metadata:
-                spiffy: 'true'
+                spiffy: true
               send_date: '2017-11-01T00:00:00.000Z'
             encoding:
               to:
@@ -13333,13 +13332,13 @@ paths:
                 address_zip: '94107'
                 address_country: US
               front: tmpl_a1234dddg
-              back: tmpl_a1234dddg
+              back: ./nifty.htm
               size: 6x9
               mail_type: usps_first_class
               merge_variables:
                 name: Harry
               metadata:
-                spiffy: 'true'
+                spiffy: true
               send_date: '2017-11-01T00:00:00.000Z'
       responses:
         '200':
@@ -13500,7 +13499,7 @@ paths:
         the unique self_mailer identifier that was returned upon self_mailer
         creation.
       tags:
-        - Self Mailers
+        - SelfMailers
       responses:
         '200':
           description: Returns a self_mailer object
@@ -13627,7 +13626,7 @@ paths:
         Mail Edition](https://dashboard.lob.com/#/settings/editions) to gain
         access.
       tags:
-        - Self Mailers
+        - SelfMailers
       responses:
         '200':
           $ref: '#/components/responses/self_mailer_deleted'
@@ -13675,7 +13674,7 @@ paths:
         sorted by creation date, with the most recently created self_mailers
         appearing first.
       tags:
-        - Self Mailers
+        - SelfMailers
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/before_after'
@@ -13742,7 +13741,7 @@ paths:
       summary: Create
       description: Creates a new self_mailer given information
       tags:
-        - Self Mailers
+        - SelfMailers
       parameters:
         - $ref: '#/components/parameters/idem-header'
         - $ref: '#/components/parameters/idem-query'
@@ -13760,7 +13759,7 @@ paths:
               outside: 'https://lob.com/selfmaileroutside.pdf'
               size: 12x9_bifold
               metadata:
-                spiffy: 'true'
+                spiffy: true
               mail_type: usps_standard
               merge_variables:
                 name: Harry
@@ -13776,7 +13775,7 @@ paths:
               outside: 'https://lob.com/selfmaileroutside.pdf'
               size: 12x9_bifold
               metadata:
-                spiffy: 'true'
+                spiffy: true
               mail_type: usps_standard
               merge_variables:
                 name: Harry
@@ -13799,7 +13798,7 @@ paths:
               outside: 'https://lob.com/selfmaileroutside.pdf'
               size: 12x9_bifold
               metadata:
-                spiffy: 'true'
+                spiffy: true
               mail_type: usps_standard
               merge_variables:
                 name: Harry
@@ -13959,7 +13958,7 @@ paths:
       summary: Retrieve
       description: Retrieves the template version with the given template and version ids.
       tags:
-        - Template Versions
+        - TemplateVersions
       responses:
         '200':
           description: >-
@@ -14014,7 +14013,7 @@ paths:
       summary: Update
       description: Updates the template version with the given template and version ids.
       tags:
-        - Template Versions
+        - TemplateVersions
       requestBody:
         required: true
         content:
@@ -14077,7 +14076,7 @@ paths:
         Permanently deletes a template version. A template's `published_version`
         can not be deleted.
       tags:
-        - Template Versions
+        - TemplateVersions
       responses:
         '200':
           $ref: '#/components/responses/template_version_deleted'
@@ -14123,7 +14122,7 @@ paths:
         template versions are sorted by creation date, with the most recently
         created appearing first.
       tags:
-        - Template Versions
+        - TemplateVersions
       parameters:
         - in: path
           name: tmpl_id
@@ -14176,7 +14175,7 @@ paths:
       summary: Create
       description: Creates a new template version attached to the specified template.
       tags:
-        - Template Versions
+        - TemplateVersions
       parameters:
         - in: path
           name: tmpl_id
@@ -14538,7 +14537,7 @@ paths:
               description: demo
               html: '<html>HTML for {{name}}</html>'
               metadata:
-                spiffy: 'true'
+                spiffy: true
               engine: handlebars
           application/x-www-form-urlencoded:
             schema:
@@ -14547,7 +14546,7 @@ paths:
               description: demo
               html: '<html>HTML for {{name}}</html>'
               metadata:
-                spiffy: 'true'
+                spiffy: true
               engine: handlebars
           multipart/form-data:
             schema:
@@ -14556,7 +14555,7 @@ paths:
               description: demo
               html: '<html>HTML for {{name}}</html>'
               metadata:
-                spiffy: 'true'
+                spiffy: true
               engine: handlebars
       responses:
         '200':
@@ -14641,7 +14640,7 @@ paths:
         be valid addresses; they'll need to be
         [verified](#operation/us_verification).
       tags:
-        - US Autocompletions
+        - USAutocompletions
       requestBody:
         required: true
         content:
@@ -14773,7 +14772,7 @@ paths:
         values are provided. See the [US Verifications Test
         Environment](#section/US-Verifications-Test-Env) for details.
       tags:
-        - US Verifications
+        - USVerifications
       parameters:
         - in: query
           name: case
@@ -14795,7 +14794,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/us_verifications_writable'
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components'
+                - $ref: '#/components/schemas/single_line_address'
             examples:
               basic:
                 value:
@@ -14821,7 +14822,9 @@ paths:
                   zip_code: '11111'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/us_verifications_writable'
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components'
+                - $ref: '#/components/schemas/single_line_address'
             examples:
               basic:
                 value:
@@ -14847,7 +14850,9 @@ paths:
                   zip_code: '11111'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/us_verifications_writable'
+              oneOf:
+                - $ref: '#/components/schemas/multiple_components'
+                - $ref: '#/components/schemas/single_line_address'
             examples:
               basic:
                 value:
@@ -14952,7 +14957,7 @@ paths:
       summary: Lookups
       description: Returns information about a ZIP code
       tags:
-        - Zip Lookups
+        - Zip
       requestBody:
         required: true
         content:
@@ -15029,7 +15034,7 @@ paths:
       summary: Reverse Geocode Lookup
       description: Reverse geocode a valid US location with a live API key.
       tags:
-        - Reverse Geocode Lookups
+        - ReverseGeocode
       parameters:
         - in: query
           name: size

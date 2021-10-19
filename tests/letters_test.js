@@ -216,6 +216,7 @@ test.serial.before(
             perforated_page: 1,
             custom_envelope: null,
             merge_variables: { name: "Harry" },
+            cards: ["card_c51ae96f5cebf3e"]
           },
           { headers: prism.authHeader }
         )

@@ -15,12 +15,13 @@ var dashToUnderscore = function (string) {
  * @param {String} sParam
  * @returns {String}
  */
-var getUrlParams = function (sParam) {
-  var sPageURL = window.location.search.substring(1);
-  var sURLVariables = sPageURL.split("&");
-  for (var i = 0; i < sURLVariables.length; i++) {
-    var sParameterName = sURLVariables[i].split("=");
+let getUrlParams = function (sParam) {
+  const sPageURL = window.location.search.substring(1);
+  const sURLVariables = sPageURL.split("&");
+  for (let i = 0; i < sURLVariables.length; i++) {
+    const sParameterName = sURLVariables[i].split("=");
     if (sParameterName[0] === sParam) {
+      console.log(sParameterName[1]);
       return sParameterName[1];
     }
   }
@@ -31,13 +32,13 @@ var getUrlParams = function (sParam) {
  * current url path. We use this instead of .page() so we can use our
  * naming convention and select which page views show up in Amplitude.
  */
-var trackView = function () {
-  var path = window.location.pathname;
-  var hash = window.location.hash;
-  var eventName = undefined;
-  var eventProperties = {};
-  var result = /(products|pricing|solutions|legal)\/([^\/]*)$/.exec(path);
-  var printAndMailResult = /products\/([^\/]*)\/([^\/]*)/.exec(path);
+const trackView = function () {
+  const path = window.location.pathname;
+  const hash = window.location.hash;
+  let eventName = undefined;
+  let eventProperties = {};
+  let result = /(products|pricing|solutions|legal)\/([^\/]*)$/.exec(path);
+  const printAndMailResult = /products\/([^\/]*)\/([^\/]*)/.exec(path);
 
   if (result) {
     var section = result[1];
@@ -152,7 +153,7 @@ var trackView = function () {
 
       /* CTA Clicks */
       $(".analytics-cta").click(function () {
-        var href = $(this).attr("href");
+        const href = $(this).attr("href");
         var location = $(this).data("location");
         var product = $(this).data("product");
         var plan = $(this).data("plan");

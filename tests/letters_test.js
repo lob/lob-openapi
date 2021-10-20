@@ -216,6 +216,41 @@ test.serial.before(
             perforated_page: 1,
             custom_envelope: null,
             merge_variables: { name: "Harry" },
+          },
+          { headers: prism.authHeader }
+        )
+      );
+      t.assert(create.status === 200);
+      t.assert(!create.data.tracking_number);
+      t.context.full_id = create.data.id;
+    } catch (prismError) {
+      if (Object.keys(prismError).length > 0) {
+        t.fail(JSON.stringify(prismError, null, 2));
+      } else {
+        t.fail(prismError.toString());
+      }
+    }
+
+    // FULL PAYLOAD LETTER - NO EXTRA SERVICE
+    try {
+      const create = await prism.setup().then((client) =>
+        client.post(
+          resource_endpoint,
+          {
+            description: "Demo Letter",
+            to: t.context.to_full,
+            from: t.context.from_full,
+            send_date: date.toISOString(),
+            color: true,
+            file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
+            double_sided: false,
+            address_placement: "insert_blank_page",
+            mail_type: "usps_first_class",
+            extra_service: null,
+            return_envelope: false,
+            perforated_page: null,
+            custom_envelope: null,
+            merge_variables: { name: "Harry" },
             cards: ["card_c51ae96f5cebf3e"],
           },
           { headers: prism.authHeader }

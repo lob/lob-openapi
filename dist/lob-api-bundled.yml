@@ -7953,6 +7953,7 @@ components:
         application/json:
           schema:
             allOf:
+              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -7960,7 +7961,6 @@ components:
                     description: list of bank_accounts
                     items:
                       $ref: '#/components/schemas/bank_account'
-              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: bank_0e3fb07eba0b35b
@@ -8208,6 +8208,7 @@ components:
         application/json:
           schema:
             allOf:
+              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -8215,7 +8216,6 @@ components:
                     description: list of checks
                     items:
                       $ref: '#/components/schemas/check'
-              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: chk_0176bf6197100185
@@ -9073,6 +9073,7 @@ components:
         application/json:
           schema:
             allOf:
+              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -9080,7 +9081,6 @@ components:
                     description: list of self_mailers
                     items:
                       $ref: '#/components/schemas/self_mailer'
-              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: sfm_7239rhwqkrfaskas
@@ -9351,6 +9351,7 @@ components:
         application/json:
           schema:
             allOf:
+              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -9358,7 +9359,6 @@ components:
                     description: list of template versions
                     items:
                       $ref: '#/components/schemas/template_version'
-              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: vrsn_4d6ff5d868bf630
@@ -9397,6 +9397,7 @@ components:
         application/json:
           schema:
             allOf:
+              - $ref: '#/components/schemas/list'
               - type: object
                 properties:
                   data:
@@ -9404,7 +9405,6 @@ components:
                     description: list of templates
                     items:
                       $ref: '#/components/schemas/template'
-              - $ref: '#/components/schemas/list'
           example:
             data:
               - id: tmpl_d5a5a89da9106f8
@@ -10820,6 +10820,7 @@ paths:
             application/json:
               schema:
                 allOf:
+                  - $ref: '#/components/schemas/list'
                   - type: object
                     properties:
                       data:
@@ -10827,7 +10828,6 @@ paths:
                         description: list of billing_groups
                         items:
                           $ref: '#/components/schemas/billing_group'
-                  - $ref: '#/components/schemas/list'
               example:
                 data:
                   - id: bg_d5a5a89da9106f8

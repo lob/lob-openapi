@@ -1225,7 +1225,7 @@ tags:
 
 
       See the `ncoa_us_live` example under [Response
-      samples](#operation/create_address) within the "Create an Address" section
+      samples](#operation/address_create) within the "Create an Address" section
       in Addresses
 
 
@@ -1257,7 +1257,7 @@ tags:
 
 
       A static address will always be returned, as documented in the
-      `ncoa_us_test` example under [Response samples](#operation/create_address)
+      `ncoa_us_test` example under [Response samples](#operation/address_create)
       within the "Create an Address"
 
       section in Addresses (along with the corresponding request under "Request
@@ -1585,7 +1585,7 @@ tags:
       the API. The
 
       content is an example of what the [Create a
-      check](index.html#operation/create_check)
+      check](index.html#operation/check_create)
 
       endpoint accepts. An example of a request body encoded in this format
       follows.
@@ -7119,13 +7119,13 @@ components:
         for guidance on designing HTML templates. Please see endpoint specific
         documentation for any other product-specific HTML details:
 
-        - [Postcards](#operation/create_postcard) - `front` and `back`
+        - [Postcards](#operation/postcard_create) - `front` and `back`
 
-        - [Self Mailers](#operation/create_self_mailer) - `inside` and `outside`
+        - [Self Mailers](#operation/self_mailer_create) - `inside` and `outside`
 
-        - [Letters](#operation/create_letter) - `file`
+        - [Letters](#operation/letter_create) - `file`
 
-        - [Checks](#operation/create_check) - `check_bottom` and `attachment`
+        - [Checks](#operation/check_create) - `check_bottom` and `attachment`
 
 
         If there is a syntax error with your variable names within your HTML,
@@ -7712,14 +7712,14 @@ components:
           type: object
           description: >-
             The body of the associated resource as they were at the time of the
-            event, i.e. the [postcard object](#operation/get_postcard), [the
-            letter object](#operation/get_letter), [the check
-            object](#operation/get_check), [the address
-            object](#operation/get_address), or [the bank account
-            object](#operation/get_bank_account). For `.deleted` events, the
+            event, i.e. the [postcard object](#operation/postcard_retrieve), [the
+            letter object](#operation/letter_retrieve), [the check
+            object](#operation/check_retrieve), [the address
+            object](#operation/address_retrieve), or [the bank account
+            object](#operation/bank_account_retrieve). For `.deleted` events, the
             body matches the response for the corresponding delete endpoint for
             that resource (e.g. the [postcard delete
-            response](#operation/delete_postcard)).
+            response](#operation/postcard_delete)).
         reference_id:
           description: Unique identifier of the related resource for the event.
           type: string
@@ -8047,7 +8047,7 @@ components:
               code: invalid
               message: primary_line is required or address is required
               status_code: 422
-    bulk_us_verifications:
+    us_verifications_bulk:
       description: Returns a list of US verification objects.
       headers:
         ratelimit-limit:
@@ -8124,7 +8124,7 @@ components:
               code: invalid
               message: country is required
               status_code: 422
-    bulk_intl_verifications:
+    intl_verifications_bulk:
       description: Returns an array of international verification objects.
       headers:
         ratelimit-limit:
@@ -9898,7 +9898,7 @@ x-webhooks:
 paths:
   /addresses:
     get:
-      operationId: list_addresses
+      operationId: address_list
       summary: List
       description: >-
         Returns a list of your addresses. The addresses are returned sorted by
@@ -9954,7 +9954,7 @@ paths:
             Lob.Address.list(%{limit: 2})
           label: ELIXIR
     post:
-      operationId: create_address
+      operationId: address_create
       summary: Create
       description: Creates a new address given information
       tags:
@@ -10225,7 +10225,7 @@ paths:
         schema:
           $ref: '#/components/schemas/adr_id'
     get:
-      operationId: get_address
+      operationId: address_retrieve
       summary: Retrieve
       description: >-
         Retrieves the details of an existing address. You need only supply the
@@ -10272,7 +10272,7 @@ paths:
             Lob.Address.retrieve("adr_fa85158b26c3eb7c")
           label: ELIXIR
     delete:
-      operationId: delete_address
+      operationId: address_delete
       summary: Delete
       description: >-
         Deletes the details of an existing address. You need only supply the
@@ -10414,7 +10414,7 @@ paths:
         schema:
           $ref: '#/components/schemas/bank_id'
     get:
-      operationId: get_bank_account
+      operationId: bank_account_retrieve
       summary: Retrieve
       description: >-
         Retrieves the details of an existing bank account. You need only supply
@@ -10482,7 +10482,7 @@ paths:
             Lob.BankAccount.find("bank_8cad8df5354d33f")
           label: ELIXIR
     delete:
-      operationId: delete_bank_account
+      operationId: bank_account_delete
       summary: Delete
       description: Permanently deletes a bank account. It cannot be undone.
       tags:
@@ -10530,7 +10530,7 @@ paths:
           label: ELIXIR
   /bank_accounts:
     get:
-      operationId: list_bank_accounts
+      operationId: bank_accounts_list
       summary: List
       description: >-
         Returns a list of your bank accounts. The bank accounts are returned
@@ -10591,7 +10591,7 @@ paths:
             Lob.BankAccount.list(%{limit: 2})
           label: ELIXIR
     post:
-      operationId: create_bank_account
+      operationId: bank_account_create
       summary: Create
       description: >-
         Creates a new bank account with the provided properties. Bank accounts
@@ -10728,7 +10728,7 @@ paths:
         schema:
           $ref: '#/components/schemas/bg_id'
     get:
-      operationId: get_billing_group
+      operationId: billing_group_retrieve
       summary: Retrieve
       description: >-
         Retrieves the details of an existing billing_group. You need only supply
@@ -10798,7 +10798,7 @@ paths:
           $ref: '#/components/responses/billing_group_error'
   /billing_groups:
     get:
-      operationId: list_billing_groups
+      operationId: billing_groups_list
       summary: List
       description: >-
         Returns a list of your billing_groups. The billing_groups are returned
@@ -10854,7 +10854,7 @@ paths:
             curl -X GET "https://api.lob.com/v1/billing_groups?limit=2" \
             -u <YOUR API KEY>:
     post:
-      operationId: create_billing_group
+      operationId: billing_group_create
       summary: Create
       description: Creates a new billing_group with the provided properties.
       tags:
@@ -10899,7 +10899,7 @@ paths:
             resource sends"
   /bulk/us_verifications:
     post:
-      operationId: bulk_us_verifications
+      operationId: us_verifications_bulk
       summary: Bulk Verify
       description: >-
         Verify a list of US or US territory addresses _with a live API key_.
@@ -10981,7 +10981,7 @@ paths:
           $ref: '#/components/responses/us_verifications_error'
   /bulk/intl_verifications:
     post:
-      operationId: bulk_intl_verifications
+      operationId: intl_verifications_bulk
       summary: Bulk Verify
       description: >-
         Verify a list of international (except US or US territories) address
@@ -11032,12 +11032,12 @@ paths:
                   country: RU
       responses:
         '200':
-          $ref: '#/components/responses/bulk_intl_verifications'
+          $ref: '#/components/responses/intl_verifications_bulk'
         default:
           $ref: '#/components/responses/intl_verifications_error'
   /cards:
     get:
-      operationId: list_cards
+      operationId: cards_list
       summary: List
       description: >-
         Returns a list of your cards. The cards are returned sorted by creation
@@ -11125,7 +11125,7 @@ paths:
               'limit' => 2
             ));
     post:
-      operationId: create_card
+      operationId: card_create
       summary: Create
       description: Creates a new card given information
       tags:
@@ -11260,7 +11260,7 @@ paths:
         schema:
           $ref: '#/components/schemas/card_id'
     get:
-      operationId: get_card
+      operationId: card_retrieve
       summary: Retrieve
       description: >-
         Retrieves the details of an existing card. You need only supply the
@@ -11433,7 +11433,7 @@ paths:
             });
           label: NODE
     delete:
-      operationId: delete_card
+      operationId: card_delete
       summary: Delete
       description: >-
         Delete an existing card. You need only supply the unique identifier that
@@ -11473,7 +11473,7 @@ paths:
         schema:
           $ref: '#/components/schemas/card_id'
     get:
-      operationId: get_card_orders
+      operationId: card_orders_retrieve
       summary: Retrieve
       description: Retrieves the card orders associated with the given card id.
       tags:
@@ -11533,7 +11533,7 @@ paths:
           source: |
             $lob->cardOrders('card_6afffd19045076c')->all();
     post:
-      operationId: create_card_order
+      operationId: card_order_create
       summary: Create
       description: Creates a new card order given information
       tags:
@@ -11613,7 +11613,7 @@ paths:
         schema:
           $ref: '#/components/schemas/chk_id'
     get:
-      operationId: get_check
+      operationId: check_retrieve
       summary: Retrieve
       description: >-
         Retrieves the details of an existing check. You need only supply the
@@ -11741,7 +11741,7 @@ paths:
             Lob.Check.find("chk_534f10783683daa0")
           label: ELIXIR
     delete:
-      operationId: cancel_check
+      operationId: check_cancel
       summary: Cancel
       description: >-
         Completely removes a check from production. This can only be done if the
@@ -11792,7 +11792,7 @@ paths:
           label: ELIXIR
   /checks:
     get:
-      operationId: list_checks
+      operationId: checks_list
       summary: List
       description: >-
         Returns a list of your checks. The checks are returned sorted by
@@ -11852,7 +11852,7 @@ paths:
             Lob.Check.list(%{limit: 2})
           label: ELIXIR
     post:
-      operationId: create_check
+      operationId: check_create
       summary: Create
       description: Creates a new check with the provided properties.
       tags:
@@ -12356,7 +12356,7 @@ paths:
         schema:
           $ref: '#/components/schemas/ltr_id'
     get:
-      operationId: get_letter
+      operationId: letter_retrieve
       summary: Retrieve
       description: >-
         Retrieves the details of an existing letter. You need only supply the
@@ -12512,7 +12512,7 @@ paths:
             Lob.Letter.find("ltr_4868c3b754655f90")
           label: ELIXIR
     delete:
-      operationId: cancel_letter
+      operationId: letter_cancel
       summary: Cancel
       description: >-
         Completely removes a letter from production. This can only be done if
@@ -12565,7 +12565,7 @@ paths:
           label: ELIXIR
   /letters:
     get:
-      operationId: list_letters
+      operationId: letters_list
       summary: List
       description: >-
         Returns a list of your letters. The letters are returned sorted by
@@ -12632,7 +12632,7 @@ paths:
             Lob.Letter.list(%{limit: 2})
           label: ELIXIR
     post:
-      operationId: create_letter
+      operationId: letter_create
       summary: Create
       description: Creates a new letter given information
       tags:
@@ -12940,7 +12940,7 @@ paths:
         schema:
           $ref: '#/components/schemas/psc_id'
     get:
-      operationId: get_postcard
+      operationId: postcard_retrieve
       summary: Retrieve
       description: >-
         Retrieves the details of an existing postcard. You need only supply the
@@ -13088,7 +13088,7 @@ paths:
             Lob.Postcard.find("psc_5c002b86ce47537a")
           label: ELIXIR
     delete:
-      operationId: delete_postcard
+      operationId: postcard_delete
       summary: Cancel
       description: >-
         Completely removes a postcard from production. This can only be done if
@@ -13141,7 +13141,7 @@ paths:
           label: ELIXIR
   /postcards:
     get:
-      operationId: list_postcards
+      operationId: postcards_list
       summary: List
       description: >-
         Returns a list of your postcards. The addresses are returned sorted by
@@ -13208,7 +13208,7 @@ paths:
             Lob.Postcard.list(%{limit: 2})
           label: ELIXIR
     post:
-      operationId: create_postcard
+      operationId: postcard_create
       summary: Create
       description: Creates a new postcard given information
       tags:
@@ -13498,7 +13498,7 @@ paths:
         schema:
           $ref: '#/components/schemas/sfm_id'
     get:
-      operationId: get_self_mailer
+      operationId: self_mailer_retrieve
       summary: Retrieve
       description: >-
         Retrieves the details of an existing self_mailer. You need only supply
@@ -13622,7 +13622,7 @@ paths:
             Lob.SelfMailer.find("sfm_8ffbe811dea49dcf")
           label: ELIXIR
     delete:
-      operationId: delete_self_mailer
+      operationId: self_mailer_delete
       summary: Delete
       description: >-
         Completely removes a self mailer from production. This can only be done
@@ -13673,7 +13673,7 @@ paths:
           label: ELIXIR
   /self_mailers:
     get:
-      operationId: list_self_mailers
+      operationId: self_mailers_list
       summary: List
       description: >-
         Returns a list of your self_mailers. The self_mailers are returned
@@ -13743,7 +13743,7 @@ paths:
             Lob.SelfMailer.list(%{limit: 2})
           label: ELIXIR
     post:
-      operationId: create_self_mailer
+      operationId: self_mailer_create
       summary: Create
       description: Creates a new self_mailer given information
       tags:
@@ -13960,7 +13960,7 @@ paths:
         schema:
           $ref: '#/components/schemas/vrsn_id'
     get:
-      operationId: get_template_version
+      operationId: template_version_retrieve
       summary: Retrieve
       description: Retrieves the template version with the given template and version ids.
       tags:
@@ -14076,7 +14076,7 @@ paths:
             This feature is not currently supported by this library.
           label: ELIXIR
     delete:
-      operationId: delete_template_version
+      operationId: template_version_delete
       summary: Delete
       description: >-
         Permanently deletes a template version. A template's `published_version`
@@ -14121,7 +14121,7 @@ paths:
           label: ELIXIR
   '/templates/{tmpl_id}/versions':
     get:
-      operationId: list_template_versions
+      operationId: template_versions_list
       summary: List
       description: >
         Returns a list of template versions for the given template ID. The
@@ -14177,7 +14177,7 @@ paths:
             This feature is not currently supported by this library.
           label: ELIXIR
     post:
-      operationId: create_template_version
+      operationId: template_version_create
       summary: Create
       description: Creates a new template version attached to the specified template.
       tags:
@@ -14256,7 +14256,7 @@ paths:
         schema:
           $ref: '#/components/schemas/tmpl_id'
     get:
-      operationId: get_template
+      operationId: template_retrieve
       summary: Retrieve
       description: >-
         Retrieves the details of an existing template. You need only supply the
@@ -14429,7 +14429,7 @@ paths:
             This feature is not currently supported by this library.
           label: ELIXIR
     delete:
-      operationId: delete_template
+      operationId: template_delete
       summary: Delete
       description: >-
         Permanently deletes a template. Deleting a template also deletes its
@@ -14474,7 +14474,7 @@ paths:
           label: ELIXIR
   /templates:
     get:
-      operationId: list_templates
+      operationId: templates_list
       summary: List
       description: >-
         Returns a list of your templates. The templates are returned sorted by
@@ -14522,7 +14522,7 @@ paths:
             This feature is not currently supported by this library.
           label: ELIXIR
     post:
-      operationId: create_template
+      operationId: template_create
       summary: Create
       description: >-
         Creates a new template for use with the Print & Mail API. In Live mode,

@@ -11,6 +11,7 @@ content:
   application/json:
     schema:
       allOf:
+        - $ref: "../../../../shared/models/list.yml"
         - type: object
           properties:
             data:
@@ -18,7 +19,6 @@ content:
               description: list of template versions
               items:
                 $ref: "../models/template_version.yml"
-        - $ref: "../../../../shared/models/list.yml"
     example:
       data:
         - id: vrsn_4d6ff5d868bf630

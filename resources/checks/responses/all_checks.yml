@@ -11,6 +11,7 @@ content:
   application/json:
     schema:
       allOf:
+        - $ref: "../../../shared/models/list.yml"
         - type: object
           properties:
             data:
@@ -18,8 +19,6 @@ content:
               description: list of checks
               items:
                 $ref: "../models/check.yml"
-
-        - $ref: "../../../shared/models/list.yml"
 
     # Fill out at least the required fields in the examples.
     # It's a good idea to cover all variations in the examples.

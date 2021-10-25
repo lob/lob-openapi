@@ -4,8 +4,8 @@ info:
   version: 1.3.0
   description: >
     The Lob API is organized around REST. Our API is designed to have
-    predictable, resource-oriented URLs and uses HTTP response codes to
-    indicate any API errors. <p> Looking for our [previous
+    predictable, resource-oriented URLs and uses HTTP response codes to indicate
+    any API errors. <p> Looking for our [previous
     documentation](https://lob.github.io/legacy-docs/)?
   license:
     name: MIT
@@ -6177,6 +6177,12 @@ components:
           maxLength: 500
         country:
           $ref: '#/components/schemas/country_extended'
+    intl_verification_writable:
+      allOf:
+        - type: object
+        - oneOf:
+            - $ref: '#/components/schemas/multiple_components_intl'
+            - $ref: '#/components/schemas/single_line_address_intl'
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.
@@ -7396,6 +7402,10 @@ components:
             _Does not support a recipient and will error when other payload
             parameters are provided._
           maxLength: 500
+    us_verifications_writable:
+      oneOf:
+        - $ref: '#/components/schemas/multiple_components'
+        - $ref: '#/components/schemas/single_line_address'
     zip5:
       type: object
       required:
@@ -12179,9 +12189,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/multiple_components_intl'
-                - $ref: '#/components/schemas/single_line_address_intl'
+              $ref: '#/components/schemas/intl_verification_writable'
             examples:
               basic:
                 value:
@@ -12211,9 +12219,7 @@ paths:
                   country: CA
           application/x-www-form-urlencoded:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/multiple_components_intl'
-                - $ref: '#/components/schemas/single_line_address_intl'
+              $ref: '#/components/schemas/intl_verification_writable'
             examples:
               basic:
                 value:
@@ -12243,9 +12249,7 @@ paths:
                   country: CA
           multipart/form-data:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/multiple_components_intl'
-                - $ref: '#/components/schemas/single_line_address_intl'
+              $ref: '#/components/schemas/intl_verification_writable'
             examples:
               basic:
                 value:
@@ -14806,9 +14810,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/multiple_components'
-                - $ref: '#/components/schemas/single_line_address'
+              $ref: '#/components/schemas/us_verifications_writable'
             examples:
               basic:
                 value:
@@ -14834,9 +14836,7 @@ paths:
                   zip_code: '11111'
           application/x-www-form-urlencoded:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/multiple_components'
-                - $ref: '#/components/schemas/single_line_address'
+              $ref: '#/components/schemas/us_verifications_writable'
             examples:
               basic:
                 value:
@@ -14862,9 +14862,7 @@ paths:
                   zip_code: '11111'
           multipart/form-data:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/multiple_components'
-                - $ref: '#/components/schemas/single_line_address'
+              $ref: '#/components/schemas/us_verifications_writable'
             examples:
               basic:
                 value:

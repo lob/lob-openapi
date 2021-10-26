@@ -4559,47 +4559,48 @@ components:
       type: string
       pattern: ^\d{5}((-)?\d{4})?$
     multiple_components:
-      type: object
-      required:
-        - primary_line
-      anyOf:
-        - title: US verification object with `city` and `state`
+      allOf:
+        - anyOf:
+            - title: US verification object with `city` and `state`
+              required:
+                - city
+                - state
+            - title: US verification object with `zip_code`
+              required:
+                - zip_code
+        - type: object
           required:
-            - city
-            - state
-        - title: US verification object with `zip_code`
-          required:
-            - zip_code
-      properties:
-        recipient:
-          $ref: '#/components/schemas/recipient'
-        primary_line:
-          $ref: '#/components/schemas/primary_line_us'
-        secondary_line:
-          $ref: '#/components/schemas/secondary_line'
-        urbanization:
-          $ref: '#/components/schemas/urbanization'
-        city:
-          allOf:
-            - $ref: '#/components/schemas/city_no_description'
-            - type: string
+            - primary_line
+          properties:
+            recipient:
+              $ref: '#/components/schemas/recipient'
+            primary_line:
+              $ref: '#/components/schemas/primary_line_us'
+            secondary_line:
+              $ref: '#/components/schemas/secondary_line'
+            urbanization:
+              $ref: '#/components/schemas/urbanization'
+            city:
+              allOf:
+                - $ref: '#/components/schemas/city_no_description'
+                - type: string
+                  description: >-
+                    The name of the city. `city` and `state` are required if no
+                    `zip_code` is passed.
+            state:
+              type: string
               description: >-
-                The name of the city. `city` and `state` are required if no
-                `zip_code` is passed.
-        state:
-          type: string
-          description: >-
-            The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US) two
-            letter code or subdivision name for the state. `city` and `state`
-            are required if no `zip_code` is passed.
-          maxLength: 50
-        zip_code:
-          allOf:
-            - description: >-
-                Required if `city` and `state` are not passed in. If included,
-                must be formatted as a US ZIP or ZIP+4 (e.g. `94107`,
-                `941072282`, `94107-2282`).
-            - $ref: '#/components/schemas/zip_code'
+                The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US)
+                two letter code or subdivision name for the state. `city` and
+                `state` are required if no `zip_code` is passed.
+              maxLength: 50
+            zip_code:
+              allOf:
+                - description: >-
+                    Required if `city` and `state` are not passed in. If
+                    included, must be formatted as a US ZIP or ZIP+4 (e.g.
+                    `94107`, `941072282`, `94107-2282`).
+                - $ref: '#/components/schemas/zip_code'
     multiple_components_list:
       type: object
       required:
@@ -6178,11 +6179,9 @@ components:
         country:
           $ref: '#/components/schemas/country_extended'
     intl_verification_writable:
-      allOf:
-        - type: object
-        - oneOf:
-            - $ref: '#/components/schemas/multiple_components_intl'
-            - $ref: '#/components/schemas/single_line_address_intl'
+      oneOf:
+        - $ref: '#/components/schemas/multiple_components_intl'
+        - $ref: '#/components/schemas/single_line_address_intl'
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.

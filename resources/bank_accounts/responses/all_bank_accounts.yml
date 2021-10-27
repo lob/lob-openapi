@@ -11,6 +11,7 @@ content:
   application/json:
     schema:
       allOf:
+        - $ref: "../../../shared/models/list.yml"
         - type: object
           properties:
             data:
@@ -18,8 +19,6 @@ content:
               description: list of bank_accounts
               items:
                 $ref: "../models/bank_account.yml"
-
-        - $ref: "../../../shared/models/list.yml"
 
     example:
       data:

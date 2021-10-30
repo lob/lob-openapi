@@ -117,7 +117,7 @@ post:
           file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>"
           color: true
           cards:
-            - "card_7a6d73c5c8457fc"
+            - "card_c51ae96f5cebf3e"
           double_sided: false
           address_placement: bottom_first_page
           mail_type: usps_first_class
@@ -126,7 +126,7 @@ post:
           merge_variables:
             name: Harry
           metadata:
-            spiffy: true
+            spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
@@ -158,7 +158,7 @@ post:
           file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>"
           color: true
           cards:
-            - "card_7a6d73c5c8457fc"
+            - "card_c51ae96f5cebf3e"
           double_sided: false
           address_placement: top_first_page
           mail_type: usps_first_class
@@ -167,7 +167,7 @@ post:
           merge_variables:
             name: Harry
           metadata:
-            spiffy: true
+            spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
@@ -212,7 +212,7 @@ post:
           file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>"
           color: true
           cards:
-            - "card_7a6d73c5c8457fc"
+            - "card_c51ae96f5cebf3e"
           double_sided: false
           address_placement: top_first_page
           mail_type: usps_first_class
@@ -221,7 +221,7 @@ post:
           merge_variables:
             name: Harry
           metadata:
-            spiffy: true
+            spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
@@ -237,7 +237,7 @@ post:
     - lang: Shell
       source: |
         curl https://api.lob.com/v1/letters \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u YOUR_API_KEY \
           -d "description=Demo Letter" \
           -d "to[name]=Harry Zhang" \
           -d "to[address_line1]=210 King St" \
@@ -248,7 +248,8 @@ post:
           -d "from=adr_210a8d4b0b76d77b" \
           --data-urlencode "file=<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>" \
           -d "merge_variables[name]=Harry" \
-          -d "color=true"
+          -d "color=true" \
+          -d "cards[]=card_c51ae96f5cebf3e"
       label: CURL
     - lang: Javascript
       source: |
@@ -267,7 +268,8 @@ post:
           merge_variables: {
             name: 'Harry'
           },
-          color: true
+          color: true,
+          cards: ['card_c51ae96f5cebf3e']
         }, function (err, res) {
           console.log(err, res);
         });
@@ -289,7 +291,8 @@ post:
           merge_variables: {
             name: "Harry"
           },
-          color: true
+          color: true,
+          cards: ["card_c51ae96f5cebf3e"]
         )
       label: RUBY
     - lang: Python
@@ -309,7 +312,8 @@ post:
           merge_variables = {
             'name': 'Harry'
           },
-          color = True
+          color = True,
+          cards = ['card_c51ae96f5cebf3e']
         )
       label: PYTHON
     - lang: PHP
@@ -325,7 +329,8 @@ post:
           'from'                  => 'adr_210a8d4b0b76d77b',
           'file'                  => '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
           'merge_variables[name]' => 'Harry',
-          'color'                 => true
+          'color'                 => true,
+          'cards'                 => ['card_c51ae96f5cebf3e']
         ));
     - lang: Java
       source: |
@@ -346,6 +351,7 @@ post:
                                 .setZip("94107")
                 )
                 .setFrom("adr_210a8d4b0b76d77b")
+                .setCards("card_c51ae96f5cebf3e")
                 .create();
 
         Letter letter = response.getResponseBody();
@@ -367,6 +373,7 @@ post:
           merge_variables: %{
             name: "Harry"
           },
-          color: true
+          color: true,
+          cards: ["card_c51ae96f5cebf3e"]
         })
       label: ELIXIR

@@ -11,6 +11,7 @@ content:
   application/json:
     schema:
       allOf:
+        - $ref: "../../../shared/models/list.yml"
         - type: object
           properties:
             data:
@@ -18,7 +19,6 @@ content:
               description: list of self_mailers
               items:
                 $ref: "../models/self_mailer.yml"
-        - $ref: "../../../shared/models/list.yml"
 
     example:
       data:

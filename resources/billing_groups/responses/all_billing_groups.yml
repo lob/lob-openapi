@@ -1,6 +1,7 @@
 application/json:
   schema:
     allOf:
+      - $ref: "../../../shared/models/list.yml"
       - type: object
         properties:
           data:
@@ -8,8 +9,6 @@ application/json:
             description: list of billing_groups
             items:
               $ref: "../models/billing_group.yml"
-
-      - $ref: "../../../shared/models/list.yml"
 
   example:
     data:

@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       us_autocompletions_object: "#operation/autocompletion",
       us_autocompletions_create: "#operation/autocompletion",
       "us-autocompletions-test-environment": "#section/Autocompletion-Test-Env",
-      us_zip_lookups: "#tag/Zip-Lookups",
+      us_zip_lookups: "#tag/Zip",
       us_zip_lookups_object: "#operation/zip_lookup",
       us_zip_lookups_create: "#operation/zip_lookup",
       intl_verifications: "#tag/Intl-Verifications",

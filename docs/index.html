@@ -67,6 +67,60 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'UA-41294851-1');
+
+    class AnalyticsTracker {
+      static initialize () {
+        const selectorQs = 'ul.sc-euEtCV > li';
+
+        // Retain the current hash as the last seen
+        AnalyticsTracker._lastSeenTag = window.location.hash;
+
+        // Listen for click events on all relevant li tags
+        for (const ele of Array.from(document.querySelectorAll(selectorQs))) {
+          ele.addEventListener('click', () => {
+            // On recipt of the event, the on page navigation has not happened
+            // so we introduce a delay before we attempt to handle the navigationNotification
+            setTimeout(AnalyticsTracker.onPageNavigationNotificationHandler, 10);
+          });
+        }
+
+        // Listen for Scroll-stop
+        let scrollTimer = null;
+        window.addEventListener('scroll', () => {
+          if (scrollTimer !== null) {
+            clearTimeout(scrollTimer);
+          }
+          // We notify on page rest of at least half a second
+          scrollTimer = setTimeout(AnalyticsTracker.onPageNavigationNotificationHandler, 500);
+        }, false);
+
+        // Log the initial view with the hash
+        if (window.location.hash) {
+          AnalyticsTracker.dispatch('page_view');
+        }
+      }
+      static onPageNavigationNotificationHandler() {
+        if (AnalyticsTracker._lastSeenTag === window.location.hash) {
+          return; // Attempt to navigate to the same section. Return early, no-op
+        }
+
+        // Update the last seen and dispatch
+        AnalyticsTracker._lastSeenTag = window.location.hash;
+        AnalyticsTracker.dispatch('page_view')
+      }
+
+      static dispatch (eventType) {
+        gtag('event', eventType, {
+          page_title: document.title,
+          page_location: window.location.pathname + window.location.hash,
+          page_path: window.location.pathname + window.location.hash
+        });
+      }
+    }
+
+    window.addEventListener('load', (event) => {
+      AnalyticsTracker.initialize();
+    });
   </script>
 
   <script src="js/determine_widget.js"></script>

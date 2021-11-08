@@ -10,16 +10,8 @@ description: >-
 content:
   application/json:
     schema:
-      allOf:
-        - $ref: "../../../shared/models/list.yml"
-        - type: object
-          properties:
-            data:
-              type: array
-              description: list of self_mailers
-              items:
-                $ref: "../models/self_mailer.yml"
-
+      $ref: "../models_simple/self_mailers.yml"
+      
     example:
       data:
         - id: sfm_7239rhwqkrfaskas
@@ -38,7 +30,7 @@ content:
             address_city: "SUMMERSIDE"
             address_state: "PRINCE EDWARD ISLAND"
             address_zip: "C1N 1C4"
-            address_country: "CANADA"
+            address_country: "CA"
             recipient_moved: false
             date_created: "2019-09-20T00:14:00.361Z"
             date_modified: "2019-09-20T00:14:00.361Z"
@@ -55,7 +47,7 @@ content:
             address_city: SAN FRANCISCO
             address_state: CA
             address_zip: 94107-1741
-            address_country: UNITED STATES
+            address_country: US
             metadata: {}
             date_created: "2018-12-08T03:01:07.651Z"
             date_modified: "2018-12-08T03:01:07.651Z"
@@ -99,7 +91,7 @@ content:
             address_city: CHARLOTTE
             address_state: NC
             address_zip: 28209-1314
-            address_country: UNITED STATES
+            address_country: US
             metadata: {}
             date_created: "2021-03-16T18:40:40.410Z"
             date_modified: "2021-03-16T18:40:40.410Z"
@@ -117,7 +109,7 @@ content:
             address_city: SAN FRANCISCO
             address_state: CA
             address_zip: 94107-1741
-            address_country: UNITED STATES
+            address_country: US
             metadata: {}
             date_created: "2018-12-08T03:01:07.651Z"
             date_modified: "2018-12-08T03:01:07.651Z"

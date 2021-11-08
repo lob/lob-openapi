@@ -1,0 +1,23 @@
+type: object
+properties:
+  object:
+    $ref: "../../../shared/attributes/object.yml"
+
+  next_url:
+    type: string
+    description: Url of next page of items in list.
+    nullable: true
+
+  previous_url:
+    type: string
+    description: Url of previous page of items in list.
+    nullable: true
+
+  count:
+    $ref: "../../../shared/attributes/count.yml"
+      
+  data:
+    type: array
+    description: list of self_mailers
+    items:
+      $ref: "../models_simple/self_mailer.yml"

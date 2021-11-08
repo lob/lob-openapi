@@ -1,0 +1,134 @@
+type: object
+
+properties:
+  description:
+    $ref: "../../../shared/attributes/resource_description.yml"
+
+  metadata:
+    $ref: "../../../shared/models/metadata.yml"
+
+  merge_variables:
+    $ref: "../../../shared/models/merge_variables.yml"
+
+  send_date:
+    $ref: "../../../shared/attributes/send_date.yml"
+
+  mail_type:
+    description: Checks must be sent `usps_first_class`
+    type: string
+    enum:
+      - usps_first_class
+    default: usps_first_class
+
+  memo:
+    description: Text to include on the memo line of the check.
+    type: string
+    maxLength: 40
+    nullable: true
+
+  check_number:
+    description: >-
+      An integer that designates the check number.
+
+      If `check_number` is not provided, checks created from a new
+      `bank_account` will start at `10000` and increment with each check
+      created with the `bank_account`.
+
+      A provided `check_number` overrides the defaults. Subsequent checks
+      created with the same `bank_account` will increment from the provided
+      check number.
+    type: integer
+    minimum: 1
+    maximum: 500000000
+
+  message:
+    description: Max of 400 characters to be included at the bottom of the check page.
+    type: string
+    maxLength: 400
+
+  from:
+    $ref: "../../../shared/models_simple/address/address.yml"
+
+  id:
+    $ref: "../attributes/chk_id.yml"
+
+  amount:
+    description: The payment amount to be sent in US dollars.
+    type: number
+    format: float
+    multipleOf: 0.01
+    maximum: 999999.99
+
+  bank_account:
+    type: string
+    description: Unique identifier prefixed with `bank_`.
+
+  check_bottom_template_id:
+    type: string
+    description: Unique identifier prefixed with `tmpl_`. ID of a saved [HTML template](#section/HTML-Templates).
+    pattern: "^tmpl_[a-zA-Z0-9]+$"
+
+  attachment_template_id:
+    type: string
+    description: Unique identifier prefixed with `tmpl_`. ID of a saved [HTML template](#section/HTML-Templates).
+    pattern: "^tmpl_[a-zA-Z0-9]+$"
+
+  check_bottom_template_version_id:
+    type: string
+    description: Unique identifier prefixed with `vrsn_`.
+    pattern: "^vrsn_[a-zA-Z0-9]+$"
+
+  attachment_template_version_id:
+    type: string
+    description: Unique identifier prefixed with `vrsn_`.
+    pattern: "^vrsn_[a-zA-Z0-9]+$"
+
+  url:
+    type: string
+    description: >-
+      A [signed link](#section/Asset-URLs) served over HTTPS. The link returned will expire in 30 days
+      to prevent mis-sharing. Each time a GET request is initiated, a new signed URL
+      will be generated.
+    pattern: '^https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers|cards)/[a-z]{3,4}_[a-z0-9]{15,16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*&)?expires=[0-9]{10}&signature=[a-zA-Z0-9-_]+$'
+
+  to:
+    $ref: "../../../shared/models_simple/address/address.yml"
+
+  carrier:
+    type: string
+    enum:
+      - USPS
+    default: USPS
+
+  thumbnails:
+    type: array
+    items:
+      $ref: "../../../shared/models/thumbnail.yml"
+
+  expected_delivery_date:
+    $ref: "../../../shared/attributes/expected_delivery_date.yml"
+
+  tracking_events:
+    # TODO: add tracking_event objs link
+    description: An array of tracking_event objects ordered by ascending `time`. Will not be populated for checks created in test mode.
+    type: array
+    items:
+      $ref: "../../../shared/resources/tracking_events/models/tracking_event_normal.yml"
+    nullable: true
+
+  object:
+    type: string
+    enum:
+      - check
+    default: check
+
+  # the following added manually from lob_base to avoid "recursive" use of
+  # of lob_base in bank_account property
+  date_created:
+    $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+  date_modified:
+    $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+  deleted:
+    $ref: "../../../shared/attributes/deleted.yml"

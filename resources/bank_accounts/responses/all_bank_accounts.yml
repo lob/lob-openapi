@@ -10,15 +10,7 @@ description: >-
 content:
   application/json:
     schema:
-      allOf:
-        - $ref: "../../../shared/models/list.yml"
-        - type: object
-          properties:
-            data:
-              type: array
-              description: list of bank_accounts
-              items:
-                $ref: "../models/bank_account.yml"
+      $ref: "../models_simple/bank_account_collection.yml"
 
     example:
       data:

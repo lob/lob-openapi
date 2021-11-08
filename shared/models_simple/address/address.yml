@@ -1,0 +1,325 @@
+type: object
+
+properties:
+  date_created:
+    $ref: "../../attributes/timestamps.yml#/date_created"
+
+  date_modified:
+    $ref: "../../attributes/timestamps.yml#/date_modified"
+
+  deleted:
+    $ref: "../../attributes/deleted.yml"
+
+  id:
+    $ref: "../../../shared/attributes/model_ids/adr_id.yml"
+
+  object:
+    type: string
+    default: address
+  
+  description:
+    $ref: "../../../shared/attributes/resource_description.yml"
+
+  name:
+    type: string
+    description: >
+          Either `name` or `company` is required,
+          you may also add both. Must be no longer than 40 characters.
+          If both `name` and `company` are provided,
+          they will be printed on two separate lines above the rest of the address.
+    maxLength: 40
+    nullable: true
+
+  company:
+    type: string
+    description: >
+          Either `name` or `company` is required,
+          you may also add both. Must be no longer than 40 characters.
+          If both `name` and `company` are provided,
+          they will be printed on two separate lines above the rest of the address.
+          This field can be used for any secondary recipient information which is
+          not part of the actual mailing address (Company Name, Department,
+          Attention Line, etc).
+    maxLength: 40
+    nullable: true
+
+  phone:
+    type: string
+    description: Must be no longer than 40 characters.
+    maxLength: 40
+    nullable: true
+
+  email:
+    type: string
+    description: Must be no longer than 100 characters.
+    maxLength: 100
+    nullable: true
+
+  address_line1:
+    type: string
+    maxLength: 64
+
+  address_line2:
+    type: string
+    maxLength: 64
+    nullable: true
+
+  address_city:
+    type: string
+    maxLength: 200
+
+  address_state:
+    description: Will be returned as a full string
+    type: string
+    maxLength: 200
+    nullable: true
+
+  address_zip:
+    type: string
+    description: Optional postal code.
+    maxLength: 40
+    nullable: true
+
+  address_country:
+    type: string
+    maxLength: 2
+    description: >-
+      Must be a 2 letter country short-name code (ISO 3166). Does not accept `US`,
+      `AS`, `PR`, `FM`, `GU`, `MH`, `MP`, `PW`, or `VI`. For these addresses, please use the US
+      verification API. Also does not accept `PS`, which is not currently supported.
+    enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AN
+      - AO
+      - AQ
+      - AR
+      - AT
+      - AU
+      - AW
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BM
+      - BN
+      - BO
+      - BQ
+      - BR
+      - BS
+      - BT
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CD
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - CS
+      - CU
+      - CV
+      - CW
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FO
+      - FR
+      - GA
+      - GB
+      - GD
+      - GE
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GW
+      - GY
+      - HK
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - ME
+      - MG
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - "NO"
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PG
+      - PH
+      - PK
+      - PL
+      - PN
+      - PT
+      - PY
+      - QA
+      - RO
+      - RS
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - SS
+      - ST
+      - SV
+      - SX
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - US
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VN
+      - VU
+      - WS
+      - YE
+      - ZA
+      - ZM
+      - ZW
+
+  metadata:
+    $ref: "../../../shared/models/metadata.yml"
+
+  recipient_moved:
+    type: boolean
+    description: >
+          Only returned for accounts on certain
+          <a href="https://dashboard.lob.com/#/settings/editions">Print
+          &amp; Mail Editions</a>. Value is `true` if the address was
+          altered because the recipient filed for a <a href="#ncoa">National Change
+          of Address (NCOA)</a>, `false` if the NCOA check was run but
+          no altered address was found, and `null` if the NCOA check
+          was not run. The NCOA check does not happen for non-US addresses, for
+          non-deliverable US addresses, or for addresses created before the NCOA
+          feature was added to your account.
+    nullable: true

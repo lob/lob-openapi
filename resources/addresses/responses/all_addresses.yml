@@ -10,16 +10,7 @@ description: >-
 content:
   application/json:
     schema:
-      allOf:
-        - $ref: "../../../shared/models/list.yml"
-
-        - type: object
-          properties:
-            data:
-              type: array
-              description: list of addresses
-              items:
-                $ref: "../../../shared/models/address/address.yml"
+      $ref: "../../../shared/models_simple/address/address_collection.yml"
 
     example:
       data:
@@ -34,7 +25,7 @@ content:
           address_city: SAN FRANCISCO
           address_state: CA
           address_zip: 94107-1741
-          address_country: UNITED STATES
+          address_country: US
           metadata: {}
           date_created: "2019-08-12T00:16:00.361Z"
           date_modified: "2019-08-12T00:16:00.361Z"
@@ -52,7 +43,7 @@ content:
           address_city: "SUMMERSIDE"
           address_state: "PRINCE EDWARD ISLAND"
           address_zip: "C1N 1C4"
-          address_country: "CANADA"
+          address_country: "CA"
           date_created: "2019-09-20T00:14:00.361Z"
           date_modified: "2019-09-20T00:14:00.361Z"
           object: address

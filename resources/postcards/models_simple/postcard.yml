@@ -1,0 +1,98 @@
+type: object
+
+properties:
+  description:
+    $ref: "../../../shared/attributes/resource_description.yml"
+
+  metadata:
+    $ref: "../../../shared/models/metadata.yml"
+
+  mail_type:
+    $ref: "../../../shared/attributes/mail_type.yml"
+
+  merge_variables:
+    $ref: "../../../shared/models/merge_variables.yml"
+
+  send_date:
+    $ref: "../../../shared/attributes/send_date.yml"
+
+  size:
+    $ref: "../attributes/postcard_size.yml"
+
+  to:
+    $ref: "../../../shared/models_simple/address/address.yml"
+
+  carrier:
+    type: string
+    enum:
+      - USPS
+    default: USPS
+
+  thumbnails:
+    type: array
+    items:
+      $ref: "../../../shared/models/thumbnail.yml"
+
+  expected_delivery_date:
+    $ref: "../../../shared/attributes/expected_delivery_date.yml"
+
+  date_created:
+    $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+  date_modified:
+    $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+  deleted:
+    $ref: "../../../shared/attributes/deleted.yml"
+
+  from:
+    $ref: "../../../shared/models_simple/address/address.yml"
+
+
+  id:
+    $ref: "../attributes/psc_id.yml"
+
+  front_template_id:
+    type: string
+    description: The unique ID of the HTML template used for the front of the postcard.    
+    pattern: "^tmpl_[a-zA-Z0-9]+$"    
+    nullable: true
+
+  back_template_id:
+    type: string
+    description: The unique ID of the HTML template used for the front of the postcard.    
+    pattern: "^tmpl_[a-zA-Z0-9]+$"    
+    nullable: true
+
+  front_template_version_id:
+    type: string
+    description: Unique identifier prefixed with `vrsn_`.
+    pattern: "^vrsn_[a-zA-Z0-9]+$"
+    nullable: true
+
+  back_template_version_id:
+    type: string
+    description: Unique identifier prefixed with `vrsn_`.
+    pattern: "^vrsn_[a-zA-Z0-9]+$"
+    nullable: true
+
+  tracking_events:
+    # TODO: add tracking_event objs link
+    description: An array of tracking_event objects ordered by ascending `time`. Will not be populated for postcards created in test mode.
+    type: array
+    items:
+      $ref: "../../../shared/resources/tracking_events/models/tracking_event_normal.yml"
+    nullable: true
+
+  object:
+    allOf:
+      - $ref: "../../../shared/attributes/object.yml"
+      - type: string
+        enum:
+          - postcard
+        default: postcard
+
+  url:
+    allOf:
+      - description: A [signed link](#section/Asset-URLs) to the rendered postcard.
+      - $ref: "../../../shared/attributes/signed_link.yml"

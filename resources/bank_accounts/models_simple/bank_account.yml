@@ -1,0 +1,74 @@
+type: object
+
+properties:
+  description:
+    $ref: "../../../shared/attributes/resource_description.yml"
+
+  routing_number:
+    description: Must be a [valid US routing number](https://www.frbservices.org/index.html).
+    type: string
+    minLength: 9
+    maxLength: 9
+
+  account_number:
+    type: string
+    maxLength: 17
+
+  account_type:
+    type: string
+    enum:
+      - company
+      - individual
+    description: The type of entity that holds the account.
+
+  signatory:
+    description: >-
+      The signatory associated with your account. This name will be printed on
+      checks created with this bank account. If you prefer to use a custom
+      signature image on your checks instead, please create your bank account
+      from the [Dashboard](https://dashboard.lob.com/#/login).
+    type: string
+    maxLength: 30
+
+  metadata:
+    $ref: "../../../shared/models/metadata.yml"
+
+  date_created:
+    $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+  date_modified:
+    $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+  deleted:
+    $ref: "../../../shared/attributes/deleted.yml"
+
+  id:
+    $ref: "../../../shared/attributes/model_ids/bank/bank_id.yml"
+
+  signature_url:
+    type: string
+    nullable: true
+    description: >-
+      A [signed link](#section/Asset-URLs) served over HTTPS. The link returned will expire in 30 days
+      to prevent mis-sharing. Each time a GET request is initiated, a new signed URL
+      will be generated.
+    pattern: '^https://lob-assets\.com/(letters|postcards|bank-accounts|checks|self-mailers|cards)/[a-z]{3,4}_[a-z0-9]{15,16}(\.pdf|_thumb_[a-z]+_[0-9]+\.png)\?(version=[a-z0-9-]*&)?expires=[0-9]{10}&signature=[a-zA-Z0-9-_]+$'
+
+  bank_name:
+    description: >-
+      The name of the bank based on the provided routing number, e.g. `JPMORGAN CHASE BANK`.
+    type: string
+
+  verified:
+    description: >-
+      A bank account must be verified before a check can be created.
+      More info [here](#operation/verify_bank_account).
+    type: boolean
+    default: false
+
+  object:
+    type: string
+    enum:
+      - bank_account
+    default: bank_account
+

@@ -1010,7 +1010,7 @@ tags:
       - `address_line2`
       - The +4 portion of the ZIP+4 (5-digit ZIP code will still be present)
 
-      See the `ncoa_us_live` example under [Response samples](#operation/create_address) within the "Create an Address" section in Addresses
+      See the `ncoa_us_live` example under [Response samples](#operation/address_create) within the "Create an Address" section in Addresses
 
       ## NCOA Test Environment
 
@@ -1025,7 +1025,7 @@ tags:
       - `POST /v1/postcards`
       - `POST /v1/self_mailers`
 
-      A static address will always be returned, as documented in the `ncoa_us_test` example under [Response samples](#operation/create_address) within the "Create an Address"
+      A static address will always be returned, as documented in the `ncoa_us_test` example under [Response samples](#operation/address_create) within the "Create an Address"
       section in Addresses (along with the corresponding request under "Request samples").
 
   - name: Postcards
@@ -2382,10 +2382,10 @@ paths:
     $ref: resources/billing_groups/billing_groups.yml
 
   /bulk/us_verifications:
-    $ref: resources/bulk_us_verifications/bulk_us_verifications.yml
+    $ref: resources/us_verifications_bulk/us_verifications_bulk.yml
 
   /bulk/intl_verifications:
-    $ref: resources/bulk_intl_verifications/bulk_intl_verifications.yml
+    $ref: resources/intl_verifications_bulk/intl_verifications_bulk.yml
 
   /cards:
     $ref: resources/cards/cards.yml

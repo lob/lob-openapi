@@ -1,3 +1,4 @@
+type: string
 description: >-
   A timestamp in ISO 8601 format which specifies a date after the current time
   and up to 180 days in the future to send the letter off for production.
@@ -7,8 +8,5 @@ description: >-
   If a datetime is passed, that exact time will be used. A `send_date` passed with no time zone will default to UTC,
   while a `send_date` passed with a time zone will be converted to UTC.
 anyOf:
-  - type: string
-    format: date-time
-
-  - type: string
-    format: date
+  - format: date-time
+  - format: date

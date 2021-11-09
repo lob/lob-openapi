@@ -44,4 +44,7 @@ module.exports = {
       filename: "styles.min.css",
     }),
   ],
+  devServer: {
+    static: "./docs",
+  },
 };

@@ -7,7 +7,7 @@ const Prism = require("./setup.js");
 const resource_endpoint = "/us_reverse_geocode_lookups",
   latitude = 37.777456,
   longitude = -122.393039,
-  lobUri = "https://api.lob.com/v1",
+  lobUri = "https://lob-api.lob.com/v1",
   specFile = "./lob-api-public.yml";
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);

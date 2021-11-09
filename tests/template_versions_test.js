@@ -5,7 +5,7 @@ const test = require("ava");
 const Prism = require("./setup.js");
 
 // test specific data
-const lobUri = "https://api.lob.com/v1",
+const lobUri = "https://lob-api.lob.com/v1",
   specFile = "./lob-api-public.yml";
 
 const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);

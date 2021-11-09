@@ -7,7 +7,7 @@ describe("ensures introduction links and text are valid", () => {
   });
 
   it("contains the right specification and date", () => {
-    cy.contains("Specification (1.2.0)");
+    cy.contains("Specification (1.3.0)");
     cy.contains("Lob API (2020-02-11)");
   });
 

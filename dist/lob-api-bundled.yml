@@ -5699,6 +5699,7 @@ components:
       maxLength: 25000
       nullable: true
     send_date:
+      type: string
       description: >-
         A timestamp in ISO 8601 format which specifies a date after the current
         time and up to 180 days in the future to send the letter off for
@@ -5711,10 +5712,8 @@ components:
         default to UTC, while a `send_date` passed with a time zone will be
         converted to UTC.
       anyOf:
-        - type: string
-          format: date-time
-        - type: string
-          format: date
+        - format: date-time
+        - format: date
     editable_no_mailtype:
       type: object
       properties:

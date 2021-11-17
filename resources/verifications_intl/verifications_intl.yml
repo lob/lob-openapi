@@ -19,7 +19,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/intl_verification_writable.yml"
+          $ref: "models/verification_intl_writable.yml"
         examples:
           basic:
             value:
@@ -50,7 +50,7 @@ post:
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/intl_verification_writable.yml"
+          $ref: "models/verification_intl_writable.yml"
         examples:
           basic:
             value:
@@ -81,7 +81,7 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "models/intl_verification_writable.yml"
+          $ref: "models/verification_intl_writable.yml"
         examples:
           basic:
             value:
@@ -112,10 +112,10 @@ post:
 
   responses:
     "200":
-      $ref: responses/intl_verifications.yml
+      $ref: responses/verifications_intl.yml
 
     default:
-      $ref: "../../shared/responses/intl_verifications_error.yml"
+      $ref: "../../shared/responses/verifications_intl_error.yml"
 
   x-codeSamples:
     - lang: Shell

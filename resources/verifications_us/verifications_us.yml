@@ -1,5 +1,5 @@
 post:
-  operationId: us_verification
+  operationId: verification_us
 
   summary: Single Verify
 
@@ -37,7 +37,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/us_verifications_writable.yml"
+          $ref: "models/verifications_us_writable.yml"
         examples:
           basic:
             value:
@@ -64,7 +64,7 @@ post:
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/us_verifications_writable.yml"
+          $ref: "models/verifications_us_writable.yml"
         examples:
           basic:
             value:
@@ -91,7 +91,7 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "models/us_verifications_writable.yml"
+          $ref: "models/verifications_us_writable.yml"
         examples:
           basic:
             value:
@@ -118,10 +118,10 @@ post:
 
   responses:
     "200":
-      $ref: responses/us_verifications.yml
+      $ref: responses/verifications_us.yml
 
     default:
-      $ref: "../../shared/responses/us_verifications_error.yml"
+      $ref: "../../shared/responses/verifications_us_error.yml"
 
   x-codeSamples:
     - lang: Shell

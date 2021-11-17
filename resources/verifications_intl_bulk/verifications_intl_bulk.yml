@@ -1,5 +1,5 @@
 post:
-  operationId: bulk_intl_verifications
+  operationId: verifications_intl_bulk
 
   summary: Bulk Verify
 
@@ -16,7 +16,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/intl_verifications_payload.yml"
+          $ref: "models/verifications_intl_payload.yml"
         example:
           addresses:
             - recipient: "John Doe"
@@ -39,7 +39,7 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "models/intl_verifications_payload.yml"
+          $ref: "models/verifications_intl_payload.yml"
         example:
           addresses:
             - recipient: "John Doe"
@@ -59,7 +59,7 @@ post:
 
   responses:
     "200":
-      $ref: responses/bulk_intl_verifications.yml
+      $ref: responses/verifications_intl_bulk.yml
 
     default:
-      $ref: "../../shared/responses/intl_verifications_error.yml"
+      $ref: "../../shared/responses/verifications_intl_error.yml"

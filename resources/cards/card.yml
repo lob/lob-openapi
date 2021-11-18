@@ -7,7 +7,7 @@ parameters:
       $ref: "../../shared/attributes/model_ids/card_id.yml"
 
 get:
-  operationId: get_card
+  operationId: card_retrieve
 
   summary: Retrieve
 
@@ -48,7 +48,7 @@ get:
         $lob->cards()->get('card_7a6d73c5c8457fc');
 
 post:
-  operationId: update_card
+  operationId: card_update
 
   summary: Update
 
@@ -118,7 +118,7 @@ post:
     #     $lob->cards()->update('card_7a6d73c5c8457fc');
 
 delete:
-  operationId: delete_card
+  operationId: card_delete
 
   summary: Delete
 

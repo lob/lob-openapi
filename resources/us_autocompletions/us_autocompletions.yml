@@ -6,11 +6,20 @@ post:
   description: >-
     Given an address prefix consisting of a partial primary line, as well as
     optional input of city, state, and zip code, this functionality returns up
-    to 10 full US address suggestions. Not all of them will turn out to be valid
-    addresses; they'll need to be [verified](#operation/verification_us).
+    to 10 full US address suggestions.
 
   tags:
     - US Autocompletions
+
+  parameters:
+    - in: query
+      name: valid_addresses
+      schema:
+        type: boolean
+        default: false
+      description: >-
+        Filters suggestions to only return valid addresses. Default value is false.
+      required: false
 
   requestBody:
     required: true
@@ -25,6 +34,9 @@ post:
               city: San Francisco
               state: CA
               zip_code: "94107"
+              location:
+                latitude: 37.778537
+                longitude: -122.398031
               geo_ip_sort: false
           test:
             value:
@@ -40,6 +52,9 @@ post:
               city: San Francisco
               state: CA
               zip_code: "94107"
+              location:
+                latitude: 37.778537
+                longitude: -122.398031
               geo_ip_sort: false
           test:
             value:
@@ -55,6 +70,9 @@ post:
               city: San Francisco
               state: CA
               zip_code: "94107"
+              location:
+                latitude: 37.778537
+                longitude: -122.398031
               geo_ip_sort: false
           test:
             value:

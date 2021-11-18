@@ -59,6 +59,66 @@ test("autocomplete an address given a prefix with full payload", async function 
   }
 });
 
+test("autocomplete an address given a prefix with location payload", async function (t) {
+  try {
+    const response = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          address_prefix: address_prefix,
+          city: "San Francisco",
+          state: "CA",
+          zip_code: "94107",
+          location: {
+            latitude: 37.778537,
+            longitude: -122.398031,
+          },
+          geo_ip_sort: false,
+        },
+        { headers: prism.authHeader }
+      )
+    );
+
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
+});
+
+test("autocomplete an address given a prefix with valid_addresses query parameter", async function (t) {
+  try {
+    const response = await prism.setup().then((client) =>
+      client.post(
+        `${resource_endpoint}?valid_addresses=true`,
+        {
+          address_prefix: address_prefix,
+          city: "San Francisco",
+          state: "CA",
+          zip_code: "94107",
+          location: {
+            latitude: 37.778537,
+            longitude: -122.398031,
+          },
+          geo_ip_sort: true,
+        },
+        { headers: prism.authHeader }
+      )
+    );
+
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
+});
+
 test("autocomplete an address given a prefix with full payload urlencoded", async function (t) {
   try {
     const payload = new URLSearchParams({

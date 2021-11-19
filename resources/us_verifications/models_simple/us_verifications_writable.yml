@@ -1,0 +1,44 @@
+type: object
+
+properties:
+  recipient:
+    type: string
+    description: The intended recipient, typically a person's or firm's name.
+    maxLength: 500
+
+  primary_line:
+    $ref: "../../../shared/attributes/address/primary_line_us.yml"
+
+  secondary_line:
+    $ref: "../../../shared/attributes/address/secondary_line.yml"
+
+  urbanization:
+    $ref: "../attributes/urbanization.yml"
+
+  city:
+    type: string
+    maxLength: 200
+    description: >-
+      The name of the city. `city` and `state` are required if no `zip_code` is passed.
+
+  state:
+    type: string
+    description: >-
+      The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US) two letter code or subdivision name for
+      the state. `city` and `state` are required if no `zip_code` is passed.
+    maxLength: 50
+
+  zip_code:
+    description: >-
+      Required if `city` and `state` are not passed in.
+      If included, must be formatted as a US ZIP or ZIP+4 (e.g. `94107`,
+      `941072282`, `94107-2282`).
+    type: string
+    pattern: ^\d{5}((-)?\d{4})?$
+
+  address:
+    type: string
+    description: >
+      The entire address in one string (e.g., "210 King Street 94107").
+      _Does not support a recipient and will error when other payload parameters are provided._
+    maxLength: 500

@@ -3579,9 +3579,13 @@ components:
               nullable: true
             address_line1:
               type: string
+              description: The primary number, street name, and directional information.
               maxLength: 64
             address_line2:
               type: string
+              description: >-
+                An optional field containing any information which can't fit
+                into line 1.
               maxLength: 64
               nullable: true
             address_city:
@@ -3970,9 +3974,13 @@ components:
       properties:
         address_line1:
           type: string
+          description: The primary number, street name, and directional information.
           maxLength: 64
         address_line2:
           type: string
+          description: >-
+            An optional field containing any information which can't fit into
+            line 1.
           maxLength: 64
           nullable: true
         address_city:
@@ -4038,9 +4046,13 @@ components:
       properties:
         address_line1:
           type: string
+          description: The primary number, street name, and directional information.
           maxLength: 200
         address_line2:
           type: string
+          description: >-
+            An optional field containing any information which can't fit into
+            line 1.
           maxLength: 200
           nullable: true
         address_city:
@@ -5221,9 +5233,7 @@ components:
               $ref: '#/components/schemas/city'
             state:
               type: string
-              description: >-
-                The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) two
-                letter code or subdivision name for the state.
+              description: The name of the state.
             postal_code:
               $ref: '#/components/schemas/postal_code'
             country:
@@ -7812,7 +7822,7 @@ components:
               https://api.lob.com/v1/addresses?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wN1QyMTo1OTo0Ni43NjRaIiwiaWRPZmZzZXQiOiJhZHJfODMwYmYwZWFiZGFhYTQwOSJ9
             previous_url: null
             count: 2
-    address_editable:
+    post_address:
       description: Echos the writable fields of a newly created address object.
       headers:
         ratelimit-limit:
@@ -7824,7 +7834,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/address_editable'
+            $ref: '#/components/schemas/address'
           examples:
             full_us:
               value:
@@ -10103,7 +10113,7 @@ paths:
                   address_country: CA
       responses:
         '200':
-          $ref: '#/components/responses/address_editable'
+          $ref: '#/components/responses/post_address'
         default:
           $ref: '#/components/responses/address_error'
       x-codeSamples:

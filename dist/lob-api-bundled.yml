@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.3.0
+  version: 1.4.0
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -7180,6 +7180,12 @@ components:
               type: boolean
               description: |
                 Used by frontend, true if the template uses advanced features.
+            merge_variables:
+              type: object
+              description: >
+                Used by frontend, an object representing the keys of every merge
+                variable present in the template. It has one key named 'keys',
+                and its value is an array of strings.
             engine:
               $ref: '#/components/schemas/engine'
             object:
@@ -7848,10 +7854,27 @@ components:
                 address_city: SAN FRANCISCO
                 address_state: CA
                 address_zip: '94107'
-                address_country: US
+                address_country: UNITED STATES
                 metadata: {}
                 date_created: 2017-09-05T17:47:53.767Z
                 date_modified: 2017-09-05T17:47:53.767Z
+                object: address
+            full_intl:
+              value:
+                id: adr_b9f49f464c836203
+                description: Harry - Office
+                name: HARRY ZHANG
+                company: LOB
+                phone: '5555555555'
+                email: harry@lob.com
+                address_line1: 370 WATER ST
+                address_city: SUMMERSIDE
+                address_state: PRINCE EDWARD ISLAND
+                address_zip: C1N 1C4
+                address_country: CANADA
+                metadata: {}
+                date_created: 2021-11-29T20:55:46.843Z
+                date_modified: 2021-11-29T20:56:46.843Z
                 object: address
             ncoa_us_live:
               value:
@@ -7866,7 +7889,7 @@ components:
                 address_city: SAN FRANCISCO
                 address_state: CA
                 address_zip: '94107'
-                address_country: US
+                address_country: UNITED STATES
                 metadata: {}
                 date_created: 2017-09-05T17:47:53.767Z
                 date_modified: 2017-09-05T17:47:53.767Z
@@ -7886,7 +7909,7 @@ components:
                 address_city: SAN FRANCISCO
                 address_state: CA
                 address_zip: '94107'
-                address_country: US
+                address_country: UNITED STATES
                 metadata: {}
                 date_created: 2019-12-05T19:39:19.932Z
                 date_modified: 2019-12-05T19:39:19.932Z

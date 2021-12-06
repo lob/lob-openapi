@@ -1,0 +1,336 @@
+type: object
+properties:
+  id:
+    type: string
+    description: Unique identifier prefixed with `adr_`.
+    pattern: ^adr_[a-zA-Z0-9]+$
+  object:
+    type: string
+    enum:
+      - address
+    default: address
+  description:
+    type: string
+    description: >
+      An internal description that identifies this resource. Must be no longer
+      than 255 characters.
+    maxLength: 255
+    nullable: true
+  name:
+    type: string
+    description: >
+      Either `name` or `company` is required, you may also add both. Must be no
+      longer than 40 characters. If both `name` and `company` are provided, they
+      will be printed on two separate lines above the rest of the address.
+    maxLength: 40
+    nullable: true
+  company:
+    type: string
+    description: >
+      Either `name` or `company` is required, you may also add both. Must be no
+      longer than 40 characters. If both `name` and `company` are provided, they
+      will be printed on two separate lines above the rest of the address. This
+      field can be used for any secondary recipient information which is not
+      part of the actual mailing address (Company Name, Department, Attention
+      Line, etc).
+    maxLength: 40
+    nullable: true
+  phone:
+    type: string
+    description: Must be no longer than 40 characters.
+    maxLength: 40
+    nullable: true
+  email:
+    type: string
+    description: Must be no longer than 100 characters.
+    maxLength: 100
+    nullable: true
+  address_line1:
+    type: string
+    description: The primary number, street name, and directional information.
+    maxLength: 64
+  address_line2:
+    type: string
+    description: An optional field containing any information which can't fit into line 1.
+    maxLength: 64
+    nullable: true
+  address_city:
+    type: string
+    maxLength: 200
+  address_state:
+    type: string
+    description: 2 letter state short-name code
+    pattern: ^[a-zA-Z]{2}$
+  address_zip:
+    type: string
+    description: |
+      Must follow the ZIP format of `12345` or ZIP+4 format of `12345-1234`.
+    pattern: ^\d{5}(-\d{4})?$
+  address_country:
+    type: string
+    enum:
+      - UNITED STATES
+      - AFGHANISTAN
+      - ALBANIA
+      - ALGERIA
+      - AMERICAN SAMOA
+      - ANDORRA
+      - ANGOLA
+      - ANGUILLA
+      - ANTARCTICA
+      - ANTIGUA AND BARBUDA
+      - ARGENTINA
+      - ARUBA
+      - AUSTRALIA
+      - AUSTRIA
+      - AZERBAIJAN
+      - BAHRAIN
+      - BANGLADESH
+      - BARBADOS
+      - BELARUS
+      - BELGIUM
+      - BELIZE
+      - BENIN
+      - BERMUDA
+      - BHUTAN
+      - BOLIVIA (PLURINATIONAL STATE OF)
+      - BONAIRE, SAINT EUSTATIUS AND SABA
+      - BOSNIA AND HERZEGOVINA
+      - BOTSWANA
+      - BRAZIL
+      - BRITISH INDIAN OCEAN TERRITORY
+      - BRITISH VIRGIN ISLANDS
+      - BRUNEI DARUSSALAM
+      - BULGARIA
+      - BURKINA FASO
+      - BURUNDI
+      - CABO VERDE
+      - CAMBODIA
+      - CAMEROON
+      - CANADA
+      - CAYMAN ISLANDS
+      - CENTRAL AFRICAN REPUBLIC
+      - CHAD
+      - CHILE
+      - CHINA
+      - COLOMBIA
+      - COMOROS
+      - CONGO
+      - CONGO, DEMOCRATIC REPUBLIC OF THE
+      - COOK ISLANDS
+      - COSTA RICA
+      - CÔTE D'IVOIRE
+      - CROATIA
+      - CUBA
+      - CURAÇAO
+      - CYPRUS
+      - CZECH REPUBLIC
+      - DENMARK
+      - DJIBOUTI
+      - DOMINICA
+      - DOMINICAN REPUBLIC
+      - ECUADOR
+      - EGYPT
+      - EL SALVADOR
+      - EQUATORIAL GUINEA
+      - ERITREA
+      - ESTONIA
+      - ESWATINI
+      - ETHIOPIA
+      - FALKLAND ISLANDS (MALVINAS)
+      - FAROE ISLANDS
+      - FIJI
+      - FINLAND
+      - FRANCE
+      - GABON
+      - GAMBIA
+      - GEORGIA
+      - GERMANY
+      - GHANA
+      - GIBRALTAR
+      - GREECE
+      - GREENLAND
+      - GRENADA
+      - GUATEMALA
+      - GUINEA
+      - GUINEA-BISSAU
+      - GUYANA
+      - HAITI
+      - HOLY SEE
+      - HONDURAS
+      - HONG KONG
+      - HUNGARY
+      - ICELAND
+      - INDIA
+      - INDONESIA
+      - IRAN (ISLAMIC REPUBLIC OF)
+      - IRAQ
+      - IRELAND
+      - ISRAEL
+      - ITALY
+      - JAMAICA
+      - JAPAN
+      - JORDAN
+      - KAZAKHSTAN
+      - KENYA
+      - KIRIBATI
+      - KOREA (DEMOCRATIC PEOPLE’S REPUBLIC OF)
+      - KOREA, REPUBLIC OF
+      - KUWAIT
+      - KYRGYZSTAN
+      - LAO PEOPLE’S DEMOCRATIC REPUBLIC
+      - LATVIA
+      - LEBANON
+      - LESOTHO
+      - LIBERIA
+      - LIBYA
+      - LIECHTENSTEIN
+      - LITHUANIA
+      - LUXEMBOURG
+      - MACAO
+      - MACEDONIA
+      - MADAGASCAR
+      - MALAWI
+      - MALAYSIA
+      - MALDIVES
+      - MALI
+      - MALTA
+      - MAURITANIA
+      - MAURITIUS
+      - MEXICO
+      - MOLDOVA, REPUBLIC OF
+      - MONACO
+      - MONGOLIA
+      - MONTENEGRO
+      - MONTSERRAT
+      - MOROCCO
+      - MOZAMBIQUE
+      - MYANMAR
+      - NAMIBIA
+      - NAURU
+      - NEPAL
+      - NETHERLAND ANTILLES
+      - NETHERLANDS
+      - NEW ZEALAND
+      - NICARAGUA
+      - NIGER
+      - NIGERIA
+      - NIUE
+      - NORFOLK ISLAND
+      - NORWAY
+      - OMAN
+      - PAKISTAN
+      - PANAMA
+      - PAPUA NEW GUINEA
+      - PARAGUAY
+      - PERU
+      - PHILIPPINES
+      - PITCAIRN
+      - POLAND
+      - PORTUGAL
+      - QATAR
+      - ROMANIA
+      - RUSSIAN FEDERATION
+      - RWANDA
+      - SAINT HELENA
+      - SAINT KITTS AND NEVIS
+      - SAINT LUCIA
+      - SAINT VINCENT AND THE GRENADINES
+      - SAMOA
+      - SAN MARINO
+      - SAO TOME AND PRINCIPE
+      - SAUDI ARABIA
+      - SENEGAL
+      - SERBIA
+      - SEYCHELLES
+      - SIERRA LEONE
+      - SINGAPORE
+      - SINT MAARTEN
+      - SLOVAKIA
+      - SLOVENIA
+      - SOLOMON ISLANDS
+      - SOMALIA
+      - SOUTH AFRICA
+      - SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS
+      - SOUTH SUDAN
+      - SPAIN
+      - SRI LANKA
+      - SUDAN
+      - SURINAME
+      - SWEDEN
+      - SWITZERLAND
+      - SYRIAN ARAB REPUBLIC
+      - TAIWAN
+      - TAJIKISTAN
+      - TANZANIA
+      - THAILAND
+      - THE BAHAMAS
+      - TIMOR-LESTE
+      - TOGO
+      - TOKELAU
+      - TONGA
+      - TRINIDAD AND TOBAGO
+      - TUNISIA
+      - TURKEY
+      - TURKMENISTAN
+      - TURKS AND CAICOS ISLANDS
+      - TUVALU
+      - UGANDA
+      - UKRAINE
+      - UNITED ARAB EMIRATES
+      - UNITED KINGDOM
+      - URUGUAY
+      - UZBEKISTAN
+      - VANUATU
+      - VENEZUELA
+      - VIET NAM
+      - WESTERN SAHARA
+      - YEMEN
+      - ZAMBIA
+      - ZIMBABWE
+    description: Full name of country
+    minLength: 13
+    maxLength: 13
+  metadata:
+    type: object
+    additionalProperties:
+      type: string
+    description: >-
+      Use metadata to store custom information for tagging and labeling back to
+      your internal systems. Must be an object with up to 20 key-value pairs.
+      Keys must be at most 40 characters and values must be at most 500
+      characters. Neither can contain the characters `"` and `\`. i.e.
+      '{"customer_id" : "NEWYORK2015"}' Nested objects are not supported.  See
+      [Metadata](#section/Metadata) for more information.
+    maxLength: 500
+    pattern: '[^"\\]{0,500}'
+  recipient_moved:
+    type: boolean
+    description: >
+      Only returned for accounts on certain <a
+      href="https://dashboard.lob.com/#/settings/editions">Print &amp; Mail
+      Editions</a>. Value is `true` if the address was altered because the
+      recipient filed for a <a href="#ncoa">National Change of Address
+      (NCOA)</a>, `false` if the NCOA check was run but no altered address was
+      found, and `null` if the NCOA check was not run. The NCOA check does not
+      happen for non-US addresses, for non-deliverable US addresses, or for
+      addresses created before the NCOA feature was added to your account.
+    nullable: true
+example:
+  id: adr_e68217bd744d65c8
+  description: Harry - Office
+  name: HARRY ZHANG
+  company: LOB
+  phone: '5555555555'
+  email: harry@lob.com
+  address_line1: 210 KING ST STE 6100
+  address_line2: null
+  address_city: SAN FRANCISCO
+  address_state: CA
+  address_zip: 94107-1741
+  address_country: UNITED STATES
+  metadata: {}
+  recipient_moved: false
+  date_created: '2019-08-12T00:16:00.361Z'
+  date_modified: '2019-08-12T00:16:00.361Z'
+  object: address

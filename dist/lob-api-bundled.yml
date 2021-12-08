@@ -8206,7 +8206,7 @@ components:
           example:
             id: card_123456789
             deleted: true
-    template_error:
+    card_order_error:
       description: Error
       content:
         application/json:
@@ -8214,9 +8214,9 @@ components:
             $ref: '#/components/schemas/error'
           example:
             error:
-              code: invalid
-              message: html is required
-              status_code: 422
+              code: not_found
+              message: card not found
+              status_code: 404
     check_canceled:
       description: Deleted
       content:
@@ -9338,6 +9338,17 @@ components:
             date_modified: 2021-03-16T18:40:40.504Z
             send_date: 2021-03-16T18:45:40.493Z
             object: self_mailer
+    template_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: invalid
+              message: html is required
+              status_code: 422
     post_template_version:
       description: Returns the template version with the given template and version ids.
       headers:
@@ -11542,7 +11553,7 @@ paths:
                 previous_url: null
                 count: 1
         default:
-          $ref: '#/components/responses/template_error'
+          $ref: '#/components/responses/card_order_error'
       x-codeSamples:
         - lang: Shell
           source: |

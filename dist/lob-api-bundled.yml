@@ -6355,6 +6355,33 @@ components:
                 will be the name of a Regional Distribution Center if it exists,
                 otherwise will be null.
               nullable: true
+    inline_address_intl:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_intl'
+        - type: object
+          required:
+            - address_line1
+            - address_country
+        - type: object
+          oneOf:
+            - required:
+                - address_city
+                - address_state
+            - required:
+                - address_zip
+    inline_address:
+      oneOf:
+        - $ref: '#/components/schemas/inline_address_us'
+        - $ref: '#/components/schemas/inline_address_intl'
+    return_address:
+      description: >-
+        Specifies the address the return envelope will be sent back to. This is
+        an optional argument that is available if an account is signed up for
+        the return envelope tracking beta, and has `return_envelope`, and
+        `perforated_page` fields populated in the API request.
+      oneOf:
+        - $ref: '#/components/schemas/adr_id'
+        - $ref: '#/components/schemas/inline_address'
     letter_base:
       allOf:
         - $ref: '#/components/schemas/editable_no_mailtype'
@@ -6547,35 +6574,10 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/tracking_event_certified'
+            return_address:
+              $ref: '#/components/schemas/return_address'
         - $ref: '#/components/schemas/letter_base'
         - $ref: '#/components/schemas/letter_generated_base'
-    inline_address_intl:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_intl'
-        - type: object
-          required:
-            - address_line1
-            - address_country
-        - type: object
-          oneOf:
-            - required:
-                - address_city
-                - address_state
-            - required:
-                - address_zip
-    inline_address:
-      oneOf:
-        - $ref: '#/components/schemas/inline_address_us'
-        - $ref: '#/components/schemas/inline_address_intl'
-    return_address:
-      description: >-
-        Specifies the address the return envelope will be sent back to. This is
-        an optional argument that is available if an account is signed up for
-        the return envelope tracking beta, and has `return_envelope`, and
-        `perforated_page` fields populated in the API request.
-      oneOf:
-        - $ref: '#/components/schemas/adr_id'
-        - $ref: '#/components/schemas/inline_address'
     registered:
       allOf:
         - type: object
@@ -6629,26 +6631,11 @@ components:
     letter:
       oneOf:
         - title: certified
-          allOf:
-            - $ref: '#/components/schemas/certified'
-            - type: object
-              properties:
-                return_address:
-                  $ref: '#/components/schemas/return_address'
+          $ref: '#/components/schemas/certified'
         - title: registered
-          allOf:
-            - $ref: '#/components/schemas/registered'
-            - type: object
-              properties:
-                return_address:
-                  $ref: '#/components/schemas/return_address'
+          $ref: '#/components/schemas/registered'
         - title: regular
-          allOf:
-            - $ref: '#/components/schemas/no_extra_service'
-            - type: object
-              properties:
-                return_address:
-                  $ref: '#/components/schemas/return_address'
+          $ref: '#/components/schemas/no_extra_service'
     letter_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of

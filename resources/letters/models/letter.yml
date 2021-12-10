@@ -1,24 +1,9 @@
 oneOf:
   - title: certified
-    allOf:
-      - $ref: "certified.yml"
-      - type: object
-        properties:
-          return_address:
-            $ref: "../attributes/return_address.yml"
+    $ref: "certified.yml"
 
   - title: registered
-    allOf:
-      - $ref: "registered.yml"
-      - type: object
-        properties:
-          return_address:
-            $ref: "../attributes/return_address.yml"
+    $ref: "registered.yml"
 
   - title: regular
-    allOf:
-      - $ref: "no_extra_service.yml"
-      - type: object
-        properties:
-          return_address:
-            $ref: "../attributes/return_address.yml"
+    $ref: "no_extra_service.yml"

@@ -42,6 +42,10 @@ properties:
       * `deliverable_missing_unit` – The address is deliverable to the building's default address but is missing secondary unit information. There is a chance the mail will not reach the intended recipient.
       * `undeliverable` – The address is not deliverable according to the USPS.
 
+  valid_address:
+    type: boolean
+    description: Indicates whether this address exists.
+
   components:
     $ref: "../models/us_components.yml"
 

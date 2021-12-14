@@ -3458,7 +3458,7 @@ components:
                 * `unauthorized_token` - 401: token isn't authorized.
     object:
       type: string
-      description: Value is type of resource.
+      description: Value is resource type.
     count:
       type: integer
       description: number of resources in a set
@@ -3538,12 +3538,11 @@ components:
             id:
               $ref: '#/components/schemas/adr_id'
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - address
-                  default: address
+              type: string
+              description: Value is resource type.
+              enum:
+                - address
+              default: address
             description:
               $ref: '#/components/schemas/resource_description'
             name:
@@ -3940,12 +3939,11 @@ components:
                 - ZAMBIA
                 - ZIMBABWE
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - address
-                  default: address
+              type: string
+              description: Value is resource type.
+              enum:
+                - address
+              default: address
           example:
             id: adr_e68217bd744d65c8
             description: Harry - Office
@@ -4446,12 +4444,11 @@ components:
               type: boolean
               default: false
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - bank_account
-                  default: bank_account
+              type: string
+              description: Value is resource type.
+              enum:
+                - bank_account
+              default: bank_account
       example:
         id: bank_a
         signature_url: >-
@@ -4509,12 +4506,11 @@ components:
             date_modified:
               $ref: '#/components/schemas/date_modified'
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - billing_group
-                  default: billing_group
+              type: string
+              description: Value is resource type.
+              enum:
+                - billing_group
+              default: billing_group
     billing_group_editable:
       allOf:
         - $ref: '#/components/schemas/billing_group_base'
@@ -5180,12 +5176,11 @@ components:
         lob_confidence_score:
           $ref: '#/components/schemas/lob_confidence_score'
         object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-            - type: string
-              enum:
-                - us_verification
-              default: us_verification
+          type: string
+          description: Value is resource type.
+          enum:
+            - us_verification
+          default: us_verification
     us_verifications:
       type: object
       required:
@@ -5407,12 +5402,11 @@ components:
             components:
               $ref: '#/components/schemas/intl_components'
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - intl_verification
-                  default: intl_verification
+              type: string
+              description: Value is resource type.
+              enum:
+                - intl_verification
+              default: intl_verification
     intl_verifications:
       type: object
       required:
@@ -5947,12 +5941,11 @@ components:
                 $ref: '#/components/schemas/tracking_event_normal'
               nullable: true
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - check
-                  default: check
+              type: string
+              description: Value is resource type.
+              enum:
+                - check
+              default: check
             date_created:
               $ref: '#/components/schemas/date_created'
             date_modified:
@@ -6477,12 +6470,11 @@ components:
                   type: string
                   description: The url of the envelope asset used.
                 object:
-                  allOf:
-                    - $ref: '#/components/schemas/object'
-                    - type: string
-                      enum:
-                        - envelope
-                      default: envelope
+                  type: string
+                  description: Value is resource type.
+                  enum:
+                    - envelope
+                  default: envelope
               nullable: true
     generated:
       type: object
@@ -6537,12 +6529,11 @@ components:
                   type: string
                 - $ref: '#/components/schemas/vrsn_id'
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - letter
-                  default: letter
+              type: string
+              description: Value is resource type.
+              enum:
+                - letter
+              default: letter
     certified:
       allOf:
         - type: object
@@ -6844,12 +6835,11 @@ components:
                 $ref: '#/components/schemas/tracking_event_normal'
               nullable: true
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - postcard
-                  default: postcard
+              type: string
+              description: Value is resource type.
+              enum:
+                - postcard
+              default: postcard
             url:
               allOf:
                 - description: >-
@@ -7006,12 +6996,11 @@ components:
                 - type: string
                   nullable: true
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - self_mailer
-                  default: self_mailer
+              type: string
+              description: Value is resource type.
+              enum:
+                - self_mailer
+              default: self_mailer
             tracking_events:
               description: >-
                 An array of certified tracking events ordered by ascending
@@ -7159,12 +7148,11 @@ components:
             engine:
               $ref: '#/components/schemas/engine'
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - version
-                  default: version
+              type: string
+              description: Value is resource type.
+              enum:
+                - version
+              default: version
     template_version_updatable:
       type: object
       properties:
@@ -7208,12 +7196,11 @@ components:
                 specified template.
             - $ref: '#/components/schemas/template_version'
         object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-            - type: string
-              enum:
-                - template
-              default: template
+          type: string
+          description: Value is resource type.
+          enum:
+            - template
+          default: template
         metadata:
           $ref: '#/components/schemas/metadata'
         date_created:
@@ -7340,12 +7327,11 @@ components:
                 `941072282`, `94107-2282`).
             - $ref: '#/components/schemas/zip_code'
         object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-            - type: string
-              enum:
-                - us_autocompletion
-              default: us_autocompletion
+          type: string
+          description: Value is resource type.
+          enum:
+            - us_autocompletion
+          default: us_autocompletion
     us_autocompletions:
       type: object
       properties:
@@ -7360,12 +7346,11 @@ components:
           items:
             $ref: '#/components/schemas/suggestions'
         object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-            - type: string
-              enum:
-                - us_autocompletion
-              default: us_autocompletion
+          type: string
+          description: Value is resource type.
+          enum:
+            - us_autocompletion
+          default: us_autocompletion
     single_line_address:
       type: object
       required:
@@ -7444,12 +7429,11 @@ components:
             zip_code_type:
               $ref: '#/components/schemas/zip_code_type'
             object:
-              allOf:
-                - $ref: '#/components/schemas/object'
-                - type: string
-                  enum:
-                    - us_zip_lookup
-                  default: us_zip_lookup
+              type: string
+              description: Value is resource type.
+              enum:
+                - us_zip_lookup
+              default: us_zip_lookup
     location:
       type: object
       required:
@@ -7558,12 +7542,11 @@ components:
           items:
             $ref: '#/components/schemas/addresses'
         object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-            - type: string
-              enum:
-                - us_reverse_geocode_lookup
-              default: us_reverse_geocode_lookup
+          type: string
+          description: Value is resource type.
+          enum:
+            - us_reverse_geocode_lookup
+          default: us_reverse_geocode_lookup
     postcard_types:
       type: string
       description: Unique identifier referring to status of postcard
@@ -7680,12 +7663,11 @@ components:
             - addresses
             - bank accounts
         object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-            - type: string
-              enum:
-                - event_type
-              default: event_type
+          type: string
+          description: Value is resource type.
+          enum:
+            - event_type
+          default: event_type
     events:
       type: object
       required:
@@ -7720,12 +7702,11 @@ components:
         date_created:
           $ref: '#/components/schemas/date_created'
         object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-            - type: string
-              enum:
-                - event
-              default: event
+          type: string
+          description: Value is resource type.
+          enum:
+            - event
+          default: event
   responses:
     address_error:
       description: Error

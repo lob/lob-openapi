@@ -82,12 +82,11 @@ allOf:
         nullable: true
 
       object:
-        allOf:
-          - $ref: "../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - check
-            default: check
+        type: string
+        description: Value is resource type.
+        enum:
+          - check
+        default: check
 
       # the following added manually from lob_base to avoid "recursive" use of
       # of lob_base in bank_account property

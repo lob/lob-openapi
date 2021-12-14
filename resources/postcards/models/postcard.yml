@@ -48,12 +48,11 @@ allOf:
         nullable: true
 
       object:
-        allOf:
-          - $ref: "../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - postcard
-            default: postcard
+        type: string
+        description: Value is resource type.
+        enum:
+          - postcard
+        default: postcard
 
       url:
         allOf:

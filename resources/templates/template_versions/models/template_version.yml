@@ -25,9 +25,8 @@ allOf:
         $ref: "../../../../shared/attributes/engine.yml"
 
       object:
-        allOf:
-          - $ref: "../../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - version
-            default: version
+        type: string
+        description: Value is resource type.
+        enum:
+          - version
+        default: version

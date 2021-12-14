@@ -86,9 +86,8 @@ allOf:
         $ref: "intl_components.yml"
 
       object:
-        allOf:
-          - $ref: "../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - intl_verification
-            default: intl_verification
+        type: string
+        description: Value is resource type.
+        enum:
+          - intl_verification
+        default: intl_verification

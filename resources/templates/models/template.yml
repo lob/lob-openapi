@@ -29,12 +29,11 @@ properties:
       - $ref: "../template_versions/models/template_version.yml"
 
   object:
-    allOf:
-      - $ref: "../../../shared/attributes/object.yml"
-      - type: string
-        enum:
-          - template
-        default: template
+    type: string
+    description: Value is resource type.
+    enum:
+      - template
+    default: template
 
   metadata:
     $ref: "../../../shared/models/metadata.yml"

@@ -17,9 +17,8 @@ allOf:
         $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
 
       object:
-        allOf:
-          - $ref: "../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - "billing_group"
-            default: "billing_group"
+        type: string
+        description: Value is resource type.
+        enum:
+          - "billing_group"
+        default: "billing_group"

@@ -301,12 +301,11 @@ allOf:
           - "ZIMBABWE"
 
       object:
-        allOf:
-          - $ref: "../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - address
-            default: address
+        type: string
+        description: Value is resource type.
+        enum:
+          - address
+        default: address
 
     example:
       id: adr_e68217bd744d65c8

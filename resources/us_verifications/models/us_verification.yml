@@ -52,9 +52,8 @@ properties:
     $ref: "../models/lob_confidence_score.yml"
 
   object:
-    allOf:
-      - $ref: "../../../shared/attributes/object.yml"
-      - type: string
-        enum:
-          - us_verification
-        default: us_verification
+    type: string
+    description: Value is resource type.
+    enum:
+      - us_verification
+    default: us_verification

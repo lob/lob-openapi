@@ -35,12 +35,11 @@ allOf:
         default: false
 
       object:
-        allOf:
-          - $ref: "../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - bank_account
-            default: bank_account
+        type: string
+        description: Value is resource type.
+        enum:
+          - bank_account
+        default: bank_account
 
 example:
   id: bank_a

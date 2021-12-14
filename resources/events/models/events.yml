@@ -32,9 +32,8 @@ properties:
     $ref: "../../../shared/attributes/timestamps.yml#/date_created"
 
   object:
-    allOf:
-      - $ref: "../../../shared/attributes/object.yml"
-      - type: string
-        enum:
-          - event
-        default: event
+    type: string
+    description: Value is resource type.
+    enum:
+      - event
+    default: event

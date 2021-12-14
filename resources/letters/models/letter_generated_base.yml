@@ -24,9 +24,8 @@ allOf:
           - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
 
       object:
-        allOf:
-          - $ref: "../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - letter
-            default: letter
+        type: string
+        description: Value is resource type.
+        enum:
+          - letter
+        default: letter

@@ -46,12 +46,11 @@ allOf:
             nullable: true
 
       object:
-        allOf:
-          - $ref: "../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - self_mailer
-            default: self_mailer
+        type: string
+        description: Value is resource type.
+        enum:
+          - self_mailer
+        default: self_mailer
 
       tracking_events:
         description: >-

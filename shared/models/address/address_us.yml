@@ -22,12 +22,12 @@ allOf:
         $ref: "../../../shared/attributes/model_ids/adr_id.yml"
 
       object:
-        allOf:
-          - $ref: "../../../shared/attributes/object.yml"
-          - type: string
-            enum:
-              - address
-            default: address
+        type: string
+        description: Value is resource type.
+        enum:
+          - address
+        default: address
+
       description:
         $ref: "../../../shared/attributes/resource_description.yml"
 

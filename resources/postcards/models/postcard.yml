@@ -31,13 +31,13 @@ allOf:
 
       front_template_version_id:
         allOf:
-          - description: The unique ID of the specific version of the HTML template used for the front of the postcard.
+          - description: The unique ID of the specific version of the HTML template used for the front of the postcard. Only filled out when the request contains a valid postcard template ID.
           - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
           - nullable: true
 
       back_template_version_id:
         allOf:
-          - description: The unique ID of the specific version of the HTML template used for the back of the postcard.
+          - description: The unique ID of the specific version of the HTML template used for the back of the postcard. Only filled out when the request contains a valid postcard template ID.
           - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
           - nullable: true
 

@@ -6825,14 +6825,16 @@ components:
               allOf:
                 - description: >-
                     The unique ID of the specific version of the HTML template
-                    used for the front of the postcard.
+                    used for the front of the postcard. Only filled out when the
+                    request contains a valid postcard template ID.
                 - $ref: '#/components/schemas/vrsn_id'
                 - nullable: true
             back_template_version_id:
               allOf:
                 - description: >-
                     The unique ID of the specific version of the HTML template
-                    used for the back of the postcard.
+                    used for the back of the postcard. Only filled out when the
+                    request contains a valid postcard template ID.
                 - $ref: '#/components/schemas/vrsn_id'
                 - nullable: true
             tracking_events:

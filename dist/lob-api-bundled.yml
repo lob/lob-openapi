@@ -6799,44 +6799,42 @@ components:
             - id
             - front_template_id
             - back_template_id
-            - front_template_version_id
-            - back_template_version_id
             - url
           properties:
             id:
               $ref: '#/components/schemas/psc_id'
             front_template_id:
-              allOf:
-                - description: >-
-                    The unique ID of the HTML template used for the front of the
-                    postcard. Only filled out when the request contains a valid
-                    postcard template ID.
-                - $ref: '#/components/schemas/tmpl_id'
-                - nullable: true
+              type: string
+              description: >-
+                The unique ID of the HTML template used for the front of the
+                postcard. Only filled out when the request contains a valid
+                postcard template ID.
+              pattern: ^tmpl_[a-zA-Z0-9]+$
+              nullable: true
             back_template_id:
-              allOf:
-                - description: >-
-                    The unique ID of the HTML template used for the back of the
-                    postcard. Only filled out when the request contains a valid
-                    postcard template ID.
-                - $ref: '#/components/schemas/tmpl_id'
-                - nullable: true
+              type: string
+              description: >-
+                The unique ID of the HTML template used for the back of the
+                postcard. Only filled out when the request contains a valid
+                postcard template ID.
+              pattern: ^tmpl_[a-zA-Z0-9]+$
+              nullable: true
             front_template_version_id:
-              allOf:
-                - description: >-
-                    The unique ID of the specific version of the HTML template
-                    used for the front of the postcard. Only filled out when the
-                    request contains a valid postcard template ID.
-                - $ref: '#/components/schemas/vrsn_id'
-                - nullable: true
+              type: string
+              description: >-
+                The unique ID of the specific version of the HTML template used
+                for the front of the postcard. Only filled out when the request
+                contains a valid postcard template ID.
+              pattern: ^vrsn_[a-zA-Z0-9]+$
+              nullable: true
             back_template_version_id:
-              allOf:
-                - description: >-
-                    The unique ID of the specific version of the HTML template
-                    used for the back of the postcard. Only filled out when the
-                    request contains a valid postcard template ID.
-                - $ref: '#/components/schemas/vrsn_id'
-                - nullable: true
+              type: string
+              description: >-
+                The unique ID of the specific version of the HTML template used
+                for the back of the postcard. Only filled out when the request
+                contains a valid postcard template ID.
+              pattern: ^vrsn_[a-zA-Z0-9]+$
+              nullable: true
             tracking_events:
               description: >-
                 An array of tracking_event objects ordered by ascending `time`.
@@ -8993,8 +8991,6 @@ components:
                 carrier: USPS
                 front_template_id: null
                 back_template_id: null
-                front_template_version_id: null
-                back_template_version_id: null
                 date_created: 2021-03-24T22:51:42.838Z
                 date_modified: 2021-03-24T22:51:42.838Z
                 send_date: 2021-03-24T22:51:42.838Z
@@ -12998,8 +12994,6 @@ paths:
                     carrier: USPS
                     front_template_id: null
                     back_template_id: null
-                    front_template_version_id: null
-                    back_template_version_id: null
                     date_created: 2021-03-24T22:51:42.838Z
                     date_modified: 2021-03-24T22:51:42.838Z
                     send_date: 2021-03-24T22:51:42.838Z

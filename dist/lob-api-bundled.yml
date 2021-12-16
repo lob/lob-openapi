@@ -5654,7 +5654,8 @@ components:
       properties:
         quantity:
           type: integer
-          minimum: 0
+          description: The quantity of cards in the order (minimum 10,000).
+          minimum: 10000
           maximum: 10000000
     chk_id:
       type: string
@@ -11544,17 +11545,17 @@ paths:
             schema:
               $ref: '#/components/schemas/card_order_editable'
             example:
-              quantity: 5000
+              quantity: 10000
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/card_order_editable'
             example:
-              quantity: 5000
+              quantity: 10000
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/card_order_editable'
             example:
-              quantity: 5000
+              quantity: 10000
       responses:
         '200':
           description: Card order created successfully
@@ -11584,24 +11585,24 @@ paths:
           source: |
             curl https://api.lob.com/v1/cards/card_6afffd19045076c/orders \
               -u <YOUR API KEY>: \
-              -d "quantity=5000"
+              -d "quantity=10000"
           label: CURL
         - lang: Javascript
           source: |
             Lob.cardOrders.create('card_6afffd19045076c', {
-              quantity: 5000
+              quantity: 10000
             }, function (err, res) {
               console.log(err, res);
             });
           label: NODE
         - lang: Python
           source: |
-            lob.CardOrder.create('card_6afffd19045076c', quantity = 5000)
+            lob.CardOrder.create('card_6afffd19045076c', quantity = 10000)
           label: PYTHON
         - lang: PHP
           source: |
             $lob->cardOrders('card_6afffd19045076c')->create(array(
-              'quantity'           => 5000
+              'quantity'           => 10000
             ));
   /checks/{chk_id}:
     parameters:

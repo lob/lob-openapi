@@ -41,7 +41,8 @@ allOf:
       return_envelope:
         oneOf:
           - type: boolean
-          - type: string
+          - $ref: "./return_envelope.yml"
+
         description: >-
           Indicates if a return envelope is requested for the letter.
           The value corresponding to this field is by default a boolean.

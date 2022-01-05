@@ -901,6 +901,30 @@ tags:
       for addresses. If you wish to try these features out, use our [live demo](https://lob.com/address-verification)
       or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).
 
+  - name: Intl Autocompletions
+    description: |
+      Address autocompletion for non-US addresses. Given partial address information, this endpoint returns up to 10 address suggestions.
+
+      ## Autocompletion Test Env
+
+      Your test API key does not autocomplete international addresses and is used to simulate
+      behavior. With your test API key, requests with specific values for `address_prefix`
+      return predetermined values. When `address_prefix` is set to:
+
+      - `0 suggestions` - Returns no suggestions
+      - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.
+        `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.
+        Each additional letter in `suggestion` reduces the number of suggestions by one (e.g.
+        `1 su` returns 9 suggested addresses). `[PRIMARY NUMBER]` does not affect the number of
+        suggestions returned.
+
+      Country is a required field.
+
+      City and state filters work as expected and filter the list of predetermined suggested addresses.
+
+      See the `test` request & response examples under [Autocomplete Examples](#operation/intl_autocompletions) within the "Autocomplete
+      a partial address" section in Intl Autocompletions.
+
   - name: Introduction
     x-traitTag: true
     description: |
@@ -2306,6 +2330,7 @@ x-tagGroups:
       - Reverse Geocode Lookups
       - Zip Lookups
       - Intl Verifications
+      - Intl Autocompletions
 
   - name: Webhooks
     tags:
@@ -2404,6 +2429,9 @@ paths:
 
   /intl_verifications:
     $ref: resources/intl_verifications/intl_verifications.yml
+
+  /intl_autocompletions:
+    $ref: resources/intl_autocompletions/intl_autocompletions.yml
 
   /letters/{ltr_id}:
     $ref: resources/letters/letter.yml

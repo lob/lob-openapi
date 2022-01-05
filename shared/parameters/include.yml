@@ -4,11 +4,11 @@ name: include
 
 description: >
   Request that the response include the total count by specifying
-  `include[]=total_count`.
+  `include=["total_count"]`.
 
 schema:
-  type: object
-
-style: deepObject
+  type: array
+  items:
+    type: string
 
 explode: true

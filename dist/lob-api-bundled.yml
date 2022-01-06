@@ -1021,6 +1021,44 @@ tags:
 
       or the free plan (see [our
       pricing](https://lob.com/pricing/address-verification) for details).
+  - name: Intl Autocompletions
+    description: >
+      Address autocompletion for non-US addresses. Given partial address
+      information, this endpoint returns up to 10 address suggestions.
+
+
+      ## Autocompletion Test Env
+
+
+      Your test API key does not autocomplete international addresses and is
+      used to simulate
+
+      behavior. With your test API key, requests with specific values for
+      `address_prefix`
+
+      return predetermined values. When `address_prefix` is set to:
+
+
+      - `0 suggestions` - Returns no suggestions
+
+      - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined
+      suggested addresses.
+        `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.
+        Each additional letter in `suggestion` reduces the number of suggestions by one (e.g.
+        `1 su` returns 9 suggested addresses). `[PRIMARY NUMBER]` does not affect the number of
+        suggestions returned.
+
+      Country is a required field.
+
+
+      City and state filters work as expected and filter the list of
+      predetermined suggested addresses.
+
+
+      See the `test` request & response examples under [Autocomplete
+      Examples](#operation/intl_autocompletions) within the "Autocomplete
+
+      a partial address" section in Intl Autocompletions.
   - name: Introduction
     x-traitTag: true
     description: >
@@ -2992,6 +3030,7 @@ x-tagGroups:
       - Reverse Geocode Lookups
       - Zip Lookups
       - Intl Verifications
+      - Intl Autocompletions
   - name: Webhooks
     tags:
       - Webhooks
@@ -6166,6 +6205,101 @@ components:
       oneOf:
         - $ref: '#/components/schemas/multiple_components_intl'
         - $ref: '#/components/schemas/single_line_address_intl'
+    intl_autocompletions_writable:
+      type: object
+      required:
+        - address_prefix
+        - country
+      properties:
+        address_prefix:
+          type: string
+          description: |
+            Only accepts numbers and street names in an alphanumeric format.
+        city:
+          type: string
+          description: >
+            An optional city input used to filter suggestions. Case insensitive
+            and does not match partial abbreviations.
+        state:
+          type: string
+          description: >
+            An optional state input used to filter suggestions. Case insensitive
+            and does not match partial abbreviations.
+        zip_code:
+          type: string
+          description: >
+            An optional Zip Code input used to filter suggestions. Matches
+            partial entries.
+        country:
+          $ref: '#/components/schemas/country_extended'
+    intl_auto_id:
+      type: string
+      description: Unique identifier prefixed with `intl_auto_`.
+      pattern: ^intl_auto_[a-zA-Z0-9]+$
+    intl_suggestions:
+      type: object
+      required:
+        - primary_number_range
+        - primary_line
+        - city
+        - country
+        - state
+        - zip_code
+      properties:
+        primary_number_range:
+          type: string
+          description: >
+            The primary number range of the address that identifies a building
+            at street level.
+        primary_line:
+          type: string
+          description: >
+            The primary delivery line (usually the street address) of the
+            address.
+
+            Combination of the following applicable `components` (primary number
+            &
+
+            secondary information may be missing or inaccurate):
+
+            * `primary_number`
+
+            * `street_predirection`
+
+            * `street_name`
+
+            * `street_suffix`
+
+            * `street_postdirection`
+
+            * `secondary_designator`
+
+            * `secondary_number`
+
+            * `pmb_designator`
+
+            * `pmb_number`
+        city:
+          $ref: '#/components/schemas/city'
+        country:
+          $ref: '#/components/schemas/country_extended'
+        state:
+          $ref: '#/components/schemas/state'
+        zip_code:
+          $ref: '#/components/schemas/postal_code'
+    intl_autocompletions:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/intl_auto_id'
+        suggestions:
+          type: array
+          description: |
+            An array of objects representing suggested addresses.
+          minItems: 0
+          maxItems: 10
+          items:
+            $ref: '#/components/schemas/intl_suggestions'
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.
@@ -8508,6 +8642,143 @@ components:
                   state: PE
                   postal_code: C1N 1C4
                 object: intl_verification
+    intl_autocompletions_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: invalid
+              message: address_prefix is required
+              status_code: 422
+    intl_autocompletions:
+      description: Returns an international autocompletions object.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/intl_autocompletions'
+          examples:
+            basic:
+              value:
+                id: intl_auto_a3ac97bcfbb2460ab20c
+                suggestions:
+                  - primary_number_range: ''
+                    primary_line: 340 WATERSTONE PL SE
+                    city: AIRDRIE
+                    state: AB
+                    country: CA
+                    zip_code: T4B 2G7
+                  - primary_number_range: ''
+                    primary_line: 340 WATT BLVD SW
+                    city: EDMONTON
+                    state: AB
+                    country: CA
+                    zip_code: T6X 1R7
+                  - primary_number_range: ''
+                    primary_line: 340 WATROUS ST
+                    city: PRINCE GEORGE
+                    state: BC
+                    country: CA
+                    zip_code: V2M 2B6
+                  - primary_number_range: ''
+                    primary_line: 340 WATERS RD
+                    city: QUALICUM BEACH
+                    state: BC
+                    country: CA
+                    zip_code: V9K 2B8
+                  - primary_number_range: ''
+                    primary_line: SUITE 340, 1510 WATT DR SW
+                    city: EDMONTON
+                    state: AB
+                    country: CA
+                    zip_code: T6X 2E6
+                  - primary_number_range: ''
+                    primary_line: WATERFRONT POINTE WEST SUITE 340, 5212 25 AVE NW
+                    city: EDMONTON
+                    state: AB
+                    country: CA
+                    zip_code: T6L 6R7
+                  - primary_number_range: ''
+                    primary_line: WATERFRONT POINTE EAST SUITE 340, 2520 52 ST NW
+                    city: EDMONTON
+                    state: AB
+                    country: CA
+                    zip_code: T6L 6S2
+                  - primary_number_range: ''
+                    primary_line: WATERSTONE SUITE 340, 6079 MAYNARD WAY NW
+                    city: EDMONTON
+                    state: AB
+                    country: CA
+                    zip_code: T6R 0S4
+                  - primary_number_range: ''
+                    primary_line: WATSON APTS. SUITE 340, 5207 39 ST
+                    city: RED DEER
+                    state: AB
+                    country: CA
+                    zip_code: T4N 0Z9
+                  - primary_number_range: ''
+                    primary_line: WATERS EDGE SUITE 3400..3409, 2600 FERGUSON RD
+                    city: SAANICHTON
+                    state: BC
+                    country: CA
+                    zip_code: V8M 2C1
+                object: intl_autocompletion
+            test:
+              value:
+                id: intl_auto_a3ac97bcfbb2460ab20c
+                suggestions:
+                  - primary_number_range: ''
+                    primary_line: 1 TWIN OAKS CT
+                    city: GREENVILLE
+                    state: SC
+                    country: CA
+                    zip_code: '29615'
+                  - primary_number_range: ''
+                    primary_line: 1 TEVA DR
+                    city: STAR CITY
+                    state: CA
+                    country: CA
+                    zip_code: '91355'
+                  - primary_number_range: ''
+                    primary_line: 1 TELEGRAM AVE
+                    city: ELMONT
+                    state: NY
+                    country: CA
+                    zip_code: '11003'
+                  - primary_number_range: ''
+                    primary_line: 1 TELEGRAM AVE
+                    city: GARDEN CITY
+                    state: KS
+                    country: CA
+                    zip_code: '67846'
+                  - primary_number_range: ''
+                    primary_line: 1 TELEGRAPH HILL RD
+                    city: HOLMDEL
+                    state: NJ
+                    country: CA
+                    zip_code: '07733'
+                  - primary_number_range: ''
+                    primary_line: 1 TELEGRAPH HILL RD S
+                    city: HOLMDEL
+                    state: NJ
+                    country: CA
+                    zip_code: '07733'
+                  - primary_number_range: ''
+                    primary_line: 1 TELEGRAPH HILL BLVD
+                    city: SAN FRANCISCO
+                    state: CA
+                    country: CA
+                    zip_code: '94133'
+                object: intl_autocompletion
     letter_deleted:
       description: Deleted
       content:
@@ -12338,6 +12609,148 @@ paths:
               city: "Summerside",
               state: "Prince Edward Island",
               postal_code: "C1N 1C4",
+              country: "CA"
+            })
+          label: ELIXIR
+  /intl_autocompletions:
+    post:
+      operationId: intl_autocompletions
+      summary: Autocomplete
+      description: >-
+        Given an address prefix consisting of a partial primary line and
+        country, as well as optional input of city, state, and zip code, this
+        functionality returns up to 10 full International address suggestions.
+        Not all of them will turn out to be valid addresses; they'll need to be
+        [verified](#operation/intl_verification).
+      tags:
+        - Intl Autocompletions
+      parameters:
+        - $ref: '#/components/parameters/lang_spec'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/intl_autocompletions_writable'
+            examples:
+              basic:
+                value:
+                  address_prefix: 340 Wat
+                  city: Summerside
+                  state: Prince Edward Island
+                  zip_code: C1N 1C4
+                  country: CA
+              test:
+                value:
+                  address_prefix: 1 sugg
+                  country: CA
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/intl_autocompletions_writable'
+            examples:
+              basic:
+                value:
+                  address_prefix: 340 Wat
+                  city: Summerside
+                  state: Prince Edward Island
+                  zip_code: C1N 1C4
+                  country: CA
+              test:
+                value:
+                  address_prefix: 1 sugg
+                  country: CA
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/intl_autocompletions_writable'
+            examples:
+              basic:
+                value:
+                  address_prefix: 340 Wat
+                  city: Summerside
+                  state: Prince Edward Island
+                  zip_code: C1N 1C4
+                  country: CA
+              test:
+                value:
+                  address_prefix: 1 sugg
+                  country: CA
+      responses:
+        '200':
+          $ref: '#/components/responses/intl_autocompletions'
+        default:
+          $ref: '#/components/responses/intl_autocompletions_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/intl_autocompletions \
+              -u <YOUR_LIVE_API_KEY>: \
+              -d "address_prefix=340 Wat" \
+              -d "city=Summerside" \
+              -d "state=Prince Edward Island" \
+              -d "zip_code=C1N 1C4" \
+              -d "country=CA"
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.intlVerifications.verify({
+              address_prefix: '340 Wat',
+              city: 'Summerside',
+              state: 'Prince Edward Island',
+              zip_code: 'C1N 1C4',
+              country: 'CA'
+            }, function (err, res) {
+              console.log (err, res);
+            });
+          label: NODE
+        - lang: Ruby
+          source: |
+            @lob.intl_verifications.verify(
+              address_prefix: "340 Wat",
+              city:         "Summerside",
+              state:        "Prince Edward Island",
+              zip_code:  "C1N 1C4",
+              country:      "CA"
+            )
+          label: RUBY
+        - lang: Python
+          source: |
+            lob.IntlVerification.create(
+              address_prefix='340 Wat',
+              city='Summerside',
+              state='Prince Edward Island',
+              zip_code='C1N 1C4',
+              country='CA'
+            )
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->intlVerifications()->verify(array(
+              'address_prefix' => '340 Wat',
+              'city'         => 'Summerside',
+              'state'        => 'Prince Edward Island',
+              'zip_code'  => 'C1N 1C4',
+              'country'      => 'CA',
+            ));
+        - lang: Java
+          source: >
+            LobResponse<IntlVerification> response = new
+            IntlVerification.RequestBuilder()
+                    .setAddressPrefix("340 Wat")
+                    .setCity("Summerside")
+                    .setState("Prince Edward Island")
+                    .setPostalCode("C1N 1C4")
+                    .setCountry("CA")
+                    .verify();
+
+            IntlVerification intlVerification = response.getResponseBody();
+          label: JAVA
+        - lang: Elixir
+          source: |
+            Lob.IntlVerification.verify(%{
+              address_prefix: "340 Wat",
+              city: "Summerside",
+              state: "Prince Edward Island",
+              zip_code: "C1N 1C4",
               country: "CA"
             })
           label: ELIXIR

@@ -7459,89 +7459,6 @@ components:
           enum:
             - us_autocompletion
           default: us_autocompletion
-    single_line_address:
-      type: object
-      required:
-        - address
-      properties:
-        address:
-          type: string
-          description: >
-            The entire address in one string (e.g., "210 King Street 94107").
-            _Does not support a recipient and will error when other payload
-            parameters are provided._
-          maxLength: 500
-    us_verifications_writable:
-      oneOf:
-        - $ref: '#/components/schemas/multiple_components'
-        - $ref: '#/components/schemas/single_line_address'
-    zip5:
-      type: object
-      required:
-        - zip_code
-      properties:
-        zip_code:
-          type: string
-          description: A 5-digit ZIP code.
-          pattern: ^\d{5}$
-          example: '94107'
-    zip_id:
-      type: string
-      description: Unique identifier prefixed with `us_zip_`.
-      pattern: ^us_zip_[a-zA-Z0-9]+$
-    zip_lookup_city:
-      type: object
-      required:
-        - city
-        - state
-        - county
-        - county_fips
-        - preferred
-      properties:
-        city:
-          $ref: '#/components/schemas/city'
-        state:
-          $ref: '#/components/schemas/state'
-        county:
-          $ref: '#/components/schemas/county'
-        county_fips:
-          $ref: '#/components/schemas/county_fips'
-        preferred:
-          type: boolean
-          description: >
-            Indicates whether or not the city is the [USPS default
-            city](https://en.wikipedia.org/wiki/ZIP_Code#ZIP_Codes_and_previous_zoning_lines)
-            (preferred city) of a ZIP code. There is only one preferred city per
-            ZIP code, which will always be in position 0 in the array of cities.
-          example: true
-    zip:
-      allOf:
-        - $ref: '#/components/schemas/zip5'
-        - type: object
-          required:
-            - id
-            - cities
-            - zip_code_type
-            - object
-          properties:
-            id:
-              $ref: '#/components/schemas/zip_id'
-            cities:
-              type: array
-              items:
-                $ref: '#/components/schemas/zip_lookup_city'
-              description: >
-                An array of city objects containing valid cities for the
-                `zip_code`. Multiple cities will be returned if more than one
-                city is associated with the input ZIP code.
-            zip_code_type:
-              $ref: '#/components/schemas/zip_code_type'
-            object:
-              type: string
-              description: Value is resource type.
-              enum:
-                - us_zip_lookup
-              default: us_zip_lookup
     location:
       type: object
       required:
@@ -7655,6 +7572,89 @@ components:
           enum:
             - us_reverse_geocode_lookup
           default: us_reverse_geocode_lookup
+    single_line_address:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          type: string
+          description: >
+            The entire address in one string (e.g., "210 King Street 94107").
+            _Does not support a recipient and will error when other payload
+            parameters are provided._
+          maxLength: 500
+    us_verifications_writable:
+      oneOf:
+        - $ref: '#/components/schemas/multiple_components'
+        - $ref: '#/components/schemas/single_line_address'
+    zip5:
+      type: object
+      required:
+        - zip_code
+      properties:
+        zip_code:
+          type: string
+          description: A 5-digit ZIP code.
+          pattern: ^\d{5}$
+          example: '94107'
+    zip_id:
+      type: string
+      description: Unique identifier prefixed with `us_zip_`.
+      pattern: ^us_zip_[a-zA-Z0-9]+$
+    zip_lookup_city:
+      type: object
+      required:
+        - city
+        - state
+        - county
+        - county_fips
+        - preferred
+      properties:
+        city:
+          $ref: '#/components/schemas/city'
+        state:
+          $ref: '#/components/schemas/state'
+        county:
+          $ref: '#/components/schemas/county'
+        county_fips:
+          $ref: '#/components/schemas/county_fips'
+        preferred:
+          type: boolean
+          description: >
+            Indicates whether or not the city is the [USPS default
+            city](https://en.wikipedia.org/wiki/ZIP_Code#ZIP_Codes_and_previous_zoning_lines)
+            (preferred city) of a ZIP code. There is only one preferred city per
+            ZIP code, which will always be in position 0 in the array of cities.
+          example: true
+    zip:
+      allOf:
+        - $ref: '#/components/schemas/zip5'
+        - type: object
+          required:
+            - id
+            - cities
+            - zip_code_type
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/zip_id'
+            cities:
+              type: array
+              items:
+                $ref: '#/components/schemas/zip_lookup_city'
+              description: >
+                An array of city objects containing valid cities for the
+                `zip_code`. Multiple cities will be returned if more than one
+                city is associated with the input ZIP code.
+            zip_code_type:
+              $ref: '#/components/schemas/zip_code_type'
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - us_zip_lookup
+              default: us_zip_lookup
     postcard_types:
       type: string
       description: Unique identifier referring to status of postcard
@@ -9654,6 +9654,47 @@ components:
                     state: CA
                     zip_code: '94133'
                 object: us_autocompletion
+    reverse_geocode_lookups_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: invalid
+              message: latitude is required
+              status_code: 422
+    reverse_geocode_lookups:
+      description: Returns a zip lookup object if a valid zip was provided.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/reverse_geocode'
+          example:
+            id: us_reverse_geocode_8a013f3e
+            addresses:
+              - components:
+                  zip_code: '94107'
+                  zip_code_plus_4: '1702'
+                location_analysis:
+                  latitude: 37.78271
+                  longitude: -122.416202
+                  distance: 1.32
+              - components:
+                  zip_code: '94107'
+                  zip_code_plus_4: '1702'
+                location_analysis:
+                  latitude: 37.782917
+                  longitude: -122.416131
+                  distance: 1.33
     us_verifications:
       description: Returns a US verification object.
       headers:
@@ -9804,47 +9845,6 @@ components:
             zip_code_type: standard
             object: us_zip_lookup
             zip_code: '94107'
-    reverse_geocode_lookups_error:
-      description: Error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error'
-          example:
-            error:
-              code: invalid
-              message: latitude is required
-              status_code: 422
-    reverse_geocode_lookups:
-      description: Returns a zip lookup object if a valid zip was provided.
-      headers:
-        ratelimit-limit:
-          $ref: '#/components/headers/ratelimit-limit'
-        ratelimit-remaining:
-          $ref: '#/components/headers/ratelimit-remaining'
-        ratelimit-reset:
-          $ref: '#/components/headers/ratelimit-reset'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/reverse_geocode'
-          example:
-            id: us_reverse_geocode_8a013f3e
-            addresses:
-              - components:
-                  zip_code: '94107'
-                  zip_code_plus_4: '1702'
-                location_analysis:
-                  latitude: 37.78271
-                  longitude: -122.416202
-                  distance: 1.32
-              - components:
-                  zip_code: '94107'
-                  zip_code_plus_4: '1702'
-                location_analysis:
-                  latitude: 37.782917
-                  longitude: -122.416131
-                  distance: 1.33
     events:
       description: Returns an `event` object to the specified server.
       content:
@@ -14864,6 +14864,110 @@ paths:
               zip_code:       "94107"
             })
           label: ELIXIR
+  /us_reverse_geocode_lookups:
+    post:
+      operationId: reverse_geocode_lookup
+      summary: Reverse Geocode Lookup
+      description: Reverse geocode a valid US location with a live API key.
+      tags:
+        - Reverse Geocode Lookups
+      parameters:
+        - in: query
+          name: size
+          schema:
+            type: integer
+            minimum: 1
+            default: 5
+            maximum: 50
+            example: 5
+          description: >-
+            Determines the number of locations returned. Possible values are
+            between 1 and 50 and any number higher will be rounded down to 50.
+            Default size is a list of 5 reverse geocoded locations.
+          required: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/location'
+            example:
+              latitude: 37.7749
+              longitude: 122.4194
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/location'
+            example:
+              latitude: 37.7749
+              longitude: 122.4194
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/location'
+            example:
+              latitude: 37.7749
+              longitude: 122.4194
+      responses:
+        '200':
+          $ref: '#/components/responses/reverse_geocode_lookups'
+        default:
+          $ref: '#/components/responses/reverse_geocode_lookups_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/us_reverse_geocode_lookups \
+              -u <YOUR_LIVE_API_KEY>: \
+              -d "latitude=37.7749" \
+              -d "longitude=122.4194" \
+          label: CURL
+        - lang: Javascript
+          source: |
+            Lob.reverseGeocodeLookups.lookup({
+              latitude: 37.7749,
+              longitude: 122.4194
+            }, function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Ruby
+          source: |
+            @lob.reverse_geocode_lookups.lookup(
+              latitude: 37.7749,
+              longitude: 122.4194
+            )
+          label: RUBY
+        - lang: Python
+          source: |
+            lob.ReverseGeocodeLookups.create(
+              latitude= 37.7749,
+              longitude= 122.4194
+            )
+          label: Python
+        - lang: PHP
+          source: |
+            $lob->reverseGeocodeLookups()->lookup(array(
+              'latitude' => 37.7749,
+              'longitude' => 122.4194
+
+            ));
+          label: PHP
+        - lang: Java
+          source: >
+            LobResponse<ReverseGeocodeLookup> response = new
+            ReverseGeocodeLookup.RequestBuilder()
+                    .setLatitude(37.7749)
+                    .setLongitude(122.4194)
+                    .lookup();
+
+            ReverseGeocodeLookup reverseGeocodeLookup =
+            response.getResponseBody();
+          label: JAVA
+        - lang: Elixir
+          source: |
+            Lob.ReverseGeocodeLookup.lookup(%{
+              latitude: 37.7749,
+              longitude: 122.4194
+            })
+          label: ELIXIR
   /us_verifications:
     post:
       operationId: us_verification
@@ -15125,109 +15229,5 @@ paths:
           source: |
             Lob.USZipLookup.lookup(%{
               zip_code: "94107"
-            })
-          label: ELIXIR
-  /us_reverse_geocode_lookups:
-    post:
-      operationId: reverse_geocode_lookup
-      summary: Reverse Geocode Lookup
-      description: Reverse geocode a valid US location with a live API key.
-      tags:
-        - Reverse Geocode Lookups
-      parameters:
-        - in: query
-          name: size
-          schema:
-            type: integer
-            minimum: 1
-            default: 5
-            maximum: 50
-            example: 5
-          description: >-
-            Determines the number of locations returned. Possible values are
-            between 1 and 50 and any number higher will be rounded down to 50.
-            Default size is a list of 5 reverse geocoded locations.
-          required: false
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/location'
-            example:
-              latitude: 37.7749
-              longitude: 122.4194
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/location'
-            example:
-              latitude: 37.7749
-              longitude: 122.4194
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/location'
-            example:
-              latitude: 37.7749
-              longitude: 122.4194
-      responses:
-        '200':
-          $ref: '#/components/responses/reverse_geocode_lookups'
-        default:
-          $ref: '#/components/responses/reverse_geocode_lookups_error'
-      x-codeSamples:
-        - lang: Shell
-          source: |
-            curl https://api.lob.com/v1/us_reverse_geocode_lookups \
-              -u <YOUR_LIVE_API_KEY>: \
-              -d "latitude=37.7749" \
-              -d "longitude=122.4194" \
-          label: CURL
-        - lang: Javascript
-          source: |
-            Lob.reverseGeocodeLookups.lookup({
-              latitude: 37.7749,
-              longitude: 122.4194
-            }, function (err, res) {
-              console.log(err, res);
-            });
-          label: NODE
-        - lang: Ruby
-          source: |
-            @lob.reverse_geocode_lookups.lookup(
-              latitude: 37.7749,
-              longitude: 122.4194
-            )
-          label: RUBY
-        - lang: Python
-          source: |
-            lob.ReverseGeocodeLookups.create(
-              latitude= 37.7749,
-              longitude= 122.4194
-            )
-          label: Python
-        - lang: PHP
-          source: |
-            $lob->reverseGeocodeLookups()->lookup(array(
-              'latitude' => 37.7749,
-              'longitude' => 122.4194
-
-            ));
-          label: PHP
-        - lang: Java
-          source: >
-            LobResponse<ReverseGeocodeLookup> response = new
-            ReverseGeocodeLookup.RequestBuilder()
-                    .setLatitude(37.7749)
-                    .setLongitude(122.4194)
-                    .lookup();
-
-            ReverseGeocodeLookup reverseGeocodeLookup =
-            response.getResponseBody();
-          label: JAVA
-        - lang: Elixir
-          source: |
-            Lob.ReverseGeocodeLookup.lookup(%{
-              latitude: 37.7749,
-              longitude: 122.4194
             })
           label: ELIXIR

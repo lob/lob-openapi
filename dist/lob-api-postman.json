@@ -1,7 +1,7 @@
 {
     "item": [
         {
-            "id": "29076e17-21ce-4e9d-a01f-9f2b1b609a84",
+            "id": "f8b79251-a15e-4dc2-bfd6-58d434da509c",
             "name": "Addresses",
             "description": {
                 "content": "To add an address to your address book, you create a new address object. You can retrieve and delete individual\naddresses as well as get a list of addresses. Addresses are identified by a unique random ID.\n",
@@ -9,7 +9,7 @@
             },
             "item": [
                 {
-                    "id": "b9e67dcc-be5e-4b3a-b73d-38c5b897aede",
+                    "id": "b3d95ad7-5ed5-471a-ae98-e0d451db72c5",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -63,7 +63,7 @@
                     },
                     "response": [
                         {
-                            "id": "aa5aeb48-cf8d-411d-a6ef-de4199432a9c",
+                            "id": "289c5e7f-fb99-4741-bb9f-0b2d1eb6995c",
                             "name": "A dictionary with a data property that contains an array of up to `limit` addresses. Each entry in the array is a separate address object. The previous and next page of address entries can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more addresses are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -123,7 +123,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "757bcf4f-2dc6-4f34-bb06-e3215a7125d7",
+                            "id": "96af7108-18cd-4591-ac9d-458b8e3fc95f",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -186,7 +186,7 @@
                     "event": []
                 },
                 {
-                    "id": "60928832-f8e1-4556-b298-81d3d4c7ff4f",
+                    "id": "ddb250d0-056f-4689-9feb-f76bccbd2036",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -245,7 +245,7 @@
                     },
                     "response": [
                         {
-                            "id": "c8955c27-222f-4c43-999f-2e3e0e39985d",
+                            "id": "858acf6d-2b51-40af-8086-162dc6154697",
                             "name": "Echos the writable fields of a newly created address object.",
                             "originalRequest": {
                                 "url": {
@@ -361,7 +361,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "6e09e45f-1a9a-42d4-a805-36224711bbc1",
+                            "id": "e4c83867-13ca-4c27-91a3-a5080df3f388",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -462,7 +462,7 @@
                     "event": []
                 },
                 {
-                    "id": "ffad1d33-7f80-48f4-a456-86a6541677a7",
+                    "id": "177d2f02-9d7a-43fd-ae37-609d6da6b08c",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -494,7 +494,7 @@
                     },
                     "response": [
                         {
-                            "id": "4dc4e989-437d-41d7-91a1-b9b977dfbb2e",
+                            "id": "83de3da6-93a9-451c-8e50-3e8cabe8ab9d",
                             "name": "Returns an address object if a valid identifier was provided.",
                             "originalRequest": {
                                 "url": {
@@ -542,7 +542,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "da44a502-396c-45e7-9e5f-a6ead434e033",
+                            "id": "8fad2c83-6c79-4d6e-a6fc-d21fb213e55b",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -593,7 +593,7 @@
                     "event": []
                 },
                 {
-                    "id": "d8a218d7-2169-4eb5-a1a2-e4b30cc2f3f8",
+                    "id": "6633738c-5e51-410e-84cf-d67139a4c9d2",
                     "name": "Delete",
                     "request": {
                         "name": "Delete",
@@ -625,7 +625,7 @@
                     },
                     "response": [
                         {
-                            "id": "3696c420-1d8b-4d13-b7af-4e67f3b6281b",
+                            "id": "2496ee7d-3c72-431a-a8d0-3d19f558c4ac",
                             "name": "Deleted",
                             "originalRequest": {
                                 "url": {
@@ -673,7 +673,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "dc93ce71-c727-4abe-82e8-a1fc74564845",
+                            "id": "872d03cf-1592-40f1-891c-0d7c2674cf77",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -727,7 +727,7 @@
             "event": []
         },
         {
-            "id": "defe3795-4ca4-4138-a362-12e8c66e93a9",
+            "id": "39a77b55-7032-4743-b606-5c2ebf2a3dc4",
             "name": "Authentication",
             "description": {
                 "content": "Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).\nIn order to properly authenticate with the API you must use your API key as the username\nwhile leaving the password blank. Requests not properly authenticated will return a `401`\n[error code](#tag/Errors). You can find your account's API keys\nin your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).\n### Example Request\ncurl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a\npassword). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.\n```bash\ncurl https://api.lob.com/v1/addresses \\\n  -u test_0dc8dXXXXXXXXXXXXXXXXXXXXXX5b0cc:\n```\n## API Keys\n  Lob authenticates your API requests using your account's API keys.\n  If you do not include your key when making an API request, or use\n  one that is incorrect or outdated, Lob returns an error with a `401`\n  HTTP response code. You can find all API keys in your dashboard\n  under [Settings](https://dashboard.lob.com/#/settings/keys).\n  There are two types of API keys: *secret* and *publishable*.\n  - **Secret API keys** should be kept confidential and only stored on your own servers.\n  Your account's secret API key can perform any API request to Lob without restriction.\n  - **Publishable API keys** are limited to US verifications, international verifications,\n  and US autocomplete requests. While we encourage you to use a secret key for maximum\n  security, you can publish these keys to JavaScript code or in an Android or iPhone app\n  without exposing print and mail services or your secret key. Publishable keys are always\n  prefixed with `[environment]_pub`.\n  Every type comes with a pair of keys: one for the testing environment and one for the\n  live environment. We recommend reading [Test and Live Environments](#tag/Test-and-Live-Environments)\n  for more information.\n",
@@ -737,7 +737,7 @@
             "event": []
         },
         {
-            "id": "989865ba-e873-4ef7-9dde-625f8164180c",
+            "id": "931f9aa7-de6d-4713-a5d3-5490e066c98e",
             "name": "Bank Accounts",
             "description": {
                 "content": "Bank Accounts allow you to store your bank account securely in our system. The API provides\nendpoints for creating bank accounts, deleting bank accounts, verifying bank accounts,\nretrieving individual bank accounts, and retrieving a list of bank accounts.\n",
@@ -745,7 +745,7 @@
             },
             "item": [
                 {
-                    "id": "49523c15-bb74-4faa-9a43-c4c2824920cc",
+                    "id": "215548e8-ec38-4b01-afee-b2c56da10306",
                     "name": "Verify",
                     "request": {
                         "name": "Verify",
@@ -801,7 +801,7 @@
                     },
                     "response": [
                         {
-                            "id": "87aebc76-c739-465d-9150-ce8ef9689f65",
+                            "id": "0c474650-cb33-4258-a7f8-eeabaf6e1ed6",
                             "name": "Returns a bank_account object",
                             "originalRequest": {
                                 "url": {
@@ -890,7 +890,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "7df41312-986c-4408-aa5b-9f4bd1f36df3",
+                            "id": "2bb6c361-506b-4eee-8391-18d5d136d233",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -964,7 +964,7 @@
                     "event": []
                 },
                 {
-                    "id": "1b18f79e-bd3c-429e-b273-a5d1a7364fa5",
+                    "id": "398ceafb-ce73-4ae8-b19e-45d8fe63eeb9",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -996,7 +996,7 @@
                     },
                     "response": [
                         {
-                            "id": "915b99f7-2760-4d08-848e-ef780ef24517",
+                            "id": "45e86578-4f8c-4586-86a9-770bde2c6ae8",
                             "name": "Returns a bank account object",
                             "originalRequest": {
                                 "url": {
@@ -1044,7 +1044,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "70f4d6aa-aa19-48d6-b3cd-20ffa9177f4f",
+                            "id": "15e8b152-e8ff-4044-998b-efa30eef211f",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -1095,7 +1095,7 @@
                     "event": []
                 },
                 {
-                    "id": "4575e727-29ed-454d-9961-71261d97ebfb",
+                    "id": "51394358-9f99-41e8-ba7e-dde5b27d1bef",
                     "name": "Delete",
                     "request": {
                         "name": "Delete",
@@ -1127,7 +1127,7 @@
                     },
                     "response": [
                         {
-                            "id": "934cf65e-6710-438a-a9e0-39a592f92c26",
+                            "id": "cf6ad2af-67a1-4d9f-a291-7accbf333fb6",
                             "name": "Deleted",
                             "originalRequest": {
                                 "url": {
@@ -1175,7 +1175,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "7b8974ce-43ba-4d0e-a3fd-da4cc384bf68",
+                            "id": "6cd935e8-c8a1-48ec-99d4-6f1bf2a75414",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -1226,7 +1226,7 @@
                     "event": []
                 },
                 {
-                    "id": "5f758dd2-eaf2-4971-b538-22acdaf86a3d",
+                    "id": "f50d8dec-d632-4f63-aeb3-a3099b9dc505",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -1280,7 +1280,7 @@
                     },
                     "response": [
                         {
-                            "id": "4897df55-419c-427f-a6e8-00f6618ed224",
+                            "id": "37d0b4e5-f797-49ff-83ca-7940410e2a57",
                             "name": "A dictionary with a data property that contains an array of up to `limit` bank_accounts. Each entry in the array is a separate bank_account. The previous and next page of bank_accounts can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more bank_accounts are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -1340,7 +1340,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "33b94cee-5db2-41ba-9e9c-6e042d68f108",
+                            "id": "e664f686-c491-495e-a4ee-73225e48401e",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -1403,7 +1403,7 @@
                     "event": []
                 },
                 {
-                    "id": "6e82baa9-91a3-4f74-9def-ce5ec70620c7",
+                    "id": "03749131-f53f-4504-bbc7-524db854ef92",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -1466,7 +1466,7 @@
                     },
                     "response": [
                         {
-                            "id": "9d136463-490d-49c9-b437-416af6862d9d",
+                            "id": "a148b86c-d256-4ff8-b79d-3e63d8107a08",
                             "name": "Returns a bank_account object",
                             "originalRequest": {
                                 "url": {
@@ -1573,7 +1573,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "5ca950a8-b9f8-4726-83cc-0f88291deab8",
+                            "id": "2f4d0a72-230e-41ec-bd81-0f8a33896764",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -1668,7 +1668,7 @@
             "event": []
         },
         {
-            "id": "24dcde22-dcc2-47f5-9542-db848f86d1f4",
+            "id": "a15f2ef0-03fc-489b-9983-2a2a724d5763",
             "name": "Beta Program",
             "description": {
                 "content": "At Lob, we pride ourselves on building high quality platform capabilities rapidly\nand iteratively, so we can constantly be delivering additional value to our customers.\nWhen evaluating a new product or feature from Lob, you may see that it has been released in Beta.\n\nTypically, something in Beta means that the feature is early in its lifecycle here at\nLob. While we fully stand behind the quality of everything we release in Beta, we do\nanticipate receiving a higher level of customer feedback on Beta features, as well as a\nfaster pace of changes from our engineering team in response to that feedback.\n\nBy participating in a Lob Beta program, you will have the opportunity to get early access\nto a new product capability, as well as having a unique opportunity to influence the product's\ndirection with your feedback.\n\nYou should also anticipate that features in Beta may have functional or design limitations,\nand might change rapidly as we receive customer feedback and make improvements. In particular,\nnew APIs in Beta may also go through more frequent versioning and version deprecation cycles\nthan our more mature APIs.\n\nIf you are participating in a Beta program and want to provide feedback, please feel free to\n[contact us](https://lob.com/support#contact)!\n",
@@ -1678,7 +1678,7 @@
             "event": []
         },
         {
-            "id": "17270d02-9c35-4daa-8746-670a40e48adb",
+            "id": "27478f32-1f53-4c15-aaa4-6b21caa89bae",
             "name": "Billing Groups",
             "description": {
                 "content": "The Billing Groups API allows you to create and view labels that can be attached to certain consumption-based\nusages of Letters, Checks, Postcards and Self-Mailers to customize your bill. Please check each\nresource API section to learn more about how to access the Billing Groups API.\n",
@@ -1686,7 +1686,7 @@
             },
             "item": [
                 {
-                    "id": "49aee78a-4477-4e5b-9edb-bddda3b03472",
+                    "id": "4e2da64e-b2f3-4b5b-92ed-1a1868ca4af5",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -1718,7 +1718,7 @@
                     },
                     "response": [
                         {
-                            "id": "63ed8462-1de2-4ad2-a7ad-24c17982825c",
+                            "id": "52052307-4ae9-4b77-9fd3-96b4445df8a2",
                             "name": "Returns a billing_group object.",
                             "originalRequest": {
                                 "url": {
@@ -1766,7 +1766,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "d6342ba5-fce0-443e-9487-ea716d39c55b",
+                            "id": "be6033c9-93af-4f66-8cf5-61d73568a669",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -1817,7 +1817,7 @@
                     "event": []
                 },
                 {
-                    "id": "485bf897-2e8a-4145-ae10-a885c490f9de",
+                    "id": "0bbad2c6-f1d4-4cb4-9fcb-957279612429",
                     "name": "Update",
                     "request": {
                         "name": "Update",
@@ -1870,7 +1870,7 @@
                     },
                     "response": [
                         {
-                            "id": "ecdfdd79-7259-43a5-bedb-fb65aa7ac95e",
+                            "id": "492ded69-9b7d-46ee-a9bf-36faf6e3ff54",
                             "name": "Returns a billing group object",
                             "originalRequest": {
                                 "url": {
@@ -1950,7 +1950,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "5dce0b42-43e8-4a16-ad98-507440be59b5",
+                            "id": "5598dae6-d9a4-44be-abdb-3ad29ab6a8f5",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -2015,7 +2015,7 @@
                     "event": []
                 },
                 {
-                    "id": "e37f7fd6-05c2-4f23-86bf-93dfc35cb79c",
+                    "id": "4b71a4f3-7d90-4e48-bf0b-fbdb01184059",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -2075,7 +2075,7 @@
                     },
                     "response": [
                         {
-                            "id": "a603b3c2-adcd-428e-b2d3-43dcee62e4d4",
+                            "id": "77738792-708d-428b-886b-81e93c40815e",
                             "name": "Returns a list of billing_groups.",
                             "originalRequest": {
                                 "url": {
@@ -2139,7 +2139,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "41581773-2652-42a6-9760-8bcf56e0ab69",
+                            "id": "4b3db5d4-3d89-4214-a1b6-a02a89633278",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -2206,7 +2206,7 @@
                     "event": []
                 },
                 {
-                    "id": "5f6e19df-ed06-439c-b9e6-9fbece082f54",
+                    "id": "962f44fe-9551-42ce-8604-da2d8dc4268d",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -2250,7 +2250,7 @@
                     },
                     "response": [
                         {
-                            "id": "ebac6f7e-2825-4818-9e18-874ad8f89cc7",
+                            "id": "67303200-5726-4398-a096-f3f8e5265e87",
                             "name": "Returns a billing group object",
                             "originalRequest": {
                                 "url": {
@@ -2321,7 +2321,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "d76d3d98-342c-4c42-ae69-8848eadc7fa4",
+                            "id": "9bffad7e-f2e9-4a3c-8bdc-f5a74fae7008",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -2380,7 +2380,7 @@
             "event": []
         },
         {
-            "id": "85c2e07d-acce-4f88-a7bc-c6d3699d5928",
+            "id": "19ad9e81-cf64-4a6c-a2cb-611371a02656",
             "name": "Bulk Intl Verifications",
             "description": {
                 "content": "Verify a list of non-US addresses.",
@@ -2390,7 +2390,7 @@
             "event": []
         },
         {
-            "id": "171e5913-6672-4807-8566-db1d8bd13a2c",
+            "id": "f0ef7c58-bb87-4c77-a628-a1a31e146713",
             "name": "Bulk US Verifications",
             "description": {
                 "content": "Verify a list of US addresses.",
@@ -2400,7 +2400,7 @@
             "event": []
         },
         {
-            "id": "e9c9e5ea-d0c2-4b9d-8a59-513ba1e9e412",
+            "id": "c4457e72-2a76-4af5-881b-8e76e4c9cd09",
             "name": "Card Orders",
             "description": {
                 "content": "The card orders endpoint allows you to easily create card orders for existing cards.\nThe API provides endpoints for creating card orders and listing card orders for a given card.\n",
@@ -2408,7 +2408,7 @@
             },
             "item": [
                 {
-                    "id": "db169890-e511-4bb7-91de-c789dcfcc3a9",
+                    "id": "450e77a0-0fa7-48f9-af89-ad9d203cad85",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -2441,7 +2441,7 @@
                     },
                     "response": [
                         {
-                            "id": "7bb4868f-e1d5-4e93-9b9a-da1636cf64cb",
+                            "id": "b710c966-3a55-4b92-a3e6-2ba11a9bb29d",
                             "name": "Returns the card orders associated with the given card id",
                             "originalRequest": {
                                 "url": {
@@ -2490,7 +2490,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "f9ea3d75-fd91-4c62-8974-eaee3145d8c3",
+                            "id": "df871944-f293-4850-864e-3834ef370725",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -2542,7 +2542,7 @@
                     "event": []
                 },
                 {
-                    "id": "5838cfa9-ff29-4d0d-b8f1-d5ac0cf51005",
+                    "id": "aa9f4825-8a88-4105-81a9-1337381a77be",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -2592,7 +2592,7 @@
                     },
                     "response": [
                         {
-                            "id": "bb428ab9-85ce-4254-b68e-470af43aca70",
+                            "id": "1b4c8310-ceb9-4f05-a174-f90b0044b9fd",
                             "name": "Card order created successfully",
                             "originalRequest": {
                                 "url": {
@@ -2654,7 +2654,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "4a8a8dd3-6831-4598-8cd0-ee1992523add",
+                            "id": "ed3e204d-3da6-401e-9e90-31a9ec50b3f3",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -2722,7 +2722,7 @@
             "event": []
         },
         {
-            "id": "59dcb550-3034-45d5-a10a-450324de8ba4",
+            "id": "d8d4d42d-0e7c-4abf-8555-54f64f4b260c",
             "name": "Cards",
             "description": {
                 "content": "The cards endpoint allows you to easily create cards that can later be affixed to Letters.\nThe API provides endpoints for creating cards, retrieving individual cards, creating card orders, and retrieving a list of cards.\n",
@@ -2730,7 +2730,7 @@
             },
             "item": [
                 {
-                    "id": "7731d978-c70d-44dd-b995-94397d7fa223",
+                    "id": "472c3b92-b8f6-4ce9-8507-ffa22a063857",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -2784,7 +2784,7 @@
                     },
                     "response": [
                         {
-                            "id": "44d43e8e-3f7b-4f9d-8381-337db6e92b79",
+                            "id": "16f97180-5ea6-46cd-9527-11a9c912536b",
                             "name": "Returns a list of card objects",
                             "originalRequest": {
                                 "url": {
@@ -2844,7 +2844,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "343c47a2-ff69-4b28-82a6-df70a54f8b55",
+                            "id": "870e8c0f-5be1-4709-9366-7b736341d908",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -2907,7 +2907,7 @@
                     "event": []
                 },
                 {
-                    "id": "47c20cd9-60cd-4b5a-b5c1-0c4ce2dba19a",
+                    "id": "73d70859-8861-4a84-a9bf-b7a1c517ba81",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -2961,7 +2961,7 @@
                     },
                     "response": [
                         {
-                            "id": "c2d69724-d029-4727-9211-fa182ffd42a1",
+                            "id": "65c830e9-fd18-4953-94fe-d2387814d6b7",
                             "name": "Card created successfully",
                             "originalRequest": {
                                 "url": {
@@ -3024,7 +3024,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "ea13d7ef-d629-4574-96bf-a55f4619c082",
+                            "id": "646278ef-ade1-43a6-ac36-4924206bf238",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -3090,7 +3090,7 @@
                     "event": []
                 },
                 {
-                    "id": "a4a3b3b8-2aae-4083-afe1-2780961b1032",
+                    "id": "0843dc25-fdcf-4a60-a0e1-400d01e90da2",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -3122,7 +3122,7 @@
                     },
                     "response": [
                         {
-                            "id": "47cff913-fdd9-4543-975b-afc2097fade1",
+                            "id": "6e5d01d7-546e-4bf2-bb47-0b63bf1b3ba1",
                             "name": "Returns a card object",
                             "originalRequest": {
                                 "url": {
@@ -3170,7 +3170,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "2722dfdb-83ad-45fa-a956-d0c340e90a52",
+                            "id": "1bd008f1-6ff6-4301-87a8-dcfe2c3934c7",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -3221,7 +3221,7 @@
                     "event": []
                 },
                 {
-                    "id": "f67aa2eb-faf7-464d-bdb7-9c185f4d7e1c",
+                    "id": "2d43daa3-6561-41d6-9b8f-1862e5427cd3",
                     "name": "Update",
                     "request": {
                         "name": "Update",
@@ -3281,7 +3281,7 @@
                     },
                     "response": [
                         {
-                            "id": "1e12aed4-5feb-4a70-b608-fe02bababaa1",
+                            "id": "2b21760c-92d7-4132-a79e-fdbc3401a81f",
                             "name": "Returns a card object",
                             "originalRequest": {
                                 "url": {
@@ -3347,7 +3347,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "23f13bcc-f983-4d53-a16a-f147e0b4ee6d",
+                            "id": "8701cada-9efe-4d22-98ee-150459ba238f",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -3416,7 +3416,7 @@
                     "event": []
                 },
                 {
-                    "id": "b9c951c3-f658-44c3-a7d4-031d80c6ecd1",
+                    "id": "9a7ee3e0-a4b5-4a68-b2e4-395303c25c6f",
                     "name": "Delete",
                     "request": {
                         "name": "Delete",
@@ -3448,7 +3448,7 @@
                     },
                     "response": [
                         {
-                            "id": "936e3396-649a-47d8-8540-795edbf39a6a",
+                            "id": "448bac48-51a7-4b6a-aedf-8c6207cd2c1c",
                             "name": "Deleted the card",
                             "originalRequest": {
                                 "url": {
@@ -3496,7 +3496,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "cbec4f75-f300-4bfd-85f2-362095ecabeb",
+                            "id": "d3e5c68b-5da2-42d8-876a-179f7a7fbe75",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -3550,7 +3550,7 @@
             "event": []
         },
         {
-            "id": "52c884d9-0422-4937-a2a3-050c0e50a05c",
+            "id": "cb2d45d6-bd51-4d7c-8f5f-d9e31de78e5d",
             "name": "Checks",
             "description": {
                 "content": "Checks allow you to send payments via physical checks. The API provides endpoints\nfor creating checks, retrieving individual checks, canceling checks, and retrieving a list of checks.\n",
@@ -3558,7 +3558,7 @@
             },
             "item": [
                 {
-                    "id": "f8f89832-3cf5-4eb6-ae26-107a75ccba73",
+                    "id": "1b819631-7676-4ddd-86a7-035c1e1a47fc",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -3590,7 +3590,7 @@
                     },
                     "response": [
                         {
-                            "id": "2529775b-383a-4aca-b09a-934baff6f317",
+                            "id": "fa0a3d88-2dee-46c1-94ab-b64d5a336278",
                             "name": "Returns a check object",
                             "originalRequest": {
                                 "url": {
@@ -3638,7 +3638,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "2efc2a93-41dd-4e06-96e9-415b00c02633",
+                            "id": "f51fd07f-7820-43b7-94cc-071a5bdae261",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -3689,7 +3689,7 @@
                     "event": []
                 },
                 {
-                    "id": "2b766fad-23ee-4162-b8d5-629c63383154",
+                    "id": "6437a14d-4753-4b94-9e7e-54a025d4fbce",
                     "name": "Cancel",
                     "request": {
                         "name": "Cancel",
@@ -3721,7 +3721,7 @@
                     },
                     "response": [
                         {
-                            "id": "ce1230be-3ba5-4d19-b646-a988cb21f62a",
+                            "id": "254b0f71-fbac-43aa-8a11-6ad71451bf51",
                             "name": "Deleted",
                             "originalRequest": {
                                 "url": {
@@ -3769,7 +3769,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "9b3db99f-79d1-4d4b-b1e9-d85c8750f8d9",
+                            "id": "0c0728dc-1661-4a49-bc23-51be9b996b3f",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -3820,7 +3820,7 @@
                     "event": []
                 },
                 {
-                    "id": "2388bd33-37a1-4959-ad1a-4b53c135ded5",
+                    "id": "cd579ade-faae-43cd-9298-d2a36b486e60",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -3898,7 +3898,7 @@
                     },
                     "response": [
                         {
-                            "id": "2c26c6b4-3bd1-4973-942f-1ba5b53bf139",
+                            "id": "95152c8c-fd36-4888-9b03-9b7d53a98285",
                             "name": "A dictionary with a data property that contains an array of up to `limit` checks. Each entry in the array is a separate check. The previous and next page of checks can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more checks are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -3974,7 +3974,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "f5dd28dd-eaa3-47db-a996-ac73d8ffda27",
+                            "id": "44379e26-6cfc-46ba-90a3-9e822cf806ed",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -4053,7 +4053,7 @@
                     "event": []
                 },
                 {
-                    "id": "1a75207f-0b27-4145-8955-fcb1c6252fd8",
+                    "id": "ba0f1e4e-9fa4-4799-b0c2-601c64fd2727",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -4140,7 +4140,7 @@
                     },
                     "response": [
                         {
-                            "id": "3dd503ed-3c09-469b-b00a-babc6bb777b6",
+                            "id": "88d64d18-6c41-42a1-a601-f9ba0d8e32a3",
                             "name": "Returns a check object",
                             "originalRequest": {
                                 "url": {
@@ -4352,7 +4352,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "ff52395f-ba81-4102-bcb6-970476d7715f",
+                            "id": "be1a5728-da06-47fd-8aad-d9f0c3b80462",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -4552,7 +4552,7 @@
             "event": []
         },
         {
-            "id": "635387a3-7f0c-4828-b9c9-186f137c761d",
+            "id": "d6c2f6a1-b37c-42a0-b418-0fb8374483a3",
             "name": "Errors",
             "description": {
                 "content": "Lob uses RESTful HTTP response codes to indicate success or failure of an API request - read below for more information. In general, 2xx indicates success, 4xx indicate an input error, and 5xx indicates an error on Lob's end.\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">ATTRIBUTE</th>\n    <th style=\"white-space: nowrap\">DESCRIPTION</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>code</code></td>\n    <td style=\"white-space: nowrap\">A consistent machine-keyable string identifying the error</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>status_code</code></td>\n    <td style=\"white-space: nowrap\">A conventional HTTP status code</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>message</code></td>\n    <td style=\"white-space: nowrap\">A human-readable, subject-to-change message with more details about the error</td>\n  </tr>\n</table>\n\n### HTTP Status Code Summary\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">CODE</th>\n    <th style=\"white-space: nowrap\">STATUS_CODE</th>\n    <th style=\"white-space: nowrap\">MESSAGE</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>200</code></td>\n    <td style=\"white-space: nowrap\">SUCCESS</td>\n    <td style=\"white-space: nowrap\">Successful API request</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>401</code></td>\n    <td style=\"white-space: nowrap\">UNAUTHORIZED</td>\n    <td style=\"white-space: nowrap\">Authorization error with your API key or account</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>403</code></td>\n    <td style=\"white-space: nowrap\">FORBIDDEN</td>\n    <td style=\"white-space: nowrap\">Forbidden error with your API key or account</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>404</code></td>\n    <td style=\"white-space: nowrap\">NOT FOUND</td>\n    <td style=\"white-space: nowrap\">The requested item does not exist</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">BAD REQUEST</td>\n    <td style=\"white-space: nowrap\">The query or body parameters did not pass validation</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>429</code></td>\n    <td style=\"white-space: nowrap\">TOO MANY REQUESTS</td>\n    <td style=\"white-space: nowrap\">Too many requests have been sent with an API key in a given amount of time</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>500</code></td>\n    <td style=\"white-space: nowrap\">SERVER ERROR</td>\n    <td style=\"white-space: nowrap\">An internal server error occurred, please contact support@lob.com</td>\n  </tr>\n</table>\n\n### Error Codes - Generic\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">CODE</th>\n    <th style=\"white-space: nowrap\">STATUS_CODE</th>\n    <th style=\"white-space: nowrap\">MESSAGE</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">BAD_REQUEST</td>\n    <td style=\"white-space: nowrap\">An invalid request was made. See error message for details.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>409/422</code></td>\n    <td style=\"white-space: nowrap\">CONFLICT</td>\n    <td style=\"white-space: nowrap\">This operation would leave data in a conflicted state.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>403</code></td>\n    <td style=\"white-space: nowrap\">FEATURE_LIMIT_REACHED</td>\n    <td style=\"white-space: nowrap\">The account has reached its resource limit and requires upgrading to add more.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>500</code></td>\n    <td style=\"white-space: nowrap\">INTERNAL_SERVER_ERROR</td>\n    <td style=\"white-space: nowrap\">An error has occured on Lob's servers. Please try request again.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID</td>\n    <td style=\"white-space: nowrap\">An invalid request was made. See error message for details.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">NOT_DELETABLE</td>\n    <td style=\"white-space: nowrap\">An attempt was made to delete a resource, but the resource cannot be deleted.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>404</code></td>\n    <td style=\"white-space: nowrap\">NOT_FOUND</td>\n    <td style=\"white-space: nowrap\">The requested resource was not found.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>408</code></td>\n    <td style=\"white-space: nowrap\">REQUEST_TIMEOUT</td>\n    <td style=\"white-space: nowrap\">The request took too long. Please try again.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>503</code></td>\n    <td style=\"white-space: nowrap\">SERVICE_UNAVAILABLE</td>\n    <td style=\"white-space: nowrap\">The Lob servers are temporarily unavailable. Please try again.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>404</code></td>\n    <td style=\"white-space: nowrap\">UNRECOGNIZED_ENDPOINT</td>\n    <td style=\"white-space: nowrap\">The requested endpoint doesn't exist.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">UNSUPPORTED_LOB_VERSION</td>\n    <td style=\"white-space: nowrap\">An unsupported Lob API version was requested.</td>\n  </tr>\n</table>\n\n### Error Codes - Authentication\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">CODE</th>\n    <th style=\"white-space: nowrap\">STATUS_CODE</th>\n    <th style=\"white-space: nowrap\">MESSAGE</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>401</code></td>\n    <td style=\"white-space: nowrap\">EMAIL_REQUIRED</td>\n    <td style=\"white-space: nowrap\">Account must have a verified email address before creating live resources.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>401</code></td>\n    <td style=\"white-space: nowrap\">UNAUTHORIZED</td>\n    <td style=\"white-space: nowrap\">The request isn't authorized.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>401</code></td>\n    <td style=\"white-space: nowrap\">UNAUTHORIZED_TOKEN</td>\n    <td style=\"white-space: nowrap\">Token isn't authorized.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>401/403</code></td>\n    <td style=\"white-space: nowrap\">INVALID_API_KEY</td>\n    <td style=\"white-space: nowrap\">The API key is invalid.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>403</code></td>\n    <td style=\"white-space: nowrap\">PUBLISHABLE_KEY_NOT_ALLOWED</td>\n    <td style=\"white-space: nowrap\">The requested operation needs a secret key, not a publishable key. See [API Keys](#tag/API-Keys) for more information.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>429</code></td>\n    <td style=\"white-space: nowrap\">RATE_LIMIT_EXCEEDED</td>\n    <td style=\"white-space: nowrap\">Requests were sent too quickly and must be slowed down.</td>\n  </tr>\n</table>\n\n ### Error Codes - Advanced\n\n <table>\n  <tr>\n    <th style=\"white-space: nowrap\">CODE</th>\n    <th style=\"white-space: nowrap\">STATUS_CODE</th>\n    <th style=\"white-space: nowrap\">MESSAGE</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>401</code></td>\n    <td style=\"white-space: nowrap\">PAYMENT_METHOD_UNVERIFIED</td>\n    <td style=\"white-space: nowrap\">You must have a verified bank account or credit card to submit live requests.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>404</code></td>\n    <td style=\"white-space: nowrap\">DELETED_BANK_ACCOUNT</td>\n    <td style=\"white-space: nowrap\">Checks cannot be created with a deleted bank account.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">ADDRESS_LENGTH_EXCEEDS_LIMIT</td>\n    <td style=\"white-space: nowrap\">The sum of to.address_line1 and to.address_line2 cannot surpass 50 characters.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">BANK_ACCOUNT_ALREADY_VERIFIED</td>\n    <td style=\"white-space: nowrap\">The bank account has already been verified.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">BANK_ERROR</td>\n    <td style=\"white-space: nowrap\">There's an issue with the bank account.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">CUSTOM_ENVELOPE_INVENTORY_DEPLETED</td>\n    <td style=\"white-space: nowrap\">Custom envelope inventory is depleted, and more will need to be ordered.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">FAILED_DELIVERABILITY_STRICTNESS</td>\n    <td style=\"white-space: nowrap\">The to address doesn't meet strictness requirements. See [Account Settings](https://dashboard.lob.com/#/settings/account) to configure strictness.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">FILE_PAGES_BELOW_MIN</td>\n    <td style=\"white-space: nowrap\">Not enough pages.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">FILE_PAGES_EXCEED_MAX</td>\n    <td style=\"white-space: nowrap\">Too many pages.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">FILE_SIZE_EXCEEDS_LIMIT</td>\n    <td style=\"white-space: nowrap\">The file size is too large. See description for details.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">FOREIGN_RETURN_ADDRESS</td>\n    <td style=\"white-space: nowrap\">The 'from' address must be a US address.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INCONSISTENT_PAGE_DIMENSIONS</td>\n    <td style=\"white-space: nowrap\">All pages of the input file must have the same dimensions.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_BANK_ACCOUNT</td>\n    <td style=\"white-space: nowrap\">The provided bank routing number is invalid.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_BANK_ACCOUNT_VERIFICATION</td>\n    <td style=\"white-space: nowrap\">Verification amounts do not match.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_CHECK_INTERNATIONAL</td>\n    <td style=\"white-space: nowrap\">Checks cannot be sent internationally.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_COUNTRY_COVID</td>\n    <td style=\"white-space: nowrap\">The postal service in the specified country is currently unable to process the request due to COVID-19 restrictions.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_FILE</td>\n    <td style=\"white-space: nowrap\">The file is invalid.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_FILE_DIMENSIONS</td>\n    <td style=\"white-space: nowrap\">File dimensions are incorrect for the selected mail type.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_FILE_DOWNLOAD_TIME</td>\n    <td style=\"white-space: nowrap\">File download from remote server took too long.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_FILE_URL</td>\n    <td style=\"white-space: nowrap\">The file URL when creating a resource is invalid.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_IMAGE_DPI</td>\n    <td style=\"white-space: nowrap\">DPI must be at least 300.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_INTERNATIONAL_FEATURE</td>\n    <td style=\"white-space: nowrap\">The specified product cannot be sent to the destination.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_PERFORATION_RETURN_ENVELOPE</td>\n    <td style=\"white-space: nowrap\">Both `return_envelope` and `perforation` must be used together.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">INVALID_TEMPLATE_HTML</td>\n    <td style=\"white-space: nowrap\">The provided HTML is invalid.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">MERGE_VARIABLE_REQUIRED</td>\n    <td style=\"white-space: nowrap\">A required merge variable is missing.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">MERGE_VARIABLE_WHITESPACE</td>\n    <td style=\"white-space: nowrap\">Merge variable names cannot contain whitespace.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">PDF_ENCRYPTED</td>\n    <td style=\"white-space: nowrap\">An encrypted PDF was provided.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">SPECIAL_CHARACTERS_RESTRICTED</td>\n    <td style=\"white-space: nowrap\">Cannot use special characters for merge variable names.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>422</code></td>\n    <td style=\"white-space: nowrap\">UNEMBEDDED_FONTS</td>\n    <td style=\"white-space: nowrap\">The provided PDF contains non-standard unembedded fonts. See description for details.</td>\n  </tr>\n</table>\n",
@@ -4562,7 +4562,7 @@
             "event": []
         },
         {
-            "id": "40415de2-5672-4593-9258-5b0f9cc9bc57",
+            "id": "15ad01f8-62ff-40ab-8537-b3c0a43a37d3",
             "name": "Events",
             "description": {
                 "content": "When various notable things happen within the Lob architecture, Events will be created. To get these events sent to your server\nautomatically when they occur, you can set up [Webhooks](#tag/Webhooks).\n\n<h3>Postcards</h3>\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">EVENT TYPE</th>\n    <th style=\"white-space: nowrap\">LIVE-ONLY</th>\n    <th style=\"white-space: nowrap\">WHEN EVENT TYPE OCCURS</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.created</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A postcard is successfully created (Lob returns a 200 status code).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.rendered_pdf</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A postcard's PDF proof is successfully rendered.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.rendered_thumbnails</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A postcard's thumbnails are successfully rendered.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.deleted</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A postcard is successfully canceled.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.mailed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A postcard receives a \"Mailed\" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain <a href='https://dashboard.lob.com/#/settings/editions'>Print & Mail Editions</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.in_transit</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A postcard receives an \"In Transit\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.in_local_area</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A postcard receives an \"In Local Area\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.processed_for_delivery</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A postcard receives a \"Processed for Delivery\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.re-routed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A postcard receives a \"Re-Routed\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>postcard.returned_to_sender</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A postcard receives a \"Returned to Sender\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n</table>\n\n<h3>Self Mailers</h3>\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">EVENT TYPE</th>\n    <th style=\"white-space: nowrap\">LIVE-ONLY</th>\n    <th style=\"white-space: nowrap\">WHEN EVENT TYPE OCCURS</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.created</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer is successfully created (Lob returns a 200 status code).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.rendered_pdf</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer's PDF proof is successfully rendered.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.rendered_thumbnails</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer's thumbnails are successfully rendered.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.deleted</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer is successfully canceled.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.mailed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer receives a \"Mailed\" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.in_transit</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer receives an \"In Transit\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.in_local_area</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer receives an \"In Local Area\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.processed_for_delivery</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer receives a \"Processed for Delivery\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.re-routed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer receives a \"Re-Routed\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>self_mailer.returned_to_sender</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A self_mailer receives a \"Returned to Sender\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n</table>\n\n<h3>Letters</h3>\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">EVENT TYPE</th>\n    <th style=\"white-space: nowrap\">LIVE-ONLY</th>\n    <th style=\"white-space: nowrap\">WHEN EVENT TYPE OCCURS</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.created</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A letter is successfully created (Lob returns a 200 status code).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.rendered_pdf</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A letter's PDF proof is successfully rendered.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.rendered_thumbnails</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A letter's thumbnails are successfully rendered.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.deleted</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A letter is successfully canceled.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.mailed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A letter receives a \"Mailed\" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.in_transit</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A letter receives an \"In Transit\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.in_local_area</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A letter receives an \"In Local Area\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.processed_for_delivery</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A letter receives a \"Processed for Delivery\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.re-routed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A letter receives a \"Re-Routed\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.returned_to_sender</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A letter receives a \"Returned to Sender\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.mailed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives a \"Mailed\" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.in_transit</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives an \"In Transit\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.in_local_area</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives an \"In Transit\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.in_local_area</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives an \"In Local Area\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.processed_for_delivery</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives a \"Processed for Delivery\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.re-routed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives a \"Re-Routed\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.returned_to_sender</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives a \"Returned to Sender\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.delivered</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives a \"Delivered\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.pickup_available</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives a \"Pickup Available\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.certified.issue</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A certified letter receives an \"Issue\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.return_envelope.created</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A return envelope is created (occurs simultaneously with letter creation).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.return_envelope.in_transit</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A return envelope receives an \"In Transit\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.return_envelope.in_local_area</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A return envelope receives an \"In Local Area\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.return_envelope.processed_for_delivery</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A return envelope receives a \"Processed for Delivery\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.return_envelope.re-routed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A return envelope receives a \"Re-Routed\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>letter.return_envelope.returned_to_senders</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A return envelope receives a \"Returned to Sender\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n</table>\n\n<h3>Checks</h3>\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">EVENT TYPE</th>\n    <th style=\"white-space: nowrap\">LIVE-ONLY</th>\n    <th style=\"white-space: nowrap\">WHEN EVENT TYPE OCCURS</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.created</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A check is successfully created (Lob returns a 200 status code).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.rendered_pdf</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A check's PDF proof is successfully rendered.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.rendered_thumbnails</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A check's thumbnails are successfully rendered.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.deleted</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A check is successfully canceled.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.mailed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A check receives a \"Mailed\" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.in_transit</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A check receives an \"In Transit\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.in_local_area</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A check receives an \"In Local Area\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.processed_for_delivery</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A check receives a \"Processed for Delivery\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.re-routed</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A check receives a \"Re-Routed\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>check.returned_to_sender</code></td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n    <td style=\"white-space: nowrap\">A check receives a \"Returned to Sender\" <a href='#operation/tracking_event'>tracking event</a>.</td>\n  </tr>\n</table>\n\n<h3>Addresses</h3>\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">EVENT TYPE</th>\n    <th style=\"white-space: nowrap\">LIVE-ONLY</th>\n    <th style=\"white-space: nowrap\">WHEN EVENT TYPE OCCURS</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>address.created</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">An address is successfully created (Lob returns a 200 status code).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>address.deleted</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">An address is successfully deleted.</td>\n  </tr>\n</table>\n\n<h3>Bank Accounts</h3>\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">EVENT TYPE</th>\n    <th style=\"white-space: nowrap\">LIVE-ONLY</th>\n    <th style=\"white-space: nowrap\">WHEN EVENT TYPE OCCURS</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>bank_account.created</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A bank account is successfully created (Lob returns a 200 status code).</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>bank_account.deleted</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A bank account is successfully deleted.</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>bank_account.verified</code></td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n    <td style=\"white-space: nowrap\">A bank account is successfully verified.</td>\n  </tr>\n</table>\n",
@@ -4572,7 +4572,7 @@
             "event": []
         },
         {
-            "id": "f3ae94ed-a7ce-4b13-b437-f5a0b9bfebc8",
+            "id": "abdd95b7-d2af-42a0-bab7-517b1d733bf9",
             "name": "Getting Started",
             "description": {
                 "content": "### 1. Get Setup\n* Create an account at <a href=\"https://dashboard.lob.com/#/register\">Lob.com</a>\n* Obtain your API keys in the Lob dashboard <a href=\"https://dashboard.lob.com/#/settings/keys\">settings</a>\n* You'll use the format, `test_*.` for your Test API key and `live_*.` for your Live API key.\n\n### 2. Explore\n* Try out in Postman:\n<div class=\"postman-run-button\"\ndata-postman-action=\"collection/fork\"\ndata-postman-var-1=\"16169677-975ecb9f-ea22-4d8f-a4f9-53a42f2aee03\"\ndata-postman-collection-url=\"entityId=16169677-975ecb9f-ea22-4d8f-a4f9-53a42f2aee03&entityType=collection&workspaceId=5404d3a5-5a84-4df6-b078-a1547e1a68a7\"\nstyle=\"background:#0099d7;color: white;display: flex;justify-content: center;align-items: center;\">\n  Run in Postman\n</div>\n<script type=\"text/javascript\">\n  (function (p,o,s,t,m,a,n) {\n    !p[s] && (p[s] = function () { (p[t] || (p[t] = [])).push(arguments); });\n    !o.getElementById(s+t) && o.getElementsByTagName(\"head\")[0].appendChild((\n      (n = o.createElement(\"script\")),\n      (n.id = s+t), (n.async = 1), (n.src = m), n\n    ));\n  }(window, document, \"_pm\", \"PostmanRunObject\", \"https://run.pstmn.io/button.js\"));\n</script>\n* Launch your terminal and copy/paste a CURL command.\n```bash\ncurl https://api.lob.com/v1/addresses \\\n  -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:\n```\n* Download a [Lob SDK](#tag/SDKs-and-Tools) into your favorite IDE (integrated development environment)\n\n### 3. Learn more\nReview our \"Getting Started\" guides for more details on use cases:\n* [Postcards](https://www.lob.com/guides#getting_started)\n* [Self-Mailers](https://www.lob.com/guides#getting_started_selfmailers)\n* [Letters](https://www.lob.com/guides#getting_started_letters)\n* [Checks](https://www.lob.com/guides#getting_started_checks)\n* [Address Verification Elements](https://www.lob.com/guides#av-elements-quickstart)\n",
@@ -4582,7 +4582,7 @@
             "event": []
         },
         {
-            "id": "1ef901b1-79e3-4832-90e9-85f837824899",
+            "id": "9c700b8f-4620-4ff6-851b-e6bfb4f92237",
             "name": "Intl Verifications",
             "description": {
                 "content": "Address verification for non-US addresses\n\n## Intl Verifications Test Env\n\nWhen verifying international addresses, you'll likely want to test against\na wide array of addresses to ensure you're handling responses correctly.\nWith your test API key, requests that use specific values for `primary_line`\nlet you explore the responses to many types of addresses:\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">DELIVERABILITY OF SAMPLE RESPONSE</th>\n    <th style=\"white-space: nowrap\">SET <code>primary_line</code> TO</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\">deliverable</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>deliverable_missing_info</code></td>\n    <td style=\"white-space: nowrap\">deliverable missing info</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>undeliverable</code></td>\n    <td style=\"white-space: nowrap\">undeliverable</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>no_match</code></td>\n    <td style=\"white-space: nowrap\">no match</td>\n  </tr>\n</table>\n\nSee the `test` request & response examples under [Intl Verification Examples](#operation/intl_verification) within the\n\"Verify an international address section\" in Intl Verifications.\n\nYou can rely on the response from these examples generally matching the response\nyou'd see in the live environment with an address of that type (excluding the `recipient` field).\n\nThe test API key does not perform any verification, automatic correction, or standardization\nfor addresses. If you wish to try these features out, use our [live demo](https://lob.com/address-verification)\nor the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).\n",
@@ -4590,7 +4590,7 @@
             },
             "item": [
                 {
-                    "id": "216bbbae-103f-4826-8a08-7212fcccb088",
+                    "id": "9a5fa0b8-5cab-4b92-b46d-8c1bb8c16199",
                     "name": "Bulk Verify",
                     "request": {
                         "name": "Bulk Verify",
@@ -4631,7 +4631,7 @@
                     },
                     "response": [
                         {
-                            "id": "10529846-6e2f-49ec-8daa-064e96c72f41",
+                            "id": "c236e846-9248-4e8f-ad3e-72a92da86cd1",
                             "name": "Returns an array of international verification objects.",
                             "originalRequest": {
                                 "url": {
@@ -4702,7 +4702,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "5e37ba6b-592e-46f6-9a38-a43b207492a9",
+                            "id": "ce28a206-0fe4-4812-9fff-1ccf49281e9c",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -4758,7 +4758,7 @@
                     "event": []
                 },
                 {
-                    "id": "4a510685-d29a-4e46-a228-ae8c5b35554b",
+                    "id": "0ce037cd-5614-44d5-9169-110a6d4e3e20",
                     "name": "Single Verify",
                     "request": {
                         "name": "Single Verify",
@@ -4833,7 +4833,7 @@
                     },
                     "response": [
                         {
-                            "id": "5446af1c-87ed-478e-bb4f-01c872aaef41",
+                            "id": "3c91bd6e-fa52-4fb5-828e-c1d10733ff44",
                             "name": "Returns an international verification object.",
                             "originalRequest": {
                                 "url": {
@@ -4935,7 +4935,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "51f0722f-9ec1-4d25-a55d-2b072844fb66",
+                            "id": "fe515889-3958-4cae-abb1-9790e0c90918",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -5025,7 +5025,7 @@
             "event": []
         },
         {
-            "id": "addc2fb7-79f3-4843-acda-94994ce0a566",
+            "id": "0d02d4cc-06c6-427d-970c-aaa4807c65cd",
             "name": "Introduction",
             "description": {
                 "content": "Lob’s Print & Mail and Address Verification APIs help companies transform outdated,\nmanual print-and-mail processes; save 1,000s of hours in processing time by sending mail much more\nquickly; and increase ROI on offline communications.\n\nAutomate direct mail by triggering on-demand postcards, letters, and checks directly from your\nCRM or customer data systems.\n\nAddress Verification corrects, standardizes, and cleanses address data for assured delivery with\ninstant verification across 240+ countries and territories.\n\nLob's print delivery network eliminates the hassle of vendor management with automated\nproduction and postage across a global network of vetted commercial printers.\n\nTracking & Analytics gives you complete visibility of production and delivery for each piece of\nmail you send to meet compliance requirements and measure campaign performance.\n",
@@ -5035,7 +5035,7 @@
             "event": []
         },
         {
-            "id": "0e2df302-ba77-4f06-9ff8-356c498780a0",
+            "id": "b7a8e50f-63be-4307-9f39-b5a1f285c908",
             "name": "Letters",
             "description": {
                 "content": "The letters endpoint allows you to easily print and mail letters. The API provides endpoints for\ncreating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.\n",
@@ -5043,7 +5043,7 @@
             },
             "item": [
                 {
-                    "id": "6d6bde82-5864-479c-ac85-290cc0e47261",
+                    "id": "6b19ff2f-91e3-4234-a34d-f386db96824c",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -5075,7 +5075,7 @@
                     },
                     "response": [
                         {
-                            "id": "eaebf6d4-d873-4941-bd7e-23ebfa67e528",
+                            "id": "10c7ffe0-e883-4377-bbed-6a67b829090a",
                             "name": "Returns a letter object",
                             "originalRequest": {
                                 "url": {
@@ -5123,7 +5123,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "3c6f11b5-1e4b-4c5d-b117-e0c9cabd0271",
+                            "id": "4a1bf0b0-8795-4c12-949d-2e0ab568cf3d",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -5174,7 +5174,7 @@
                     "event": []
                 },
                 {
-                    "id": "54a557ef-a4ef-4313-8b78-c8663819c960",
+                    "id": "4c163ae3-b82c-48e2-b87c-30a8836de8dc",
                     "name": "Cancel",
                     "request": {
                         "name": "Cancel",
@@ -5206,7 +5206,7 @@
                     },
                     "response": [
                         {
-                            "id": "9359cd90-0a30-4602-9c9f-10238ce0b56d",
+                            "id": "4a0be988-9883-405a-9a89-5d8a11071396",
                             "name": "Deleted",
                             "originalRequest": {
                                 "url": {
@@ -5254,7 +5254,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "b40691af-856d-45fc-b8c0-523b5b9e5798",
+                            "id": "7b545ed0-aa00-44f5-829d-827f97437f3a",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -5305,7 +5305,7 @@
                     "event": []
                 },
                 {
-                    "id": "2fed872d-0034-4e5a-8056-2c8e4a88114c",
+                    "id": "03596828-cc57-4456-86ee-e4e0cb9656dc",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -5389,7 +5389,7 @@
                     },
                     "response": [
                         {
-                            "id": "c5d10aaa-ebd9-43b2-aca1-89c30f63eab3",
+                            "id": "b7bd25a6-20dd-496c-8aad-8099d4ceded2",
                             "name": "A dictionary with a data property that contains an array of up to `limit` letters. Each entry in the array is a separate letter. The previous and next page of letters can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively. If no more letters are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -5469,7 +5469,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "6b30cb41-c593-4a15-a834-47a8fd9bceb1",
+                            "id": "926cf2b2-5ca0-4e8f-b1f5-30ce57dfa621",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -5552,7 +5552,7 @@
                     "event": []
                 },
                 {
-                    "id": "131523d4-1ed4-4a85-9445-3ae4096e6d98",
+                    "id": "98101e34-b3c7-48ce-ac8b-5dc22adb26ad",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -5664,7 +5664,7 @@
                     },
                     "response": [
                         {
-                            "id": "87fcaf29-c165-4695-92f3-c29c16e6230b",
+                            "id": "4db351c2-a9d3-40a0-a4a5-83b8ee8c7da9",
                             "name": "Returns a letter object",
                             "originalRequest": {
                                 "url": {
@@ -5881,7 +5881,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "55ec1026-6938-47c8-9e47-713390f5b932",
+                            "id": "43042ce9-7f73-4215-af77-ab948a988fd9",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -6086,7 +6086,7 @@
             "event": []
         },
         {
-            "id": "1d75aa93-a7bd-4392-9118-89eac1cb6da0",
+            "id": "0572dc34-515c-49a1-8884-46564c0733e5",
             "name": "Manage Mail",
             "description": {
                 "content": "## Cancellation Windows\n\nBy default, all new accounts have a 5 minute cancellation window for postcards,\nself mailers, letters, and checks. Within that timeframe, you can cancel\nmailings from production, free of charge. Once the window has passed for a\npostcard, self mailer, letter, or check, the mailing is no longer cancelable.\nIn addition, certain customers can customize their cancellation windows by\nproduct in their [Dashboard Settings](https://dashboard.lob.com/#). Upgrade to\nthe appropriate [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions)\nto automatically gain access to this ability. For more details on this feature,\ncheck out our [Cancellation Guide](https://lob.com/guides#cancellation_windows).\n\nIf you schedule a postcard, self mailer, letter, or check for up to 180 days\nin the future by supplying the `send_date` parameter, that will override any\ncancellation window you may have for that product.\n\n## Scheduled Mailings\n\nPostcards, self mailers, letters, and checks can be scheduled to be sent up\nto 180 days in advance. You can use this feature to:\n- Create automated drip campaigns (e.g. send a postcard at 15, 30, and 60\ndays)\n- Schedule recurring sends\n- Plan your mailing schedule ahead of time\n\nUp until the time a mailing is scheduled for, it can also be canceled.\nIf you use this feature in conjunction with [a cancellation window](\nindex.html#section/Cancellation-Windows), the `send_date` parameter will always\ntake precedence.\n\nFor implementation details, see documentation below for each respective\nendpoint. For more help, see our [Scheduled Mailings Guide](https://lob.com/guides#scheduled_mailing).\n\nThis feature is exclusive to certain customers. Upgrade to the appropriate\n[Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to\ngain access.\n\n### Example Create Request using Send Date\n\n```bash\n  curl https://api.lob.com/v1/postcards \\\n    -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \\\n    -d \"description=Demo Future Postcard\" \\\n    -d \"to=adr_bae820679f3f536b\" \\\n    -d \"from=adr_210a8d4b0b76d77b\" \\\n    -d \"front=tmpl_b846a20859ae11a\" \\\n    -d \"back=tmpl_01b0d396a10c268\" \\\n    -d \"merge_variables[name]=Harry\" \\\n    -d \"send_date=2021-07-26\"\n```\n",
@@ -6096,7 +6096,7 @@
             "event": []
         },
         {
-            "id": "b93fd2bb-6aa1-4bef-8de7-be28385a7a7b",
+            "id": "5174ab25-8f23-4285-924b-607930cb3917",
             "name": "National Change of Address",
             "description": {
                 "content": "National Change of Address (NCOA) is a service offered by the USPS, which allows individuals\nor businesses who have recently moved to have any mail forwarded from their previous address\nto their new address.\n\nAs a CASS-certified Address Verification Provider, Lob also offers NCOA\nfunctionality to our Print & Mail customers. With the Lob NCOA feature enabled, Postcards,\nLetters, Checks and Addresses can automatically be corrected to reflect an individual's or business's\nnew address in the case that they have moved (only if they have registered for NCOA with the USPS).\n\nDue to privacy concerns and USPS constraints, for customers with NCOA enabled, our API responses\nfor a limited set of endpoints differ slightly in the case when an address has been changed through NCOA.\n\n**NOTE**: This feature is exclusive to certain customers. Upgrade to the appropriate <a href='https://dashboard.lob.com/#/settings/editions'>Print & Mail Editions</a> to gain access.\n\nFor more information, see our [NCOA guide](https://lob.com/guides#national_change).\n\n## NCOA Live Environment\nThough there are no changes to API requests, there are significant changes to our API responses, but\nonly in the event that an address has been changed through NCOA. If an address has not been changed\nthrough NCOA, the response would be identical to our standard responses, except the addition of a\n`recipient_moved` field, which is `false` for unchanged addresses.\n\nIf an address has been changed through NCOA, we are required to suppress the following response\nfields for that address:\n- `address_line1`\n- `address_line2`\n- The +4 portion of the ZIP+4 (5-digit ZIP code will still be present)\n\nSee the `ncoa_us_live` example under [Response samples](#operation/address_create) within the \"Create an Address\" section in Addresses\n\n## NCOA Test Environment\n\nIn addition to sending live requests, you may also want to simulate what an NCOA response might\nlook like so that you can ensure your application behaves as expected. The behavior of NCOA in\nLob's Test Environment is very similar to our [US Verifications Test Mode](#section/US-Verifications-Test-Env).\n\nTo simulate an NCOA request, send a POST request to any of the four endpoints below with an `address_line1` field equal to `NCOA`:\n- `POST /v1/addresses`\n- `POST /v1/checks`\n- `POST /v1/letters`\n- `POST /v1/postcards`\n- `POST /v1/self_mailers`\n\nA static address will always be returned, as documented in the `ncoa_us_test` example under [Response samples](#operation/address_create) within the \"Create an Address\"\nsection in Addresses (along with the corresponding request under \"Request samples\").\n",
@@ -6106,7 +6106,7 @@
             "event": []
         },
         {
-            "id": "e1d06878-9142-4cce-9062-723efd7542f6",
+            "id": "293a17b6-5a24-42c4-96d6-84d322894fcf",
             "name": "Postcards",
             "description": {
                 "content": "The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards,\nretrieving individual postcards, canceling postcards, and retrieving a list of postcards.\n",
@@ -6114,7 +6114,7 @@
             },
             "item": [
                 {
-                    "id": "e85fbcee-aac6-4e66-9c58-789f22bbe7bd",
+                    "id": "6c057bc7-8ef3-476c-98af-d1656498ba7c",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -6146,7 +6146,7 @@
                     },
                     "response": [
                         {
-                            "id": "e7bde6c3-c282-493a-8368-89c84a95e014",
+                            "id": "4cda8320-a1b9-4991-936a-af7b704bbdb1",
                             "name": "Returns a postcard object",
                             "originalRequest": {
                                 "url": {
@@ -6194,7 +6194,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "02dcfc84-5ad5-49a8-b892-ba03516f317d",
+                            "id": "87492231-4649-4af5-aa9c-c5e8a8b5797c",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -6245,7 +6245,7 @@
                     "event": []
                 },
                 {
-                    "id": "1b9fa5ba-7b35-4c62-b0b8-ef1c300e5cbf",
+                    "id": "dec9a8f5-5cf9-4db0-bd38-a13d1f56013a",
                     "name": "Cancel",
                     "request": {
                         "name": "Cancel",
@@ -6277,7 +6277,7 @@
                     },
                     "response": [
                         {
-                            "id": "52d12d90-c305-4d3c-b1b4-36ec69e55eea",
+                            "id": "b7ef497d-0554-41ae-8a0c-b2b73dbc187e",
                             "name": "Deleted",
                             "originalRequest": {
                                 "url": {
@@ -6325,7 +6325,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "b5ec08b7-6590-4a0e-b38d-9d6d931172cc",
+                            "id": "e5382a22-5b09-4527-bf17-42cc8eb8bc0a",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -6376,7 +6376,7 @@
                     "event": []
                 },
                 {
-                    "id": "959f04f1-6d5c-4136-8324-db587a6af58c",
+                    "id": "04ceea1d-4623-4721-bbf3-8357967fc6bb",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -6460,7 +6460,7 @@
                     },
                     "response": [
                         {
-                            "id": "e7cac977-8565-4d0c-9af3-00a88f5d981b",
+                            "id": "6c759e73-4ad4-4a9c-945e-036fbd2e341f",
                             "name": "A dictionary with a data property that contains an array of up to `limit` postcards. Each entry in the array is a separate postcard. The previous and next page of postcards can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more postcards are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -6540,7 +6540,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "fa2fdb32-8283-4b1d-880e-97ee7c4906f2",
+                            "id": "7e3a0f14-209c-40eb-b33c-427748f03df2",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -6623,7 +6623,7 @@
                     "event": []
                 },
                 {
-                    "id": "4af3ba48-c51c-48d2-bfd5-dd8edd9926d4",
+                    "id": "4d0404f2-3b46-4608-b474-e98ff208cba2",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -6705,7 +6705,7 @@
                     },
                     "response": [
                         {
-                            "id": "fcb60a4e-49e2-4ed6-ac8a-48306afa68ed",
+                            "id": "4fc1b225-e18d-4b25-9b5c-21e1f4add6e1",
                             "name": "Returns a postcard object",
                             "originalRequest": {
                                 "url": {
@@ -6922,7 +6922,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "a4f76f59-9cf2-464d-82ec-fec04ef2d904",
+                            "id": "90d00bf6-7a8e-405d-843f-ff6511736e4d",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -7127,7 +7127,7 @@
             "event": []
         },
         {
-            "id": "72538ab0-f762-47f9-a9b8-b1bda1c050aa",
+            "id": "ac41adc4-8494-4173-a3c0-c67e19e84be8",
             "name": "Rate Limiting",
             "description": {
                 "content": "To prevent misuse, we enforce a rate limit on an API Key and endpoint basis, similar to the way many other APIs enforce rate limits. By default, all accounts and their corresponding Test and Live API Keys have a rate limit of 150 requests per 5 seconds per endpoint. The `POST /v1/us_verifications` and `POST /v1/us_autocompletions` endpoints have a limit of 300 requests per 5 seconds for all accounts.\n\nWhen your application exceeds the rate limit for a given API endpoint, the Lob API will return an HTTP 429 \"Too Many Requests\" response code instead of the variety of codes you would find across the other API endpoints.\n\n**HTTP Headers**\n\nHTTP headers are returned on each request to a rate limited endpoint. Ensure that you inspect these headers during your requests as they provide relevant data on how many more requests your application is allowed to make for the endpoint you just utilized.\n\nWhile the headers are documented here in titlecase, HTTP headers are case insensitive and certain libraries may transform them to lowercase. Please inspect your headers carefully to see how they will be represented in your chosen development scenario.\n<table>\n  <tbody>\n    <tr>\n      <td>X-Rate-Limit-Limit:</td>\n      <td>the rate limit ceiling for a given request</td>\n    </tr>\n    <tr>\n      <td>X-Rate-Limit-Remaining:</td>\n      <td>the number of requests remaining in this window</td>\n    </tr>\n    <tr>\n      <td>X-Rate-Limit-Reset:</td>\n      <td>the time at which the rate limit window resets (in <a  href=\"https://en.wikipedia.org/wiki/Unix_time\"  target=\"_blank\">UTC epoch seconds</a>)\n    </td>\n    </tr>\n  </tbody>\n</table>\n\n### Example HTTP Headers\n\n```bash\n  X-Rate-Limit-Limit:150\n  X-Rate-Limit-Remaining:100\n  X-Rate-Limit-Reset:1528749846\n```\n\n### Example Response\n\nIf you hit the rate limit on a given endpoint, this is the body of the HTTP 429 message that you will see:\n\n```javascript\n  {\n    \"error\": {\n      \"message\": \"Rate limit exceeded. Please wait 5 seconds and try your request again.\",\n      \"code\": \"rate_limit_exceeded\",\n      \"status_code\": 429\n    }\n  }\n```",
@@ -7137,7 +7137,7 @@
             "event": []
         },
         {
-            "id": "5fd53838-00e6-47e9-a9b1-28c979c3791d",
+            "id": "8d0104fe-87fa-4b07-ace6-09adcb109db5",
             "name": "Requests and Responses",
             "description": {
                 "content": "## Asset URLs\n\nAll asset URLs returned by the Lob API (postcards, letters, thumbnails,\netc) are signed links served over HTTPS. All links returned will expire in\n30 days to prevent mis-sharing. Each time a GET request is initiated, a\nnew signed URL will be generated.\n\n## Idempotent Requests\n\nLob supports idempotency for safely retrying `POST` requests to create\npostcards, self mailers, letters, and checks without accidentally creating\nduplicates.\n\nFor example, if a request to create a check fails due to a network error,\nyou can safely retry the same request with the same idempotency key and\nguarantee that only one check will ultimately be created and sent. When a\nrequest is sent with an idempotency key for an already created resource,\nthe response object for the existing resource will be returned.\n\nTo perform an idempotent `POST` request to one of the mailpiece product\nendpoints, provide an additional `Idempotency-Key` header or an `idempotency_key`\nquery parameter to the request. If multiple idempotency keys are provided,\nthe request will fail. How you create unique keys is up to you, but we\nsuggest using random values, such as V4 UUIDs. Idempotency keys are intended\nto prevent issues over a short periods of time, therefore keys expire after\n24 hours. Keys are unique by mode (Test vs. Live) as well as by resource\n(postcard vs. letter, etc.).\n\nBy default, all `GET` and `DELETE` requests are idempotent by nature, so\nthey do not require an additional idempotency key.\n\nFor more help integrating idempotency keys, refer to our\n[implementation guide](https://lob.com/guides#idempotent_request).\n\n**Headers**\n<table>\n  <tbody>\n    <tr>\n      <td>Idempotency-Key:</td>\n      <td>\n        optional\n        <p style=\"color:#888;margin-top:0px;\">\n          <font size=\"-1\">\n            A string of no longer than 256 characters\n            that uniquely identifies this resource.\n          </font>\n        </p>\n      </td>\n    </tr>\n  </tbody>\n</table>\n\n**Query Parameters**\n<table>\n  <tbody>\n    <tr>\n      <td>idempotency-key:</td>\n      <td>\n        optional\n        <p style=\"color:#888;margin-top:0px;\">\n          <font size=\"-1\">\n            A string of no longer than 256 characters\n            that uniquely identifies this resource.\n          </font>\n        </p>\n      </td>\n    </tr>\n  </tbody>\n</table>\n\n\n### Example Request\n\n```bash\n  curl https://api.lob.com/v1/postcards \\\n    -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \\\n    -H \"Idempotency-Key: 026e7634-24d7-486c-a0bb-4a17fd0eebc5\" \\\n    -d \"to=adr_bae820679f3f536b\" \\\n    -d \"from=adr_210a8d4b0b76d77b\" \\\n    --data-urlencode \"front=<html style='margin: 130px; font-size: 50;'>Front HTML for {{name}}</html>\" \\\n    --data-urlencode \"back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>\" \\\n    -d \"merge_variables[name]=Harry\"\n```\n\n## Metadata\n\nWhen creating any Lob object, you can include a metadata object with up to 20 key-value pairs of\ncustom data. You can use metadata to store information like `metadata[customer_id] = \"987654\"` or\n`metadata[campaign] = \"NEWYORK2015\"`. This is especially useful for filtering and matching to internal\nsystems.\n\nEach metadata key must be less than 40 characters long and values must be less than 500 characters.\nMetadata does not support nested objects.\n\n### Example Create Request with Metadata\n\n```bash\n  curl https://api.lob.com/v1/postcards \\\n    -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \\\n    -d \"description=Demo Postcard job\" \\\n    -d \"metadata[campaign]=NEWYORK2015\" \\\n    -d \"to=adr_bae820679f3f536b\" \\\n    -d \"from=adr_210a8d4b0b76d77b\" \\\n    --data-urlencode \"front=<html style='margin: 130px; font-size: 50;'>Front HTML for {{name}}</html>\" \\\n    --data-urlencode \"back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>\" \\\n    -d \"merge_variables[name]=Harry\"\n```\n\n### Example List Request with Metadata Filter\n\n```bash\n  curl -g \"https://api.lob.com/v1/postcards?metadata[campaign]=NEWYORK2015&limit=2\" \\\n    -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:\n```\n\n\n## Request Body\n\nWhen manually sending a POST HTTP request directly to the Lob API, without\nthe use of a library, you may represent the body as either a Form URL\nEncoded request, a JSON document, or a Multipart Form Data request.\n\nHowever, if you're using one of our [SDKs](#tag/SDKs-and-Tools),\nthe generation of the request bodies is done for you automatically and you don't\nneed to worry about the format.\n\n### Form URL Encoded\n\nThis request body encoding is accompanied with the\n`Content-Type: application/x-www-form-urlencoded` header. The content is an\nexample of what the [Verify a US address](index.html#operation/us_verification)\nendpoint accepts. An example of a request body encoded in this format follows.\n\n\n```javascript\n  primary_line=210 King Street&city=San Francisco&state=CA&zip_code=94107\n```\n\n### JSON\n\nThis request body encoding is accompanied with the `Content-Type: application/json` header.\nThe content is an example of what the [Verify a US address endpoint](index.html#operation/us_verification)\naccepts. An example of a request body encoded in this format follows.\n\n\n```javascript\n  {\n    \"primary_line\": \"210 King Street\",\n    \"city\": \"San Francisco\",\n    \"state\": \"CA\",\n    \"zip_code\": \"94107\"\n  }\n```\n\n### Multipart Form Data\n\nThis request body encoding is accompanied with the `Content-Type: multipart/form-data`\nheader. This is the only format that can be used for uploading a file to the API. The\ncontent is an example of what the [Create a check](index.html#operation/check_create)\nendpoint accepts. An example of a request body encoded in this format follows.\n\n\n```javascript\n  --------------------------7015ebe79c0a5f8c\n  Content-Disposition: form-data; name=\"description\"\n\n  Demo Letter\n  --------------------------7015ebe79c0a5f8c\n  Content-Disposition: form-data; name=\"to\"\n\n  adr_bae820679f3f536b\n  --------------------------7015ebe79c0a5f8c\n  Content-Disposition: form-data; name=\"from\"\n\n  adr_210a8d4b0b76d77b\n  --------------------------7015ebe79c0a5f8c\n  Content-Disposition: form-data; name=\"file\"; filename=\"file.pdf\"\n  Content-Type: application/pdf\n\n  <FILE CONTENT>\n  --------------------------7015ebe79c0a5f8c\n  Content-Disposition: form-data; name=\"color\"\n\n  true\n  --------------------------7015ebe79c0a5f8c--\n```\n",
@@ -7147,7 +7147,7 @@
             "event": []
         },
         {
-            "id": "62f6ad08-6ea8-48a4-89b1-0b558903266e",
+            "id": "5c4958d8-48a1-4653-96de-38f4ae740ca9",
             "name": "Reverse Geocode Lookups",
             "description": {
                 "content": "Find a list of zip codes associated with a valid US location via latitude and longitude.\n",
@@ -7155,7 +7155,7 @@
             },
             "item": [
                 {
-                    "id": "9808fa1e-8b93-4e59-ad3e-20a6fb08a1bc",
+                    "id": "571f2c0d-491f-4143-86e1-c2eb9d223a55",
                     "name": "Reverse Geocode Lookup",
                     "request": {
                         "name": "Reverse Geocode Lookup",
@@ -7208,7 +7208,7 @@
                     },
                     "response": [
                         {
-                            "id": "8350562e-44d4-416e-9656-70d2d6c11741",
+                            "id": "66c73515-c05c-49f5-a43e-819aba9df5c6",
                             "name": "Returns a zip lookup object if a valid zip was provided.",
                             "originalRequest": {
                                 "url": {
@@ -7292,7 +7292,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "558014c2-7422-43b3-b6bc-3afb49163aa7",
+                            "id": "66bb09af-b8b2-40b2-b5fc-63fab4c65aca",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -7364,7 +7364,7 @@
             "event": []
         },
         {
-            "id": "dd01f30b-8f11-43de-ada9-66517684631e",
+            "id": "3d36180b-150c-439a-934f-e98cef382d88",
             "name": "SDKs and Tools",
             "description": {
                 "content": "Please visit our [Github](https://www.github.com/lob) for a list of our supported libraries.\n- [Ruby](https://github.com/lob/lob-ruby)\n- [PHP](https://github.com/lob/lob-php)\n- [Node.js](https://github.com/lob/lob-node)\n- [Python](https://github.com/lob/lob-python)\n- [Java](https://github.com/lob/lob-java)\n- [Elixir](https://github.com/lob/lob-elixir)\n",
@@ -7374,7 +7374,7 @@
             "event": []
         },
         {
-            "id": "8c73d19a-a5f1-4393-8d28-4d3b1600237d",
+            "id": "7d9d7129-ad3a-4b81-a4e5-fbbf2299a591",
             "name": "Self Mailers",
             "description": {
                 "content": "The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints\nfor creating self mailers, retrieving individual self mailers, canceling self mailers, and retrieving a list of self mailers.\n",
@@ -7382,7 +7382,7 @@
             },
             "item": [
                 {
-                    "id": "9747b643-af99-4b66-85bf-db5d85ac8db7",
+                    "id": "a45c3e41-4f45-4165-a0c1-9734b24d3b86",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -7414,7 +7414,7 @@
                     },
                     "response": [
                         {
-                            "id": "e16c8e6c-12e8-4679-8b5d-7e242fbaada7",
+                            "id": "aa087c43-695c-4eae-b8ba-9a6d9fd22a72",
                             "name": "Returns a self_mailer object",
                             "originalRequest": {
                                 "url": {
@@ -7462,7 +7462,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "a72dbf7e-71e0-4734-9aa6-d17884f7d0c1",
+                            "id": "01f4588f-d142-4bfc-8e6d-5df2c5b46509",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -7513,7 +7513,7 @@
                     "event": []
                 },
                 {
-                    "id": "cfb2c0e8-55d9-49b2-8479-e0d106818fa8",
+                    "id": "e60cfcd0-3ffd-482c-b7c8-63e9ce24a1be",
                     "name": "Delete",
                     "request": {
                         "name": "Delete",
@@ -7545,7 +7545,7 @@
                     },
                     "response": [
                         {
-                            "id": "97dc2ebf-38af-4387-b39d-cfc758d1df04",
+                            "id": "47e1814f-84bc-4974-884e-3f1b9c14b7cb",
                             "name": "Deleted",
                             "originalRequest": {
                                 "url": {
@@ -7593,7 +7593,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "ada114b6-509b-4145-9084-130e1445a7f4",
+                            "id": "01318eeb-b395-4c11-a58a-7380b33dfce1",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -7644,7 +7644,7 @@
                     "event": []
                 },
                 {
-                    "id": "388409c3-845a-4d32-a226-6d94852e4cea",
+                    "id": "2efb4224-6fbb-4dde-86be-e2842e9a770c",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -7728,7 +7728,7 @@
                     },
                     "response": [
                         {
-                            "id": "8da70095-02ac-4b8b-bf69-699e8ab3b6db",
+                            "id": "9a889a55-4aa4-45f5-bb06-180f18db7c5b",
                             "name": "A dictionary with a data property that contains an array of up to `limit` self_mailers. Each entry in the array is a separate self_mailer. The previous and next page of self_mailers can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more self_mailers are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -7808,7 +7808,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "5aacfc07-6d42-4e4d-937e-7d9f53d67f8a",
+                            "id": "8d5db8f0-b4f4-4dca-81a9-a47757108bba",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -7891,7 +7891,7 @@
                     "event": []
                 },
                 {
-                    "id": "97864aa4-4ac1-4b44-a5c6-2866215f4482",
+                    "id": "39795ec3-7bf8-4f88-a641-ab5c033f1f7e",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -7983,7 +7983,7 @@
                     },
                     "response": [
                         {
-                            "id": "15e8177a-5788-42c9-b8ec-de35c321eaf3",
+                            "id": "c54da546-c6b6-4b13-a288-3151a24534c6",
                             "name": "Returns a self_mailer object",
                             "originalRequest": {
                                 "url": {
@@ -8100,7 +8100,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "952ac962-4b6a-4add-b38a-deedf44bd6e2",
+                            "id": "09a35be3-4765-4677-87ee-ce454d8f28f8",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -8205,7 +8205,7 @@
             "event": []
         },
         {
-            "id": "d3fb7383-67b1-4615-a231-f8866c2da262",
+            "id": "257a6ffb-afa6-4482-8699-a80522d0b2ff",
             "name": "Template Design",
             "description": {
                 "content": "## HTML Templates\nYou can save commonly used HTML as templates within Lob to more easily manage them. You can reference\nyour saved templates in postcard, letter, and check requests instead of having to pass a long HTML\nstring on each request. Additionally, you can make changes to your HTML templates and update them\nindependently, without having to touch your API integration. Templates can be created, edited,\nand viewed on your [Dashboard](https://dashboard.lob.com/#/templates). To use a template in a postcard,\nletter, or check, see the documentation for each endpoint below. For help using templates, check out our\n[HTML Templates Guide](https://lob.com/guides#html_templates) or get started with a\n[pre-designed template from our gallery](https://lob.com/template-gallery). In Live mode, you can only have\nas many templates as allotted in your current\n[Print & Mail Edition](https://dashboard.lob.com/#/settings/editions). There is no limit in Test mode.\n\nIf you'd like to interact with templates programmatically, check out our Beta Program for API access\nto the [HTML Templates Endpoints](#tag/Templates).\n\n### Example Create Request using HTML Templates\n```bash\n  curl https://api.lob.com/v1/postcards \\\n    -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \\\n    -d \"description=Demo Postcard job\" \\\n    -d \"to=adr_78c304d54912c502\" \\\n    -d \"from=adr_61a0865c8c573139\" \\\n    -d \"front=tmpl_b846a20859ae11a\" \\\n    -d \"back=tmpl_01b0d396a10c268\" \\\n    -d \"merge_variables[name]=Harry\"\n```\n\n## HTML Examples\nUse a pre-designed template from our [gallery](https://lob.com/resources/template-gallery) or follow these\nbasic [guidelines](https://github.com/lob/examples) as starting points for creating custom Postcards,\nSelf Mailers, Letters, and Checks.\n\nPlease follow the standards used in these templates, such as:\n- For any linked assets, you must use a performant file hosting provider with no rate limits such as Amazon\nS3.\n- Use inline styles or an internal stylesheet, do not link to external stylesheets.\n- Link to images that are 300DPI and sized at the final desired size on the physical mailing. For example,\nfor a photo that is desired to be 1in x 1in on the final postcard, the image asset should be sized at 1in\nx 1in at 300DPI (which equates to 300px by 300px).\n- The sum of all linked assets should not exceed 5MB in file size.\n- Use `-webkit` prefixes for CSS properties when recommended [here](http://shouldiprefix.com/).\n\nBecause different browsers have varying user-agent styles, the HTML you see in your browser will not\nalways look identical to what is produced through the API. It is **strongly** recommended that you test all\nHTML requests by reviewing the final PDF files in your Test Environment, as these are the files that will be\nprinted.\n\n## Image Prepping\nCurrently we support the following file types for all endpoints:\n- PDF\n- PNG\n- JPEG\n\n**Templates**\n\nYou can find pre-made templates that already adhere to all of these guidelines here:\n- [Postcards](#tag/Postcards)\n- [Letters](#tag/Letters)\n- [Checks](#tag/Checks)\n- [Self Mailers](#tag/Self-Mailers)\n\n**Prepping All Images**\n\nThe following guidelines apply to image types:\n- Images should be 300 dpi or higher - PNG/JPEG files with less than 300 dpi will be rejected.\n- Your artwork should include a 1/8\" border around the final trim size. This means your final file size will be a total of 0.25\" larger than your expected printed piece (ie, a 4\"x6\" postcard should be submitted as 4.25\"x6.25\"). There is no need to include crop marks in your submitted content.\n- Include a safe zone – make sure no critical elements are within 1/8\" from the edge of the final size.\n- Do not include any additional postage marks or indicia.\n- File sizes should be no larger than 5MB.\n\n**Prepping PDFs**\n\nTo ensure that you are producing PDF's correctly please follow the guidelines below:\n- [Make sure all non-standard fonts are embedded.](#section/Standard-PDF-Fonts)\n- Generated PDF's need to be be PDF/A compliant.\n\n**Prepping PNGs/JPEGs**\n\nTo ensure that you are producing PNG's/JPEG's correctly please follow the guidelines below:\n\n- Minimum 300 dpi. The dpi is calculated as (width of image in pixels) / (width of product in inches) and (length of image in pixels) / (length of product in inches). For Example: 1275px x 1875px image used to create a 4.25\" x 6.25\" postcard has a dpi of 300.\n- Submitted images must have the same length to width ratio as the chosen product. Images will not be cropped or stretched by the API.\n\n## Standard PDF Fonts\nIdeally, all fonts in provided PDFs should be embedded. Embedding a font in a PDF ensures that the final\nprinted product will look as it was designed. Fonts can vary greatly in size and shape, even within the\nsame family. If the exact font that was used to design the artwork is not used to print, the look and\nplacement of the text is not guaranteed to be the same.\n\nIn general, requests that provide PDFs with un-embedded fonts will be rejected. We make an exception for\n\"standard fonts\", a set of fonts that we have identified as being common. PDFs that contain un-embedded\nfonts that are found in the list, and match the accepted [font type](https://en.wikipedia.org/wiki/Category:Font_formats)\nwill be accepted. Otherwise, the request will be rejected.\n\nFont embedding is an essential part of standard PDF workflows. Fonts should be embedded automatically by\nPDF editing software that are compliant with PDF standards.\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">FONT NAME</th>\n    <th style=\"white-space: nowrap\">TYPES</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Arial</code></td>\n    <td style=\"white-space: nowrap\">Type 1, TrueType, CID TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Arial,Bold</code></td>\n    <td style=\"white-space: nowrap\">Type 1, TrueType, CID TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Arial,BoldItalic</code></td>\n    <td style=\"white-space: nowrap\">Type 1, TrueType, CID TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Arial,Italic</code></td>\n    <td style=\"white-space: nowrap\">TrueType, CID TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>ArialMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType, CID TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Arial-BoldMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Arial-BoldItalicMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Arial-ItalicMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>ArialNarrow</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>ArialNarrow-Bold</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Calibri</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Calibri-Bold</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Calibri-Italic</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Candara-Bold</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Courier</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Courier-Oblique</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Courier-Bold</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Courier-BoldOblique</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>CourierNewPSMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>CourierNewPS-ItalicMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>CourierNewPS-BoldMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Helvetica</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Helvetica-Bold</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Helvetica-BoldOblique</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Helvetica-Oblique</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>LucidaConsole</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>MsSansSerif</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>MsSansSerif,Bold</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Symbol</code></td>\n    <td style=\"white-space: nowrap\">Type 1, TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Tahoma</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Tahoma-Bold</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Times-Bold</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Times-BoldItalic</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Times-Italic</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Times-Roman</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>TimesNewRomanPS-BoldItalicMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>TimesNewRomanPS-BoldMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>TimesNewRomanPS-ItalicMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>TimesNewRomanPSMT</code></td>\n    <td style=\"white-space: nowrap\">TrueType, CID TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>TimesNewRomanPSMT,Bold</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>TrebuchetMS</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Verdana</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Verdana-Bold</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Verdana,Bold</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>Verdana,Italic</code></td>\n    <td style=\"white-space: nowrap\">TrueType</td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\"><code>ZapfDingbats</code></td>\n    <td style=\"white-space: nowrap\">Type 1</td>\n  </tr>\n</table>\n",
@@ -8215,7 +8215,7 @@
             "event": []
         },
         {
-            "id": "f76e7cb6-bae8-451e-ace5-868ad286a834",
+            "id": "b0d3c3c5-752f-4d53-8417-adf3701e78b1",
             "name": "Template Versions",
             "description": {
                 "content": "These API endpoints allow you to create, retrieve, update and delete versions of reusable HTML templates for use with the Print & Mail API.\n",
@@ -8223,7 +8223,7 @@
             },
             "item": [
                 {
-                    "id": "37d84c58-aeff-47e8-9360-23519744949d",
+                    "id": "65e46339-a0b1-4268-81a4-934d3683c8e1",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -8264,7 +8264,7 @@
                     },
                     "response": [
                         {
-                            "id": "bbecf53f-1acf-4c39-b3f5-b0f18e1ad029",
+                            "id": "587bcc26-ecf9-45fa-bf63-bb0e692fc17a",
                             "name": "Returns the template version with the given template and version ids.",
                             "originalRequest": {
                                 "url": {
@@ -8321,7 +8321,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "48e1db9e-8ef9-4860-8c06-fe4e66470aea",
+                            "id": "e8203c16-a520-4b29-8c4c-bb281ca58c37",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -8381,7 +8381,7 @@
                     "event": []
                 },
                 {
-                    "id": "74763694-45b5-4afb-9e00-3a798d8eee5c",
+                    "id": "33f5e8a2-e3ee-4657-89ba-430f3737a33d",
                     "name": "Update",
                     "request": {
                         "name": "Update",
@@ -8443,7 +8443,7 @@
                     },
                     "response": [
                         {
-                            "id": "34742c9c-3c1f-42f5-8c00-5471bc8baf39",
+                            "id": "b3705a8c-f746-44d9-91b1-725c32148660",
                             "name": "Returns the template version with the given template and version ids.",
                             "originalRequest": {
                                 "url": {
@@ -8527,7 +8527,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "95c10246-4f66-4f55-bf50-950601f6e057",
+                            "id": "834c1d36-d71a-4131-88e2-a9ed482f4455",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -8596,7 +8596,7 @@
                     "event": []
                 },
                 {
-                    "id": "6a55fdd3-10e8-4a13-a0b6-1f21b2a7d5ec",
+                    "id": "e9d897ab-bd46-41a8-a1d2-0c99a1675f96",
                     "name": "Delete",
                     "request": {
                         "name": "Delete",
@@ -8637,7 +8637,7 @@
                     },
                     "response": [
                         {
-                            "id": "d5084b6d-7a12-4ccd-a02c-0d83076d7c9c",
+                            "id": "71c686db-d114-464d-b6f2-50c0566983cb",
                             "name": "Deleted",
                             "originalRequest": {
                                 "url": {
@@ -8694,7 +8694,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "7475d82e-5aea-4284-a28d-38cf94c47939",
+                            "id": "d1ae6efe-eacc-4a4f-92eb-b17c59eb28fb",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -8754,7 +8754,7 @@
                     "event": []
                 },
                 {
-                    "id": "65b17b24-8262-4768-bad9-3f5226a513dd",
+                    "id": "08e75258-3d07-4a8a-8a33-9f59b3be9d16",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -8818,7 +8818,7 @@
                     },
                     "response": [
                         {
-                            "id": "f857a466-f334-4999-9b6e-c1c4bedf0993",
+                            "id": "25fe0bd9-9ff4-404d-9afb-0bffe838b8e4",
                             "name": "A dictionary with a data property that contains an array of up to `limit` template versions. Each entry in the array is a separate template version object. The previous and next page of template versions can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more template versions are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -8888,7 +8888,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "73ee32e0-2e7f-4469-b7f9-55f93f3066bc",
+                            "id": "23a06d43-bf17-4d6a-848e-65d6039f0903",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -8961,7 +8961,7 @@
                     "event": []
                 },
                 {
-                    "id": "dde505e0-61fb-4a24-b2ed-a340659e94f8",
+                    "id": "a9683d00-7126-4c4e-9eaf-586af74e93b9",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -9021,7 +9021,7 @@
                     },
                     "response": [
                         {
-                            "id": "4f664d6a-74fe-4d3e-a5b0-7763ee7fc357",
+                            "id": "c5a3ba34-7b6c-44e5-90bf-60e9f50d1e85",
                             "name": "Returns the template version with the given template and version ids.",
                             "originalRequest": {
                                 "url": {
@@ -9106,7 +9106,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "97cc8ac8-4443-4c04-8b38-92cf7460b75b",
+                            "id": "d94174f6-c997-40c4-920f-6295c5c4cb70",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -9179,7 +9179,7 @@
             "event": []
         },
         {
-            "id": "9244c80a-d401-4c7a-88b8-f533f85524aa",
+            "id": "43985ecd-86c8-4e9f-ba4d-f2ce94a5a3ef",
             "name": "Templates",
             "description": {
                 "content": "These API endpoints allow you to create, retrieve, update and delete reusable HTML templates for use with the Print & Mail API.\n",
@@ -9187,7 +9187,7 @@
             },
             "item": [
                 {
-                    "id": "2adc3557-4b7e-40d6-8664-8c0d81117922",
+                    "id": "b52c3175-43ee-4199-b693-aa23b98ec6b6",
                     "name": "Retrieve",
                     "request": {
                         "name": "Retrieve",
@@ -9219,7 +9219,7 @@
                     },
                     "response": [
                         {
-                            "id": "7c4806f0-ae83-45f1-9450-9bb1ebda32ca",
+                            "id": "ddf3a302-f5ab-4dfd-b0ec-9e866f97f7f1",
                             "name": "Returns a template object",
                             "originalRequest": {
                                 "url": {
@@ -9267,7 +9267,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "eed80025-2d00-4b82-8c42-b57917fab9c8",
+                            "id": "4983f5fc-acad-4c10-89f1-2f4535171eaa",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -9318,7 +9318,7 @@
                     "event": []
                 },
                 {
-                    "id": "e01730e3-3099-435d-b72b-1b27fb214192",
+                    "id": "fb50cbb1-6e76-4b5f-839d-8b582cb03fed",
                     "name": "Update",
                     "request": {
                         "name": "Update",
@@ -9371,7 +9371,7 @@
                     },
                     "response": [
                         {
-                            "id": "c1ec6916-580c-41f5-8195-565435ce7c05",
+                            "id": "8a1a3575-e451-41d3-b36f-1f6f43aae358",
                             "name": "Returns the updated template object",
                             "originalRequest": {
                                 "url": {
@@ -9451,7 +9451,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "c192583c-f1e6-4953-bbd3-8e46236986a0",
+                            "id": "168a083f-1855-4903-868a-dca42470e4a8",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -9516,7 +9516,7 @@
                     "event": []
                 },
                 {
-                    "id": "5c3c45a7-4f41-4ab5-9c4d-afc894b7ca33",
+                    "id": "84410130-96b5-4942-b1d9-0043f446e70f",
                     "name": "Delete",
                     "request": {
                         "name": "Delete",
@@ -9548,7 +9548,7 @@
                     },
                     "response": [
                         {
-                            "id": "41ae1ed1-d01b-4c1c-a9a3-8d35804ffa3c",
+                            "id": "0ae0b227-c633-4357-ab3a-1158c5f3c841",
                             "name": "Deleted",
                             "originalRequest": {
                                 "url": {
@@ -9596,7 +9596,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "ccb2f703-7251-496a-bc47-97505e3f60d8",
+                            "id": "7433a367-1b05-4548-be02-62fecbbe1a06",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -9647,7 +9647,7 @@
                     "event": []
                 },
                 {
-                    "id": "6ce1d93c-fc2e-46c6-ab40-ddbae13dd76e",
+                    "id": "e1a5ef82-1b13-4c07-a51d-e225e157c8e3",
                     "name": "List",
                     "request": {
                         "name": "List",
@@ -9701,7 +9701,7 @@
                     },
                     "response": [
                         {
-                            "id": "fc1e7236-f170-4768-a36f-02e637a38793",
+                            "id": "a86f8a14-1d6f-4ff9-ad4e-6052130329e0",
                             "name": "A dictionary with a data property that contains an array of up to `limit` templates. Each entry in the array is a separate template. The previous and next page of templates can be retrieved by calling the endpoint contained in the `previous_url` and `next_url` fields in the API response respectively.<br>If no more templates are available beyond the current set of returned results, the `next_url` field will be empty.",
                             "originalRequest": {
                                 "url": {
@@ -9761,7 +9761,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "a26f742e-074a-4465-b4e4-7f041f1fe762",
+                            "id": "0c263b2a-4b80-401f-b8fb-443e58c11abb",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -9824,7 +9824,7 @@
                     "event": []
                 },
                 {
-                    "id": "a11343c0-8670-4eee-9770-44d946175b50",
+                    "id": "49efab53-670f-4789-9903-2ef83a082a2f",
                     "name": "Create",
                     "request": {
                         "name": "Create",
@@ -9879,7 +9879,7 @@
                     },
                     "response": [
                         {
-                            "id": "f4806566-9a18-464d-8374-35324827ac74",
+                            "id": "22a9ea16-73be-447f-ba83-d636897ff729",
                             "name": "Returns a template object",
                             "originalRequest": {
                                 "url": {
@@ -9964,7 +9964,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "df9b8935-359b-4af3-93f9-b9861a036800",
+                            "id": "1629deb5-f9b5-4b2a-869a-a07dc75c95c1",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -10037,7 +10037,7 @@
             "event": []
         },
         {
-            "id": "9dbb995a-5dc2-41ee-826b-d06d49c73fee",
+            "id": "e78f6737-921e-4dff-a4db-6bd0496a2559",
             "name": "Test and Live Environments",
             "description": {
                 "content": "To make the API as explorable as possible, accounts have test and live\nenvironment API keys. You're not charged any fees in the test environment,\nso we encourage you to use it to try out services, perform quality\nassurance, and run automated testing. Objects―addresses, letters, checks,\netc―in one environment cannot be manipulated by objects in the other.\n\nIn general, a payment method (either credit card or ACH account) must be\nadded to your account to make live API requests. However, a payment method\nis not required for the first 300 live requests per month to the\n`/v1/us_verifications` endpoint. After the first 300 requests, you will\nbegin receiving errors with status code `403`.\n\nRequests made in the test environment always validate request arguments,\nsimulate live environment behavior, and enforce rate limits. _They never\nprint, mail nor, for verification services, verify addresses._ The US &\nInternational verification services trigger behavior with specific\nargument values, and, if you plan on using those, we recommend reading\n[US Verification Test Environment](#tag/US-Verifications-Test-Environment)\nand [Intl Verification Test Environment](#tag/Intl-Verifications-Test-Environment).\n\nTo switch between environments, use the appropriate key for that\nenvironment when performing a request. You can find each environment's API\nkey in your dashboard under Settings; test API keys are always prefixed\nwith `test_` and production API keys with `live_`.\n",
@@ -10047,7 +10047,7 @@
             "event": []
         },
         {
-            "id": "a2264644-7575-4abd-869a-4b86790eb0c9",
+            "id": "01115ef1-a087-46b7-91ac-15e6d5cae004",
             "name": "Tracking Events",
             "description": {
                 "content": "As mailpieces travel through the mail stream, USPS scans their unique barcodes, and Lob processes these mail scans to generate tracking events.\n\n<h3>Certified Tracking Event Details</h3>\n\nLetters sent with USPS Certified Mail are fully tracked by USPS, and\ntherefore their [tracking events](#operation/tracking_event) have an\nadditional `details` object with more detailed information about the\ntracking event. The following table shows the potential values for\nthe fields in the `details` object mapped to the tracking event `name`.\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">NAME</th>\n    <th style=\"white-space: nowrap\">EVENT</th>\n    <th style=\"white-space: nowrap\">DESCRIPTION</th>\n    <th style=\"white-space: nowrap\">ACTION REQUIRED</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Mailed</td>\n    <td style=\"white-space: nowrap\"><code>package_accepted</code></td>\n    <td>Package has been accepted into the carrier network for delivery.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">In Transit</td>\n    <td style=\"white-space: nowrap\"><code>package_arrived</code></td>\n    <td>Package has arrived at an intermediate location in the carrier network.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">In Transit</td>\n    <td style=\"white-space: nowrap\"><code>package_departed</code></td>\n    <td>Package has departed from an intermediate location in the carrier network.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">In Transit</td>\n    <td style=\"white-space: nowrap\"><code>package_processing</code></td>\n    <td>Package is processing at an intermediate location in the carrier network.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">In Transit</td>\n    <td style=\"white-space: nowrap\"><code>package_processed</code></td>\n    <td>Package has been processed at an intermediate location.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">In Local Area</td>\n    <td style=\"white-space: nowrap\"><code>package_in_local_area</code></td>\n    <td>Package is at a location near the end destination.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Processed For Delivery</td>\n    <td style=\"white-space: nowrap\"><code>delivery_scheduled</code></td>\n    <td>Package is scheduled for delivery.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Processed For Delivery</td>\n    <td style=\"white-space: nowrap\"><code>out_for_delivery</code></td>\n    <td>Package is out for delivery.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Pickup Available</td>\n    <td style=\"white-space: nowrap\"><code>pickup_available</code></td>\n    <td>Package is available for pickup at carrier location.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Delivered</td>\n    <td style=\"white-space: nowrap\"><code>delivered</code></td>\n    <td>Package has been delivered.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Re-Routed</td>\n    <td style=\"white-space: nowrap\"><code>package_forwarded</code></td>\n    <td>Package has been forwarded.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Returned to Sender</td>\n    <td style=\"white-space: nowrap\"><code>returned_to_sender</code></td>\n    <td>Package is to be returned to sender.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>address_issue</code></td>\n    <td>Address information is incorrect. Contact carrier to ensure delivery.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>contact_carrier</code></td>\n    <td>Contact the carrier for more information.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>delayed</code></td>\n    <td>Delivery of package is delayed.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>delivery_attempted</code></td>\n    <td>Delivery of package has been attempted. Contact carrier to ensure delivery.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>delivery_rescheduled</code></td>\n    <td>Delivery of package has been rescheduled.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>location_inaccessible</code></td>\n    <td>Delivery location inaccessible to carrier. Contact carrier to ensure delivery.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>notice_left</code></td>\n    <td>Carrier left notice during attempted delivery. Follow carrier instructions on notice.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>package_damaged</code></td>\n    <td>Package has been damaged. Contact carrier for more details.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>package_disposed</code></td>\n    <td>Package has been disposed.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>package_held</code></td>\n    <td>Package held at carrier location. Contact carrier for more details.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>package_lost</code></td>\n    <td>Package has been lost. Contact carrier for more details.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>package_unclaimed</code></td>\n    <td>Package is unclaimed.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>package_undeliverable</code></td>\n    <td>Package is not able to be delivered.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>reschedule_delivery</code></td>\n    <td>Contact carrier to reschedule delivery.</td>\n    <td style=\"white-space: nowrap\"><code>true</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Issue</td>\n    <td style=\"white-space: nowrap\"><code>other</code></td>\n    <td>Unrecognized carrier status.</td>\n    <td style=\"white-space: nowrap\"><code>false</code></td>\n  </tr>\n</table>\n",
@@ -10057,7 +10057,7 @@
             "event": []
         },
         {
-            "id": "5d620f6e-67d6-4c74-b1d7-63229afe7d8c",
+            "id": "b4ef69c8-0a27-4651-8da4-aab21e9766af",
             "name": "US Autocompletions",
             "description": {
                 "content": "Given partial address information, this endpoint returns up to 10 address suggestions.\n## Autocompletion Test Env\nYour test API key does not autocomplete US addresses and is used to simulate behavior. With your test API key, requests with specific values for `address_prefix` return predetermined values. When `address_prefix` is set to:\n- `0 suggestions` - Returns no suggestions - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.\n  `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.\n  Each additional letter in `suggestion` reduces the number of suggestions by one (e.g.\n  `1 su` returns 9 suggested addresses). `[PRIMARY NUMBER]` does not affect the number of\n  suggestions returned.\n\nCity and state filters work as expected and filter the list of predetermined suggested addresses.\nSee the `test` request & response examples under [Autocomplete Examples](#operation/autocompletion) within the \"Autocomplete a partial address\" section in US Autocompletions.\n",
@@ -10065,7 +10065,7 @@
             },
             "item": [
                 {
-                    "id": "bfe7a5cb-c2b5-4347-ac69-0100eeb51d79",
+                    "id": "174bf2de-bc95-4407-a906-5b9c4543435f",
                     "name": "Autocomplete",
                     "request": {
                         "name": "Autocomplete",
@@ -10129,7 +10129,7 @@
                     },
                     "response": [
                         {
-                            "id": "97f9004e-bf2d-498b-92ff-467bb63a8933",
+                            "id": "9ec88b45-bae4-443b-8d9a-f02eebc790f3",
                             "name": "Returns a US autocompletion object.",
                             "originalRequest": {
                                 "url": {
@@ -10235,7 +10235,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "6c3d2443-4a50-434e-9d5a-3df3ab40571b",
+                            "id": "105e343f-a956-4a6c-a512-a43f36359f7c",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -10329,7 +10329,7 @@
             "event": []
         },
         {
-            "id": "7fb76572-d080-428d-a603-45a116d7cb7a",
+            "id": "7242ddf7-1f8e-4b61-b16c-5bfa81386153",
             "name": "US Verification Types",
             "description": {
                 "content": "These are detailed definitions for various fields in the [US verification object](#operation/us_verification).\n\n<h3>ZIP Code Types - <code>components[zip_code_type]</code></h3>\n\n<table>\n  <tbody>\n    <tr>\n      <td style=\"white-space: nowrap\"><code>standard</code></td>\n      <td>The default ZIP code type. Used when none of the other types apply.</td>\n    </tr>\n    <tr>\n      <td><code>po_box</code></td>\n      <td>The ZIP code contains only PO Boxes.</td>\n    </tr>\n    <tr>\n      <td><code>unique</code></td>\n      <td>The ZIP code is uniquely assigned to a single organization (such as a government agency) that receives a large volume of mail.</td>\n    </tr>\n    <tr>\n      <td><code>military</code></td>\n      <td>The ZIP code contains military addresses.</td>\n    </tr>\n    <tr>\n      <td><i>empty string</i></td>\n      <td>A match could not be made with the provided inputs.</td>\n    </tr>\n  </tbody>\n</table>\n\n<h3>Record Types - <code>components[record_type]</code></h3>\n\n<table>\n  <tbody>\n    <tr>\n      <td><code>street</code></td>\n      <td>The default address type.</td>\n    </tr>\n    <tr>\n      <td><code>highrise</code></td>\n      <td>The address is a commercial building, apartment complex, highrise, etc.</td>\n    </tr>\n    <tr>\n      <td><code>firm</code></td>\n      <td>The address is of an organizational entity which receives a minimum number of mailpieces per day.</td>\n    </tr>\n    <tr>\n      <td><code>po_box</code></td>\n      <td>The address is a PO Box.</td>\n    </tr>\n    <tr>\n      <td><code>rural_route</code></td>\n      <td>The address exists on a Rural Route. This is an older system of mail delivery which is still used in some parts of the country.</td>\n    </tr>\n    <tr>\n      <td style=\"white-space: nowrap\"><code>general_delivery</code></td>\n      <td>The address is part of the USPS General Delivery service, which allows individuals without permanent addresses to receive mail.</td>\n    </tr>\n    <tr>\n      <td><i>empty string</i></td>\n      <td>A match could not be made with the provided inputs.</td>\n    </tr>\n  </tbody>\n</table>\n\n<h3>Carrier Route Types - <code>components[carrier_route_type]</code></h3>\n\n<table class=\"table-docs table-docs-code\">\n  <tbody>\n    <tr>\n      <td><code>city_delivery</code></td>\n      <td>The default carrier route type. Used when none of the other types apply.</td>\n    </tr>\n    <tr>\n      <td><code>rural_route</code></td>\n      <td>The carrier route is a Rural Route. This is an older system of mail delivery which is still used in some parts of the country.</td>\n    </tr>\n    <tr>\n      <td><code>highway_contract</code></td>\n      <td>The carrier route is a Highway Contract Route. This is an older system of mail delivery which is still used in some parts of the country.</td>\n    </tr>\n    <tr>\n      <td><code>po_box</code></td>\n      <td>The carrier route consists of PO Boxes.</td>\n    </tr>\n    <tr>\n      <td style=\"white-space: nowrap\"><code>general_delivery</code></td>\n      <td>The carrier route is part of the USPS General Delivery service, which allows individuals without permanent addresses to receive mail.</td>\n    </tr>\n    <tr>\n      <td><i>empty string</i></td>\n      <td>A match could not be made with the provided inputs.</td>\n    </tr>\n  </tbody>\n</table>\n\n<h3>DPV Footnotes - <code>deliverability_analysis[dpv_footnotes]</code></h3>\n\n<table class=\"table-docs table-docs-code\">\n  <tbody>\n    <tr>\n      <td style=\"white-space: nowrap\"><code>AA</code></td>\n      <td>Some parts of the address (such as the street and ZIP code) are valid.</td>\n    </tr>\n    <tr>\n      <td><code>A1</code></td>\n      <td>The address is invalid based on given inputs.</td>\n    </tr>\n    <tr>\n      <td><code>BB</code></td>\n      <td>The address is deliverable.</td>\n    </tr>\n    <tr>\n      <td><code>CC</code></td>\n      <td>The address is deliverable by removing the provided secondary unit designator.</td>\n    </tr>\n    <tr>\n      <td><code>N1</code></td>\n      <td>The address is deliverable but is missing a secondary information (apartment, unit, etc).</td>\n    </tr>\n    <tr>\n      <td><code>F1</code></td>\n      <td>The address is a deliverable military address.</td>\n    </tr>\n    <tr>\n      <td><code>G1</code></td>\n      <td>The address is a deliverable General Delivery address. General Delivery is a USPS service which allows individuals without permanent addresses to receive mail.</td>\n    </tr>\n    <tr>\n      <td><code>U1</code></td>\n      <td>The address is a deliverable unique address. A unique ZIP code is assigned to a single organization (such as a government agency) that receives a large volume of mail.</td>\n    </tr>\n    <tr>\n      <td><code>M1</code></td>\n      <td>The primary number is missing.</td>\n    </tr>\n    <tr>\n      <td><code>M3</code></td>\n      <td>The primary number is invalid.</td>\n    </tr>\n    <tr>\n      <td><code>P1</code></td>\n      <td>PO Box, Rural Route, or Highway Contract box number is missing.</td>\n    </tr>\n    <tr>\n      <td><code>P3</code></td>\n      <td>PO Box, Rural Route, or Highway Contract box number is invalid.</td>\n    </tr>\n    <tr>\n      <td><code>R1</code></td>\n      <td>The address matched to a <a href=\"https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency\" target=\"_blank\">CMRA</a> and private mailbox information is not present.</td>\n    </tr>\n    <tr>\n      <td><code>R7</code></td>\n      <td>The address matched to a Phantom Carrier Route (<code>carrier_route</code> of <code>R777</code>), which corresponds to physical addresses that are not eligible for delivery.</td>\n    </tr>\n    <tr>\n      <td><code>RR</code></td>\n      <td>The address matched to a <a href=\"https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency\" target=\"_blank\">CMRA</a> and private mailbox information is present.</td>\n    </tr>\n  </tbody>\n</table>\n",
@@ -10339,7 +10339,7 @@
             "event": []
         },
         {
-            "id": "6ed842d0-6562-4151-9e89-06964fb5ce2f",
+            "id": "629f8b24-75e7-4924-8e11-d1c609e7efb0",
             "name": "US Verifications",
             "description": {
                 "content": "Validate, automatically correct, and standardize the addresses in your\naddress book based on USPS's [Coding Accuracy Support System (CASS)](https://postalpro.usps.com/certifications/cass).\n\n## US Verifications Test Env\n\nWhen verifying US addresses, you'll likely want to test against a wide array of addresses to\nensure you're handling responses correctly. With your test API key, requests that use specific\nvalues for `address` or `primary_line` and (if using `primary_line`) an arbitrary five digit\nnumber for `zip_code` (e.g. \"11111\") let you explore the responses to many types of addresses:\n\n<table>\n  <tr>\n    <th style=\"white-space: nowrap\">ADDRESS TYPE FOR SAMPLE RESPONSE</th>\n    <th style=\"white-space: nowrap\">DELIVERABILITY</th>\n    <th style=\"white-space: nowrap\">SET <code>primary_line</code> OR <code>address</code> TO</th>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Commercial highrise</td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>commercial highrise</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Residential highrise</td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>residential highrise</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Residential house</td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>residential house</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">PO Box</td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>po box</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Rural route</td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>rural route</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Puerty Rico address w/ urbanization</td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>puerto rico</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Military address</td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>military</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Department of state</td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>department of state</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Generic deliverable</td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>deliverable</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Missing a suite number</td>\n    <td style=\"white-space: nowrap\"><code>deliverable_missing_unit</code></td>\n    <td style=\"white-space: nowrap\"><code>missing unit</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Suite number doesn't exist</td>\n    <td style=\"white-space: nowrap\"><code>deliverable_incorrect_unit</code></td>\n    <td style=\"white-space: nowrap\"><code>incorrect unit</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Residential house with unnecessary suite number</td>\n    <td style=\"white-space: nowrap\"><code>deliverable_unnecessary_unit</code></td>\n    <td style=\"white-space: nowrap\"><code>unnecessary unit</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Undeliverable and block matched</td>\n    <td style=\"white-space: nowrap\"><code>undeliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>undeliverable block match</code></td>\n  </tr>\n  <tr>\n    <td style=\"white-space: nowrap\">Undeliverable and no block matched</td>\n    <td style=\"white-space: nowrap\"><code>undeliverable</code></td>\n    <td style=\"white-space: nowrap\"><code>undeliverable no match</code></td>\n  </tr>\n</table>\n\nSee the `test` request & response examples under [US Verification Examples](#operation/us_verification) within the\n\"Verify a US or US territory address\" section in US Verifications.\n\nYou can rely on the response from these examples generally matching the response you'd see in the live environment with an\naddress of that type (excluding the `recipient` field).\n\nThe test API key does not perform any verification, automatic correction, or standardization for addresses. If you wish to\ntry these features out, use our [live demo](https://lob.com/address-verification) or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).\n",
@@ -10347,7 +10347,7 @@
             },
             "item": [
                 {
-                    "id": "a13d9af7-8fc2-4e8e-bc92-da774a8437b5",
+                    "id": "f39c6fa0-0aa5-486d-aad8-6ce6e3ef7295",
                     "name": "Bulk Verify",
                     "request": {
                         "name": "Bulk Verify",
@@ -10395,7 +10395,7 @@
                     },
                     "response": [
                         {
-                            "id": "adb3776a-ebde-4c93-8d3e-4ac31d96307c",
+                            "id": "3f89eca1-d1fd-46f5-a154-e24f1fac70f1",
                             "name": "Returns a list of US verification objects.",
                             "originalRequest": {
                                 "url": {
@@ -10480,7 +10480,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "1046f254-4d59-425b-a511-396445c81247",
+                            "id": "633ea621-9f14-4c4a-b06d-1a83a14cea43",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -10550,7 +10550,7 @@
                     "event": []
                 },
                 {
-                    "id": "b1e37ed9-b41b-476d-b064-7c3d768d0dd1",
+                    "id": "d70932f4-d3c5-4006-938e-164b91794e12",
                     "name": "Single Verify",
                     "request": {
                         "name": "Single Verify",
@@ -10621,7 +10621,7 @@
                     },
                     "response": [
                         {
-                            "id": "903b34c7-e72d-4b26-ae3c-dc215f982108",
+                            "id": "ef28af82-9c98-4662-a725-fad40ea8c461",
                             "name": "Returns a US verification object.",
                             "originalRequest": {
                                 "url": {
@@ -10707,7 +10707,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "f4ab4ba1-7072-4461-82c2-de507b93c921",
+                            "id": "a0132009-94a3-4e17-9781-acd600cf4516",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -10781,7 +10781,7 @@
             "event": []
         },
         {
-            "id": "97830024-ebe6-460a-b246-79f83e1b191c",
+            "id": "8bdce755-2452-4992-b646-52b5a170ca8a",
             "name": "Versioning and Changelog",
             "description": {
                 "content": "### API Versioning\n\nWhen backwards-incompatible changes are made to the API, a new dated version\nis released. The latest version of the API is version **2020-02-11**. You can\nview your version and upgrade to the latest version in your\n[Dashboard Settings](https://dashboard.lob.com/#/settings/keys). You will\nonly need to specify a version if you would like to test a newer version of\nthe API without doing a full upgrade. The API will return an error if a\nversion older than your current one is passed in. See\n[API Changelog](#tag/Versioning-and-Changelog) for a full list of breaking changes.\n\n### Example Request\n\n```bash\n  curl https://api.lob.com/v1/addresses \\\n    -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \\\n    -H \"Lob-Version: 2020-02-11\"\n```\n\n### Specification Versioning\nYou might be wondering why our API and specification use different versioning schemes.\nLob's API predates our specification and follows the [Stripe versioning](https://stripe.com/blog/api-versioning)\napproach. This works well to manage backwards-incompatible changes to our API.\n\nFor our API specification (used to create this documentation), we've chosen [semantic\nversioning](https://semver.org/). This versioning reflects the backward-compatible\nchanges that do not require a versioning of Lob's API.\n\nLob's API specification will be used to generate artifacts like documentation, client SDKs,\nand other developer tooling. Semantic versioning of our specification will inform how we\nversion those artifacts like SDKs. It is helpful to know the version of a specification\nused to produce an artifact in order reference the specification release notes.\n\n\n### Changelog\n\n**2020-02-11**\n- renders merge_variables into HTML with syntax that supports objects, conditionals, and loops\n\n**2019-06-01**\n- changed pagination model of GET endpoints for postcards, letters, checks, addresses, bank accounts, templates, and template versions to a cursor-based model\n- offset parameter on these endpoints has been removed\n- previous_url and next_url response fields have been added\n\n**2018-06-05**\n- remove rate-limit headers\n\n**2018-03-30**\n- updated letter template which includes a white box behind the address block area to ensure deliverability\n\n**2018-03-01**\n- US verification deliverability value no_match deprecated and merged into undeliverable\n- US verification deliverability value deliverable_extra_secondary is split into deliverable_unnecessary_unit and deliverable_incorrect_unit\n- US verification deliverability value deliverable_missing_secondary renamed to deliverable_missing_unit\n- US verifications zip_code special values deprecated in favor of more comprehensive primary_line special values\n\n**2018-02-08**\n- enforce 50 character limit on the sum of address_line1 and address_line2 for check recipients\n\n**2017-11-08**\n- split extra_secondary_information into extra_secondary_designator and extra_secondary_number for /v1/us_verifications\n\n**2017-10-17**\n- remove support for the /v1/states endpoint\n- remove support for the /v1/countries endpoint\n- remove support for the message field from the POST /v1/postcards endpoint\n\n**2017-09-08**\n- renames input parameters and restructures response object for /v1/intl_verifications\n\n**2017-08-14**\n- automatically standardizes and corrects US addresses created via POST /v1/addresses. non-US addresses will be standardized into uppercase only.\n- automatically standardizes and corrects inline US addresses used in POST /v1/postcards, POST /v1/letters, and POST /v1/checks. non-US addresses will be standardized into uppercase only.\n- enforce 40 character limit on name and company for all addresses\n- enforce 64 character limit on address_line1 and address_line2 for US addresses\n\n**2017-06-16**\n- enforce 10,000 character limit on HTML strings\n- rename data parameter for all products to merge_variables\n\n**2017-05-17**\n- discontinues the /v1/verify endpoint - please use /v1/us_verifications or /v1/intl_verifications instead\n\n**2016-06-30** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- unnest tracking object from postcard, letter, and check response objects\n\n**2016-05-02** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- adds address_placement parameter to letters that defaults to top_first_page, template is no longer allowed\n\n**2016-03-21** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- removes tracking numbers that do not provide any consumer-facing tracking information\n- removes link from tracking responses\n- requires account_type when creating a bank account\n\n**2016-01-19** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- renames the count parameter to limit for all list endpoints\n- removes the next_url and previous_url from list responses\n\n**2015-12-22** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- adds size parameter to postcards that defaults to 4x6, setting is no longer allowed\n\n**2015-11-23** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- remove price from letters\n- remove pages from letters\n- remove price from postcards\n- renamed file parameter to check_bottom for checks\n\n**2015-11-06** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- remove bank_address from bank_accounts\n- remove account_address from bank_accounts and add from to checks\n- remove price from checks\n\n**2015-10-21** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- use the new HTML renderer for all products\n\n**2015-06-25** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- remove the status field from all endpoints\n\n**2015-04-11** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- errors on all endpoints are now single objects instead of arrays\n- full_bleed is no longer allowed for postcards, objects, and area mails - all products are now full_bleed by default\n- template is no longer allowed for postcards - all postcards must adhere to the template\n- name is no longer allowed for area mails, bank accounts, checks, jobs, objects, and postcards - it has been replaced by description\n- setting ID's 100 and 101 are no longer supported for objects - please use the Simple Letter Service instead\n- service is no longer supported for jobs\n- all boolean parameters now return true/false instead of 1/0\n- double_sided is no longer allowed for objects - all products are default double sided if more than one page is allowed\n- template is no longer allowed for objects\n\n**2014-12-18** <span style=\"background: #ebf2fb;color: #1878e0;text-transform: none;letter-spacing: 1px;font-weight: 500;border-radius: 100px;padding: 6px 16px;font-size: 14px;\">Sunsetted</span>\n- removed concept of packaging\n- signatory is now a required field when creating a bank account\n- bank_code is no longer an allowed field when creating a bank account\n- service_id parameter replaced by service parameter in /jobs\n- setting_id parameter replaced by setting parameter in /objects\n",
@@ -10791,7 +10791,7 @@
             "event": []
         },
         {
-            "id": "d038e8f6-791e-45f6-bee6-47f627be97f6",
+            "id": "4c1c82f8-1931-4692-ba2d-429ceed1d7e7",
             "name": "Webhooks",
             "description": {
                 "content": "Webhooks are an easy way to get notifications on events happening asynchronously\nwithin Lob's architecture. For example, when a postcard gets a \"Processed For\nDelivery\" tracking event, an event object of type `postcard.processed_for_delivery`\nwill be created. If you are subscribed to that event type in that Environment\n(Test vs. Live), Lob will send that event to any URLs you've specified via an\nHTTP POST request. In Live mode, you can only have as many webhooks as allotted\nin your current [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions).\nThere is no limit in Test mode.\nYou can view and create [webhooks](https://dashboard.lob.com/#/webhooks) on the\nLob Dashboard, as well as view your [events](https://dashboard.lob.com/#/events).\nSee our [Webhooks Integration Guide](https://lob.com/guides#webhooks_block) for more\ndetails on how to integrate. Please see the full list of event types available for\nsubscription here.\n",
@@ -10801,7 +10801,7 @@
             "event": []
         },
         {
-            "id": "2e757334-8003-4153-ae7c-80da71d9bc9a",
+            "id": "3ad96193-2e60-4f30-ab16-66012b2242cb",
             "name": "Zip Lookups",
             "description": {
                 "content": "Find a list of cities, states and associated information about a US ZIP code.\n",
@@ -10809,7 +10809,7 @@
             },
             "item": [
                 {
-                    "id": "fd861c03-bdf9-45a6-af04-ea3dce15eef0",
+                    "id": "a73db7b6-d833-4b8a-8905-0895dc17420d",
                     "name": "Lookups",
                     "request": {
                         "name": "Lookups",
@@ -10849,7 +10849,7 @@
                     },
                     "response": [
                         {
-                            "id": "d26ac052-2e78-4813-bf26-5b7530128c47",
+                            "id": "b129084a-15d2-4066-ab2d-fb869970b339",
                             "name": "Returns a zip lookup object if a valid zip was provided.",
                             "originalRequest": {
                                 "url": {
@@ -10919,7 +10919,7 @@
                             "_postman_previewlanguage": "json"
                         },
                         {
-                            "id": "75e2eaeb-c262-46a9-9c9e-2977ee8c7383",
+                            "id": "fc4e9d03-4535-46d0-8eda-0c2befadc0a7",
                             "name": "Error",
                             "originalRequest": {
                                 "url": {
@@ -10999,7 +10999,7 @@
         ]
     },
     "info": {
-        "_postman_id": "be961a78-4799-4179-82d2-e9b8befa1112",
+        "_postman_id": "ef9ec5f8-1673-4094-9522-cd655eb69e80",
         "name": "Lob",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": {

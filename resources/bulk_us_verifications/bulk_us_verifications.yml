@@ -108,7 +108,7 @@ post:
       source: |
         Lob.bulkUSVerifications.verify({
           addresses: [{
-            primary_line: 'deliverable',
+            primary_line: '210 King St',
             city: 'San Francisco',
             state: 'CA',
             zip_code: '94107'
@@ -165,7 +165,7 @@ post:
         LobResponse<BulkUSVerification> response = new BulkUSVerification.RequestBuilder()
                 .setAddresses(addresses)
                 .verify();
-        BulkUSVerification BulkUSVerification = response.getResponseBody();
+        BulkUSVerification bulkUSVerification = response.getResponseBody();
       label: JAVA
     - lang: Elixir
       source: |

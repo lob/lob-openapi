@@ -169,10 +169,15 @@ post:
       label: JAVA
     - lang: Elixir
       source: |
-        Lob.BulkUSVerification.verify.verify(%{addresses:[
-          primary_line: "210 King Street",
-          city: "San Francisco",
-          state: "CA",
-          zip_code: "94107"
-        }])
+        Lob.BulkUSVerification.verify.verify(
+        %{
+          addresses:[
+            {
+              primary_line: "210 King Street",
+              city: "San Francisco",
+              state: "CA",
+              zip_code: "94107"
+            }
+         ]
+        })
       label: ELIXIR

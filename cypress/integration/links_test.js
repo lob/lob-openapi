@@ -120,23 +120,38 @@ describe("ensures introduction links and text are valid", () => {
     cy.get('*[class^="sc-hKFxyN dmghQN"]')
       .contains("Postcards")
       .should("have.attr", "href")
-      .and("include", "https://www.lob.com/guides#getting_started");
+      .and(
+        "include",
+        "https://www.lob.com/guides?tab=postcards-self-mailers#getting_started"
+      );
     cy.get('*[class^="sc-hKFxyN dmghQN"]')
       .contains("Self-Mailers")
       .should("have.attr", "href")
-      .and("include", "https://www.lob.com/guides#getting_started_selfmailers");
+      .and(
+        "include",
+        "https://www.lob.com/guides?tab=postcards-self-mailers#getting_started_selfmailers"
+      );
     cy.get('*[class^="sc-hKFxyN dmghQN"]')
       .contains("Letters")
       .should("have.attr", "href")
-      .and("include", "https://www.lob.com/guides#getting_started_letters");
+      .and(
+        "include",
+        "https://www.lob.com/guides?tab=letters#getting_started_letters"
+      );
     cy.get('*[class^="sc-hKFxyN dmghQN"]')
       .contains("Checks")
       .should("have.attr", "href")
-      .and("include", "https://www.lob.com/guides#getting_started_checks");
+      .and(
+        "include",
+        "https://www.lob.com/guides?tab=checks#getting_started_checks"
+      );
     cy.get('*[class^="sc-hKFxyN dmghQN"]')
       .contains("Address Verification Elements")
       .should("have.attr", "href")
-      .and("include", "https://www.lob.com/guides#av-elements-quickstart");
+      .and(
+        "include",
+        "https://www.lob.com/guides?tab=address-verification#av-elements-quickstart"
+      );
   });
 
   // sc-iBzEeX sc-cOifOu dFWqin rUYTT redoc-markdown

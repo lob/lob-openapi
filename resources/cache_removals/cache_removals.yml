@@ -1,0 +1,86 @@
+post:
+  operationId: cache_removals
+
+  summary: Evict
+
+  description: >-
+    Lob API caches externally rendered resources that are provided by
+    customers as signed links [signed link](#section/Asset-URLs). These
+    resources can be manually evicted by providing the url of the
+    resource.
+
+  tags:
+    - Cache Removal
+
+  parameters:
+    - $ref: "../../shared/parameters/lang_spec.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/cache_removals.yml"
+        example:
+          description: demo
+          urls:
+            - "https://www.example.com"
+            - "https://www.test.test/my/resource.png"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/cache_removals.yml"
+        encoding: # be sure to check which encodings apply
+          urls:
+            style: deepObject
+            explode: true
+        example:
+          description: encoded demo
+          urls:
+            - "https://www.example.com"
+            - "https://www.test.test/my/resource.png"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/cache_removals.yml"
+        example:
+          description: demo
+          urls:
+            - "https://www.example.com"
+            - "https://www.test.test/my/resource.png"
+
+  responses:
+    default:
+      $ref: responses/cache_removals_error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      label: CURL
+      source: |
+        curl https://api.lob.com/v1/cache_removal \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "urls[]=https://www.example.com" \
+          -d "urls[]=https://www.test.test/my/resource.png"
+
+    - lang: Javascript
+      label: NODE
+      source: |
+
+    - lang: Ruby
+      label: RUBY
+      source: |
+
+    - lang: Python
+      label: PYTHON
+      source: |
+
+    - lang: PHP
+      source: |
+
+    - lang: Java
+      label: JAVA
+      source: |
+
+    - lang: Elixir
+      label: ELIXIR
+      source: |

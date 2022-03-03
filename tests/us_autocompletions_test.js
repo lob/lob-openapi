@@ -88,6 +88,29 @@ test("autocomplete an address given a prefix with full payload urlencoded", asyn
   }
 });
 
+test("autocomplete an address given a prefix with proper casing", async function (t) {
+  try {
+    const response = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          address_prefix: address_prefix,
+        },
+        { headers: prism.authHeader },
+        { case: "proper" }
+      )
+    );
+
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
+});
+
 test("errors when address_prefix is not passed in", async function (t) {
   try {
     const response = await prism

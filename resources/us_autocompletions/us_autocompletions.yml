@@ -11,6 +11,21 @@ post:
 
   tags:
     - US Autocompletions
+  parameters:
+    - in: query
+      name: case
+      schema:
+        type: string
+        enum:
+          - upper
+          - proper
+        default: upper
+      description: >-
+        Casing of the verified address. Possible values are `upper` and `proper` for
+        uppercased (e.g. "PO BOX") and proper-cased (e.g. "PO Box"),
+        respectively. Only affects `primary_line`, 
+        `city`, and `state`. Default casing is `upper`.
+      required: false
 
   requestBody:
     required: true

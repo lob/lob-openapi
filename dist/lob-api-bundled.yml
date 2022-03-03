@@ -948,16 +948,19 @@ tags:
 
       Review our "Getting Started" guides for more details on use cases:
 
-      * [Postcards](https://www.lob.com/guides#getting_started)
+      *
+      [Postcards](https://www.lob.com/guides?tab=postcards-self-mailers#getting_started)
 
-      * [Self-Mailers](https://www.lob.com/guides#getting_started_selfmailers)
+      *
+      [Self-Mailers](https://www.lob.com/guides?tab=postcards-self-mailers#getting_started_selfmailers)
 
-      * [Letters](https://www.lob.com/guides#getting_started_letters)
+      *
+      [Letters](https://www.lob.com/guides?tab=letters#getting_started_letters)
 
-      * [Checks](https://www.lob.com/guides#getting_started_checks)
+      * [Checks](https://www.lob.com/guides?tab=checks#getting_started_checks)
 
       * [Address Verification
-      Elements](https://www.lob.com/guides#av-elements-quickstart)
+      Elements](https://www.lob.com/guides?tab=address-verification#av-elements-quickstart)
   - name: Intl Verifications
     description: >
       Address verification for non-US addresses
@@ -1092,7 +1095,7 @@ tags:
       feature,
 
       check out our [Cancellation
-      Guide](https://lob.com/guides#cancellation_windows).
+      Guide](https://www.lob.com/guides?tab=general#cancellation_windows).
 
 
       If you schedule a postcard, self mailer, letter, or check for up to 180
@@ -1134,7 +1137,7 @@ tags:
       For implementation details, see documentation below for each respective
 
       endpoint. For more help, see our [Scheduled Mailings
-      Guide](https://lob.com/guides#scheduled_mailing).
+      Guide](https://www.lob.com/guides?tab=general#scheduled_mailing).
 
 
       This feature is exclusive to certain customers. Upgrade to the appropriate
@@ -1195,7 +1198,7 @@ tags:
 
 
       For more information, see our [NCOA
-      guide](https://lob.com/guides#national_change).
+      guide](https://www.lob.com/guides?tab=general#national_change).
 
 
       ## NCOA Live Environment
@@ -1407,7 +1410,8 @@ tags:
 
       For more help integrating idempotency keys, refer to our
 
-      [implementation guide](https://lob.com/guides#idempotent_request).
+      [implementation
+      guide](https://www.lob.com/guides?tab=general#idempotent_request).
 
 
       **Headers**
@@ -1667,7 +1671,8 @@ tags:
       letter, or check, see the documentation for each endpoint below. For help
       using templates, check out our
 
-      [HTML Templates Guide](https://lob.com/guides#html_templates) or get
+      [HTML Templates
+      Guide](https://www.lob.com/guides?tab=general#html_templates) or get
       started with a
 
       [pre-designed template from our
@@ -2952,7 +2957,7 @@ tags:
       [events](https://dashboard.lob.com/#/events).
 
       See our [Webhooks Integration
-      Guide](https://lob.com/guides#webhooks_block) for more
+      Guide](https://www.lob.com/guides?tab=general#webhooks_block) for more
 
       details on how to integrate. Please see the full list of event types
       available for
@@ -14749,6 +14754,21 @@ paths:
         [verified](#operation/verification_us).
       tags:
         - US Autocompletions
+      parameters:
+        - in: query
+          name: case
+          schema:
+            type: string
+            enum:
+              - upper
+              - proper
+            default: upper
+          description: >-
+            Casing of the verified address. Possible values are `upper` and
+            `proper` for uppercased (e.g. "PO BOX") and proper-cased (e.g. "PO
+            Box"), respectively. Only affects `primary_line`,  `city`, and
+            `state`. Default casing is `upper`.
+          required: false
       requestBody:
         required: true
         content:

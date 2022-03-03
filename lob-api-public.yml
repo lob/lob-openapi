@@ -857,6 +857,23 @@ tags:
       * [Checks](https://www.lob.com/guides?tab=checks#getting_started_checks)
       * [Address Verification Elements](https://www.lob.com/guides?tab=address-verification#av-elements-quickstart)
 
+  - name: Intl Autocompletions
+    description: |
+      Address autocompletion for non-US addresses. Given partial address information, this endpoint returns up to 10 address suggestions.
+      ## Autocompletion Test Env
+      Your test API key does not autocomplete international addresses and is used to simulate
+      behavior. With your test API key, requests with specific values for `address_prefix`
+      return predetermined values. When `address_prefix` is set to:
+      - `0 suggestions` - Returns no suggestions
+      - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.
+        `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.
+        Each additional letter in `suggestion` reduces the number of suggestions by one (e.g.
+        `1 su` returns 9 suggested addresses). `[PRIMARY NUMBER]` does not affect the number of
+        suggestions returned.
+      Country is a required field.
+      City and state filters work as expected and filter the list of predetermined suggested addresses.
+      See the `test` request & response examples under [Autocomplete Examples](#operation/intl_autocompletions) within the "Autocomplete
+      a partial address" section in Intl Autocompletions.
   - name: Intl Verifications
     description: |
       Address verification for non-US addresses
@@ -900,7 +917,6 @@ tags:
       The test API key does not perform any verification, automatic correction, or standardization
       for addresses. If you wish to try these features out, use our [live demo](https://lob.com/address-verification)
       or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).
-
   - name: Introduction
     x-traitTag: true
     description: |
@@ -2305,6 +2321,7 @@ x-tagGroups:
       - US Autocompletions
       - Reverse Geocode Lookups
       - Zip Lookups
+      - Intl Autocompletions
       - Intl Verifications
 
   - name: Webhooks
@@ -2401,6 +2418,9 @@ paths:
 
   /checks:
     $ref: resources/checks/checks.yml
+
+  /intl_autocompletions:
+    $ref: resources/intl_autocompletions/intl_autocompletions.yml
 
   /intl_verifications:
     $ref: resources/intl_verifications/intl_verifications.yml

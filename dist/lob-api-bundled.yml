@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.5.0
+  version: 1.6.0
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -960,10 +960,7 @@ tags:
       * [Checks](https://www.lob.com/guides?tab=checks#getting_started_checks)
 
       * [Address Verification
-<<<<<<< HEAD
       Elements](https://www.lob.com/guides?tab=address-verification#av-elements-quickstart)
-=======
-      Elements](https://www.lob.com/guides#av-elements-quickstart)
   - name: Intl Autocompletions
     description: >
       Address autocompletion for non-US addresses. Given partial address
@@ -996,7 +993,6 @@ tags:
       Examples](#operation/intl_autocompletions) within the "Autocomplete
 
       a partial address" section in Intl Autocompletions.
->>>>>>> main
   - name: Intl Verifications
     description: >
       Address verification for non-US addresses
@@ -11447,12 +11443,17 @@ paths:
           label: JAVA
         - lang: Elixir
           source: |
-            Lob.BulkUSVerification.verify.verify(%{addresses:[
-              primary_line: "210 King Street",
-              city: "San Francisco",
-              state: "CA",
-              zip_code: "94107"
-            }])
+            Lob.BulkUSVerification.verify.verify(
+            %{
+              addresses:[
+                {
+                  primary_line: "210 King Street",
+                  city: "San Francisco",
+                  state: "CA",
+                  zip_code: "94107"
+                }
+             ]
+            })
           label: ELIXIR
   /bulk/intl_verifications:
     post:
@@ -11601,14 +11602,18 @@ paths:
           label: JAVA
         - lang: Elixir
           source: |
-            Lob.BulkIntlVerification.verify.verify(%{addresses:[
-              primary_line: '370 Water St',
-              secondary_line: '',
-              city: 'Summerside',
-              state: 'Prince Edward Island',
-              postal_code: 'C1N 1C4',
-              country: 'CA'
-            }])
+            Lob.BulkIntlVerification.verify.verify(
+            %{addresses:[
+                {
+                  primary_line: '370 Water St',
+                  secondary_line: '',
+                  city: 'Summerside',
+                  state: 'Prince Edward Island',
+                  postal_code: 'C1N 1C4',
+                  country: 'CA'
+                }
+              ]
+            })
           label: ELIXIR
   /cards:
     get:

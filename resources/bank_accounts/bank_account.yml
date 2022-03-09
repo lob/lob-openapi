@@ -33,6 +33,14 @@ get:
         curl https://api.lob.com/v1/bank_accounts/bank_8cad8df5354d33f \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: typescript
+      source: |
+        try {
+        const bankAccount = await new BankAccountsApi(config).get("bank_xxxx");
+        } catch (err: any) {
+        console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.bankAccounts.retrieve('bank_8cad8df5354d33f', function (err, res) {
@@ -83,6 +91,14 @@ delete:
         curl -X DELETE https://api.lob.com/v1/bank_accounts/bank_3e64d9904356b20 \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+        const deleteBankAccount = await new BankAccountsApi(config).delete("bank_xxxx");
+        } catch (err: any) {
+        console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.bankAccounts.delete('bank_3e64d9904356b20', function (err, res) {

@@ -34,6 +34,14 @@ get:
         curl -X GET "https://api.lob.com/v1/checks?limit=2" \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: typescript
+      source: |
+        try {
+        const checks = await new ChecksApi(config).list(2);
+        } catch (err: any) {
+        console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.checks.list({limit: 2}, function (err, res) {
@@ -241,6 +249,21 @@ post:
           --data-urlencode "check_bottom=<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>" \
           -d "merge_variables[name]=Harry"
       label: CURL
+    - lang: typescript
+      source: |
+        const checkCreate: CheckEditable = new CheckEditable({
+        to: addressId,
+        from: addressId,
+        bank_account: bankAccountId,
+        amount: 100
+        }
+
+        try {
+          const myCheck = await new ChecksApi(config).create(checkCreate);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.checks.create({

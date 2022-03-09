@@ -40,6 +40,14 @@ get:
         curl -X GET "https://api.lob.com/v1/self_mailers?limit=2" \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: typescript
+      source: |
+        try {
+          const selfMailers = await new selfMailersApi(config).list(2);
+          } catch (err: any) {
+          console.error(err);
+          };
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.selfMailers.list({limit: 2}, function (err, res) {
@@ -171,6 +179,23 @@ post:
           --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
           -d "merge_variables[name]=Harry"
       label: CURL
+    - lang: typescript
+      source: |
+        const selfMailerCreate = new SelfMailerEditable({
+        to: addressId,
+        from: addressId,
+        inside:
+        "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
+        outside:
+        "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf"
+        }
+
+        try {
+          const mySelfMailer = await new SelfMailersApi(config).create(selfMailerCreate);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.selfMailers.create({

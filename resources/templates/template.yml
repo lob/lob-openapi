@@ -33,6 +33,14 @@ get:
         curl https://api.lob.com/v1/templates/tmpl_c94e83ca2cd5121 \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+        const Template = await new TemplatesApi(config).get("tmpl_xxxx");
+        } catch (err: any) {
+        console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         This feature is not currently supported by this library.
@@ -119,6 +127,25 @@ post:
           -d "description=Updated description" \
           -d "published_version=vrsn_362184d96d9b0c9"
       label: CURL
+    - lang: Typescript
+      source: |
+        const Templates = new TemplatesApi(config);
+        const templateData = new TemplateWritable({
+        description: "Newer Template",
+        html: "<html>Updated HTML for {{name}}</html>"
+        });
+
+        try {
+            const createTemplate = await Templates.create(templateData);
+            const updateData= new TemplateUpdate ({
+                description: "updated template",
+                published_version: createTemplate.published_version?.id as string
+            });
+            const updateTemplate = await Templates.update(createTemplate.id updateData);
+        } catch (err: any) {
+            console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         This feature is not currently supported by this library.
@@ -169,6 +196,14 @@ delete:
         curl -X DELETE https://api.lob.com/v1/templates/tmpl_df934eeda694203 \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+        const deleteTemplate = await new TemplatesApi(config).delete("tmpl_xxxx");
+        } catch (err: any) {
+        console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         This feature is not currently supported by this library.

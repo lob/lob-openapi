@@ -42,6 +42,15 @@ properties:
       * `deliverable_missing_unit` – The address is deliverable to the building's default address but is missing secondary unit information. There is a chance the mail will not reach the intended recipient.
       * `undeliverable` – The address is not deliverable according to the USPS.
 
+  valid_address:
+    type: boolean
+    enum:
+      - true
+      - false
+    description: |
+      This field indicates whether an address was found in a more comprehensive address dataset that includes sources from the USPS, OpenAddress, OpenStreetmaps, and mail delivery data.
+      In a way this field can be used to represent whether address is a real location or not. A valid address may contradict the deliverability field since an address can be a real valid location but the USPS may be unable to deliver mail to that location.
+      
   components:
     $ref: "../models/us_components.yml"
 

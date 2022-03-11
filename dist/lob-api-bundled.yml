@@ -12188,8 +12188,8 @@ paths:
         - lang: Typescript
           source: |
             const cardUpdatable =  new CardEditable ({
-            description: "Awesome card",
-            auto_reorder: true
+              description: "Awesome card",
+              auto_reorder: true
             });
 
             try {
@@ -12304,7 +12304,11 @@ paths:
           label: CURL
         - lang: Typescript
           source: |
-            This feature is not currently supported by this library
+            try {
+              const cardOrders = await new CardOrdersApi(cofig).get( "co_xxxx" );
+            } catch (err: any) {
+              console.error(err);
+            }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
@@ -12847,7 +12851,7 @@ paths:
               from: addressId,
               bank_account: bankAccountId,
               amount: 100
-            }
+            });
 
             try {
               const myCheck = await new ChecksApi(config).create(checkCreate);
@@ -13828,7 +13832,7 @@ paths:
               color: true,
               extra_service: LetterEditableExtraServiceEnum.Certified,
               file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf"
-            }
+            });
 
             try {
               const myLetter = await new LettersApi(config).create(letterCreate);
@@ -14429,7 +14433,7 @@ paths:
               front:
               "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
               back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
-            }
+            });
 
             try {
               const myPostcard = await new PostcardsApi(config).create(postcardCreate);
@@ -14932,7 +14936,7 @@ paths:
               "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
               outside:
               "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf"
-            }
+            });
 
             try {
               const mySelfMailer = await new SelfMailersApi(config).create(selfMailerCreate);
@@ -15180,7 +15184,7 @@ paths:
 
             try {
               const createTemplateVersion = await TemplateVersions.create(templateVersionData);
-              const updateData= new TemplateVersionUpdatable ({
+              const updateData= new TemplateVersionUpdatable({
                 description: "updated template",
               });
               const updateTemplateVersion = await TemplatesVersions.update(createTemplateVersion.id, updateData);
@@ -15589,8 +15593,8 @@ paths:
             try {
               const createTemplate = await Templates.create(templateData);
               const updateData= new TemplateUpdate ({
-                  description: "updated template",
-                  published_version: createTemplate.published_version?.id as string
+                description: "updated template",
+                published_version: createTemplate.published_version?.id as string
             });
               const updateTemplate = await Templates.update(createTemplate.id updateData);
             } catch (err: any) {

@@ -34,7 +34,11 @@ get:
       label: CURL
     - lang: Typescript
       source: |
-        This feature is not currently supported by this library
+        try {
+          const cardOrders = await new CardOrdersApi(cofig).get( "co_xxxx" );
+        } catch (err: any) {
+          console.error(err);
+        }
       label: TYPESCRIPT
     - lang: Javascript
       source: |

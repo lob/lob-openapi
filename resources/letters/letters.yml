@@ -267,7 +267,7 @@ post:
           color: true,
           extra_service: LetterEditableExtraServiceEnum.Certified,
           file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf"
-        }
+        });
 
         try {
           const myLetter = await new LettersApi(config).create(letterCreate);

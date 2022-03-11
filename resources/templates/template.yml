@@ -36,9 +36,9 @@ get:
     - lang: Typescript
       source: |
         try {
-        const Template = await new TemplatesApi(config).get("tmpl_xxxx");
+          const Template = await new TemplatesApi(config).get("tmpl_xxxx");
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
@@ -131,19 +131,19 @@ post:
       source: |
         const Templates = new TemplatesApi(config);
         const templateData = new TemplateWritable({
-        description: "Newer Template",
-        html: "<html>Updated HTML for {{name}}</html>"
+          description: "Newer Template",
+          html: "<html>Updated HTML for {{name}}</html>"
         });
 
         try {
-            const createTemplate = await Templates.create(templateData);
-            const updateData= new TemplateUpdate ({
-                description: "updated template",
-                published_version: createTemplate.published_version?.id as string
-            });
-            const updateTemplate = await Templates.update(createTemplate.id updateData);
+          const createTemplate = await Templates.create(templateData);
+          const updateData= new TemplateUpdate ({
+              description: "updated template",
+              published_version: createTemplate.published_version?.id as string
+        });
+          const updateTemplate = await Templates.update(createTemplate.id updateData);
         } catch (err: any) {
-            console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
@@ -199,9 +199,9 @@ delete:
     - lang: Typescript
       source: |
         try {
-        const deleteTemplate = await new TemplatesApi(config).delete("tmpl_xxxx");
+          const deleteTemplate = await new TemplatesApi(config).delete("tmpl_xxxx");
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript

@@ -33,6 +33,14 @@ get:
         curl https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const card = await new CardsApi(config).get("card_xxxx");
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.cards.retrieve('card_7a6d73c5c8457fc', function (err, res) {
@@ -100,6 +108,19 @@ post:
           -d "description=Awesome card" \
           -d "auto_reorder=true"
       label: CURL
+    - lang: Typescript
+      source: |
+        const cardUpdatable =  new CardEditable ({
+        description: "Awesome card",
+        auto_reorder: true
+        });
+
+        try {
+          await new CardsApi(config).update(cardUpdatable);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.cards.update('card_7a6d73c5c8457fc', {
@@ -142,6 +163,14 @@ delete:
         curl -X DELETE https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const deleteCard = await new CardsApi(config).delete("card_xxxx");
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.cards.delete('card_7a6d73c5c8457fc', function (err, res) {

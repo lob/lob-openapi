@@ -33,12 +33,12 @@ get:
         curl https://api.lob.com/v1/bank_accounts/bank_8cad8df5354d33f \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
-    - lang: typescript
+    - lang: Typescript
       source: |
         try {
-        const bankAccount = await new BankAccountsApi(config).get("bank_xxxx");
+          const bankAccount = await new BankAccountsApi(config).get("bank_xxxx");
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
@@ -94,9 +94,9 @@ delete:
     - lang: Typescript
       source: |
         try {
-        const deleteBankAccount = await new BankAccountsApi(config).delete("bank_xxxx");
+          const deleteBankAccount = await new BankAccountsApi(config).delete("bank_xxxx");
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript

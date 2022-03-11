@@ -10307,9 +10307,9 @@ paths:
         - lang: Typescript
           source: |
             try {
-            const addresses = await new AddressesApi(config).list(2);
+              const addresses = await new AddressesApi(config).list(2);
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -10510,13 +10510,13 @@ paths:
         - lang: Typescript
           source: |
             const addressCreate = new AddressEditable({
-            name: "Thing T. Thing",
-            address_line1: "1313 CEMETERY LN",
-            address_line2: ""
-            address_city: "WESTFIELD",
-            address_state: "NJ",
-            address_zip: "07090",
-            address_county: "US"
+              name: "Thing T. Thing",
+              address_line1: "1313 CEMETERY LN",
+              address_line2: ""
+              address_city: "WESTFIELD",
+              address_state: "NJ",
+              address_zip: "07090",
+              address_county: "US"
             });
 
             try {
@@ -10651,12 +10651,12 @@ paths:
             curl https://api.lob.com/v1/addresses/adr_fa85158b26c3eb7c \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
-        - lang: typescript
+        - lang: Typescript
           source: |
             try {
-            const address = await new AddressesApi(config).get("adr_xxxx");
+              const address = await new AddressesApi(config).get("adr_xxxx");
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -10708,16 +10708,11 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
         - lang: Typescript
-          source: >
+          source: |
             try {
-
-            const deleteAddress = await new
-            AddressesApi(config).delete("adr_xxxx");
-
+              const deleteAddress = await new AddressesApi(config).delete("adr_xxxx");
             } catch (err: any) {
-
-            console.error(err);
-
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -10803,26 +10798,21 @@ paths:
         - lang: Typescript
           source: |
             const verificationData = new BankAccountVerify({
-            amounts: [11, 35],
+              amounts: [11, 35],
             });
-
             const bankData = new BankAccountWritable({
-            description: "Test Bank Account",
-            routing_number: "322271627",
-            account_number: "123456789",
-            signatory: "Gomez Addams",
-            account_type: BankTypeEnum.Individual,
+              description: "Test Bank Account",
+              routing_number: "322271627",
+              account_number: "123456789",
+              signatory: "Gomez Addams",
+              account_type: BankTypeEnum.Individual,
             });
 
-            let id = "";
             try {
-                const result = await new BankAccountsApi(config).create(bankData)
-                const verifiedAccount = await new BankAccountsApi(config).verify(result.id, verificationData);
-                id = verifiedAccount.id;
+              const result = await new BankAccountsApi(config).create(bankData)
+              const verifiedAccount = await new BankAccountsApi(config).verify(result.id, verificationData);
             } catch (err: any) {
-                console.error(err);
-            }
-              return id;
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -10906,17 +10896,12 @@ paths:
             curl https://api.lob.com/v1/bank_accounts/bank_8cad8df5354d33f \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
-        - lang: typescript
-          source: >
+        - lang: Typescript
+          source: |
             try {
-
-            const bankAccount = await new
-            BankAccountsApi(config).get("bank_xxxx");
-
+              const bankAccount = await new BankAccountsApi(config).get("bank_xxxx");
             } catch (err: any) {
-
-            console.error(err);
-
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -10967,16 +10952,11 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
         - lang: Typescript
-          source: >
+          source: |
             try {
-
-            const deleteBankAccount = await new
-            BankAccountsApi(config).delete("bank_xxxx");
-
+              const deleteBankAccount = await new BankAccountsApi(config).delete("bank_xxxx");
             } catch (err: any) {
-
-            console.error(err);
-
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -11038,11 +11018,10 @@ paths:
         - lang: Typescript
           source: |
             try {
-            const bankaccounts = await new BankaccountsApi(config).list(2);
+              const bankaccounts = await new BankaccountsApi(config).list(2);
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
-            });
           label: TYPESCRIPT
         - lang: Javascript
           source: |
@@ -11148,12 +11127,12 @@ paths:
         - lang: Typescript
           source: |
             const bankAccountCreate = new BankAccountWritable({
-            description: "Test Bank Account",
-            routing_number: "322271627",
-            account_number: "123456789",
-            signatory: "Gomez Addams",
-            account_type: BankTypeEnum.Individual
-             });
+              description: "Test Bank Account",
+              routing_number: "322271627",
+              account_number: "123456789",
+              signatory: "Gomez Addams",
+              account_type: BankTypeEnum.Individual
+            });
 
             try {
               const myBankAcount = await new BankAccountsApi(config).create(bankAccountCreate);
@@ -11498,6 +11477,31 @@ paths:
                 ]
               }'
           label: CURL
+        - lang: Typescript
+          source: |
+            const UsVerifications = new USVerificationsApi(av_config);
+            const verificationData1: UsVerificationsWritable = {
+              primary_line: "001 CEMETERY LANE",
+              city: "WESTFIELD",
+              state: "NJ",
+              zip_code: "07090",
+            };
+            const verificationData2: UsVerificationsWritable = {
+              primary_line: "1515 CEMETERY LN",
+              city: "WESTFIELD",
+              state: "NJ",
+              zip_code: "07090",
+            };
+            const addressList: MultipleComponentsList = {
+              addresses: [verificationData1, verificationData2],
+            };
+
+            try {
+              const bulkVerified = await UsVerifications.verifyBulk(addressList);
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.bulkUSVerifications.verify({
@@ -11650,6 +11654,30 @@ paths:
                 ]
               }'
           label: CURL
+        - lang: Typescript
+          source: |
+            const IntlVerifications = new IntlVerificationsApi(av_config);
+            let verificationData1: IntlVerificationWritable = {
+                primary_line: "370 WATER ST",
+                postal_code: "C1N 1C4",
+                country: CountryExtended.Ca
+            };
+            const verificationData2: IntlVerificationWritable = {
+                primary_line: "012 PLACEHOLDER ST",
+                postal_code: "F0O 8A2",
+                country: CountryExtended.Ca
+            };
+            let addressList = new IntlVerificationsPayload({
+                addresses: [verificationData1, verificationData2]
+            });
+
+            try {
+              const bulkVerified = await IntlVerifications.verifyBulk(addressList);
+                
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.bulkIntlVerifications.verify({
@@ -11812,6 +11840,14 @@ paths:
             curl -X GET "https://api.lob.com/v1/cards?limit=2" \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Typescript
+          source: |
+            try {
+              const cards = await new CardsApi(config).list(2);
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.cards.list({limit: 2}, function (err, res) {
@@ -11926,6 +11962,21 @@ paths:
               -d "back=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf" \
               -d "size=2.125x3.375"
           label: CURL
+        - lang: Typescript
+          source: |
+            const cardsCreate = new CardEditable({
+              front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              size: CardEditableSizeEnum._2125x3375,
+              description: "Test card",
+            });
+
+            try {
+              const myCard = await new CardsApi(config).create(cardsCreate);
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.cards.create({
@@ -12026,6 +12077,14 @@ paths:
             curl https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Typescript
+          source: |
+            try {
+              const card = await new CardsApi(config).get("card_xxxx");
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.cards.retrieve('card_7a6d73c5c8457fc', function (err, res) {
@@ -12126,6 +12185,19 @@ paths:
               -d "description=Awesome card" \
               -d "auto_reorder=true"
           label: CURL
+        - lang: Typescript
+          source: |
+            const cardUpdatable =  new CardEditable ({
+            description: "Awesome card",
+            auto_reorder: true
+            });
+
+            try {
+              await new CardsApi(config).update(cardUpdatable);
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.cards.update('card_7a6d73c5c8457fc', {
@@ -12154,6 +12226,14 @@ paths:
             curl -X DELETE https://api.lob.com/v1/cards/card_7a6d73c5c8457fc \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Typescript
+          source: |
+            try {
+              const deleteCard = await new CardsApi(config).delete("card_xxxx");
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.cards.delete('card_7a6d73c5c8457fc', function (err, res) {
@@ -12222,6 +12302,10 @@ paths:
             curl https://api.lob.com/v1/cards/card_6afffd19045076c/orders/ \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Typescript
+          source: |
+            This feature is not currently supported by this library
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.cardOrders.list('card_6afffd19045076c', function (err, res) {
@@ -12290,6 +12374,17 @@ paths:
               -u <YOUR API KEY>: \
               -d "quantity=10000"
           label: CURL
+        - lang: Typescript
+          source: |
+            const cardForCreate: CardOrderEditable = {
+              quantity: 200,
+
+            try {
+              const myCardOrder = await new CardOrdersApi(config).create("card_xxxx", cardForCreate);
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.cardOrders.create('card_6afffd19045076c', {
@@ -12418,10 +12513,10 @@ paths:
         - lang: Typescript
           source: |
             try {
-             const check = await new ChecksApi(config).get("chk_xxxx");
-             } catch (err: any) {
-             console.error(err);
-             }
+              const check = await new ChecksApi(config).get("chk_xxxx");
+            } catch (err: any) {
+              console.error(err);
+            }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
@@ -12478,9 +12573,9 @@ paths:
         - lang: Typescript
           source: |
             try {
-            const deleteCheck = await new ChecksApi(config).delete("chk_xxxx");
+              const deleteCheck = await new ChecksApi(config).delete("chk_xxxx");
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -12542,9 +12637,9 @@ paths:
         - lang: typescript
           source: |
             try {
-            const checks = await new ChecksApi(config).list(2);
+              const checks = await new ChecksApi(config).list(2);
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -12748,10 +12843,10 @@ paths:
         - lang: typescript
           source: |
             const checkCreate: CheckEditable = new CheckEditable({
-            to: addressId,
-            from: addressId,
-            bank_account: bankAccountId,
-            amount: 100
+              to: addressId,
+              from: addressId,
+              bank_account: bankAccountId,
+              amount: 100
             }
 
             try {
@@ -12976,6 +13071,10 @@ paths:
               -d "zip_code=C1N 1C4" \
               -d "country=CA"
           label: CURL
+        - lang: Typescript
+          source: |
+            This feature is not currently supported by this library.
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.intlVerifications.verify({
@@ -13160,6 +13259,21 @@ paths:
               -d "postal_code=C1N 1C4" \
               -d "country=CA"
           label: CURL
+        - lang: Typescript
+          source: |
+            const IntlVerifications = new IntlVerificationsApi(av_config);
+            let verificationData1: IntlVerificationWritable = {
+              primary_line: "370 WATER ST",
+              postal_code: "C1N 1C4",
+              country: CountryExtended.Ca
+            };
+
+            try {
+              const singleVerified = await IntlVerifications.verifySingle(verificationData!);   
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.intlVerifications.verify({
@@ -13363,9 +13477,9 @@ paths:
         - lang: Typescript
           source: |
             try {
-            const letter= await new LettersApi(config).get("ltr_xxxx");
+              const letter= await new LettersApi(config).get("ltr_xxxx");
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: javascript
@@ -13421,16 +13535,11 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
         - lang: typescript
-          source: >
+          source: |
             try {
-
-            const deleteLetter = await new
-            LettersApi(config).delete("ltr_xxxx");
-
+              const deleteLetter = await new LettersApi(config).delete("ltr_xxxx");
             } catch (err: any) {
-
-            console.error(err);
-
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -13504,7 +13613,7 @@ paths:
             const letters = await new LettersApi(config).list(2);
             } catch (err: any) {
             console.error(err);
-            }  
+            }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
@@ -13712,22 +13821,14 @@ paths:
               -d "cards[]=card_c51ae96f5cebf3e"
           label: CURL
         - lang: Typescript
-          source: >
+          source: |
             const letterCreate = new LetterEditable({
-
-            to: addressId,
-
-            from: addressId,
-
-            color: true,
-
-            extra_service: LetterEditableExtraServiceEnum.Certified,
-
-            file:
-            "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf"
-
+              to: addressId,
+              from: addressId,
+              color: true,
+              extra_service: LetterEditableExtraServiceEnum.Certified,
+              file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf"
             }
-
 
             try {
               const myLetter = await new LettersApi(config).create(letterCreate);
@@ -13990,9 +14091,9 @@ paths:
         - lang: Javascript
           source: |
             try {
-            const postcard = await new PostCardsApi(config).get("psc_xxxx");
+              const postcard = await new PostCardsApi(config).get("psc_xxxx");
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -14050,16 +14151,11 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
         - lang: typescript
-          source: >
+          source: |
             try {
-
-            const deletePostcard = await new
-            PostcardsApi(config).delete("psc_xxxx");
-
+              const deletePostcard = await new PostcardsApi(config).delete("psc_xxxx");
             } catch (err: any) {
-
-            console.error(err);
-
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -14128,9 +14224,9 @@ paths:
         - lang: typescript
           source: |
             try {
-            const postcards = await new PostcardsApi(config).list(2);
+              const postcards = await new PostcardsApi(config).list(2);
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -14333,7 +14429,7 @@ paths:
               front:
               "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
               back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
-              }
+            }
 
             try {
               const myPostcard = await new PostcardsApi(config).create(postcardCreate);
@@ -14575,9 +14671,9 @@ paths:
         - lang: typescript
           source: |
             try {
-            const selfMailer = await new SelfMailersApi(config).get("sfm_xxxx");
+              const selfMailer = await new SelfMailersApi(config).get("sfm_xxxx");
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Ruby
@@ -14627,16 +14723,11 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
         - lang: typescript
-          source: >
+          source: |
             try {
-
-            const deleteSelfMailer = await new
-            SelfMailersApi(config).delete("sfm_xxxx");
-
+              const deleteSelfMailer = await new SelfMailersApi(config).delete("sfm_xxxx");
             } catch (err: any) {
-
-            console.error(err);
-
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -14705,9 +14796,9 @@ paths:
           source: |
             try {
               const selfMailers = await new selfMailersApi(config).list(2);
-              } catch (err: any) {
+            } catch (err: any) {
               console.error(err);
-              };
+            }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
@@ -14832,24 +14923,16 @@ paths:
               --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
               -d "merge_variables[name]=Harry"
           label: CURL
-        - lang: typescript
-          source: >
+        - lang: Typescript
+          source: |
             const selfMailerCreate = new SelfMailerEditable({
-
-            to: addressId,
-
-            from: addressId,
-
-            inside:
-
-            "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
-
-            outside:
-
-            "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf"
-
+              to: addressId,
+              from: addressId,
+              inside:
+              "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
+              outside:
+              "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf"
             }
-
 
             try {
               const mySelfMailer = await new SelfMailersApi(config).create(selfMailerCreate);
@@ -15022,9 +15105,9 @@ paths:
           source: |
             try {
               const templateVersion = await new TemplateVersionsApi(config).get("tmpl_xxxx, vrsn_xxxx");
-              } catch (err: any) {
+            } catch (err: any) {
               console.error(err);
-              }
+            }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
@@ -15088,28 +15171,21 @@ paths:
               -d "description=Updated description"
           label: CURL
         - lang: Typescript
-          source: >
+          source: |
             const TemplateVersions = new TemplateVersionsApi(config);
-
             const templateVersionData =  new TemplateVersionWritable({
-
-            description: "Newer Template",
-
-            html: "<html>Updated HTML for {{name}}</html>"
-
+              description: "Newer Template",
+              html: "<html>Updated HTML for {{name}}</html>"
             });
-
 
             try {
               const createTemplateVersion = await TemplateVersions.create(templateVersionData);
               const updateData= new TemplateVersionUpdatable ({
-                  description: "updated template",
+                description: "updated template",
               });
-            const updateTemplateVersion = await
-            TemplatesVersions.update(createTemplateVersion.id, updateData);
-
+              const updateTemplateVersion = await TemplatesVersions.update(createTemplateVersion.id, updateData);
             } catch (err: any) {
-                console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -15157,16 +15233,11 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
         - lang: Typescript
-          source: >
+          source: |
             try {
-
-            const deleteTemplateVersion = await new
-            TemplateVersionsApi(config).delete("tmpl_xxxx","vrsn_xxxx");
-
+              const deleteTemplateVersion = await new TemplateVersionsApi(config).delete("tmpl_xxxx","vrsn_xxxx");
             } catch (err: any) {
-
-            console.error(err);
-
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -15227,16 +15298,11 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
         - lang: Typescript
-          source: >
+          source: |
             try {
-
-            const templateVersions = await new
-            TemplateVersionsApi(config).list(tmpl_xxxx);
-
+              const templateVersions = await new TemplateVersionsApi(config).list(tmpl_xxxx);
             } catch (err: any) {
-
-            console.error(err);
-
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -15313,8 +15379,8 @@ paths:
         - lang: Typescript
           source: |
             const templateVersionCreate = new TemplateVersionWritable({
-            description: "Newer Template",
-            html: "<html>Updated HTML for {{name}}</html>"
+              description: "Newer Template",
+              html: "<html>Updated HTML for {{name}}</html>"
             });
 
             try {
@@ -15405,9 +15471,9 @@ paths:
         - lang: Typescript
           source: |
             try {
-            const Template = await new TemplatesApi(config).get("tmpl_xxxx");
+              const Template = await new TemplatesApi(config).get("tmpl_xxxx");
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -15516,19 +15582,19 @@ paths:
           source: |
             const Templates = new TemplatesApi(config);
             const templateData = new TemplateWritable({
-            description: "Newer Template",
-            html: "<html>Updated HTML for {{name}}</html>"
+              description: "Newer Template",
+              html: "<html>Updated HTML for {{name}}</html>"
             });
 
             try {
-                const createTemplate = await Templates.create(templateData);
-                const updateData= new TemplateUpdate ({
-                    description: "updated template",
-                    published_version: createTemplate.published_version?.id as string
-                });
-                const updateTemplate = await Templates.update(createTemplate.id updateData);
+              const createTemplate = await Templates.create(templateData);
+              const updateData= new TemplateUpdate ({
+                  description: "updated template",
+                  published_version: createTemplate.published_version?.id as string
+            });
+              const updateTemplate = await Templates.update(createTemplate.id updateData);
             } catch (err: any) {
-                console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -15576,16 +15642,11 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
         - lang: Typescript
-          source: >
+          source: |
             try {
-
-            const deleteTemplate = await new
-            TemplatesApi(config).delete("tmpl_xxxx");
-
+              const deleteTemplate = await new TemplatesApi(config).delete("tmpl_xxxx");
             } catch (err: any) {
-
-            console.error(err);
-
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -15640,10 +15701,11 @@ paths:
         - lang: Typescript
           source: |
             try {
-            const templates = await new TemplatesApi(config).list(2);
+              const templates = await new TemplatesApi(config).list(2);
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             This feature is not currently supported by this library.
@@ -15761,8 +15823,8 @@ paths:
         - lang: Typescript
           source: |
             const templateCreate = new TemplateWritable({
-            description: "Newer Template",
-            html: "<html>Updated HTML for {{name}}</html>"
+              description: "Newer Template",
+              html: "<html>Updated HTML for {{name}}</html>"
             });
 
             try {
@@ -15881,6 +15943,20 @@ paths:
               -d "state=CA"
               -d "zip_code=94107"
           label: CURL
+        - lang: Typescript
+          source: |
+            const UsAutocompletions = new USAutocompletionsApi(av_config);
+            const autocompletionData: UsAutocompletionsWritable = {
+              address_prefix: "185 B",
+              city: "SAN FRANCISCO"
+            };
+
+            try {
+              const autocompletedAddresses = await UsAutocompletions.autocomplete(autocompletionData);
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.usAutocompletions.autocomplete({
@@ -15994,6 +16070,22 @@ paths:
               -d "latitude=37.7749" \
               -d "longitude=122.4194" \
           label: CURL
+        - lang: Typescript
+          source: >
+            const ReverseGeocodeLookup = new
+            ReverseGeocodeLookupsApi(av_config);
+
+            const coordinates: Location = {
+              Latitude: 37.777456,
+              longitude: -122.393039
+            };
+
+            try {
+              const geocode = await ReverseGeocodeLookup.lookup(coordinates);
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.reverseGeocodeLookups.lookup({
@@ -16169,6 +16261,22 @@ paths:
               -d "state=CA" \
               -d "zip_code=94107"
           label: CURL
+        - lang: Typescript
+          source: |
+            const UsVerification = new USVerificationsApi(av_config);
+            const verificationData1: UsVerificationsWritable = {
+              primary_line: "001 CEMETERY LANE",
+              city: "WESTFIELD",
+              state: "NJ",
+              zip_code: "07090",
+            };
+
+            try {
+              const singleVerified = await UsVerification.verifySingle(verificationData1);
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.usVerifications.verify({
@@ -16266,6 +16374,18 @@ paths:
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
               -d "zip_code=94107"
           label: CURL
+        - lang: Typescript
+          source: |
+            const ZipLookup = new ZipLookupsApi(av_config);
+            const zipRequest : ZipEditable = {
+              zip_code: "07090"
+            }
+            try {
+              const zipLookup : Zip = await ZipLookup.lookup(zipRequest);
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: |
             Lob.usZipLookups.lookup({

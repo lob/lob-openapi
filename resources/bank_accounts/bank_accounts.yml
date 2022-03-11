@@ -33,11 +33,10 @@ get:
     - lang: Typescript
       source: |
         try {
-        const bankaccounts = await new BankaccountsApi(config).list(2);
+          const bankaccounts = await new BankaccountsApi(config).list(2);
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
-        });
       label: TYPESCRIPT
     - lang: Javascript
       source: |
@@ -149,12 +148,12 @@ post:
     - lang: Typescript
       source: |
         const bankAccountCreate = new BankAccountWritable({
-        description: "Test Bank Account",
-        routing_number: "322271627",
-        account_number: "123456789",
-        signatory: "Gomez Addams",
-        account_type: BankTypeEnum.Individual
-         });
+          description: "Test Bank Account",
+          routing_number: "322271627",
+          account_number: "123456789",
+          signatory: "Gomez Addams",
+          account_type: BankTypeEnum.Individual
+        });
 
         try {
           const myBankAcount = await new BankAccountsApi(config).create(bankAccountCreate);

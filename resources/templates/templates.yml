@@ -33,10 +33,11 @@ get:
     - lang: Typescript
       source: |
         try {
-        const templates = await new TemplatesApi(config).list(2);
+          const templates = await new TemplatesApi(config).list(2);
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         This feature is not currently supported by this library.
@@ -138,8 +139,8 @@ post:
     - lang: Typescript
       source: |
         const templateCreate = new TemplateWritable({
-        description: "Newer Template",
-        html: "<html>Updated HTML for {{name}}</html>"
+          description: "Newer Template",
+          html: "<html>Updated HTML for {{name}}</html>"
         });
 
         try {

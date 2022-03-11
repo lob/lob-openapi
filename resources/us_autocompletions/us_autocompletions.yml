@@ -92,6 +92,20 @@ post:
           -d "state=CA"
           -d "zip_code=94107"
       label: CURL
+    - lang: Typescript
+      source: |
+        const UsAutocompletions = new USAutocompletionsApi(av_config);
+        const autocompletionData: UsAutocompletionsWritable = {
+          address_prefix: "185 B",
+          city: "SAN FRANCISCO"
+        };
+
+        try {
+          const autocompletedAddresses = await UsAutocompletions.autocomplete(autocompletionData);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.usAutocompletions.autocomplete({

@@ -33,9 +33,9 @@ get:
     - lang: Typescript
       source: |
         try {
-        const addresses = await new AddressesApi(config).list(2);
+          const addresses = await new AddressesApi(config).list(2);
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
@@ -247,13 +247,13 @@ post:
     - lang: Typescript
       source: |
         const addressCreate = new AddressEditable({
-        name: "Thing T. Thing",
-        address_line1: "1313 CEMETERY LN",
-        address_line2: ""
-        address_city: "WESTFIELD",
-        address_state: "NJ",
-        address_zip: "07090",
-        address_county: "US"
+          name: "Thing T. Thing",
+          address_line1: "1313 CEMETERY LN",
+          address_line2: ""
+          address_city: "WESTFIELD",
+          address_state: "NJ",
+          address_zip: "07090",
+          address_county: "US"
         });
 
         try {

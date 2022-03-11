@@ -40,9 +40,9 @@ get:
     - lang: Typescript
       source: |
         try {
-        const templateVersions = await new TemplateVersionsApi(config).list(tmpl_xxxx);
+          const templateVersions = await new TemplateVersionsApi(config).list(tmpl_xxxx);
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
@@ -130,8 +130,8 @@ post:
     - lang: Typescript
       source: |
         const templateVersionCreate = new TemplateVersionWritable({
-        description: "Newer Template",
-        html: "<html>Updated HTML for {{name}}</html>"
+          description: "Newer Template",
+          html: "<html>Updated HTML for {{name}}</html>"
         });
 
         try {

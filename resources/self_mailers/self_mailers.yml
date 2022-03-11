@@ -44,9 +44,9 @@ get:
       source: |
         try {
           const selfMailers = await new selfMailersApi(config).list(2);
-          } catch (err: any) {
+        } catch (err: any) {
           console.error(err);
-          };
+        }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
@@ -179,15 +179,15 @@ post:
           --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
           -d "merge_variables[name]=Harry"
       label: CURL
-    - lang: typescript
+    - lang: Typescript
       source: |
         const selfMailerCreate = new SelfMailerEditable({
-        to: addressId,
-        from: addressId,
-        inside:
-        "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
-        outside:
-        "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf"
+          to: addressId,
+          from: addressId,
+          inside:
+          "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
+          outside:
+          "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf"
         }
 
         try {

@@ -43,9 +43,9 @@ get:
     - lang: typescript
       source: |
         try {
-        const postcards = await new PostcardsApi(config).list(2);
+          const postcards = await new PostcardsApi(config).list(2);
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
@@ -260,7 +260,7 @@ post:
           front:
           "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
           back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
-          }
+        }
 
         try {
           const myPostcard = await new PostcardsApi(config).create(postcardCreate);

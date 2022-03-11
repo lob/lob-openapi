@@ -37,9 +37,9 @@ get:
     - lang: typescript
       source: |
         try {
-        const checks = await new ChecksApi(config).list(2);
+          const checks = await new ChecksApi(config).list(2);
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
@@ -252,10 +252,10 @@ post:
     - lang: typescript
       source: |
         const checkCreate: CheckEditable = new CheckEditable({
-        to: addressId,
-        from: addressId,
-        bank_account: bankAccountId,
-        amount: 100
+          to: addressId,
+          from: addressId,
+          bank_account: bankAccountId,
+          amount: 100
         }
 
         try {

@@ -44,6 +44,18 @@ post:
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
           -d "zip_code=94107"
       label: CURL
+    - lang: Typescript
+      source: |
+        const ZipLookup = new ZipLookupsApi(av_config);
+        const zipRequest : ZipEditable = {
+          zip_code: "07090"
+        }
+        try {
+          const zipLookup : Zip = await ZipLookup.lookup(zipRequest);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.usZipLookups.lookup({

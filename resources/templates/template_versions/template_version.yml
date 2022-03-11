@@ -43,9 +43,9 @@ get:
       source: |
         try {
           const templateVersion = await new TemplateVersionsApi(config).get("tmpl_xxxx, vrsn_xxxx");
-          } catch (err: any) {
+        } catch (err: any) {
           console.error(err);
-          }
+        }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
@@ -121,18 +121,18 @@ post:
       source: |
         const TemplateVersions = new TemplateVersionsApi(config);
         const templateVersionData =  new TemplateVersionWritable({
-        description: "Newer Template",
-        html: "<html>Updated HTML for {{name}}</html>"
+          description: "Newer Template",
+          html: "<html>Updated HTML for {{name}}</html>"
         });
 
         try {
           const createTemplateVersion = await TemplateVersions.create(templateVersionData);
           const updateData= new TemplateVersionUpdatable ({
-              description: "updated template",
+            description: "updated template",
           });
-        const updateTemplateVersion = await TemplatesVersions.update(createTemplateVersion.id, updateData);
+          const updateTemplateVersion = await TemplatesVersions.update(createTemplateVersion.id, updateData);
         } catch (err: any) {
-            console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
@@ -186,9 +186,9 @@ delete:
     - lang: Typescript
       source: |
         try {
-        const deleteTemplateVersion = await new TemplateVersionsApi(config).delete("tmpl_xxxx","vrsn_xxxx");
+          const deleteTemplateVersion = await new TemplateVersionsApi(config).delete("tmpl_xxxx","vrsn_xxxx");
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript

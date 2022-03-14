@@ -30,6 +30,14 @@ get:
         curl -X GET "https://api.lob.com/v1/addresses/?limit=2" \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const addresses = await new AddressesApi(config).list(2);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.addresses.list({limit: 2}, function (err, res) {
@@ -236,6 +244,24 @@ post:
           -d "address_zip=94107" \
           -d "address_country=US"
       label: CURL
+    - lang: Typescript
+      source: |
+        const addressCreate = new AddressEditable({
+          name: "Thing T. Thing",
+          address_line1: "1313 CEMETERY LN",
+          address_line2: ""
+          address_city: "WESTFIELD",
+          address_state: "NJ",
+          address_zip: "07090",
+          address_county: "US"
+        });
+
+        try {
+          const myAddress = await new AddressesApi(config).create(addressCreate);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.addresses.create({

@@ -62,6 +62,19 @@ post:
           -d "latitude=37.7749" \
           -d "longitude=122.4194" \
       label: CURL
+    - lang: Typescript
+      source: |
+        const ReverseGeocodeLookup = new ReverseGeocodeLookupsApi(av_config);
+        const coordinates: Location = {
+          Latitude: 37.777456,
+          longitude: -122.393039
+        };
+        try {
+          const geocode = await ReverseGeocodeLookup.lookup(coordinates);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.reverseGeocodeLookups.lookup({

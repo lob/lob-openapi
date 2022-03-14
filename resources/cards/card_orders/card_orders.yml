@@ -32,6 +32,14 @@ get:
         curl https://api.lob.com/v1/cards/card_6afffd19045076c/orders/ \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const cardOrders = await new CardOrdersApi(cofig).get( "co_xxxx" );
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.cardOrders.list('card_6afffd19045076c', function (err, res) {
@@ -94,6 +102,17 @@ post:
           -u <YOUR API KEY>: \
           -d "quantity=10000"
       label: CURL
+    - lang: Typescript
+      source: |
+        const cardForCreate: CardOrderEditable = {
+          quantity: 200,
+
+        try {
+          const myCardOrder = await new CardOrdersApi(config).create("card_xxxx", cardForCreate);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.cardOrders.create('card_6afffd19045076c', {

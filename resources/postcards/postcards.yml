@@ -40,6 +40,14 @@ get:
         curl -X GET "https://api.lob.com/v1/postcards?limit=2" \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: typescript
+      source: |
+        try {
+          const postcards = await new PostcardsApi(config).list(2);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.postcards.list({limit: 2}, function (err, res) {
@@ -244,6 +252,22 @@ post:
           --data-urlencode "back=<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>" \
           -d "merge_variables[name]=Harry"
       label: CURL
+    - lang: typescript
+      source: |
+        const postcardCreate = new PostcardEditable({
+          to: addressId,
+          from: addressId,
+          front:
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+          back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
+        });
+
+        try {
+          const myPostcard = await new PostcardsApi(config).create(postcardCreate);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.postcards.create({

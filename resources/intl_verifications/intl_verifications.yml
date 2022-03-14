@@ -128,6 +128,21 @@ post:
           -d "postal_code=C1N 1C4" \
           -d "country=CA"
       label: CURL
+    - lang: Typescript
+      source: |
+        const IntlVerifications = new IntlVerificationsApi(av_config);
+        let verificationData1: IntlVerificationWritable = {
+          primary_line: "370 WATER ST",
+          postal_code: "C1N 1C4",
+          country: CountryExtended.Ca
+        };
+
+        try {
+          const singleVerified = await IntlVerifications.verifySingle(verificationData!);   
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.intlVerifications.verify({

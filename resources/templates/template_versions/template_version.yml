@@ -39,6 +39,14 @@ get:
         curl https://api.lob.com/v1/templates/tmpl_c94e83ca2cd5121/versions/vrsn_534e339882d2282 \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const templateVersion = await new TemplateVersionsApi(config).get("tmpl_xxxx, vrsn_xxxx");
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         This feature is not currently supported by this library.
@@ -109,6 +117,24 @@ post:
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
           -d "description=Updated description"
       label: CURL
+    - lang: Typescript
+      source: |
+        const TemplateVersions = new TemplateVersionsApi(config);
+        const templateVersionData =  new TemplateVersionWritable({
+          description: "Newer Template",
+          html: "<html>Updated HTML for {{name}}</html>"
+        });
+
+        try {
+          const createTemplateVersion = await TemplateVersions.create(templateVersionData);
+          const updateData= new TemplateVersionUpdatable({
+            description: "updated template",
+          });
+          const updateTemplateVersion = await TemplatesVersions.update(createTemplateVersion.id, updateData);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         This feature is not currently supported by this library.
@@ -157,6 +183,14 @@ delete:
         curl -X DELETE https://api.lob.com/v1/templates/tmpl_4aa14648113e45b/versions/vrsn_534e339882d2282 \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const deleteTemplateVersion = await new TemplateVersionsApi(config).delete("tmpl_xxxx","vrsn_xxxx");
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         This feature is not currently supported by this library.

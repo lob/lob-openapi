@@ -1673,6 +1673,8 @@ tags:
       - [Java](https://github.com/lob/lob-java)
 
       - [Elixir](https://github.com/lob/lob-elixir)
+
+      - [Typescript](https://github.com/lob/lob-typescript-sdk)
   - name: Self Mailers
     description: >
       The self mailer endpoint allows you to easily print and mail self mailers.
@@ -10329,7 +10331,7 @@ paths:
         - lang: PHP
           source: |
             $lob->addresses()->all(array(
-              'limit' => 2
+              "limit" => 2
             ));
         - lang: Java
           source: |
@@ -10510,13 +10512,17 @@ paths:
         - lang: Typescript
           source: |
             const addressCreate = new AddressEditable({
-              name: "Thing T. Thing",
-              address_line1: "1313 CEMETERY LN",
-              address_line2: ""
-              address_city: "WESTFIELD",
-              address_state: "NJ",
-              address_zip: "07090",
-              address_county: "US"
+              description: "Harry - Office",
+              name: "Harry Zhang",
+              company: "Lob",
+              email: "harry@lob.com",
+              phone: "5555555555",
+              address_line1: "210 King St",
+              address_line2: "# 6100",
+              address_city: "San Francisco",
+              address_state: "CA",
+              address_zip: "94107",
+              address_country: "US"
             });
 
             try {
@@ -10528,17 +10534,17 @@ paths:
         - lang: Javascript
           source: |
             Lob.addresses.create({
-              description: 'Harry - Office',
-              name: 'Harry Zhang',
-              company: 'Lob',
-              email: 'harry@lob.com',
-              phone: '5555555555',
-              address_line1: '210 King St',
-              address_line2: '# 6100',
-              address_city: 'San Francisco',
-              address_state: 'CA',
-              address_zip: '94107',
-              address_country: 'US',
+              description: "Harry - Office",
+              name: "Harry Zhang",
+              company: "Lob",
+              email: "harry@lob.com",
+              phone: "5555555555",
+              address_line1: "210 King St",
+              address_line2: "# 6100",
+              address_city: "San Francisco",
+              address_state: "CA",
+              address_zip: "94107",
+              address_country: "US"
             }, function (err, res) {
               console.log(err, res);
             });
@@ -10562,33 +10568,33 @@ paths:
         - lang: Python
           source: |
             lob.Address.create(
-              description='Harry - Office',
-              name='Harry Zhang',
-              company='Lob',
-              email='harry@lob.com',
-              phone='5555555555',
-              address_line1='210 King St',
-              address_line2='# 6100',
-              address_city='San Francisco',
-              address_state='CA',
-              address_zip='94107',
-              address_country='US',
+              description="Harry - Office",
+              name="Harry Zhang",
+              company="Lob",
+              email="harry@lob.com",
+              phone="5555555555",
+              address_line1="210 King St",
+              address_line2="# 6100",
+              address_city="San Francisco",
+              address_state="CA",
+              address_zip="94107",
+              address_country="US",
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->addresses()->create(array(
-              'description'       => 'Harry - Office',
-              'name'              => 'Harry Zhang',
-              'company'           => 'Lob',
-              'address_line1'     => '210 King St',
-              'address_line2'     => '# 6100',
-              'address_city'      => 'San Francisco',
-              'address_state'     => 'CA',
-              'address_country'   => 'US',
-              'address_zip'       => '94107',
-              'email'             => 'harry@lob.com',
-              'phone'             => '5555555555'
+              "description"       => "Harry - Office",
+              "name"              => "Harry Zhang",
+              "company"           => "Lob",
+              "address_line1"     => "210 King St",
+              "address_line2"     => "# 6100",
+              "address_city"      => "San Francisco",
+              "address_state"     => "CA",
+              "address_country"   => "US",
+              "address_zip"       => "94107",
+              "email"             => "harry@lob.com",
+              "phone"             => "5555555555"
             ));
         - lang: Java
           source: |
@@ -10809,8 +10815,7 @@ paths:
             });
 
             try {
-              const result = await new BankAccountsApi(config).create(bankData)
-              const verifiedAccount = await new BankAccountsApi(config).verify(result.id, verificationData);
+              const verifiedAccount = await new BankAccountsApi(config).verify("bank_xxxx", verificationData);
             } catch (err: any) {
               console.error(err);
             }
@@ -11481,16 +11486,16 @@ paths:
           source: |
             const UsVerifications = new USVerificationsApi(av_config);
             const verificationData1: UsVerificationsWritable = {
-              primary_line: "001 CEMETERY LANE",
-              city: "WESTFIELD",
-              state: "NJ",
-              zip_code: "07090",
+              primary_line: '210 King St',
+              city: 'San Francisco',
+              state: 'CA',
+              zip_code: '94107'
             };
             const verificationData2: UsVerificationsWritable = {
-              primary_line: "1515 CEMETERY LN",
-              city: "WESTFIELD",
-              state: "NJ",
-              zip_code: "07090",
+              primary_line: "185 BERRY ST STE 6600",
+              city: "SAN FRANCISCO",
+              state: "CA",
+              zip_code: "94107"'
             };
             const addressList: MultipleComponentsList = {
               addresses: [verificationData1, verificationData2],
@@ -11861,7 +11866,7 @@ paths:
         - lang: PHP
           source: |
             $lob->cards()->all(array(
-              'limit' => 2
+              "limit" => 2
             ));
     post:
       operationId: card_create
@@ -11965,8 +11970,8 @@ paths:
         - lang: Typescript
           source: |
             const cardsCreate = new CardEditable({
-              front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-              back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              front: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
               size: CardEditableSizeEnum._2125x3375,
               description: "Test card",
             });
@@ -11980,10 +11985,10 @@ paths:
         - lang: Javascript
           source: |
             Lob.cards.create({
-              description: 'Test card',
-              front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-              back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-              size: '2.125x3.375'
+              description: "Test card",
+              front: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              size: "2.125x3.375"
             }, function (err, res) {
               console.log(err, res);
             });
@@ -11991,19 +11996,19 @@ paths:
         - lang: Python
           source: |
             lob.Card.create(
-              description = 'Test card',
-              front = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-              back = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-              size = '2.125x3.375'
+              description = "Test card",
+              front = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              back = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              size = "2.125x3.375"
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->cards()->create(array(
-              'description'           => 'Test card',
-              'front'                 => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-              'back'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-              'size' =>               => '2.125x3.375'
+              "description"           => "Test card",
+              "front"                 => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              "back"                  => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              "size" =>               => "2.125x3.375"
             ));
   /cards/{card_id}:
     parameters:
@@ -12312,17 +12317,17 @@ paths:
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.cardOrders.list('card_6afffd19045076c', function (err, res) {
+            Lob.cardOrders.list("card_6afffd19045076c", function (err, res) {
               console.log(err, res);
             });
           label: NODE
         - lang: Python
           source: |
-            lob.CardOrder.list('card_6afffd19045076c')
+            lob.CardOrder.list("card_6afffd19045076c")
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->cardOrders('card_6afffd19045076c')->all();
+            $lob->cardOrders("card_6afffd19045076c")->all();
     post:
       operationId: card_order_create
       summary: Create
@@ -12380,7 +12385,7 @@ paths:
           label: CURL
         - lang: Typescript
           source: |
-            const cardForCreate: CardOrderEditable = {
+            const cardForCreate = new CardOrderEditable = {
               quantity: 200,
 
             try {
@@ -12391,7 +12396,7 @@ paths:
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.cardOrders.create('card_6afffd19045076c', {
+            Lob.cardOrders.create("card_6afffd19045076c", {
               quantity: 10000
             }, function (err, res) {
               console.log(err, res);
@@ -12399,12 +12404,12 @@ paths:
           label: NODE
         - lang: Python
           source: |
-            lob.CardOrder.create('card_6afffd19045076c', quantity = 10000)
+            lob.CardOrder.create("card_6afffd19045076c", quantity = 10000)
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->cardOrders('card_6afffd19045076c')->create(array(
-              'quantity'           => 10000
+            $lob->cardOrders("card_6afffd19045076c")->create(array(
+              "quantity"           => 10000
             ));
   /checks/{chk_id}:
     parameters:
@@ -12663,7 +12668,7 @@ paths:
         - lang: PHP
           source: |
             $lob->checks()->all(array(
-              'limit' => 2
+              "limit" => 2
             ));
         - lang: Java
           source: |
@@ -12841,16 +12846,23 @@ paths:
               -d "amount=22.50" \
               -d "memo=rent" \
               --data-urlencode "logo=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png" \
-              --data-urlencode "check_bottom=<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>" \
+              --data-urlencode "check_bottom=<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>" \
               -d "merge_variables[name]=Harry"
           label: CURL
         - lang: typescript
           source: |
             const checkCreate: CheckEditable = new CheckEditable({
-              to: addressId,
-              from: addressId,
-              bank_account: bankAccountId,
-              amount: 100
+            to: {
+              name: "Harry Zhang",
+              address_line1: "210 King St",
+              address_line2: "# 6100",
+              address_city: "San Francisco",
+              address_state: "CA",
+              address_zip: "94107",
+            },
+            from: "adr_xxxx",
+            bank_account: "bank_xxxx",
+            amount: 100
             });
 
             try {
@@ -12862,23 +12874,23 @@ paths:
         - lang: Javascript
           source: |
             Lob.checks.create({
-              description: 'Demo Check',
-              bank_account: 'bank_8cad8df5354d33f',
+              description: "Demo Check",
+              bank_account: "bank_8cad8df5354d33f",
               to: {
-                name: 'Harry Zhang',
-                address_line1: '210 King St',
-                address_line2: '# 6100',
-                address_city: 'San Francisco',
-                address_state: 'CA',
-                address_zip: '94107'
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107"
               },
-              from: 'adr_210a8d4b0b76d77b',
+              from: "adr_210a8d4b0b76d77b",
               amount: 22.50,
-              memo: 'rent',
-              logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
-              check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
+              memo: "rent",
+              logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
+              check_bottom: "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
               merge_variables: {
-                name: 'Harry'
+                name: "Harry"
               }
             }, function (err, res) {
               console.log(err, res);
@@ -12901,7 +12913,7 @@ paths:
               amount: 22.50,
               memo: "rent",
               logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-              check_bottom: "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+              check_bottom: "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
               merge_variables: {
                 name: "Harry"
               }
@@ -12910,43 +12922,43 @@ paths:
         - lang: Python
           source: |
             lob.Check.create(
-              description = 'Demo Check',
+              description = "Demo Check",
               to_address = {
-                'name': 'Harry Zhang',
-                'address_line1': '210 King St',
-                'address_line2': '# 6100',
-                'address_city': 'San Francisco',
-                'address_state': 'CA',
-                'address_zip': '94107'
+                "name": "Harry Zhang",
+                "address_line1": "210 King St",
+                "address_line2": "# 6100",
+                "address_city": "San Francisco",
+                "address_state": "CA",
+                "address_zip": "94107"
               },
-              from_address = 'adr_210a8d4b0b76d77b',
-              bank_account = 'bank_8cad8df5354d33f',
+              from_address = "adr_210a8d4b0b76d77b",
+              bank_account = "bank_8cad8df5354d33f",
               amount = 22.50,
-              memo = 'rent',
-              logo = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
-              check_bottom = '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
+              memo = "rent",
+              logo = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
+              check_bottom = "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
               merge_variables = {
-                'name': 'Harry'
+                "name": "Harry"
               }
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->checks()->create(array(
-              'description'           => 'Demo Check',
-              'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '210 King St',
-              'to[address_line2]'     => '# 6100',
-              'to[address_city]'      => 'San Francisco',
-              'to[address_zip]'       => '94107',
-              'to[address_state]'     => 'CA',
-              'from'                  => 'adr_210a8d4b0b76d77b',
-              'bank_account'          => 'bank_8cad8df5354d33f',
-              'amount'                => 22.50,
-              'memo'                  => 'rent',
-              'logo'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
-              'check_bottom'          => '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
-              'merge_variables[name]' => 'Harry'
+              "description"           => "Demo Check",
+              "to[name]"              => "Harry Zhang",
+              "to[address_line1]"     => "210 King St",
+              "to[address_line2]"     => "# 6100",
+              "to[address_city]"      => "San Francisco",
+              "to[address_zip]"       => "94107",
+              "to[address_state]"     => "CA",
+              "from"                  => "adr_210a8d4b0b76d77b",
+              "bank_account"          => "bank_8cad8df5354d33f",
+              "amount"                => 22.50,
+              "memo"                  => "rent",
+              "logo"                  => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
+              "check_bottom"          => "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
+              "merge_variables[name]" => "Harry"
             ));
         - lang: Java
           source: |
@@ -12955,7 +12967,7 @@ paths:
 
             LobResponse<Check> response = new Check.RequestBuilder()
                     .setDescription("Demo Check")
-                    .setCheckBottom("<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>")
+                    .setCheckBottom("<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>")
                     .setMergeVariables(mergeVariables)
                     .setAmount(22.50f)
                     .memo("rent")
@@ -12991,7 +13003,7 @@ paths:
               amount: 22.50,
               memo: "rent",
               logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-              check_bottom: "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+              check_bottom: "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
               merge_variables: %{
                 name: "Harry"
               }
@@ -13636,7 +13648,7 @@ paths:
         - lang: PHP
           source: |
             $lob->letters()->all(array(
-              'limit' => 2
+              "limit" => 2
             ));
         - lang: Java
           source: |
@@ -13819,7 +13831,7 @@ paths:
               -d "to[address_state]=CA" \
               -d "to[address_zip]=94107" \
               -d "from=adr_210a8d4b0b76d77b" \
-              --data-urlencode "file=<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>" \
+              --data-urlencode "file=<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>" \
               -d "merge_variables[name]=Harry" \
               -d "color=true" \
               -d "cards[]=card_c51ae96f5cebf3e"
@@ -13827,8 +13839,15 @@ paths:
         - lang: Typescript
           source: |
             const letterCreate = new LetterEditable({
-              to: addressId,
-              from: addressId,
+              to: {
+              name: "Harry Zhang",
+              address_line1: "210 King St",
+              address_line2: "# 6100",
+              address_city: "San Francisco",
+              address_state: "CA",
+              address_zip: "94107"
+              }
+              from: "adr_xxxx",
               color: true,
               extra_service: LetterEditableExtraServiceEnum.Certified,
               file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf"
@@ -13843,22 +13862,22 @@ paths:
         - lang: Javascript
           source: |
             Lob.letters.create({
-              description: 'Demo Letter',
+              description: "Demo Letter",
               to: {
-                name: 'Harry Zhang',
-                address_line1: '210 King St',
-                address_line2: '# 6100',
-                address_city: 'San Francisco',
-                address_state: 'CA',
-                address_zip: '94107'
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107"
               },
-              from: 'adr_210a8d4b0b76d77b',
-              file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
+              from: "adr_210a8d4b0b76d77b",
+              file: "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
               merge_variables: {
-                name: 'Harry'
+                name: "Harry"
               },
               color: true,
-              cards: ['card_c51ae96f5cebf3e']
+              cards: ["card_c51ae96f5cebf3e"]
             }, function (err, res) {
               console.log(err, res);
             });
@@ -13876,7 +13895,7 @@ paths:
                 address_zip: "94107"
               },
               from: "adr_210a8d4b0b76d77b",
-              file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+              file: "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
               merge_variables: {
                 name: "Harry"
               },
@@ -13887,39 +13906,39 @@ paths:
         - lang: Python
           source: |
             lob.Letter.create(
-              description = 'Demo Letter',
+              description = "Demo Letter",
               to_address = {
-                  'name': 'Harry Zhang',
-                  'address_line1': '210 King St',
-                  'address_line2': '# 6100',
-                  'address_city': 'San Francisco',
-                  'address_state': 'CA',
-                  'address_zip': '94107'
+                  "name": "Harry Zhang",
+                  "address_line1": "210 King St",
+                  "address_line2": "# 6100",
+                  "address_city": "San Francisco",
+                  "address_state": "CA",
+                  "address_zip": "94107"
               },
-              from_address = 'adr_210a8d4b0b76d77b',
-              file = '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
+              from_address = "adr_210a8d4b0b76d77b",
+              file = "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
               merge_variables = {
-                'name': 'Harry'
+                "name": "Harry"
               },
               color = True,
-              cards = ['card_c51ae96f5cebf3e']
+              cards = ["card_c51ae96f5cebf3e"]
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->letters()->create(array(
-              'description'           => 'Demo Letter',
-              'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '210 King St',
-              'to[address_line2]'     => '# 6100',
-              'to[address_city]'      => 'San Francisco',
-              'to[address_zip]'       => '94107',
-              'to[address_state]'     => 'CA',
-              'from'                  => 'adr_210a8d4b0b76d77b',
-              'file'                  => '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
-              'merge_variables[name]' => 'Harry',
-              'color'                 => true,
-              'cards'                 => ['card_c51ae96f5cebf3e']
+              "description"           => "Demo Letter",
+              "to[name]"              => "Harry Zhang",
+              "to[address_line1]"     => "210 King St",
+              "to[address_line2]"     => "# 6100",
+              "to[address_city]"      => "San Francisco",
+              "to[address_zip]"       => "94107",
+              "to[address_state]"     => "CA",
+              "from"                  => "adr_210a8d4b0b76d77b",
+              "file"                  => "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
+              "merge_variables[name]" => "Harry",
+              "color"                 => true,
+              "cards"                 => ["card_c51ae96f5cebf3e"]
             ));
         - lang: Java
           source: |
@@ -13928,7 +13947,7 @@ paths:
 
             LobResponse<Letter> response = new Letter.RequestBuilder()
                     .setDescription("Demo Letter")
-                    .setFile("<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>")
+                    .setFile("<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>")
                     .setColor(true)
                     .setMergeVariables(mergeVariables)
                     .setTo(
@@ -13958,7 +13977,7 @@ paths:
                 address_zip: "94107"
               },
               from: "adr_210a8d4b0b76d77b",
-              file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+              file: "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
               merge_variables: %{
                 name: "Harry"
               },
@@ -14426,14 +14445,29 @@ paths:
               -d "merge_variables[name]=Harry"
           label: CURL
         - lang: typescript
-          source: |
+          source: >
             const postcardCreate = new PostcardEditable({
-              to: addressId,
-              from: addressId,
-              front:
-              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-              back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
+
+            to: {
+              name: "Harry Zhang",
+              address_line1: "210 King St",
+              address_line2: "# 6100",
+              address_city: "San Francisco",
+              address_state: "CA",
+              address_zip: "94107"
+            },
+
+            from: adr_xxxx,
+
+            front:
+
+            "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+
+            back:
+            "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
+
             });
+
 
             try {
               const myPostcard = await new PostcardsApi(config).create(postcardCreate);
@@ -14821,7 +14855,7 @@ paths:
         - lang: PHP
           source: |
             $lob->selfMailers()->all(array(
-              'limit' => 2
+              "limit" => 2
             ));
         - lang: Java
           source: >
@@ -14923,15 +14957,22 @@ paths:
               -d "to[address_state]=CA" \
               -d "to[address_zip]=94107" \
               -d "from=adr_210a8d4b0b76d77b" \
-              --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
-              --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
+              --data-urlencode "inside=<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>" \
+              --data-urlencode "outside=<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>" \
               -d "merge_variables[name]=Harry"
           label: CURL
         - lang: Typescript
           source: |
             const selfMailerCreate = new SelfMailerEditable({
-              to: addressId,
-              from: addressId,
+              to: {
+              name: "Harry Zhang",
+              address_line1: "210 King St",
+              address_line2: "# 6100",
+              address_city: "San Francisco",
+              address_state: "CA",
+              address_zip: "94107",
+            },
+              from: "adr_xxxx",
               inside:
               "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
               outside:
@@ -14947,19 +14988,19 @@ paths:
         - lang: Javascript
           source: |
             Lob.selfMailers.create({
-              description: 'Demo Self Mailer job',
+              description: "Demo Self Mailer job",
               to: {
-                name: 'Harry Zhang',
-                address_line1: '210 King St',
-                address_city: 'San Francisco',
-                address_state: 'CA',
-                address_zip: '94107'
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107"
               },
-              from: 'adr_210a8d4b0b76d77b',
-              inside: '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
-              outside: '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
+              from: "adr_210a8d4b0b76d77b",
+              inside: "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+              outside: "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
               merge_variables: {
-                name: 'Harry'
+                name: "Harry"
               }
             }, function (err, res) {
               console.log(err, res);
@@ -14977,8 +15018,8 @@ paths:
                 address_zip: "94107"
               },
               from: "adr_210a8d4b0b76d77b",
-              inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
-              outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+              inside: "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+              outside: "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
               merge_variables: {
                 name: "Harry"
               }
@@ -14987,35 +15028,35 @@ paths:
         - lang: Python
           source: |
             lob.SelfMailer.create(
-              description = 'Demo Self Mailer job',
+              description = "Demo Self Mailer job",
               to_address = {
-                'name': 'Harry Zhang',
-                'address_line1': '210 King St',
-                'address_city': 'San Francisco',
-                'address_state': 'CA',
-                'address_zip': '94107'
+                "name": "Harry Zhang",
+                "address_line1": "210 King St",
+                "address_city": "San Francisco",
+                "address_state": "CA",
+                "address_zip": "94107"
               },
-              from_address = 'adr_210a8d4b0b76d77b',
-              inside = '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
-              outside = '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
+              from_address = "adr_210a8d4b0b76d77b",
+              inside = "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+              outside = "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
               merge_variables = {
-                'name': 'Harry'
+                "name": "Harry"
               }
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->selfMailers()->create(array(
-              'description'           => 'Demo Self Mailer job',
-              'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '210 King St',
-              'to[address_city]'      => 'San Francisco',
-              'to[address_zip]'       => '94107',
-              'to[address_state]'     => 'CA',
-              'from'                  => 'adr_210a8d4b0b76d77b',
-              'inside'                => '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
-              'outside'               => '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
-              'merge_variables[name]' => 'Harry'
+              "description"           => "Demo Self Mailer job",
+              "to[name]"              => "Harry Zhang",
+              "to[address_line1]"     => "210 King St",
+              "to[address_city]"      => "San Francisco",
+              "to[address_zip]"       => "94107",
+              "to[address_state]"     => "CA",
+              "from"                  => "adr_210a8d4b0b76d77b",
+              "inside"                => "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+              "outside"               => "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
+              "merge_variables[name]" => "Harry"
             ));
         - lang: Java
           source: |
@@ -15033,8 +15074,8 @@ paths:
                                     .setZip("94107")
                     )
                     .setFrom("adr_210a8d4b0b76d77b")
-                    .setInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>")
-                    .setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
+                    .setInside("<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>")
+                    .setOutside("<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>")
                     .setMergeVariables(mergeVariables)
                     .create();
 
@@ -15052,8 +15093,8 @@ paths:
                 address_zip: "94107"
               },
               from: "adr_210a8d4b0b76d77b",
-              inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
-              outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+              inside: "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+              outside: "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
               merge_variables: %{
                 name: "Harry"
               }
@@ -15183,11 +15224,10 @@ paths:
             });
 
             try {
-              const createTemplateVersion = await TemplateVersions.create(templateVersionData);
               const updateData= new TemplateVersionUpdatable({
                 description: "updated template",
               });
-              const updateTemplateVersion = await TemplatesVersions.update(createTemplateVersion.id, updateData);
+              const updateTemplateVersion = await TemplatesVersions.update("vrsn_xxxx", updateData);
             } catch (err: any) {
               console.error(err);
             }
@@ -15591,12 +15631,11 @@ paths:
             });
 
             try {
-              const createTemplate = await Templates.create(templateData);
-              const updateData= new TemplateUpdate ({
+              const updateData = new TemplateUpdate ({
                 description: "updated template",
-                published_version: createTemplate.published_version?.id as string
+                published_version: "vrsn_xxxx"
             });
-              const updateTemplate = await Templates.update(createTemplate.id updateData);
+              const updateTemplate = await Templates.update("tmpl_xxxx", updateData);
             } catch (err: any) {
               console.error(err);
             }
@@ -16286,10 +16325,10 @@ paths:
           source: |
             const UsVerification = new USVerificationsApi(av_config);
             const verificationData1: UsVerificationsWritable = {
-              primary_line: "001 CEMETERY LANE",
-              city: "WESTFIELD",
-              state: "NJ",
-              zip_code: "07090",
+              primary_line: '210 King Street',
+              city: 'San Francisco',
+              state: 'CA',
+              zip_code: '94107'
             };
 
             try {

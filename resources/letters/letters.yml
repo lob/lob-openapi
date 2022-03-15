@@ -65,7 +65,7 @@ get:
     - lang: PHP
       source: |
         $lob->letters()->all(array(
-          'limit' => 2
+          "limit" => 2
         ));
     - lang: Java
       source: |
@@ -254,7 +254,7 @@ post:
           -d "to[address_state]=CA" \
           -d "to[address_zip]=94107" \
           -d "from=adr_210a8d4b0b76d77b" \
-          --data-urlencode "file=<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>" \
+          --data-urlencode "file=<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>" \
           -d "merge_variables[name]=Harry" \
           -d "color=true" \
           -d "cards[]=card_c51ae96f5cebf3e"
@@ -262,8 +262,15 @@ post:
     - lang: Typescript
       source: |
         const letterCreate = new LetterEditable({
-          to: addressId,
-          from: addressId,
+          to: {
+          name: "Harry Zhang",
+          address_line1: "210 King St",
+          address_line2: "# 6100",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107"
+          }
+          from: "adr_xxxx",
           color: true,
           extra_service: LetterEditableExtraServiceEnum.Certified,
           file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf"
@@ -278,22 +285,22 @@ post:
     - lang: Javascript
       source: |
         Lob.letters.create({
-          description: 'Demo Letter',
+          description: "Demo Letter",
           to: {
-            name: 'Harry Zhang',
-            address_line1: '210 King St',
-            address_line2: '# 6100',
-            address_city: 'San Francisco',
-            address_state: 'CA',
-            address_zip: '94107'
+            name: "Harry Zhang",
+            address_line1: "210 King St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107"
           },
-          from: 'adr_210a8d4b0b76d77b',
-          file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
+          from: "adr_210a8d4b0b76d77b",
+          file: "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
           merge_variables: {
-            name: 'Harry'
+            name: "Harry"
           },
           color: true,
-          cards: ['card_c51ae96f5cebf3e']
+          cards: ["card_c51ae96f5cebf3e"]
         }, function (err, res) {
           console.log(err, res);
         });
@@ -311,7 +318,7 @@ post:
             address_zip: "94107"
           },
           from: "adr_210a8d4b0b76d77b",
-          file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+          file: "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
           merge_variables: {
             name: "Harry"
           },
@@ -322,39 +329,39 @@ post:
     - lang: Python
       source: |
         lob.Letter.create(
-          description = 'Demo Letter',
+          description = "Demo Letter",
           to_address = {
-              'name': 'Harry Zhang',
-              'address_line1': '210 King St',
-              'address_line2': '# 6100',
-              'address_city': 'San Francisco',
-              'address_state': 'CA',
-              'address_zip': '94107'
+              "name": "Harry Zhang",
+              "address_line1": "210 King St",
+              "address_line2": "# 6100",
+              "address_city": "San Francisco",
+              "address_state": "CA",
+              "address_zip": "94107"
           },
-          from_address = 'adr_210a8d4b0b76d77b',
-          file = '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
+          from_address = "adr_210a8d4b0b76d77b",
+          file = "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
           merge_variables = {
-            'name': 'Harry'
+            "name": "Harry"
           },
           color = True,
-          cards = ['card_c51ae96f5cebf3e']
+          cards = ["card_c51ae96f5cebf3e"]
         )
       label: PYTHON
     - lang: PHP
       source: |
         $lob->letters()->create(array(
-          'description'           => 'Demo Letter',
-          'to[name]'              => 'Harry Zhang',
-          'to[address_line1]'     => '210 King St',
-          'to[address_line2]'     => '# 6100',
-          'to[address_city]'      => 'San Francisco',
-          'to[address_zip]'       => '94107',
-          'to[address_state]'     => 'CA',
-          'from'                  => 'adr_210a8d4b0b76d77b',
-          'file'                  => '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
-          'merge_variables[name]' => 'Harry',
-          'color'                 => true,
-          'cards'                 => ['card_c51ae96f5cebf3e']
+          "description"           => "Demo Letter",
+          "to[name]"              => "Harry Zhang",
+          "to[address_line1]"     => "210 King St",
+          "to[address_line2]"     => "# 6100",
+          "to[address_city]"      => "San Francisco",
+          "to[address_zip]"       => "94107",
+          "to[address_state]"     => "CA",
+          "from"                  => "adr_210a8d4b0b76d77b",
+          "file"                  => "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
+          "merge_variables[name]" => "Harry",
+          "color"                 => true,
+          "cards"                 => ["card_c51ae96f5cebf3e"]
         ));
     - lang: Java
       source: |
@@ -363,7 +370,7 @@ post:
 
         LobResponse<Letter> response = new Letter.RequestBuilder()
                 .setDescription("Demo Letter")
-                .setFile("<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>")
+                .setFile("<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>")
                 .setColor(true)
                 .setMergeVariables(mergeVariables)
                 .setTo(
@@ -393,7 +400,7 @@ post:
             address_zip: "94107"
           },
           from: "adr_210a8d4b0b76d77b",
-          file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+          file: "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
           merge_variables: %{
             name: "Harry"
           },

@@ -255,11 +255,18 @@ post:
     - lang: typescript
       source: |
         const postcardCreate = new PostcardEditable({
-          to: addressId,
-          from: addressId,
-          front:
-          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-          back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
+        to: {
+          name: "Harry Zhang",
+          address_line1: "210 King St",
+          address_line2: "# 6100",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107"
+        },
+        from: adr_xxxx,
+        front:
+        "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
         });
 
         try {

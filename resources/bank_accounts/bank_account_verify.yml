@@ -72,8 +72,7 @@ post:
         });
 
         try {
-          const result = await new BankAccountsApi(config).create(bankData)
-          const verifiedAccount = await new BankAccountsApi(config).verify(result.id, verificationData);
+          const verifiedAccount = await new BankAccountsApi(config).verify("bank_xxxx", verificationData);
         } catch (err: any) {
           console.error(err);
         }

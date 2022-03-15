@@ -42,17 +42,17 @@ get:
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cardOrders.list('card_6afffd19045076c', function (err, res) {
+        Lob.cardOrders.list("card_6afffd19045076c", function (err, res) {
           console.log(err, res);
         });
       label: NODE
     - lang: Python
       source: |
-        lob.CardOrder.list('card_6afffd19045076c')
+        lob.CardOrder.list("card_6afffd19045076c")
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->cardOrders('card_6afffd19045076c')->all();
+        $lob->cardOrders("card_6afffd19045076c")->all();
 
 post:
   operationId: card_order_create
@@ -104,7 +104,7 @@ post:
       label: CURL
     - lang: Typescript
       source: |
-        const cardForCreate: CardOrderEditable = {
+        const cardForCreate = new CardOrderEditable = {
           quantity: 200,
 
         try {
@@ -115,7 +115,7 @@ post:
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cardOrders.create('card_6afffd19045076c', {
+        Lob.cardOrders.create("card_6afffd19045076c", {
           quantity: 10000
         }, function (err, res) {
           console.log(err, res);
@@ -123,10 +123,10 @@ post:
       label: NODE
     - lang: Python
       source: |
-        lob.CardOrder.create('card_6afffd19045076c', quantity = 10000)
+        lob.CardOrder.create("card_6afffd19045076c", quantity = 10000)
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->cardOrders('card_6afffd19045076c')->create(array(
-          'quantity'           => 10000
+        $lob->cardOrders("card_6afffd19045076c")->create(array(
+          "quantity"           => 10000
         ));

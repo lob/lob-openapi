@@ -136,12 +136,11 @@ post:
         });
 
         try {
-          const createTemplate = await Templates.create(templateData);
-          const updateData= new TemplateUpdate ({
+          const updateData = new TemplateUpdate ({
             description: "updated template",
-            published_version: createTemplate.published_version?.id as string
+            published_version: "vrsn_xxxx"
         });
-          const updateTemplate = await Templates.update(createTemplate.id updateData);
+          const updateTemplate = await Templates.update("tmpl_xxxx", updateData);
         } catch (err: any) {
           console.error(err);
         }

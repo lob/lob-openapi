@@ -65,7 +65,7 @@ get:
     - lang: PHP
       source: |
         $lob->selfMailers()->all(array(
-          'limit' => 2
+          "limit" => 2
         ));
     - lang: Java
       source: |
@@ -175,15 +175,22 @@ post:
           -d "to[address_state]=CA" \
           -d "to[address_zip]=94107" \
           -d "from=adr_210a8d4b0b76d77b" \
-          --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
-          --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
+          --data-urlencode "inside=<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>" \
+          --data-urlencode "outside=<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>" \
           -d "merge_variables[name]=Harry"
       label: CURL
     - lang: Typescript
       source: |
         const selfMailerCreate = new SelfMailerEditable({
-          to: addressId,
-          from: addressId,
+          to: {
+          name: "Harry Zhang",
+          address_line1: "210 King St",
+          address_line2: "# 6100",
+          address_city: "San Francisco",
+          address_state: "CA",
+          address_zip: "94107",
+        },
+          from: "adr_xxxx",
           inside:
           "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
           outside:
@@ -199,19 +206,19 @@ post:
     - lang: Javascript
       source: |
         Lob.selfMailers.create({
-          description: 'Demo Self Mailer job',
+          description: "Demo Self Mailer job",
           to: {
-            name: 'Harry Zhang',
-            address_line1: '210 King St',
-            address_city: 'San Francisco',
-            address_state: 'CA',
-            address_zip: '94107'
+            name: "Harry Zhang",
+            address_line1: "210 King St",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107"
           },
-          from: 'adr_210a8d4b0b76d77b',
-          inside: '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
-          outside: '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
+          from: "adr_210a8d4b0b76d77b",
+          inside: "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+          outside: "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
           merge_variables: {
-            name: 'Harry'
+            name: "Harry"
           }
         }, function (err, res) {
           console.log(err, res);
@@ -229,8 +236,8 @@ post:
             address_zip: "94107"
           },
           from: "adr_210a8d4b0b76d77b",
-          inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
-          outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+          inside: "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+          outside: "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
           merge_variables: {
             name: "Harry"
           }
@@ -239,35 +246,35 @@ post:
     - lang: Python
       source: |
         lob.SelfMailer.create(
-          description = 'Demo Self Mailer job',
+          description = "Demo Self Mailer job",
           to_address = {
-            'name': 'Harry Zhang',
-            'address_line1': '210 King St',
-            'address_city': 'San Francisco',
-            'address_state': 'CA',
-            'address_zip': '94107'
+            "name": "Harry Zhang",
+            "address_line1": "210 King St",
+            "address_city": "San Francisco",
+            "address_state": "CA",
+            "address_zip": "94107"
           },
-          from_address = 'adr_210a8d4b0b76d77b',
-          inside = '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
-          outside = '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
+          from_address = "adr_210a8d4b0b76d77b",
+          inside = "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+          outside = "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
           merge_variables = {
-            'name': 'Harry'
+            "name": "Harry"
           }
         )
       label: PYTHON
     - lang: PHP
       source: |
         $lob->selfMailers()->create(array(
-          'description'           => 'Demo Self Mailer job',
-          'to[name]'              => 'Harry Zhang',
-          'to[address_line1]'     => '210 King St',
-          'to[address_city]'      => 'San Francisco',
-          'to[address_zip]'       => '94107',
-          'to[address_state]'     => 'CA',
-          'from'                  => 'adr_210a8d4b0b76d77b',
-          'inside'                => '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
-          'outside'               => '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
-          'merge_variables[name]' => 'Harry'
+          "description"           => "Demo Self Mailer job",
+          "to[name]"              => "Harry Zhang",
+          "to[address_line1]"     => "210 King St",
+          "to[address_city]"      => "San Francisco",
+          "to[address_zip]"       => "94107",
+          "to[address_state]"     => "CA",
+          "from"                  => "adr_210a8d4b0b76d77b",
+          "inside"                => "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+          "outside"               => "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
+          "merge_variables[name]" => "Harry"
         ));
     - lang: Java
       source: |
@@ -285,8 +292,8 @@ post:
                                 .setZip("94107")
                 )
                 .setFrom("adr_210a8d4b0b76d77b")
-                .setInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>")
-                .setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
+                .setInside("<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>")
+                .setOutside("<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>")
                 .setMergeVariables(mergeVariables)
                 .create();
 
@@ -304,8 +311,8 @@ post:
             address_zip: "94107"
           },
           from: "adr_210a8d4b0b76d77b",
-          inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
-          outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+          inside: "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
+          outside: "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
           merge_variables: %{
             name: "Harry"
           }

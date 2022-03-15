@@ -51,7 +51,7 @@ get:
     - lang: PHP
       source: |
         $lob->cards()->all(array(
-          'limit' => 2
+          "limit" => 2
         ));
 
 post:
@@ -117,8 +117,8 @@ post:
     - lang: Typescript
       source: |
         const cardsCreate = new CardEditable({
-          front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-          back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+          front: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
           size: CardEditableSizeEnum._2125x3375,
           description: "Test card",
         });
@@ -132,10 +132,10 @@ post:
     - lang: Javascript
       source: |
         Lob.cards.create({
-          description: 'Test card',
-          front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-          back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-          size: '2.125x3.375'
+          description: "Test card",
+          front: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          size: "2.125x3.375"
         }, function (err, res) {
           console.log(err, res);
         });
@@ -143,17 +143,17 @@ post:
     - lang: Python
       source: |
         lob.Card.create(
-          description = 'Test card',
-          front = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-          back = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-          size = '2.125x3.375'
+          description = "Test card",
+          front = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          back = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          size = "2.125x3.375"
         )
       label: PYTHON
     - lang: PHP
       source: |
         $lob->cards()->create(array(
-          'description'           => 'Test card',
-          'front'                 => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-          'back'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-          'size' =>               => '2.125x3.375'
+          "description"           => "Test card",
+          "front"                 => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          "back"                  => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          "size" =>               => "2.125x3.375"
         ));

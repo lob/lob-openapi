@@ -63,14 +63,7 @@ post:
         const verificationData = new BankAccountVerify({
           amounts: [11, 35],
         });
-        const bankData = new BankAccountWritable({
-          description: "Test Bank Account",
-          routing_number: "322271627",
-          account_number: "123456789",
-          signatory: "Gomez Addams",
-          account_type: BankTypeEnum.Individual,
-        });
-
+        
         try {
           const verifiedAccount = await new BankAccountsApi(config).verify("bank_xxxx", verificationData);
         } catch (err: any) {
@@ -79,7 +72,7 @@ post:
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.bankAccounts.verify('bank_dfceb4a2a05b57e', {
+        Lob.bankAccounts.verify("bank_dfceb4a2a05b57e", {
           amounts: [25, 63]
         }, function (err, res) {
           console.log(err, res);
@@ -91,13 +84,13 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.BankAccount.verify(id = 'bank_dfceb4a2a05b57e', amounts = [25, 63])
+        lob.BankAccount.verify(id = "bank_dfceb4a2a05b57e", amounts = [25, 63])
       label: PYTHON
     - lang: PHP
       source: |
         $lob->bankAccounts()->verify(array(
-          'id' => 'bank_dfceb4a2a05b57e',
-          'amounts' => array(25, 63)
+          "id" => "bank_dfceb4a2a05b57e",
+          "amounts" => array(25, 63)
         ));
     - lang: Java
       source: |

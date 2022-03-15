@@ -130,11 +130,7 @@ post:
     - lang: Typescript
       source: |
         const Templates = new TemplatesApi(config);
-        const templateData = new TemplateWritable({
-          description: "Newer Template",
-          html: "<html>Updated HTML for {{name}}</html>"
-        });
-
+        
         try {
           const updateData = new TemplateUpdate ({
             description: "updated template",

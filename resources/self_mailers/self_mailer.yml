@@ -35,7 +35,7 @@ get:
       label: CURL
     - lang: Javascript
       source: |
-        Lob.selfMailers.retrieve('sfm_8ffbe811dea49dcf', function (err, res) {
+        Lob.selfMailers.retrieve("sfm_8ffbe811dea49dcf", function (err, res) {
           console.log(err, res);
         });
       label: NODE
@@ -53,11 +53,11 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.SelfMailer.retrieve('sfm_8ffbe811dea49dcf')
+        lob.SelfMailer.retrieve("sfm_8ffbe811dea49dcf")
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->selfMailers()->get('sfm_8ffbe811dea49dcf');
+        $lob->selfMailers()->get("sfm_8ffbe811dea49dcf");
     - lang: Java
       source: |
         LobResponse<SelfMailer> response = SelfMailer.retrieve("sfm_8ffbe811dea49dcf");
@@ -74,7 +74,7 @@ delete:
   summary: Delete
 
   description: >-
-    Completely removes a self mailer from production. This can only be done if the self mailer's
+    Completely removes a self mailer from production. This can only be done if the self mailer"s
     `send_date` has not yet passed. If the self mailer is successfully canceled, you will not
     be charged for it. This feature is exclusive to certain customers. Upgrade to the appropriate
     [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to gain access.
@@ -105,7 +105,7 @@ delete:
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.selfMailers.delete('sfm_8ffbe811dea49dcf', function (err, res) {
+        Lob.selfMailers.delete("sfm_8ffbe811dea49dcf", function (err, res) {
           console.log(err, res);
         });
       label: NODE
@@ -115,11 +115,11 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        lob.SelfMailer.delete('sfm_8ffbe811dea49dcf')
+        lob.SelfMailer.delete("sfm_8ffbe811dea49dcf")
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->selfMailers()->delete('sfm_8ffbe811dea49dcf');
+        $lob->selfMailers()->delete("sfm_8ffbe811dea49dcf");
     - lang: Java
       source: |
         LobResponse<SelfMailer> deleteResponse = SelfMailer.delete("sfm_8ffbe811dea49dcf");

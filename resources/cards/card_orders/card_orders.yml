@@ -104,8 +104,9 @@ post:
       label: CURL
     - lang: Typescript
       source: |
-        const cardForCreate = new CardOrderEditable = {
-          quantity: 200,
+        const cardForCreate = new CardOrderEditable({
+          quantity: 200
+        });
 
         try {
           const myCardOrder = await new CardOrdersApi(config).create("card_xxxx", cardForCreate);

@@ -43,17 +43,17 @@ get:
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cards.retrieve('card_7a6d73c5c8457fc', function (err, res) {
+        Lob.cards.retrieve("card_7a6d73c5c8457fc", function (err, res) {
           console.log(err, res);
         });
       label: NODE
     - lang: Python
       source: |
-        lob.Card.retrieve('card_7a6d73c5c8457fc')
+        lob.Card.retrieve("card_7a6d73c5c8457fc")
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->cards()->get('card_7a6d73c5c8457fc');
+        $lob->cards()->get("card_7a6d73c5c8457fc");
 
 post:
   operationId: card_update
@@ -123,8 +123,8 @@ post:
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cards.update('card_7a6d73c5c8457fc', {
-          description: 'Awesome card',
+        Lob.cards.update("card_7a6d73c5c8457fc", {
+          description: "Awesome card",
           auto_reorder: true
         }, function (err, res) {
           console.log(err, res);
@@ -132,11 +132,11 @@ post:
       label: NODE
     # - lang: Python
     #   source: |
-    #     lob.Card.update('card_7a6d73c5c8457fc')
+    #     lob.Card.update("card_7a6d73c5c8457fc")
     #   label: PYTHON
     # - lang: PHP
     #   source: |
-    #     $lob->cards()->update('card_7a6d73c5c8457fc');
+    #     $lob->cards()->update("card_7a6d73c5c8457fc");
 
 delete:
   operationId: card_delete
@@ -173,14 +173,14 @@ delete:
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cards.delete('card_7a6d73c5c8457fc', function (err, res) {
+        Lob.cards.delete("card_7a6d73c5c8457fc", function (err, res) {
           console.log(err, res);
         });
       label: NODE
     - lang: Python
       source: |
-        lob.Card.delete('card_7a6d73c5c8457fc')
+        lob.Card.delete("card_7a6d73c5c8457fc")
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->cards()->delete('card_7a6d73c5c8457fc');
+        $lob->cards()->delete("card_7a6d73c5c8457fc");

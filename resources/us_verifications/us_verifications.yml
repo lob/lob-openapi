@@ -133,6 +133,22 @@ post:
           -d "state=CA" \
           -d "zip_code=94107"
       label: CURL
+    - lang: Typescript
+      source: |
+        const UsVerification = new USVerificationsApi(av_config);
+        const verificationData1: UsVerificationsWritable = {
+          primary_line: "001 CEMETERY LANE",
+          city: "WESTFIELD",
+          state: "NJ",
+          zip_code: "07090",
+        };
+
+        try {
+          const singleVerified = await UsVerification.verifySingle(verificationData1);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.usVerifications.verify({

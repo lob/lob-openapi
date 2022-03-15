@@ -37,6 +37,14 @@ get:
         curl -X GET "https://api.lob.com/v1/templates/tmpl_ea6e6a1abf01703/versions?limit=2" \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const templateVersions = await new TemplateVersionsApi(config).list(tmpl_xxxx);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         This feature is not currently supported by this library.
@@ -119,6 +127,19 @@ post:
           -d "description=Second Version" \
           --data-urlencode "html=<html>Second HTML for {{name}}</html>"
       label: CURL
+    - lang: Typescript
+      source: |
+        const templateVersionCreate = new TemplateVersionWritable({
+          description: "Newer Template",
+          html: "<html>Updated HTML for {{name}}</html>"
+        });
+
+        try {
+          const myTemplateVersion = await new TemplateVersionsApi(config).create(templateVersionCreate);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         This feature is not currently supported by this library.

@@ -104,6 +104,31 @@ post:
             ]
           }'
       label: CURL
+    - lang: Typescript
+      source: |
+        const UsVerifications = new USVerificationsApi(av_config);
+        const verificationData1: UsVerificationsWritable = {
+          primary_line: "001 CEMETERY LANE",
+          city: "WESTFIELD",
+          state: "NJ",
+          zip_code: "07090",
+        };
+        const verificationData2: UsVerificationsWritable = {
+          primary_line: "1515 CEMETERY LN",
+          city: "WESTFIELD",
+          state: "NJ",
+          zip_code: "07090",
+        };
+        const addressList: MultipleComponentsList = {
+          addresses: [verificationData1, verificationData2],
+        };
+
+        try {
+          const bulkVerified = await UsVerifications.verifyBulk(addressList);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.bulkUSVerifications.verify({

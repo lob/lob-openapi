@@ -252,21 +252,21 @@ post:
           --data-urlencode "back=<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>" \
           -d "merge_variables[name]=Harry"
       label: CURL
-    - lang: typescript
+    - lang: Typescript
       source: |
         const postcardCreate = new PostcardEditable({
         to: {
-          name: "Harry Zhang",
-          address_line1: "210 King St",
-          address_line2: "# 6100",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107"
+          name: 'Harry Zhang',
+          address_line1: '210 King St',
+          address_line2: '# 6100',
+          address_city: 'San Francisco',
+          address_state: 'CA',
+          address_zip: '94107'
         },
-        from: "adr_xxxx",
+        from: 'adr_xxxx',
         front:
-        "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-        back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
+        'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
+        back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf'
         });
 
         try {
@@ -278,20 +278,20 @@ post:
     - lang: Javascript
       source: |
         Lob.postcards.create({
-          description: "Demo Postcard job",
+          description: 'Demo Postcard job',
           to: {
-            name: "Harry Zhang",
-            address_line1: "210 King St",
-            address_line2: "# 6100",
-            address_city: "San Francisco",
-            address_state: "CA",
-            address_zip: "94107"
+            name: 'Harry Zhang',
+            address_line1: '210 King St',
+            address_line2: '# 6100',
+            address_city: 'San Francisco',
+            address_state: 'CA',
+            address_zip: '94107'
           },
-          from: "adr_210a8d4b0b76d77b",
-          front: "<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>",
-          back: "<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>",
+          from: 'adr_210a8d4b0b76d77b',
+          front: '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>'',
+          back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
           merge_variables: {
-            name: "Harry"
+            name: 'Harry'
           }
         }, function (err, res) {
           console.log(err, res);
@@ -322,35 +322,35 @@ post:
         lob.Postcard.create(
           description = "Demo Postcard job",
           to_address = {
-            "name": "Harry Zhang",
-            "address_line1": "210 King St",
-            "address_line2": "# 6100",
-            "address_city": "San Francisco",
-            "address_state": "CA",
-            "address_zip": "94107"
+            'name': 'Harry Zhang',
+            'address_line1': '210 King St',
+            'address_line2': '# 6100',
+            'address_city': 'San Francisco',
+            'address_state': 'CA',
+            'address_zip': '94107'
           },
-          from_address = "adr_210a8d4b0b76d77b",
-          front = "<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>",
-          back = "<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>",
+          from_address = 'adr_210a8d4b0b76d77b',
+          front = '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
+          back = '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
           merge_variables = {
-            "name": "Harry"
+            'name': 'Harry'
           }
         )
       label: PYTHON
     - lang: PHP
       source: |
         $lob->postcards()->create(array(
-          "description"           => "Demo Postcard job",
-          "to[name]"              => "Harry Zhang",
-          "to[address_line1]"     => "210 King St",
-          "to[address_line2]"     => "# 6100",
-          "to[address_city]"      => "San Francisco",
-          "to[address_zip]"       => "94107",
-          "to[address_state]"     => "CA",
-          "from"                  => "adr_210a8d4b0b76d77b",
-          "front"                 => "<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>",
-          "back"                  => "<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>",
-          "merge_variables[name]" => "Harry"
+          'description'           => 'Demo Postcard job',
+          'to[name]'              => 'Harry Zhang',
+          'to[address_line1]'     => '210 King St',
+          'to[address_line2]'     => '# 6100',
+          'to[address_city]'      => 'San Francisco',
+          'to[address_zip]'       => '94107',
+          'to[address_state]'     => 'CA',
+          'from'                  => 'adr_210a8d4b0b76d77b',
+          'front'                 => '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
+          'back'                  => '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
+          'merge_variables[name]' => 'Harry'
         ));
     - lang: Java
       source: |

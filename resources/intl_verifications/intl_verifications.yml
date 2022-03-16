@@ -132,8 +132,8 @@ post:
       source: |
         const IntlVerifications = new IntlVerificationsApi(av_config);
         let verificationData1: IntlVerificationWritable = {
-          primary_line: "370 WATER ST",
-          postal_code: "C1N 1C4",
+          primary_line: '370 WATER ST',
+          postal_code: 'C1N 1C4',
           country: CountryExtended.Ca
         };
 
@@ -146,11 +146,11 @@ post:
     - lang: Javascript
       source: |
         Lob.intlVerifications.verify({
-          primary_line: "370 Water St",
-          city: "Summerside",
-          state: "Prince Edward Island",
-          postal_code: "C1N 1C4",
-          country: "CA"
+          primary_line: '370 Water St',
+          city: 'Summerside',
+          state: 'Prince Edward Island',
+          postal_code: 'C1N 1C4',
+          country: 'CA'
         }, function (err, res) {
           console.log (err, res);
         });
@@ -168,21 +168,21 @@ post:
     - lang: Python
       source: |
         lob.IntlVerification.create(
-          primary_line="370 Water St",
-          city="Summerside",
-          state="Prince Edward Island",
-          postal_code="C1N 1C4",
-          country="CA"
+          primary_line='370 Water St',
+          city='Summerside',
+          state='Prince Edward Island',
+          postal_code='C1N 1C4',
+          country='CA'
         )
       label: PYTHON
     - lang: PHP
       source: |
         $lob->intlVerifications()->verify(array(
-          "primary_line" => "370 Water St",
-          "city"         => "Summerside",
-          "state"        => "Prince Edward Island",
-          "postal_code"  => "C1N 1C4",
-          "country"      => "CA",
+          'primary_line' => '370 Water St',
+          'city'         => 'Summerside',
+          'state'        => 'Prince Edward Island',
+          'postal_code'  => 'C1N 1C4',
+          'country'      => 'CA',
         ));
     - lang: Java
       source: |

@@ -137,10 +137,10 @@ post:
       source: |
         const UsVerification = new USVerificationsApi(av_config);
         const verificationData1: UsVerificationsWritable = {
-          primary_line: "210 King Street",
-          city: "San Francisco",
-          state: "CA",
-          zip_code: "94107"
+          primary_line: '210 King Street',
+          city: 'San Francisco',
+          state: 'CA',
+          zip_code: '94107'
         };
 
         try {
@@ -152,10 +152,10 @@ post:
     - lang: Javascript
       source: |
         Lob.usVerifications.verify({
-          primary_line: "210 King Street",
-          city: "San Francisco",
-          state: "CA",
-          zip_code: "94107"
+          primary_line: '210 King Street',
+          city: 'San Francisco',
+          state: 'CA',
+          zip_code: '94107'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -172,19 +172,19 @@ post:
     - lang: Python
       source: |
         lob.USVerification.create(
-          primary_line="210 King Street",
-          city="San Francisco",
-          state="CA",
-          zip_code="94107"
+          primary_line='210 King Street',
+          city='San Francisco',
+          state='CA',
+          zip_code='94107'
         )
       label: PYTHON
     - lang: PHP
       source: |
         $lob->usVerifications()->verify(array(
-          "primary_line" => "210 King Street",
-          "city"         => "San Francisco",
-          "state"        => "CA",
-          "zip_code"     => "94107"
+          'primary_line' => '210 King Street',
+          'city'         => 'San Francisco',
+          'state'        => 'CA',
+          'zip_code'     => '94107'
         ));
     - lang: Java
       source: |

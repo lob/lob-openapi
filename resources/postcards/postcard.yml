@@ -33,17 +33,17 @@ get:
         curl https://api.lob.com/v1/postcards/psc_5c002b86ce47537a \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
-    - lang: Javascript
+    - lang: Typescript
       source: |
         try {
-          const postcard = await new PostCardsApi(config).get("psc_xxxx");
+          const postcard = await new PostCardsApi(config).get('psc_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.postcards.retrieve("psc_5c002b86ce47537a", function (err, res) {
+        Lob.postcards.retrieve('psc_5c002b86ce47537a', function (err, res) {
           console.log(err, res);
         });
       label: NODE
@@ -53,11 +53,11 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.Postcard.retrieve("psc_5c002b86ce47537a")
+        lob.Postcard.retrieve('psc_5c002b86ce47537a')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->postcards()->get("psc_5c002b86ce47537a");
+        $lob->postcards()->get('psc_5c002b86ce47537a');
     - lang: Java
       source: |
         LobResponse<Postcard> response = Postcard.retrieve("psc_5c002b86ce47537a");
@@ -99,17 +99,17 @@ delete:
         curl -X DELETE https://api.lob.com/v1/postcards/psc_5c002b86ce47537a \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
-    - lang: typescript
+    - lang: Typescript
       source: |
         try {
-          const deletePostcard = await new PostcardsApi(config).delete("psc_xxxx");
+          const deletePostcard = await new PostcardsApi(config).delete('psc_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.postcards.delete("psc_5c002b86ce47537a", function (err, res) {
+        Lob.postcards.delete('psc_5c002b86ce47537a', function (err, res) {
           console.log(err, res);
         });
       label: NODE
@@ -119,11 +119,11 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        lob.Postcard.delete("psc_5c002b86ce47537a")
+        lob.Postcard.delete('psc_5c002b86ce47537a')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->postcards()->delete("psc_5c002b86ce47537a");
+        $lob->postcards()->delete('psc_5c002b86ce47537a');
     - lang: Java
       source: |
         LobResponse<Postcard> deleteResponse = Postcard.delete("psc_5c002b86ce47537a");

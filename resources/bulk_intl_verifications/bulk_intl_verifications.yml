@@ -35,7 +35,7 @@ post:
               country: "RU"
 
       # application/x-www-form-urlencoded excluded b/c
-      # openapi can"t handle arrays in objects
+      # openapi can't handle arrays in objects
 
       multipart/form-data:
         schema:
@@ -84,13 +84,13 @@ post:
       source: |
         const IntlVerifications = new IntlVerificationsApi(av_config);
         let verificationData1: IntlVerificationWritable = {
-            primary_line: "370 WATER ST",
-            postal_code: "C1N 1C4",
+            primary_line: '370 WATER ST',
+            postal_code: 'C1N 1C4',
             country: CountryExtended.Ca
         };
         const verificationData2: IntlVerificationWritable = {
-            primary_line: "012 PLACEHOLDER ST",
-            postal_code: "F0O 8A2",
+            primary_line: '012 PLACEHOLDER ST',
+            postal_code: 'F0O 8A2',
             country: CountryExtended.Ca
         };
         let addressList = new IntlVerificationsPayload({
@@ -108,12 +108,12 @@ post:
       source: |
         Lob.bulkIntlVerifications.verify({
           addresses: [{
-            primary_line: "370 Water St",
-            secondary_line: "",
-            city: "Summerside",
-            state: "Prince Edward Island",
-            postal_code: "C1N 1C4",
-            country: "CA"
+            primary_line: '370 Water St',
+            secondary_line: '',
+            city: 'Summerside',
+            state: 'Prince Edward Island',
+            postal_code: 'C1N 1C4',
+            country: 'CA'
           }]
         }), function (err, res) {
           console.log(err, res);
@@ -139,25 +139,25 @@ post:
         lob.BulkIntlVerification.create(
           addresses=[
             {
-              "primary_line" = "370 Water St",
-              "secondary_line" = "",
-              "city" = "Summerside",
-              "state"= "Prince Edward Island",
-              "postal_code" = "C1N 1C4",
-              "country" = "CA"
+              'primary_line' = '370 Water St',
+              'secondary_line' = '',
+              'city' = 'Summerside',
+              'state'= 'Prince Edward Island',
+              'postal_code' = 'C1N 1C4',
+              'country' = 'CA'
             }
           ]
         )
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bulkIntlVerifications()->verify("addresses" => array(
+        $lob->bulkIntlVerifications()->verify('addresses' => array(
           array(
-            "primary_line" => "370 Water St",
-            "city" => "Summerside",
-            "state" => "Prince Edward Island",
-            "postal_code" => "C1N 1C4",
-            "country" => "CA"
+            'primary_line' => '370 Water St',
+            'city' => 'Summerside',
+            'state' => 'Prince Edward Island',
+            'postal_code' => 'C1N 1C4',
+            'country' => 'CA'
           )));
     - lang: Java
       source: |

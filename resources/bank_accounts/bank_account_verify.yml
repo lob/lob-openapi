@@ -63,16 +63,16 @@ post:
         const verificationData = new BankAccountVerify({
           amounts: [11, 35],
         });
-        
+
         try {
-          const verifiedAccount = await new BankAccountsApi(config).verify("bank_xxxx", verificationData);
+          const verifiedAccount = await new BankAccountsApi(config).verify('bank_xxxx', verificationData);
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.bankAccounts.verify("bank_dfceb4a2a05b57e", {
+        Lob.bankAccounts.verify('bank_dfceb4a2a05b57e', {
           amounts: [25, 63]
         }, function (err, res) {
           console.log(err, res);

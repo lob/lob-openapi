@@ -36,24 +36,24 @@ get:
     - lang: Typescript
       source: |
         try {
-          const card = await new CardsApi(config).get("card_xxxx");
+          const card = await new CardsApi(config).get('card_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cards.retrieve("card_7a6d73c5c8457fc", function (err, res) {
+        Lob.cards.retrieve('card_7a6d73c5c8457fc', function (err, res) {
           console.log(err, res);
         });
       label: NODE
     - lang: Python
       source: |
-        lob.Card.retrieve("card_7a6d73c5c8457fc")
+        lob.Card.retrieve('card_7a6d73c5c8457fc')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->cards()->get("card_7a6d73c5c8457fc");
+        $lob->cards()->get('card_7a6d73c5c8457fc');
 
 post:
   operationId: card_update
@@ -111,7 +111,7 @@ post:
     - lang: Typescript
       source: |
         const cardUpdatable =  new CardEditable ({
-          description: "Awesome card",
+          description: 'Awesome card',
           auto_reorder: true
         });
 
@@ -123,8 +123,8 @@ post:
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cards.update("card_7a6d73c5c8457fc", {
-          description: "Awesome card",
+        Lob.cards.update('card_7a6d73c5c8457fc', {
+          description: 'Awesome card',
           auto_reorder: true
         }, function (err, res) {
           console.log(err, res);
@@ -166,21 +166,21 @@ delete:
     - lang: Typescript
       source: |
         try {
-          const deleteCard = await new CardsApi(config).delete("card_xxxx");
+          const deleteCard = await new CardsApi(config).delete('card_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cards.delete("card_7a6d73c5c8457fc", function (err, res) {
+        Lob.cards.delete('card_7a6d73c5c8457fc', function (err, res) {
           console.log(err, res);
         });
       label: NODE
     - lang: Python
       source: |
-        lob.Card.delete("card_7a6d73c5c8457fc")
+        lob.Card.delete('card_7a6d73c5c8457fc')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->cards()->delete("card_7a6d73c5c8457fc");
+        $lob->cards()->delete('card_7a6d73c5c8457fc');

@@ -130,12 +130,12 @@ post:
     - lang: Typescript
       source: |
         const templateVersionCreate = new TemplateVersionWritable({
-          description: "Newer Template",
-          html: "<html>Updated HTML for {{name}}</html>"
+          description: 'Newer Template',
+          html: '<html>Updated HTML for {{name}}</html>'
         });
 
         try {
-          const myTemplateVersion = await new TemplateVersionsApi(config).create(tmpl_xxxx, templateVersionCreate);
+          const myTemplateVersion = await new TemplateVersionsApi(config).create('tmpl_xxxx', templateVersionCreate);
         } catch (err: any) {
           console.error(err);
         }

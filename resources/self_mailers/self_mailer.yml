@@ -19,7 +19,7 @@ get:
     - Self Mailers
 
   responses:
-    "200":
+    '200':
       description: Returns a self_mailer object
       content:
         $ref: responses/self_mailer.yml
@@ -33,31 +33,32 @@ get:
         curl -X GET "https://api.lob.com/v1/self_mailers/sfm_8ffbe811dea49dcf" \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
-    - lang: Javascript
-      source: |
-        Lob.selfMailers.retrieve("sfm_8ffbe811dea49dcf", function (err, res) {
-          console.log(err, res);
-        });
-      label: NODE
     - lang: typescript
       source: |
         try {
-          const selfMailer = await new SelfMailersApi(config).get("sfm_xxxx");
+          const selfMailer = await new SelfMailersApi(config).get('sfm_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.selfMailers.retrieve('sfm_8ffbe811dea49dcf', function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    
     - lang: Ruby
       source: |
         @lob.self_mailers.find("sfm_8ffbe811dea49dcf")
       label: RUBY
     - lang: Python
       source: |
-        lob.SelfMailer.retrieve("sfm_8ffbe811dea49dcf")
+        lob.SelfMailer.retrieve('sfm_8ffbe811dea49dcf')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->selfMailers()->get("sfm_8ffbe811dea49dcf");
+        $lob->selfMailers()->get('sfm_8ffbe811dea49dcf');
     - lang: Java
       source: |
         LobResponse<SelfMailer> response = SelfMailer.retrieve("sfm_8ffbe811dea49dcf");
@@ -74,7 +75,7 @@ delete:
   summary: Delete
 
   description: >-
-    Completely removes a self mailer from production. This can only be done if the self mailer"s
+    Completely removes a self mailer from production. This can only be done if the self mailer's
     `send_date` has not yet passed. If the self mailer is successfully canceled, you will not
     be charged for it. This feature is exclusive to certain customers. Upgrade to the appropriate
     [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to gain access.
@@ -83,7 +84,7 @@ delete:
     - Self Mailers
 
   responses:
-    "200":
+    '200':
       $ref: "../../shared/responses/self_mailer_deleted.yml"
 
     default:
@@ -98,14 +99,14 @@ delete:
     - lang: typescript
       source: |
         try {
-          const deleteSelfMailer = await new SelfMailersApi(config).delete("sfm_xxxx");
+          const deleteSelfMailer = await new SelfMailersApi(config).delete('sfm_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.selfMailers.delete("sfm_8ffbe811dea49dcf", function (err, res) {
+        Lob.selfMailers.delete('sfm_8ffbe811dea49dcf', function (err, res) {
           console.log(err, res);
         });
       label: NODE
@@ -115,11 +116,11 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        lob.SelfMailer.delete("sfm_8ffbe811dea49dcf")
+        lob.SelfMailer.delete('sfm_8ffbe811dea49dcf')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->selfMailers()->delete("sfm_8ffbe811dea49dcf");
+        $lob->selfMailers()->delete('sfm_8ffbe811dea49dcf');
     - lang: Java
       source: |
         LobResponse<SelfMailer> deleteResponse = SelfMailer.delete("sfm_8ffbe811dea49dcf");

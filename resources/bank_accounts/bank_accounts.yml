@@ -148,10 +148,10 @@ post:
     - lang: Typescript
       source: |
         const bankAccountCreate = new BankAccountWritable({
-          description: "Test Bank Account",
-          routing_number: "322271627",
-          account_number: "123456789",
-          signatory: "Gomez Addams",
+          description: 'Test Bank Account',
+          routing_number: '322271627',
+          account_number: '123456789',
+          signatory: 'Gomez Addams',
           account_type: BankTypeEnum.Individual
         });
 
@@ -164,11 +164,11 @@ post:
     - lang: Javascript
       source: |
         Lob.bankAccounts.create({
-          description: "Test Bank Account",
+          description: 'Test Bank Account',
           routing_number: 322271627,
           account_number: 123456789,
-          signatory: "John Doe",
-          account_type: "company"
+          signatory: 'John Doe',
+          account_type: 'company'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -186,21 +186,21 @@ post:
     - lang: Python
       source: |
         lob.BankAccount.create(
-          description = "Test Bank Account",
-          routing_number = "322271627",
-          account_number = "123456789",
-          signatory = "John Doe",
-          account_type = "company"
+          description = 'Test Bank Account',
+          routing_number = '322271627',
+          account_number = '123456789',
+          signatory = 'John Doe',
+          account_type = 'company'
         )
       label: PYTHON
     - lang: PHP
       source: |
         $lob->bankAccounts()->create(array(
-          "description"       => "Test Bank Account",
-          "routing_number"    => "322271627",
-          "account_number"    => "123456789",
-          "signatory"         => "John Doe",
-          "account_type"      => "company"
+          'description'       => 'Test Bank Account',
+          'routing_number'    => '322271627',
+          'account_number'    => '123456789',
+          'signatory'         => 'John Doe',
+          'account_type'      => 'company'
         ));
     - lang: Java
       source: |

@@ -42,7 +42,7 @@ get:
     - lang: Typescript
       source: |
         try {
-          const templateVersion = await new TemplateVersionsApi(config).get("tmpl_xxxx, vrsn_xxxx");
+          const templateVersion = await new TemplateVersionsApi(config).get('tmpl_xxxx', 'vrsn_xxxx');
         } catch (err: any) {
           console.error(err);
         }
@@ -120,12 +120,12 @@ post:
     - lang: Typescript
       source: |
         const TemplateVersions = new TemplateVersionsApi(config);
-        
+
         try {
           const updateData = new TemplateVersionUpdatable({
-            description: "updated template"
+            description: 'updated template'
           });
-          const updateTemplateVersion = await TemplateVersions.update("vrsn_xxxx", updateData);
+          const updateTemplateVersion = await TemplateVersions.update('vrsn_xxxx', updateData);
         } catch (err: any) {
           console.error(err);
         }

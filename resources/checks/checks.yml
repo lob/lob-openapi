@@ -253,15 +253,15 @@ post:
       source: |
         const checkCreate = new CheckEditable({
         to: {
-          name: "Harry Zhang",
-          address_line1: "210 King St",
-          address_line2: "# 6100",
-          address_city: "San Francisco",
-          address_state: "CA",
-          address_zip: "94107",
+          name: 'Harry Zhang',
+          address_line1: '210 King St',
+          address_line2: '# 6100',
+          address_city: 'San Francisco',
+          address_state: 'CA',
+          address_zip: '94107',
         },
-        from: "adr_xxxx",
-        bank_account: "bank_xxxx",
+        from: 'adr_xxxx',
+        bank_account: 'bank_xxxx',
         amount: 100
         });
 
@@ -274,23 +274,23 @@ post:
     - lang: Javascript
       source: |
         Lob.checks.create({
-          description: "Demo Check",
-          bank_account: "bank_8cad8df5354d33f",
+          description: 'Demo Check',
+          bank_account: 'bank_8cad8df5354d33f',
           to: {
-            name: "Harry Zhang",
-            address_line1: "210 King St",
-            address_line2: "# 6100",
-            address_city: "San Francisco",
-            address_state: "CA",
-            address_zip: "94107"
+            name: 'Harry Zhang',
+            address_line1: '210 King St',
+            address_line2: '# 6100',
+            address_city: 'San Francisco',
+            address_state: 'CA',
+            address_zip: '94107'
           },
-          from: "adr_210a8d4b0b76d77b",
+          from: 'adr_210a8d4b0b76d77b',
           amount: 22.50,
-          memo: "rent",
-          logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-          check_bottom: "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
+          memo: 'rent',
+          logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
+          check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
           merge_variables: {
-            name: "Harry"
+            name: 'Harry'
           }
         }, function (err, res) {
           console.log(err, res);
@@ -322,43 +322,43 @@ post:
     - lang: Python
       source: |
         lob.Check.create(
-          description = "Demo Check",
+          description = 'Demo Check',
           to_address = {
-            "name": "Harry Zhang",
-            "address_line1": "210 King St",
-            "address_line2": "# 6100",
-            "address_city": "San Francisco",
-            "address_state": "CA",
-            "address_zip": "94107"
+            'name': 'Harry Zhang',
+            'address_line1': '210 King St',
+            'address_line2': '# 6100',
+            'address_city': 'San Francisco',
+            'address_state': 'CA',
+            'address_zip': '94107'
           },
-          from_address = "adr_210a8d4b0b76d77b",
-          bank_account = "bank_8cad8df5354d33f",
+          from_address = 'adr_210a8d4b0b76d77b',
+          bank_account = 'bank_8cad8df5354d33f',
           amount = 22.50,
-          memo = "rent",
-          logo = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-          check_bottom = "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
+          memo = 'rent',
+          logo = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
+          check_bottom = '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
           merge_variables = {
-            "name": "Harry"
+            'name': 'Harry'
           }
         )
       label: PYTHON
     - lang: PHP
       source: |
         $lob->checks()->create(array(
-          "description"           => "Demo Check",
-          "to[name]"              => "Harry Zhang",
-          "to[address_line1]"     => "210 King St",
-          "to[address_line2]"     => "# 6100",
-          "to[address_city]"      => "San Francisco",
-          "to[address_zip]"       => "94107",
-          "to[address_state]"     => "CA",
-          "from"                  => "adr_210a8d4b0b76d77b",
-          "bank_account"          => "bank_8cad8df5354d33f",
-          "amount"                => 22.50,
-          "memo"                  => "rent",
-          "logo"                  => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-          "check_bottom"          => "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
-          "merge_variables[name]" => "Harry"
+          'description'           => 'Demo Check',
+          'to[name]'              => 'Harry Zhang',
+          'to[address_line1]'     => '210 King St',
+          'to[address_line2]'     => '# 6100',
+          'to[address_city]'      => 'San Francisco',
+          'to[address_zip]'       => '94107',
+          'to[address_state]'     => 'CA',
+          'from'                  => 'adr_210a8d4b0b76d77b',
+          'bank_account'          => 'bank_8cad8df5354d33f',
+          'amount'                => 22.50,
+          'memo'                  => 'rent',
+          'logo'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
+          'check_bottom'          => '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
+          'merge_variables[name]' => 'Harry'
         ));
     - lang: Java
       source: |

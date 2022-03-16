@@ -35,24 +35,24 @@ get:
     - lang: Typescript
       source: |
         try {
-          const cardOrders = await new CardOrdersApi(cofig).get( "co_xxxx" );
+          const cardOrders = await new CardOrdersApi(cofig).get( 'co_xxxx' );
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cardOrders.list("card_6afffd19045076c", function (err, res) {
+        Lob.cardOrders.list('card_6afffd19045076c', function (err, res) {
           console.log(err, res);
         });
       label: NODE
     - lang: Python
       source: |
-        lob.CardOrder.list("card_6afffd19045076c")
+        lob.CardOrder.list('card_6afffd19045076c')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->cardOrders("card_6afffd19045076c")->all();
+        $lob->cardOrders('card_6afffd19045076c')->all();
 
 post:
   operationId: card_order_create
@@ -109,14 +109,14 @@ post:
         });
 
         try {
-          const myCardOrder = await new CardOrdersApi(config).create("card_xxxx", cardForCreate);
+          const myCardOrder = await new CardOrdersApi(config).create('card_xxxx', cardForCreate);
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.cardOrders.create("card_6afffd19045076c", {
+        Lob.cardOrders.create('card_6afffd19045076c', {
           quantity: 10000
         }, function (err, res) {
           console.log(err, res);
@@ -124,10 +124,10 @@ post:
       label: NODE
     - lang: Python
       source: |
-        lob.CardOrder.create("card_6afffd19045076c", quantity = 10000)
+        lob.CardOrder.create('card_6afffd19045076c', quantity = 10000)
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->cardOrders("card_6afffd19045076c")->create(array(
-          "quantity"           => 10000
+        $lob->cardOrders('card_6afffd19045076c')->create(array(
+          'quantity'           => 10000
         ));

@@ -48,7 +48,7 @@ post:
       source: |
         const ZipLookup = new ZipLookupsApi(av_config);
         const zipRequest : ZipEditable = {
-          zip_code: "07090"
+          zip_code: '07090'
         }
         try {
           const zipLookup : Zip = await ZipLookup.lookup(zipRequest);
@@ -59,7 +59,7 @@ post:
     - lang: Javascript
       source: |
         Lob.usZipLookups.lookup({
-          zip_code: "94107"
+          zip_code: '94107'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -73,13 +73,13 @@ post:
     - lang: Python
       source: |
         lob.USZipLookup.create(
-          zip_code="94107"
+          zip_code='94107'
         )
       label: Python
     - lang: PHP
       source: |
         $lob->usZipLookups()->lookup(array(
-          "zip_code" => "94107"
+          "zip_code" => '94107'
         ));
       label: PHP
     - lang: Java

@@ -36,14 +36,14 @@ get:
     - lang: Typescript
       source: |
         try {
-          const bankAccount = await new BankAccountsApi(config).get("bank_xxxx");
+          const bankAccount = await new BankAccountsApi(config).get('bank_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.bankAccounts.retrieve("bank_8cad8df5354d33f", function (err, res) {
+        Lob.bankAccounts.retrieve('bank_8cad8df5354d33f', function (err, res) {
           console.log(err, res);
         });
       label: NODE
@@ -53,11 +53,11 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.BankAccount.retrieve("bank_8cad8df5354d33f")
+        lob.BankAccount.retrieve('bank_8cad8df5354d33f')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bankAccounts()->get("bank_8cad8df5354d33f");
+        $lob->bankAccounts()->get('bank_8cad8df5354d33f');
     - lang: Java
       source: |
         LobResponse<BankAccount> response = BankAccount.retrieve("bank_8cad8df5354d33f");
@@ -94,14 +94,14 @@ delete:
     - lang: Typescript
       source: |
         try {
-          const deleteBankAccount = await new BankAccountsApi(config).delete("bank_xxxx");
+          const deleteBankAccount = await new BankAccountsApi(config).delete('bank_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.bankAccounts.delete("bank_3e64d9904356b20", function (err, res) {
+        Lob.bankAccounts.delete('bank_3e64d9904356b20', function (err, res) {
           console.log(err, res);
         });
       label: NODE
@@ -111,11 +111,11 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        lob.BankAccount.delete("bank_3e64d9904356b20")
+        lob.BankAccount.delete('bank_3e64d9904356b20')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bankAccounts()->delete("bank_3e64d9904356b20");
+        $lob->bankAccounts()->delete('bank_3e64d9904356b20');
     - lang: Java
       source: |
         LobResponse<BankAccount> response = BankAccount.delete("bank_3e64d9904356b20");

@@ -10331,7 +10331,7 @@ paths:
         - lang: PHP
           source: |
             $lob->addresses()->all(array(
-              "limit" => 2
+              'limit' => 2
             ));
         - lang: Java
           source: |
@@ -10512,17 +10512,17 @@ paths:
         - lang: Typescript
           source: |
             const addressCreate = new AddressEditable({
-              description: "Harry - Office",
-              name: "Harry Zhang",
-              company: "Lob",
-              email: "harry@lob.com",
-              phone: "5555555555",
-              address_line1: "210 King St",
-              address_line2: "# 6100",
-              address_city: "San Francisco",
-              address_state: "CA",
-              address_zip: "94107",
-              address_country: "US"
+              description: 'Harry - Office',
+              name: 'Harry Zhang',
+              company: 'Lob',
+              email: 'harry@lob.com',
+              phone: '5555555555',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107',
+              address_country: 'US'
             });
 
             try {
@@ -10534,17 +10534,17 @@ paths:
         - lang: Javascript
           source: |
             Lob.addresses.create({
-              description: "Harry - Office",
-              name: "Harry Zhang",
-              company: "Lob",
-              email: "harry@lob.com",
-              phone: "5555555555",
-              address_line1: "210 King St",
-              address_line2: "# 6100",
-              address_city: "San Francisco",
-              address_state: "CA",
-              address_zip: "94107",
-              address_country: "US"
+              description: 'Harry - Office',
+              name: 'Harry Zhang',
+              company: 'Lob',
+              email: 'harry@lob.com',
+              phone: '5555555555',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107',
+              address_country: 'US'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -10568,33 +10568,33 @@ paths:
         - lang: Python
           source: |
             lob.Address.create(
-              description="Harry - Office",
-              name="Harry Zhang",
-              company="Lob",
-              email="harry@lob.com",
-              phone="5555555555",
-              address_line1="210 King St",
-              address_line2="# 6100",
-              address_city="San Francisco",
-              address_state="CA",
-              address_zip="94107",
-              address_country="US",
+              description='Harry - Office',
+              name='Harry Zhang',
+              company='Lob',
+              email='harry@lob.com',
+              phone='5555555555',
+              address_line1='210 King St',
+              address_line2='# 6100',
+              address_city='San Francisco',
+              address_state='CA',
+              address_zip='94107',
+              address_country='US',
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->addresses()->create(array(
-              "description"       => "Harry - Office",
-              "name"              => "Harry Zhang",
-              "company"           => "Lob",
-              "address_line1"     => "210 King St",
-              "address_line2"     => "# 6100",
-              "address_city"      => "San Francisco",
-              "address_state"     => "CA",
-              "address_country"   => "US",
-              "address_zip"       => "94107",
-              "email"             => "harry@lob.com",
-              "phone"             => "5555555555"
+              'description'       => 'Harry - Office',
+              'name'              => 'Harry Zhang',
+              'company'           => 'Lob',
+              'address_line1'     => '210 King St',
+              'address_line2'     => '# 6100',
+              'address_city'      => 'San Francisco',
+              'address_state'     => 'CA',
+              'address_country'   => 'US',
+              'address_zip'       => '94107',
+              'email'             => 'harry@lob.com',
+              'phone'             => '5555555555'
             ));
         - lang: Java
           source: |
@@ -10660,14 +10660,14 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const address = await new AddressesApi(config).get("adr_xxxx");
+              const address = await new AddressesApi(config).get('adr_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.addresses.retrieve("adr_fa85158b26c3eb7c", function (err, res) {
+            Lob.addresses.retrieve('adr_fa85158b26c3eb7c', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -10677,11 +10677,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Address.retrieve("adr_fa85158b26c3eb7c")
+            lob.Address.retrieve('adr_fa85158b26c3eb7c')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->addresses()->get("adr_fa85158b26c3eb7c");
+            $lob->addresses()->get('adr_fa85158b26c3eb7c');
         - lang: Java
           source: >
             LobResponse<Address> response =
@@ -10716,14 +10716,14 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteAddress = await new AddressesApi(config).delete("adr_xxxx");
+              const deleteAddress = await new AddressesApi(config).delete('adr_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.addresses.delete("adr_43769b47aed248c2", function (err, res) {
+            Lob.addresses.delete('adr_43769b47aed248c2', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -10733,11 +10733,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Address.delete("adr_43769b47aed248c2")
+            lob.Address.delete('adr_43769b47aed248c2')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->addresses()->delete("adr_43769b47aed248c2");
+            $lob->addresses()->delete('adr_43769b47aed248c2');
         - lang: Java
           source: >
             LobResponse<Address> response =
@@ -10808,14 +10808,14 @@ paths:
             });
 
             try {
-              const verifiedAccount = await new BankAccountsApi(config).verify("bank_xxxx", verificationData);
+              const verifiedAccount = await new BankAccountsApi(config).verify('bank_xxxx', verificationData);
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.bankAccounts.verify("bank_dfceb4a2a05b57e", {
+            Lob.bankAccounts.verify('bank_dfceb4a2a05b57e', {
               amounts: [25, 63]
             }, function (err, res) {
               console.log(err, res);
@@ -10897,14 +10897,14 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const bankAccount = await new BankAccountsApi(config).get("bank_xxxx");
+              const bankAccount = await new BankAccountsApi(config).get('bank_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: >
-            Lob.bankAccounts.retrieve("bank_8cad8df5354d33f", function (err,
+            Lob.bankAccounts.retrieve('bank_8cad8df5354d33f', function (err,
             res) {
               console.log(err, res);
             });
@@ -10915,11 +10915,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.BankAccount.retrieve("bank_8cad8df5354d33f")
+            lob.BankAccount.retrieve('bank_8cad8df5354d33f')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->bankAccounts()->get("bank_8cad8df5354d33f");
+            $lob->bankAccounts()->get('bank_8cad8df5354d33f');
         - lang: Java
           source: >
             LobResponse<BankAccount> response =
@@ -10952,14 +10952,14 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteBankAccount = await new BankAccountsApi(config).delete("bank_xxxx");
+              const deleteBankAccount = await new BankAccountsApi(config).delete('bank_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: >
-            Lob.bankAccounts.delete("bank_3e64d9904356b20", function (err, res)
+            Lob.bankAccounts.delete('bank_3e64d9904356b20', function (err, res)
             {
               console.log(err, res);
             });
@@ -10970,11 +10970,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.BankAccount.delete("bank_3e64d9904356b20")
+            lob.BankAccount.delete('bank_3e64d9904356b20')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->bankAccounts()->delete("bank_3e64d9904356b20");
+            $lob->bankAccounts()->delete('bank_3e64d9904356b20');
         - lang: Java
           source: >
             LobResponse<BankAccount> response =
@@ -11125,10 +11125,10 @@ paths:
         - lang: Typescript
           source: |
             const bankAccountCreate = new BankAccountWritable({
-              description: "Test Bank Account",
-              routing_number: "322271627",
-              account_number: "123456789",
-              signatory: "Gomez Addams",
+              description: 'Test Bank Account',
+              routing_number: '322271627',
+              account_number: '123456789',
+              signatory: 'Gomez Addams',
               account_type: BankTypeEnum.Individual
             });
 
@@ -11141,11 +11141,11 @@ paths:
         - lang: Javascript
           source: |
             Lob.bankAccounts.create({
-              description: "Test Bank Account",
+              description: 'Test Bank Account',
               routing_number: 322271627,
               account_number: 123456789,
-              signatory: "John Doe",
-              account_type: "company"
+              signatory: 'John Doe',
+              account_type: 'company'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -11163,21 +11163,21 @@ paths:
         - lang: Python
           source: |
             lob.BankAccount.create(
-              description = "Test Bank Account",
-              routing_number = "322271627",
-              account_number = "123456789",
-              signatory = "John Doe",
-              account_type = "company"
+              description = 'Test Bank Account',
+              routing_number = '322271627',
+              account_number = '123456789',
+              signatory = 'John Doe',
+              account_type = 'company'
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->bankAccounts()->create(array(
-              "description"       => "Test Bank Account",
-              "routing_number"    => "322271627",
-              "account_number"    => "123456789",
-              "signatory"         => "John Doe",
-              "account_type"      => "company"
+              'description'       => 'Test Bank Account',
+              'routing_number'    => '322271627',
+              'account_number'    => '123456789',
+              'signatory'         => 'John Doe',
+              'account_type'      => 'company'
             ));
         - lang: Java
           source: |
@@ -11464,7 +11464,7 @@ paths:
           source: |
             curl https://api.lob.com/v1/bulk_us_verifications \
               -u <YOUR_LIVE_API_KEY>: \
-              --data-raw "{
+              --data-raw '{
                 "addresses": [
                   {
                     "primary_line": "210 King Street",
@@ -11473,22 +11473,22 @@ paths:
                     "zip_code": "94107"
                   }
                 ]
-              }"
+              }'
           label: CURL
         - lang: Typescript
           source: |
             const UsVerifications = new USVerificationsApi(av_config);
             const verificationData1: UsVerificationsWritable = {
-              primary_line: "210 King St",
-              city: "San Francisco",
-              state: "CA",
-              zip_code: "94107"
+              primary_line: '210 King St',
+              city: 'San Francisco',
+              state: 'CA',
+              zip_code: '94107'
             };
             const verificationData2: UsVerificationsWritable = {
-              primary_line: "185 BERRY ST STE 6600",
-              city: "SAN FRANCISCO",
-              state: "CA",
-              zip_code: "94107""
+              primary_line: '185 BERRY ST STE 6600',
+              city: 'SAN FRANCISCO',
+              state: 'CA',
+              zip_code: '94107'
             };
             const addressList: MultipleComponentsList = {
               addresses: [verificationData1, verificationData2],
@@ -11504,10 +11504,10 @@ paths:
           source: |
             Lob.bulkUSVerifications.verify({
               addresses: [{
-                primary_line: "210 King St",
-                city: "San Francisco",
-                state: "CA",
-                zip_code: "94107"
+                primary_line: '210 King St',
+                city: 'San Francisco',
+                state: 'CA',
+                zip_code: '94107'
               }]
             }), function (err, res) {
               console.log(err, res);
@@ -11531,10 +11531,10 @@ paths:
           source: |
             lob.BulkUSVerification.create(
               addresses=[{
-              "primary_line"="210 King Street",
-              "city"="San Francisco",
-              "state"="CA",
-              "zip_code"="94107"
+              'primary_line'='210 King Street',
+              'city'='San Francisco",
+              'state'='CA',
+              'zip_code'='94107'
               }]
             )
           label: PYTHON
@@ -11542,10 +11542,10 @@ paths:
           source: |
             $lob->bulkUSVerifications()->verify("addresses" => array(
               array(
-                "primary_line" => "210 King Street",
-                "city"         => "San Francisco",
-                "state"        => "CA",
-                "zip_code"     => "94107"
+                'primary_line' => '210 King Street',
+                'city'         => 'San Francisco',
+                'state'        => 'CA',
+                'zip_code'     => '94107'
               )));
         - lang: Java
           source: >
@@ -11656,13 +11656,13 @@ paths:
           source: |
             const IntlVerifications = new IntlVerificationsApi(av_config);
             let verificationData1: IntlVerificationWritable = {
-                primary_line: "370 WATER ST",
-                postal_code: "C1N 1C4",
+                primary_line: '370 WATER ST',
+                postal_code: 'C1N 1C4',
                 country: CountryExtended.Ca
             };
             const verificationData2: IntlVerificationWritable = {
-                primary_line: "012 PLACEHOLDER ST",
-                postal_code: "F0O 8A2",
+                primary_line: '012 PLACEHOLDER ST',
+                postal_code: 'F0O 8A2',
                 country: CountryExtended.Ca
             };
             let addressList = new IntlVerificationsPayload({
@@ -11680,12 +11680,12 @@ paths:
           source: |
             Lob.bulkIntlVerifications.verify({
               addresses: [{
-                primary_line: "370 Water St",
-                secondary_line: "",
-                city: "Summerside",
-                state: "Prince Edward Island",
-                postal_code: "C1N 1C4",
-                country: "CA"
+                primary_line: '370 Water St',
+                secondary_line: '',
+                city: 'Summerside',
+                state: 'Prince Edward Island',
+                postal_code: 'C1N 1C4',
+                country: 'CA'
               }]
             }), function (err, res) {
               console.log(err, res);
@@ -11711,25 +11711,25 @@ paths:
             lob.BulkIntlVerification.create(
               addresses=[
                 {
-                  "primary_line" = "370 Water St",
-                  "secondary_line" = "",
-                  "city" = "Summerside",
-                  "state"= "Prince Edward Island",
-                  "postal_code" = "C1N 1C4",
-                  "country" = "CA"
+                  'primary_line' = '370 Water St',
+                  'secondary_line' = '',
+                  'city' = 'Summerside',
+                  'state'= 'Prince Edward Island',
+                  'postal_code' = 'C1N 1C4',
+                  'country' = 'CA'
                 }
               ]
             )
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->bulkIntlVerifications()->verify("addresses" => array(
+            $lob->bulkIntlVerifications()->verify('addresses' => array(
               array(
-                "primary_line" => "370 Water St",
-                "city" => "Summerside",
-                "state" => "Prince Edward Island",
-                "postal_code" => "C1N 1C4",
-                "country" => "CA"
+                'primary_line' => '370 Water St',
+                'city' => 'Summerside',
+                'state' => 'Prince Edward Island',
+                'postal_code' => 'C1N 1C4',
+                'country' => 'CA'
               )));
         - lang: Java
           source: >
@@ -11963,10 +11963,10 @@ paths:
         - lang: Typescript
           source: |
             const cardsCreate = new CardEditable({
-              front: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
-              back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
               size: CardEditableSizeEnum._2125x3375,
-              description: "Test card"
+              description: 'Test card'
             });
 
             try {
@@ -11979,9 +11979,9 @@ paths:
           source: |
             Lob.cards.create({
               description: "Test card",
-              front: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
-              back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
-              size: "2.125x3.375"
+              front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              size: '2.125x3.375'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -11989,19 +11989,19 @@ paths:
         - lang: Python
           source: |
             lob.Card.create(
-              description = "Test card",
-              front = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
-              back = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
-              size = "2.125x3.375"
+              description = 'Test card',
+              front = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              back = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              size = '2.125x3.375'
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->cards()->create(array(
-              "description"           => "Test card",
-              "front"                 => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
-              "back"                  => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
-              "size" =>               => "2.125x3.375"
+              'description'           => 'Test card',
+              'front'                 => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              'back'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
+              'size' =>               => '2.125x3.375'
             ));
   /cards/{card_id}:
     parameters:
@@ -12078,24 +12078,24 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const card = await new CardsApi(config).get("card_xxxx");
+              const card = await new CardsApi(config).get('card_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.cards.retrieve("card_7a6d73c5c8457fc", function (err, res) {
+            Lob.cards.retrieve('card_7a6d73c5c8457fc', function (err, res) {
               console.log(err, res);
             });
           label: NODE
         - lang: Python
           source: |
-            lob.Card.retrieve("card_7a6d73c5c8457fc")
+            lob.Card.retrieve('card_7a6d73c5c8457fc')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->cards()->get("card_7a6d73c5c8457fc");
+            $lob->cards()->get('card_7a6d73c5c8457fc');
     post:
       operationId: card_update
       summary: Update
@@ -12186,7 +12186,7 @@ paths:
         - lang: Typescript
           source: |
             const cardUpdatable =  new CardEditable ({
-              description: "Awesome card",
+              description: 'Awesome card',
               auto_reorder: true
             });
 
@@ -12198,8 +12198,8 @@ paths:
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.cards.update("card_7a6d73c5c8457fc", {
-              description: "Awesome card",
+            Lob.cards.update('card_7a6d73c5c8457fc', {
+              description: 'Awesome card',
               auto_reorder: true
             }, function (err, res) {
               console.log(err, res);
@@ -12227,24 +12227,24 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteCard = await new CardsApi(config).delete("card_xxxx");
+              const deleteCard = await new CardsApi(config).delete('card_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.cards.delete("card_7a6d73c5c8457fc", function (err, res) {
+            Lob.cards.delete('card_7a6d73c5c8457fc', function (err, res) {
               console.log(err, res);
             });
           label: NODE
         - lang: Python
           source: |
-            lob.Card.delete("card_7a6d73c5c8457fc")
+            lob.Card.delete('card_7a6d73c5c8457fc')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->cards()->delete("card_7a6d73c5c8457fc");
+            $lob->cards()->delete('card_7a6d73c5c8457fc');
   /cards/{card_id}/orders:
     parameters:
       - in: path
@@ -12303,24 +12303,24 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const cardOrders = await new CardOrdersApi(cofig).get( "co_xxxx" );
+              const cardOrders = await new CardOrdersApi(cofig).get( 'co_xxxx' );
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.cardOrders.list("card_6afffd19045076c", function (err, res) {
+            Lob.cardOrders.list('card_6afffd19045076c', function (err, res) {
               console.log(err, res);
             });
           label: NODE
         - lang: Python
           source: |
-            lob.CardOrder.list("card_6afffd19045076c")
+            lob.CardOrder.list('card_6afffd19045076c')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->cardOrders("card_6afffd19045076c")->all();
+            $lob->cardOrders('card_6afffd19045076c')->all();
     post:
       operationId: card_order_create
       summary: Create
@@ -12383,14 +12383,14 @@ paths:
             });
 
             try {
-              const myCardOrder = await new CardOrdersApi(config).create("card_xxxx", cardForCreate);
+              const myCardOrder = await new CardOrdersApi(config).create('card_xxxx', cardForCreate);
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.cardOrders.create("card_6afffd19045076c", {
+            Lob.cardOrders.create('card_6afffd19045076c', {
               quantity: 10000
             }, function (err, res) {
               console.log(err, res);
@@ -12398,12 +12398,12 @@ paths:
           label: NODE
         - lang: Python
           source: |
-            lob.CardOrder.create("card_6afffd19045076c", quantity = 10000)
+            lob.CardOrder.create('card_6afffd19045076c', quantity = 10000)
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->cardOrders("card_6afffd19045076c")->create(array(
-              "quantity"           => 10000
+            $lob->cardOrders('card_6afffd19045076c')->create(array(
+              'quantity'           => 10000
             ));
   /checks/{chk_id}:
     parameters:
@@ -12516,14 +12516,14 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const check = await new ChecksApi(config).get("chk_xxxx");
+              const check = await new ChecksApi(config).get('chk_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.checks.retrieve("chk_534f10783683daa0", function (err, res) {
+            Lob.checks.retrieve('chk_534f10783683daa0', function (err, res) {
               console.log(err, res);""
             });""
           label: NODE
@@ -12533,11 +12533,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Check.retrieve("chk_534f10783683daa0")
+            lob.Check.retrieve('chk_534f10783683daa0')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->checks()->get("chk_534f10783683daa0");
+            $lob->checks()->get('chk_534f10783683daa0');
         - lang: Java
           source: >
             LobResponse<Check> response =
@@ -12576,14 +12576,14 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteCheck = await new ChecksApi(config).delete("chk_xxxx");
+              const deleteCheck = await new ChecksApi(config).delete('chk_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.checks.delete("chk_534f10783683daa0", function (err, res) {
+            Lob.checks.delete('chk_534f10783683daa0', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -12593,11 +12593,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Check.delete("chk_534f10783683daa0")
+            lob.Check.delete('chk_534f10783683daa0')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->checks()->delete("chk_534f10783683daa0");
+            $lob->checks()->delete('chk_534f10783683daa0');
         - lang: Java
           source: |
             LobResponse<Check> response = Check.delete("chk_534f10783683daa0");
@@ -12847,15 +12847,15 @@ paths:
           source: |
             const checkCreate = new CheckEditable({
             to: {
-              name: "Harry Zhang",
-              address_line1: "210 King St",
-              address_line2: "# 6100",
-              address_city: "San Francisco",
-              address_state: "CA",
-              address_zip: "94107",
+              name: 'Harry Zhang',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107',
             },
-            from: "adr_xxxx",
-            bank_account: "bank_xxxx",
+            from: 'adr_xxxx',
+            bank_account: 'bank_xxxx',
             amount: 100
             });
 
@@ -12868,23 +12868,23 @@ paths:
         - lang: Javascript
           source: |
             Lob.checks.create({
-              description: "Demo Check",
-              bank_account: "bank_8cad8df5354d33f",
+              description: 'Demo Check',
+              bank_account: 'bank_8cad8df5354d33f',
               to: {
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_line2: "# 6100",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
+              from: 'adr_210a8d4b0b76d77b',
               amount: 22.50,
-              memo: "rent",
-              logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-              check_bottom: "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
+              memo: 'rent',
+              logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
+              check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
               merge_variables: {
-                name: "Harry"
+                name: 'Harry'
               }
             }, function (err, res) {
               console.log(err, res);
@@ -12916,43 +12916,43 @@ paths:
         - lang: Python
           source: |
             lob.Check.create(
-              description = "Demo Check",
+              description = 'Demo Check',
               to_address = {
-                "name": "Harry Zhang",
-                "address_line1": "210 King St",
-                "address_line2": "# 6100",
-                "address_city": "San Francisco",
-                "address_state": "CA",
-                "address_zip": "94107"
+                'name': 'Harry Zhang',
+                'address_line1': '210 King St',
+                'address_line2': '# 6100',
+                'address_city': 'San Francisco',
+                'address_state': 'CA',
+                'address_zip': '94107'
               },
-              from_address = "adr_210a8d4b0b76d77b",
-              bank_account = "bank_8cad8df5354d33f",
+              from_address = 'adr_210a8d4b0b76d77b',
+              bank_account = 'bank_8cad8df5354d33f',
               amount = 22.50,
-              memo = "rent",
-              logo = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-              check_bottom = "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
+              memo = 'rent',
+              logo = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
+              check_bottom = '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
               merge_variables = {
-                "name": "Harry"
+                'name': 'Harry'
               }
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->checks()->create(array(
-              "description"           => "Demo Check",
-              "to[name]"              => "Harry Zhang",
-              "to[address_line1]"     => "210 King St",
-              "to[address_line2]"     => "# 6100",
-              "to[address_city]"      => "San Francisco",
-              "to[address_zip]"       => "94107",
-              "to[address_state]"     => "CA",
-              "from"                  => "adr_210a8d4b0b76d77b",
-              "bank_account"          => "bank_8cad8df5354d33f",
-              "amount"                => 22.50,
-              "memo"                  => "rent",
-              "logo"                  => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-              "check_bottom"          => "<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>",
-              "merge_variables[name]" => "Harry"
+              'description'           => 'Demo Check',
+              'to[name]'              => 'Harry Zhang',
+              'to[address_line1]'     => '210 King St',
+              'to[address_line2]'     => '# 6100',
+              'to[address_city]'      => 'San Francisco',
+              'to[address_zip]'       => '94107',
+              'to[address_state]'     => 'CA',
+              'from'                  => 'adr_210a8d4b0b76d77b',
+              'bank_account'          => 'bank_8cad8df5354d33f',
+              'amount'                => 22.50,
+              'memo'                  => 'rent',
+              'logo'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
+              'check_bottom'          => '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
+              'merge_variables[name]' => 'Harry'
             ));
         - lang: Java
           source: |
@@ -13273,8 +13273,8 @@ paths:
           source: |
             const IntlVerifications = new IntlVerificationsApi(av_config);
             let verificationData1: IntlVerificationWritable = {
-              primary_line: "370 WATER ST",
-              postal_code: "C1N 1C4",
+              primary_line: '370 WATER ST',
+              postal_code: 'C1N 1C4',
               country: CountryExtended.Ca
             };
 
@@ -13287,11 +13287,11 @@ paths:
         - lang: Javascript
           source: |
             Lob.intlVerifications.verify({
-              primary_line: "370 Water St",
-              city: "Summerside",
-              state: "Prince Edward Island",
-              postal_code: "C1N 1C4",
-              country: "CA"
+              primary_line: '370 Water St',
+              city: 'Summerside',
+              state: 'Prince Edward Island',
+              postal_code: 'C1N 1C4',
+              country: 'CA'
             }, function (err, res) {
               console.log (err, res);
             });
@@ -13309,21 +13309,21 @@ paths:
         - lang: Python
           source: |
             lob.IntlVerification.create(
-              primary_line="370 Water St",
-              city="Summerside",
-              state="Prince Edward Island",
-              postal_code="C1N 1C4",
-              country="CA"
+              primary_line='370 Water St',
+              city='Summerside',
+              state='Prince Edward Island',
+              postal_code='C1N 1C4',
+              country='CA'
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->intlVerifications()->verify(array(
-              "primary_line" => "370 Water St",
-              "city"         => "Summerside",
-              "state"        => "Prince Edward Island",
-              "postal_code"  => "C1N 1C4",
-              "country"      => "CA",
+              'primary_line' => '370 Water St',
+              'city'         => 'Summerside',
+              'state'        => 'Prince Edward Island',
+              'postal_code'  => 'C1N 1C4',
+              'country'      => 'CA',
             ));
         - lang: Java
           source: >
@@ -13487,14 +13487,14 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const letter= await new LettersApi(config).get("ltr_xxxx");
+              const letter= await new LettersApi(config).get('ltr_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
-        - lang: javascript
+        - lang: Javascript
           source: |
-            Lob.letters.retrieve("ltr_4868c3b754655f90", function (err, res) {
+            Lob.letters.retrieve('ltr_4868c3b754655f90', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -13504,11 +13504,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Letter.retrieve("ltr_4868c3b754655f90")
+            lob.Letter.retrieve('ltr_4868c3b754655f90')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->letters()->get("ltr_4868c3b754655f90");
+            $lob->letters()->get('ltr_4868c3b754655f90');
         - lang: Java
           source: >
             LobResponse<Letter> response =
@@ -13544,17 +13544,17 @@ paths:
             curl -X DELETE https://api.lob.com/v1/letters/ltr_4868c3b754655f90 \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
-        - lang: typescript
+        - lang: Typescript
           source: |
             try {
-              const deleteLetter = await new LettersApi(config).delete("ltr_xxxx");
+              const deleteLetter = await new LettersApi(config).delete('ltr_xxxx';
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.letters.delete("ltr_4868c3b754655f90", function (err, res) {
+            Lob.letters.delete('ltr_4868c3b754655f90', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -13564,11 +13564,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Letter.delete("ltr_4868c3b754655f90")
+            lob.Letter.delete('ltr_4868c3b754655f90')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->letters()->delete("ltr_4868c3b754655f90");
+            $lob->letters()->delete('ltr_4868c3b754655f90');
         - lang: Java
           source: >
             LobResponse<Letter> response =
@@ -13834,17 +13834,17 @@ paths:
           source: |
             const letterCreate = new LetterEditable({
               to: {
-              name: "Harry Zhang",
-              address_line1: "210 King St",
-              address_line2: "# 6100",
-              address_city: "San Francisco",
-              address_state: "CA",
-              address_zip: "94107"
+              name: 'Harry Zhang',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107'
               },
-              from: "adr_xxxx",
+              from: 'adr_xxxx',
               color: true,
               extra_service: LetterEditableExtraServiceEnum.Certified,
-              file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf"
+              file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf'
             });
 
             try {
@@ -13856,22 +13856,22 @@ paths:
         - lang: Javascript
           source: |
             Lob.letters.create({
-              description: "Demo Letter",
+              description: 'Demo Letter',
               to: {
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_line2: "# 6100",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
-              file: "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
+              from: 'adr_210a8d4b0b76d77b',
+              file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
               merge_variables: {
-                name: "Harry"
+                name: 'Harry'
               },
               color: true,
-              cards: ["card_c51ae96f5cebf3e"]
+              cards: ['card_c51ae96f5cebf3e']
             }, function (err, res) {
               console.log(err, res);
             });
@@ -13900,39 +13900,39 @@ paths:
         - lang: Python
           source: |
             lob.Letter.create(
-              description = "Demo Letter",
+              description = 'Demo Letter',
               to_address = {
-                  "name": "Harry Zhang",
-                  "address_line1": "210 King St",
-                  "address_line2": "# 6100",
-                  "address_city": "San Francisco",
-                  "address_state": "CA",
-                  "address_zip": "94107"
+                  'name': 'Harry Zhang',
+                  'address_line1': '210 King St',
+                  'address_line2': '# 6100',
+                  'address_city': 'San Francisco',
+                  'address_state': 'CA',
+                  'address_zip': '94107'
               },
-              from_address = "adr_210a8d4b0b76d77b",
-              file = "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
+              from_address = 'adr_210a8d4b0b76d77b',
+              file = '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
               merge_variables = {
-                "name": "Harry"
+                'name': 'Harry'
               },
               color = True,
-              cards = ["card_c51ae96f5cebf3e"]
+              cards = ['card_c51ae96f5cebf3e']
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->letters()->create(array(
-              "description"           => "Demo Letter",
-              "to[name]"              => "Harry Zhang",
-              "to[address_line1]"     => "210 King St",
-              "to[address_line2]"     => "# 6100",
-              "to[address_city]"      => "San Francisco",
-              "to[address_zip]"       => "94107",
-              "to[address_state]"     => "CA",
-              "from"                  => "adr_210a8d4b0b76d77b",
-              "file"                  => "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
-              "merge_variables[name]" => "Harry",
-              "color"                 => true,
-              "cards"                 => ["card_c51ae96f5cebf3e"]
+              'description'           => 'Demo Letter',
+              'to[name]'              => 'Harry Zhang',
+              'to[address_line1]'     => '210 King St',
+              'to[address_line2]'     => '# 6100',
+              'to[address_city]'      => 'San Francisco',
+              'to[address_zip]'       => '94107',
+              'to[address_state]'     => 'CA',
+              'from'                  => 'adr_210a8d4b0b76d77b',
+              'file'                  => '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
+              'merge_variables[name]' => 'Harry',
+              'color'                 => true,
+              'cards'                 => ['card_c51ae96f5cebf3e']
             ));
         - lang: Java
           source: |
@@ -14105,17 +14105,17 @@ paths:
             curl https://api.lob.com/v1/postcards/psc_5c002b86ce47537a \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
-        - lang: Javascript
+        - lang: Typescript
           source: |
             try {
-              const postcard = await new PostCardsApi(config).get("psc_xxxx");
+              const postcard = await new PostCardsApi(config).get('psc_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.postcards.retrieve("psc_5c002b86ce47537a", function (err, res) {
+            Lob.postcards.retrieve('psc_5c002b86ce47537a', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -14125,11 +14125,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Postcard.retrieve("psc_5c002b86ce47537a")
+            lob.Postcard.retrieve('psc_5c002b86ce47537a')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->postcards()->get("psc_5c002b86ce47537a");
+            $lob->postcards()->get('psc_5c002b86ce47537a');
         - lang: Java
           source: >
             LobResponse<Postcard> response =
@@ -14167,17 +14167,17 @@ paths:
             \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
-        - lang: typescript
+        - lang: Typescript
           source: |
             try {
-              const deletePostcard = await new PostcardsApi(config).delete("psc_xxxx");
+              const deletePostcard = await new PostcardsApi(config).delete('psc_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.postcards.delete("psc_5c002b86ce47537a", function (err, res) {
+            Lob.postcards.delete('psc_5c002b86ce47537a', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -14187,11 +14187,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Postcard.delete("psc_5c002b86ce47537a")
+            lob.Postcard.delete('psc_5c002b86ce47537a')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->postcards()->delete("psc_5c002b86ce47537a");
+            $lob->postcards()->delete('psc_5c002b86ce47537a');
         - lang: Java
           source: >
             LobResponse<Postcard> deleteResponse =
@@ -14438,27 +14438,27 @@ paths:
               --data-urlencode "back=<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>" \
               -d "merge_variables[name]=Harry"
           label: CURL
-        - lang: typescript
+        - lang: Typescript
           source: >
             const postcardCreate = new PostcardEditable({
 
             to: {
-              name: "Harry Zhang",
-              address_line1: "210 King St",
-              address_line2: "# 6100",
-              address_city: "San Francisco",
-              address_state: "CA",
-              address_zip: "94107"
+              name: 'Harry Zhang',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107'
             },
 
-            from: "adr_xxxx",
+            from: 'adr_xxxx',
 
             front:
 
-            "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
+            'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
 
             back:
-            "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
+            'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf'
 
             });
 
@@ -14472,20 +14472,20 @@ paths:
         - lang: Javascript
           source: |
             Lob.postcards.create({
-              description: "Demo Postcard job",
+              description: 'Demo Postcard job',
               to: {
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_line2: "# 6100",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
-              front: "<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>",
-              back: "<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>",
+              from: 'adr_210a8d4b0b76d77b',
+              front: '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>'',
+              back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
               merge_variables: {
-                name: "Harry"
+                name: 'Harry'
               }
             }, function (err, res) {
               console.log(err, res);
@@ -14516,35 +14516,35 @@ paths:
             lob.Postcard.create(
               description = "Demo Postcard job",
               to_address = {
-                "name": "Harry Zhang",
-                "address_line1": "210 King St",
-                "address_line2": "# 6100",
-                "address_city": "San Francisco",
-                "address_state": "CA",
-                "address_zip": "94107"
+                'name': 'Harry Zhang',
+                'address_line1': '210 King St',
+                'address_line2': '# 6100',
+                'address_city': 'San Francisco',
+                'address_state': 'CA',
+                'address_zip': '94107'
               },
-              from_address = "adr_210a8d4b0b76d77b",
-              front = "<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>",
-              back = "<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>",
+              from_address = 'adr_210a8d4b0b76d77b',
+              front = '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
+              back = '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
               merge_variables = {
-                "name": "Harry"
+                'name': 'Harry'
               }
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->postcards()->create(array(
-              "description"           => "Demo Postcard job",
-              "to[name]"              => "Harry Zhang",
-              "to[address_line1]"     => "210 King St",
-              "to[address_line2]"     => "# 6100",
-              "to[address_city]"      => "San Francisco",
-              "to[address_zip]"       => "94107",
-              "to[address_state]"     => "CA",
-              "from"                  => "adr_210a8d4b0b76d77b",
-              "front"                 => "<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>",
-              "back"                  => "<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>",
-              "merge_variables[name]" => "Harry"
+              'description'           => 'Demo Postcard job',
+              'to[name]'              => 'Harry Zhang',
+              'to[address_line1]'     => '210 King St',
+              'to[address_line2]'     => '# 6100',
+              'to[address_city]'      => 'San Francisco',
+              'to[address_zip]'       => '94107',
+              'to[address_state]'     => 'CA',
+              'from'                  => 'adr_210a8d4b0b76d77b',
+              'front'                 => '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
+              'back'                  => '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
+              'merge_variables[name]' => 'Harry'
             ));
         - lang: Java
           source: |
@@ -14693,32 +14693,32 @@ paths:
             "https://api.lob.com/v1/self_mailers/sfm_8ffbe811dea49dcf" \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
-        - lang: Javascript
-          source: >
-            Lob.selfMailers.retrieve("sfm_8ffbe811dea49dcf", function (err, res)
-            {
-              console.log(err, res);
-            });
-          label: NODE
         - lang: typescript
           source: |
             try {
-              const selfMailer = await new SelfMailersApi(config).get("sfm_xxxx");
+              const selfMailer = await new SelfMailersApi(config).get('sfm_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
+        - lang: Javascript
+          source: >
+            Lob.selfMailers.retrieve('sfm_8ffbe811dea49dcf', function (err, res)
+            {
+              console.log(err, res);
+            });
+          label: NODE
         - lang: Ruby
           source: |
             @lob.self_mailers.find("sfm_8ffbe811dea49dcf")
           label: RUBY
         - lang: Python
           source: |
-            lob.SelfMailer.retrieve("sfm_8ffbe811dea49dcf")
+            lob.SelfMailer.retrieve('sfm_8ffbe811dea49dcf')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->selfMailers()->get("sfm_8ffbe811dea49dcf");
+            $lob->selfMailers()->get('sfm_8ffbe811dea49dcf');
         - lang: Java
           source: >
             LobResponse<SelfMailer> response =
@@ -14735,7 +14735,7 @@ paths:
       summary: Delete
       description: >-
         Completely removes a self mailer from production. This can only be done
-        if the self mailer"s `send_date` has not yet passed. If the self mailer
+        if the self mailer's `send_date` has not yet passed. If the self mailer
         is successfully canceled, you will not be charged for it. This feature
         is exclusive to certain customers. Upgrade to the appropriate [Print &
         Mail Edition](https://dashboard.lob.com/#/settings/editions) to gain
@@ -14757,14 +14757,14 @@ paths:
         - lang: typescript
           source: |
             try {
-              const deleteSelfMailer = await new SelfMailersApi(config).delete("sfm_xxxx");
+              const deleteSelfMailer = await new SelfMailersApi(config).delete('sfm_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.selfMailers.delete("sfm_8ffbe811dea49dcf", function (err, res) {
+            Lob.selfMailers.delete('sfm_8ffbe811dea49dcf', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -14774,11 +14774,11 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.SelfMailer.delete("sfm_8ffbe811dea49dcf")
+            lob.SelfMailer.delete('sfm_8ffbe811dea49dcf')
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->selfMailers()->delete("sfm_8ffbe811dea49dcf");
+            $lob->selfMailers()->delete('sfm_8ffbe811dea49dcf');
         - lang: Java
           source: >
             LobResponse<SelfMailer> deleteResponse =
@@ -14849,13 +14849,13 @@ paths:
         - lang: PHP
           source: |
             $lob->selfMailers()->all(array(
-              "limit" => 2
+              'limit' => 2
             ));
         - lang: Java
           source: >
             Map<String, Object> params = new HashMap<>>();
 
-            params.put("limit", 2);
+            params.put('limit', 2);
 
 
             LobResponse<SelfMailerCollection> response =
@@ -14951,26 +14951,26 @@ paths:
               -d "to[address_state]=CA" \
               -d "to[address_zip]=94107" \
               -d "from=adr_210a8d4b0b76d77b" \
-              --data-urlencode "inside=<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>" \
-              --data-urlencode "outside=<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>" \
+              --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
+              --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
               -d "merge_variables[name]=Harry"
           label: CURL
         - lang: Typescript
           source: |
             const selfMailerCreate = new SelfMailerEditable({
               to: {
-              name: "Harry Zhang",
-              address_line1: "210 King St",
-              address_line2: "# 6100",
-              address_city: "San Francisco",
-              address_state: "CA",
-              address_zip: "94107",
+              name: 'Harry Zhang',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107',
             },
-              from: "adr_xxxx",
+              from: 'adr_xxxx',
               inside:
-              "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
+              'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf',
               outside:
-              "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf"
+              'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf'
             });
 
             try {
@@ -14982,19 +14982,19 @@ paths:
         - lang: Javascript
           source: |
             Lob.selfMailers.create({
-              description: "Demo Self Mailer job",
+              description: 'Demo Self Mailer job',
               to: {
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
-              inside: "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
-              outside: "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
+              from: 'adr_210a8d4b0b76d77b',
+              inside: '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
+              outside: '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
               merge_variables: {
-                name: "Harry"
+                name: 'Harry'
               }
             }, function (err, res) {
               console.log(err, res);
@@ -15003,54 +15003,54 @@ paths:
         - lang: Ruby
           source: |
             @lob.self_mailers.create(
-              description: "Demo Self Mailers job",
-              to: {
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
-              },
-              from: "adr_210a8d4b0b76d77b",
-              inside: "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
-              outside: "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
-              merge_variables: {
-                name: "Harry"
-              }
-            )
+               description: "Demo Self Mailers job",
+               to: {
+                 name: "Harry Zhang",
+                 address_line1: "210 King St",
+                 address_city: "San Francisco",
+                 address_state: "CA",
+                 address_zip: "94107"
+               },
+               from: "adr_210a8d4b0b76d77b",
+               inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+               outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+               merge_variables: {
+                 name: "Harry"
+               }
+             )
           label: RUBY
         - lang: Python
           source: |
             lob.SelfMailer.create(
-              description = "Demo Self Mailer job",
+              description = 'Demo Self Mailer job',
               to_address = {
-                "name": "Harry Zhang",
-                "address_line1": "210 King St",
-                "address_city": "San Francisco",
-                "address_state": "CA",
-                "address_zip": "94107"
+                'name': 'Harry Zhang',
+                'address_line1': '210 King St',
+                'address_city': 'San Francisco',
+                'address_state': 'CA',
+                'address_zip': '94107'
               },
-              from_address = "adr_210a8d4b0b76d77b",
-              inside = "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
-              outside = "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
+              from_address = 'adr_210a8d4b0b76d77b',
+              inside = '<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>',
+              outside = '<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>',
               merge_variables = {
-                "name": "Harry"
+                'name': 'Harry'
               }
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->selfMailers()->create(array(
-              "description"           => "Demo Self Mailer job",
-              "to[name]"              => "Harry Zhang",
-              "to[address_line1]"     => "210 King St",
-              "to[address_city]"      => "San Francisco",
-              "to[address_zip]"       => "94107",
-              "to[address_state]"     => "CA",
-              "from"                  => "adr_210a8d4b0b76d77b",
-              "inside"                => "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
-              "outside"               => "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
-              "merge_variables[name]" => "Harry"
+              'description'           => 'Demo Self Mailer job',
+              'to[name]'              => 'Harry Zhang',
+              'to[address_line1]'     => '210 King St',
+              'to[address_city]'     => 'San Francisco',
+              'to[address_zip]'       => '94107',
+              'to[address_state]'     => 'CA',
+              'from'                  => 'adr_210a8d4b0b76d77b',
+              'inside'                => '<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>',
+              'outside'               => '<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>',
+              'merge_variables[name]' => 'Harry'
             ));
         - lang: Java
           source: |
@@ -15068,8 +15068,8 @@ paths:
                                     .setZip("94107")
                     )
                     .setFrom("adr_210a8d4b0b76d77b")
-                    .setInside("<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>")
-                    .setOutside("<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>")
+                    .setInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>")
+                    .setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
                     .setMergeVariables(mergeVariables)
                     .create();
 
@@ -15087,8 +15087,8 @@ paths:
                 address_zip: "94107"
               },
               from: "adr_210a8d4b0b76d77b",
-              inside: "<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>",
-              outside: "<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>",
+              inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+              outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
               merge_variables: %{
                 name: "Harry"
               }
@@ -15143,7 +15143,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const templateVersion = await new TemplateVersionsApi(config).get("tmpl_xxxx, vrsn_xxxx");
+              const templateVersion = await new TemplateVersionsApi(config).get('tmpl_xxxx', 'vrsn_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -15215,9 +15215,9 @@ paths:
 
             try {
               const updateData = new TemplateVersionUpdatable({
-                description: "updated template"
+                description: 'updated template'
               });
-              const updateTemplateVersion = await TemplateVersions.update("vrsn_xxxx", updateData);
+              const updateTemplateVersion = await TemplateVersions.update('vrsn_xxxx', updateData);
             } catch (err: any) {
               console.error(err);
             }
@@ -15413,12 +15413,12 @@ paths:
         - lang: Typescript
           source: |
             const templateVersionCreate = new TemplateVersionWritable({
-              description: "Newer Template",
-              html: "<html>Updated HTML for {{name}}</html>"
+              description: 'Newer Template',
+              html: '<html>Updated HTML for {{name}}</html>'
             });
 
             try {
-              const myTemplateVersion = await new TemplateVersionsApi(config).create(tmpl_xxxx, templateVersionCreate);
+              const myTemplateVersion = await new TemplateVersionsApi(config).create('tmpl_xxxx', templateVersionCreate);
             } catch (err: any) {
               console.error(err);
             }
@@ -15505,7 +15505,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const Template = await new TemplatesApi(config).get("tmpl_xxxx");
+              const Template = await new TemplatesApi(config).get('tmpl_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -15618,10 +15618,10 @@ paths:
 
             try {
               const updateData = new TemplateUpdate ({
-                description: "updated template",
-                published_version: "vrsn_xxxx"
+                description: 'updated template',
+                published_version: 'vrsn_xxxx'
             });
-              const updateTemplate = await Templates.update("tmpl_xxxx", updateData);
+              const updateTemplate = await Templates.update('tmpl_xxxx', updateData);
             } catch (err: any) {
               console.error(err);
             }
@@ -15673,7 +15673,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteTemplate = await new TemplatesApi(config).delete("tmpl_xxxx");
+              const deleteTemplate = await new TemplatesApi(config).delete('tmpl_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -15852,8 +15852,8 @@ paths:
         - lang: Typescript
           source: |
             const templateCreate = new TemplateWritable({
-              description: "Newer Template",
-              html: "<html>Updated HTML for {{name}}</html>"
+              description: 'Newer Template',
+              html: '<html>Updated HTML for {{name}}</html>'
             });
 
             try {
@@ -15993,8 +15993,8 @@ paths:
           source: |
             const UsAutocompletions = new USAutocompletionsApi(av_config);
             const autocompletionData: UsAutocompletionsWritable = {
-              address_prefix: "185 B",
-              city: "SAN FRANCISCO"
+              address_prefix: '185 B',
+              city: 'SAN FRANCISCO'
             };
 
             try {
@@ -16158,8 +16158,8 @@ paths:
         - lang: PHP
           source: |
             $lob->reverseGeocodeLookups()->lookup(array(
-              "latitude" => 37.7749,
-              "longitude" => 122.4194
+              'latitude' => 37.7749,
+              'longitude' => 122.4194
 
             ));
           label: PHP
@@ -16311,10 +16311,10 @@ paths:
           source: |
             const UsVerification = new USVerificationsApi(av_config);
             const verificationData1: UsVerificationsWritable = {
-              primary_line: "210 King Street",
-              city: "San Francisco",
-              state: "CA",
-              zip_code: "94107"
+              primary_line: '210 King Street',
+              city: 'San Francisco',
+              state: 'CA',
+              zip_code: '94107'
             };
 
             try {
@@ -16326,10 +16326,10 @@ paths:
         - lang: Javascript
           source: |
             Lob.usVerifications.verify({
-              primary_line: "210 King Street",
-              city: "San Francisco",
-              state: "CA",
-              zip_code: "94107"
+              primary_line: '210 King Street',
+              city: 'San Francisco',
+              state: 'CA',
+              zip_code: '94107'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -16346,19 +16346,19 @@ paths:
         - lang: Python
           source: |
             lob.USVerification.create(
-              primary_line="210 King Street",
-              city="San Francisco",
-              state="CA",
-              zip_code="94107"
+              primary_line='210 King Street',
+              city='San Francisco',
+              state='CA',
+              zip_code='94107'
             )
           label: PYTHON
         - lang: PHP
           source: |
             $lob->usVerifications()->verify(array(
-              "primary_line" => "210 King Street",
-              "city"         => "San Francisco",
-              "state"        => "CA",
-              "zip_code"     => "94107"
+              'primary_line' => '210 King Street',
+              'city'         => 'San Francisco',
+              'state'        => 'CA',
+              'zip_code'     => '94107'
             ));
         - lang: Java
           source: >
@@ -16424,7 +16424,7 @@ paths:
           source: |
             const ZipLookup = new ZipLookupsApi(av_config);
             const zipRequest : ZipEditable = {
-              zip_code: "07090"
+              zip_code: '07090'
             }
             try {
               const zipLookup : Zip = await ZipLookup.lookup(zipRequest);
@@ -16435,7 +16435,7 @@ paths:
         - lang: Javascript
           source: |
             Lob.usZipLookups.lookup({
-              zip_code: "94107"
+              zip_code: '94107'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -16449,13 +16449,13 @@ paths:
         - lang: Python
           source: |
             lob.USZipLookup.create(
-              zip_code="94107"
+              zip_code='94107'
             )
           label: Python
         - lang: PHP
           source: |
             $lob->usZipLookups()->lookup(array(
-              "zip_code" => "94107"
+              "zip_code" => '94107'
             ));
           label: PHP
         - lang: Java

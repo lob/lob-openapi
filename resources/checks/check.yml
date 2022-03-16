@@ -36,14 +36,14 @@ get:
     - lang: Typescript
       source: |
         try {
-          const check = await new ChecksApi(config).get("chk_xxxx");
+          const check = await new ChecksApi(config).get('chk_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.checks.retrieve("chk_534f10783683daa0", function (err, res) {
+        Lob.checks.retrieve('chk_534f10783683daa0', function (err, res) {
           console.log(err, res);""
         });""
       label: NODE
@@ -53,11 +53,11 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.Check.retrieve("chk_534f10783683daa0")
+        lob.Check.retrieve('chk_534f10783683daa0')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->checks()->get("chk_534f10783683daa0");
+        $lob->checks()->get('chk_534f10783683daa0');
     - lang: Java
       source: |
         LobResponse<Check> response = Check.retrieve("chk_534f10783683daa0");
@@ -104,14 +104,14 @@ delete:
     - lang: Typescript
       source: |
         try {
-          const deleteCheck = await new ChecksApi(config).delete("chk_xxxx");
+          const deleteCheck = await new ChecksApi(config).delete('chk_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.checks.delete("chk_534f10783683daa0", function (err, res) {
+        Lob.checks.delete('chk_534f10783683daa0', function (err, res) {
           console.log(err, res);
         });
       label: NODE
@@ -121,11 +121,11 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        lob.Check.delete("chk_534f10783683daa0")
+        lob.Check.delete('chk_534f10783683daa0')
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->checks()->delete("chk_534f10783683daa0");
+        $lob->checks()->delete('chk_534f10783683daa0');
     - lang: Java
       source: |
         LobResponse<Check> response = Check.delete("chk_534f10783683daa0");

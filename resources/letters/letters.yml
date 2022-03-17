@@ -43,9 +43,9 @@ get:
     - lang: typescript
       source: |
         try {
-        const letters = await new LettersApi(config).list(2);
+          const letters = await new LettersApi(config).list(2);
         } catch (err: any) {
-        console.error(err);
+          console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
@@ -263,12 +263,12 @@ post:
       source: |
         const letterCreate = new LetterEditable({
           to: {
-          name: 'Harry Zhang',
-          address_line1: '210 King St',
-          address_line2: '# 6100',
-          address_city: 'San Francisco',
-          address_state: 'CA',
-          address_zip: '94107'
+            name: 'Harry Zhang',
+            address_line1: '210 King St',
+            address_line2: '# 6100',
+            address_city: 'San Francisco',
+            address_state: 'CA',
+            address_zip: '94107'
           },
           from: 'adr_xxxx',
           color: true,

@@ -19,7 +19,7 @@ get:
     - Self Mailers
 
   responses:
-    '200':
+    "200":
       description: Returns a self_mailer object
       content:
         $ref: responses/self_mailer.yml
@@ -47,7 +47,7 @@ get:
           console.log(err, res);
         });
       label: NODE
-    
+
     - lang: Ruby
       source: |
         @lob.self_mailers.find("sfm_8ffbe811dea49dcf")
@@ -84,7 +84,7 @@ delete:
     - Self Mailers
 
   responses:
-    '200':
+    "200":
       $ref: "../../shared/responses/self_mailer_deleted.yml"
 
     default:

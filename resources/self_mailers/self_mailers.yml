@@ -226,22 +226,22 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-       @lob.self_mailers.create(
-          description: "Demo Self Mailers job",
-          to: {
-            name: "Harry Zhang",
-            address_line1: "210 King St",
-            address_city: "San Francisco",
-            address_state: "CA",
-            address_zip: "94107"
-          },
-          from: "adr_210a8d4b0b76d77b",
-          inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
-          outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
-          merge_variables: {
-            name: "Harry"
-          }
-        )
+        @lob.self_mailers.create(
+           description: "Demo Self Mailers job",
+           to: {
+             name: "Harry Zhang",
+             address_line1: "210 King St",
+             address_city: "San Francisco",
+             address_state: "CA",
+             address_zip: "94107"
+           },
+           from: "adr_210a8d4b0b76d77b",
+           inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+           outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+           merge_variables: {
+             name: "Harry"
+           }
+         )
       label: RUBY
     - lang: Python
       source: |

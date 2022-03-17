@@ -65,7 +65,7 @@ get:
     - lang: PHP
       source: |
         $lob->letters()->all(array(
-          "limit" => 2
+          'limit' => 2
         ));
     - lang: Java
       source: |
@@ -246,18 +246,18 @@ post:
       source: |
         curl https://api.lob.com/v1/letters \
           -u YOUR_API_KEY \
-          -d "description=Demo Letter" \
-          -d "to[name]=Harry Zhang" \
-          -d "to[address_line1]=210 King St" \
-          -d "to[address_line2]=# 6100" \
-          -d "to[address_city]=San Francisco" \
-          -d "to[address_state]=CA" \
-          -d "to[address_zip]=94107" \
-          -d "from=adr_210a8d4b0b76d77b" \
-          --data-urlencode "file=<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>" \
-          -d "merge_variables[name]=Harry" \
-          -d "color=true" \
-          -d "cards[]=card_c51ae96f5cebf3e"
+          -d 'description=Demo Letter' \
+          -d 'to[name]=Harry Zhang' \
+          -d 'to[address_line1]=210 King St' \
+          -d 'to[address_line2]=# 6100' \
+          -d 'to[address_city]=San Francisco' \
+          -d 'to[address_state]=CA' \
+          -d 'to[address_zip]=94107' \
+          -d 'from=adr_210a8d4b0b76d77b' \
+          --data-urlencode 'file=<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>' \
+          -d 'merge_variables[name]=Harry' \
+          -d 'color=true' \
+          -d 'cards[]=card_c51ae96f5cebf3e'
       label: CURL
     - lang: Typescript
       source: |
@@ -308,22 +308,22 @@ post:
     - lang: Ruby
       source: |
         @lob.letters.create(
-          description: "Demo Letter",
+          description: 'Demo Letter',
           to: {
-            name: "Harry Zhang",
-            address_line1: "210 King St",
-            address_line2: "# 6100",
-            address_city: "San Francisco",
-            address_state: "CA",
-            address_zip: "94107"
+            name: 'Harry Zhang',
+            address_line1: '210 King St',
+            address_line2: '# 6100',
+            address_city: 'San Francisco',
+            address_state: 'CA',
+            address_zip: '94107'
           },
-          from: "adr_210a8d4b0b76d77b",
-          file: "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
+          from: 'adr_210a8d4b0b76d77b',
+          file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
           merge_variables: {
-            name: "Harry"
+            name: 'Harry'
           },
           color: true,
-          cards: ["card_c51ae96f5cebf3e"]
+          cards: ['card_c51ae96f5cebf3e']
         )
       label: RUBY
     - lang: Python
@@ -366,23 +366,23 @@ post:
     - lang: Java
       source: |
         Map<String, String> mergeVariables = new HashMap<>();
-        mergeVariables.put("name", "Harry");
+        mergeVariables.put('name', 'Harry');
 
         LobResponse<Letter> response = new Letter.RequestBuilder()
-                .setDescription("Demo Letter")
-                .setFile("<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>")
+                .setDescription('Demo Letter')
+                .setFile('<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>')
                 .setColor(true)
                 .setMergeVariables(mergeVariables)
                 .setTo(
                         new Address.RequestBuilder()
-                                .setName("Harry Zhang")
-                                .setLine1("210 King St Ste 6100")
-                                .setCity("San Francisco")
-                                .setState("CA")
-                                .setZip("94107")
+                                .setName('Harry Zhang')
+                                .setLine1('210 King St Ste 6100')
+                                .setCity('San Francisco')
+                                .setState('CA')
+                                .setZip('94107')
                 )
-                .setFrom("adr_210a8d4b0b76d77b")
-                .setCards("card_c51ae96f5cebf3e")
+                .setFrom('adr_210a8d4b0b76d77b')
+                .setCards('card_c51ae96f5cebf3e')
                 .create();
 
         Letter letter = response.getResponseBody();
@@ -390,21 +390,21 @@ post:
     - lang: Elixir
       source: |
         Lob.Letter.create(%{
-          description: "Demo Letter",
+          description: 'Demo Letter',
           to: %{
-            name: "Harry Zhang",
-            address_line1: "210 King St",
-            address_line2: "# 6100",
-            address_city: "San Francisco",
-            address_state: "CA",
-            address_zip: "94107"
+            name: 'Harry Zhang',
+            address_line1: '210 King St',
+            address_line2: '# 6100',
+            address_city: 'San Francisco',
+            address_state: 'CA',
+            address_zip: '94107'
           },
-          from: "adr_210a8d4b0b76d77b",
-          file: "<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>",
+          from: 'adr_210a8d4b0b76d77b',
+          file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
           merge_variables: %{
-            name: "Harry"
+            name: 'Harry'
           },
           color: true,
-          cards: ["card_c51ae96f5cebf3e"]
+          cards: ['card_c51ae96f5cebf3e']
         })
       label: ELIXIR

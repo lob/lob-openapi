@@ -161,7 +161,7 @@ post:
         lob.BulkUSVerification.create(
           addresses=[{
           'primary_line'='210 King Street',
-          'city'='San Francisco",
+          'city'='San Francisco',
           'state'='CA',
           'zip_code'='94107'
           }]
@@ -169,7 +169,7 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bulkUSVerifications()->verify("addresses" => array(
+        $lob->bulkUSVerifications()->verify('addresses' => array(
           array(
             'primary_line' => '210 King Street',
             'city'         => 'San Francisco',

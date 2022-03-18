@@ -132,13 +132,13 @@ post:
       source: |
         const IntlVerifications = new IntlVerificationsApi(av_config);
         let verificationData1: IntlVerificationWritable = {
-          primary_line: "370 WATER ST",
-          postal_code: "C1N 1C4",
+          primary_line: '370 WATER ST',
+          postal_code: 'C1N 1C4',
           country: CountryExtended.Ca
         };
 
         try {
-          const singleVerified = await IntlVerifications.verifySingle(verificationData!);   
+          const singleVerified = await IntlVerifications.verifySingle(verificationData1);   
         } catch (err: any) {
           console.error(err);
         }

@@ -10529,13 +10529,17 @@ paths:
         - lang: Typescript
           source: |
             const addressCreate = new AddressEditable({
-              name: "Thing T. Thing",
-              address_line1: "1313 CEMETERY LN",
-              address_line2: ""
-              address_city: "WESTFIELD",
-              address_state: "NJ",
-              address_zip: "07090",
-              address_county: "US"
+              description: 'Harry - Office',
+              name: 'Harry Zhang',
+              company: 'Lob',
+              email: 'harry@lob.com',
+              phone: '5555555555',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107',
+              address_country: 'US'
             });
 
             try {
@@ -10557,7 +10561,7 @@ paths:
               address_city: 'San Francisco',
               address_state: 'CA',
               address_zip: '94107',
-              address_country: 'US',
+              address_country: 'US'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -10673,7 +10677,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const address = await new AddressesApi(config).get("adr_xxxx");
+              const address = await new AddressesApi(config).get('adr_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -10729,7 +10733,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteAddress = await new AddressesApi(config).delete("adr_xxxx");
+              const deleteAddress = await new AddressesApi(config).delete('adr_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -10819,17 +10823,9 @@ paths:
             const verificationData = new BankAccountVerify({
               amounts: [11, 35],
             });
-            const bankData = new BankAccountWritable({
-              description: "Test Bank Account",
-              routing_number: "322271627",
-              account_number: "123456789",
-              signatory: "Gomez Addams",
-              account_type: BankTypeEnum.Individual,
-            });
 
             try {
-              const result = await new BankAccountsApi(config).create(bankData)
-              const verifiedAccount = await new BankAccountsApi(config).verify(result.id, verificationData);
+              const verifiedAccount = await new BankAccountsApi(config).verify('bank_xxxx', verificationData);
             } catch (err: any) {
               console.error(err);
             }
@@ -10918,7 +10914,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const bankAccount = await new BankAccountsApi(config).get("bank_xxxx");
+              const bankAccount = await new BankAccountsApi(config).get('bank_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -10973,7 +10969,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteBankAccount = await new BankAccountsApi(config).delete("bank_xxxx");
+              const deleteBankAccount = await new BankAccountsApi(config).delete('bank_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -11146,10 +11142,10 @@ paths:
         - lang: Typescript
           source: |
             const bankAccountCreate = new BankAccountWritable({
-              description: "Test Bank Account",
-              routing_number: "322271627",
-              account_number: "123456789",
-              signatory: "Gomez Addams",
+              description: 'Test Bank Account',
+              routing_number: '322271627',
+              account_number: '123456789',
+              signatory: 'Gomez Addams',
               account_type: BankTypeEnum.Individual
             });
 
@@ -11500,16 +11496,16 @@ paths:
           source: |
             const UsVerifications = new USVerificationsApi(av_config);
             const verificationData1: UsVerificationsWritable = {
-              primary_line: "001 CEMETERY LANE",
-              city: "WESTFIELD",
-              state: "NJ",
-              zip_code: "07090",
+              primary_line: '210 King St',
+              city: 'San Francisco',
+              state: 'CA',
+              zip_code: '94107'
             };
             const verificationData2: UsVerificationsWritable = {
-              primary_line: "1515 CEMETERY LN",
-              city: "WESTFIELD",
-              state: "NJ",
-              zip_code: "07090",
+              primary_line: '185 BERRY ST STE 6600',
+              city: 'SAN FRANCISCO',
+              state: 'CA',
+              zip_code: '94107'
             };
             const addressList: MultipleComponentsList = {
               addresses: [verificationData1, verificationData2],
@@ -11677,13 +11673,13 @@ paths:
           source: |
             const IntlVerifications = new IntlVerificationsApi(av_config);
             let verificationData1: IntlVerificationWritable = {
-                primary_line: "370 WATER ST",
-                postal_code: "C1N 1C4",
+                primary_line: '370 WATER ST',
+                postal_code: 'C1N 1C4',
                 country: CountryExtended.Ca
             };
             const verificationData2: IntlVerificationWritable = {
-                primary_line: "012 PLACEHOLDER ST",
-                postal_code: "F0O 8A2",
+                primary_line: '012 PLACEHOLDER ST',
+                postal_code: 'F0O 8A2',
                 country: CountryExtended.Ca
             };
             let addressList = new IntlVerificationsPayload({
@@ -11987,7 +11983,7 @@ paths:
               front: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
               back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
               size: CardEditableSizeEnum._2125x3375,
-              description: "Test card",
+              description: 'Test card'
             });
 
             try {
@@ -12099,7 +12095,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const card = await new CardsApi(config).get("card_xxxx");
+              const card = await new CardsApi(config).get('card_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -12207,7 +12203,7 @@ paths:
         - lang: Typescript
           source: |
             const cardUpdatable =  new CardEditable ({
-              description: "Awesome card",
+              description: 'Awesome card',
               auto_reorder: true
             });
 
@@ -12248,7 +12244,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteCard = await new CardsApi(config).delete("card_xxxx");
+              const deleteCard = await new CardsApi(config).delete('card_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -12324,7 +12320,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const cardOrders = await new CardOrdersApi(cofig).get( "co_xxxx" );
+              const cardOrders = await new CardOrdersApi(cofig).get( 'co_xxxx' );
             } catch (err: any) {
               console.error(err);
             }
@@ -12399,11 +12395,12 @@ paths:
           label: CURL
         - lang: Typescript
           source: |
-            const cardForCreate: CardOrderEditable = {
-              quantity: 200,
+            const cardForCreate = new CardOrderEditable({
+              quantity: 200
+            });
 
             try {
-              const myCardOrder = await new CardOrdersApi(config).create("card_xxxx", cardForCreate);
+              const myCardOrder = await new CardOrdersApi(config).create('card_xxxx', cardForCreate);
             } catch (err: any) {
               console.error(err);
             }
@@ -12536,7 +12533,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const check = await new ChecksApi(config).get("chk_xxxx");
+              const check = await new ChecksApi(config).get('chk_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -12596,7 +12593,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteCheck = await new ChecksApi(config).delete("chk_xxxx");
+              const deleteCheck = await new ChecksApi(config).delete('chk_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -12848,28 +12845,35 @@ paths:
           source: |
             curl https://api.lob.com/v1/checks \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
-              -d "description=Demo Check" \
-              -d "to[name]=Harry Zhang" \
-              -d "to[address_line1]=210 King St" \
-              -d "to[address_line2]=# 6100" \
-              -d "to[address_city]=San Francisco" \
-              -d "to[address_state]=CA" \
-              -d "to[address_zip]=94107" \
-              -d "from=adr_210a8d4b0b76d77b" \
-              -d "bank_account=bank_8cad8df5354d33f" \
-              -d "amount=22.50" \
-              -d "memo=rent" \
-              --data-urlencode "logo=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png" \
-              --data-urlencode "check_bottom=<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>" \
-              -d "merge_variables[name]=Harry"
+              -d 'description=Demo Check' \
+              -d 'to[name]=Harry Zhang' \
+              -d 'to[address_line1]=210 King St' \
+              -d 'to[address_line2]=# 6100' \
+              -d 'to[address_city]=San Francisco' \
+              -d 'to[address_state]=CA' \
+              -d 'to[address_zip]=94107' \
+              -d 'from=adr_210a8d4b0b76d77b' \
+              -d 'bank_account=bank_8cad8df5354d33f' \
+              -d 'amount=22.50' \
+              -d 'memo=rent' \
+              --data-urlencode 'logo=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png' \
+              --data-urlencode 'check_bottom=<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>' \
+              -d 'merge_variables[name]=Harry'
           label: CURL
-        - lang: typescript
+        - lang: Typescript
           source: |
-            const checkCreate: CheckEditable = new CheckEditable({
-              to: addressId,
-              from: addressId,
-              bank_account: bankAccountId,
-              amount: 100
+            const checkCreate = new CheckEditable({
+            to: new AddressEditable({
+              name: 'Harry Zhang',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107',
+            }),
+            from: 'adr_xxxx',
+            bank_account: 'bank_xxxx',
+            amount: 100
             });
 
             try {
@@ -12906,23 +12910,23 @@ paths:
         - lang: Ruby
           source: |
             @lob.checks.create(
-              description: "Demo Check",
-              bank_account: "bank_8cad8df5354d33f",
+              description: 'Demo Check',
+              bank_account: 'bank_8cad8df5354d33f',
               to: {
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_line2: "# 6100",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
+              from: 'adr_210a8d4b0b76d77b',
               amount: 22.50,
-              memo: "rent",
-              logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-              check_bottom: "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+              memo: 'rent',
+              logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
+              check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
               merge_variables: {
-                name: "Harry"
+                name: 'Harry'
               }
             )
           label: RUBY
@@ -12970,25 +12974,25 @@ paths:
         - lang: Java
           source: |
             Map<String, String> mergeVariables = new HashMap<>();
-            mergeVariables.put("name", "Harry");
+            mergeVariables.put('name', 'Harry');
 
             LobResponse<Check> response = new Check.RequestBuilder()
-                    .setDescription("Demo Check")
-                    .setCheckBottom("<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>")
+                    .setDescription('Demo Check')
+                    .setCheckBottom('<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>')
                     .setMergeVariables(mergeVariables)
                     .setAmount(22.50f)
-                    .memo("rent")
-                    .setLogo("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png")
+                    .memo('rent')
+                    .setLogo('https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png')
                     .setTo(
                             new Address.RequestBuilder()
-                                    .setName("Harry Zhang")
-                                    .setLine1("210 King St Ste 6100")
-                                    .setCity("San Francisco")
-                                    .setState("CA")
-                                    .setZip("94107")
+                                    .setName('Harry Zhang')
+                                    .setLine1('210 King St Ste 6100')
+                                    .setCity('San Francisco')
+                                    .setState('CA')
+                                    .setZip('94107')
                     )
-                    .setFrom("adr_210a8d4b0b76d77b")
-                    .setBankAccount("bank_8cad8df5354d33f")
+                    .setFrom('adr_210a8d4b0b76d77b')
+                    .setBankAccount('bank_8cad8df5354d33f')
                     .create();
 
             Check check = response.getResponseBody();
@@ -12996,23 +13000,23 @@ paths:
         - lang: Elixir
           source: |
             Lob.Check.create(%{
-              description: "Demo Check",
-              bank_account: "bank_8cad8df5354d33f",
+              description: 'Demo Check',
+              bank_account: 'bank_8cad8df5354d33f',
               to: %{
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_line2: "# 6100",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
+              from: 'adr_210a8d4b0b76d77b',
               amount: 22.50,
-              memo: "rent",
-              logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
-              check_bottom: "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+              memo: 'rent',
+              logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
+              check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
               merge_variables: %{
-                name: "Harry"
+                name: 'Harry'
               }
             })
           label: ELIXIR
@@ -13286,13 +13290,13 @@ paths:
           source: |
             const IntlVerifications = new IntlVerificationsApi(av_config);
             let verificationData1: IntlVerificationWritable = {
-              primary_line: "370 WATER ST",
-              postal_code: "C1N 1C4",
+              primary_line: '370 WATER ST',
+              postal_code: 'C1N 1C4',
               country: CountryExtended.Ca
             };
 
             try {
-              const singleVerified = await IntlVerifications.verifySingle(verificationData!);   
+              const singleVerified = await IntlVerifications.verifySingle(verificationData1);   
             } catch (err: any) {
               console.error(err);
             }
@@ -13500,12 +13504,12 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const letter= await new LettersApi(config).get("ltr_xxxx");
+              const letter= await new LettersApi(config).get('ltr_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
-        - lang: javascript
+        - lang: Javascript
           source: |
             Lob.letters.retrieve('ltr_4868c3b754655f90', function (err, res) {
               console.log(err, res);
@@ -13557,10 +13561,10 @@ paths:
             curl -X DELETE https://api.lob.com/v1/letters/ltr_4868c3b754655f90 \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
-        - lang: typescript
+        - lang: Typescript
           source: |
             try {
-              const deleteLetter = await new LettersApi(config).delete("ltr_xxxx");
+              const deleteLetter = await new LettersApi(config).delete('ltr_xxxx')
             } catch (err: any) {
               console.error(err);
             }
@@ -13633,9 +13637,9 @@ paths:
         - lang: typescript
           source: |
             try {
-            const letters = await new LettersApi(config).list(2);
+              const letters = await new LettersApi(config).list(2);
             } catch (err: any) {
-            console.error(err);
+              console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
@@ -13830,27 +13834,34 @@ paths:
           source: |
             curl https://api.lob.com/v1/letters \
               -u YOUR_API_KEY \
-              -d "description=Demo Letter" \
-              -d "to[name]=Harry Zhang" \
-              -d "to[address_line1]=210 King St" \
-              -d "to[address_line2]=# 6100" \
-              -d "to[address_city]=San Francisco" \
-              -d "to[address_state]=CA" \
-              -d "to[address_zip]=94107" \
-              -d "from=adr_210a8d4b0b76d77b" \
-              --data-urlencode "file=<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>" \
-              -d "merge_variables[name]=Harry" \
-              -d "color=true" \
-              -d "cards[]=card_c51ae96f5cebf3e"
+              -d 'description=Demo Letter' \
+              -d 'to[name]=Harry Zhang' \
+              -d 'to[address_line1]=210 King St' \
+              -d 'to[address_line2]=# 6100' \
+              -d 'to[address_city]=San Francisco' \
+              -d 'to[address_state]=CA' \
+              -d 'to[address_zip]=94107' \
+              -d 'from=adr_210a8d4b0b76d77b' \
+              --data-urlencode 'file=<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>' \
+              -d 'merge_variables[name]=Harry' \
+              -d 'color=true' \
+              -d 'cards[]=card_c51ae96f5cebf3e'
           label: CURL
         - lang: Typescript
           source: |
             const letterCreate = new LetterEditable({
-              to: addressId,
-              from: addressId,
+              to: {
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
+              },
+              from: 'adr_xxxx',
               color: true,
               extra_service: LetterEditableExtraServiceEnum.Certified,
-              file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf"
+              file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf'
             });
 
             try {
@@ -13885,22 +13896,22 @@ paths:
         - lang: Ruby
           source: |
             @lob.letters.create(
-              description: "Demo Letter",
+              description: 'Demo Letter',
               to: {
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_line2: "# 6100",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
-              file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+              from: 'adr_210a8d4b0b76d77b',
+              file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
               merge_variables: {
-                name: "Harry"
+                name: 'Harry'
               },
               color: true,
-              cards: ["card_c51ae96f5cebf3e"]
+              cards: ['card_c51ae96f5cebf3e']
             )
           label: RUBY
         - lang: Python
@@ -13943,23 +13954,23 @@ paths:
         - lang: Java
           source: |
             Map<String, String> mergeVariables = new HashMap<>();
-            mergeVariables.put("name", "Harry");
+            mergeVariables.put('name', 'Harry');
 
             LobResponse<Letter> response = new Letter.RequestBuilder()
-                    .setDescription("Demo Letter")
-                    .setFile("<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>")
+                    .setDescription('Demo Letter')
+                    .setFile('<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>')
                     .setColor(true)
                     .setMergeVariables(mergeVariables)
                     .setTo(
                             new Address.RequestBuilder()
-                                    .setName("Harry Zhang")
-                                    .setLine1("210 King St Ste 6100")
-                                    .setCity("San Francisco")
-                                    .setState("CA")
-                                    .setZip("94107")
+                                    .setName('Harry Zhang')
+                                    .setLine1('210 King St Ste 6100')
+                                    .setCity('San Francisco')
+                                    .setState('CA')
+                                    .setZip('94107')
                     )
-                    .setFrom("adr_210a8d4b0b76d77b")
-                    .setCards("card_c51ae96f5cebf3e")
+                    .setFrom('adr_210a8d4b0b76d77b')
+                    .setCards('card_c51ae96f5cebf3e')
                     .create();
 
             Letter letter = response.getResponseBody();
@@ -13967,22 +13978,22 @@ paths:
         - lang: Elixir
           source: |
             Lob.Letter.create(%{
-              description: "Demo Letter",
+              description: 'Demo Letter',
               to: %{
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_line2: "# 6100",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
-              file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+              from: 'adr_210a8d4b0b76d77b',
+              file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
               merge_variables: %{
-                name: "Harry"
+                name: 'Harry'
               },
               color: true,
-              cards: ["card_c51ae96f5cebf3e"]
+              cards: ['card_c51ae96f5cebf3e']
             })
           label: ELIXIR
   /postcards/{psc_id}:
@@ -14111,10 +14122,10 @@ paths:
             curl https://api.lob.com/v1/postcards/psc_5c002b86ce47537a \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
-        - lang: Javascript
+        - lang: Typescript
           source: |
             try {
-              const postcard = await new PostCardsApi(config).get("psc_xxxx");
+              const postcard = await new PostCardsApi(config).get('psc_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -14173,10 +14184,10 @@ paths:
             \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
-        - lang: typescript
+        - lang: Typescript
           source: |
             try {
-              const deletePostcard = await new PostcardsApi(config).delete("psc_xxxx");
+              const deletePostcard = await new PostcardsApi(config).delete('psc_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -14432,27 +14443,42 @@ paths:
           source: |
             curl https://api.lob.com/v1/postcards \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
-              -d "description=Demo Postcard job" \
-              -d "to[name]=Harry Zhang" \
-              -d "to[address_line1]=210 King St" \
-              -d "to[address_line2]=# 6100" \
-              -d "to[address_city]=San Francisco" \
-              -d "to[address_state]=CA" \
-              -d "to[address_zip]=94107" \
-              -d "from=adr_210a8d4b0b76d77b" \
-              --data-urlencode "front=<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>" \
-              --data-urlencode "back=<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>" \
-              -d "merge_variables[name]=Harry"
+              -d 'description=Demo Postcard job' \
+              -d 'to[name]=Harry Zhang' \
+              -d 'to[address_line1]=210 King St' \
+              -d 'to[address_line2]=# 6100' \
+              -d 'to[address_city]=San Francisco' \
+              -d 'to[address_state]=CA' \
+              -d 'to[address_zip]=94107' \
+              -d 'from=adr_210a8d4b0b76d77b' \
+              --data-urlencode 'front=<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>' \
+              --data-urlencode 'back=<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>' \
+              -d 'merge_variables[name]=Harry'
           label: CURL
-        - lang: typescript
-          source: |
+        - lang: Typescript
+          source: >
             const postcardCreate = new PostcardEditable({
-              to: addressId,
-              from: addressId,
-              front:
-              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf",
-              back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf"
+
+            to: new AddressEditable({
+              name: 'Harry Zhang',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107'
+            }),
+
+            from: 'adr_xxxx',
+
+            front:
+
+            'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
+
+            back:
+            'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf'
+
             });
+
 
             try {
               const myPostcard = await new PostcardsApi(config).create(postcardCreate);
@@ -14485,20 +14511,20 @@ paths:
         - lang: Ruby
           source: |
             @lob.postcards.create(
-              description: "Demo Postcard job",
+              description: 'Demo Postcard job',
               to: {
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_line2: "# 6100",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
-              front: "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
-              back: "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+              from: 'adr_210a8d4b0b76d77b',
+              front: '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
+              back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
               merge_variables: {
-                name: "Harry"
+                name: 'Harry'
               }
             )
           label: RUBY
@@ -14540,22 +14566,22 @@ paths:
         - lang: Java
           source: |
             Map<String, String> mergeVariables = new HashMap<>();
-            mergeVariables.put("name", "Harry");
+            mergeVariables.put('name', 'Harry');
 
             LobResponse<Postcard> response = new Postcard.RequestBuilder()
-                    .setDescription("Demo Postcard job")
+                    .setDescription('Demo Postcard job')
                     .setTo(
                             new Address.RequestBuilder()
-                                    .setName("Harry Zhang")
-                                    .setLine1("210 King St")
-                                    .setLine2("# 6100")
-                                    .setCity("San Francisco")
-                                    .setState("CA")
-                                    .setZip("94107")
+                                    .setName('Harry Zhang')
+                                    .setLine1('210 King St')
+                                    .setLine2('# 6100')
+                                    .setCity('San Francisco')
+                                    .setState('CA')
+                                    .setZip('94107')
                     )
-                    .setFrom("adr_210a8d4b0b76d77b")
-                    .setFront("<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>")
-                    .setBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>")
+                    .setFrom('adr_210a8d4b0b76d77b')
+                    .setFront('<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>')
+                    .setBack('<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>')
                     .setMergeVariables(mergeVariables)
                     .create();
 
@@ -14564,20 +14590,20 @@ paths:
         - lang: Elixir
           source: |
             Lob.Postcard.create(%{
-              description: "Demo Postcard job",
+              description: 'Demo Postcard job',
               to: %{
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_line2: "# 6100",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
+                name: 'Harry Zhang',
+                address_line1: '210 King St',
+                address_line2: '# 6100',
+                address_city: 'San Francisco',
+                address_state: 'CA',
+                address_zip: '94107'
               },
-              from: "adr_210a8d4b0b76d77b",
-              front: "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
-              back: "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+              from: 'adr_210a8d4b0b76d77b',
+              front: '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
+              back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
               merge_variables: %{
-                name: "Harry"
+                name: 'Harry'
               }
             })
           label: ELIXIR
@@ -14684,6 +14710,14 @@ paths:
             "https://api.lob.com/v1/self_mailers/sfm_8ffbe811dea49dcf" \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
+        - lang: typescript
+          source: |
+            try {
+              const selfMailer = await new SelfMailersApi(config).get('sfm_xxxx');
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
         - lang: Javascript
           source: >
             Lob.selfMailers.retrieve('sfm_8ffbe811dea49dcf', function (err, res)
@@ -14691,14 +14725,6 @@ paths:
               console.log(err, res);
             });
           label: NODE
-        - lang: typescript
-          source: |
-            try {
-              const selfMailer = await new SelfMailersApi(config).get("sfm_xxxx");
-            } catch (err: any) {
-              console.error(err);
-            }
-          label: TYPESCRIPT
         - lang: Ruby
           source: |
             @lob.self_mailers.find("sfm_8ffbe811dea49dcf")
@@ -14748,7 +14774,7 @@ paths:
         - lang: typescript
           source: |
             try {
-              const deleteSelfMailer = await new SelfMailersApi(config).delete("sfm_xxxx");
+              const deleteSelfMailer = await new SelfMailersApi(config).delete('sfm_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -14846,7 +14872,7 @@ paths:
           source: >
             Map<String, Object> params = new HashMap<>>();
 
-            params.put("limit", 2);
+            params.put('limit', 2);
 
 
             LobResponse<SelfMailerCollection> response =
@@ -14949,12 +14975,19 @@ paths:
         - lang: Typescript
           source: |
             const selfMailerCreate = new SelfMailerEditable({
-              to: addressId,
-              from: addressId,
+              to: {
+              name: 'Harry Zhang',
+              address_line1: '210 King St',
+              address_line2: '# 6100',
+              address_city: 'San Francisco',
+              address_state: 'CA',
+              address_zip: '94107',
+            },
+              from: 'adr_xxxx',
               inside:
-              "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf",
+              'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf',
               outside:
-              "https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf"
+              'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf'
             });
 
             try {
@@ -14987,21 +15020,21 @@ paths:
         - lang: Ruby
           source: |
             @lob.self_mailers.create(
-              description: "Demo Self Mailers job",
-              to: {
-                name: "Harry Zhang",
-                address_line1: "210 King St",
-                address_city: "San Francisco",
-                address_state: "CA",
-                address_zip: "94107"
-              },
-              from: "adr_210a8d4b0b76d77b",
-              inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
-              outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
-              merge_variables: {
-                name: "Harry"
-              }
-            )
+               description: "Demo Self Mailers job",
+               to: {
+                 name: "Harry Zhang",
+                 address_line1: "210 King St",
+                 address_city: "San Francisco",
+                 address_state: "CA",
+                 address_zip: "94107"
+               },
+               from: "adr_210a8d4b0b76d77b",
+               inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+               outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+               merge_variables: {
+                 name: "Harry"
+               }
+             )
           label: RUBY
         - lang: Python
           source: |
@@ -15015,8 +15048,8 @@ paths:
                 'address_zip': '94107'
               },
               from_address = 'adr_210a8d4b0b76d77b',
-              inside = '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
-              outside = '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
+              inside = '<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>',
+              outside = '<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>',
               merge_variables = {
                 'name': 'Harry'
               }
@@ -15028,12 +15061,12 @@ paths:
               'description'           => 'Demo Self Mailer job',
               'to[name]'              => 'Harry Zhang',
               'to[address_line1]'     => '210 King St',
-              'to[address_city]'      => 'San Francisco',
+              'to[address_city]'     => 'San Francisco',
               'to[address_zip]'       => '94107',
               'to[address_state]'     => 'CA',
               'from'                  => 'adr_210a8d4b0b76d77b',
-              'inside'                => '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
-              'outside'               => '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
+              'inside'                => '<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>',
+              'outside'               => '<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>',
               'merge_variables[name]' => 'Harry'
             ));
         - lang: Java
@@ -15127,7 +15160,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const templateVersion = await new TemplateVersionsApi(config).get("tmpl_xxxx, vrsn_xxxx");
+              const templateVersion = await new TemplateVersionsApi(config).get('tmpl_xxxx', 'vrsn_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -15196,17 +15229,12 @@ paths:
         - lang: Typescript
           source: |
             const TemplateVersions = new TemplateVersionsApi(config);
-            const templateVersionData =  new TemplateVersionWritable({
-              description: "Newer Template",
-              html: "<html>Updated HTML for {{name}}</html>"
-            });
 
             try {
-              const createTemplateVersion = await TemplateVersions.create(templateVersionData);
-              const updateData= new TemplateVersionUpdatable({
-                description: "updated template",
+              const updateData = new TemplateVersionUpdatable({
+                description: 'updated template'
               });
-              const updateTemplateVersion = await TemplatesVersions.update(createTemplateVersion.id, updateData);
+              const updateTemplateVersion = await TemplateVersions.update('vrsn_xxxx', updateData);
             } catch (err: any) {
               console.error(err);
             }
@@ -15402,12 +15430,12 @@ paths:
         - lang: Typescript
           source: |
             const templateVersionCreate = new TemplateVersionWritable({
-              description: "Newer Template",
-              html: "<html>Updated HTML for {{name}}</html>"
+              description: 'Newer Template',
+              html: '<html>Updated HTML for {{name}}</html>'
             });
 
             try {
-              const myTemplateVersion = await new TemplateVersionsApi(config).create(templateVersionCreate);
+              const myTemplateVersion = await new TemplateVersionsApi(config).create('tmpl_xxxx', templateVersionCreate);
             } catch (err: any) {
               console.error(err);
             }
@@ -15494,7 +15522,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const Template = await new TemplatesApi(config).get("tmpl_xxxx");
+              const Template = await new TemplatesApi(config).get('tmpl_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -15604,18 +15632,13 @@ paths:
         - lang: Typescript
           source: |
             const Templates = new TemplatesApi(config);
-            const templateData = new TemplateWritable({
-              description: "Newer Template",
-              html: "<html>Updated HTML for {{name}}</html>"
-            });
 
             try {
-              const createTemplate = await Templates.create(templateData);
-              const updateData= new TemplateUpdate ({
-                description: "updated template",
-                published_version: createTemplate.published_version?.id as string
+              const updateData = new TemplateUpdate ({
+                description: 'updated template',
+                published_version: 'vrsn_xxxx'
             });
-              const updateTemplate = await Templates.update(createTemplate.id updateData);
+              const updateTemplate = await Templates.update('tmpl_xxxx', updateData);
             } catch (err: any) {
               console.error(err);
             }
@@ -15667,7 +15690,7 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteTemplate = await new TemplatesApi(config).delete("tmpl_xxxx");
+              const deleteTemplate = await new TemplatesApi(config).delete('tmpl_xxxx');
             } catch (err: any) {
               console.error(err);
             }
@@ -15846,8 +15869,8 @@ paths:
         - lang: Typescript
           source: |
             const templateCreate = new TemplateWritable({
-              description: "Newer Template",
-              html: "<html>Updated HTML for {{name}}</html>"
+              description: 'Newer Template',
+              html: '<html>Updated HTML for {{name}}</html>'
             });
 
             try {
@@ -15985,8 +16008,8 @@ paths:
           source: |
             const UsAutocompletions = new USAutocompletionsApi(av_config);
             const autocompletionData: UsAutocompletionsWritable = {
-              address_prefix: "185 B",
-              city: "SAN FRANCISCO"
+              address_prefix: '185 B',
+              city: 'SAN FRANCISCO'
             };
 
             try {
@@ -16303,10 +16326,10 @@ paths:
           source: |
             const UsVerification = new USVerificationsApi(av_config);
             const verificationData1: UsVerificationsWritable = {
-              primary_line: "001 CEMETERY LANE",
-              city: "WESTFIELD",
-              state: "NJ",
-              zip_code: "07090",
+              primary_line: '210 King Street',
+              city: 'San Francisco',
+              state: 'CA',
+              zip_code: '94107'
             };
 
             try {
@@ -16416,7 +16439,7 @@ paths:
           source: |
             const ZipLookup = new ZipLookupsApi(av_config);
             const zipRequest : ZipEditable = {
-              zip_code: "07090"
+              zip_code: '07090'
             }
             try {
               const zipLookup : Zip = await ZipLookup.lookup(zipRequest);

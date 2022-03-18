@@ -35,7 +35,7 @@ get:
     - lang: Typescript
       source: |
         try {
-          const cardOrders = await new CardOrdersApi(cofig).get( "co_xxxx" );
+          const cardOrders = await new CardOrdersApi(cofig).get( 'co_xxxx' );
         } catch (err: any) {
           console.error(err);
         }
@@ -104,11 +104,12 @@ post:
       label: CURL
     - lang: Typescript
       source: |
-        const cardForCreate: CardOrderEditable = {
-          quantity: 200,
+        const cardForCreate = new CardOrderEditable({
+          quantity: 200
+        });
 
         try {
-          const myCardOrder = await new CardOrdersApi(config).create("card_xxxx", cardForCreate);
+          const myCardOrder = await new CardOrdersApi(config).create('card_xxxx', cardForCreate);
         } catch (err: any) {
           console.error(err);
         }

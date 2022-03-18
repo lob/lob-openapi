@@ -36,12 +36,12 @@ get:
     - lang: Typescript
       source: |
         try {
-          const letter= await new LettersApi(config).get("ltr_xxxx");
+          const letter= await new LettersApi(config).get('ltr_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
-    - lang: javascript
+    - lang: Javascript
       source: |
         Lob.letters.retrieve('ltr_4868c3b754655f90', function (err, res) {
           console.log(err, res);
@@ -99,10 +99,10 @@ delete:
         curl -X DELETE https://api.lob.com/v1/letters/ltr_4868c3b754655f90 \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
-    - lang: typescript
+    - lang: Typescript
       source: |
         try {
-          const deleteLetter = await new LettersApi(config).delete("ltr_xxxx");
+          const deleteLetter = await new LettersApi(config).delete('ltr_xxxx')
         } catch (err: any) {
           console.error(err);
         }

@@ -247,13 +247,17 @@ post:
     - lang: Typescript
       source: |
         const addressCreate = new AddressEditable({
-          name: "Thing T. Thing",
-          address_line1: "1313 CEMETERY LN",
-          address_line2: ""
-          address_city: "WESTFIELD",
-          address_state: "NJ",
-          address_zip: "07090",
-          address_county: "US"
+          description: 'Harry - Office',
+          name: 'Harry Zhang',
+          company: 'Lob',
+          email: 'harry@lob.com',
+          phone: '5555555555',
+          address_line1: '210 King St',
+          address_line2: '# 6100',
+          address_city: 'San Francisco',
+          address_state: 'CA',
+          address_zip: '94107',
+          address_country: 'US'
         });
 
         try {
@@ -275,7 +279,7 @@ post:
           address_city: 'San Francisco',
           address_state: 'CA',
           address_zip: '94107',
-          address_country: 'US',
+          address_country: 'US'
         }, function (err, res) {
           console.log(err, res);
         });

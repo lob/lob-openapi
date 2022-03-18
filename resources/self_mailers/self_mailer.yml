@@ -33,20 +33,21 @@ get:
         curl -X GET "https://api.lob.com/v1/self_mailers/sfm_8ffbe811dea49dcf" \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       label: CURL
+    - lang: typescript
+      source: |
+        try {
+          const selfMailer = await new SelfMailersApi(config).get('sfm_xxxx');
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
     - lang: Javascript
       source: |
         Lob.selfMailers.retrieve('sfm_8ffbe811dea49dcf', function (err, res) {
           console.log(err, res);
         });
       label: NODE
-    - lang: typescript
-      source: |
-        try {
-          const selfMailer = await new SelfMailersApi(config).get("sfm_xxxx");
-        } catch (err: any) {
-          console.error(err);
-        }
-      label: TYPESCRIPT
+
     - lang: Ruby
       source: |
         @lob.self_mailers.find("sfm_8ffbe811dea49dcf")
@@ -98,7 +99,7 @@ delete:
     - lang: typescript
       source: |
         try {
-          const deleteSelfMailer = await new SelfMailersApi(config).delete("sfm_xxxx");
+          const deleteSelfMailer = await new SelfMailersApi(config).delete('sfm_xxxx');
         } catch (err: any) {
           console.error(err);
         }

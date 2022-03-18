@@ -36,7 +36,7 @@ get:
     - lang: Typescript
       source: |
         try {
-          const Template = await new TemplatesApi(config).get("tmpl_xxxx");
+          const Template = await new TemplatesApi(config).get('tmpl_xxxx');
         } catch (err: any) {
           console.error(err);
         }
@@ -130,18 +130,13 @@ post:
     - lang: Typescript
       source: |
         const Templates = new TemplatesApi(config);
-        const templateData = new TemplateWritable({
-          description: "Newer Template",
-          html: "<html>Updated HTML for {{name}}</html>"
-        });
 
         try {
-          const createTemplate = await Templates.create(templateData);
-          const updateData= new TemplateUpdate ({
-            description: "updated template",
-            published_version: createTemplate.published_version?.id as string
+          const updateData = new TemplateUpdate ({
+            description: 'updated template',
+            published_version: 'vrsn_xxxx'
         });
-          const updateTemplate = await Templates.update(createTemplate.id updateData);
+          const updateTemplate = await Templates.update('tmpl_xxxx', updateData);
         } catch (err: any) {
           console.error(err);
         }
@@ -199,7 +194,7 @@ delete:
     - lang: Typescript
       source: |
         try {
-          const deleteTemplate = await new TemplatesApi(config).delete("tmpl_xxxx");
+          const deleteTemplate = await new TemplatesApi(config).delete('tmpl_xxxx');
         } catch (err: any) {
           console.error(err);
         }

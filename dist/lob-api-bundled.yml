@@ -8,14 +8,14 @@ info:
     any API errors. <p>
   license:
     name: MIT
-    url: https://mit-license.org/
+    url: 'https://mit-license.org/'
   contact:
     name: Lob Developer Experience
-    url: https://support.lob.com/
+    url: 'https://support.lob.com/'
     email: lob-openapi@lob.com
-  termsOfService: https://www.lob.com/legal
+  termsOfService: 'https://www.lob.com/legal'
 servers:
-  - url: https://api.lob.com/v1
+  - url: 'https://api.lob.com/v1'
     description: production
 tags:
   - name: Addresses
@@ -28,8 +28,9 @@ tags:
   - name: Authentication
     x-traitTag: true
     description: >
-      Requests made to the API are protected with [HTTP Basic
-      authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).
+      Requests made to the API are protected with <a
+      href="https://en.wikipedia.org/wiki/Basic_access_authentication"
+      target="_blank">HTTP Basic authentication</a>.
 
       In order to properly authenticate with the API you must use your API key
       as the username
@@ -39,7 +40,8 @@ tags:
 
       [error code](#tag/Errors). You can find your account's API keys
 
-      in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
+      in your <a href="https://dashboard.lob.com/settings/api-keys"
+      target="_blank">Dashboard Settings</a>.
 
       ### Example Request
 
@@ -60,7 +62,7 @@ tags:
         If you do not include your key when making an API request, or use
         one that is incorrect or outdated, Lob returns an error with a `401`
         HTTP response code. You can find all API keys in your dashboard
-        under [Settings](https://dashboard.lob.com/#/settings/keys).
+        under <a href="https://dashboard.lob.com/settings/api-keys" target="_blank">Settings</a>.
         There are two types of API keys: *secret* and *publishable*.
         - **Secret API keys** should be kept confidential and only stored on your own servers.
         Your account's secret API key can perform any API request to Lob without restriction.
@@ -132,7 +134,7 @@ tags:
       If you are participating in a Beta program and want to provide feedback,
       please feel free to
 
-      [contact us](https://lob.com/support#contact)!
+      <a href="https://lob.com/support#contact" target="_blank">contact us</a>!
   - name: Billing Groups
     description: >
       The Billing Groups API allows you to create and view labels that can be
@@ -393,7 +395,8 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>422</code></td>
           <td style="white-space: nowrap">FAILED_DELIVERABILITY_STRICTNESS</td>
-          <td style="white-space: nowrap">The to address doesn't meet strictness requirements. See [Account Settings](https://dashboard.lob.com/#/settings/account) to configure strictness.</td>
+          <td style="white-space: nowrap">The to address doesn't meet strictness requirements. 
+          See <a href="https://dashboard.lob.com/#/settings/account" target="_blank">Account Settings</a> to configure strictness.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>422</code></td>
@@ -546,7 +549,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>postcard.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A postcard receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain <a href='https://dashboard.lob.com/#/settings/editions'>Print & Mail Editions</a>.</td>
+          <td style="white-space: nowrap">A postcard receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain <a href='https://dashboard.lob.com/#/settings/editions' target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>postcard.in_transit</code></td>
@@ -608,7 +611,8 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>self_mailer.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A self_mailer receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+          <td style="white-space: nowrap">A self_mailer receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>self_mailer.in_transit</code></td>
@@ -670,7 +674,8 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>letter.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+          <td style="white-space: nowrap">A letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>letter.in_transit</code></td>
@@ -700,7 +705,8 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>letter.certified.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A certified letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+          <td style="white-space: nowrap">A certified letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>letter.certified.in_transit</code></td>
@@ -812,7 +818,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>check.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A check receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+          <td style="white-space: nowrap">A check receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>check.in_transit</code></td>
@@ -894,11 +900,12 @@ tags:
     description: >
       ### 1. Get Setup
 
-      * Create an account at <a
-      href="https://dashboard.lob.com/#/register">Lob.com</a>
+      * Create an account at <a href="https://dashboard.lob.com/#/register"
+      target="_blank">Lob.com</a>
 
       * Obtain your API keys in the Lob dashboard <a
-      href="https://dashboard.lob.com/#/settings/keys">settings</a>
+      href="https://dashboard.lob.com/settings/api-keys"
+      target="_blank">settings</a>
 
       * You'll use the format, `test_*.` for your Test API key and `live_*.` for
       your Live API key.
@@ -945,21 +952,20 @@ tags:
 
       ### 3. Learn more
 
-      Review our "Getting Started" guides for more details on use cases:
+      Try our quick start (TypeScript, Python, PHP, Java or Ruby):
 
-      *
-      [Postcards](https://www.lob.com/guides?tab=postcards-self-mailers#getting_started)
+      * <a
+      href="https://help.lob.com/en_US/developer-documentation/developer-quickstart-guide"
+      target="_blank">Send your first Postcards</a>
 
-      *
-      [Self-Mailers](https://www.lob.com/guides?tab=postcards-self-mailers#getting_started_selfmailers)
 
-      *
-      [Letters](https://www.lob.com/guides?tab=letters#getting_started_letters)
+      Use Case guides
 
-      * [Checks](https://www.lob.com/guides?tab=checks#getting_started_checks)
+      * <a href="https://help.lob.com/use-case-guides/massdeletion"
+      target="_blank">Mass Deletion</a>
 
-      * [Address Verification
-      Elements](https://www.lob.com/guides?tab=address-verification#av-elements-quickstart)
+      * <a href="https://help.lob.com/en_US/use-case-guides/ncoa-restrictions"
+      target="_blank">NCOALink Restrictions</a>
   - name: Intl Autocompletions
     description: >
       Address autocompletion for non-US addresses. Given partial address
@@ -1050,11 +1056,12 @@ tags:
       The test API key does not perform any verification, automatic correction,
       or standardization
 
-      for addresses. If you wish to try these features out, use our [live
-      demo](https://lob.com/address-verification)
+      for addresses. If you wish to try these features out, use our <a
+      href="https://lob.com/address-verification" target="_blank">live demo</a>
 
-      or the free plan (see [our
-      pricing](https://lob.com/pricing/address-verification) for details).
+      or the free plan (see <a
+      href="https://lob.com/pricing/address-verification" target="_blank">our
+      pricing</a> for details).
   - name: Introduction
     x-traitTag: true
     description: >
@@ -1116,17 +1123,18 @@ tags:
 
       In addition, certain customers can customize their cancellation windows by
 
-      product in their [Dashboard Settings](https://dashboard.lob.com/#).
-      Upgrade to
+      product in their <a href="https://dashboard.lob.com/#"
+      target="_blank">Dashboard Settings</a>. Upgrade to
 
-      the appropriate [Print & Mail
-      Edition](https://dashboard.lob.com/#/settings/editions)
+      the appropriate <a href="https://dashboard.lob.com/#/settings/editions"
+      target="_blank">Print & Mail Edition</a>
 
       to automatically gain access to this ability. For more details on this
       feature,
 
-      check out our [Cancellation
-      Guide](https://www.lob.com/guides?tab=general#cancellation_windows).
+      check out our <a
+      href="https://help.lob.com/print_mail/mail-send-settings#cancellation-windows"
+      target="_blank">Cancellation Guide</a>.
 
 
       If you schedule a postcard, self mailer, letter, or check for up to 180
@@ -1167,13 +1175,15 @@ tags:
 
       For implementation details, see documentation below for each respective
 
-      endpoint. For more help, see our [Scheduled Mailings
-      Guide](https://www.lob.com/guides?tab=general#scheduled_mailing).
+      endpoint. For more help, see our <a
+      href="https://help.lob.com/print_mail/mail-send-settings#scheduling-mailings-for-a-future-date"
+      target="_blank">Scheduled Mailings Guide</a>.
 
 
       This feature is exclusive to certain customers. Upgrade to the appropriate
 
-      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to
+      <a href="https://dashboard.lob.com/#/settings/editions"
+      target="_blank">Print & Mail Edition</a> to
 
       gain access.
 
@@ -1195,8 +1205,8 @@ tags:
   - name: National Change of Address
     x-traitTag: true
     description: >
-      National Change of Address (NCOA) is a service offered by the USPS, which
-      allows individuals
+      National Change of Address Linkage (NCOALink) is a service offered by the
+      USPS, which allows individuals
 
       or businesses who have recently moved to have any mail forwarded from
       their previous address
@@ -1204,50 +1214,52 @@ tags:
       to their new address.
 
 
-      As a CASS-certified Address Verification Provider, Lob also offers NCOA
+      As a CASS-certified Address Verification Provider, Lob also offers
+      NCOALink
 
-      functionality to our Print & Mail customers. With the Lob NCOA feature
+      functionality to our Print & Mail customers. With the Lob NCOALink feature
       enabled, Postcards,
 
       Letters, Checks and Addresses can automatically be corrected to reflect an
       individual's or business's
 
       new address in the case that they have moved (only if they have registered
-      for NCOA with the USPS).
+      for NCOALink with the USPS).
 
 
-      Due to privacy concerns and USPS constraints, for customers with NCOA
+      Due to privacy concerns and USPS constraints, for customers with NCOALink
       enabled, our API responses
 
       for a limited set of endpoints differ slightly in the case when an address
-      has been changed through NCOA.
+      has been changed through NCOALink.
 
 
       **NOTE**: This feature is exclusive to certain customers. Upgrade to the
-      appropriate <a href='https://dashboard.lob.com/#/settings/editions'>Print
-      & Mail Editions</a> to gain access.
+      appropriate <a href='https://dashboard.lob.com/#/settings/editions'
+      target="_blank">Print & Mail Editions</a> to gain access.
 
 
-      For more information, see our [NCOA
-      guide](https://www.lob.com/guides?tab=general#national_change).
+      For more information, see our <a
+      href="https://help.lob.com/print_mail/all-about-addresses#national-change-of-address-ncoa"
+      target="_blank">NCOALink guide</a>.
 
 
-      ## NCOA Live Environment
+      ## NCOALink Live Environment
 
       Though there are no changes to API requests, there are significant changes
       to our API responses, but
 
-      only in the event that an address has been changed through NCOA. If an
+      only in the event that an address has been changed through NCOALink. If an
       address has not been changed
 
-      through NCOA, the response would be identical to our standard responses,
-      except the addition of a
+      through NCOALink, the response would be identical to our standard
+      responses, except the addition of a
 
       `recipient_moved` field, which is `false` for unchanged addresses.
 
 
-      If an address has been changed through NCOA, we are required to suppress
-      the following response
+      If an address has been changed through NCOALink, we are required to
+      suppress the following response
 
       fields for that address:
 
@@ -1263,20 +1275,20 @@ tags:
       in Addresses
 
 
-      ## NCOA Test Environment
+      ## NCOALink Test Environment
 
 
       In addition to sending live requests, you may also want to simulate what
-      an NCOA response might
+      an NCOALink response might
 
       look like so that you can ensure your application behaves as expected. The
-      behavior of NCOA in
+      behavior of NCOALink in
 
       Lob's Test Environment is very similar to our [US Verifications Test
       Mode](#section/US-Verifications-Test-Env).
 
 
-      To simulate an NCOA request, send a POST request to any of the four
+      To simulate an NCOALink request, send a POST request to any of the four
       endpoints below with an `address_line1` field equal to `NCOA`:
 
       - `POST /v1/addresses`
@@ -1441,8 +1453,9 @@ tags:
 
       For more help integrating idempotency keys, refer to our
 
-      [implementation
-      guide](https://www.lob.com/guides?tab=general#idempotent_request).
+      <a
+      href="https://help.lob.com/print_mail/mail-send-settings#idempotent-requests"
+      target="_blank">implementation guide</a>.
 
 
       **Headers**
@@ -1658,22 +1671,24 @@ tags:
   - name: SDKs and Tools
     x-traitTag: true
     description: >
-      Please visit our [Github](https://www.github.com/lob) for a list of our
-      supported libraries.
+      Please visit our <a href="https://www.github.com/lob"
+      target="_blank">Github</a> for a list of our supported libraries.
 
-      - [Typescript](https://github.com/lob/lob-typescript-sdk)
+      - <a href="https://github.com/lob/lob-typescript-sdk"
+      target="_blank">Typescript</a>
 
-      - [PHP](https://github.com/lob/lob-php)
+      - <a href="https://github.com/lob/lob-php" target="_blank">PHP</a>
 
-      - [Python](https://github.com/lob/lob-python)
+      - <a href="https://github.com/lob/lob-python" target="_blank">Python</a>
 
-      - [Java](https://github.com/lob/lob-java)
+      - <a href="https://github.com/lob/lob-java" target="_blank">Java</a>
 
-      - [Ruby](https://github.com/lob/lob-ruby)
+      - <a href="https://github.com/lob/lob-ruby" target="_blank">Ruby</a>
 
-      - [Elixir](https://github.com/lob/lob-elixir)
+      - <a href="https://github.com/lob/lob-elixir" target="_blank">Elixir</a>
 
-      - [Node.js (legacy)](https://github.com/lob/lob-node)
+      - <a href="https://github.com/lob/lob-node" target="_blank">Node.js
+      (legacy)</a>
   - name: Self Mailers
     description: >
       The self mailer endpoint allows you to easily print and mail self mailers.
@@ -1698,24 +1713,23 @@ tags:
       independently, without having to touch your API integration. Templates can
       be created, edited,
 
-      and viewed on your [Dashboard](https://dashboard.lob.com/#/templates). To
-      use a template in a postcard,
+      and viewed on your <a href="https://dashboard.lob.com/#/templates"
+      target="_blank">Dashboard</a>. To use a template in a postcard,
 
       letter, or check, see the documentation for each endpoint below. For help
       using templates, check out our
 
-      [HTML Templates
-      Guide](https://www.lob.com/guides?tab=general#html_templates) or get
-      started with a
+      <a
+      href="https://help.lob.com/print_mail/dynamic-personalization#html-templates"
+      target="_blank">HTML Templates Guide</a> or get started with a
 
-      [pre-designed template from our
-      gallery](https://lob.com/template-gallery). In Live mode, you can only
-      have
+      <a href="https://lob.com/template-gallery" target="_blank">pre-designed
+      template from our gallery</a>. In Live mode, you can only have
 
       as many templates as allotted in your current
 
-      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions).
-      There is no limit in Test mode.
+      <a href="https://dashboard.lob.com/#/settings/editions"
+      target="_blank">Print & Mail Edition</a>. There is no limit in Test mode.
 
 
       If you'd like to interact with templates programmatically, check out our
@@ -1740,11 +1754,13 @@ tags:
 
       ## HTML Examples
 
-      Use a pre-designed template from our
-      [gallery](https://lob.com/resources/template-gallery) or follow these
+      Use a pre-designed template from our <a
+      href="https://lob.com/resources/template-gallery"
+      target="_blank">gallery</a> or follow these
 
-      basic [guidelines](https://github.com/lob/examples) as starting points for
-      creating custom Postcards,
+      basic <a href="https://github.com/lob/examples"
+      target="_blank">guidelines</a> as starting points for creating custom
+      Postcards,
 
       Self Mailers, Letters, and Checks.
 
@@ -1769,8 +1785,8 @@ tags:
 
       - The sum of all linked assets should not exceed 5MB in file size.
 
-      - Use `-webkit` prefixes for CSS properties when recommended
-      [here](http://shouldiprefix.com/).
+      - Use `-webkit` prefixes for CSS properties when recommended <a
+      href="http://shouldiprefix.com/" target="_blank">here</a>.
 
 
       Because different browsers have varying user-agent styles, the HTML you
@@ -1881,8 +1897,9 @@ tags:
       "standard fonts", a set of fonts that we have identified as being common.
       PDFs that contain un-embedded
 
-      fonts that are found in the list, and match the accepted [font
-      type](https://en.wikipedia.org/wiki/Category:Font_formats)
+      fonts that are found in the list, and match the accepted <a
+      href="https://en.wikipedia.org/wiki/Category:Font_formats"
+      target="_blank">font type</a>
 
       will be accepted. Otherwise, the request will be rejected.
 
@@ -2532,8 +2549,9 @@ tags:
     description: >
       Validate, automatically correct, and standardize the addresses in your
 
-      address book based on USPS's [Coding Accuracy Support System
-      (CASS)](https://postalpro.usps.com/certifications/cass).
+      address book based on USPS's <a
+      href="https://postalpro.usps.com/certifications/cass"
+      target="_blank">Coding Accuracy Support System (CASS)</a>.
 
 
       ## US Verifications Test Env
@@ -2646,9 +2664,11 @@ tags:
       The test API key does not perform any verification, automatic correction,
       or standardization for addresses. If you wish to
 
-      try these features out, use our [live
-      demo](https://lob.com/address-verification) or the free plan (see [our
-      pricing](https://lob.com/pricing/address-verification) for details).
+      try these features out, use our <a
+      href="https://lob.com/address-verification" target="_blank">live demo</a>
+      or the free plan (see <a
+      href="https://lob.com/pricing/address-verification" target="_blank">our
+      pricing</a> for details).
   - name: Versioning and Changelog
     x-traitTag: true
     description: >
@@ -2663,7 +2683,8 @@ tags:
 
       view your version and upgrade to the latest version in your
 
-      [Dashboard Settings](https://dashboard.lob.com/#/settings/keys). You will
+      <a href="https://dashboard.lob.com/settings/api-keys"
+      target="_blank">Dashboard Settings</a>. You will
 
       only need to specify a version if you would like to test a newer version
       of
@@ -2691,18 +2712,18 @@ tags:
       You might be wondering why our API and specification use different
       versioning schemes.
 
-      Lob's API predates our specification and follows the [Stripe
-      versioning](https://stripe.com/blog/api-versioning)
+      Lob's API predates our specification and follows the <a
+      href="https://stripe.com/blog/api-versioning" target="_blank">Stripe
+      versioning</a>
 
       approach. This works well to manage backwards-incompatible changes to our
       API.
 
 
       For our API specification (used to create this documentation), we've
-      chosen [semantic
+      chosen <a href="https://semver.org/" target="_blank">semantic
 
-      versioning](https://semver.org/). This versioning reflects the
-      backward-compatible
+      versioning</a>. This versioning reflects the backward-compatible
 
       changes that do not require a versioning of Lob's API.
 
@@ -2978,19 +2999,20 @@ tags:
       HTTP POST request. In Live mode, you can only have as many webhooks as
       allotted
 
-      in your current [Print & Mail
-      Edition](https://dashboard.lob.com/#/settings/editions).
+      in your current <a href="https://dashboard.lob.com/#/settings/editions"
+      target="_blank">Print & Mail Edition</a>.
 
       There is no limit in Test mode.
 
-      You can view and create [webhooks](https://dashboard.lob.com/#/webhooks)
-      on the
+      You can view and create <a href="https://dashboard.lob.com/#/webhooks"
+      target="_blank">webhooks</a> on the
 
-      Lob Dashboard, as well as view your
-      [events](https://dashboard.lob.com/#/events).
+      Lob Dashboard, as well as view your <a
+      href="https://dashboard.lob.com/#/events" target="_blank">events</a>.
 
-      See our [Webhooks Integration
-      Guide](https://www.lob.com/guides?tab=general#webhooks_block) for more
+      See our <a
+      href="https://help.lob.com/print_mail/webhooks-for-tracking-events"
+      target="_blank">Webhooks Integration Guide</a> for more
 
       details on how to integrate. Please see the full list of event types
       available for
@@ -3190,11 +3212,11 @@ components:
       name: mail_type
       description: >
         A string designating the mail postage type: * `usps_first_class` -
-        (default) * `usps_standard` - a [cheaper
-        option](https://lob.com/pricing/print-mail#compare) which is less
-        predictable and takes longer to deliver. `usps_standard` cannot be used
-        with `4x6` postcards or for any postcards sent outside of the United
-        States.
+        (default) * `usps_standard` - a <a
+        href="https://lob.com/pricing/print-mail#compare"
+        target="_blank">cheaper option</a> which is less predictable and takes
+        longer to deliver. `usps_standard` cannot be used with `4x6` postcards
+        or for any postcards sent outside of the United States.
       schema:
         $ref: '#/components/schemas/mail_type'
     idem-header:
@@ -3203,8 +3225,9 @@ components:
       required: false
       description: >
         A string of no longer than 256 characters that uniquely identifies this
-        resource. For more help integrating idempotency keys, refer to our
-        [implementation guide](https://www.lob.com/guides#idempotent_request).
+        resource. For more help integrating idempotency keys, refer to our <a
+        href="https://help.lob.com/print_mail/mail-send-settings#idempotent-requests"
+        target="_blank">implementation guide</a>.
       schema:
         type: string
         maxLength: 256
@@ -3215,8 +3238,9 @@ components:
       required: false
       description: >
         A string of no longer than 256 characters that uniquely identifies this
-        resource. For more help integrating idempotency keys, refer to our
-        [implementation guide](https://www.lob.com/guides#idempotent_request).
+        resource. For more help integrating idempotency keys, refer to our <a
+        href="https://help.lob.com/print_mail/mail-send-settings#idempotent-requests"
+        target="_blank">implementation guide</a>.
       schema:
         type: string
         maxLength: 256
@@ -3410,9 +3434,9 @@ components:
                 deleted bank account.
 
                 * `failed_deliverability_strictness` - 422: the `to` address
-                doesn't meet strictness requirements. See [Account
-                Settings](https://dashboard.lob.com/#/settings/account) to
-                configure strictness.
+                doesn't meet strictness requirements. See <a
+                href="https://dashboard.lob.com/#/settings/account"
+                target="_blank">Account Settings</a> to configure strictness.
 
                 * `file_pages_below_min` - 422: not enough pages.
 
@@ -3549,7 +3573,7 @@ components:
     adr_id:
       type: string
       description: Unique identifier prefixed with `adr_`.
-      pattern: ^adr_[a-zA-Z0-9]+$
+      pattern: '^adr_[a-zA-Z0-9]+$'
     resource_description:
       type: string
       description: >
@@ -3618,7 +3642,7 @@ components:
               nullable: true
             address_line1:
               type: string
-              description: The primary number, street name, and directional information.
+              description: 'The primary number, street name, and directional information.'
               maxLength: 64
             address_line2:
               type: string
@@ -3633,13 +3657,13 @@ components:
             address_state:
               type: string
               description: 2 letter state short-name code
-              pattern: ^[a-zA-Z]{2}$
+              pattern: '^[a-zA-Z]{2}$'
             address_zip:
               type: string
               description: >
                 Must follow the ZIP format of `12345` or ZIP+4 format of
                 `12345-1234`.
-              pattern: ^\d{5}(-\d{4})?$
+              pattern: '^\d{5}(-\d{4})?$'
             address_country:
               type: string
               enum:
@@ -3653,14 +3677,16 @@ components:
               type: boolean
               description: >
                 Only returned for accounts on certain <a
-                href="https://dashboard.lob.com/#/settings/editions">Print &amp;
-                Mail Editions</a>. Value is `true` if the address was altered
-                because the recipient filed for a <a href="#ncoa">National
-                Change of Address (NCOA)</a>, `false` if the NCOA check was run
-                but no altered address was found, and `null` if the NCOA check
-                was not run. The NCOA check does not happen for non-US
-                addresses, for non-deliverable US addresses, or for addresses
-                created before the NCOA feature was added to your account.
+                href="https://dashboard.lob.com/#/settings/editions"
+                target="_blank">Print &amp; Mail Editions</a>. Value is `true`
+                if the address was altered because the recipient filed for a <a
+                href="#tag/National-Change-of-Address">National Change of
+                Address Linkage (NCOALink)</a>, `false` if the NCOALink check
+                was run but no altered address was found, and `null` if the
+                NCOALink check was not run. The NCOALink check does not happen
+                for non-US addresses, for non-deliverable US addresses, or for
+                addresses created before the NCOALink feature was added to your
+                account.
               nullable: true
           example:
             id: adr_e68217bd744d65c8
@@ -3677,8 +3703,8 @@ components:
             address_country: UNITED STATES
             metadata: {}
             recipient_moved: false
-            date_created: 2019-08-12T00:16:00.361Z
-            date_modified: 2019-08-12T00:16:00.361Z
+            date_created: '2019-08-12T00:16:00.361Z'
+            date_modified: '2019-08-12T00:16:00.361Z'
             object: address
     company:
       type: string
@@ -3784,7 +3810,7 @@ components:
                 - BERMUDA
                 - BHUTAN
                 - BOLIVIA (PLURINATIONAL STATE OF)
-                - BONAIRE, SAINT EUSTATIUS AND SABA
+                - 'BONAIRE, SAINT EUSTATIUS AND SABA'
                 - BOSNIA AND HERZEGOVINA
                 - BOTSWANA
                 - BRAZIL
@@ -3806,7 +3832,7 @@ components:
                 - COLOMBIA
                 - COMOROS
                 - CONGO
-                - CONGO, DEMOCRATIC REPUBLIC OF THE
+                - 'CONGO, DEMOCRATIC REPUBLIC OF THE'
                 - COOK ISLANDS
                 - COSTA RICA
                 - CÔTE D'IVOIRE
@@ -3865,7 +3891,7 @@ components:
                 - KENYA
                 - KIRIBATI
                 - KOREA (DEMOCRATIC PEOPLE’S REPUBLIC OF)
-                - KOREA, REPUBLIC OF
+                - 'KOREA, REPUBLIC OF'
                 - KUWAIT
                 - KYRGYZSTAN
                 - LAO PEOPLE’S DEMOCRATIC REPUBLIC
@@ -3888,7 +3914,7 @@ components:
                 - MAURITANIA
                 - MAURITIUS
                 - MEXICO
-                - MOLDOVA, REPUBLIC OF
+                - 'MOLDOVA, REPUBLIC OF'
                 - MONACO
                 - MONGOLIA
                 - MONTENEGRO
@@ -4012,7 +4038,7 @@ components:
       properties:
         address_line1:
           type: string
-          description: The primary number, street name, and directional information.
+          description: 'The primary number, street name, and directional information.'
           maxLength: 64
         address_line2:
           type: string
@@ -4027,13 +4053,13 @@ components:
         address_state:
           type: string
           description: 2 letter state short-name code
-          pattern: ^[a-zA-Z]{2}$
+          pattern: '^[a-zA-Z]{2}$'
         address_zip:
           type: string
           description: >
             Must follow the ZIP format of `12345` or ZIP+4 format of
             `12345-1234`.
-          pattern: ^\d{5}(-\d{4})?$
+          pattern: '^\d{5}(-\d{4})?$'
     address_editable_us:
       allOf:
         - $ref: '#/components/schemas/address_fields_us'
@@ -4084,7 +4110,7 @@ components:
       properties:
         address_line1:
           type: string
-          description: The primary number, street name, and directional information.
+          description: 'The primary number, street name, and directional information.'
           maxLength: 200
         address_line2:
           type: string
@@ -4386,7 +4412,7 @@ components:
           $ref: '#/components/schemas/deleted'
     bank_id_no_description:
       type: string
-      pattern: ^bank_[a-zA-Z0-9]+$
+      pattern: '^bank_[a-zA-Z0-9]+$'
     bank_id:
       allOf:
         - $ref: '#/components/schemas/bank_id_no_description'
@@ -4423,8 +4449,8 @@ components:
           $ref: '#/components/schemas/resource_description'
         routing_number:
           description: >-
-            Must be a [valid US routing
-            number](https://www.frbservices.org/index.html).
+            Must be a <a href="https://www.frbservices.org/index.html"
+            target="_blank">valid US routing number</a>.
           type: string
           minLength: 9
           maxLength: 9
@@ -4442,8 +4468,9 @@ components:
             The signatory associated with your account. This name will be
             printed on checks created with this bank account. If you prefer to
             use a custom signature image on your checks instead, please create
-            your bank account from the
-            [Dashboard](https://dashboard.lob.com/#/login).
+            your bank account from the <a
+            href="https://dashboard.lob.com/#/login"
+            target="_blank">Dashboard</a>.
           type: string
           maxLength: 30
         metadata:
@@ -4470,7 +4497,7 @@ components:
               allOf:
                 - type: string
                   nullable: true
-                  description: A [signed link](#section/Asset-URLs) to the signature image.
+                  description: 'A [signed link](#section/Asset-URLs) to the signature image.'
                 - $ref: '#/components/schemas/signed_link'
             bank_name:
               description: >-
@@ -4503,8 +4530,8 @@ components:
         account_type: individual
         metadat:
           spiffy: 'true'
-        date_created: 2019-08-08T19:34:47.571Z
-        date_modified: 2019-08-08T19:34:47.571Z
+        date_created: '2019-08-08T19:34:47.571Z'
+        date_modified: '2019-08-08T19:34:47.571Z'
     bank_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of
@@ -4518,7 +4545,7 @@ components:
     bg_id:
       type: string
       description: Unique identifier prefixed with `bg_`.
-      pattern: ^bg_[a-zA-Z0-9]+$
+      pattern: '^bg_[a-zA-Z0-9]+$'
     bg_description:
       type: string
       description: Description of the billing group.
@@ -4558,7 +4585,7 @@ components:
             - name
     recipient:
       type: string
-      description: The intended recipient, typically a person's or firm's name.
+      description: 'The intended recipient, typically a person''s or firm''s name.'
       nullable: true
       maxLength: 500
     primary_line_us:
@@ -4586,16 +4613,16 @@ components:
       type: string
       description: >
         Only present for addresses in Puerto Rico. An urbanization refers to an
-        area, sector, or development within a city. See [USPS
-        documentation](https://pe.usps.com/text/pub28/28api_008.htm#:~:text=I51.,-4%20Urbanizations&text=In%20Puerto%20Rico%2C%20identical%20street,placed%20before%20the%20urbanization%20name.)
-        for clarification.
+        area, sector, or development within a city. See <a
+        href="https://pe.usps.com/text/pub28/28api_008.htm#:~:text=I51.,-4%20Urbanizations&text=In%20Puerto%20Rico%2C%20identical%20street,placed%20before%20the%20urbanization%20name."
+        target="_blank">USPS documentation</a> for clarification.
       maxLength: 500
     city_no_description:
       type: string
       maxLength: 200
     zip_code:
       type: string
-      pattern: ^\d{5}((-)?\d{4})?$
+      pattern: '^\d{5}((-)?\d{4})?$'
     multiple_components:
       allOf:
         - anyOf:
@@ -4628,9 +4655,10 @@ components:
             state:
               type: string
               description: >-
-                The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2:US)
-                two letter code or subdivision name for the state. `city` and
-                `state` are required if no `zip_code` is passed.
+                The <a href="https://en.wikipedia.org/wiki/ISO_3166-2:US"
+                target="_blank">ISO 3166-2</a> two letter code or subdivision
+                name for the state. `city` and `state` are required if no
+                `zip_code` is passed.
               maxLength: 50
             zip_code:
               allOf:
@@ -4653,7 +4681,7 @@ components:
     us_ver_id:
       type: string
       description: Unique identifier prefixed with `us_ver_`.
-      pattern: ^us_ver_[a-zA-Z0-9_]+$
+      pattern: '^us_ver_[a-zA-Z0-9_]+$'
     primary_number:
       type: string
       description: >-
@@ -4670,12 +4698,12 @@ components:
     state:
       type: string
       description: >
-        The [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) two letter
-        code for the state.
+        The <a href="https://en.wikipedia.org/wiki/ISO_3166-2"
+        target="_blank">ISO 3166-2</a> two letter code for the state.
       maxLength: 2
     zip_code_plus_4:
       type: string
-      pattern: ^\d{4}$
+      pattern: '^\d{4}$'
     zip_code_type:
       type: string
       enum:
@@ -4695,11 +4723,11 @@ components:
     county_fips:
       type: string
       description: >
-        A 5-digit [FIPS county
-        code](https://en.wikipedia.org/wiki/FIPS_county_code) which uniquely
-        identifies `components[county]`. It consists of a 2-digit state code and
-        a 3-digit county code.
-      pattern: \d{5}
+        A 5-digit <a href="https://en.wikipedia.org/wiki/FIPS_county_code"
+        target="_blank">FIPS county code</a> which uniquely identifies
+        `components[county]`. It consists of a 2-digit state code and a 3-digit
+        county code.
+      pattern: '\d{5}'
     us_components:
       type: object
       description: A nested object containing a breakdown of each component of an address.
@@ -4780,15 +4808,15 @@ components:
         pmb_designator:
           type: string
           description: >
-            Designator of a
-            [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
-            private mailbox.
+            Designator of a <a
+            href="https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency"
+            target="_blank">CMRA-authorized</a> private mailbox.
         pmb_number:
           type: string
           description: >
-            Number of a
-            [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency)
-            private mailbox.
+            Number of a <a
+            href="https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency"
+            target="_blank">CMRA-authorized</a> private mailbox.
         extra_secondary_designator:
           type: string
           description: >
@@ -4806,7 +4834,7 @@ components:
         zip_code:
           type: string
           description: The 5-digit ZIP code
-          pattern: ^\d{5}$
+          pattern: '^\d{5}$'
         zip_code_plus_4:
           allOf:
             - description: The 4-digit ZIP add-on code
@@ -4828,10 +4856,9 @@ components:
             - commercial
             - ''
           description: >
-            Uses USPS's [Residential Delivery Indicator
-
-            (RDI)](https://www.usps.com/nationalpremieraccounts/rdi.htm) to
-            identify
+            Uses USPS's <a
+            href="https://www.usps.com/nationalpremieraccounts/rdi.htm"
+            target="_blank">Residential Delivery Indicator (RDI)</a> to identify
 
             whether an address is classified as residential or
 
@@ -4977,9 +5004,9 @@ components:
             - 'N'
             - ''
           description: >
-            Indicates whether or not the address is
-            [CMRA-authorized](https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency).
-            Possible values are:
+            Indicates whether or not the address is <a
+            href="https://en.wikipedia.org/wiki/Commercial_mail_receiving_agency"
+            target="_blank">CMRA-authorized</a>. Possible values are:
 
             * `Y` –– Address is CMRA-authorized.
 
@@ -5042,11 +5069,11 @@ components:
         ews_match:
           type: boolean
           description: >
-            Indicates whether or not an address has been flagged in the [Early
-            Warning
-            System](https://docs.informatica.com/data-engineering/data-engineering-quality/10-4-0/address-validator-port-reference/postal-carrier-certification-data-ports/early-warning-system-return-code.html),
-            meaning the address is under development and not yet ready to
-            receive mail. However, it should become available in a few months.
+            Indicates whether or not an address has been flagged in the <a
+            href="https://docs.informatica.com/data-engineering/data-engineering-quality/10-4-0/address-validator-port-reference/postal-carrier-certification-data-ports/early-warning-system-return-code.html"
+            target="_blank">Early Warning System</a>, meaning the address is
+            under development and not yet ready to receive mail. However, it
+            should become available in a few months.
           example: false
         lacs_indicator:
           type: string
@@ -5057,7 +5084,8 @@ components:
           description: >
             Indicates whether this address has been converted by
 
-            [LACS<sup>Link</sup>](https://postalpro.usps.com/address-quality/lacslink).
+            <a href="https://postalpro.usps.com/address-quality/lacslink"
+            target="_blank">LACS<sup>Link</sup></a>.
 
             LACS<sup>Link</sup> corrects outdated addresses into their modern
             counterparts.
@@ -5106,7 +5134,9 @@ components:
             A return code that indicates whether the address was matched and
             corrected by
 
-            [Suite<sup>Link</sup>](https://postalpro.usps.com/address-quality-solutions/suitelink).
+            <a
+            href="https://postalpro.usps.com/address-quality-solutions/suitelink"
+            target="_blank">Suite<sup>Link</sup></a>.
 
             Suite<sup>Link</sup> attempts to provide secondary information to
             business addresses.
@@ -5301,7 +5331,7 @@ components:
     intl_ver_id:
       type: string
       description: Unique identifier prefixed with `intl_ver_`.
-      pattern: ^intl_ver_[a-zA-Z0-9]+$
+      pattern: '^intl_ver_[a-zA-Z0-9]+$'
     country_short:
       type: string
       description: >-
@@ -5498,7 +5528,7 @@ components:
     card_id:
       type: string
       description: Unique identifier prefixed with `card_`.
-      pattern: ^card_[a-zA-Z0-9]+$
+      pattern: '^card_[a-zA-Z0-9]+$'
     thumbnail:
       type: object
       properties:
@@ -5605,11 +5635,11 @@ components:
       description: >
         The location of a remote file. Remote URLs have a 20 MB file size limit
         and must be downloaded within 40 seconds.
-      pattern: ^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$
+      pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
     local_file_path:
       type: string
       description: The path to a local file.
-      pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$
+      pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$'
     card_editable:
       allOf:
         - $ref: '#/components/schemas/card_base'
@@ -5657,7 +5687,7 @@ components:
     co_id:
       type: string
       description: Unique identifier prefixed with `co_`.
-      pattern: ^co_[a-zA-Z0-9]+$
+      pattern: '^co_[a-zA-Z0-9]+$'
     card_order:
       allOf:
         - $ref: '#/components/schemas/lob_base'
@@ -5708,13 +5738,13 @@ components:
       properties:
         quantity:
           type: integer
-          description: The quantity of cards in the order (minimum 10,000).
+          description: 'The quantity of cards in the order (minimum 10,000).'
           minimum: 10000
           maximum: 10000000
     chk_id:
       type: string
       description: Unique identifier prefixed with `chk_`.
-      pattern: ^chk_[a-zA-Z0-9]+$
+      pattern: '^chk_[a-zA-Z0-9]+$'
     merge_variables:
       type: object
       description: >-
@@ -5729,13 +5759,13 @@ components:
         cannot contain any whitespace or any of the following special
         characters: `!`, `"`, `#`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`,
         `;`, `<`, `=`, `>`, `@`, `[`, `\`, `]`, `^`, `` ` ``, `{`, `|`, `}`,
-        `~`. More instructions can be found in [our guide to using html and
-        merge
-        variables](https://lob.com/resources/guides/general/using-html-and-merge-variables).
-        Depending on your [Merge Variable
-        strictness](https://dashboard.lob.com/#/settings/account) setting, if
-        you define variables in your HTML but do not pass them here, you will
-        either receive an error or the variable will render as an empty string.
+        `~`. More instructions can be found in  <a
+        href="https://help.lob.com/en_US/print_mail/dynamic-personalization#using-html-and-merge-variables"
+        target="_blank">our guide to using html and merge variables</a>.
+        Depending on your <a href="https://dashboard.lob.com/#/settings/account"
+        target="_blank">Merge Variable strictness</a> setting, if you define
+        variables in your HTML but do not pass them here, you will either
+        receive an error or the variable will render as an empty string.
       maxLength: 25000
       nullable: true
     send_date:
@@ -5811,11 +5841,11 @@ components:
       description: >-
         Unique identifier prefixed with `tmpl_`. ID of a saved [HTML
         template](#section/HTML-Templates).
-      pattern: ^tmpl_[a-zA-Z0-9]+$
+      pattern: '^tmpl_[a-zA-Z0-9]+$'
     vrsn_id:
       type: string
       description: Unique identifier prefixed with `vrsn_`.
-      pattern: ^vrsn_[a-zA-Z0-9]+$
+      pattern: '^vrsn_[a-zA-Z0-9]+$'
     expected_delivery_date:
       type: string
       description: >-
@@ -5825,7 +5855,7 @@ components:
     evnt_id:
       type: string
       description: Unique identifier prefixed with `evnt_`.
-      pattern: ^evnt_[a-zA-Z0-9]+$
+      pattern: '^evnt_[a-zA-Z0-9]+$'
     tracking_event_base:
       type: object
       description: >-
@@ -5866,7 +5896,7 @@ components:
             - name
           properties:
             type:
-              description: non-Certified postcards, self mailers, letters, and checks
+              description: 'non-Certified postcards, self mailers, letters, and checks'
               type: string
               enum:
                 - normal
@@ -5900,14 +5930,15 @@ components:
                     to barcode, ID tag area, or address errors.
 
                   * `Mailed` - The mailpiece has been handed off to and accepted by USPS
-                    and is en route. [More about
-                    Mailed.](https://support.lob.com/hc/en-us/articles/360001724400-What-does-a-Mailed-tracking-event-mean-)
+                    and is en route. <a href="https://help.lob.com/print_mail/mail-data-tracking?from_search=85693657#mail-tracking-events" target="_blank">More about
+                    Mailed.</a>
                     Note this data is only available in Enterprise editions of
-                    Lob. [Contact Sales](https://lob.com/support/contact#contact) if
+                    Lob. <a href="https://lob.com/support/contact#contact" target="_blank">Contact Sales</a> if
                     you want access to this feature.
 
-                [More about
-                tracking](https://support.lob.com/hc/en-us/articles/115000097404-Can-I-track-my-mail-)
+                <a
+                href="https://help.lob.com/print_mail/mail-data-tracking?from_search=85693657#what-is-mail-tracking"
+                target="_blank">More about tracking</a>
             details:
               description: Will be `null` for `type=normal` events
               type: object
@@ -5972,7 +6003,7 @@ components:
                 - $ref: '#/components/schemas/vrsn_id'
             url:
               allOf:
-                - description: A [signed link](#section/Asset-URLs) to the rendered check.
+                - description: 'A [signed link](#section/Asset-URLs) to the rendered check.'
                 - $ref: '#/components/schemas/signed_link'
             to:
               $ref: '#/components/schemas/address_us'
@@ -6027,8 +6058,9 @@ components:
 
         * `usps_first_class` - (default)
 
-        * `usps_standard` - a [cheaper
-        option](https://lob.com/pricing/print-mail#compare) which is
+        * `usps_standard` - a <a
+        href="https://lob.com/pricing/print-mail#compare"
+        target="_blank">cheaper option</a> which is
 
         less predictable and takes longer to deliver. `usps_standard` cannot be
         used with `4x6`
@@ -6056,20 +6088,23 @@ components:
             characters combined. If an object is used, an address will be
             created, corrected, and standardized for free whenever possible
             using our US Address Verification engine, and returned back with an
-            ID. Depending on your [Print & Mail
-            Edition](https://dashboard.lob.com/#/settings/editions), addresses
-            may also be run through [National Change of Address
-            (NCOA)](https://lob.com/docs#ncoa). If an address used does not meet
-            your account’s [US Mail Strictness
-            Setting](https://dashboard.lob.com/#/settings/account), the request
-            will fail. [More about verification of mailing
-            addresses](https://www.lob.com/guides#mailing_addresses)
+            ID. Depending on your <a
+            href="https://dashboard.lob.com/#/settings/editions"
+            target="_blank">Print & Mail Edition</a>, addresses may also be run
+            through [National Change of Address
+            (NCOALink)](#tag/National-Change-of-Address). If an address used
+            does not meet your account’s <a
+            href="https://dashboard.lob.com/#/settings/account"
+            target="_blank">US Mail Strictness Setting</a>, the request will
+            fail. <a
+            href="https://help.lob.com/en_US/print_mail/all-about-addresses#standardization-verification"
+            target="_blank">More about verification of mailing addresses</a>
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address_us'
     html_string:
       type: string
-      description: An HTML string of under 10,000 characters.
+      description: 'An HTML string of under 10,000 characters.'
       maxLength: 10000
       pattern: <
     check_bottom:
@@ -6086,8 +6121,9 @@ components:
 
         - The check bottom will always be printed in black & white.
 
-        - Must conform to [this
-        template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_bottom_template.pdf).
+        - Must conform to <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_bottom_template.pdf"
+        target="_blank">this template</a>.
 
 
         Need more help? Consult our [HTML examples](#section/HTML-Examples).
@@ -6100,10 +6136,8 @@ components:
       type: string
       description: >-
         An optional string with the billing group ID to tag your usage with. Is
-        used for billing purposes. Requires special activation to use. See
-        [Billing Group
-        API](https://lob.github.io/lob-openapi/#tag/Billing-Groups) for more
-        information.
+        used for billing purposes. Requires special activation to use. See <a
+        href="#tag/Billing-Groups">Billing Group API</a> for more information.
     check_editable_props:
       allOf:
         - $ref: '#/components/schemas/check_base'
@@ -6154,9 +6188,9 @@ components:
                   * `png` or `jpg`
               oneOf:
                 - type: string
-                  pattern: ^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$
+                  pattern: '^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$'
                 - type: string
-                  pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$
+                  pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(png|jpg)$'
             check_bottom:
               $ref: '#/components/schemas/check_bottom'
             attachment:
@@ -6177,13 +6211,14 @@ components:
                 - The attachment will be printed double-sided in black & white
                 and will be included in the envelope after the check page.
 
-                - Please follow these [design
-                guidelines](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_attachment_template.pdf).
+                - Please follow these <a
+                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/check_attachment_template.pdf"
+                target="_blank">design guidelines</a>.
 
 
-                See [pricing](https://lob.com/pricing/print-mail#compare) for
-                extra costs incurred. Need more help? Consult our [HTML
-                examples](#section/HTML-Examples).
+                See <a href="https://lob.com/pricing/print-mail#compare"
+                target="_blank">pricing</a> for extra costs incurred. Need more
+                help? Consult our [HTML examples](#section/HTML-Examples).
               oneOf:
                 - $ref: '#/components/schemas/html_string'
                 - $ref: '#/components/schemas/tmpl_id'
@@ -6233,7 +6268,7 @@ components:
     intl_auto_id:
       type: string
       description: Unique identifier prefixed with `intl_auto_`.
-      pattern: ^intl_auto_[a-zA-Z0-9]+$
+      pattern: '^intl_auto_[a-zA-Z0-9]+$'
     intl_suggestions:
       type: object
       required:
@@ -6318,7 +6353,7 @@ components:
     ltr_id:
       type: string
       description: Unique identifier prefixed with `ltr_`.
-      pattern: ^ltr_[a-zA-Z0-9]+$
+      pattern: '^ltr_[a-zA-Z0-9]+$'
     tracking_event_details:
       type: object
       required:
@@ -6589,9 +6624,9 @@ components:
 
 
                 To include a return envelope with your letter, set to `true` and
-                specify the `perforated_page`. See
-                [pricing](https://www.lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
+                specify the `perforated_page`. See <a
+                href="https://www.lob.com/pricing/print-mail#compare"
+                target="_blank">pricing</a> for extra costs incurred.
               default: false
             perforated_page:
               type: integer
@@ -6601,8 +6636,9 @@ components:
                 be greater than or equal to `1`. The blank page added by
                 `address_placement=insert_blank_page` will be ignored when
                 considering the perforated page number. To see how perforation
-                will impact your letter design, view our [perforation
-                guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
+                will impact your letter design, view our <a
+                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf"
+                target="_blank">perforation guide</a>.
               nullable: true
             custom_envelope:
               type: object
@@ -6618,9 +6654,9 @@ components:
                 returned. If the letter has more than 6 sheets, it will be sent
                 in a blank flat envelope. Custom envelopes may be created and
                 ordered from the dashboard. This feature is exclusive to certain
-                customers. Upgrade to the appropriate [Print & Mail
-                Edition](https://dashboard.lob.com/#/settings/editions) to gain
-                access.
+                customers. Upgrade to the appropriate <a
+                href="https://dashboard.lob.com/#/settings/editions"
+                target="_blank">Print & Mail Edition</a> to gain access.
               required:
                 - id
                 - url
@@ -6711,10 +6747,10 @@ components:
                 - certified
                 - certified_return_receipt
               description: >
-                Add an extra service to your letter. See
-                [pricing](https://www.lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
-                  * `certified` - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
+                Add an extra service to your letter. See <a
+                href="https://www.lob.com/pricing/print-mail#compare"
+                target="_blank">pricing</a> for extra costs incurred.
+                  * `certified` - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf" target="_blank">#10 envelope</a> and <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf" target="_blank">flat envelope</a> (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
                   * `certified_return_receipt` - request an electronic copy of the recipient's signature to prove delivery of your certified letter
             tracking_number:
               type: string
@@ -6744,9 +6780,9 @@ components:
               enum:
                 - registered
               description: >
-                Add an extra service to your letter. See
-                [pricing](https://www.lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
+                Add an extra service to your letter. See <a
+                href="https://www.lob.com/pricing/print-mail#compare"
+                target="_blank">pricing</a> for extra costs incurred.
                   * registered - provides tracking and confirmation for international addresses
             tracking_number:
               type: string
@@ -6810,15 +6846,18 @@ components:
             address parameters. If an object is used, an address will be
             created, corrected, and standardized for free whenever possible
             using our US Address Verification engine (if it is a US address),
-            and returned back with an ID. Depending on your [Print & Mail
-            Edition](https://dashboard.lob.com/#/settings/editions), US
-            addresses may also be run through [National Change of Address
-            (NCOA)](https://lob.com/docs#ncoa). Non-US addresses will be
+            and returned back with an ID. Depending on your <a
+            href="https://dashboard.lob.com/#/settings/editions"
+            target="_blank">Print & Mail Edition</a>, US addresses may also be
+            run through <a href="#tag/National-Change-of-Address">National
+            Change of Address Linkage(NCOALink)</a>. Non-US addresses will be
             standardized into uppercase only. If a US address used does not meet
-            your account’s [US Mail strictness
-            setting](https://dashboard.lob.com/#/settings/account), the request
-            will fail. [Lob Guide: Verification of Mailing
-            Addresses](https://www.lob.com/guides#mailing_addresses)
+            your account’s <a
+            href="https://dashboard.lob.com/#/settings/account"
+            target="_blank">US Mail strictness setting</a>, the request will
+            fail. <a
+            href="https://help.lob.com/en_US/print_mail/all-about-addresses#standardization-verification"
+            target="_blank">Lob Guide: Verification of Mailing Addresses</a>
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address'
@@ -6854,12 +6893,14 @@ components:
                 while supplied HTML will be rendered and trimmed to as many
                 8.5"x11" pages as necessary.
 
-                - For design specifications, please see our
-                [PDF](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf)
-                and [HTML](#section/HTML-Examples) templates.
+                - For design specifications, please see our <a
+                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf"
+                target="_blank">PDF</a> and [HTML](#section/HTML-Examples)
+                templates.
 
-                - If a `custom_envelope` is used, follow [this
-                template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf).
+                - If a `custom_envelope` is used, follow <a
+                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf"
+                target="_blank">this template</a>.
 
                 - For domestic destinations, the file limit is 60 pages
                 single-sided or 120 pages double-sided. For international
@@ -6869,19 +6910,20 @@ components:
                 trimmed.
 
                 - Any letters over 6 pages single-sided or 12 pages double-sided
-                will be placed in a [flat
-                envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf)
-                instead of the standard double window envelope.
+                will be placed in a <a
+                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf"
+                target="_blank">flat envelope</a> instead of the standard double
+                window envelope.
 
 
-                See [pricing](https://lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
+                See <a href="https://lob.com/pricing/print-mail#compare"
+                target="_blank">pricing</a> for extra costs incurred.
               oneOf:
                 - $ref: '#/components/schemas/html_string'
                 - $ref: '#/components/schemas/tmpl_id'
                 - $ref: '#/components/schemas/remote_file_url'
                 - type: string
-                  pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
+                  pattern: '^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$'
             extra_service:
               type: string
               enum:
@@ -6890,10 +6932,10 @@ components:
                 - registered
                 - null
               description: >
-                Add an extra service to your letter. See
-                [pricing](https://www.lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
-                  * `certified` - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: [#10 envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf) and [flat envelope](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf) (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
+                Add an extra service to your letter. See <a
+                href="https://www.lob.com/pricing/print-mail#compare"
+                target="_blank">pricing</a> for extra costs incurred.
+                  * `certified` - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf" target="_blank">#10 envelope</a> and <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf" target="_blank">flat envelope</a> (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
                   * `certified_return_receipt` - request an electronic copy of the recipient's signature to prove delivery of your certified letter
                   * `registered` - provides tracking and confirmation for international addresses
               nullable: true
@@ -6933,9 +6975,9 @@ components:
                 your letter design, view our letter template.
 
                 This feature is exclusive to certain customers. Upgrade to the
-                appropriate [Print & Mail
-                Edition](https://dashboard.lob.com/#/settings/editions) to gain
-                access.
+                appropriate <a
+                href="https://dashboard.lob.com/#/settings/editions"
+                target="_blank">Print & Mail Edition</a> to gain access.
                   * `top_first_page` - (default) print address information at the top of your provided first page
                   * `insert_blank_page` - insert a blank address page at the beginning of your file (you will be charged for the extra page)
                   * `bottom_first_page_center` - **(deprecation planned within a few months)** print address information at the bottom center of your provided first page
@@ -6955,9 +6997,9 @@ components:
 
 
                 To include a return envelope with your letter, set to `true` and
-                specify the `perforated_page`. See
-                [pricing](https://www.lob.com/pricing/print-mail#compare) for
-                extra costs incurred.
+                specify the `perforated_page`. See <a
+                href="https://www.lob.com/pricing/print-mail#compare"
+                target="_blank">pricing</a> for extra costs incurred.
               default: false
             perforated_page:
               type: integer
@@ -6967,8 +7009,9 @@ components:
                 be greater than or equal to `1`. The blank page added by
                 `address_placement=insert_blank_page` will be ignored when
                 considering the perforated page number. To see how perforation
-                will impact your letter design, view our [perforation
-                guide](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf).
+                will impact your letter design, view our <a
+                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf"
+                target="_blank">perforation guide</a>.
               nullable: true
             custom_envelope:
               type: object
@@ -6984,9 +7027,9 @@ components:
                 returned. If the letter has more than 6 sheets, it will be sent
                 in a blank flat envelope. Custom envelopes may be created and
                 ordered from the dashboard. This feature is exclusive to certain
-                customers. Upgrade to the appropriate [Print & Mail
-                Edition](https://dashboard.lob.com/#/settings/editions) to gain
-                access.
+                customers. Upgrade to the appropriate <a
+                href="https://dashboard.lob.com/#/settings/editions"
+                target="_blank">Print & Mail Edition</a> to gain access.
               required:
                 - id
                 - url
@@ -7012,7 +7055,7 @@ components:
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
-      pattern: ^psc_[a-zA-Z0-9]+$
+      pattern: '^psc_[a-zA-Z0-9]+$'
     editable:
       type: object
       properties:
@@ -7063,7 +7106,7 @@ components:
                 The unique ID of the HTML template used for the front of the
                 postcard. Only filled out when the request contains a valid
                 postcard template ID.
-              pattern: ^tmpl_[a-zA-Z0-9]+$
+              pattern: '^tmpl_[a-zA-Z0-9]+$'
               nullable: true
             back_template_id:
               type: string
@@ -7071,7 +7114,7 @@ components:
                 The unique ID of the HTML template used for the back of the
                 postcard. Only filled out when the request contains a valid
                 postcard template ID.
-              pattern: ^tmpl_[a-zA-Z0-9]+$
+              pattern: '^tmpl_[a-zA-Z0-9]+$'
               nullable: true
             front_template_version_id:
               type: string
@@ -7079,7 +7122,7 @@ components:
                 The unique ID of the specific version of the HTML template used
                 for the front of the postcard. Only filled out when the request
                 contains a valid postcard template ID.
-              pattern: ^vrsn_[a-zA-Z0-9]+$
+              pattern: '^vrsn_[a-zA-Z0-9]+$'
               nullable: true
             back_template_version_id:
               type: string
@@ -7087,7 +7130,7 @@ components:
                 The unique ID of the specific version of the HTML template used
                 for the back of the postcard. Only filled out when the request
                 contains a valid postcard template ID.
-              pattern: ^vrsn_[a-zA-Z0-9]+$
+              pattern: '^vrsn_[a-zA-Z0-9]+$'
               nullable: true
             tracking_events:
               description: >-
@@ -7178,9 +7221,9 @@ components:
 
                 - Be sure to leave room for address and postage information by
                 following the templates provided here:
-                  - [4x6 template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/4x6_postcard.pdf)
-                  - [6x9 template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x9_postcard.pdf)
-                  - [6x11 template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x11_postcard.pdf)
+                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/4x6_postcard.pdf" target="_blank">4x6 template</a>
+                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x9_postcard.pdf" target="_blank">6x9 template</a>
+                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x11_postcard.pdf" target="_blank">6x11 template</a>
 
 
                 See [here](#section/HTML-Examples) for HTML examples.
@@ -7194,7 +7237,7 @@ components:
     sfm_id:
       type: string
       description: Unique identifier prefixed with `sfm_`.
-      pattern: ^sfm_[a-zA-Z0-9]+$
+      pattern: '^sfm_[a-zA-Z0-9]+$'
     self_mailer_size:
       type: string
       enum:
@@ -7312,8 +7355,8 @@ components:
 
                 - Be sure to leave room for address and postage information by
                 following the templates provided here:
-                  - [6x18 bifold template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_bifold_template.pdf)
-                  - [12x9 bifold template](https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/12x9_sfm_bifold_template.pdf)
+                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_bifold_template.pdf" target="_blank">6x18 bifold template</a>
+                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/12x9_sfm_bifold_template.pdf" target="_blank">12x9 bifold template</a>
 
 
                 See [here](#section/HTML-Examples) for HTML examples.
@@ -7540,7 +7583,7 @@ components:
     us_auto_id:
       type: string
       description: Unique identifier prefixed with `us_auto_`.
-      pattern: ^us_auto_[a-zA-Z0-9]+$
+      pattern: '^us_auto_[a-zA-Z0-9]+$'
     suggestions:
       type: object
       required:
@@ -7643,7 +7686,7 @@ components:
     reverse_geocode_id:
       type: string
       description: Unique identifier prefixed with `us_reverse_geocode_`.
-      pattern: ^us_reverse_geocode_[a-zA-Z0-9_]+$
+      pattern: '^us_reverse_geocode_[a-zA-Z0-9_]+$'
     components:
       type: object
       description: >-
@@ -7656,7 +7699,7 @@ components:
         zip_code:
           type: string
           description: The 5-digit ZIP code
-          pattern: ^\d{5}$
+          pattern: '^\d{5}$'
         zip_code_plus_4:
           allOf:
             - description: A 4-digit ZIP add-on code
@@ -7749,12 +7792,12 @@ components:
         zip_code:
           type: string
           description: A 5-digit ZIP code.
-          pattern: ^\d{5}$
+          pattern: '^\d{5}$'
           example: '94107'
     zip_id:
       type: string
       description: Unique identifier prefixed with `us_zip_`.
-      pattern: ^us_zip_[a-zA-Z0-9]+$
+      pattern: '^us_zip_[a-zA-Z0-9]+$'
     zip_lookup_city:
       type: object
       required:
@@ -7775,10 +7818,11 @@ components:
         preferred:
           type: boolean
           description: >
-            Indicates whether or not the city is the [USPS default
-            city](https://en.wikipedia.org/wiki/ZIP_Code#ZIP_Codes_and_previous_zoning_lines)
-            (preferred city) of a ZIP code. There is only one preferred city per
-            ZIP code, which will always be in position 0 in the array of cities.
+            Indicates whether or not the city is the <a
+            href="https://en.wikipedia.org/wiki/ZIP_Code#ZIP_Codes_and_previous_zoning_lines"
+            target="_blank">USPS default city</a> (preferred city) of a ZIP
+            code. There is only one preferred city per ZIP code, which will
+            always be in position 0 in the array of cities.
           example: true
     zip:
       allOf:
@@ -7942,7 +7986,7 @@ components:
         id:
           type: string
           description: Unique identifier prefixed with `evt_`.
-          pattern: ^evt_[a-zA-Z0-9_]+$
+          pattern: '^evt_[a-zA-Z0-9_]+$'
         body:
           type: object
           description: >-
@@ -8016,8 +8060,8 @@ components:
                 address_zip: 94107-1741
                 address_country: UNITED STATES
                 metadata: {}
-                date_created: 2019-08-12T00:16:00.361Z
-                date_modified: 2019-08-12T00:16:00.361Z
+                date_created: '2019-08-12T00:16:00.361Z'
+                date_modified: '2019-08-12T00:16:00.361Z'
                 object: address
               - id: adr_asdi2y3riuasasoi
                 description: Harry - Office
@@ -8032,8 +8076,8 @@ components:
                 address_state: PRINCE EDWARD ISLAND
                 address_zip: C1N 1C4
                 address_country: CANADA
-                date_created: 2019-09-20T00:14:00.361Z
-                date_modified: 2019-09-20T00:14:00.361Z
+                date_created: '2019-09-20T00:14:00.361Z'
+                date_modified: '2019-09-20T00:14:00.361Z'
                 object: address
             object: list
             next_url: >-
@@ -8068,8 +8112,8 @@ components:
                 address_zip: '94107'
                 address_country: UNITED STATES
                 metadata: {}
-                date_created: 2017-09-05T17:47:53.767Z
-                date_modified: 2017-09-05T17:47:53.767Z
+                date_created: '2017-09-05T17:47:53.767Z'
+                date_modified: '2017-09-05T17:47:53.767Z'
                 object: address
             full_intl:
               value:
@@ -8085,8 +8129,8 @@ components:
                 address_zip: C1N 1C4
                 address_country: CANADA
                 metadata: {}
-                date_created: 2021-11-29T20:55:46.843Z
-                date_modified: 2021-11-29T20:56:46.843Z
+                date_created: '2021-11-29T20:55:46.843Z'
+                date_modified: '2021-11-29T20:56:46.843Z'
                 object: address
             ncoa_us_live:
               value:
@@ -8103,8 +8147,8 @@ components:
                 address_zip: '94107'
                 address_country: UNITED STATES
                 metadata: {}
-                date_created: 2017-09-05T17:47:53.767Z
-                date_modified: 2017-09-05T17:47:53.767Z
+                date_created: '2017-09-05T17:47:53.767Z'
+                date_modified: '2017-09-05T17:47:53.767Z'
                 recipient_moved: true
                 inline: false
                 object: address
@@ -8123,8 +8167,8 @@ components:
                 address_zip: '94107'
                 address_country: UNITED STATES
                 metadata: {}
-                date_created: 2019-12-05T19:39:19.932Z
-                date_modified: 2019-12-05T19:39:19.932Z
+                date_created: '2019-12-05T19:39:19.932Z'
+                date_modified: '2019-12-05T19:39:19.932Z'
                 recipient_moved: true
                 inline: false
                 object: address
@@ -8177,10 +8221,10 @@ components:
             account_number: '123456789'
             account_type: company
             signatory: John Doe
-            bank_name: J.P. MORGAN CHASE BANK, N.A.
+            bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
             verified: false
-            date_created: 2015-11-06T19:24:24.440Z
-            date_modified: 2015-11-06T19:24:24.440Z
+            date_created: '2015-11-06T19:24:24.440Z'
+            date_modified: '2015-11-06T19:24:24.440Z'
             object: bank_account
     bank_account_deleted:
       description: Deleted
@@ -8223,10 +8267,10 @@ components:
                 account_number: '1234564789'
                 account_type: company
                 signatory: John Doe
-                bank_name: JPMORGAN CHASE BANK, NA
+                bank_name: 'JPMORGAN CHASE BANK, NA'
                 verified: true
-                date_created: 2019-03-30T13:13:22.200Z
-                date_modified: 2019-03-30T13:13:23.385Z
+                date_created: '2019-03-30T13:13:22.200Z'
+                date_modified: '2019-03-30T13:13:23.385Z'
                 object: bank_account
               - id: bank_eba93f7de3c02d9
                 description: Example bank account
@@ -8235,10 +8279,10 @@ components:
                 account_number: '1234564789'
                 account_type: company
                 signatory: John Doe
-                bank_name: JPMORGAN CHASE BANK, NA
+                bank_name: 'JPMORGAN CHASE BANK, NA'
                 verified: true
-                date_created: 2019-03-30T13:11:06.809Z
-                date_modified: 2019-03-30T13:11:07.872Z
+                date_created: '2019-03-30T13:11:06.809Z'
+                date_modified: '2019-03-30T13:11:07.872Z'
                 object: bank_account
             object: list
             next_url: >-
@@ -8284,8 +8328,8 @@ components:
             id: bg_c94e83ca2cd5121
             name: Marketing Dept
             description: Usage group used for the Marketing Dept resource sends
-            date_created: 2017-11-07T22:56:10.962Z
-            date_modified: 2017-11-07T22:56:10.962Z
+            date_created: '2017-11-07T22:56:10.962Z'
+            date_modified: '2017-11-07T22:56:10.962Z'
             object: billing_group
     us_verifications_error:
       description: Error
@@ -8492,8 +8536,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:08:43.446Z
-                  date_modified: 2018-12-08T03:08:43.446Z
+                  date_created: '2018-12-08T03:08:43.446Z'
+                  date_modified: '2018-12-08T03:08:43.446Z'
                   object: address
                   recipient_moved: false
                 from:
@@ -8505,8 +8549,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 bank_account:
                   id: bank_8cad8df5354d33f
@@ -8516,10 +8560,10 @@ components:
                   account_number: '123456789'
                   account_type: individual
                   signatory: John Doe
-                  bank_name: J.P. MORGAN CHASE BANK, N.A.
+                  bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
                   verified: true
-                  date_created: 2015-11-06T19:24:24.440Z
-                  date_modified: 2015-11-06T19:41:28.312Z
+                  date_created: '2015-11-06T19:24:24.440Z'
+                  date_modified: '2015-11-06T19:41:28.312Z'
                   object: bank_account
                   signature_url: >-
                     https://lob-assets.com/bank-accounts/asd_asdfghjkqwertyui.pdf?expires=1234567890&signature=aksdf
@@ -8538,11 +8582,11 @@ components:
                       https://lob-assets.com/checks/chk_0176bf6197100185_thumb_medium_2.png?version=v1&expires=1568239682&signature=sdgnJMzusEfndu7dNmk37eKc0AV7Hmqev6TQAqkCESs5pg7j6dDTsp7v4pnDvhsj8d7SIMcahl1aGiysoom0CA
                     large: >-
                       https://lob-assets.com/checks/chk_0176bf6197100185_thumb_large_2.png?version=v1&expires=1568239682&signature=ybe8ovBh8Gf-AWKGRs4CB4XkU-erPVbY66umXARhTiJG2Dg1QlyCb9WmBXWt0tBCwD5NGMl20mHeAgHwecLxBA
-                expected_delivery_date: 2019-08-16
+                expected_delivery_date: '2019-08-16'
                 mail_type: usps_first_class
-                date_created: 2019-08-08T19:34:47.571Z
-                date_modified: 2019-08-08T19:34:49.612Z
-                send_date: 2019-08-08
+                date_created: '2019-08-08T19:34:47.571Z'
+                date_modified: '2019-08-08T19:34:49.612Z'
+                send_date: '2019-08-08'
                 message: pancakes are good
                 object: check
                 check_bottom_template_id: tmpl_a
@@ -8568,8 +8612,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:08:43.446Z
-                  date_modified: 2018-12-08T03:08:43.446Z
+                  date_created: '2018-12-08T03:08:43.446Z'
+                  date_modified: '2018-12-08T03:08:43.446Z'
                   object: address
                 from:
                   id: adr_210a8d4b0b76d77b
@@ -8580,8 +8624,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 bank_account:
                   id: bank_8cad8df5354d33f
@@ -8591,10 +8635,10 @@ components:
                   account_number: '123456789'
                   account_type: individual
                   signatory: John Doe
-                  bank_name: J.P. MORGAN CHASE BANK, N.A.
+                  bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
                   verified: true
-                  date_created: 2015-11-06T19:24:24.440Z
-                  date_modified: 2015-11-06T19:41:28.312Z
+                  date_created: '2015-11-06T19:24:24.440Z'
+                  date_modified: '2015-11-06T19:41:28.312Z'
                   object: bank_account
                 carrier: USPS
                 tracking_events: []
@@ -8618,11 +8662,11 @@ components:
                     large: >-
                       https://lob-assets.com/checks/chk_92b9a6714bc0557c_thumb_large_3.png?version=v1&expires=1568239682&signature=If4tXlN13WYy7JDPpFkWw0HAQpYNJHqi2UstiPHxUA_8IAj6vXORb-22acI124Pd1bR1QSjBHAW1gbiJ0kjiAQ
                 merge_variables: null
-                expected_delivery_date: 2019-08-16
+                expected_delivery_date: '2019-08-16'
                 mail_type: usps_first_class
-                date_created: 2019-08-08T19:34:27.802Z
-                date_modified: 2019-08-08T19:34:30.582Z
-                send_date: 2019-08-08T19:34:27.802Z
+                date_created: '2019-08-08T19:34:27.802Z'
+                date_modified: '2019-08-08T19:34:30.582Z'
+                send_date: '2019-08-08T19:34:27.802Z'
                 object: check
             object: list
             next_url: >-
@@ -8665,8 +8709,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: 2018-12-08T03:08:43.446Z
-              date_modified: 2018-12-08T03:08:43.446Z
+              date_created: '2018-12-08T03:08:43.446Z'
+              date_modified: '2018-12-08T03:08:43.446Z'
               object: address
               recipient_moved: false
             from:
@@ -8678,8 +8722,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: 2017-09-05T17:47:53.767Z
-              date_modified: 2017-09-05T17:47:53.767Z
+              date_created: '2017-09-05T17:47:53.767Z'
+              date_modified: '2017-09-05T17:47:53.767Z'
               object: address
             bank_account:
               id: bank_8cad8df5354d33f
@@ -8688,11 +8732,11 @@ components:
               routing_number: '322271627'
               account_number: '123456789'
               signatory: John Doe
-              bank_name: J.P. MORGAN CHASE BANK, N.A.
+              bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
               verified: true
               account_type: company
-              date_created: 2015-11-06T19:24:24.440Z
-              date_modified: 2015-11-06T19:41:28.312Z
+              date_created: '2015-11-06T19:24:24.440Z'
+              date_modified: '2015-11-06T19:41:28.312Z'
               object: bank_account
               signature_url: >-
                 https://lob-assets.com/bank-accounts/asd_asdfghjkqwertyui.pdf?expires=1234567890&signature=aksdf
@@ -8707,11 +8751,11 @@ components:
                   https://lob-assets.com/checks/chk_534f10783683daa0_thumb_large_1.png?expires=1540372221&signature=04nLEwE9d2qgQJNgJYWSOgPnU0FZbEv
             merge_variables:
               name: Harry
-            expected_delivery_date: 2017-09-12
+            expected_delivery_date: '2017-09-12'
             mail_type: usps_first_class
-            date_created: 2017-09-05T17:47:53.896Z
-            date_modified: 2017-09-05T17:47:53.896Z
-            send_date: 2017-09-05T17:47:53.896Z
+            date_created: '2017-09-05T17:47:53.896Z'
+            date_modified: '2017-09-05T17:47:53.896Z'
+            send_date: '2017-09-05T17:47:53.896Z'
             object: check
             message: pancakes are good
             check_bottom_template_id: tmpl_a
@@ -8773,37 +8817,37 @@ components:
                     country: CA
                     zip_code: V9K 2B8
                   - primary_number_range: ''
-                    primary_line: SUITE 340, 1510 WATT DR SW
+                    primary_line: 'SUITE 340, 1510 WATT DR SW'
                     city: EDMONTON
                     state: AB
                     country: CA
                     zip_code: T6X 2E6
                   - primary_number_range: ''
-                    primary_line: WATERFRONT POINTE WEST SUITE 340, 5212 25 AVE NW
+                    primary_line: 'WATERFRONT POINTE WEST SUITE 340, 5212 25 AVE NW'
                     city: EDMONTON
                     state: AB
                     country: CA
                     zip_code: T6L 6R7
                   - primary_number_range: ''
-                    primary_line: WATERFRONT POINTE EAST SUITE 340, 2520 52 ST NW
+                    primary_line: 'WATERFRONT POINTE EAST SUITE 340, 2520 52 ST NW'
                     city: EDMONTON
                     state: AB
                     country: CA
                     zip_code: T6L 6S2
                   - primary_number_range: ''
-                    primary_line: WATERSTONE SUITE 340, 6079 MAYNARD WAY NW
+                    primary_line: 'WATERSTONE SUITE 340, 6079 MAYNARD WAY NW'
                     city: EDMONTON
                     state: AB
                     country: CA
                     zip_code: T6R 0S4
                   - primary_number_range: ''
-                    primary_line: WATSON APTS. SUITE 340, 5207 39 ST
+                    primary_line: 'WATSON APTS. SUITE 340, 5207 39 ST'
                     city: RED DEER
                     state: AB
                     country: CA
                     zip_code: T4N 0Z9
                   - primary_number_range: ''
-                    primary_line: WATERS EDGE SUITE 3400..3409, 2600 FERGUSON RD
+                    primary_line: 'WATERS EDGE SUITE 3400..3409, 2600 FERGUSON RD'
                     city: SAANICHTON
                     state: BC
                     country: CA
@@ -8955,8 +8999,8 @@ components:
                   address_zip: C1N 1C4
                   address_country: CANADA
                   recipient_moved: false
-                  date_created: 2019-09-20T00:14:00.361Z
-                  date_modified: 2019-09-20T00:14:00.361Z
+                  date_created: '2019-09-20T00:14:00.361Z'
+                  date_modified: '2019-09-20T00:14:00.361Z'
                   object: address
                 from:
                   id: adr_210a8d4b0b76d77b
@@ -8972,8 +9016,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 color: true
                 double_sided: false
@@ -8997,12 +9041,12 @@ components:
                     details:
                       event: delivered
                       description: Package has been delivered.
-                      notes: Delivered, Front Desk/Reception/Mail Room
+                      notes: 'Delivered, Front Desk/Reception/Mail Room'
                       action_required: false
                     location: '33408'
-                    time: 2019-10-08T19:41:00Z
-                    date_created: 2019-10-08T19:41:00Z
-                    date_modified: 2019-10-08T19:41:00Z
+                    time: '2019-10-08T19:41:00Z'
+                    date_created: '2019-10-08T19:41:00Z'
+                    date_modified: '2019-10-08T19:41:00Z'
                     object: tracking_event
                 thumbnails:
                   - small: >-
@@ -9011,10 +9055,10 @@ components:
                       https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_medium_1.png?version=v1&expires=1568239830&signature=H7354Qpcm9S4aXbrMsBe6QJ6lSNi9IWPgMJtLWLi4Kyx9tHF8Mp9YEc_IL9x89Jfw4-yRzKDXA410X4W0PssBQ
                     large: >-
                       https://lob-assets.com/letters/ltr_5ba44b462c79f07c_thumb_large_1.png?version=v1&expires=1568239830&signature=54LUIDKZyItA9pnC87d1pJVAuw8bhKLCsMpNWkB3LgdVWxPxxb_c1IyIWAbSR-dyOYEOlDBCc40J4Kns-O_mAg
-                expected_delivery_date: 2019-08-16
-                date_created: 2019-08-08T17:09:14.514Z
-                date_modified: 2019-08-08T17:09:16.850Z
-                send_date: 2019-08-08
+                expected_delivery_date: '2019-08-16'
+                date_created: '2019-08-08T17:09:14.514Z'
+                date_modified: '2019-08-08T17:09:16.850Z'
+                send_date: '2019-08-08'
                 object: letter
               - id: ltr_da8267c6a6545cd6
                 description: Demo Letter
@@ -9033,8 +9077,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 from:
                   id: adr_210a8d4b0b76d77b
@@ -9050,8 +9094,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 color: true
                 double_sided: false
@@ -9074,10 +9118,10 @@ components:
                       https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_medium_1.png?version=v1&expires=1568239830&signature=gz63l0yi3sK_sXjYfIVdLSvkknJFr_O5TWRulo_iKIgS-PosIl6J0tDR6bx_Tv5Ab_w7DABg3qdKZ846MZ7TCw
                     large: >-
                       https://lob-assets.com/letters/ltr_da8267c6a6545cd6_thumb_large_1.png?version=v1&expires=1568239830&signature=4Y1OIymaWkSO3aBIHCeshFAVnF-pDcF2FFqkx_jovaUFuk4FT1SI24L7_POwTRXQHlETMGlzkP_CGgqselRUAA
-                expected_delivery_date: 2019-08-16
-                date_created: 2019-08-08T17:08:12.224Z
-                date_modified: 2019-08-08T17:08:13.990Z
-                send_date: 2019-08-08T17:08:12.224Z
+                expected_delivery_date: '2019-08-16'
+                date_created: '2019-08-08T17:08:12.224Z'
+                date_modified: '2019-08-08T17:08:13.990Z'
+                send_date: '2019-08-08T17:08:12.224Z'
                 cards: null
                 object: letter
             object: list
@@ -9116,8 +9160,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: 2017-09-05T15:54:53.264Z
-              date_modified: 2017-09-05T15:54:53.264Z
+              date_created: '2017-09-05T15:54:53.264Z'
+              date_modified: '2017-09-05T15:54:53.264Z'
               deleted: true
               object: address
             from:
@@ -9134,8 +9178,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: 2017-09-05T15:54:53.264Z
-              date_modified: 2017-09-05T15:54:53.264Z
+              date_created: '2017-09-05T15:54:53.264Z'
+              date_modified: '2017-09-05T15:54:53.264Z'
               deleted: true
               object: address
             color: true
@@ -9160,10 +9204,10 @@ components:
                   https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
             merge_variables:
               name: Harry
-            expected_delivery_date: 2017-09-12
-            date_created: 2017-09-05T15:54:53.346Z
-            date_modified: 2017-09-05T15:54:53.346Z
-            send_date: 2017-09-05T15:54:53.346Z
+            expected_delivery_date: '2017-09-12'
+            date_created: '2017-09-05T15:54:53.346Z'
+            date_modified: '2017-09-05T15:54:53.346Z'
+            send_date: '2017-09-05T15:54:53.346Z'
             cards:
               - id: card_c51ae96f5cebf3e
                 account_id: fa9ea650fc7b31a89f92
@@ -9199,8 +9243,8 @@ components:
                 mode: test
                 orientation: horizontal
                 threshold_amount: 0
-                date_created: 2017-08-05T15:54:53.346Z
-                date_modified: 2017-08-05T15:54:53.346Z
+                date_created: '2017-08-05T15:54:53.346Z'
+                date_modified: '2017-08-05T15:54:53.346Z'
                 object: card
             object: letter
     postcard_deleted:
@@ -9251,8 +9295,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -9261,9 +9305,9 @@ components:
                 back_template_id: null
                 front_template_version_id: null
                 back_template_version_id: null
-                date_created: 2021-03-24T22:51:42.838Z
-                date_modified: 2021-03-24T22:51:42.838Z
-                send_date: 2021-03-24T22:51:42.838Z
+                date_created: '2021-03-24T22:51:42.838Z'
+                date_modified: '2021-03-24T22:51:42.838Z'
+                send_date: '2021-03-24T22:51:42.838Z'
                 object: postcard
               - id: psc_0e03d1ad7d31f151
                 description: null
@@ -9282,8 +9326,8 @@ components:
                   address_zip: C1N 1C4
                   address_country: CANADA
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                   recipient_moved: false
                 from:
@@ -9300,8 +9344,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -9321,10 +9365,10 @@ components:
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_medium_1.png?expires=1540372221&signature=bAzL8sv935PY09FWSkpDpWKkyvGSWYF
                     large: >-
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
-                expected_delivery_date: 2021-03-30
-                date_created: 2021-03-24T22:51:42.838Z
-                date_modified: 2021-03-24T22:51:42.838Z
-                send_date: 2021-03-24T22:51:42.838Z
+                expected_delivery_date: '2021-03-30'
+                date_created: '2021-03-24T22:51:42.838Z'
+                date_modified: '2021-03-24T22:51:42.838Z'
+                send_date: '2021-03-24T22:51:42.838Z'
                 object: postcard
             object: list
             previous_url: null
@@ -9363,17 +9407,17 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
                 carrier: USPS
                 front_template_id: null
                 back_template_id: null
-                date_created: 2021-03-24T22:51:42.838Z
-                date_modified: 2021-03-24T22:51:42.838Z
-                send_date: 2021-03-24T22:51:42.838Z
+                date_created: '2021-03-24T22:51:42.838Z'
+                date_modified: '2021-03-24T22:51:42.838Z'
+                send_date: '2021-03-24T22:51:42.838Z'
                 object: postcard
             full:
               value:
@@ -9394,8 +9438,8 @@ components:
                   address_zip: C1N 1C4
                   address_country: CANADA
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                   recipient_moved: false
                 from:
@@ -9412,8 +9456,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 url: >-
                   https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -9433,10 +9477,10 @@ components:
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_medium_1.png?expires=1540372221&signature=bAzL8sv935PY09FWSkpDpWKkyvGSWYF
                     large: >-
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
-                expected_delivery_date: 2021-03-30
-                date_created: 2021-03-24T22:51:42.838Z
-                date_modified: 2021-03-24T22:51:42.838Z
-                send_date: 2021-03-24T22:51:42.838Z
+                expected_delivery_date: '2021-03-30'
+                date_created: '2021-03-24T22:51:42.838Z'
+                date_modified: '2021-03-24T22:51:42.838Z'
+                send_date: '2021-03-24T22:51:42.838Z'
                 object: postcard
     self_mailer_deleted:
       description: Deleted
@@ -9488,8 +9532,8 @@ components:
                   address_zip: C1N 1C4
                   address_country: CANADA
                   recipient_moved: false
-                  date_created: 2019-09-20T00:14:00.361Z
-                  date_modified: 2019-09-20T00:14:00.361Z
+                  date_created: '2019-09-20T00:14:00.361Z'
+                  date_modified: '2019-09-20T00:14:00.361Z'
                   object: address
                 from:
                   id: adr_210a8d4b0b76d77b
@@ -9505,8 +9549,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 url: >-
                   https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf.pdf?version=v1&expires=1618781264&signature=YP_bCwrgVA2lz1Gr1YVCJN1f-WspUGsH0aJp2ihjfLXU7lDUV12_xRv4uPch0mfWeOOxEqpyP8hGpgvjmQKNAw
@@ -9533,10 +9577,10 @@ components:
                   name: null
                 size: 6x18_bifold
                 mail_type: usps_first_class
-                expected_delivery_date: 2021-03-24
-                date_created: 2021-03-16T18:40:40.504Z
-                date_modified: 2021-03-16T18:41:06.691Z
-                send_date: 2021-03-16T18:45:40.493Z
+                expected_delivery_date: '2021-03-24'
+                date_created: '2021-03-16T18:40:40.504Z'
+                date_modified: '2021-03-16T18:41:06.691Z'
+                send_date: '2021-03-16T18:45:40.493Z'
                 deleted: true
                 object: self_mailer
               - id: sfm_8ffbe811dea49dcf
@@ -9556,8 +9600,8 @@ components:
                   address_zip: 28209-1314
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2021-03-16T18:40:40.410Z
-                  date_modified: 2021-03-16T18:40:40.410Z
+                  date_created: '2021-03-16T18:40:40.410Z'
+                  date_modified: '2021-03-16T18:40:40.410Z'
                   deleted: true
                   object: address
                 from:
@@ -9574,8 +9618,8 @@ components:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:01:07.651Z
-                  date_modified: 2018-12-08T03:01:07.651Z
+                  date_created: '2018-12-08T03:01:07.651Z'
+                  date_modified: '2018-12-08T03:01:07.651Z'
                   object: address
                 url: >-
                   https://lob-assets.com/self-mailers/sfm_8ffbe811dea49dcf.pdf?version=v1&expires=1618781264&signature=YP_bCwrgVA2lz1Gr1YVCJN1f-WspUGsH0aJp2ihjfLXU7lDUV12_xRv4uPch0mfWeOOxEqpyP8hGpgvjmQKNAw
@@ -9602,10 +9646,10 @@ components:
                   name: null
                 size: 6x18_bifold
                 mail_type: usps_first_class
-                expected_delivery_date: 2021-03-24
-                date_created: 2021-03-16T18:40:40.504Z
-                date_modified: 2021-03-16T18:41:06.691Z
-                send_date: 2021-03-16T18:45:40.493Z
+                expected_delivery_date: '2021-03-24'
+                date_created: '2021-03-16T18:40:40.504Z'
+                date_modified: '2021-03-16T18:41:06.691Z'
+                send_date: '2021-03-16T18:45:40.493Z'
                 deleted: true
                 object: self_mailer
             object: list
@@ -9643,8 +9687,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: 2017-09-05T17:47:53.767Z
-              date_modified: 2017-09-05T17:47:53.767Z
+              date_created: '2017-09-05T17:47:53.767Z'
+              date_modified: '2017-09-05T17:47:53.767Z'
               deleted: true
               object: address
             from:
@@ -9661,8 +9705,8 @@ components:
               address_zip: 94107-1741
               address_country: UNITED STATES
               metadata: {}
-              date_created: 2017-09-05T17:47:53.767Z
-              date_modified: 2017-09-05T17:47:53.767Z
+              date_created: '2017-09-05T17:47:53.767Z'
+              date_modified: '2017-09-05T17:47:53.767Z'
               deleted: true
               object: address
             url: >-
@@ -9690,10 +9734,10 @@ components:
               name: null
             size: 6x18_bifold
             mail_type: usps_first_class
-            expected_delivery_date: 2021-03-24
-            date_created: 2021-03-16T18:40:40.504Z
-            date_modified: 2021-03-16T18:40:40.504Z
-            send_date: 2021-03-16T18:45:40.493Z
+            expected_delivery_date: '2021-03-24'
+            date_created: '2021-03-16T18:40:40.504Z'
+            date_modified: '2021-03-16T18:40:40.504Z'
+            send_date: '2021-03-16T18:45:40.493Z'
             object: self_mailer
     template_error:
       description: Error
@@ -9722,9 +9766,9 @@ components:
           example:
             id: vrsn_534e339882d2282
             description: Second Version
-            html: <html>Second HTML for {{name}}</html>
-            date_created: 2017-11-09T04:49:38.016Z
-            date_modified: 2017-11-09T04:49:38.016Z
+            html: '<html>Second HTML for {{name}}</html>'
+            date_created: '2017-11-09T04:49:38.016Z'
+            date_modified: '2017-11-09T04:49:38.016Z'
             object: version
     template_version_deleted:
       description: Deleted
@@ -9762,14 +9806,14 @@ components:
               - id: vrsn_4d6ff5d868bf630
                 description: Second Version
                 html: 'Second HTML for '
-                date_created: 2017-11-09T05:09:03.665Z
-                date_modified: 2018-05-22T22:01:10.479Z
+                date_created: '2017-11-09T05:09:03.665Z'
+                date_modified: '2018-05-22T22:01:10.479Z'
                 object: version
               - id: vrsn_2a17159c1911919
                 description: Test Template
                 html: 'HTML for '
-                date_created: 2017-11-09T05:08:40.004Z
-                date_modified: 2018-05-22T22:01:11.309Z
+                date_created: '2017-11-09T05:08:40.004Z'
+                date_modified: '2018-05-22T22:01:11.309Z'
                 object: version
             object: list
             count: 2
@@ -9813,8 +9857,8 @@ components:
                     description: Test Template
                     engine: legacy
                     html: 'HTML for '
-                    date_created: 2019-07-27T23:49:01.512Z
-                    date_modified: 2019-07-27T23:49:01.512Z
+                    date_created: '2019-07-27T23:49:01.512Z'
+                    date_modified: '2019-07-27T23:49:01.512Z'
                     object: version
                 published_version:
                   id: vrsn_232a02fb8224791
@@ -9822,12 +9866,12 @@ components:
                   description: Test Template
                   engine: handlebars
                   html: 'HTML for '
-                  date_created: 2019-07-27T23:49:01.512Z
-                  date_modified: 2019-07-27T23:49:01.512Z
+                  date_created: '2019-07-27T23:49:01.512Z'
+                  date_modified: '2019-07-27T23:49:01.512Z'
                   object: version
                 metadata: {}
-                date_created: 2019-07-27T23:49:01.511Z
-                date_modified: 2019-07-27T23:49:01.511Z
+                date_created: '2019-07-27T23:49:01.511Z'
+                date_modified: '2019-07-27T23:49:01.511Z'
                 object: template
               - id: tmpl_59b2150ae120887
                 description: Test Template
@@ -9835,19 +9879,19 @@ components:
                   - id: vrsn_2a7eb63ccb795b9
                     description: Test Template
                     html: 'HTML for '
-                    date_created: 2019-03-29T10:22:34.643Z
-                    date_modified: 2019-03-29T10:22:34.643Z
+                    date_created: '2019-03-29T10:22:34.643Z'
+                    date_modified: '2019-03-29T10:22:34.643Z'
                     object: version
                 published_version:
                   id: vrsn_2a7eb63ccb795b9
                   description: Test Template
                   html: 'HTML for '
-                  date_created: 2019-03-29T10:22:34.643Z
-                  date_modified: 2019-03-29T10:22:34.643Z
+                  date_created: '2019-03-29T10:22:34.643Z'
+                  date_modified: '2019-03-29T10:22:34.643Z'
                   object: version
                 metadata: {}
-                date_created: 2019-03-29T10:22:34.642Z
-                date_modified: 2019-03-29T10:22:34.642Z
+                date_created: '2019-03-29T10:22:34.642Z'
+                date_modified: '2019-03-29T10:22:34.642Z'
                 object: template
             object: list
             previous_url: null
@@ -10152,7 +10196,7 @@ components:
               object: event_type
             reference_id: psc_d2d10a2e9cba991c
             id: evt_d95ff8ffd2b5cfb4
-            date_created: 2016-12-04T22:50:08.180Z
+            date_created: '2016-12-04T22:50:08.180Z'
             body:
               id: psc_d2d10a2e9cba991c
               description: Test Postcard
@@ -10171,8 +10215,8 @@ components:
                 address_zip: '94107'
                 address_country: UNITED STATES
                 metadata: {}
-                date_created: 2016-12-04T10:51:51.844Z
-                date_modified: 2016-12-04T10:51:51.844Z
+                date_created: '2016-12-04T10:51:51.844Z'
+                date_modified: '2016-12-04T10:51:51.844Z'
                 object: address
               from:
                 id: adr_d2e26faf793ed422
@@ -10188,8 +10232,8 @@ components:
                 address_zip: '94107'
                 address_country: UNITED STATES
                 metadata: {}
-                date_created: 2016-12-04T10:51:51.845Z
-                date_modified: 2016-12-04T10:51:51.845Z
+                date_created: '2016-12-04T10:51:51.845Z'
+                date_modified: '2016-12-04T10:51:51.845Z'
                 object: address
               url: >-
                 https://lob-assets.com/postcards/psc_d2d10a2e9cba991c.pdf?expires=1540372221&signature=dNE8OtbDymujUxBIMYle4H1cv1aZNFk
@@ -10213,10 +10257,10 @@ components:
               merge_variables: null
               mail_type: usps_first_class
               size: 4x6
-              expected_delivery_date: 2016-12-09
-              date_created: 2016-12-04T10:51:51.843Z
-              date_modified: 2016-12-04T10:51:51.843Z
-              send_date: 2016-12-04T10:56:51.843Z
+              expected_delivery_date: '2016-12-09'
+              date_created: '2016-12-04T10:51:51.843Z'
+              date_modified: '2016-12-04T10:51:51.843Z'
+              send_date: '2016-12-04T10:56:51.843Z'
               object: postcard
             object: event
     tracking_events:
@@ -10235,9 +10279,9 @@ components:
                 name: In Local Area
                 details: null
                 location: '72231'
-                time: 2016-06-30T15:51:41.000Z
-                date_created: 2016-06-30T17:41:59.771Z
-                date_modified: 2016-06-30T17:41:59.771Z
+                time: '2016-06-30T15:51:41.000Z'
+                date_created: '2016-06-30T17:41:59.771Z'
+                date_modified: '2016-06-30T17:41:59.771Z'
                 object: tracking_event
             certified:
               value:
@@ -10247,12 +10291,12 @@ components:
                 details:
                   event: delivered
                   description: Package has been delivered.
-                  notes: Delivered, Front Desk/Reception/Mail Room
+                  notes: 'Delivered, Front Desk/Reception/Mail Room'
                   action_required: false
                 location: '33408'
-                time: 2019-10-08T19:41:00Z
-                date_created: 2019-10-08T19:41:00Z
-                date_modified: 2019-10-08T19:41:00Z
+                time: '2019-10-08T19:41:00Z'
+                date_created: '2019-10-08T19:41:00Z'
+                date_modified: '2019-10-08T19:41:00Z'
                 object: tracking_event
   headers:
     ratelimit-limit:
@@ -10268,7 +10312,8 @@ components:
     ratelimit-reset:
       description: >
         The time at which the rate limit window resets in  <a
-        href="https://en.wikipedia.org/wiki/Unix_time">UTC epoch seconds</a>
+        href="https://en.wikipedia.org/wiki/Unix_time" target="_blank">UTC epoch
+        seconds</a>
       schema:
         type: integer
         example: 1528749846
@@ -10646,7 +10691,7 @@ paths:
               address_zip: "94107"
             })
           label: ELIXIR
-  /addresses/{adr_id}:
+  '/addresses/{adr_id}':
     parameters:
       - in: path
         name: adr_id
@@ -10765,7 +10810,7 @@ paths:
           source: |
             Lob.Address.delete("adr_43769b47aed248c2")
           label: ELIXIR
-  /bank_accounts/{bank_id}/verify:
+  '/bank_accounts/{bank_id}/verify':
     parameters:
       - in: path
         name: bank_id
@@ -10863,7 +10908,7 @@ paths:
           source: |
             Lob.BankAccount.verify("bank_dfceb4a2a05b57e", %{amounts: [25, 63]})
           label: ELIXIR
-  /bank_accounts/{bank_id}:
+  '/bank_accounts/{bank_id}':
     parameters:
       - in: path
         name: bank_id
@@ -10897,10 +10942,10 @@ paths:
                 account_number: '123456789'
                 account_type: company
                 signatory: John Doe
-                bank_name: J.P. MORGAN CHASE BANK, N.A.
+                bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
                 verified: false
-                date_created: 2015-11-06T19:24:24.440Z
-                date_modified: 2015-11-06T19:24:24.440Z
+                date_created: '2015-11-06T19:24:24.440Z'
+                date_modified: '2015-11-06T19:24:24.440Z'
                 object: bank_account
         default:
           $ref: '#/components/responses/bank_account_error'
@@ -11217,7 +11262,7 @@ paths:
               account_type: "company"
             })
           label: ELIXIR
-  /billing_groups/{bg_id}:
+  '/billing_groups/{bg_id}':
     parameters:
       - in: path
         name: bg_id
@@ -11245,8 +11290,8 @@ paths:
                 id: bg_c94e83ca2cd5121
                 name: Marketing Dept
                 description: Usage group used for the Marketing Dept resource sends
-                date_created: 2017-11-07T22:56:10.962Z
-                date_modified: 2017-11-07T22:56:10.962Z
+                date_created: '2017-11-07T22:56:10.962Z'
+                date_modified: '2017-11-07T22:56:10.962Z'
                 object: billing_group
         default:
           $ref: '#/components/responses/billing_group_list_error'
@@ -11330,14 +11375,14 @@ paths:
                   - id: bg_d5a5a89da9106f8
                     description: Test billing_group
                     metadata: {}
-                    date_created: 2019-07-27T23:49:01.511Z
-                    date_modified: 2019-07-27T23:49:01.511Z
+                    date_created: '2019-07-27T23:49:01.511Z'
+                    date_modified: '2019-07-27T23:49:01.511Z'
                     object: billing_group
                   - id: bg_59b2150ae120887
                     description: Test billing_group
                     metadata: {}
-                    date_created: 2019-03-29T10:22:34.642Z
-                    date_modified: 2019-03-29T10:22:34.642Z
+                    date_created: '2019-03-29T10:22:34.642Z'
+                    date_modified: '2019-03-29T10:22:34.642Z'
                     object: billing_group
                 object: list
                 next_url: null
@@ -11437,7 +11482,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: '00926'
+                  zip_code: 00926
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/multiple_components_list'
@@ -11453,7 +11498,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: '00926'
+                  zip_code: 00926
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/multiple_components_list'
@@ -11469,7 +11514,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: '00926'
+                  zip_code: 00926
       responses:
         '200':
           $ref: '#/components/responses/bulk_us_verifications'
@@ -11838,9 +11883,9 @@ paths:
                     mode: test
                     orientation: horizontal
                     threshold_amount: 0
-                    date_created: 2021-03-24T22:51:42.838Z
-                    date_modified: 2021-03-24T22:51:42.838Z
-                    send_date: 2021-03-24T22:51:42.838Z
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
                     object: card
                 object: list
                 previous_url: null
@@ -11960,9 +12005,9 @@ paths:
                     mode: test
                     orientation: horizontal
                     threshold_amount: 0
-                    date_created: 2021-03-24T22:51:42.838Z
-                    date_modified: 2021-03-24T22:51:42.838Z
-                    send_date: 2021-03-24T22:51:42.838Z
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
                     object: card
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -12019,7 +12064,7 @@ paths:
               'back'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
               'size' =>               => '2.125x3.375'
             ));
-  /cards/{card_id}:
+  '/cards/{card_id}':
     parameters:
       - in: path
         name: card_id
@@ -12079,9 +12124,9 @@ paths:
                     mode: test
                     orientation: horizontal
                     threshold_amount: 0
-                    date_created: 2021-03-24T22:51:42.838Z
-                    date_modified: 2021-03-24T22:51:42.838Z
-                    send_date: 2021-03-24T22:51:42.838Z
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
                     object: card
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -12185,9 +12230,9 @@ paths:
                     mode: test
                     orientation: horizontal
                     threshold_amount: 0
-                    date_created: 2021-03-24T22:51:42.838Z
-                    date_modified: 2021-03-24T22:51:42.838Z
-                    send_date: 2021-03-24T22:51:42.838Z
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
                     object: card
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -12261,7 +12306,7 @@ paths:
         - lang: PHP
           source: |
             $lob->cards()->delete('card_7a6d73c5c8457fc');
-  /cards/{card_id}/orders:
+  '/cards/{card_id}/orders':
     parameters:
       - in: path
         name: card_id
@@ -12299,10 +12344,10 @@ paths:
                     quantity_ordered: 10000
                     unit_price: 0.75
                     cancelled_reason: No longer needed
-                    availability_date: 2021-10-12T21:41:48.326Z
-                    expected_availability_date: 2021-11-04T21:03:18.871Z
-                    date_created: 2021-10-07T21:03:18.871Z
-                    date_modified: 2021-10-16T01:00:30.144Z
+                    availability_date: '2021-10-12T21:41:48.326Z'
+                    expected_availability_date: '2021-11-04T21:03:18.871Z'
+                    date_created: '2021-10-07T21:03:18.871Z'
+                    date_modified: '2021-10-16T01:00:30.144Z'
                     object: card_order
                 object: list
                 next_url: null
@@ -12378,10 +12423,10 @@ paths:
                     quantity_ordered: 10000
                     unit_price: 0.75
                     cancelled_reason: No longer needed
-                    availability_date: 2021-10-12T21:41:48.326Z
-                    expected_availability_date: 2021-11-04T21:03:18.871Z
-                    date_created: 2021-10-07T21:03:18.871Z
-                    date_modified: 2021-10-16T01:00:30.144Z
+                    availability_date: '2021-10-12T21:41:48.326Z'
+                    expected_availability_date: '2021-11-04T21:03:18.871Z'
+                    date_created: '2021-10-07T21:03:18.871Z'
+                    date_modified: '2021-10-16T01:00:30.144Z'
                     object: card_order
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -12421,7 +12466,7 @@ paths:
             $lob->cardOrders('card_6afffd19045076c')->create(array(
               'quantity'           => 10000
             ));
-  /checks/{chk_id}:
+  '/checks/{chk_id}':
     parameters:
       - in: path
         name: chk_id
@@ -12467,8 +12512,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2018-12-08T03:08:43.446Z
-                  date_modified: 2018-12-08T03:08:43.446Z
+                  date_created: '2018-12-08T03:08:43.446Z'
+                  date_modified: '2018-12-08T03:08:43.446Z'
                   object: address
                   recipient_moved: false
                 from:
@@ -12480,8 +12525,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2017-09-05T17:47:53.767Z
-                  date_modified: 2017-09-05T17:47:53.767Z
+                  date_created: '2017-09-05T17:47:53.767Z'
+                  date_modified: '2017-09-05T17:47:53.767Z'
                   object: address
                 bank_account:
                   id: bank_8cad8df5354d33f
@@ -12490,11 +12535,11 @@ paths:
                   routing_number: '322271627'
                   account_number: '123456789'
                   signatory: John Doe
-                  bank_name: J.P. MORGAN CHASE BANK, N.A.
+                  bank_name: 'J.P. MORGAN CHASE BANK, N.A.'
                   verified: true
                   account_type: company
-                  date_created: 2015-11-06T19:24:24.440Z
-                  date_modified: 2015-11-06T19:41:28.312Z
+                  date_created: '2015-11-06T19:24:24.440Z'
+                  date_modified: '2015-11-06T19:41:28.312Z'
                   object: bank_account
                   signature_url: >-
                     https://lob-assets.com/bank-accounts/asd_asdfghjkqwertyui.pdf?expires=1234567890&signature=aksdf
@@ -12509,11 +12554,11 @@ paths:
                       https://lob-assets.com/checks/chk_534f10783683daa0_thumb_large_1.png?expires=1540372221&signature=04nLEwE9d2qgQJNgJYWSOgPnU0FZbEv
                 merge_variables:
                   name: Harry
-                expected_delivery_date: 2017-09-12
+                expected_delivery_date: '2017-09-12'
                 mail_type: usps_first_class
-                date_created: 2017-09-05T17:47:53.896Z
-                date_modified: 2017-09-05T17:47:53.896Z
-                send_date: 2017-09-05T17:47:53.896Z
+                date_created: '2017-09-05T17:47:53.896Z'
+                date_modified: '2017-09-05T17:47:53.896Z'
+                send_date: '2017-09-05T17:47:53.896Z'
                 object: check
                 message: pancakes are good
                 check_bottom_template_id: tmpl_a
@@ -12574,8 +12619,9 @@ paths:
         check is successfully canceled, you will not be charged for it. Read
         more on [cancellation windows](#section/Cancellation-Windows) and
         [scheduling](#section/Scheduled-Mailings). Scheduling and cancellation
-        is a premium feature. Upgrade to the appropriate [Print & Mail
-        Edition](https://dashboard.lob.com/#/settings/editions) to gain access.
+        is a premium feature. Upgrade to the appropriate <a
+        href="https://dashboard.lob.com/#/settings/editions"
+        target="_blank">Print & Mail Edition</a> to gain access.
       tags:
         - Checks
       responses:
@@ -12739,7 +12785,7 @@ paths:
               metadata:
                 memo: rafting trip
               attachment: ./cool.pdf
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
               mail_type: usps_first_class
               check_number: 10001
           application/x-www-form-urlencoded:
@@ -12777,7 +12823,7 @@ paths:
               metadata:
                 memo: rafting trip
               attachment: ./cool.pdf
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
               mail_type: usps_first_class
               check_number: 10001
             encoding:
@@ -12828,12 +12874,12 @@ paths:
               metadata:
                 memo: rafting trip
               attachment: ./cool.pdf
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
               mail_type: usps_first_class
               check_number: 10001
             encoding:
               logo:
-                contentType: image/png, image/jpeg
+                contentType: 'image/png, image/jpeg'
       responses:
         '200':
           $ref: '#/components/responses/post_check'
@@ -13364,7 +13410,7 @@ paths:
               country: "CA"
             })
           label: ELIXIR
-  /letters/{ltr_id}:
+  '/letters/{ltr_id}':
     parameters:
       - in: path
         name: ltr_id
@@ -13405,8 +13451,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2017-09-05T15:54:53.264Z
-                  date_modified: 2017-09-05T15:54:53.264Z
+                  date_created: '2017-09-05T15:54:53.264Z'
+                  date_modified: '2017-09-05T15:54:53.264Z'
                   deleted: true
                   object: address
                 from:
@@ -13423,8 +13469,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2017-09-05T15:54:53.264Z
-                  date_modified: 2017-09-05T15:54:53.264Z
+                  date_created: '2017-09-05T15:54:53.264Z'
+                  date_modified: '2017-09-05T15:54:53.264Z'
                   deleted: true
                   object: address
                 color: true
@@ -13449,10 +13495,10 @@ paths:
                       https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
                 merge_variables:
                   name: Harry
-                expected_delivery_date: 2017-09-12
-                date_created: 2017-09-05T15:54:53.346Z
-                date_modified: 2017-09-05T15:54:53.346Z
-                send_date: 2017-09-05T15:54:53.346Z
+                expected_delivery_date: '2017-09-12'
+                date_created: '2017-09-05T15:54:53.346Z'
+                date_modified: '2017-09-05T15:54:53.346Z'
+                send_date: '2017-09-05T15:54:53.346Z'
                 cards:
                   - id: card_c51ae96f5cebf3e
                     account_id: fa9ea650fc7b31a89f92
@@ -13488,8 +13534,8 @@ paths:
                     mode: test
                     orientation: horizontal
                     threshold_amount: 0
-                    date_created: 2017-08-05T15:54:53.346Z
-                    date_modified: 2017-08-05T15:54:53.346Z
+                    date_created: '2017-08-05T15:54:53.346Z'
+                    date_modified: '2017-08-05T15:54:53.346Z'
                     object: card
                 object: letter
         default:
@@ -13545,8 +13591,9 @@ paths:
         the letter is successfully canceled, you will not be charged for it.
         Read more on [cancellation windows](#section/Cancellation-Windows) and
         [scheduling](#section/Scheduled-Mailings). Scheduling and cancellation
-        is a premium feature. Upgrade to the appropriate [Print & Mail
-        Edition](https://dashboard.lob.com/#/settings/editions) to gain access.
+        is a premium feature. Upgrade to the appropriate <a
+        href="https://dashboard.lob.com/#/settings/editions"
+        target="_blank">Print & Mail Edition</a> to gain access.
       tags:
         - Letters
       responses:
@@ -13723,7 +13770,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: 'true'
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
           application/x-www-form-urlencoded:
@@ -13765,7 +13812,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: 'true'
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
             encoding:
@@ -13820,7 +13867,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: 'true'
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
       responses:
@@ -13995,7 +14042,7 @@ paths:
               cards: ['card_c51ae96f5cebf3e']
             })
           label: ELIXIR
-  /postcards/{psc_id}:
+  '/postcards/{psc_id}':
     parameters:
       - in: path
         name: psc_id
@@ -14038,17 +14085,17 @@ paths:
                       address_zip: 94107-1741
                       address_country: UNITED STATES
                       metadata: {}
-                      date_created: 2018-12-08T03:01:07.651Z
-                      date_modified: 2018-12-08T03:01:07.651Z
+                      date_created: '2018-12-08T03:01:07.651Z'
+                      date_modified: '2018-12-08T03:01:07.651Z'
                       object: address
                     url: >-
                       https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
                     carrier: USPS
                     front_template_id: null
                     back_template_id: null
-                    date_created: 2021-03-24T22:51:42.838Z
-                    date_modified: 2021-03-24T22:51:42.838Z
-                    send_date: 2021-03-24T22:51:42.838Z
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
                     object: postcard
                 full:
                   value:
@@ -14069,8 +14116,8 @@ paths:
                       address_zip: C1N 1C4
                       address_country: CANADA
                       metadata: {}
-                      date_created: 2018-12-08T03:01:07.651Z
-                      date_modified: 2018-12-08T03:01:07.651Z
+                      date_created: '2018-12-08T03:01:07.651Z'
+                      date_modified: '2018-12-08T03:01:07.651Z'
                       object: address
                       recipient_moved: false
                     from:
@@ -14087,8 +14134,8 @@ paths:
                       address_zip: 94107-1741
                       address_country: UNITED STATES
                       metadata: {}
-                      date_created: 2018-12-08T03:01:07.651Z
-                      date_modified: 2018-12-08T03:01:07.651Z
+                      date_created: '2018-12-08T03:01:07.651Z'
+                      date_modified: '2018-12-08T03:01:07.651Z'
                       object: address
                     url: >-
                       https://lob-assets.com/postcards/psc_208e45e48d271294.pdf?version=v1&expires=1619218302&signature=NfHHLBSr5tOHA_Z4kij4dKqZG8f3vMDtwvuFVeeF9pV_lylcjLsVVODhNCE5hR6-2slUr6t9WMNsi429Pj7_DA
@@ -14108,10 +14155,10 @@ paths:
                           https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_medium_1.png?expires=1540372221&signature=bAzL8sv935PY09FWSkpDpWKkyvGSWYF
                         large: >-
                           https://lob-assets.com/letters/ltr_4868c3b754655f90_thumb_large_1.png?expires=1540372221&signature=gsKvxXgrm4v4iZD3bOibK7jApNkEMdW
-                    expected_delivery_date: 2021-03-30
-                    date_created: 2021-03-24T22:51:42.838Z
-                    date_modified: 2021-03-24T22:51:42.838Z
-                    send_date: 2021-03-24T22:51:42.838Z
+                    expected_delivery_date: '2021-03-30'
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
                     object: postcard
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -14166,9 +14213,9 @@ paths:
         If the postcard is successfully canceled, you will not be charged for
         it. Read more on [cancellation windows](#section/Cancellation-Windows)
         and [scheduling](#section/Scheduled-Mailings). Scheduling and
-        cancellation is a premium feature. Upgrade to the appropriate [Print &
-        Mail Edition](https://dashboard.lob.com/#/settings/editions) to gain
-        access.
+        cancellation is a premium feature. Upgrade to the appropriate <a
+        href="https://dashboard.lob.com/#/settings/editions"
+        target="_blank">Print & Mail Edition</a> to gain access.
       tags:
         - Postcards
       responses:
@@ -14342,7 +14389,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: 'true'
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/postcard_editable'
@@ -14380,7 +14427,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: 'true'
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
             encoding:
               to:
                 style: deepObject
@@ -14431,7 +14478,7 @@ paths:
                 name: Harry
               metadata:
                 spiffy: 'true'
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
       responses:
         '200':
           $ref: '#/components/responses/post_postcard'
@@ -14606,7 +14653,7 @@ paths:
               }
             })
           label: ELIXIR
-  /self_mailers/{sfm_id}:
+  '/self_mailers/{sfm_id}':
     parameters:
       - in: path
         name: sfm_id
@@ -14648,8 +14695,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2017-09-05T17:47:53.767Z
-                  date_modified: 2017-09-05T17:47:53.767Z
+                  date_created: '2017-09-05T17:47:53.767Z'
+                  date_modified: '2017-09-05T17:47:53.767Z'
                   deleted: true
                   object: address
                 from:
@@ -14666,8 +14713,8 @@ paths:
                   address_zip: 94107-1741
                   address_country: UNITED STATES
                   metadata: {}
-                  date_created: 2017-09-05T17:47:53.767Z
-                  date_modified: 2017-09-05T17:47:53.767Z
+                  date_created: '2017-09-05T17:47:53.767Z'
+                  date_modified: '2017-09-05T17:47:53.767Z'
                   deleted: true
                   object: address
                 url: >-
@@ -14695,10 +14742,10 @@ paths:
                   name: null
                 size: 6x18_bifold
                 mail_type: usps_first_class
-                expected_delivery_date: 2021-03-24
-                date_created: 2021-03-16T18:40:40.504Z
-                date_modified: 2021-03-16T18:40:40.504Z
-                send_date: 2021-03-16T18:45:40.493Z
+                expected_delivery_date: '2021-03-24'
+                date_created: '2021-03-16T18:40:40.504Z'
+                date_modified: '2021-03-16T18:40:40.504Z'
+                send_date: '2021-03-16T18:45:40.493Z'
                 object: self_mailer
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -14753,9 +14800,9 @@ paths:
         Completely removes a self mailer from production. This can only be done
         if the self mailer's `send_date` has not yet passed. If the self mailer
         is successfully canceled, you will not be charged for it. This feature
-        is exclusive to certain customers. Upgrade to the appropriate [Print &
-        Mail Edition](https://dashboard.lob.com/#/settings/editions) to gain
-        access.
+        is exclusive to certain customers. Upgrade to the appropriate <a
+        href="https://dashboard.lob.com/#/settings/editions"
+        target="_blank">Print & Mail Edition</a> to gain access.
       tags:
         - Self Mailers
       responses:
@@ -14902,15 +14949,15 @@ paths:
               description: Demo Self Mailer job
               to: adr_bae820679f3f536b
               from: adr_210a8d4b0b76d77b
-              inside: https://lob.com/selfmailerinside.pdf
-              outside: https://lob.com/selfmaileroutside.pdf
+              inside: 'https://lob.com/selfmailerinside.pdf'
+              outside: 'https://lob.com/selfmaileroutside.pdf'
               size: 12x9_bifold
               metadata:
                 spiffy: 'true'
               mail_type: usps_standard
               merge_variables:
                 name: Harry
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'
@@ -14918,15 +14965,15 @@ paths:
               description: Demo Self Mailer job
               to: adr_bae820679f3f536b
               from: adr_210a8d4b0b76d77b
-              inside: https://lob.com/selfmailerinside.pdf
-              outside: https://lob.com/selfmaileroutside.pdf
+              inside: 'https://lob.com/selfmailerinside.pdf'
+              outside: 'https://lob.com/selfmaileroutside.pdf'
               size: 12x9_bifold
               metadata:
                 spiffy: 'true'
               mail_type: usps_standard
               merge_variables:
                 name: Harry
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
             encoding:
               merge_variables:
                 style: deepObject
@@ -14941,15 +14988,15 @@ paths:
               description: Demo Self Mailer job
               to: adr_bae820679f3f536b
               from: adr_210a8d4b0b76d77b
-              inside: https://lob.com/selfmailerinside.pdf
-              outside: https://lob.com/selfmaileroutside.pdf
+              inside: 'https://lob.com/selfmailerinside.pdf'
+              outside: 'https://lob.com/selfmaileroutside.pdf'
               size: 12x9_bifold
               metadata:
                 spiffy: 'true'
               mail_type: usps_standard
               merge_variables:
                 name: Harry
-              send_date: 2017-11-01T00:00:00.000Z
+              send_date: '2017-11-01T00:00:00.000Z'
       responses:
         '200':
           $ref: '#/components/responses/post_self_mailer'
@@ -15110,7 +15157,7 @@ paths:
               }
             })
           label: ELIXIR
-  /templates/{tmpl_id}/versions/{vrsn_id}:
+  '/templates/{tmpl_id}/versions/{vrsn_id}':
     parameters:
       - in: path
         name: tmpl_id
@@ -15142,9 +15189,9 @@ paths:
               example:
                 id: vrsn_534e339882d2282
                 description: Second Version
-                html: <html>Second HTML for {{name}}</html>
-                date_created: 2017-11-09T04:49:38.016Z
-                date_modified: 2017-11-09T04:49:38.016Z
+                html: '<html>Second HTML for {{name}}</html>'
+                date_created: '2017-11-09T04:49:38.016Z'
+                date_modified: '2017-11-09T04:49:38.016Z'
                 object: version
         default:
           $ref: '#/components/responses/template_error'
@@ -15313,7 +15360,7 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
-  /templates/{tmpl_id}/versions:
+  '/templates/{tmpl_id}/versions':
     get:
       operationId: template_versions_list
       summary: List
@@ -15399,19 +15446,19 @@ paths:
               $ref: '#/components/schemas/template_version_writable'
             example:
               description: Some Description
-              html: <html>HTML for {{name}}</html>
+              html: '<html>HTML for {{name}}</html>'
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/template_version_writable'
             example:
               description: Some Description
-              html: <html>HTML for {{name}}</html>
+              html: '<html>HTML for {{name}}</html>'
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/template_version_writable'
             example:
               description: Some Description
-              html: <html>HTML for {{name}}</html>
+              html: '<html>HTML for {{name}}</html>'
       responses:
         '200':
           $ref: '#/components/responses/post_template_version'
@@ -15462,7 +15509,7 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
-  /templates/{tmpl_id}:
+  '/templates/{tmpl_id}':
     parameters:
       - in: path
         name: tmpl_id
@@ -15493,22 +15540,22 @@ paths:
                     suggest_json_editor: true
                     description: Test Template
                     engine: legacy
-                    html: <html>HTML for {{name}}</html>
-                    date_created: 2017-11-07T22:56:10.962Z
-                    date_modified: 2017-11-07T22:56:10.962Z
+                    html: '<html>HTML for {{name}}</html>'
+                    date_created: '2017-11-07T22:56:10.962Z'
+                    date_modified: '2017-11-07T22:56:10.962Z'
                     object: version
                 published_version:
                   id: vrsn_362184d96d9b0c9
                   suggest_json_editor: false
                   description: Test Template
                   engine: handlebars
-                  html: <html>HTML for {{name}}</html>
-                  date_created: 2017-11-07T22:56:10.962Z
-                  date_modified: 2017-11-07T22:56:10.962Z
+                  html: '<html>HTML for {{name}}</html>'
+                  date_created: '2017-11-07T22:56:10.962Z'
+                  date_modified: '2017-11-07T22:56:10.962Z'
                   object: version
                 metadata: {}
-                date_created: 2017-11-07T22:56:10.962Z
-                date_modified: 2017-11-07T22:56:10.962Z
+                date_created: '2017-11-07T22:56:10.962Z'
+                date_modified: '2017-11-07T22:56:10.962Z'
                 object: template
         default:
           $ref: '#/components/responses/template_error'
@@ -15601,22 +15648,22 @@ paths:
                     suggest_json_editor: true
                     description: Test Template
                     engine: legacy
-                    html: <html>HTML for {{name}}</html>
-                    date_created: 2017-11-07T22:56:10.962Z
-                    date_modified: 2017-11-07T22:56:10.962Z
+                    html: '<html>HTML for {{name}}</html>'
+                    date_created: '2017-11-07T22:56:10.962Z'
+                    date_modified: '2017-11-07T22:56:10.962Z'
                     object: version
                 published_version:
                   id: vrsn_362184d96d9b0c9
                   suggest_json_editor: false
                   description: Test Template
                   engine: handlebars
-                  html: <html>HTML for {{name}}</html>
-                  date_created: 2017-11-07T22:56:10.962Z
-                  date_modified: 2017-11-07T22:56:10.962Z
+                  html: '<html>HTML for {{name}}</html>'
+                  date_created: '2017-11-07T22:56:10.962Z'
+                  date_modified: '2017-11-07T22:56:10.962Z'
                   object: version
                 metadata: {}
-                date_created: 2017-11-07T22:56:10.962Z
-                date_modified: 2017-11-07T22:56:10.962Z
+                date_created: '2017-11-07T22:56:10.962Z'
+                date_modified: '2017-11-07T22:56:10.962Z'
                 object: template
         default:
           $ref: '#/components/responses/template_error'
@@ -15780,10 +15827,10 @@ paths:
       description: >-
         Creates a new template for use with the Print & Mail API. In Live mode,
         you can only have as many non-deleted templates as allotted in your
-        current [Print & Mail
-        Edition](https://dashboard.lob.com/#/settings/editions). If you attempt
-        to create a template past your limit, you will receive a `403` error.
-        There is no limit in Test mode.
+        current <a href="https://dashboard.lob.com/#/settings/editions"
+        target="_blank">Print & Mail Edition</a>. If you attempt to create a
+        template past your limit, you will receive a `403` error. There is no
+        limit in Test mode.
       tags:
         - Templates
       requestBody:
@@ -15794,7 +15841,7 @@ paths:
               $ref: '#/components/schemas/template_writable'
             example:
               description: demo
-              html: <html>HTML for {{name}}</html>
+              html: '<html>HTML for {{name}}</html>'
               metadata:
                 spiffy: 'true'
               engine: handlebars
@@ -15803,7 +15850,7 @@ paths:
               $ref: '#/components/schemas/template_writable'
             example:
               description: demo
-              html: <html>HTML for {{name}}</html>
+              html: '<html>HTML for {{name}}</html>'
               metadata:
                 spiffy: 'true'
               engine: handlebars
@@ -15812,7 +15859,7 @@ paths:
               $ref: '#/components/schemas/template_writable'
             example:
               description: demo
-              html: <html>HTML for {{name}}</html>
+              html: '<html>HTML for {{name}}</html>'
               metadata:
                 spiffy: 'true'
               engine: handlebars
@@ -15838,22 +15885,22 @@ paths:
                     suggest_json_editor: true
                     description: Test Template
                     engine: legacy
-                    html: <html>HTML for {{name}}</html>
-                    date_created: 2017-11-07T22:56:10.962Z
-                    date_modified: 2017-11-07T22:56:10.962Z
+                    html: '<html>HTML for {{name}}</html>'
+                    date_created: '2017-11-07T22:56:10.962Z'
+                    date_modified: '2017-11-07T22:56:10.962Z'
                     object: version
                 published_version:
                   id: vrsn_362184d96d9b0c9
                   suggest_json_editor: false
                   description: Test Template
                   engine: handlebars
-                  html: <html>HTML for {{name}}</html>
-                  date_created: 2017-11-07T22:56:10.962Z
-                  date_modified: 2017-11-07T22:56:10.962Z
+                  html: '<html>HTML for {{name}}</html>'
+                  date_created: '2017-11-07T22:56:10.962Z'
+                  date_modified: '2017-11-07T22:56:10.962Z'
                   object: version
                 metadata: {}
-                date_created: 2017-11-07T22:56:10.962Z
-                date_modified: 2017-11-07T22:56:10.962Z
+                date_created: '2017-11-07T22:56:10.962Z'
+                date_modified: '2017-11-07T22:56:10.962Z'
                 object: template
         default:
           $ref: '#/components/responses/template_error'
@@ -16246,7 +16293,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: '00926'
+                  zip_code: 00926
               single_line:
                 value:
                   address: 210 King Street 94107
@@ -16272,7 +16319,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: '00926'
+                  zip_code: 00926
               single_line:
                 value:
                   address: 210 King Street 94107
@@ -16298,7 +16345,7 @@ paths:
                   urbanization: URB FAIR OAKS
                   city: RIO PIEDRAS
                   state: PR
-                  zip_code: '00926'
+                  zip_code: 00926
               single_line:
                 value:
                   address: 210 King Street 94107

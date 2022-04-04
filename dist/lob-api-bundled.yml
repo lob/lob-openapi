@@ -3681,11 +3681,12 @@ components:
                 target="_blank">Print &amp; Mail Editions</a>. Value is `true`
                 if the address was altered because the recipient filed for a <a
                 href="#tag/National-Change-of-Address">National Change of
-                Address (NCOA)</a>, `false` if the NCOA check was run but no
-                altered address was found, and `null` if the NCOA check was not
-                run. The NCOA check does not happen for non-US addresses, for
-                non-deliverable US addresses, or for addresses created before
-                the NCOA feature was added to your account.
+                Address Linkage (NCOALink)</a>, `false` if the NCOALink check
+                was run but no altered address was found, and `null` if the
+                NCOALink check was not run. The NCOALink check does not happen
+                for non-US addresses, for non-deliverable US addresses, or for
+                addresses created before the NCOALink feature was added to your
+                account.
               nullable: true
           example:
             id: adr_e68217bd744d65c8
@@ -6849,9 +6850,10 @@ components:
             href="https://dashboard.lob.com/#/settings/editions"
             target="_blank">Print & Mail Edition</a>, US addresses may also be
             run through <a href="#tag/National-Change-of-Address">National
-            Change of Address (NCOA)</a>. Non-US addresses will be standardized
-            into uppercase only. If a US address used does not meet your
-            account’s <a href="https://dashboard.lob.com/#/settings/account"
+            Change of Address Linkage(NCOALink)</a>. Non-US addresses will be
+            standardized into uppercase only. If a US address used does not meet
+            your account’s <a
+            href="https://dashboard.lob.com/#/settings/account"
             target="_blank">US Mail strictness setting</a>, the request will
             fail. <a
             href="https://help.lob.com/en_US/print_mail/all-about-addresses#standardization-verification"

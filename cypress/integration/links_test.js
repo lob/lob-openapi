@@ -122,35 +122,18 @@ describe("ensures introduction links and text are valid", () => {
       .should("have.attr", "href")
       .and(
         "include",
-        "https://www.lob.com/guides?tab=postcards-self-mailers#getting_started"
+        "https://help.lob.com/en_US/developer-documentation/developer-quickstart-guide"
       );
     cy.get('*[class^="sc-hKFxyN dmghQN"]')
-      .contains("Self-Mailers")
+      .contains("Mass Deletion")
+      .should("have.attr", "href")
+      .and("include", "https://help.lob.com/use-case-guides/massdeletion");
+    cy.get('*[class^="sc-hKFxyN dmghQN"]')
+      .contains("NCOALink Restrictions")
       .should("have.attr", "href")
       .and(
         "include",
-        "https://www.lob.com/guides?tab=postcards-self-mailers#getting_started_selfmailers"
-      );
-    cy.get('*[class^="sc-hKFxyN dmghQN"]')
-      .contains("Letters")
-      .should("have.attr", "href")
-      .and(
-        "include",
-        "https://www.lob.com/guides?tab=letters#getting_started_letters"
-      );
-    cy.get('*[class^="sc-hKFxyN dmghQN"]')
-      .contains("Checks")
-      .should("have.attr", "href")
-      .and(
-        "include",
-        "https://www.lob.com/guides?tab=checks#getting_started_checks"
-      );
-    cy.get('*[class^="sc-hKFxyN dmghQN"]')
-      .contains("Address Verification Elements")
-      .should("have.attr", "href")
-      .and(
-        "include",
-        "https://www.lob.com/guides?tab=address-verification#av-elements-quickstart"
+        "https://help.lob.com/en_US/use-case-guides/ncoa-restrictions"
       );
   });
 

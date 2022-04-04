@@ -29,11 +29,11 @@ tags:
   - name: Authentication
     x-traitTag: true
     description: |
-      Requests made to the API are protected with [HTTP Basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication).
+      Requests made to the API are protected with <a href="https://en.wikipedia.org/wiki/Basic_access_authentication" target="_blank">HTTP Basic authentication</a>.
       In order to properly authenticate with the API you must use your API key as the username
       while leaving the password blank. Requests not properly authenticated will return a `401`
       [error code](#tag/Errors). You can find your account's API keys
-      in your [Dashboard Settings](https://dashboard.lob.com/#/settings/keys).
+      in your <a href="https://dashboard.lob.com/settings/api-keys" target="_blank">Dashboard Settings</a>.
       ### Example Request
       curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
@@ -46,7 +46,7 @@ tags:
         If you do not include your key when making an API request, or use
         one that is incorrect or outdated, Lob returns an error with a `401`
         HTTP response code. You can find all API keys in your dashboard
-        under [Settings](https://dashboard.lob.com/#/settings/keys).
+        under <a href="https://dashboard.lob.com/settings/api-keys" target="_blank">Settings</a>.
         There are two types of API keys: *secret* and *publishable*.
         - **Secret API keys** should be kept confidential and only stored on your own servers.
         Your account's secret API key can perform any API request to Lob without restriction.
@@ -87,7 +87,7 @@ tags:
       than our more mature APIs.
 
       If you are participating in a Beta program and want to provide feedback, please feel free to
-      [contact us](https://lob.com/support#contact)!
+      <a href="https://lob.com/support#contact" target="_blank">contact us</a>!
 
   - name: Billing Groups
     description: |
@@ -331,7 +331,8 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>422</code></td>
           <td style="white-space: nowrap">FAILED_DELIVERABILITY_STRICTNESS</td>
-          <td style="white-space: nowrap">The to address doesn't meet strictness requirements. See [Account Settings](https://dashboard.lob.com/#/settings/account) to configure strictness.</td>
+          <td style="white-space: nowrap">The to address doesn't meet strictness requirements. 
+          See <a href="https://dashboard.lob.com/#/settings/account" target="_blank">Account Settings</a> to configure strictness.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>422</code></td>
@@ -481,7 +482,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>postcard.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A postcard receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain <a href='https://dashboard.lob.com/#/settings/editions'>Print & Mail Editions</a>.</td>
+          <td style="white-space: nowrap">A postcard receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain <a href='https://dashboard.lob.com/#/settings/editions' target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>postcard.in_transit</code></td>
@@ -541,7 +542,8 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>self_mailer.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A self_mailer receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+          <td style="white-space: nowrap">A self_mailer receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>self_mailer.in_transit</code></td>
@@ -601,7 +603,8 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>letter.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+          <td style="white-space: nowrap">A letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>letter.in_transit</code></td>
@@ -631,7 +634,8 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>letter.certified.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A certified letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+          <td style="white-space: nowrap">A certified letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>letter.certified.in_transit</code></td>
@@ -741,7 +745,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>check.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A check receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain [Print & Mail Editions](https://dashboard.lob.com/#/settings/editions).</td>
+          <td style="white-space: nowrap">A check receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>check.in_transit</code></td>
@@ -819,8 +823,8 @@ tags:
     x-traitTag: true
     description: |
       ### 1. Get Setup
-      * Create an account at <a href="https://dashboard.lob.com/#/register">Lob.com</a>
-      * Obtain your API keys in the Lob dashboard <a href="https://dashboard.lob.com/#/settings/keys">settings</a>
+      * Create an account at <a href="https://dashboard.lob.com/#/register" target="_blank">Lob.com</a>
+      * Obtain your API keys in the Lob dashboard <a href="https://dashboard.lob.com/settings/api-keys" target="_blank">settings</a>
       * You'll use the format, `test_*.` for your Test API key and `live_*.` for your Live API key.
 
       ### 2. Explore
@@ -849,12 +853,12 @@ tags:
       * Download a [Lob SDK](#tag/SDKs-and-Tools) into your favorite IDE (integrated development environment)
 
       ### 3. Learn more
-      Review our "Getting Started" guides for more details on use cases:
-      * [Postcards](https://www.lob.com/guides?tab=postcards-self-mailers#getting_started)
-      * [Self-Mailers](https://www.lob.com/guides?tab=postcards-self-mailers#getting_started_selfmailers)
-      * [Letters](https://www.lob.com/guides?tab=letters#getting_started_letters)
-      * [Checks](https://www.lob.com/guides?tab=checks#getting_started_checks)
-      * [Address Verification Elements](https://www.lob.com/guides?tab=address-verification#av-elements-quickstart)
+      Try our quick start (TypeScript, Python, PHP, Java or Ruby):
+      * <a href="https://help.lob.com/en_US/developer-documentation/developer-quickstart-guide" target="_blank">Send your first Postcards</a>
+
+      Use Case guides
+      * <a href="https://help.lob.com/use-case-guides/massdeletion" target="_blank">Mass Deletion</a>
+      * <a href="https://help.lob.com/en_US/use-case-guides/ncoa-restrictions" target="_blank">NCOALink Restrictions</a>
 
   - name: Intl Autocompletions
     description: |
@@ -914,8 +918,8 @@ tags:
       you'd see in the live environment with an address of that type (excluding the `recipient` field).
 
       The test API key does not perform any verification, automatic correction, or standardization
-      for addresses. If you wish to try these features out, use our [live demo](https://lob.com/address-verification)
-      or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).
+      for addresses. If you wish to try these features out, use our <a href="https://lob.com/address-verification" target="_blank">live demo</a>
+      or the free plan (see <a href="https://lob.com/pricing/address-verification" target="_blank">our pricing</a> for details).
   - name: Introduction
     x-traitTag: true
     description: |
@@ -950,10 +954,10 @@ tags:
       mailings from production, free of charge. Once the window has passed for a
       postcard, self mailer, letter, or check, the mailing is no longer cancelable.
       In addition, certain customers can customize their cancellation windows by
-      product in their [Dashboard Settings](https://dashboard.lob.com/#). Upgrade to
-      the appropriate [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions)
+      product in their <a href="https://dashboard.lob.com/#" target="_blank">Dashboard Settings</a>. Upgrade to
+      the appropriate <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Edition</a>
       to automatically gain access to this ability. For more details on this feature,
-      check out our [Cancellation Guide](https://www.lob.com/guides?tab=general#cancellation_windows).
+      check out our <a href="https://help.lob.com/print_mail/mail-send-settings#cancellation-windows" target="_blank">Cancellation Guide</a>.
 
       If you schedule a postcard, self mailer, letter, or check for up to 180 days
       in the future by supplying the `send_date` parameter, that will override any
@@ -974,10 +978,10 @@ tags:
       take precedence.
 
       For implementation details, see documentation below for each respective
-      endpoint. For more help, see our [Scheduled Mailings Guide](https://www.lob.com/guides?tab=general#scheduled_mailing).
+      endpoint. For more help, see our <a href="https://help.lob.com/print_mail/mail-send-settings#scheduling-mailings-for-a-future-date" target="_blank">Scheduled Mailings Guide</a>.
 
       This feature is exclusive to certain customers. Upgrade to the appropriate
-      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions) to
+      <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Edition</a> to
       gain access.
 
       ### Example Create Request using Send Date
@@ -997,29 +1001,29 @@ tags:
   - name: National Change of Address
     x-traitTag: true
     description: |
-      National Change of Address (NCOA) is a service offered by the USPS, which allows individuals
+      National Change of Address Linkage (NCOALink) is a service offered by the USPS, which allows individuals
       or businesses who have recently moved to have any mail forwarded from their previous address
       to their new address.
 
-      As a CASS-certified Address Verification Provider, Lob also offers NCOA
-      functionality to our Print & Mail customers. With the Lob NCOA feature enabled, Postcards,
+      As a CASS-certified Address Verification Provider, Lob also offers NCOALink
+      functionality to our Print & Mail customers. With the Lob NCOALink feature enabled, Postcards,
       Letters, Checks and Addresses can automatically be corrected to reflect an individual's or business's
-      new address in the case that they have moved (only if they have registered for NCOA with the USPS).
+      new address in the case that they have moved (only if they have registered for NCOALink with the USPS).
 
-      Due to privacy concerns and USPS constraints, for customers with NCOA enabled, our API responses
-      for a limited set of endpoints differ slightly in the case when an address has been changed through NCOA.
+      Due to privacy concerns and USPS constraints, for customers with NCOALink enabled, our API responses
+      for a limited set of endpoints differ slightly in the case when an address has been changed through NCOALink.
 
-      **NOTE**: This feature is exclusive to certain customers. Upgrade to the appropriate <a href='https://dashboard.lob.com/#/settings/editions'>Print & Mail Editions</a> to gain access.
+      **NOTE**: This feature is exclusive to certain customers. Upgrade to the appropriate <a href='https://dashboard.lob.com/#/settings/editions' target="_blank">Print & Mail Editions</a> to gain access.
 
-      For more information, see our [NCOA guide](https://www.lob.com/guides?tab=general#national_change).
+      For more information, see our <a href="https://help.lob.com/print_mail/all-about-addresses#national-change-of-address-ncoa" target="_blank">NCOALink guide</a>.
 
-      ## NCOA Live Environment
+      ## NCOALink Live Environment
       Though there are no changes to API requests, there are significant changes to our API responses, but
-      only in the event that an address has been changed through NCOA. If an address has not been changed
-      through NCOA, the response would be identical to our standard responses, except the addition of a
+      only in the event that an address has been changed through NCOALink. If an address has not been changed
+      through NCOALink, the response would be identical to our standard responses, except the addition of a
       `recipient_moved` field, which is `false` for unchanged addresses.
 
-      If an address has been changed through NCOA, we are required to suppress the following response
+      If an address has been changed through NCOALink, we are required to suppress the following response
       fields for that address:
       - `address_line1`
       - `address_line2`
@@ -1027,13 +1031,13 @@ tags:
 
       See the `ncoa_us_live` example under [Response samples](#operation/address_create) within the "Create an Address" section in Addresses
 
-      ## NCOA Test Environment
+      ## NCOALink Test Environment
 
-      In addition to sending live requests, you may also want to simulate what an NCOA response might
-      look like so that you can ensure your application behaves as expected. The behavior of NCOA in
+      In addition to sending live requests, you may also want to simulate what an NCOALink response might
+      look like so that you can ensure your application behaves as expected. The behavior of NCOALink in
       Lob's Test Environment is very similar to our [US Verifications Test Mode](#section/US-Verifications-Test-Env).
 
-      To simulate an NCOA request, send a POST request to any of the four endpoints below with an `address_line1` field equal to `NCOA`:
+      To simulate an NCOALink request, send a POST request to any of the four endpoints below with an `address_line1` field equal to `NCOA`:
       - `POST /v1/addresses`
       - `POST /v1/checks`
       - `POST /v1/letters`
@@ -1158,7 +1162,7 @@ tags:
       they do not require an additional idempotency key.
 
       For more help integrating idempotency keys, refer to our
-      [implementation guide](https://www.lob.com/guides?tab=general#idempotent_request).
+      <a href="https://help.lob.com/print_mail/mail-send-settings#idempotent-requests" target="_blank">implementation guide</a>.
 
       **Headers**
       <table>
@@ -1319,14 +1323,14 @@ tags:
   - name: SDKs and Tools
     x-traitTag: true
     description: |
-      Please visit our [Github](https://www.github.com/lob) for a list of our supported libraries.
-      - [Typescript](https://github.com/lob/lob-typescript-sdk)
-      - [PHP](https://github.com/lob/lob-php)
-      - [Python](https://github.com/lob/lob-python)
-      - [Java](https://github.com/lob/lob-java)
-      - [Ruby](https://github.com/lob/lob-ruby)
-      - [Elixir](https://github.com/lob/lob-elixir)
-      - [Node.js (legacy)](https://github.com/lob/lob-node)
+      Please visit our <a href="https://www.github.com/lob" target="_blank">Github</a> for a list of our supported libraries.
+      - <a href="https://github.com/lob/lob-typescript-sdk" target="_blank">Typescript</a>
+      - <a href="https://github.com/lob/lob-php" target="_blank">PHP</a>
+      - <a href="https://github.com/lob/lob-python" target="_blank">Python</a>
+      - <a href="https://github.com/lob/lob-java" target="_blank">Java</a>
+      - <a href="https://github.com/lob/lob-ruby" target="_blank">Ruby</a>
+      - <a href="https://github.com/lob/lob-elixir" target="_blank">Elixir</a>
+      - <a href="https://github.com/lob/lob-node" target="_blank">Node.js (legacy)</a>
 
   - name: Self Mailers
     description: |
@@ -1341,12 +1345,12 @@ tags:
       your saved templates in postcard, letter, and check requests instead of having to pass a long HTML
       string on each request. Additionally, you can make changes to your HTML templates and update them
       independently, without having to touch your API integration. Templates can be created, edited,
-      and viewed on your [Dashboard](https://dashboard.lob.com/#/templates). To use a template in a postcard,
+      and viewed on your <a href="https://dashboard.lob.com/#/templates" target="_blank">Dashboard</a>. To use a template in a postcard,
       letter, or check, see the documentation for each endpoint below. For help using templates, check out our
-      [HTML Templates Guide](https://www.lob.com/guides?tab=general#html_templates) or get started with a
-      [pre-designed template from our gallery](https://lob.com/template-gallery). In Live mode, you can only have
+      <a href="https://help.lob.com/print_mail/dynamic-personalization#html-templates" target="_blank">HTML Templates Guide</a> or get started with a
+      <a href="https://lob.com/template-gallery" target="_blank">pre-designed template from our gallery</a>. In Live mode, you can only have
       as many templates as allotted in your current
-      [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions). There is no limit in Test mode.
+      <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Edition</a>. There is no limit in Test mode.
 
       If you'd like to interact with templates programmatically, check out our Beta Program for API access
       to the [HTML Templates Endpoints](#tag/Templates).
@@ -1364,8 +1368,8 @@ tags:
       ```
 
       ## HTML Examples
-      Use a pre-designed template from our [gallery](https://lob.com/resources/template-gallery) or follow these
-      basic [guidelines](https://github.com/lob/examples) as starting points for creating custom Postcards,
+      Use a pre-designed template from our <a href="https://lob.com/resources/template-gallery" target="_blank">gallery</a> or follow these
+      basic <a href="https://github.com/lob/examples" target="_blank">guidelines</a> as starting points for creating custom Postcards,
       Self Mailers, Letters, and Checks.
 
       Please follow the standards used in these templates, such as:
@@ -1376,7 +1380,7 @@ tags:
       for a photo that is desired to be 1in x 1in on the final postcard, the image asset should be sized at 1in
       x 1in at 300DPI (which equates to 300px by 300px).
       - The sum of all linked assets should not exceed 5MB in file size.
-      - Use `-webkit` prefixes for CSS properties when recommended [here](http://shouldiprefix.com/).
+      - Use `-webkit` prefixes for CSS properties when recommended <a href="http://shouldiprefix.com/" target="_blank">here</a>.
 
       Because different browsers have varying user-agent styles, the HTML you see in your browser will not
       always look identical to what is produced through the API. It is **strongly** recommended that you test all
@@ -1427,7 +1431,7 @@ tags:
 
       In general, requests that provide PDFs with un-embedded fonts will be rejected. We make an exception for
       "standard fonts", a set of fonts that we have identified as being common. PDFs that contain un-embedded
-      fonts that are found in the list, and match the accepted [font type](https://en.wikipedia.org/wiki/Category:Font_formats)
+      fonts that are found in the list, and match the accepted <a href="https://en.wikipedia.org/wiki/Category:Font_formats" target="_blank">font type</a>
       will be accepted. Otherwise, the request will be rejected.
 
       Font embedding is an essential part of standard PDF workflows. Fonts should be embedded automatically by
@@ -2033,7 +2037,7 @@ tags:
   - name: US Verifications
     description: |
       Validate, automatically correct, and standardize the addresses in your
-      address book based on USPS's [Coding Accuracy Support System (CASS)](https://postalpro.usps.com/certifications/cass).
+      address book based on USPS's <a href="https://postalpro.usps.com/certifications/cass" target="_blank">Coding Accuracy Support System (CASS)</a>.
 
       ## US Verifications Test Env
 
@@ -2127,7 +2131,7 @@ tags:
       address of that type (excluding the `recipient` field).
 
       The test API key does not perform any verification, automatic correction, or standardization for addresses. If you wish to
-      try these features out, use our [live demo](https://lob.com/address-verification) or the free plan (see [our pricing](https://lob.com/pricing/address-verification) for details).
+      try these features out, use our <a href="https://lob.com/address-verification" target="_blank">live demo</a> or the free plan (see <a href="https://lob.com/pricing/address-verification" target="_blank">our pricing</a> for details).
 
   - name: Versioning and Changelog
     x-traitTag: true
@@ -2137,7 +2141,7 @@ tags:
       When backwards-incompatible changes are made to the API, a new dated version
       is released. The latest version of the API is version **2020-02-11**. You can
       view your version and upgrade to the latest version in your
-      [Dashboard Settings](https://dashboard.lob.com/#/settings/keys). You will
+      <a href="https://dashboard.lob.com/settings/api-keys" target="_blank">Dashboard Settings</a>. You will
       only need to specify a version if you would like to test a newer version of
       the API without doing a full upgrade. The API will return an error if a
       version older than your current one is passed in. See
@@ -2153,11 +2157,11 @@ tags:
 
       ### Specification Versioning
       You might be wondering why our API and specification use different versioning schemes.
-      Lob's API predates our specification and follows the [Stripe versioning](https://stripe.com/blog/api-versioning)
+      Lob's API predates our specification and follows the <a href="https://stripe.com/blog/api-versioning" target="_blank">Stripe versioning</a>
       approach. This works well to manage backwards-incompatible changes to our API.
 
-      For our API specification (used to create this documentation), we've chosen [semantic
-      versioning](https://semver.org/). This versioning reflects the backward-compatible
+      For our API specification (used to create this documentation), we've chosen <a href="https://semver.org/" target="_blank">semantic
+      versioning</a>. This versioning reflects the backward-compatible
       changes that do not require a versioning of Lob's API.
 
       Lob's API specification will be used to generate artifacts like documentation, client SDKs,
@@ -2277,11 +2281,11 @@ tags:
       will be created. If you are subscribed to that event type in that Environment
       (Test vs. Live), Lob will send that event to any URLs you've specified via an
       HTTP POST request. In Live mode, you can only have as many webhooks as allotted
-      in your current [Print & Mail Edition](https://dashboard.lob.com/#/settings/editions).
+      in your current <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Edition</a>.
       There is no limit in Test mode.
-      You can view and create [webhooks](https://dashboard.lob.com/#/webhooks) on the
-      Lob Dashboard, as well as view your [events](https://dashboard.lob.com/#/events).
-      See our [Webhooks Integration Guide](https://www.lob.com/guides?tab=general#webhooks_block) for more
+      You can view and create <a href="https://dashboard.lob.com/#/webhooks" target="_blank">webhooks</a> on the
+      Lob Dashboard, as well as view your <a href="https://dashboard.lob.com/#/events" target="_blank">events</a>.
+      See our <a href="https://help.lob.com/print_mail/webhooks-for-tracking-events" target="_blank">Webhooks Integration Guide</a> for more
       details on how to integrate. Please see the full list of event types available for
       subscription here.
 

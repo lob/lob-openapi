@@ -771,6 +771,19 @@
     {{!-- sidebars fontweight --}}
     ul[role='navigation'] li > label > span { font-weight: 300; }
   </style>
+
+  <script>
+    window.announcekit = (window.announcekit || { queue: [], on: function(n, x) { 
+      window.announcekit.queue.push([n, x]); }, push: function(x) { window.announcekit.queue.push(x); } 
+    });
+    
+    window.announcekit.push({
+      "widget": "https://announcekit.co/widgets/v2/2FSl8s",
+      "selector": ".announcekit-widget",
+      "embed": true
+    })
+  </script>
+  <script async src="https://cdn.announcekit.app/widget-v2.js"></script>
 </body>
 
 </html>

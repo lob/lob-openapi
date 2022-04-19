@@ -67,20 +67,20 @@ module.exports.runTests = async function runTests() {
         } else {
           errorMessage = `There was 1 failure in the contract tests`;
         }
-        try {
-          const parent = await web.chat.postMessage({
-            channel: pkg.config.goalieMappings[validated_arg].slackChannel,
-            text: `:octagonal_sign: ${errorMessage}`,
-          });
-          const reply = await web.chat.postMessage({
-            channel: pkg.config.goalieMappings[validated_arg].slackChannel,
-            thread_ts: parent.ts,
-            text: `${failures.join("\n")}`,
-          });
-        } catch (slackError) {
-          console.error(JSON.stringify(slackError, null, 2));
-          core.setFailed("There was an error with web.chat.postMessage");
-        }
+        // try {
+        //   const parent = await web.chat.postMessage({
+        //     channel: pkg.config.goalieMappings[validated_arg].slackChannel,
+        //     text: `:octagonal_sign: ${errorMessage}`,
+        //   });
+        //   const reply = await web.chat.postMessage({
+        //     channel: pkg.config.goalieMappings[validated_arg].slackChannel,
+        //     thread_ts: parent.ts,
+        //     text: `${failures.join("\n")}`,
+        //   });
+        // } catch (slackError) {
+        //   console.error(JSON.stringify(slackError, null, 2));
+        //   core.setFailed("There was an error with web.chat.postMessage");
+        // }
         core.setFailed(errorMessage);
         process.exit();
       }

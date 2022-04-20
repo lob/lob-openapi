@@ -115,6 +115,8 @@ test("list addresses' parameters", async function (t) {
       full_response,
     ]);
 
+    console.log(finale);
+
     t.assert(finale[0].count <= 8);
     t.assert(finale[3].hasOwnProperty("total_count"));
     t.assert(finale[6].count <= 2);

@@ -21,6 +21,9 @@ module.exports.runTests = async function runTests() {
         test = test_set[i];
         test_command = 'npx ava --timeout=5m "' + test + '"';
         exec(test_command, async function (err, stdout, stderr) {
+          console.log(stderr);
+          console.log(err);
+          console.log(stdout);
           if (err) {
             const formatted = "```" + stdout.replace(/```/g, " ") + "```";
             failures.push(formatted);

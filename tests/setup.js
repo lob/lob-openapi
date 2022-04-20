@@ -28,6 +28,7 @@ const authHeader = (token) => {
   return {
     Authorization: `Basic ${btoa(`${token}:`)}`,
     "content-type": "application/json; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
   };
 };
 

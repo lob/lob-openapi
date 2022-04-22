@@ -29,7 +29,6 @@ const authHeader = (token) => {
     Authorization: `Basic ${btoa(`${token}:`)}`,
     "content-type": "application/json; charset=utf-8",
   };
-
 };
 
 module.exports = class Prism {

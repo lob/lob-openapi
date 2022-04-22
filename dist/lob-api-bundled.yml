@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.6.4
+  version: 1.6.5
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -3542,6 +3542,11 @@ components:
           nullable: true
         count:
           $ref: '#/components/schemas/count'
+        total_count:
+          type: integer
+          description: >-
+            indicates the total number of records. Provided when the request
+            specifies an "include" query parameter
     date_created:
       type: string
       format: date-time

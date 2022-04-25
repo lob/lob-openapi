@@ -36,7 +36,33 @@
   <link rel="stylesheet" href="https://use.typekit.net/kay8yxk.css">
   <link rel="shortcut icon" type="image/png" href="{{LOB_ASSETS_URL}}/sites/brand-favicon.ico">
   <link rel='stylesheet' href='chunks/styles.min.css'/>
+  <style>
+.back-to-top {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+	background-color:#ffffff;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-family:Arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:2px 16px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffffff;
+  float:right;
+}
+.back-to-top:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+.back-to-top:active {
+	position:relative;
+	top:1px;
+}
 
+  </style>
   <script src='https://cdn.freshmarketer.com/430856/1196718.js'></script>
   <script type="text/javascript">
     (function() {
@@ -121,6 +147,14 @@
     window.addEventListener('load', (event) => {
       AnalyticsTracker.initialize();
     });
+  </script>
+
+  <script>
+    //set left side menu scroll to top of page
+    function toTopLink() {
+      document.getElementsByClassName("scrollbar-container")[0].scrollTo(0,0);
+      return false;
+    }
   </script>
 
   <script src="js/determine_widget.js"></script>

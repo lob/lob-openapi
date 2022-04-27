@@ -67,18 +67,12 @@ post:
   x-codeSamples:
     - lang: Shell
       source: |
-        curl https://api.lob.com/v1/bulk_intl_verifications \
-          -u <YOUR_LIVE_API_KEY>: \
-          --data-raw '{
-            "addresses": [
-              {
-                "primary_line": "210 King Street",
-                "city": "San Francisco",
-                "state": "CA",
-                "zip_code": "94107"
-              }
-            ]
-          }'
+        curl https://api.lob.com/v1/bulk/intl_verifications \
+        -u <YOUR LIVE API KEY>: \
+        --header 'Content-Type: application/x-www-form-urlencoded' \
+        --data-urlencode 'addresses[0][primary_line]=370 WATER ST' \
+        --data-urlencode 'addresses[0][postal_code]=C1N 1C4' \
+        --data-urlencode 'addresses[0][country]=CA'
       label: CURL
     - lang: Typescript
       source: |

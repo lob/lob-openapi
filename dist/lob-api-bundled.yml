@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.6.6
+  version: 1.6.7
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -11791,18 +11791,13 @@ paths:
       x-codeSamples:
         - lang: Shell
           source: |
-            curl https://api.lob.com/v1/bulk_us_verifications \
-              -u <YOUR_LIVE_API_KEY>: \
-              --data-raw '{
-                "addresses": [
-                  {
-                    "primary_line": "210 King Street",
-                    "city": "San Francisco",
-                    "state": "CA",
-                    "zip_code": "94107"
-                  }
-                ]
-              }'
+            curl https://api.lob.com/v1/bulk/us_verifications \
+            -u <YOUR LIVE API KEY>: \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --data-urlencode 'addresses[0][primary_line]=210 King Street' \
+            --data-urlencode 'addresses[0][city]=San Francisco' \
+            --data-urlencode 'addresses[0][state]=CA' \
+            --data-urlencode 'addresses[0][zip_code]=94017'
           label: CURL
         - lang: Typescript
           source: |
@@ -11968,18 +11963,12 @@ paths:
       x-codeSamples:
         - lang: Shell
           source: |
-            curl https://api.lob.com/v1/bulk_intl_verifications \
-              -u <YOUR_LIVE_API_KEY>: \
-              --data-raw '{
-                "addresses": [
-                  {
-                    "primary_line": "210 King Street",
-                    "city": "San Francisco",
-                    "state": "CA",
-                    "zip_code": "94107"
-                  }
-                ]
-              }'
+            curl https://api.lob.com/v1/bulk/intl_verifications \
+            -u <YOUR LIVE API KEY>: \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --data-urlencode 'addresses[0][primary_line]=370 WATER ST' \
+            --data-urlencode 'addresses[0][postal_code]=C1N 1C4' \
+            --data-urlencode 'addresses[0][country]=CA'
           label: CURL
         - lang: Typescript
           source: |

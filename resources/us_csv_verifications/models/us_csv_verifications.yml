@@ -1,0 +1,44 @@
+allOf:
+  - anyOf:
+      - title: US CSV file with a `city` and `state` column
+        required:
+          - city_mapping
+          - state_mapping
+      - title: US verification object with only a `postal_code` column
+        required:
+          - postal_code_mapping
+
+  - type: object
+    required:
+      - primary_line_mapping
+
+    properties:
+      recipient_mapping:
+        type: number
+        description: >-
+          The index of the recipient column.
+
+      primary_line_mapping:
+        type: number
+        description: >-
+          The index of the primary line column.
+
+      secondary_line_mapping:
+        type: number
+        description: >-
+          The index of the secondary line column.
+
+      city_mapping:
+        type: number
+        description: >-
+          The index of the city column. `city_mapping` and `state_mapping` are required if no `postal_code_mapping` is passed.
+
+      state_mapping:
+        type: number
+        description: >-
+          The index of the state column. `city_mapping` and `state_mapping` are required if no `postal_code_mapping` is passed.
+
+      postal_code_mapping:
+        type: number
+        description: >-
+          The index of the postal_code column. `postal_code_mapping` is required if no `state_mapping` or `city_mapping`  is passed.

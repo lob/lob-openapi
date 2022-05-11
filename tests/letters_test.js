@@ -220,6 +220,10 @@ test.serial.before(
           { headers: prism.authHeader }
         )
       );
+      // Note: the value type of return_envelope differs based on what features
+      // are enabled. If this test fails for one key but passes with another,
+      // the difference is likely feature settings.
+      // Ref: https://docs.lob.com/#operation/letter_create
       t.assert(create.status === 200);
       t.assert(!create.data.tracking_number);
       t.context.full_id = create.data.id;
@@ -256,6 +260,10 @@ test.serial.before(
           { headers: prism.authHeader }
         )
       );
+      // Note: the value type of return_envelope differs based on what features
+      // are enabled. If this test fails for one key but passes with another,
+      // the difference is likely feature settings.
+      // Ref: https://docs.lob.com/#operation/letter_create
       t.assert(create.status === 200);
       t.assert(!create.data.tracking_number);
       t.context.full_id = create.data.id;

@@ -84,7 +84,20 @@ post:
       label: CURL
     - lang: Typescript
       source: |
-        This feature is not currently supported by this library.
+        const IntlAutocompletions = new IntlAutocompletionsApi(av_config);
+        const autoCompletionData = new IntlAutocompletionsWritable({
+            address_prefix: "340 Wat",
+            city: "Summerside",
+            state: "Prince Edward Island",
+            zip_code: "C1N 1C4",
+            country: "CA",
+        });
+
+        try {
+            const autocompletedAddresses = await IntlAutocompletions.autocomplete(autocompletionData);
+        } catch (err: any) {
+            console.error(err);
+        }
       label: TYPESCRIPT
     - lang: Javascript
       source: |

@@ -65,10 +65,10 @@ post:
     - lang: Typescript
       source: |
         const ReverseGeocodeLookup = new ReverseGeocodeLookupsApi(av_config);
-        const coordinates: Location = {
-          Latitude: 37.777456,
+        const coordinates = new Location({
+          latitude: 37.777456,
           longitude: -122.393039
-        };
+        });
         try {
           const geocode = await ReverseGeocodeLookup.lookup(coordinates);
         } catch (err: any) {

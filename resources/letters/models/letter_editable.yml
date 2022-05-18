@@ -1,6 +1,7 @@
 allOf:
   - $ref: "../../../shared/models/form_factor/input_to.yml"
   - $ref: "../../../shared/models/form_factor/input_from.yml"
+  - $ref: "../../../shared/models/form_factor/editable.yml"
 
   - type: object
 
@@ -10,9 +11,6 @@ allOf:
       - file
 
     properties:
-      description:
-        $ref: "../../../shared/attributes/resource_description.yml"
-
       file:
         description: >-
           Notes:

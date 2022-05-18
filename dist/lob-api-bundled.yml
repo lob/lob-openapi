@@ -7087,18 +7087,30 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address'
+    editable:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        send_date:
+          $ref: '#/components/schemas/send_date'
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/input_to'
         - $ref: '#/components/schemas/input_from'
+        - $ref: '#/components/schemas/editable'
         - type: object
           required:
             - to
             - from
             - file
           properties:
-            description:
-              $ref: '#/components/schemas/resource_description'
             file:
               description: >-
                 Notes:
@@ -7272,19 +7284,6 @@ components:
       type: string
       description: Unique identifier prefixed with `psc_`.
       pattern: ^psc_[a-zA-Z0-9]+$
-    editable:
-      type: object
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        metadata:
-          $ref: '#/components/schemas/metadata'
-        mail_type:
-          $ref: '#/components/schemas/mail_type'
-        merge_variables:
-          $ref: '#/components/schemas/merge_variables'
-        send_date:
-          $ref: '#/components/schemas/send_date'
     postcard_size:
       type: string
       enum:

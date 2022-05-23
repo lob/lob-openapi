@@ -12578,6 +12578,9 @@ paths:
       description: Retrieves the card orders associated with the given card id.
       tags:
         - Card Orders
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: Returns the card orders associated with the given card id

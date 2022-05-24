@@ -17,6 +17,10 @@ get:
   tags:
     - Card Orders
 
+  parameters:
+    - $ref: "../../../shared/parameters/limit.yml"
+    - $ref: "../../../shared/parameters/offset.yml"
+
   responses:
     "200":
       description: Returns the card orders associated with the given card id

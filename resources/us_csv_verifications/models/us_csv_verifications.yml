@@ -10,9 +10,15 @@ allOf:
 
   - type: object
     required:
+      - csv_file
       - primary_line_mapping
 
     properties:
+      csv_file:
+        type: string
+        description: >-
+          The file path to the CSV of addresses you wish to verify.
+
       recipient_mapping:
         type: number
         description: >-

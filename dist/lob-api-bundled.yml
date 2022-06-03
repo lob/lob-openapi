@@ -4755,8 +4755,12 @@ components:
                 - postal_code_mapping
         - type: object
           required:
+            - csv_file
             - primary_line_mapping
           properties:
+            csv_file:
+              type: string
+              description: The file path to the CSV of addresses you wish to verify.
             recipient_mapping:
               type: number
               description: The index of the recipient column.
@@ -4785,7 +4789,7 @@ components:
     us_csv_verifications_response:
       type: object
       properties:
-        csv_id:
+        id:
           type: string
           description: |
             Unique identifier prefixed with csv_ver.
@@ -8558,7 +8562,7 @@ components:
           schema:
             $ref: '#/components/schemas/us_csv_verifications_response'
           example:
-            csv_id: csv_ver_c7cb63d68f8d6
+            id: csv_ver_c7cb63d68f8d6
             status: Received
     us_verifications_error:
       description: Error
@@ -11674,7 +11678,7 @@ paths:
       description: >-
         Verify a CSV of US or US territory addresses _with a live API key_. A
         completed CSV will be emailed to your account once the cleansing and
-        verification process is finished. It's reccomended that your CSV file is
+        verification process is finished. It's recommended that your CSV file is
         under 250k lines. The endpoint requires a `csv_file` and the index of
         your column headers. The columns should be 1-indexed  For example if you
         have a CSV with address primary lines in the first column and all postal

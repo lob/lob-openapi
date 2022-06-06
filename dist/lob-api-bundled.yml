@@ -4743,64 +4743,6 @@ components:
         - $ref: '#/components/schemas/billing_group_base'
         - required:
             - name
-    us_csv_verifications:
-      allOf:
-        - anyOf:
-            - title: US CSV file with a `city` and `state` column
-              required:
-                - city_mapping
-                - state_mapping
-            - title: US verification object with only a `postal_code` column
-              required:
-                - postal_code_mapping
-        - type: object
-          required:
-            - csv_file
-            - primary_line_mapping
-          properties:
-            csv_file:
-              type: string
-              description: The file path to the CSV of addresses you wish to verify.
-            recipient_mapping:
-              type: number
-              description: The index of the recipient column.
-            primary_line_mapping:
-              type: number
-              description: The index of the primary line column.
-            secondary_line_mapping:
-              type: number
-              description: The index of the secondary line column.
-            city_mapping:
-              type: number
-              description: >-
-                The index of the city column. `city_mapping` and `state_mapping`
-                are required if no `postal_code_mapping` is passed.
-            state_mapping:
-              type: number
-              description: >-
-                The index of the state column. `city_mapping` and
-                `state_mapping` are required if no `postal_code_mapping` is
-                passed.
-            postal_code_mapping:
-              type: number
-              description: >-
-                The index of the postal_code column. `postal_code_mapping` is
-                required if no `state_mapping` or `city_mapping`  is passed.
-    us_csv_verifications_response:
-      type: object
-      properties:
-        id:
-          type: string
-          description: |
-            Unique identifier prefixed with csv_ver.
-        status:
-          type: string
-          description: |
-            Current status of your CSV verification. One of:
-            * Received
-            * Preprocessing
-            * Verification
-            * Emailing
     recipient:
       type: string
       description: The intended recipient, typically a person's or firm's name.
@@ -8548,22 +8490,6 @@ components:
             date_created: '2017-11-07T22:56:10.962Z'
             date_modified: '2017-11-07T22:56:10.962Z'
             object: billing_group
-    us_csv_verifications:
-      description: Returns ok
-      headers:
-        ratelimit-limit:
-          $ref: '#/components/headers/ratelimit-limit'
-        ratelimit-remaining:
-          $ref: '#/components/headers/ratelimit-remaining'
-        ratelimit-reset:
-          $ref: '#/components/headers/ratelimit-reset'
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/us_csv_verifications_response'
-          example:
-            id: csv_ver_c7cb63d68f8d6
-            status: Received
     us_verifications_error:
       description: Error
       content:
@@ -11671,44 +11597,6 @@ paths:
 
             -d "description=Usage group used for the Marketing Department's
             resource sends"
-  /us_csv_verifications:
-    post:
-      operationId: us_csv_verifications
-      summary: CSV Verify
-      description: >-
-        Verify a CSV of US or US territory addresses _with a live API key_. A
-        completed CSV will be emailed to your account once the cleansing and
-        verification process is finished. It's recommended that your CSV file is
-        under 250k lines. The endpoint requires a `csv_file` and the index of
-        your column headers. The columns should be 1-indexed  For example if you
-        have a CSV with address primary lines in the first column and all postal
-        codes in the 5th column, pass in `primary_line_mapping` as 1 and
-        `postal_code_mapping` as 5.
-      tags:
-        - US Verifications
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/us_csv_verifications'
-            examples:
-              basic:
-                value:
-                  csv_file: example_csv_file.csv
-                  primary_line_mapping: 1
-                  postal_code_mapping: 5
-              full_payload:
-                value:
-                  csv_file: example_csv_file.csv
-                  primary_line_mapping: 1
-                  secondary_line_mapping: 2
-                  city_mapping: 3
-                  state_mapping: 4
-                  postal_code_mapping: 5
-      responses:
-        '200':
-          $ref: '#/components/responses/us_csv_verifications'
   /bulk/us_verifications:
     post:
       operationId: bulk_us_verifications

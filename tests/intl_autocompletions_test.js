@@ -60,6 +60,33 @@ test("autocomplete an address given a prefix with full payload", async function 
   }
 });
 
+test("autocomplete an address given a prefix with full payload and geo_ip_sort", async function (t) {
+  try {
+    const response = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          address_prefix: address_prefix,
+          city: "Summerside",
+          state: "Prince Edward Island",
+          zip_code: "C1N 1C4",
+          country: country,
+          geo_ip_sort: false,
+        },
+        { headers: prism.authHeader }
+      )
+    );
+
+    t.assert(response.status === 200);
+  } catch (prismError) {
+    if (Object.keys(prismError).length > 0) {
+      t.fail(JSON.stringify(prismError, null, 2));
+    } else {
+      t.fail(prismError.toString());
+    }
+  }
+});
+
 test("autocomplete an address given a prefix with full payload urlencoded", async function (t) {
   try {
     const payload = new URLSearchParams({

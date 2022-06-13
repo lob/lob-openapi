@@ -30,3 +30,12 @@ rules:
       function: pattern
       functionOptions:
         notMatch: "int'l|Int'l"
+
+  oas3-valid-media-example:
+    description: "This format violates OpenAPI 3.1 rules"
+    message: "{{description}}"
+    severity: warn
+    given: "$"
+    then:
+      field: example
+      function: truthy

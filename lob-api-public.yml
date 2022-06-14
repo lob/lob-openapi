@@ -110,6 +110,12 @@ tags:
       Verify a list of US addresses.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
+  - name: Campaigns
+    description: |
+      The campaigns endpoint allows you to create and view campaigns that can be used to send multiple letters or postcards.
+      The API provides endpoints for creating campaigns, updating campaigns, retrieving individual campaigns, and deleting
+      campaigns.
+
   - name: Card Orders
     description: |
       The card orders endpoint allows you to easily create card orders for existing cards.
@@ -127,6 +133,12 @@ tags:
       Checks allow you to send payments via physical checks. The API provides endpoints
       for creating checks, retrieving individual checks, canceling checks, and retrieving a list of checks.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
+  - name: Creatives
+    description: |
+      The creatives endpoint allows you to create and view creatives. Creatives are used to create
+      reusable letter and postcard templates. The API provides endpoints for creating creatives, updating creatives,
+      retrieving individual creatives, and deleting creatives.
 
   - name: Errors
     x-traitTag: true
@@ -1904,6 +1916,13 @@ tags:
       </table>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
+  - name: Uploads
+    description: |
+      The uploads endpoint allows you to upload audience files that are then associated with a given campaign.
+      At this time, only CSV files are allowed. The API provides endpoints for creating uploads, uploading audience files,
+      and marking uploaded files as ready for processing. The API also provides endpoints for downloading files that
+      describe the results, both successful and not, of the processing.
+
   - name: US Autocompletions
     description: >
       Given partial address information, this endpoint returns up to 10 address suggestions.
@@ -2384,6 +2403,12 @@ x-tagGroups:
       - Template Design
       - Manage Mail
 
+  - name: Campaigns API
+    tags:
+      - Uploads
+      - Creatives
+      - Campaigns
+
   - name: Address Verification API
     tags:
       - US Verifications
@@ -2474,6 +2499,12 @@ paths:
   /bulk/intl_verifications:
     $ref: resources/bulk_intl_verifications/bulk_intl_verifications.yml
 
+  /campaigns:
+    $ref: resources/campaigns/campaigns.yml
+
+  /campaigns/{cmp_id}:
+    $ref: resources/campaigns/campaign.yml
+
   /cards:
     $ref: resources/cards/cards.yml
 
@@ -2483,11 +2514,17 @@ paths:
   /cards/{card_id}/orders:
     $ref: resources/cards/card_orders/card_orders.yml
 
+  /checks:
+    $ref: resources/checks/checks.yml
+
   /checks/{chk_id}:
     $ref: resources/checks/check.yml
 
-  /checks:
-    $ref: resources/checks/checks.yml
+  /creatives:
+    $ref: resources/creatives/creatives.yml
+
+  /creatives/{crv_id}:
+    $ref: resources/creatives/creative.yml
 
   /intl_autocompletions:
     $ref: resources/intl_autocompletions/intl_autocompletions.yml
@@ -2524,6 +2561,9 @@ paths:
 
   /templates:
     $ref: resources/templates/templates.yml
+
+  /uploads:
+    $ref: resources/uploads/uploads.yml
 
   /us_autocompletions:
     $ref: resources/us_autocompletions/us_autocompletions.yml

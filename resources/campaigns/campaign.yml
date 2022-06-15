@@ -1,0 +1,27 @@
+# TODO Generate path schemas
+parameters:
+  - in: path
+    name: cmp_id
+    description: id of the campaign
+    required: true
+    schema:
+      $ref: "attributes/cmp_id.yml"
+
+get:
+  operationId: campaign_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing campaign. You need only supply
+    the unique creative identifier that was returned upon campaign creation.
+
+  tags:
+    - Campaigns
+
+  responses:
+    "200":
+      description: Returns a campaign object
+      content:
+        $ref: "responses/campaign.yml"
+

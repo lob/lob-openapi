@@ -1,0 +1,27 @@
+# TODO Generate path schemas
+parameters:
+  - in: path
+    name: crv_id
+    description: id of the creative
+    required: true
+    schema:
+      $ref: "attributes/crv_id.yml"
+
+get:
+  operationId: creative_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing creative. You need only supply
+    the unique creative identifier that was returned upon creative creation.
+
+  tags:
+    - Creatives
+
+  responses:
+    "200":
+      description: Returns a creative object
+      content:
+        $ref: "responses/creative.yml"
+

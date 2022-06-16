@@ -1,0 +1,32 @@
+allOf:
+  - $ref: "../../../shared/models/lob_base.yml"
+  - $ref: "campaign_base.yml"
+
+  - type: object
+
+    required:
+       - id
+       - account_id
+       - date_created
+       - date_modified
+       - user_agent
+       - object
+
+    properties:
+      id:
+        description:
+        $ref: "../attributes/cmp_id.yml"
+
+      account_id:
+        description:
+        type: string
+
+      is_draft:
+        description:
+        type: boolean
+
+      creatives:
+        description:
+        type: array
+        items:
+          $ref: '' #TODO Update with ref to creative model in spec

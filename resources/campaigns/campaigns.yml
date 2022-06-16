@@ -1,10 +1,10 @@
 post:
-  operationId: campaign
+  operationId: campaign_create
 
-  summary: Do Thing
+  summary: Create
 
   description: >-
-    Does something to campaign
+    Creates a new campaign with the provided properties
 
   tags:
     - Campaigns
@@ -17,14 +17,14 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/campaigns.yml"
+          $ref: "models/campaign_editable.yml"
         example:
           description: demo
           # complete example using all create payload properties
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/campaigns.yml"
+          $ref: "models/campaign_editable.yml"
         encoding: # be sure to check which encodings apply
           example-prop:
             style: deepObject
@@ -36,14 +36,16 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "models/campaigns.yml"
+          $ref: "models/campaign_editable.yml"
         example:
           description: demo
           # complete example using all create payload properties
 
   responses:
     "200":
-      $ref: responses/campaigns.yml
+      description: Campaign created successfully
+      content:
+        $ref: responses/campaign.yml
 
     default:
       $ref: responses/campaigns_error.yml

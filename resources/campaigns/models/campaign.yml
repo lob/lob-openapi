@@ -14,19 +14,19 @@ allOf:
 
     properties:
       id:
-        description:
+        description: Unique Identifier for this campaign.
         $ref: "../attributes/cmp_id.yml"
 
       account_id:
-        description:
+        description: Account ID that this campaign is associated with.
         type: string
 
       is_draft:
-        description:
+        description: Whether or not the campaign is still a draft.
         type: boolean
 
       creatives:
-        description:
+        description: An array of creatives that have been associated with this campaign.
         type: array
         items:
-          $ref: '' #TODO Update with ref to creative model in spec
+          $ref: "../../creatives/models/creative.yml"

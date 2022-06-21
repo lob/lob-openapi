@@ -6,39 +6,41 @@ description: >-
   `next_url` fields in the API response respectively.<br>If no
   more campaigns are available beyond the current set of returned results,
   the `next_url` field will be empty.
-application/json:
-  schema:
-    allOf:
-      - $ref: "../../../shared/models/list.yml"
-      - type: object
-        properties:
-          data:
-            type: array
-            description: list of campaigns
-            items:
-              $ref: "../models/campaign.yml"
 
-  example:
-    data:
-      id: cmp_e05ee61ff80764b
-      account_id: fa9ea650fc7b31a89f92
-      billing_group_id: bg_fe3079dcdd80e5ae
-      name: My Campaign
-      description: My Campaign's description
-      schedule_type: immediate
-      send_date: null
-      target_delivery_date: null
-      cancel_window_campaign_minutes: 60
-      metadata: {}
-      use_type: marketing
-      is_draft: true
-      deleted: false
-      creatives: []
-      auto_cancel_if_ncoa: false
-      date_created: "2017-09-05T17:47:53.767Z"
-      date_modified: "2017-09-05T17:47:53.767Z"
-      object: campaign
-    object: list
-    previous_url:
-    next_url:
-    count: 1
+content:
+  application/json:
+    schema:
+      allOf:
+        - $ref: "../../../shared/models/list.yml"
+        - type: object
+          properties:
+            data:
+              type: array
+              description: list of campaigns
+              items:
+                $ref: "../models/campaign.yml"
+
+    example:
+      data:
+        id: cmp_e05ee61ff80764b
+        account_id: fa9ea650fc7b31a89f92
+        billing_group_id: bg_fe3079dcdd80e5ae
+        name: My Campaign
+        description: My Campaign's description
+        schedule_type: immediate
+        send_date: null
+        target_delivery_date: null
+        cancel_window_campaign_minutes: 60
+        metadata: {}
+        use_type: marketing
+        is_draft: true
+        deleted: false
+        creatives: []
+        auto_cancel_if_ncoa: false
+        date_created: "2017-09-05T17:47:53.767Z"
+        date_modified: "2017-09-05T17:47:53.767Z"
+        object: campaign
+      object: list
+      previous_url:
+      next_url:
+      count: 1

@@ -17,14 +17,14 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/campaign_editable.yml"
+          $ref: "models/campaign_writable.yml"
         example:
           description: "Demo Campaign"
           # complete example using all create payload properties
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/campaign_editable.yml"
+          $ref: "models/campaign_writable.yml"
         encoding: # be sure to check which encodings apply
           example-prop:
             style: deepObject
@@ -36,7 +36,7 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "models/campaign_editable.yml"
+          $ref: "models/campaign_writable.yml"
         example:
           description: demo
           # complete example using all create payload properties

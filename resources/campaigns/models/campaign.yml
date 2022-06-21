@@ -14,7 +14,6 @@ allOf:
 
     properties:
       id:
-        description: Unique Identifier for this campaign.
         $ref: "../attributes/cmp_id.yml"
 
       account_id:
@@ -22,8 +21,7 @@ allOf:
         type: string
 
       is_draft:
-        description: Whether or not the campaign is still a draft.
-        type: boolean
+        $ref: "../attributes/cmp_is_draft.yml"
 
       creatives:
         description: An array of creatives that have been associated with this campaign.

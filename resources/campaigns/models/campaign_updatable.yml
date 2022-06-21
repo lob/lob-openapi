@@ -1,35 +1,20 @@
 type: object
 properties:
   name:
-    description: Name of the campaign.
-    type: string
+    $ref: "../attributes/cmp_name.yml"
   description:
     $ref: "../attributes/cmp_description.yml"
   schedule_type:
-    description: How the campaign should be scheduled. One of targeted_delivery, immediate, or scheduled_send_date.
-    type: string
-    enum:
-      - targeted_delivery
-      - immediate
-      - scheduled_send_date
+    $ref: "../attributes/cmp_schedule_type.yml"
   send_date:
-    description: If schedule_type is scheduled_send_date, provide a date to send this campaign.
-    type: string
+    $ref: "../attributes/cmp_send_date.yml"
   target_delivery_date:
-    description: If schedule_type is target_delivery_date, provide a targeted delivery date for mail pieces in this campaign.
-    type: string
+    $ref: "../attributes/cmp_target_delivery_date.yml"
   cancel_window_campaign_minutes:
-    description: A window, in minutes, within which the campaign can be canceled.
-    type: integer
+    $ref: "../attributes/cmp_cancel_window_campaign_minutes.yml"
   metadata:
-    description: Key/value pairs that will be applied to all mail pieces within this campaign.
-    type: object
+    $ref: "../attributes/cmp_metadata.yml"
   is_draft:
-    description: Whether or not the campaign is still a draft.
-    type: boolean
+    $ref: "../attributes/cmp_is_draft.yml"
   use_type:
-    description: The usage type of this campaign. Can be one of marketing or operational.
-    type: string
-    enum:
-      - marketing
-      - operational
+    $ref: "../attributes/cmp_use_type.yml"

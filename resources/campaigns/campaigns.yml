@@ -1,3 +1,54 @@
+get:
+  operationId: campaigns_list
+
+  summary: List
+
+  description: >-
+    Returns a list of your campaigns. The campaigns are returned sorted by
+    creation date, with the most recently created campaigns appearing first.
+
+  tags:
+    - Campaigns
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/before_after.yml"
+
+  responses:
+    "200":
+      description: Returns a list of campaign objects
+      content:
+        $ref: "responses/all_campaigns.yml"
+
+  x-codeSamples:
+      - lang: Shell
+        label: CURL
+        source: |
+
+      - lang: Javascript
+        label: NODE
+        source: |
+
+      - lang: Ruby
+        label: RUBY
+        source: |
+
+      - lang: Python
+        label: PYTHON
+        source: |
+
+      - lang: PHP
+        source: |
+
+      - lang: Java
+        label: JAVA
+        source: |
+
+      - lang: Elixir
+        label: ELIXIR
+        source: |
+
 post:
   operationId: campaign_create
 

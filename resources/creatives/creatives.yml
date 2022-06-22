@@ -1,10 +1,38 @@
-post:
-  operationId: creative
+get:
+  operationId: creatives_list
 
-  summary: Do Thing
+  summary: List
 
   description: >-
-    Does something to creative
+    Returns a list of your creatives. The creatives are returned sorted by
+    creation date, with the most recently created creatives appearing first.
+
+  tags:
+    - Creatives
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/before_after.yml"
+
+  responses:
+    "200":
+      $ref: "responses/all_creatives.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/creatives \
+          -u <YOUR API KEY>:
+      label: CURL
+
+post:
+  operationId: creative_create
+
+  summary: Create
+
+  description: >-
+    Creates a new creative with the provided properties
 
   tags:
     - Creatives
@@ -17,14 +45,14 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/creatives.yml"
+          $ref: "models/creative_writable.yml"
         example:
-          description: demo
+          description: "Demo Creative"
           # complete example using all create payload properties
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "models/creatives.yml"
+          $ref: "models/creative_writable.yml"
         encoding: # be sure to check which encodings apply
           example-prop:
             style: deepObject
@@ -36,42 +64,23 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "models/creatives.yml"
+          $ref: "models/creative_writable.yml"
         example:
           description: demo
           # complete example using all create payload properties
 
   responses:
     "200":
-      $ref: responses/creatives.yml
+      description: Creative created successfully
+      content:
+        $ref: responses/creative.yml
 
     default:
       $ref: responses/creatives_error.yml
 
   x-codeSamples:
     - lang: Shell
+      source: |
+        curl -X POST https://api.lob.com/v1/creatives \
+          -u <YOUR API KEY>:
       label: CURL
-      source: |
-
-    - lang: Javascript
-      label: NODE
-      source: |
-
-    - lang: Ruby
-      label: RUBY
-      source: |
-
-    - lang: Python
-      label: PYTHON
-      source: |
-
-    - lang: PHP
-      source: |
-
-    - lang: Java
-      label: JAVA
-      source: |
-
-    - lang: Elixir
-      label: ELIXIR
-      source: |

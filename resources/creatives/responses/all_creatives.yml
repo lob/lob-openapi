@@ -1,0 +1,41 @@
+description: >-
+  A dictionary with a data property that contains an array of
+  up to `limit` creatives. Each entry in the array is a separate
+  creative. The previous and next page of creatives can be retrieved
+  by calling the endpoint contained in the `previous_url` and
+  `next_url` fields in the API response respectively.<br>If no
+  more creatives are available beyond the current set of returned results,
+  the `next_url` field will be empty.
+
+content:
+  application/json:
+    schema:
+      allOf:
+        - $ref: "../../../shared/models/list.yml"
+        - type: object
+          properties:
+            data:
+              type: array
+              description: list of creatives
+              items:
+                $ref: "../models/creative.yml"
+
+    example:
+      data:
+        id: crv_2a3b096c409b32c
+        account_id: fa9ea650fc7b31a89f92
+        description: Our 4x6 postcard creative
+        from: adr_210a8d4b0b76d77b
+        resource_type: postcard
+        details: {}
+        metadata: {}
+        template_preview_urls: {}
+        template_previews: []
+        campaigns: []
+        date_created: "2017-09-05T17:47:53.767Z"
+        date_modified: "2017-09-05T17:47:53.767Z"
+        object: creative
+      object: list
+      previous_url:
+      next_url:
+      count: 1

@@ -26,7 +26,8 @@ test("perform action on campaign", async function (t) {
     );
     t.assert(t.context.create.status === 200);
   } catch (prismError) {
-    if (Object.keys(prismError).length > 0) { // if the error has properties, it can be JSON.stringified
+    if (Object.keys(prismError).length > 0) {
+      // if the error has properties, it can be JSON.stringified
       t.fail(JSON.stringify(prismError, null, 2));
     } else {
       t.fail(prismError.toString());

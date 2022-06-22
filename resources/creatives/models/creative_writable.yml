@@ -1,0 +1,24 @@
+type: object
+
+required:
+  - campaign_id
+  - resource_type
+  - details
+
+properties:
+  campaign_id:
+    $ref: "../../campaigns/attributes/cmp_id.yml"
+  description:
+    title: Description
+    type: string
+    example: Our 4x6 postcard creative
+  resource_type:
+    $ref: "../attributes/supported_resource_type.yml"
+  details:
+    type: object
+  from:
+    title: From
+    type: string
+  metadata:
+    title: Metadata
+    type: object

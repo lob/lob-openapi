@@ -7,14 +7,14 @@ get:
     Returns a list of your uploads. Optionally, filter uploads by campaign.
 
   tags:
-  - Uploads
+    - Uploads
 
   parameters:
-  - required: false
-    schema:
-      $ref: "../campaigns/attributes/cmp_id.yml"
-    name: campaignId
-    in: query
+    - required: false
+      schema:
+        $ref: "../campaigns/attributes/cmp_id.yml"
+      name: campaignId
+      in: query
 
   responses:
     "200":
@@ -34,7 +34,7 @@ post:
     Creates a new upload with the provided properties
 
   tags:
-  - Uploads
+    - Uploads
 
   requestBody:
     required: true

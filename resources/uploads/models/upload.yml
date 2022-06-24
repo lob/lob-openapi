@@ -1,0 +1,65 @@
+allOf:
+  - $ref: "upload_writable.yml"
+
+  - type: object
+
+    required:
+      - id
+      - accountId
+      - campaignId
+      - columnMapping
+      - mode
+      - state
+      - totalMailpieces
+      - failedMailpieces
+      - validatedMailpieces
+      - bytesProcessed
+      - dateCreated
+      - dateModified
+
+    properties:
+      id:
+        $ref: "../attributes/upl_id.yml"
+      accountId:
+        title: Account ID
+        type: string
+        example: fa9ea650fc7b31a89f92
+      mode:
+        enum:
+        - test
+        - live
+        type: string
+      failuresUrl:
+        title: Failures URL
+        type: string
+        example: https://www.example.com
+      originalFilename:
+        title: Original Filename
+        type: string
+        example: my_audience.csv
+      state:
+        $ref: '../attributes/upload_state.yml'
+      totalMailpieces:
+        title: Total Mailpieces
+        type: integer
+        example: 100
+      failedMailpieces:
+        title: Failed Mailpieces
+        type: integer
+        example: 5
+      validatedMailpieces:
+        title: Validated Mailpieces
+        type: integer
+        example: 95
+      bytesProcessed:
+        title: Bytes Processed
+        type: integer
+        example: 17268
+      dateCreated:
+        title: Date Created
+        type: string
+        format: date-time
+      dateModified:
+        title: Date Modified
+        type: string
+        format: date-time

@@ -1,0 +1,31 @@
+type: object
+properties:
+  name:
+    title: Name
+    type: string
+  description:
+    $ref: "../../../shared/attributes/resource_description.yml"
+  schedule_type:
+    $ref: "../attributes/cmp_schedule_type.yml"
+  target_delivery_date:
+    description: If schedule_type is target_delivery_date, provide a targeted delivery date for mail pieces in this campaign.
+    type: string
+    format: date-time
+  send_date:
+    description: If schedule_type is scheduled_send_date, provide a date to send this campaign.
+    type: string
+    format: date-time
+  cancel_window_campaign_minutes:
+    description: A window, in minutes, within which the campaign can be canceled.
+    type: integer
+  metadata:
+    $ref: "../../../shared/models/metadata.yml"
+  is_draft:
+    description: Whether or not the campaign is still a draft.
+    type: boolean
+    default: true
+  use_type:
+    $ref: "../attributes/cmp_use_type.yml"
+  auto_cancel_if_ncoa:
+    description: Whether or not a mail piece should be automatically canceled and not sent if the address is updated via NCOA.
+    type: boolean

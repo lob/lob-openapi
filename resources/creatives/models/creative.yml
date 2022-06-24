@@ -1,0 +1,56 @@
+allOf:
+  - $ref: "../../../shared/models/lob_base.yml"
+  - $ref: "creative_base.yml"
+
+  - type: object
+
+    required:
+      - id
+      - account_id
+      - description
+      - from
+      - resource_type
+      - details
+      - metadata
+      - template_preview_urls
+      - template_previews
+      - campaigns
+      - date_created
+      - date_modified
+      - object
+
+    properties:
+      id:
+        $ref: "../attributes/crv_id.yml"
+      account_id:
+        title: Account ID
+        type: string
+        example: fa9ea650fc7b31a89f92
+      template_preview_urls:
+        title: Template Preview URLs
+        type: object
+      template_previews:
+        title: Template Previews
+        type: array
+        items:
+          type: object
+      campaigns:
+        title: Campaigns
+        type: array
+        items:
+          $ref: "../../campaigns/models/campaign.yml"
+        example: []
+      date_created:
+        title: Date Created
+        type: string
+        format: date-time
+      date_modified:
+        title: Date Modified
+        type: string
+        format: date-time
+      object:
+        type: string
+        description: Value is resource type.
+        enum:
+          - creative
+        default: creative

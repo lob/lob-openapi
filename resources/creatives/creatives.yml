@@ -1,0 +1,93 @@
+get:
+  operationId: creatives_list
+
+  summary: List
+
+  description: >-
+    Returns a list of your creatives. The creatives are returned sorted by
+    creation date, with the most recently created creatives appearing first.
+
+  tags:
+    - Creatives
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/before_after.yml"
+
+  responses:
+    "200":
+      $ref: "responses/all_creatives.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/creatives \
+          -u <YOUR API KEY>:
+      label: CURL
+
+post:
+  operationId: creative_create
+
+  summary: Create
+
+  description: >-
+    Creates a new creative with the provided properties
+
+  tags:
+    - Creatives
+
+  parameters:
+    - $ref: "../../shared/parameters/lang_spec.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/creative_writable.yml"
+        example:
+          campaign_id: cmp_e05ee61ff80764b
+          resource_type: postcard
+          description: Our 4x6 postcard creative
+          details: {}
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/creative_writable.yml"
+        encoding: # be sure to check which encodings apply
+          example-prop:
+            style: deepObject
+            explode: true
+        example:
+          campaign_id: cmp_e05ee61ff80764b
+          resource_type: postcard
+          description: Our 4x6 postcard creative
+          details: {}
+
+      multipart/form-data:
+        schema:
+          $ref: "models/creative_writable.yml"
+        example:
+          campaign_id: cmp_e05ee61ff80764b
+          resource_type: postcard
+          description: Our 4x6 postcard creative
+          details: {}
+
+  responses:
+    "200":
+      description: Creative created successfully
+      content:
+        $ref: responses/creative.yml
+
+    default:
+      $ref: responses/creatives_error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/creatives \
+          -u <YOUR API KEY>: \
+          -d "campaign_id=cmp_e05ee61ff80764b" \
+          -d "resource_type=postcard" \
+          -d "details={}"

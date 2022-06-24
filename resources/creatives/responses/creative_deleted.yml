@@ -1,0 +1,18 @@
+description: Deleted the creative.
+
+content:
+  application/json:
+    schema:
+      description: >-
+        Lob uses RESTful HTTP response codes to indicate success or failure of an
+        API request. In general, 2xx indicates success, 4xx indicate an input error,
+        and 5xx indicates an error on Lob's end.
+      properties:
+        id:
+          $ref: "../attributes/crv_id.yml"
+        deleted:
+          type: boolean
+          description: True if the resource has been successfully deleted.
+    example:
+      id: crv_2a3b096c409b32c
+      deleted: true

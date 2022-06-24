@@ -1,0 +1,114 @@
+parameters:
+  - in: path
+    name: cmp_id
+    description: id of the campaign
+    required: true
+    schema:
+      $ref: "attributes/cmp_id.yml"
+
+get:
+  operationId: campaign_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing campaign. You need only supply
+    the unique campaign identifier that was returned upon campaign creation.
+
+  tags:
+    - Campaigns
+
+  responses:
+    "200":
+      description: Returns a campaign object
+      content:
+        $ref: "responses/campaign.yml"
+
+    default:
+      $ref: "responses/campaigns_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b \
+          -u <YOUR API KEY>:
+      label: CURL
+
+patch:
+  operationId: campaign_update
+
+  summary: Update
+
+  description: >-
+    Update the details of an existing campaign. You need only supply
+    the unique identifier that was returned upon campaign creation.
+
+  tags:
+    - Campaigns
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/campaign_updatable.yml"
+        example:
+          # TODO: fill out example
+          description: Test campaign
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/campaign_updatable.yml"
+        example:
+          # TODO: fill out example
+          description: Test campaign
+
+      multipart/form-data:
+        schema:
+          $ref: "models/campaign_updatable.yml"
+        example:
+          # TODO: fill out example
+          description: Test campaign
+
+  responses:
+    "200":
+      description: Returns a campaign object
+      content:
+        $ref: "responses/campaign.yml"
+
+    default:
+      $ref: "responses/campaigns_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X PATCH https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b \
+          -u <YOUR API KEY>: \
+          -d "description=Awesome campaign"
+      label: CURL
+
+delete:
+  operationId: campaign_delete
+
+  summary: Delete
+
+  description: >-
+    Delete an existing campaign. You need only supply
+    the unique identifier that was returned upon campaign creation.
+
+  tags:
+    - Campaigns
+
+  responses:
+    "200":
+      $ref: "responses/campaign_deleted.yml"
+
+    default:
+      $ref: "responses/campaigns_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X DELETE https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b \
+          -u <YOUR API KEY>:
+      label: CURL

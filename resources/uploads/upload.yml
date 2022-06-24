@@ -1,0 +1,73 @@
+parameters:
+  - in: path
+    name: upl_id
+    description: id of the upload
+    required: true
+    schema:
+      $ref: "attributes/upl_id.yml"
+
+get:
+  operationId: upload_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing upload. You need only supply
+    the unique upload identifier that was returned upon upload creation.
+
+  tags:
+    - Uploads
+
+  responses:
+    "200":
+      description: Returns an upload object
+      content:
+        $ref: "responses/upload.yml"
+    "404":
+      $ref: "responses/upload_not_found.yml"
+    "422":
+      $ref: "responses/upload_validation_error.yml"
+
+patch:
+  operationId: upload_update
+
+  summary: Update
+
+  description: >-
+    Update the details of an existing upload. You need only supply
+    the unique identifier that was returned upon upload creation.
+
+  tags:
+    - Uploads
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/upload_updatable.yml"
+  responses:
+    "200":
+      description: Returns an upload object
+      content:
+        $ref: "responses/upload.yml"
+    "404":
+      $ref: "responses/upload_not_found.yml"
+    "422":
+      $ref: "responses/upload_validation_error.yml"
+
+delete:
+  operationId: "upload_delete"
+
+  summary: Delete
+
+  description: >-
+    Delete an existing upload. You need only supply
+    the unique identifier that was returned upon upload creation.
+
+  tags:
+    - Uploads
+
+  responses:
+    "204":
+      description: Successful Response

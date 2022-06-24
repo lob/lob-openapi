@@ -47,8 +47,9 @@ post:
         schema:
           $ref: "models/campaign_writable.yml"
         example:
-          description: "Demo Campaign"
-          # complete example using all create payload properties
+          name: My Demo Campaign
+          description: My Campaign's description
+          schedule_type: immediate
 
       application/x-www-form-urlencoded:
         schema:
@@ -58,16 +59,17 @@ post:
             style: deepObject
             explode: true
         example:
-          description: encoded demo
-          # complete example using all create payload properties
-          # matching encoding style
+          name: My Demo Campaign
+          description: My Campaign's description
+          schedule_type: immediate
 
       multipart/form-data:
         schema:
           $ref: "models/campaign_writable.yml"
         example:
-          description: demo
-          # complete example using all create payload properties
+          name: My Demo Campaign
+          description: My Campaign's description
+          schedule_type: immediate
 
   responses:
     "200":

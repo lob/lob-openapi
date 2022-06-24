@@ -177,7 +177,7 @@ tags:
       used to send multiple letters or postcards.
 
       The API provides endpoints for creating campaigns, updating campaigns,
-      retrieving individual campaigns, and deleting
+      retrieving individual campaigns, listing campaigns, and deleting
 
       campaigns.
   - name: Card Orders
@@ -5745,12 +5745,14 @@ components:
             delivery date for mail pieces in this campaign.
           type: string
           format: date-time
+          nullable: true
         send_date:
           description: >-
             If schedule_type is scheduled_send_date, provide a date to send this
             campaign.
           type: string
           format: date-time
+          nullable: true
         cancel_window_campaign_minutes:
           description: A window, in minutes, within which the campaign can be canceled.
           type: integer
@@ -5775,29 +5777,23 @@ components:
         - letter
       default: postcard
       type: string
-    creative_writable:
+    creative_base:
       type: object
-      required:
-        - campaign_id
-        - resource_type
-        - details
       properties:
-        campaign_id:
-          $ref: '#/components/schemas/cmp_id'
         description:
           title: Description
           type: string
-          example: Our 4x6 postcard creative
-        resource_type:
-          $ref: '#/components/schemas/supported_resource_type'
-        details:
-          type: object
+          example: Our updated 4x6 postcard creative
         from:
           title: From
           type: string
-        metadata:
-          title: Metadata
+        resource_type:
+          $ref: '#/components/schemas/supported_resource_type'
+        details:
+          title: Details
           type: object
+        metadata:
+          $ref: '#/components/schemas/metadata'
     crv_id:
       type: string
       description: Unique identifier prefixed with `crv_`.
@@ -5848,7 +5844,7 @@ components:
     creative:
       allOf:
         - $ref: '#/components/schemas/lob_base'
-        - $ref: '#/components/schemas/creative_writable'
+        - $ref: '#/components/schemas/creative_base'
         - type: object
           required:
             - id
@@ -6667,24 +6663,21 @@ components:
           $ref: '#/components/schemas/chk_id'
         deleted:
           $ref: '#/components/schemas/deleted'
+    creative_writable:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/creative_base'
+        - type: object
+          required:
+            - campaign_id
+            - resource_type
+            - details
+          properties:
+            campaign_id:
+              $ref: '#/components/schemas/cmp_id'
     creative_updatable:
-      type: object
-      properties:
-        description:
-          title: Description
-          type: string
-          example: Our updated 4x6 postcard creative
-        from:
-          title: From
-          type: string
-        resource_type:
-          $ref: '#/components/schemas/supported_resource_type'
-        details:
-          title: Details
-          type: object
-        metadata:
-          title: Metadata
-          type: object
+      allOf:
+        - $ref: '#/components/schemas/creative_base'
     intl_autocompletions_writable:
       type: object
       required:
@@ -8013,6 +8006,8 @@ components:
       properties:
         campaignId:
           $ref: '#/components/schemas/cmp_id'
+          description: Associated Campaign ID
+          example: cmp_1933ad629bae1408
         columnMapping:
           $ref: '#/components/schemas/column_mapping'
     upl_id:
@@ -9018,24 +9013,24 @@ components:
                       $ref: '#/components/schemas/campaign'
           example:
             data:
-              id: cmp_e05ee61ff80764b
-              account_id: fa9ea650fc7b31a89f92
-              billing_group_id: bg_fe3079dcdd80e5ae
-              name: My Campaign
-              description: My Campaign's description
-              schedule_type: immediate
-              send_date: null
-              target_delivery_date: null
-              cancel_window_campaign_minutes: 60
-              metadata: {}
-              use_type: marketing
-              is_draft: true
-              deleted: false
-              creatives: []
-              auto_cancel_if_ncoa: false
-              date_created: '2017-09-05T17:47:53.767Z'
-              date_modified: '2017-09-05T17:47:53.767Z'
-              object: campaign
+              - id: cmp_e05ee61ff80764b
+                account_id: fa9ea650fc7b31a89f92
+                billing_group_id: bg_fe3079dcdd80e5ae
+                name: My Campaign
+                description: My Campaign's description
+                schedule_type: immediate
+                send_date: null
+                target_delivery_date: null
+                cancel_window_campaign_minutes: 60
+                metadata: {}
+                use_type: marketing
+                is_draft: true
+                deleted: false
+                creatives: []
+                auto_cancel_if_ncoa: false
+                date_created: '2017-09-05T17:47:53.767Z'
+                date_modified: '2017-09-05T17:47:53.767Z'
+                object: campaign
             object: list
             previous_url: null
             next_url: null
@@ -9402,19 +9397,19 @@ components:
                       $ref: '#/components/schemas/creative'
           example:
             data:
-              id: crv_2a3b096c409b32c
-              account_id: fa9ea650fc7b31a89f92
-              description: Our 4x6 postcard creative
-              from: adr_210a8d4b0b76d77b
-              resource_type: postcard
-              details: {}
-              metadata: {}
-              template_preview_urls: {}
-              template_previews: []
-              campaigns: []
-              date_created: '2017-09-05T17:47:53.767Z'
-              date_modified: '2017-09-05T17:47:53.767Z'
-              object: creative
+              - id: crv_2a3b096c409b32c
+                account_id: fa9ea650fc7b31a89f92
+                description: Our 4x6 postcard creative
+                from: adr_210a8d4b0b76d77b
+                resource_type: postcard
+                details: {}
+                metadata: {}
+                template_preview_urls: {}
+                template_previews: []
+                campaigns: []
+                date_created: '2017-09-05T17:47:53.767Z'
+                date_modified: '2017-09-05T17:47:53.767Z'
+                object: creative
             object: list
             previous_url: null
             next_url: null
@@ -12560,8 +12555,10 @@ paths:
           $ref: '#/components/responses/all_campaigns'
       x-codeSamples:
         - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/campaigns \
+              -u <YOUR API KEY>:
           label: CURL
-          source: ''
     post:
       operationId: campaign_create
       summary: Create
@@ -12577,7 +12574,9 @@ paths:
             schema:
               $ref: '#/components/schemas/campaign_writable'
             example:
-              description: Demo Campaign
+              name: My Demo Campaign
+              description: My Campaign's description
+              schedule_type: immediate
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/campaign_writable'
@@ -12586,12 +12585,16 @@ paths:
                 style: deepObject
                 explode: true
             example:
-              description: encoded demo
+              name: My Demo Campaign
+              description: My Campaign's description
+              schedule_type: immediate
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/campaign_writable'
             example:
-              description: demo
+              name: My Demo Campaign
+              description: My Campaign's description
+              schedule_type: immediate
       responses:
         '200':
           description: Campaign created successfully
@@ -12620,8 +12623,12 @@ paths:
           $ref: '#/components/responses/campaigns_error'
       x-codeSamples:
         - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/campaigns \
+              -u <YOUR API KEY>: \
+              -d "name=My First Campaign" \
+              -d "schedule_type=immediate"
           label: CURL
-          source: ''
   /campaigns/{cmp_id}:
     parameters:
       - in: path
@@ -14029,7 +14036,10 @@ paths:
             schema:
               $ref: '#/components/schemas/creative_writable'
             example:
-              description: Demo Creative
+              campaign_id: cmp_e05ee61ff80764b
+              resource_type: postcard
+              description: Our 4x6 postcard creative
+              details: {}
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/creative_writable'
@@ -14038,12 +14048,18 @@ paths:
                 style: deepObject
                 explode: true
             example:
-              description: encoded demo
+              campaign_id: cmp_e05ee61ff80764b
+              resource_type: postcard
+              description: Our 4x6 postcard creative
+              details: {}
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/creative_writable'
             example:
-              description: demo
+              campaign_id: cmp_e05ee61ff80764b
+              resource_type: postcard
+              description: Our 4x6 postcard creative
+              details: {}
       responses:
         '200':
           description: Creative created successfully
@@ -14070,9 +14086,11 @@ paths:
       x-codeSamples:
         - lang: Shell
           source: |
-            curl -X POST https://api.lob.com/v1/creatives \
-              -u <YOUR API KEY>:
-          label: CURL
+            curl https://api.lob.com/v1/creatives \
+              -u <YOUR API KEY>: \
+              -d "campaign_id=cmp_e05ee61ff80764b" \
+              -d "resource_type=postcard" \
+              -d "details={}"
   /creatives/{crv_id}:
     parameters:
       - in: path

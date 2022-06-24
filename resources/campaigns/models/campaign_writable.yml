@@ -18,10 +18,12 @@ properties:
     description: If schedule_type is target_delivery_date, provide a targeted delivery date for mail pieces in this campaign.
     type: string
     format: date-time
+    nullable: true
   send_date:
     description: If schedule_type is scheduled_send_date, provide a date to send this campaign.
     type: string
     format: date-time
+    nullable: true
   cancel_window_campaign_minutes:
     description: A window, in minutes, within which the campaign can be canceled.
     type: integer

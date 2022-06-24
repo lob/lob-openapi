@@ -47,8 +47,10 @@ post:
         schema:
           $ref: "models/creative_writable.yml"
         example:
-          description: "Demo Creative"
-          # complete example using all create payload properties
+          campaign_id: cmp_e05ee61ff80764b
+          resource_type: postcard
+          description: Our 4x6 postcard creative
+          details: {}
 
       application/x-www-form-urlencoded:
         schema:
@@ -58,16 +60,19 @@ post:
             style: deepObject
             explode: true
         example:
-          description: encoded demo
-          # complete example using all create payload properties
-          # matching encoding style
+          campaign_id: cmp_e05ee61ff80764b
+          resource_type: postcard
+          description: Our 4x6 postcard creative
+          details: {}
 
       multipart/form-data:
         schema:
           $ref: "models/creative_writable.yml"
         example:
-          description: demo
-          # complete example using all create payload properties
+          campaign_id: cmp_e05ee61ff80764b
+          resource_type: postcard
+          description: Our 4x6 postcard creative
+          details: {}
 
   responses:
     "200":

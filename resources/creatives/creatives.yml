@@ -81,6 +81,8 @@ post:
   x-codeSamples:
     - lang: Shell
       source: |
-        curl -X POST https://api.lob.com/v1/creatives \
-          -u <YOUR API KEY>:
-      label: CURL
+        curl https://api.lob.com/v1/creatives \
+          -u <YOUR API KEY>: \
+          -d "campaign_id=cmp_e05ee61ff80764b" \
+          -d "resource_type=postcard" \
+          -d "details={}"

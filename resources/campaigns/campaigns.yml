@@ -21,8 +21,10 @@ get:
 
   x-codeSamples:
     - lang: Shell
-      label: CURL
       source: |
+        curl https://api.lob.com/v1/campaigns \
+          -u <YOUR API KEY>:
+      label: CURL
 
 post:
   operationId: campaign_create
@@ -78,5 +80,9 @@ post:
 
   x-codeSamples:
     - lang: Shell
-      label: CURL
       source: |
+        curl https://api.lob.com/v1/campaigns \
+          -u <YOUR API KEY>: \
+          -d "name=My First Campaign" \
+          -d "schedule_type=immediate"
+      label: CURL

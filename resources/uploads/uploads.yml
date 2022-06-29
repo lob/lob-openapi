@@ -22,8 +22,10 @@ get:
 
   x-codeSamples:
     - lang: Shell
-      label: CURL
       source: |
+        curl https://api.lob.com/v1/uploads \
+          -u <YOUR API KEY>:
+      label: CURL
 
 post:
   operationId: upload_create
@@ -52,5 +54,9 @@ post:
 
   x-codeSamples:
     - lang: Shell
-      label: CURL
       source: |
+        curl https://api.lob.com/v1/uploads \
+          -u <YOUR API KEY>: \
+          -d "campaignId=cmp_1933ad629bae1408" \
+          -d 'columnMapping={"firstName": "first name"}'
+      label: CURL

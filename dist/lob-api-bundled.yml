@@ -6665,7 +6665,6 @@ components:
           $ref: '#/components/schemas/deleted'
     creative_writable:
       allOf:
-        - $ref: '#/components/schemas/lob_base'
         - $ref: '#/components/schemas/creative_base'
         - type: object
           required:
@@ -8090,6 +8089,35 @@ components:
               title: Date Modified
               type: string
               format: date-time
+    upload_updatable:
+      type: object
+      properties:
+        columnMapping:
+          title: Column Mapping
+          type: object
+        state:
+          $ref: '#/components/schemas/upload_state'
+        originalFilename:
+          title: Original Filename
+          type: string
+        overwriteColumnMapping:
+          title: Overwrite Column Mapping
+          type: boolean
+    upload_file:
+      type: object
+      required:
+        - message
+        - filename
+      properties:
+        message:
+          title: Message
+          enum:
+            - File uploaded successfully
+          type: string
+          default: File uploaded successfully
+        filename:
+          title: Filename
+          type: string
     us_autocompletions_writable:
       type: object
       required:
@@ -10621,6 +10649,17 @@ components:
                     type:
                       title: Error Type
                       type: string
+    upload_not_found:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: not_found
+              message: upload not found
+              status_code: 404
     us_autocompletions_error:
       description: Error
       content:
@@ -17086,8 +17125,10 @@ paths:
           $ref: '#/components/responses/all_uploads'
       x-codeSamples:
         - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/uploads \
+              -u <YOUR API KEY>:
           label: CURL
-          source: ''
     post:
       operationId: upload_create
       summary: Create
@@ -17126,8 +17167,165 @@ paths:
           $ref: '#/components/responses/upload_validation_error'
       x-codeSamples:
         - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/uploads \
+              -u <YOUR API KEY>: \
+              -d "campaignId=cmp_1933ad629bae1408" \
+              -d 'columnMapping={"firstName": "first name"}'
           label: CURL
-          source: ''
+  /uploads/{upl_id}:
+    parameters:
+      - in: path
+        name: upl_id
+        description: id of the upload
+        required: true
+        schema:
+          $ref: '#/components/schemas/upl_id'
+    get:
+      operationId: upload_retrieve
+      summary: Retrieve
+      description: >-
+        Retrieves the details of an existing upload. You need only supply the
+        unique upload identifier that was returned upon upload creation.
+      tags:
+        - Uploads
+      responses:
+        '200':
+          description: Returns an upload object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upload'
+              example:
+                id: upl_71be866e430b11e9
+                accountId: fa9ea650fc7b31a89f92
+                campaignId: cmp_1933ad629bae1408
+                columnMapping: {}
+                mode: live
+                failuresUrl: http://www.example.com
+                originalFilename: my_audience.csv
+                state: Draft
+                totalMailpieces: 100
+                failedMailpieces: 5
+                validatedMailpieces: 95
+                bytesProcessed: 17628
+                dateCreated: '2017-09-05T17:47:53.767Z'
+                dateModified: '2017-09-05T17:47:53.767Z'
+        '404':
+          $ref: '#/components/responses/upload_not_found'
+        '422':
+          $ref: '#/components/responses/upload_validation_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
+              -u <YOUR API KEY>: \
+          label: CURL
+    patch:
+      operationId: upload_update
+      summary: Update
+      description: >-
+        Update the details of an existing upload. You need only supply the
+        unique identifier that was returned upon upload creation.
+      tags:
+        - Uploads
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/upload_updatable'
+      responses:
+        '200':
+          description: Returns an upload object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upload'
+              example:
+                id: upl_71be866e430b11e9
+                accountId: fa9ea650fc7b31a89f92
+                campaignId: cmp_1933ad629bae1408
+                columnMapping: {}
+                mode: live
+                failuresUrl: http://www.example.com
+                originalFilename: my_audience.csv
+                state: Draft
+                totalMailpieces: 100
+                failedMailpieces: 5
+                validatedMailpieces: 95
+                bytesProcessed: 17628
+                dateCreated: '2017-09-05T17:47:53.767Z'
+                dateModified: '2017-09-05T17:47:53.767Z'
+        '404':
+          $ref: '#/components/responses/upload_not_found'
+        '422':
+          $ref: '#/components/responses/upload_validation_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X PATCH https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
+              -u <YOUR API KEY>: \
+              -d "state=Ready for Validation"
+          label: CURL
+    delete:
+      operationId: upload_delete
+      summary: Delete
+      description: >-
+        Delete an existing upload. You need only supply the unique identifier
+        that was returned upon upload creation.
+      tags:
+        - Uploads
+      responses:
+        '204':
+          description: Successful Response
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X DELETE https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
+              -u <YOUR API KEY>:
+          label: CURL
+  /uploads/{upl_id}/file:
+    parameters:
+      - in: path
+        name: upl_id
+        description: ID of the upload
+        required: true
+        schema:
+          $ref: '#/components/schemas/upl_id'
+    post:
+      operationId: upload_file
+      summary: Upload file
+      description: Upload an audience file and associate it with an upload.
+      tags:
+        - Uploads
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upload_file'
+        '422':
+          $ref: '#/components/responses/upload_validation_error'
+      x-codeSamples:
+        - lang: Shell
+          source: >
+            curl -X POST
+            https://api.lob.com/v1/uploads/upl_71be866e430b11e9/file \
+              -u <YOUR API KEY>: \
+              -F file=@<YOUR FILE NAME HERE>
+          label: CURL
   /us_autocompletions:
     post:
       operationId: autocompletion

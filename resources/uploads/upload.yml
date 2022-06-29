@@ -28,6 +28,13 @@ get:
     "422":
       $ref: "responses/upload_validation_error.yml"
 
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
+          -u <YOUR API KEY>: \
+      label: CURL
+
 patch:
   operationId: upload_update
 
@@ -56,6 +63,14 @@ patch:
     "422":
       $ref: "responses/upload_validation_error.yml"
 
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X PATCH https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
+          -u <YOUR API KEY>: \
+          -d "state=Ready for Validation"
+      label: CURL
+
 delete:
   operationId: "upload_delete"
 
@@ -71,3 +86,10 @@ delete:
   responses:
     "204":
       description: Successful Response
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X DELETE https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
+          -u <YOUR API KEY>:
+      label: CURL

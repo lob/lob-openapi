@@ -1,0 +1,20 @@
+description: Upload file error
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: A conventional HTTP status code
+          enum:
+            - 400
+            - 404
+          example: 400
+        message:
+          type: string
+          description: A human-readable message with more details about the error
+          example: File type must be a CSV. Check to see if it's an excel file with a CSV extension.
+    example:
+      code: 400
+      message: File type must be a CSV. Check to see if it's an excel file with a CSV extension.

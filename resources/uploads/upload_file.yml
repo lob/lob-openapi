@@ -1,0 +1,38 @@
+parameters:
+  - in: path
+    name: upl_id
+    description: id of the upload object that will be associated with the file upload
+    required: true
+    schema:
+      $ref: "attributes/upl_id.yml"
+
+
+post:
+  operationId: upload_file
+
+  summary: Upload File
+
+  description: Uploads a file to be associated with the provided upload id.
+
+  tags:
+    - Uploads
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/upload_file.yml"
+
+  responses:
+    "200":
+      description: Returns a file upload confirmation object
+      content:
+        $ref: "responses/upload_file.yml"
+    "400":
+      $ref: "responses/upload_file_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      label: CURL
+      source: |

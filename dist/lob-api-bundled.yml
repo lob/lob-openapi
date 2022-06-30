@@ -1515,6 +1515,20 @@ tags:
       top</a></div>
 
 
+      ## Query Parameters
+
+
+      Query parameters which consist of lists of strings require that all
+      elements of
+
+      the list be double-quoted, as per query filter standards.
+
+      <br>
+
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
+      top</a></div>
+
+
       ## Idempotent Requests
 
 
@@ -15460,7 +15474,9 @@ paths:
             Specifies the size of the postcard. Only `4x6` postcards can be sent
             to international destinations.
           schema:
-            $ref: '#/components/schemas/postcard_size'
+            type: array
+            items:
+              $ref: '#/components/schemas/postcard_size'
         - $ref: '#/components/parameters/scheduled'
         - $ref: '#/components/parameters/send_date'
         - $ref: '#/components/parameters/mail_type'
@@ -16046,7 +16062,9 @@ paths:
           name: size
           description: The self mailer sizes to be returned.
           schema:
-            $ref: '#/components/schemas/self_mailer_size'
+            type: array
+            items:
+              $ref: '#/components/schemas/self_mailer_size'
         - $ref: '#/components/parameters/scheduled'
         - $ref: '#/components/parameters/send_date'
         - $ref: '#/components/parameters/mail_type'

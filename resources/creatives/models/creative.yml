@@ -26,28 +26,42 @@ allOf:
         title: Account ID
         type: string
         example: fa9ea650fc7b31a89f92
+        description: Account ID that made the request
       template_preview_urls:
         title: Template Preview URLs
         type: object
+        description: URL to view preview of a creative ID. Currently unpopulated, but will be in the future.
       template_previews:
         title: Template Previews
         type: array
         items:
           type: object
+        description: IDs for each creative preview. Currently unpopulated, but will be in the future.
       campaigns:
         title: Campaigns
         type: array
+        description: Array of campaigns associated with the creative ID
         items:
           $ref: "../../campaigns/models/campaign.yml"
-        example: []
-      date_created:
-        title: Date Created
-        type: string
-        format: date-time
-      date_modified:
-        title: Date Modified
-        type: string
-        format: date-time
+        example:
+          [
+            {
+              "id": "cmp_364c74e0ae263327",
+              "billing_group_id": null,
+              "name": "Docs Example",
+              "description": "Our docs example description",
+              "schedule_type": "immediate",
+              "send_date": null,
+              "target_delivery_date": null,
+              "cancel_window_campaign_minutes": 40,
+              "is_draft": true,
+              "deleted": false,
+              "auto_cancel_if_ncoa": false,
+              "date_created": "2022-07-01T16:15:32.339Z",
+              "date_modified": "2022-07-01T16:15:32.339Z",
+              "object": "campaign",
+            },
+          ]
       object:
         type: string
         description: Value is resource type.

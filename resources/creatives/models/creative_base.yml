@@ -5,13 +5,14 @@ properties:
     title: Description
     type: string
     example: Our updated 4x6 postcard creative
+    description: An internal description that identifies this resource
   from:
-    title: From
-    type: string
+    $ref: "../../../shared/attributes/from_attribute.yml"
   resource_type:
     $ref: "../attributes/supported_resource_type.yml"
   details:
     title: Details
     type: object
+    description: Object with key-value pairs containing creative details
   metadata:
     $ref: "../../../shared/models/metadata.yml"

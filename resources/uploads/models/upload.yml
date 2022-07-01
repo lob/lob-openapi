@@ -23,43 +23,53 @@ allOf:
       accountId:
         title: Account ID
         type: string
+        description: Account ID that made the request
         example: fa9ea650fc7b31a89f92
       mode:
         enum:
           - test
           - live
         type: string
+        description: The environment in which the mailpieces were created. Today, will only be `live`.
       failuresUrl:
         title: Failures URL
         type: string
         example: https://www.example.com
+        description: Url where your campaign mailpiece failures can be retrieved
       originalFilename:
         title: Original Filename
         type: string
         example: my_audience.csv
+        description: Filename of the upload
       state:
         $ref: "../attributes/upload_state.yml"
       totalMailpieces:
         title: Total Mailpieces
         type: integer
         example: 100
+        description: Total number of recipients for the campaign
       failedMailpieces:
         title: Failed Mailpieces
         type: integer
         example: 5
+        description: Number of mailpieces that failed to create
       validatedMailpieces:
         title: Validated Mailpieces
         type: integer
         example: 95
+        description: Number of mailpieces that were successfully created
       bytesProcessed:
         title: Bytes Processed
         type: integer
         example: 17268
+        description: Number of bytes processed in your CSV
       dateCreated:
         title: Date Created
         type: string
         format: date-time
+        description: A timestamp in ISO 8601 format of the date the upload was created
       dateModified:
         title: Date Modified
         type: string
         format: date-time
+        description: A timestamp in ISO 8601 format of the date the upload was last modified

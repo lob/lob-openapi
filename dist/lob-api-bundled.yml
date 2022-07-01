@@ -7087,9 +7087,8 @@ components:
                   * `bottom_first_page` - print address information at the bottom of your provided first page
               default: top_first_page
             return_envelope:
-              oneOf:
-                - type: boolean
-                - $ref: '#/components/schemas/return_envelope'
+              $ref: '#/components/schemas/return_envelope'
+              nullable: true
               description: >-
                 Indicates if a return envelope is requested for the letter. The
                 value corresponding to this field is by default a boolean. But

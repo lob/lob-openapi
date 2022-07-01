@@ -39,9 +39,8 @@ allOf:
         default: top_first_page
 
       return_envelope:
-        oneOf:
-          - type: boolean
-          - $ref: "return_envelope.yml"
+        $ref: "return_envelope.yml"
+        nullable: true
 
         description: >-
           Indicates if a return envelope is requested for the letter.

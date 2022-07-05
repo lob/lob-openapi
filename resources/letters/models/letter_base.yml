@@ -41,7 +41,8 @@ allOf:
       return_envelope:
         allOf:
           - $ref: "return_envelope.yml"
-          - nullable: true
+          - type: object
+            nullable: true
 
         description: >-
           Indicates if a return envelope is requested for the letter.

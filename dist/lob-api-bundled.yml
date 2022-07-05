@@ -7089,7 +7089,8 @@ components:
             return_envelope:
               allOf:
                 - $ref: '#/components/schemas/return_envelope'
-                - nullable: true
+                - type: object
+                  nullable: true
               description: >-
                 Indicates if a return envelope is requested for the letter. The
                 value corresponding to this field is by default a boolean. But

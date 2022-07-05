@@ -69,11 +69,25 @@ get:
         ));
     - lang: Java
       source: |
-        Map<String, Object> params = new HashMap<>>();
-        params.put("limit", 2);
+        LettersApi apiInstance = new LettersApi(config);
 
-        LobResponse<LetterCollection> response = Letter.list(params);
-        LetterCollection letters = response.getResponseBody();
+        try {
+          LetterList response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+            null, // metadata
+            null, // color
+            null, // scheduled
+            null, // sendDate
+            null, // mailType
+            null // sortBy
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -365,27 +379,37 @@ post:
         ));
     - lang: Java
       source: |
-        Map<String, String> mergeVariables = new HashMap<>();
-        mergeVariables.put('name', 'Harry');
-
-        LobResponse<Letter> response = new Letter.RequestBuilder()
-                .setDescription('Demo Letter')
-                .setFile('<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>')
-                .setColor(true)
-                .setMergeVariables(mergeVariables)
-                .setTo(
-                        new Address.RequestBuilder()
-                                .setName('Harry Zhang')
-                                .setLine1('210 King St Ste 6100')
-                                .setCity('San Francisco')
-                                .setState('CA')
-                                .setZip('94107')
-                )
-                .setFrom('adr_210a8d4b0b76d77b')
-                .setCards('card_c51ae96f5cebf3e')
-                .create();
-
-        Letter letter = response.getResponseBody();
+        Map<String, String> merge_variables = new HashMap<String, String>();
+        merge_variables.put("name", "Harry");
+        
+        LettersApi apiInstance = new LettersApi(config);
+        
+        AddressEditable to = new AddressEditable();
+        to.setName("Harry Zhang");
+        to.setAddressLine1("210 King St");
+        to.setAddressLine2("# 6100");
+        to.setAddressCity("San Francisco");
+        to.setAddressState("CA");
+        to.setAddressZip("94107");
+        
+        List<String> cards = new ArrayList<String>();
+        cards.add("card_c51ae96f5cebf3e");
+        cards.add("card_thingy");
+        
+        try {
+          LetterEditable letterEditable = new LetterEditable(); 
+          letterEditable.setDescription("Demo Letter");
+          letterEditable.setFrom("adr_210a8d4b0b76d77b");
+          letterEditable.setFile("<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>");
+          letterEditable.setColor(true);
+          letterEditable.setTo(to);
+          letterEditable.setMergeVariables(merge_variables);
+          letterEditable.setCards(cards);
+        
+          Letter result = apiInstance.create(letterEditable, null);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

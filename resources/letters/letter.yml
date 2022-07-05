@@ -60,8 +60,13 @@ get:
         $lob->letters()->get('ltr_4868c3b754655f90');
     - lang: Java
       source: |
-        LobResponse<Letter> response = Letter.retrieve("ltr_4868c3b754655f90");
-        Letter letter = response.getResponseBody();
+        LettersApi apiInstance = new LettersApi(config);
+
+        try {
+          Letter response = apiInstance.get("ltr_4868c3b754655f90");
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -126,8 +131,13 @@ delete:
         $lob->letters()->delete('ltr_4868c3b754655f90');
     - lang: Java
       source: |
-        LobResponse<Letter> response = Letter.delete("ltr_4868c3b754655f90");
-        Letter letter= = response.getResponseBody();
+        LettersApi apiInstance = new LettersApi(config);
+
+        try {
+            LetterDeletion response = apiInstance.cancel("ltr_4868c3b754655f90");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

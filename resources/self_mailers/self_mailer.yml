@@ -61,8 +61,13 @@ get:
         $lob->selfMailers()->get('sfm_8ffbe811dea49dcf');
     - lang: Java
       source: |
-        LobResponse<SelfMailer> response = SelfMailer.retrieve("sfm_8ffbe811dea49dcf");
-        SelfMailer selfMailer = response.getResponseBody();
+        SelfMailersApi apiInstance = new SelfMailersApi(config);
+
+        try {
+          SelfMailer response = apiInstance.get("sfm_8ffbe811dea49dcf");
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -123,7 +128,13 @@ delete:
         $lob->selfMailers()->delete('sfm_8ffbe811dea49dcf');
     - lang: Java
       source: |
-        LobResponse<SelfMailer> deleteResponse = SelfMailer.delete("sfm_8ffbe811dea49dcf");
+        SelfMailersApi apiInstance = new SelfMailersApi(config);
+
+        try {
+            SelfMailerDeletion response = apiInstance.delete("sfm_8ffbe811dea49dcf");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

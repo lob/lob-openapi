@@ -14993,11 +14993,14 @@ paths:
           source: |
             $lob->selfMailers()->get('sfm_8ffbe811dea49dcf');
         - lang: Java
-          source: >
-            LobResponse<SelfMailer> response =
-            SelfMailer.retrieve("sfm_8ffbe811dea49dcf");
+          source: |
+            SelfMailersApi apiInstance = new SelfMailersApi(config);
 
-            SelfMailer selfMailer = response.getResponseBody();
+            try {
+              SelfMailer response = apiInstance.get("sfm_8ffbe811dea49dcf");
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -15053,9 +15056,14 @@ paths:
           source: |
             $lob->selfMailers()->delete('sfm_8ffbe811dea49dcf');
         - lang: Java
-          source: >
-            LobResponse<SelfMailer> deleteResponse =
-            SelfMailer.delete("sfm_8ffbe811dea49dcf");
+          source: |
+            SelfMailersApi apiInstance = new SelfMailersApi(config);
+
+            try {
+                SelfMailerDeletion response = apiInstance.delete("sfm_8ffbe811dea49dcf");
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -15125,16 +15133,26 @@ paths:
               'limit' => 2
             ));
         - lang: Java
-          source: >
-            Map<String, Object> params = new HashMap<>>();
+          source: |
+            SelfMailersApi apiInstance = new SelfMailersApi(config);
 
-            params.put('limit', 2);
-
-
-            LobResponse<SelfMailerCollection> response =
-            SelfMailer.list(params);
-
-            SelfMailerCollection selfMailers = response.getResponseBody();
+            try {
+              SelfMailerList response = apiInstance.list(
+                2, // limit
+                null, // before
+                null, // after
+                null, // include
+                null, // dateCreated
+                null, // metadata
+                null, // size
+                null, // scheduled
+                null, // sendDate
+                null, // mailType
+                null // sortBy
+              );
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -15327,26 +15345,32 @@ paths:
             ));
         - lang: Java
           source: |
-            Map<String, String> mergeVariables = new HashMap<>();
-            mergeVariables.put("name", "Harry");
+            Map<String, String> merge_variables = new HashMap<String, String>();
+            merge_variables.put("name", "Harry");
 
-            LobResponse<SelfMailer> response = new SelfMailer.RequestBuilder()
-                    .setDescription("Demo Self Mailer job")
-                    .setTo(
-                            new Address.RequestBuilder()
-                                    .setName("Harry Zhang")
-                                    .setLine1("210 King St")
-                                    .setCity("San Francisco")
-                                    .setState("CA")
-                                    .setZip("94107")
-                    )
-                    .setFrom("adr_210a8d4b0b76d77b")
-                    .setInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>")
-                    .setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
-                    .setMergeVariables(mergeVariables)
-                    .create();
+            SelfMailersApi apiInstance = new SelfMailersApi(config);
 
-            SelfMailer selfMailer = response.getResponseBody();
+            AddressEditable to = new AddressEditable();
+            to.setName("Harry Zhang");
+            to.setAddressLine1("210 King St");
+            to.setAddressLine2("# 6100");
+            to.setAddressCity("San Francisco");
+            to.setAddressState("CA");
+            to.setAddressZip("94107");
+
+            try {
+              SelfMailerEditable selfMailerEditable = new SelfMailerEditable(); 
+              selfMailerEditable.setDescription("Demo Self Mailer job");
+              selfMailerEditable.setFrom("adr_210a8d4b0b76d77b");
+              selfMailerEditable.setInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>");
+              selfMailerEditable.setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>");
+              selfMailerEditable.setTo(to);
+              selfMailerEditable.setMergeVariables(merge_variables);
+
+              SelfMailer result = apiInstance.create(selfMailerEditable, null);
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |

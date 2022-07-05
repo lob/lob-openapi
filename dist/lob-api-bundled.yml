@@ -7087,7 +7087,9 @@ components:
                   * `bottom_first_page` - print address information at the bottom of your provided first page
               default: top_first_page
             return_envelope:
-              $ref: '#/components/schemas/return_envelope'
+              allOf:
+                - $ref: '#/components/schemas/return_envelope'
+                - nullable: true
               description: >-
                 Indicates if a return envelope is requested for the letter. The
                 value corresponding to this field is by default a boolean. But
@@ -9957,7 +9959,7 @@ components:
             color: true
             double_sided: true
             address_placement: top_first_page
-            return_envelope: false
+            return_envelope: null
             perforated_page: null
             custom_envelope: null
             extra_service: null
@@ -14715,7 +14717,7 @@ paths:
                 color: true
                 double_sided: true
                 address_placement: top_first_page
-                return_envelope: false
+                return_envelope: null
                 perforated_page: null
                 custom_envelope: null
                 extra_service: null

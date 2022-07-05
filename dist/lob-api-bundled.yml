@@ -14377,11 +14377,14 @@ paths:
           source: |
             $lob->postcards()->get('psc_5c002b86ce47537a');
         - lang: Java
-          source: >
-            LobResponse<Postcard> response =
-            Postcard.retrieve("psc_5c002b86ce47537a");
+          source: |
+            PostcardsApi apiInstance = new PostcardsApi(config);
 
-            Postcard postcard = response.getResponseBody();
+            try {
+              Postcard response = apiInstance.get("psc_5c002b86ce47537a");
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -14439,9 +14442,14 @@ paths:
           source: |
             $lob->postcards()->delete('psc_5c002b86ce47537a');
         - lang: Java
-          source: >
-            LobResponse<Postcard> deleteResponse =
-            Postcard.delete("psc_5c002b86ce47537a");
+          source: |
+            PostcardsApi apiInstance = new PostcardsApi(config);
+
+            try {
+                PostcardDeletion response = apiInstance.cancel("psc_5c002b86ce47537a");
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -14513,11 +14521,25 @@ paths:
             ));
         - lang: Java
           source: |
-            Map<String, Object> params = new HashMap<>>();
-            params.put("limit", 2);
+            PostcardsApi apiInstance = new PostcardsApi(config);
 
-            LobResponse<PostcardCollection> response = Postcard.list(params);
-            PostcardCollection postcards = response.getResponseBody();
+            try {
+              PostcardList response = apiInstance.list(
+                2, // limit
+                null, // before
+                null, // after
+                null, // include
+                null, // dateCreated
+                null, // metadata
+                null, // size
+                null, // scheduled
+                null, // sendDate
+                null, // mailType
+                null // sortBy
+              );
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -14794,27 +14816,32 @@ paths:
             ));
         - lang: Java
           source: |
-            Map<String, String> mergeVariables = new HashMap<>();
-            mergeVariables.put('name', 'Harry');
+            Map<String, String> merge_variables = new HashMap<String, String>();
+            merge_variables.put("name", "Harry");
 
-            LobResponse<Postcard> response = new Postcard.RequestBuilder()
-                    .setDescription('Demo Postcard job')
-                    .setTo(
-                            new Address.RequestBuilder()
-                                    .setName('Harry Zhang')
-                                    .setLine1('210 King St')
-                                    .setLine2('# 6100')
-                                    .setCity('San Francisco')
-                                    .setState('CA')
-                                    .setZip('94107')
-                    )
-                    .setFrom('adr_210a8d4b0b76d77b')
-                    .setFront('<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>')
-                    .setBack('<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>')
-                    .setMergeVariables(mergeVariables)
-                    .create();
+            PostcardsApi apiInstance = new PostcardsApi(config);
 
-            Postcard postcard = response.getResponseBody();
+            AddressEditable to = new AddressEditable();
+            to.setName("Harry Zhang");
+            to.setAddressLine1("210 King St");
+            to.setAddressLine2("# 6100");
+            to.setAddressCity("San Francisco");
+            to.setAddressState("CA");
+            to.setAddressZip("94107");
+
+            try {
+              PostcardEditable postcardEditable = new PostcardEditable(); 
+              postcardEditable.setDescription("Demo Postcard job");
+              postcardEditable.setFrom("adr_210a8d4b0b76d77b");
+              postcardEditable.setFront("<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>");
+              postcardEditable.setBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>");
+              postcardEditable.setTo(to);
+              postcardEditable.setMergeVariables(merge_variables);
+
+              Postcard result = apiInstance.create(postcardEditable, null);
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |

@@ -7289,6 +7289,12 @@ components:
               nullable: true
             return_address:
               $ref: '#/components/schemas/return_address'
+            extra_service:
+              type: string
+              description: >-
+                This field will be null in the response for any non-certified
+                and non-registered letter.
+              nullable: true
         - $ref: '#/components/schemas/letter_base'
         - $ref: '#/components/schemas/letter_generated_base'
     letter:

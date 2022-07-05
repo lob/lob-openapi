@@ -18,5 +18,10 @@ allOf:
       return_address:
         $ref: "../attributes/return_address.yml"
 
+      extra_service:
+        type: string
+        description: This field will be null in the response for any non-certified and non-registered letter.
+        nullable: true
+
   - $ref: "letter_base.yml"
   - $ref: "letter_generated_base.yml"

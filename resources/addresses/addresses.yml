@@ -59,11 +59,20 @@ get:
         ));
     - lang: Java
       source: |
-        Map<String, Object> params = new HashMap<>();
-        params.put("limit", 2);
+        AddressesApi apiInstance = new AddressesApi(config);
 
-        LobResponse<AddressCollection> response = Address.list(params);
-        AddressCollection addresses = response.getResponseBody();
+        try {
+          AddressList response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+            null // metadata
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -333,21 +342,26 @@ post:
         ));
     - lang: Java
       source: |
-        LobResponse<Address> response = new Address.RequestBuilder()
-                .setDescription("Harry - Office")
-                .setName("Harry Zhang")
-                .setCompany("Lob")
-                .setLine1("210 King St")
-                .setLine2("# 6100")
-                .setCity("San Francisco")
-                .setState("CA")
-                .setZip("94107")
-                .setCountry("US")
-                .setPhone("555-555-5555")
-                .setEmail("harry@lob.com")
-                .create();
+        AddressesApi apiInstance = new AddressesApi(config);
 
-        Address address = response.getResponseBody();
+        try {
+          AddressEditable addressEditable = new AddressEditable(); 
+          addressEditable.setDescription("Harry - Office");
+          addressEditable.setName("Harry Zhang");
+          addressEditable.setCompany("Lob");
+          addressEditable.setEmail("harry@lob.com");
+          addressEditable.setPhone("5555555555");
+          addressEditable.setAddressLine1("210 King St");
+          addressEditable.setAddressLine2("# 6100");
+          addressEditable.setAddressCity("San Francisco");
+          addressEditable.setAddressState("CA");
+          addressEditable.setAddressZip("94107");
+          addressEditable.setAddressCountry(CountryExtended.US);
+        
+          Address result = apiInstance.create(addressEditable);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

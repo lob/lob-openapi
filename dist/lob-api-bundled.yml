@@ -16910,11 +16910,15 @@ paths:
           label: PHP
         - lang: Java
           source: |
-            LobResponse<USZipLookup> response = new USZipLookup.RequestBuilder()
-                    .setZipCode("94107")
-                    .lookup();
+            ZipEditable zipEditable = new ZipEditable();
+            zipEditable.setZipCode("94107");
 
-            USZipLookup usZipLookup = response.getResponseBody();
+            ZipLookupsApi apiInstance = new ZipLookupsApi(config);
+            try {
+              Zip response = apiInstance.lookup(zipEditable);
+              } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |

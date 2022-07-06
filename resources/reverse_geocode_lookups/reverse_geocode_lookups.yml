@@ -108,12 +108,17 @@ post:
       label: PHP
     - lang: Java
       source: |
-        LobResponse<ReverseGeocodeLookup> response = new ReverseGeocodeLookup.RequestBuilder()
-                .setLatitude(37.7749)
-                .setLongitude(122.4194)
-                .lookup();
+        ReverseGeocodeLookupsApi apiInstance = new ReverseGeocodeLookupsApi(config);
 
-        ReverseGeocodeLookup reverseGeocodeLookup = response.getResponseBody();
+        Location location = new Location();
+        location.setlatitude(37.777456f);
+        location.setlongitude(-122.393039f);
+        
+        try {
+          apiInstance.lookup(location, null);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

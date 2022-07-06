@@ -11815,23 +11815,28 @@ paths:
                 'zip_code'     => '94107'
               )));
         - lang: Java
-          source: >
-            List<USVerification.RequestBuilder> addresses = new
-            ArrayList<USVerification.RequestBuilder>();
+          source: |
+            MultipleComponentsList bulkVerify = new MultipleComponentsList(); 
+            MultipleComponents bulkAddress0 = new MultipleComponents(); 
+            bulkAddress0.setPrimaryLine("210 King Street");
+            bulkAddress0.setCity("San Francisco");
+            bulkAddress0.setState("CA");
+            bulkAddress0.setZipCode("94017");
+            bulkVerify.addAddressesItem(bulkAddress0);
 
-            addresses.add(new USVerification.RequestBuilder()
-                    .setRecipient("Donald")
-                    .setPrimaryLine("deliverable")
-                    .setSecondaryLine("Ste 6100")
-                    .setUrbanization("")
-                    .setCity("San Francisco")
-                    .setState("CA")
-                    .setZipCode("94107"));
-            LobResponse<BulkUSVerification> response = new
-            BulkUSVerification.RequestBuilder()
-                    .setAddresses(addresses)
-                    .verify();
-            BulkUSVerification bulkUSVerification = response.getResponseBody();
+            MultipleComponents bulkAddress1 = new MultipleComponents(); 
+            bulkAddress1.setPrimaryLine("185 BERRY ST STE 6600");
+            bulkAddress1.setCity("SAN FRANCISCO");
+            bulkAddress1.setState("CA");
+            bulkAddress1.setZipCode("94017");
+            bulkVerify.addAddressesItem(bulkAddress1);
+
+            UsVerificationsApi apiInstance = new UsVerificationsApi(config);
+            try {
+              UsVerifications bulkVerifyResponse = apiInstance.verifyBulk(bulkVerify, null);
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -16625,14 +16630,22 @@ paths:
           label: PHP
         - lang: Java
           source: >
-            LobResponse<ReverseGeocodeLookup> response = new
-            ReverseGeocodeLookup.RequestBuilder()
-                    .setLatitude(37.7749)
-                    .setLongitude(122.4194)
-                    .lookup();
+            ReverseGeocodeLookupsApi apiInstance = new
+            ReverseGeocodeLookupsApi(config);
 
-            ReverseGeocodeLookup reverseGeocodeLookup =
-            response.getResponseBody();
+
+            Location location = new Location();
+
+            location.setlatitude(37.777456f);
+
+            location.setlongitude(-122.393039f);
+
+
+            try {
+              apiInstance.lookup(location, null);
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -16822,17 +16835,25 @@ paths:
             ));
         - lang: Java
           source: >
-            LobResponse<USVerification> response = new
-            USVerification.RequestBuilder()
-                    .setRecipient("Donald")
-                    .setPrimaryLine("210 King St")
-                    .setSecondaryLine("Ste 6100")
-                    .setCity("San Francisco")
-                    .setState("CA")
-                    .setZipCode("94107")
-                    .verify();
+            UsVerificationsWritable singleVerify = new
+            UsVerificationsWritable(); 
 
-            USVerification usVerification = response.getResponseBody();
+            singleVerify.setPrimaryLine("210 King Street");
+
+            singleVerify.setCity("San Francisco");
+
+            singleVerify.setState("CA");
+
+            singleVerify.setZipCode("94017");
+
+
+            UsVerificationsApi apiInstance = new UsVerificationsApi(config);
+
+            try {
+              apiInstance.verifySingle(singleVerify, null);
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |

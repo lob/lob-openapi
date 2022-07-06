@@ -178,19 +178,27 @@ post:
           )));
     - lang: Java
       source: |
-        List<USVerification.RequestBuilder> addresses = new ArrayList<USVerification.RequestBuilder>();
-        addresses.add(new USVerification.RequestBuilder()
-                .setRecipient("Donald")
-                .setPrimaryLine("deliverable")
-                .setSecondaryLine("Ste 6100")
-                .setUrbanization("")
-                .setCity("San Francisco")
-                .setState("CA")
-                .setZipCode("94107"));
-        LobResponse<BulkUSVerification> response = new BulkUSVerification.RequestBuilder()
-                .setAddresses(addresses)
-                .verify();
-        BulkUSVerification bulkUSVerification = response.getResponseBody();
+        MultipleComponentsList bulkVerify = new MultipleComponentsList(); 
+        MultipleComponents bulkAddress0 = new MultipleComponents(); 
+        bulkAddress0.setPrimaryLine("210 King Street");
+        bulkAddress0.setCity("San Francisco");
+        bulkAddress0.setState("CA");
+        bulkAddress0.setZipCode("94017");
+        bulkVerify.addAddressesItem(bulkAddress0);
+        
+        MultipleComponents bulkAddress1 = new MultipleComponents(); 
+        bulkAddress1.setPrimaryLine("185 BERRY ST STE 6600");
+        bulkAddress1.setCity("SAN FRANCISCO");
+        bulkAddress1.setState("CA");
+        bulkAddress1.setZipCode("94017");
+        bulkVerify.addAddressesItem(bulkAddress1);
+        
+        UsVerificationsApi apiInstance = new UsVerificationsApi(config);
+        try {
+          UsVerifications bulkVerifyResponse = apiInstance.verifyBulk(bulkVerify, null);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

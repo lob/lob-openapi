@@ -188,16 +188,18 @@ post:
         ));
     - lang: Java
       source: |
-        LobResponse<USVerification> response = new USVerification.RequestBuilder()
-                .setRecipient("Donald")
-                .setPrimaryLine("210 King St")
-                .setSecondaryLine("Ste 6100")
-                .setCity("San Francisco")
-                .setState("CA")
-                .setZipCode("94107")
-                .verify();
-
-        USVerification usVerification = response.getResponseBody();
+        UsVerificationsWritable singleVerify = new UsVerificationsWritable(); 
+        singleVerify.setPrimaryLine("210 King Street");
+        singleVerify.setCity("San Francisco");
+        singleVerify.setState("CA");
+        singleVerify.setZipCode("94017");
+        
+        UsVerificationsApi apiInstance = new UsVerificationsApi(config);
+        try {
+          apiInstance.verifySingle(singleVerify, null);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

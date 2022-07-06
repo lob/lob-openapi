@@ -63,11 +63,24 @@ get:
         ));
     - lang: Java
       source: |
-        Map<String, Object> params = new HashMap<>();
-        params.put("limit", 2);
+        ChecksApi apiInstance = new ChecksApi(config);
 
-        LobResponse<CheckCollection> response = Check.list(params);
-        CheckCollection checks = response.getResponseBody();
+        try {
+          CheckList response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+            null, // metadata
+            null, // scheduled
+            null, // sendDate
+            null, // mailType
+            null // sortBy
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -362,29 +375,35 @@ post:
         ));
     - lang: Java
       source: |
-        Map<String, String> mergeVariables = new HashMap<>();
-        mergeVariables.put('name', 'Harry');
-
-        LobResponse<Check> response = new Check.RequestBuilder()
-                .setDescription('Demo Check')
-                .setCheckBottom('<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>')
-                .setMergeVariables(mergeVariables)
-                .setAmount(22.50f)
-                .memo('rent')
-                .setLogo('https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png')
-                .setTo(
-                        new Address.RequestBuilder()
-                                .setName('Harry Zhang')
-                                .setLine1('210 King St Ste 6100')
-                                .setCity('San Francisco')
-                                .setState('CA')
-                                .setZip('94107')
-                )
-                .setFrom('adr_210a8d4b0b76d77b')
-                .setBankAccount('bank_8cad8df5354d33f')
-                .create();
-
-        Check check = response.getResponseBody();
+        Map<String, String> merge_variables = new HashMap<String, String>();
+        merge_variables.put("name", "Harry");
+        
+        ChecksApi apiInstance = new ChecksApi(config);
+        
+        AddressEditable to = new AddressEditable();
+        to.setName("Harry Zhang");
+        to.setAddressLine1("210 King St");
+        to.setAddressLine2("# 6100");
+        to.setAddressCity("San Francisco");
+        to.setAddressState("CA");
+        to.setAddressZip("94107");
+        
+        try {
+          CheckEditable checkEditable = new CheckEditable(); 
+          checkEditable.setDescription("Demo Check");
+          checkEditable.setBankAccount("bank_8cad8df5354d33f");
+          checkEditable.setAmount(22.5f);
+          checkEditable.setMemo("rent");
+          checkEditable.setLogo("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png");
+          checkEditable.setCheckBottom("<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>");
+          checkEditable.setFrom("adr_210a8d4b0b76d77b");
+          checkEditable.setTo(to);
+          checkEditable.setMergeVariables(merge_variables);
+        
+          Check result = apiInstance.create(checkEditable, null);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

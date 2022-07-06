@@ -1,0 +1,114 @@
+parameters:
+  - in: path
+    name: crv_id
+    description: id of the creative
+    required: true
+    schema:
+      $ref: "attributes/crv_id.yml"
+
+get:
+  operationId: creative_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing creative. You need only supply
+    the unique creative identifier that was returned upon creative creation.
+
+  tags:
+    - Creatives
+
+  responses:
+    "200":
+      description: Returns a creative object
+      content:
+        $ref: "responses/creative.yml"
+
+    default:
+      $ref: "responses/creatives_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
+          -u <YOUR API KEY>:
+      label: CURL
+
+patch:
+  operationId: creative_update
+
+  summary: Update
+
+  description: >-
+    Update the details of an existing creative. You need only supply
+    the unique identifier that was returned upon creative creation.
+
+  tags:
+    - Creatives
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/creative_updatable.yml"
+        example:
+          # TODO: fill out example
+          description: Test creative
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/creative_updatable.yml"
+        example:
+          # TODO: fill out example
+          description: Test creative
+
+      multipart/form-data:
+        schema:
+          $ref: "models/creative_updatable.yml"
+        example:
+          # TODO: fill out example
+          description: Test creative
+
+  responses:
+    "200":
+      description: Returns a creative object
+      content:
+        $ref: "responses/creative.yml"
+
+    default:
+      $ref: "responses/creatives_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X PATCH https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
+          -u <YOUR API KEY>: \
+          -d "description=Our updated 4x6 postcard creative"
+      label: CURL
+
+delete:
+  operationId: creative_delete
+
+  summary: Delete
+
+  description: >-
+    Delete an existing creative. You need only supply
+    the unique identifier that was returned upon creative creation.
+
+  tags:
+    - Creatives
+
+  responses:
+    "200":
+      $ref: "responses/creative_deleted.yml"
+
+    default:
+      $ref: "responses/creatives_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X DELETE https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
+          -u <YOUR API KEY>:
+      label: CURL

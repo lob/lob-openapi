@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: Lob
-  version: "1.6.6"
+  version: "1.8.2"
   description: >
     The Lob API is organized around REST. Our API is designed to have predictable,
     resource-oriented URLs and uses HTTP response codes to indicate any API errors.
@@ -110,6 +110,12 @@ tags:
       Verify a list of US addresses.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
+  - name: Campaigns
+    description: |
+      The campaigns endpoint allows you to create and view campaigns that can be used to send multiple letters or postcards.
+      The API provides endpoints for creating campaigns, updating campaigns, retrieving individual campaigns, listing campaigns, and deleting
+      campaigns.
+
   - name: Card Orders
     description: |
       The card orders endpoint allows you to easily create card orders for existing cards.
@@ -127,6 +133,12 @@ tags:
       Checks allow you to send payments via physical checks. The API provides endpoints
       for creating checks, retrieving individual checks, canceling checks, and retrieving a list of checks.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
+  - name: Creatives
+    description: |
+      The creatives endpoint allows you to create and view creatives. Creatives are used to create
+      reusable letter and postcard templates. The API provides endpoints for creating creatives, updating creatives,
+      retrieving individual creatives, and deleting creatives.
 
   - name: Errors
     x-traitTag: true
@@ -343,7 +355,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>422</code></td>
           <td style="white-space: nowrap">FAILED_DELIVERABILITY_STRICTNESS</td>
-          <td style="white-space: nowrap">The to address doesn't meet strictness requirements. 
+          <td style="white-space: nowrap">The to address doesn't meet strictness requirements.
           See <a href="https://dashboard.lob.com/#/settings/account" target="_blank">Account Settings</a> to configure strictness.</td>
         </tr>
         <tr>
@@ -555,7 +567,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>self_mailer.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A self_mailer receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <td style="white-space: nowrap">A self_mailer receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain
           <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
@@ -616,7 +628,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>letter.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <td style="white-space: nowrap">A letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain
           <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
@@ -647,7 +659,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>letter.certified.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A certified letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <td style="white-space: nowrap">A certified letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain
           <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
@@ -871,8 +883,10 @@ tags:
       * <a href="https://help.lob.com/en_US/developer-documentation/developer-quickstart-guide" target="_blank">Send your first Postcards</a>
 
       Use Case guides
-      * <a href="https://help.lob.com/use-case-guides/massdeletion" target="_blank">Mass Deletion</a>
+      * <a href="https://help.lob.com/use-case-guides/massdeletion" target="_blank">Mass Deletion Best Practices</a>
       * <a href="https://help.lob.com/en_US/use-case-guides/ncoa-restrictions" target="_blank">NCOALink Restrictions</a>
+      * <a href="https://help.lob.com/use-case-guides/override-cancellation-window" target="_blank">Override Cancellation Window</a>
+      * <a href="https://help.lob.com/en_US/use-case-guides/tracking-address-changes" target="_blank">Tracking Address Changes</a>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
   - name: Intl Autocompletions
@@ -1168,6 +1182,13 @@ tags:
       etc) are signed links served over HTTPS. All links returned will expire in
       30 days to prevent mis-sharing. Each time a GET request is initiated, a
       new signed URL will be generated.
+      <br>
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
+      ## Query Parameters
+
+      Query parameters which consist of lists of strings require that all elements of
+      the list be double-quoted, as per query filter standards.
       <br>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
@@ -1903,6 +1924,13 @@ tags:
       </table>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
+  - name: Uploads
+    description: |
+      The uploads endpoint allows you to upload audience files that are then associated with a given campaign.
+      At this time, only CSV files are allowed. The API provides endpoints for creating uploads, uploading audience files,
+      and marking uploaded files as ready for processing. The API also provides endpoints for downloading files that
+      describe the results, both successful and not, of the processing.
+
   - name: US Autocompletions
     description: >
       Given partial address information, this endpoint returns up to 10 address suggestions.
@@ -2404,6 +2432,9 @@ x-tagGroups:
       - Billing Groups
       - Cards
       - Card Orders
+      - Campaigns
+      - Creatives
+      - Uploads
 
   - name: Appendix
     tags:
@@ -2473,6 +2504,12 @@ paths:
   /bulk/intl_verifications:
     $ref: resources/bulk_intl_verifications/bulk_intl_verifications.yml
 
+  /campaigns:
+    $ref: resources/campaigns/campaigns.yml
+
+  /campaigns/{cmp_id}:
+    $ref: resources/campaigns/campaign.yml
+
   /cards:
     $ref: resources/cards/cards.yml
 
@@ -2482,11 +2519,17 @@ paths:
   /cards/{card_id}/orders:
     $ref: resources/cards/card_orders/card_orders.yml
 
+  /checks:
+    $ref: resources/checks/checks.yml
+
   /checks/{chk_id}:
     $ref: resources/checks/check.yml
 
-  /checks:
-    $ref: resources/checks/checks.yml
+  /creatives:
+    $ref: resources/creatives/creatives.yml
+
+  /creatives/{crv_id}:
+    $ref: resources/creatives/creative.yml
 
   /intl_autocompletions:
     $ref: resources/intl_autocompletions/intl_autocompletions.yml
@@ -2523,6 +2566,15 @@ paths:
 
   /templates:
     $ref: resources/templates/templates.yml
+
+  /uploads:
+    $ref: resources/uploads/uploads.yml
+
+  /uploads/{upl_id}:
+    $ref: resources/uploads/upload.yml
+
+  /uploads/{upl_id}/file:
+    $ref: resources/uploads/file.yml
 
   /us_autocompletions:
     $ref: resources/us_autocompletions/us_autocompletions.yml

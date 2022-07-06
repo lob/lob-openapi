@@ -1,0 +1,90 @@
+get:
+  operationId: campaigns_list
+
+  summary: List
+
+  description: >-
+    Returns a list of your campaigns. The campaigns are returned sorted by
+    creation date, with the most recently created campaigns appearing first.
+
+  tags:
+    - Campaigns
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/before_after.yml"
+
+  responses:
+    "200":
+      $ref: "responses/all_campaigns.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/campaigns \
+          -u <YOUR API KEY>:
+      label: CURL
+
+post:
+  operationId: campaign_create
+
+  summary: Create
+
+  description: >-
+    Creates a new campaign with the provided properties
+
+  tags:
+    - Campaigns
+
+  parameters:
+    - $ref: "../../shared/parameters/lang_spec.yml"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/campaign_writable.yml"
+        example:
+          name: My Demo Campaign
+          description: My Campaign's description
+          schedule_type: immediate
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/campaign_writable.yml"
+        encoding: # be sure to check which encodings apply
+          example-prop:
+            style: deepObject
+            explode: true
+        example:
+          name: My Demo Campaign
+          description: My Campaign's description
+          schedule_type: immediate
+
+      multipart/form-data:
+        schema:
+          $ref: "models/campaign_writable.yml"
+        example:
+          name: My Demo Campaign
+          description: My Campaign's description
+          schedule_type: immediate
+
+  responses:
+    "200":
+      description: Campaign created successfully
+      content:
+        $ref: responses/campaign.yml
+
+    default:
+      $ref: responses/campaigns_error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/campaigns \
+          -u <YOUR API KEY>: \
+          -d "name=My First Campaign" \
+          -d "schedule_type=immediate"
+      label: CURL

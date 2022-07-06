@@ -1,0 +1,47 @@
+parameters:
+  - in: path
+    name: upl_id
+    description: ID of the upload
+    required: true
+    schema:
+      $ref: "attributes/upl_id.yml"
+
+post:
+  operationId: upload_file
+
+  summary: Upload file
+
+  description: >-
+    Upload an audience file and associate it with an upload.
+
+  tags:
+    - Uploads
+
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            file:
+              type: string
+              format: binary
+
+  responses:
+    "202":
+      description: Successful Response
+      content:
+        application/json:
+          schema:
+            $ref: "responses/upload_file.yml"
+    "422":
+      $ref: "responses/upload_validation_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X POST https://api.lob.com/v1/uploads/upl_71be866e430b11e9/file \
+          -u <YOUR API KEY>: \
+          -F file=@<YOUR FILE NAME HERE>
+      label: CURL

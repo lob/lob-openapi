@@ -1,6 +1,6 @@
 {
   "name": "@lob/openapi",
-  "version": "1.6.6",
+  "version": "1.8.2",
   "engines": {
     "node": ">=14.16.0",
     "npm": ">=7.9.0"
@@ -64,7 +64,7 @@
     "pretty-one": "prettier --write \"$1\".js",
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
-    "redoc": "redoc-cli bundle $npm_package_config_specfile -t actions/redoc/template.hbs --templateOptions.segmentKey=0ysbW8vXHeRAnY2saZPMlRSZFfPwd1RO --templateOptions.SUPPORT_URL=https://support.lob.com/hc/en-us --templateOptions.LOB_ASSETS_URL=https://s3-us-west-2.amazonaws.com/public.lob.com --templateOptions.canonicalUrl=https://docs.lob.com/ --templateOptions.keywords=\"Direct Mail, Address Verification\" --templateOptions.description=\"Detailed developer documentation for Lob's address verification API and print & mail API. Learn how to easily integrate Lob's APIs within your product or technology stack.\" --templateOptions.LOB_URL=https://lob.com --templateOptions.image=https://s3-us-west-2.amazonaws.com/public.lob.com/marketing/opengraph2.png --templateOptions.DASHBOARD_URL=https://dashboard.lob.com/# --templateOptions.HELP_URL=https://help.lob.com/ --templateOptions.LOB_BACKUP_ASSETS_URL=https://assets-global.website-files.com/5e1e5c62fa3d4447af417098/ --options=docs/redocOptions.json --title=\"Lob API documentation\" -o docs/index.html",
+    "redoc": "redoc-cli build $npm_package_config_specfile -t actions/redoc/template.hbs --templateOptions.segmentKey=0ysbW8vXHeRAnY2saZPMlRSZFfPwd1RO --templateOptions.SUPPORT_URL=https://support.lob.com/hc/en-us --templateOptions.LOB_ASSETS_URL=https://s3-us-west-2.amazonaws.com/public.lob.com --templateOptions.canonicalUrl=https://docs.lob.com/ --templateOptions.keywords=\"Direct Mail, Address Verification\" --templateOptions.description=\"Detailed developer documentation for Lob's address verification API and print & mail API. Learn how to easily integrate Lob's APIs within your product or technology stack.\" --templateOptions.LOB_URL=https://lob.com --templateOptions.image=https://s3-us-west-2.amazonaws.com/public.lob.com/marketing/opengraph2.png --templateOptions.DASHBOARD_URL=https://dashboard.lob.com/# --templateOptions.HELP_URL=https://help.lob.com/ --templateOptions.LOB_BACKUP_ASSETS_URL=https://assets-global.website-files.com/5e1e5c62fa3d4447af417098/ --options=docs/redocOptions.json --title=\"Lob API documentation\" -o docs/index.html",
     "spectral": "spectral lint lob-api-public.yml --fail-severity=error --display-only-failures",
     "spectral-warn": "spectral lint lob-api-public.yml --fail-severity=warn --display-only-failures",
     "start:dev-server": "webpack serve --open",
@@ -85,32 +85,32 @@
   },
   "homepage": "https://github.com/lob/lob-openapi#readme",
   "devDependencies": {
-    "@actions/core": "^1.4.0",
-    "@ava/babel": "^1.0.1",
-    "@redocly/openapi-cli": "^1.0.0-beta.54",
-    "@slack/web-api": "^6.2.3",
-    "@stoplight/prism-cli": "^4.2.6",
-    "@stoplight/spectral": "^5.9.2",
-    "ava": "^3.15.0",
+    "@actions/core": "^1.8.2",
+    "@ava/babel": "^2.0.0",
+    "@slack/web-api": "^6.7.1",
+    "@stoplight/prism-cli": "^4.10.0",
+    "@stoplight/spectral-cli": "^6.4.1",
+    "ajv": "^8.11.0",
+    "ava": "^4.2.0",
     "btoa": "^1.2.1",
-    "css-loader": "^6.2.0",
-    "css-minimizer-webpack-plugin": "^3.0.2",
-    "husky": "^5.0.9",
-    "joi": "^17.4.0",
-    "mini-css-extract-plugin": "^2.2.0",
-    "openapi-to-postmanv2": "^2.10.1",
-    "prettier": "^2.3.2",
-    "redoc-cli": "^0.12.3",
-    "sass": "^1.37.5",
-    "sass-loader": "^12.1.0",
+    "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^4.0.0",
+    "husky": "^8.0.1",
+    "joi": "^17.6.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "openapi-to-postmanv2": "^3.2.0",
+    "prettier": "^2.6.2",
+    "redoc-cli": "^0.13.16",
+    "sass": "^1.52.1",
+    "sass-loader": "^13.0.0",
     "uuid": "^8.3.2",
     "waypoints": "^4.0.1",
-    "webpack": "^5.49.0",
+    "webpack": "^5.72.1",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^4.4.0",
-    "ajv": "^8.11.0"
+    "webpack-dev-server": "^4.9.0"
   },
-  "peerDependencies": {
-    "ajv": "^8.11.0"
+  "dependencies": {
+    "@redocly/cli": "^1.0.0-beta.102",
+    "patch-package": "^6.4.7"
   }
 }

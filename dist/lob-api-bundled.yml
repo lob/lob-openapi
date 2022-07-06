@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.6.6
+  version: 1.8.2
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -171,6 +171,15 @@ tags:
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
       top</a></div>
+  - name: Campaigns
+    description: >
+      The campaigns endpoint allows you to create and view campaigns that can be
+      used to send multiple letters or postcards.
+
+      The API provides endpoints for creating campaigns, updating campaigns,
+      retrieving individual campaigns, listing campaigns, and deleting
+
+      campaigns.
   - name: Card Orders
     description: >
       The card orders endpoint allows you to easily create card orders for
@@ -201,6 +210,15 @@ tags:
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
       top</a></div>
+  - name: Creatives
+    description: >
+      The creatives endpoint allows you to create and view creatives. Creatives
+      are used to create
+
+      reusable letter and postcard templates. The API provides endpoints for
+      creating creatives, updating creatives,
+
+      retrieving individual creatives, and deleting creatives.
   - name: Errors
     x-traitTag: true
     description: >
@@ -426,7 +444,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>422</code></td>
           <td style="white-space: nowrap">FAILED_DELIVERABILITY_STRICTNESS</td>
-          <td style="white-space: nowrap">The to address doesn't meet strictness requirements. 
+          <td style="white-space: nowrap">The to address doesn't meet strictness requirements.
           See <a href="https://dashboard.lob.com/#/settings/account" target="_blank">Account Settings</a> to configure strictness.</td>
         </tr>
         <tr>
@@ -645,7 +663,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>self_mailer.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A self_mailer receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <td style="white-space: nowrap">A self_mailer receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain
           <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
@@ -708,7 +726,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>letter.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <td style="white-space: nowrap">A letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain
           <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
@@ -739,7 +757,7 @@ tags:
         <tr>
           <td style="white-space: nowrap"><code>letter.certified.mailed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
-          <td style="white-space: nowrap">A certified letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain 
+          <td style="white-space: nowrap">A certified letter receives a "Mailed" <a href='#operation/tracking_event'>tracking event</a>. Only enabled for certain
           <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Editions</a>.</td>
         </tr>
         <tr>
@@ -999,10 +1017,18 @@ tags:
       Use Case guides
 
       * <a href="https://help.lob.com/use-case-guides/massdeletion"
-      target="_blank">Mass Deletion</a>
+      target="_blank">Mass Deletion Best Practices</a>
 
       * <a href="https://help.lob.com/en_US/use-case-guides/ncoa-restrictions"
       target="_blank">NCOALink Restrictions</a>
+
+      * <a
+      href="https://help.lob.com/use-case-guides/override-cancellation-window"
+      target="_blank">Override Cancellation Window</a>
+
+      * <a
+      href="https://help.lob.com/en_US/use-case-guides/tracking-address-changes"
+      target="_blank">Tracking Address Changes</a>
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
       top</a></div>
@@ -1482,6 +1508,20 @@ tags:
       30 days to prevent mis-sharing. Each time a GET request is initiated, a
 
       new signed URL will be generated.
+
+      <br>
+
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
+      top</a></div>
+
+
+      ## Query Parameters
+
+
+      Query parameters which consist of lists of strings require that all
+      elements of
+
+      the list be double-quoted, as per query filter standards.
 
       <br>
 
@@ -2484,6 +2524,18 @@ tags:
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
       top</a></div>
+  - name: Uploads
+    description: >
+      The uploads endpoint allows you to upload audience files that are then
+      associated with a given campaign.
+
+      At this time, only CSV files are allowed. The API provides endpoints for
+      creating uploads, uploading audience files,
+
+      and marking uploaded files as ready for processing. The API also provides
+      endpoints for downloading files that
+
+      describe the results, both successful and not, of the processing.
   - name: US Autocompletions
     description: >
       Given partial address information, this endpoint returns up to 10 address
@@ -3221,6 +3273,9 @@ x-tagGroups:
       - Billing Groups
       - Cards
       - Card Orders
+      - Campaigns
+      - Creatives
+      - Uploads
   - name: Appendix
     tags:
       - Beta Program
@@ -3344,6 +3399,23 @@ components:
                   - date_created
               - required:
                   - send_date
+    lang_spec:
+      in: header
+      name: x-lang-output
+      required: false
+      description: >
+        * `native` - Translate response to the native language of the country in
+        the request
+
+        * `match` - match the response to the language in the request
+
+
+        Default response is in English.
+      schema:
+        type: string
+        enum:
+          - native
+          - match
     scheduled:
       in: query
       name: scheduled
@@ -3403,23 +3475,6 @@ components:
         type: string
         maxLength: 256
         example: 026e7634-24d7-486c-a0bb-4a17fd0eebc5
-    lang_spec:
-      in: header
-      name: x-lang-output
-      required: false
-      description: >
-        * `native` - Translate response to the native language of the country in
-        the request
-
-        * `match` - match the response to the language in the request
-
-
-        Default response is in English.
-      schema:
-        type: string
-        enum:
-          - native
-          - match
   schemas:
     date_filter:
       type: object
@@ -5671,6 +5726,262 @@ components:
             Indicates whether any errors occurred during the verification
             process.
           type: boolean
+    cmp_schedule_type:
+      description: >-
+        How the campaign should be scheduled. Only value available today is
+        `immediate`.
+      type: string
+      enum:
+        - immediate
+    cmp_use_type:
+      description: The usage type of this campaign. Can be one of marketing or operational.
+      type: string
+      enum:
+        - marketing
+        - operational
+    campaign_writable:
+      type: object
+      required:
+        - name
+        - schedule_type
+      properties:
+        billing_group_id:
+          $ref: '#/components/schemas/bg_id'
+        name:
+          description: Name of the campaign.
+          type: string
+        description:
+          $ref: '#/components/schemas/resource_description'
+        schedule_type:
+          $ref: '#/components/schemas/cmp_schedule_type'
+        target_delivery_date:
+          description: >-
+            If schedule_type is target_delivery_date, provide a targeted
+            delivery date for mail pieces in this campaign.
+          type: string
+          format: date-time
+          nullable: true
+        send_date:
+          description: >-
+            If schedule_type is scheduled_send_date, provide a date to send this
+            campaign.
+          type: string
+          format: date-time
+          nullable: true
+        cancel_window_campaign_minutes:
+          description: A window, in minutes, within which the campaign can be canceled.
+          type: integer
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        use_type:
+          $ref: '#/components/schemas/cmp_use_type'
+        auto_cancel_if_ncoa:
+          description: >-
+            Whether or not a mail piece should be automatically canceled and not
+            sent if the address is updated via NCOA.
+          type: boolean
+    cmp_id:
+      type: string
+      title: Campaign id
+      description: Unique identifier prefixed with `cmp_`.
+      pattern: ^cmp_[a-zA-Z0-9]+$
+    inline_address_us:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_us'
+        - type: object
+          required:
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
+    from_attribute:
+      title: From
+      description: >-
+        Must either be an address ID or an inline object with correct address
+        parameters. All addresses will be standardized into uppercase without
+        being modified by verification.
+      oneOf:
+        - $ref: '#/components/schemas/adr_id'
+        - $ref: '#/components/schemas/inline_address_us'
+    supported_resource_type:
+      title: Resource Type
+      enum:
+        - postcard
+        - letter
+      default: postcard
+      type: string
+      description: Mailpiece type for the creative
+    creative_base:
+      type: object
+      properties:
+        description:
+          title: Description
+          type: string
+          example: Our updated 4x6 postcard creative
+          description: An internal description that identifies this resource
+        from:
+          $ref: '#/components/schemas/from_attribute'
+        resource_type:
+          $ref: '#/components/schemas/supported_resource_type'
+        details:
+          title: Details
+          type: object
+          description: Object with key-value pairs containing creative details
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    crv_id:
+      type: string
+      description: Unique identifier prefixed with `crv_`.
+      pattern: ^crv_[a-zA-Z0-9]+$
+      example: crv_2a3b096c409b32c
+    campaign:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/campaign_writable'
+        - type: object
+          required:
+            - id
+            - account_id
+            - billing_group_id
+            - name
+            - description
+            - schedule_type
+            - use_type
+            - is_draft
+            - creatives
+            - auto_cancel_if_ncoa
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/cmp_id'
+            account_id:
+              description: Account ID that this campaign is associated with.
+              type: string
+            is_draft:
+              description: Whether or not the campaign is still a draft.
+              type: boolean
+              default: true
+            creatives:
+              description: >-
+                An array of creatives that have been associated with this
+                campaign.
+              type: array
+              items:
+                $ref: '#/components/schemas/creative'
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - campaign
+              default: campaign
+    creative:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/creative_base'
+        - type: object
+          required:
+            - id
+            - account_id
+            - description
+            - from
+            - resource_type
+            - details
+            - metadata
+            - template_preview_urls
+            - template_previews
+            - campaigns
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/crv_id'
+            account_id:
+              title: Account ID
+              type: string
+              example: fa9ea650fc7b31a89f92
+              description: Account ID that made the request
+            template_preview_urls:
+              title: Template Preview URLs
+              type: object
+              description: >-
+                URL to view preview of a creative ID. Currently unpopulated, but
+                will be in the future.
+            template_previews:
+              title: Template Previews
+              type: array
+              items:
+                type: object
+              description: >-
+                IDs for each creative preview. Currently unpopulated, but will
+                be in the future.
+            campaigns:
+              title: Campaigns
+              type: array
+              description: Array of campaigns associated with the creative ID
+              items:
+                $ref: '#/components/schemas/campaign'
+              example:
+                - id: cmp_364c74e0ae263327
+                  billing_group_id: null
+                  name: Docs Example
+                  description: Our docs example description
+                  schedule_type: immediate
+                  send_date: null
+                  target_delivery_date: null
+                  cancel_window_campaign_minutes: 40
+                  is_draft: true
+                  deleted: false
+                  auto_cancel_if_ncoa: false
+                  date_created: 2022-07-01T16:15:32.339Z
+                  date_modified: 2022-07-01T16:15:32.339Z
+                  object: campaign
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - creative
+              default: creative
+    campaign_updatable:
+      type: object
+      properties:
+        name:
+          title: Name
+          type: string
+        description:
+          $ref: '#/components/schemas/resource_description'
+        schedule_type:
+          $ref: '#/components/schemas/cmp_schedule_type'
+        target_delivery_date:
+          description: >-
+            If schedule_type is target_delivery_date, provide a targeted
+            delivery date for mail pieces in this campaign.
+          type: string
+          format: date-time
+        send_date:
+          description: >-
+            If schedule_type is scheduled_send_date, provide a date to send this
+            campaign.
+          type: string
+          format: date-time
+        cancel_window_campaign_minutes:
+          description: A window, in minutes, within which the campaign can be canceled.
+          type: integer
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        is_draft:
+          description: Whether or not the campaign is still a draft.
+          type: boolean
+          default: true
+        use_type:
+          $ref: '#/components/schemas/cmp_use_type'
+        auto_cancel_if_ncoa:
+          description: >-
+            Whether or not a mail piece should be automatically canceled and not
+            sent if the address is updated via NCOA.
+          type: boolean
     card_description:
       type: string
       description: Description of the card.
@@ -5904,10 +6215,41 @@ components:
           description: The quantity of cards in the order (minimum 10,000).
           minimum: 10000
           maximum: 10000000
-    chk_id:
+    send_date:
       type: string
-      description: Unique identifier prefixed with `chk_`.
-      pattern: ^chk_[a-zA-Z0-9]+$
+      description: >-
+        A timestamp in ISO 8601 format which specifies a date after the current
+        time and up to 180 days in the future to send the letter off for
+        production. Setting a send date overrides the default [cancellation
+        window](#section/Cancellation-Windows) applied to the mailpiece. Until
+        the `send_date` has passed, the mailpiece can be canceled. If a date in
+        the format `2017-11-01` is passed, it will evaluate to midnight UTC of
+        that date (`2017-11-01T00:00:00.000Z`). If a datetime is passed, that
+        exact time will be used. A `send_date` passed with no time zone will
+        default to UTC, while a `send_date` passed with a time zone will be
+        converted to UTC.
+      anyOf:
+        - format: date-time
+        - format: date
+    mail_type:
+      type: string
+      enum:
+        - usps_first_class
+        - usps_standard
+      description: >
+        A string designating the mail postage type:
+
+        * `usps_first_class` - (default)
+
+        * `usps_standard` - a <a
+        href="https://lob.com/pricing/print-mail#compare"
+        target="_blank">cheaper option</a> which is
+
+        less predictable and takes longer to deliver. `usps_standard` cannot be
+        used with `4x6`
+
+        postcards or for any postcards sent outside of the United States.
+      default: usps_first_class
     merge_variables:
       type: object
       description: >-
@@ -5931,22 +6273,6 @@ components:
         receive an error or the variable will render as an empty string.
       maxLength: 25000
       nullable: true
-    send_date:
-      type: string
-      description: >-
-        A timestamp in ISO 8601 format which specifies a date after the current
-        time and up to 180 days in the future to send the letter off for
-        production. Setting a send date overrides the default [cancellation
-        window](#section/Cancellation-Windows) applied to the mailpiece. Until
-        the `send_date` has passed, the mailpiece can be canceled. If a date in
-        the format `2017-11-01` is passed, it will evaluate to midnight UTC of
-        that date (`2017-11-01T00:00:00.000Z`). If a datetime is passed, that
-        exact time will be used. A `send_date` passed with no time zone will
-        default to UTC, while a `send_date` passed with a time zone will be
-        converted to UTC.
-      anyOf:
-        - format: date-time
-        - format: date
     editable_no_mailtype:
       type: object
       properties:
@@ -5999,6 +6325,10 @@ components:
       properties:
         from:
           $ref: '#/components/schemas/address_us'
+    chk_id:
+      type: string
+      description: Unique identifier prefixed with `chk_`.
+      pattern: ^chk_[a-zA-Z0-9]+$
     tmpl_id:
       type: string
       description: >-
@@ -6201,44 +6531,6 @@ components:
               $ref: '#/components/schemas/date_modified'
             deleted:
               $ref: '#/components/schemas/deleted'
-    check_deletion:
-      description: >-
-        Lob uses RESTful HTTP response codes to indicate success or failure of
-        an API request. In general, 2xx indicates success, 4xx indicate an input
-        error, and 5xx indicates an error on Lob's end.
-      properties:
-        id:
-          $ref: '#/components/schemas/chk_id'
-        deleted:
-          $ref: '#/components/schemas/deleted'
-    mail_type:
-      type: string
-      enum:
-        - usps_first_class
-        - usps_standard
-      description: >
-        A string designating the mail postage type:
-
-        * `usps_first_class` - (default)
-
-        * `usps_standard` - a <a
-        href="https://lob.com/pricing/print-mail#compare"
-        target="_blank">cheaper option</a> which is
-
-        less predictable and takes longer to deliver. `usps_standard` cannot be
-        used with `4x6`
-
-        postcards or for any postcards sent outside of the United States.
-      default: usps_first_class
-    inline_address_us:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_us'
-        - type: object
-          required:
-            - address_line1
-            - address_city
-            - address_state
-            - address_zip
     check_input_to:
       type: object
       properties:
@@ -6401,6 +6693,30 @@ components:
             - required:
                 - check_bottom
             - $ref: '#/components/schemas/check_editable_props'
+    check_deletion:
+      description: >-
+        Lob uses RESTful HTTP response codes to indicate success or failure of
+        an API request. In general, 2xx indicates success, 4xx indicate an input
+        error, and 5xx indicates an error on Lob's end.
+      properties:
+        id:
+          $ref: '#/components/schemas/chk_id'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+    creative_writable:
+      allOf:
+        - $ref: '#/components/schemas/creative_base'
+        - type: object
+          required:
+            - campaign_id
+            - resource_type
+            - details
+          properties:
+            campaign_id:
+              $ref: '#/components/schemas/cmp_id'
+    creative_updatable:
+      allOf:
+        - $ref: '#/components/schemas/creative_base'
     intl_autocompletions_writable:
       type: object
       required:
@@ -6810,16 +7126,14 @@ components:
                 about the custom envelope used or `null` if a custom envelope
                 was not used.
 
-
                 Accepts an envelope ID for any customized envelope with
                 available inventory. If no inventory is available for the
                 specified ID, the letter will not be sent, and an error will be
                 returned. If the letter has more than 6 sheets, it will be sent
                 in a blank flat envelope. Custom envelopes may be created and
                 ordered from the dashboard. This feature is exclusive to certain
-                customers. Upgrade to the appropriate <a
-                href="https://dashboard.lob.com/#/settings/editions"
-                target="_blank">Print & Mail Edition</a> to gain access.
+                customers. Upgrade to the appropriate Print & Mail Edition to
+                gain access.
               required:
                 - id
                 - url
@@ -7036,15 +7350,30 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address'
+    editable:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/resource_description'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        merge_variables:
+          $ref: '#/components/schemas/merge_variables'
+        send_date:
+          $ref: '#/components/schemas/send_date'
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/input_to'
         - $ref: '#/components/schemas/input_from'
+        - $ref: '#/components/schemas/editable'
         - type: object
           required:
             - to
             - from
             - file
+            - color
           properties:
             file:
               description: >-
@@ -7119,6 +7448,7 @@ components:
               description: >-
                 Set this key to `true` if you would like to print in color. Set
                 to `false` if you would like to print in black and white.
+              default: false
             double_sided:
               type: boolean
               description: >-
@@ -7219,19 +7549,6 @@ components:
       type: string
       description: Unique identifier prefixed with `psc_`.
       pattern: ^psc_[a-zA-Z0-9]+$
-    editable:
-      type: object
-      properties:
-        description:
-          $ref: '#/components/schemas/resource_description'
-        metadata:
-          $ref: '#/components/schemas/metadata'
-        mail_type:
-          $ref: '#/components/schemas/mail_type'
-        merge_variables:
-          $ref: '#/components/schemas/merge_variables'
-        send_date:
-          $ref: '#/components/schemas/send_date'
     postcard_size:
       type: string
       enum:
@@ -7714,6 +8031,156 @@ components:
           $ref: '#/components/schemas/metadata'
         engine:
           $ref: '#/components/schemas/engine'
+    column_mapping:
+      title: Column Mapping
+      type: object
+      example:
+        firstName: first_name
+        lastName: last_name
+      description: >-
+        The mapping of column headers in your file to Lob-required fields for
+        the resource created. See our <a
+        href="https://help.lob.com/best-practices/campaign-audience-guide"
+        target="_blank">Campaign Audience Guide</a> for additional details.
+    upload_writable:
+      type: object
+      required:
+        - campaignId
+        - columnMapping
+      properties:
+        campaignId:
+          $ref: '#/components/schemas/cmp_id'
+          description: Associated Campaign ID
+          example: cmp_1933ad629bae1408
+        columnMapping:
+          $ref: '#/components/schemas/column_mapping'
+    upl_id:
+      type: string
+      description: Unique identifier prefixed with `upl_`.
+      pattern: ^upl_[a-zA-Z0-9]+$
+    upload_state:
+      title: Upload State
+      enum:
+        - Preprocessing
+        - Draft
+        - Ready for Validation
+        - Validating
+        - Scheduled
+        - Cancelled
+        - Errored
+      default: Draft
+      type: string
+      description: >-
+        The `state` property on the `upload` object. As the file is processed,
+        the `state` will change from `Ready for Validation` to `Validating` and
+        then will be either `Scheduled` (successfully processed) or `Errored`
+        (Unsuccessfully processed).
+    upload:
+      allOf:
+        - $ref: '#/components/schemas/upload_writable'
+        - type: object
+          required:
+            - id
+            - accountId
+            - campaignId
+            - columnMapping
+            - mode
+            - state
+            - totalMailpieces
+            - failedMailpieces
+            - validatedMailpieces
+            - bytesProcessed
+            - dateCreated
+            - dateModified
+          properties:
+            id:
+              $ref: '#/components/schemas/upl_id'
+            accountId:
+              title: Account ID
+              type: string
+              description: Account ID that made the request
+              example: fa9ea650fc7b31a89f92
+            mode:
+              enum:
+                - test
+                - live
+              type: string
+              description: >-
+                The environment in which the mailpieces were created. Today,
+                will only be `live`.
+            failuresUrl:
+              title: Failures URL
+              type: string
+              example: https://www.example.com
+              description: Url where your campaign mailpiece failures can be retrieved
+            originalFilename:
+              title: Original Filename
+              type: string
+              example: my_audience.csv
+              description: Filename of the upload
+            state:
+              $ref: '#/components/schemas/upload_state'
+            totalMailpieces:
+              title: Total Mailpieces
+              type: integer
+              example: 100
+              description: Total number of recipients for the campaign
+            failedMailpieces:
+              title: Failed Mailpieces
+              type: integer
+              example: 5
+              description: Number of mailpieces that failed to create
+            validatedMailpieces:
+              title: Validated Mailpieces
+              type: integer
+              example: 95
+              description: Number of mailpieces that were successfully created
+            bytesProcessed:
+              title: Bytes Processed
+              type: integer
+              example: 17268
+              description: Number of bytes processed in your CSV
+            dateCreated:
+              title: Date Created
+              type: string
+              format: date-time
+              description: >-
+                A timestamp in ISO 8601 format of the date the upload was
+                created
+            dateModified:
+              title: Date Modified
+              type: string
+              format: date-time
+              description: >-
+                A timestamp in ISO 8601 format of the date the upload was last
+                modified
+    upload_updatable:
+      type: object
+      properties:
+        columnMapping:
+          title: Column Mapping
+          type: object
+        state:
+          $ref: '#/components/schemas/upload_state'
+        originalFilename:
+          title: Original Filename
+          type: string
+          description: Original filename provided when the upload is created
+    upload_file:
+      type: object
+      required:
+        - message
+        - filename
+      properties:
+        message:
+          title: Message
+          enum:
+            - File uploaded successfully
+          type: string
+          default: File uploaded successfully
+        filename:
+          title: Filename
+          type: string
     us_autocompletions_writable:
       type: object
       required:
@@ -8615,6 +9082,79 @@ components:
                   postal_code: C1N 1C4
                 object: intl_verification
             errors: false
+    all_campaigns:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` campaigns. Each entry in the array is a separate campaign. The
+        previous and next page of campaigns can be retrieved by calling the
+        endpoint contained in the `previous_url` and `next_url` fields in the
+        API response respectively.<br>If no more campaigns are available beyond
+        the current set of returned results, the `next_url` field will be empty.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/list'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of campaigns
+                    items:
+                      $ref: '#/components/schemas/campaign'
+          example:
+            data:
+              - id: cmp_e05ee61ff80764b
+                account_id: fa9ea650fc7b31a89f92
+                billing_group_id: bg_fe3079dcdd80e5ae
+                name: My Campaign
+                description: My Campaign's description
+                schedule_type: immediate
+                send_date: null
+                target_delivery_date: null
+                cancel_window_campaign_minutes: 60
+                metadata: {}
+                use_type: marketing
+                is_draft: true
+                deleted: false
+                creatives: []
+                auto_cancel_if_ncoa: false
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
+                object: campaign
+            object: list
+            previous_url: null
+            next_url: null
+            count: 1
+    campaigns_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: not_found
+              message: campaign not found
+              status_code: 404
+    campaign_deleted:
+      description: Deleted the campaign.
+      content:
+        application/json:
+          schema:
+            description: >-
+              Lob uses RESTful HTTP response codes to indicate success or
+              failure of an API request. In general, 2xx indicates success, 4xx
+              indicate an input error, and 5xx indicates an error on Lob's end.
+            properties:
+              id:
+                $ref: '#/components/schemas/cmp_id'
+              deleted:
+                type: boolean
+                description: True if the resource has been successfully deleted.
+          example:
+            id: cmp_e05ee61ff80764b
+            deleted: true
     mailpiece_error:
       description: Error
       content:
@@ -8646,15 +9186,6 @@ components:
               code: not_found
               message: card not found
               status_code: 404
-    check_canceled:
-      description: Deleted
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/check_deletion'
-          example:
-            id: chk_123456789
-            deleted: true
     all_checks:
       description: >-
         A dictionary with a data property that contains an array of up to
@@ -8925,6 +9456,83 @@ components:
             attachment_template_id: tmpl_a
             check_bottom_template_version_id: vrsn_a
             attachment_template_version_id: vrsn_a
+            deleted: true
+    check_canceled:
+      description: Deleted
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/check_deletion'
+          example:
+            id: chk_123456789
+            deleted: true
+    all_creatives:
+      description: >-
+        A dictionary with a data property that contains an array of up to
+        `limit` creatives. Each entry in the array is a separate creative. The
+        previous and next page of creatives can be retrieved by calling the
+        endpoint contained in the `previous_url` and `next_url` fields in the
+        API response respectively.<br>If no more creatives are available beyond
+        the current set of returned results, the `next_url` field will be empty.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/list'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    description: list of creatives
+                    items:
+                      $ref: '#/components/schemas/creative'
+          example:
+            data:
+              - id: crv_2a3b096c409b32c
+                account_id: fa9ea650fc7b31a89f92
+                description: Our 4x6 postcard creative
+                from: adr_210a8d4b0b76d77b
+                resource_type: postcard
+                details: {}
+                metadata: {}
+                template_preview_urls: {}
+                template_previews: []
+                campaigns: []
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
+                object: creative
+            object: list
+            previous_url: null
+            next_url: null
+            count: 1
+    creatives_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: not_found
+              message: creative not found
+              status_code: 404
+    creative_deleted:
+      description: Deleted the creative.
+      content:
+        application/json:
+          schema:
+            description: >-
+              Lob uses RESTful HTTP response codes to indicate success or
+              failure of an API request. In general, 2xx indicates success, 4xx
+              indicate an input error, and 5xx indicates an error on Lob's end.
+            properties:
+              id:
+                $ref: '#/components/schemas/crv_id'
+              deleted:
+                type: boolean
+                description: True if the resource has been successfully deleted.
+          example:
+            id: crv_2a3b096c409b32c
             deleted: true
     intl_autocompletions_error:
       description: Error
@@ -10061,6 +10669,76 @@ components:
             next_url: >-
               https://api.lob.com/v1/templates?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wMy0yOVQxMDoyMjozNC42NDJaIiwiaWRPZmZzZXQiOiJ0bXBsXzU5YjIxNTBhZTEyMDg4NyJ9
             count: 2
+    all_uploads:
+      description: >-
+        An array of matching uploads. Each entry in the array is a separate
+        upload.
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/upload'
+          example:
+            - id: upl_71be866e430b11e9
+              accountId: fa9ea650fc7b31a89f92
+              campaignId: cmp_1933ad629bae1408
+              columnMapping:
+                firstName: first name
+                lastName: last name
+              mode: test
+              failuresUrl: https://www.example.com
+              originalFilename: my_audience.csv
+              state: Draft
+              totalMailpieces: 100
+              failedMailpieces: 5
+              validatedMailpieces: 95
+              bytesProcessed: 17268
+              dateCreated: 2017-09-05T17:47:53.767Z
+              dateModified: 2017-09-05T17:47:53.767Z
+    upload_validation_error:
+      description: Validation Error
+      content:
+        application/json:
+          schema:
+            title: HTTPValidationError
+            type: object
+            properties:
+              detail:
+                title: Detail
+                type: array
+                items:
+                  title: ValidationError
+                  required:
+                    - loc
+                    - msg
+                    - type
+                  type: object
+                  properties:
+                    loc:
+                      title: Location
+                      type: array
+                      items:
+                        anyOf:
+                          - type: string
+                          - type: integer
+                    msg:
+                      title: Message
+                      type: string
+                    type:
+                      title: Error Type
+                      type: string
+    upload_not_found:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: not_found
+              message: upload not found
+              status_code: 404
     us_autocompletions_error:
       description: Error
       content:
@@ -10527,7 +11205,7 @@ paths:
       x-codeSamples:
         - lang: Shell
           source: |
-            curl -X GET "https://api.lob.com/v1/addresses/?limit=2" \
+            curl -X GET "https://api.lob.com/v1/addresses?limit=2" \
               -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
           label: CURL
         - lang: Typescript
@@ -11729,18 +12407,13 @@ paths:
       x-codeSamples:
         - lang: Shell
           source: |
-            curl https://api.lob.com/v1/bulk_us_verifications \
-              -u <YOUR_LIVE_API_KEY>: \
-              --data-raw '{
-                "addresses": [
-                  {
-                    "primary_line": "210 King Street",
-                    "city": "San Francisco",
-                    "state": "CA",
-                    "zip_code": "94107"
-                  }
-                ]
-              }'
+            curl https://api.lob.com/v1/bulk/us_verifications \
+            -u <YOUR LIVE API KEY>: \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --data-urlencode 'addresses[0][primary_line]=210 King Street' \
+            --data-urlencode 'addresses[0][city]=San Francisco' \
+            --data-urlencode 'addresses[0][state]=CA' \
+            --data-urlencode 'addresses[0][zip_code]=94017'
           label: CURL
         - lang: Typescript
           source: |
@@ -11911,18 +12584,12 @@ paths:
       x-codeSamples:
         - lang: Shell
           source: |
-            curl https://api.lob.com/v1/bulk_intl_verifications \
-              -u <YOUR_LIVE_API_KEY>: \
-              --data-raw '{
-                "addresses": [
-                  {
-                    "primary_line": "210 King Street",
-                    "city": "San Francisco",
-                    "state": "CA",
-                    "zip_code": "94107"
-                  }
-                ]
-              }'
+            curl https://api.lob.com/v1/bulk/intl_verifications \
+            -u <YOUR LIVE API KEY>: \
+            --header 'Content-Type: application/x-www-form-urlencoded' \
+            --data-urlencode 'addresses[0][primary_line]=370 WATER ST' \
+            --data-urlencode 'addresses[0][postal_code]=C1N 1C4' \
+            --data-urlencode 'addresses[0][country]=CA'
           label: CURL
         - lang: Typescript
           source: |
@@ -12036,6 +12703,225 @@ paths:
               ]
             })
           label: ELIXIR
+  /campaigns:
+    get:
+      operationId: campaigns_list
+      summary: List
+      description: >-
+        Returns a list of your campaigns. The campaigns are returned sorted by
+        creation date, with the most recently created campaigns appearing first.
+      tags:
+        - Campaigns
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/before_after'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_campaigns'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/campaigns \
+              -u <YOUR API KEY>:
+          label: CURL
+    post:
+      operationId: campaign_create
+      summary: Create
+      description: Creates a new campaign with the provided properties
+      tags:
+        - Campaigns
+      parameters:
+        - $ref: '#/components/parameters/lang_spec'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/campaign_writable'
+            example:
+              name: My Demo Campaign
+              description: My Campaign's description
+              schedule_type: immediate
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/campaign_writable'
+            encoding:
+              example-prop:
+                style: deepObject
+                explode: true
+            example:
+              name: My Demo Campaign
+              description: My Campaign's description
+              schedule_type: immediate
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/campaign_writable'
+            example:
+              name: My Demo Campaign
+              description: My Campaign's description
+              schedule_type: immediate
+      responses:
+        '200':
+          description: Campaign created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/campaign'
+              example:
+                id: cmp_e05ee61ff80764b
+                account_id: fa9ea650fc7b31a89f92
+                billing_group_id: bg_fe3079dcdd80e5ae
+                name: My Campaign
+                description: My Campaign's description
+                schedule_type: immediate
+                cancel_window_campaign_minutes: 60
+                metadata: {}
+                use_type: marketing
+                is_draft: true
+                deleted: false
+                creatives: []
+                auto_cancel_if_ncoa: false
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
+                object: campaign
+        default:
+          $ref: '#/components/responses/campaigns_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/campaigns \
+              -u <YOUR API KEY>: \
+              -d "name=My First Campaign" \
+              -d "schedule_type=immediate"
+          label: CURL
+  /campaigns/{cmp_id}:
+    parameters:
+      - in: path
+        name: cmp_id
+        description: id of the campaign
+        required: true
+        schema:
+          $ref: '#/components/schemas/cmp_id'
+    get:
+      operationId: campaign_retrieve
+      summary: Retrieve
+      description: >-
+        Retrieves the details of an existing campaign. You need only supply the
+        unique campaign identifier that was returned upon campaign creation.
+      tags:
+        - Campaigns
+      responses:
+        '200':
+          description: Returns a campaign object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/campaign'
+              example:
+                id: cmp_e05ee61ff80764b
+                account_id: fa9ea650fc7b31a89f92
+                billing_group_id: bg_fe3079dcdd80e5ae
+                name: My Campaign
+                description: My Campaign's description
+                schedule_type: immediate
+                cancel_window_campaign_minutes: 60
+                metadata: {}
+                use_type: marketing
+                is_draft: true
+                deleted: false
+                creatives: []
+                auto_cancel_if_ncoa: false
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
+                object: campaign
+        default:
+          $ref: '#/components/responses/campaigns_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b \
+              -u <YOUR API KEY>:
+          label: CURL
+    patch:
+      operationId: campaign_update
+      summary: Update
+      description: >-
+        Update the details of an existing campaign. You need only supply the
+        unique identifier that was returned upon campaign creation.
+      tags:
+        - Campaigns
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/campaign_updatable'
+            example:
+              description: Test campaign
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/campaign_updatable'
+            example:
+              description: Test campaign
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/campaign_updatable'
+            example:
+              description: Test campaign
+      responses:
+        '200':
+          description: Returns a campaign object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/campaign'
+              example:
+                id: cmp_e05ee61ff80764b
+                account_id: fa9ea650fc7b31a89f92
+                billing_group_id: bg_fe3079dcdd80e5ae
+                name: My Campaign
+                description: My Campaign's description
+                schedule_type: immediate
+                cancel_window_campaign_minutes: 60
+                metadata: {}
+                use_type: marketing
+                is_draft: true
+                deleted: false
+                creatives: []
+                auto_cancel_if_ncoa: false
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
+                object: campaign
+        default:
+          $ref: '#/components/responses/campaigns_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X PATCH https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b \
+              -u <YOUR API KEY>: \
+              -d "description=Awesome campaign"
+          label: CURL
+    delete:
+      operationId: campaign_delete
+      summary: Delete
+      description: >-
+        Delete an existing campaign. You need only supply the unique identifier
+        that was returned upon campaign creation.
+      tags:
+        - Campaigns
+      responses:
+        '200':
+          $ref: '#/components/responses/campaign_deleted'
+        default:
+          $ref: '#/components/responses/campaigns_error'
+      x-codeSamples:
+        - lang: Shell
+          source: >
+            curl -X DELETE https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b
+            \
+              -u <YOUR API KEY>:
+          label: CURL
   /cards:
     get:
       operationId: cards_list
@@ -12531,6 +13417,9 @@ paths:
       description: Retrieves the card orders associated with the given card id.
       tags:
         - Card Orders
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
       responses:
         '200':
           description: Returns the card orders associated with the given card id
@@ -12677,217 +13566,6 @@ paths:
             $lob->cardOrders('card_6afffd19045076c')->create(array(
               'quantity'           => 10000
             ));
-  /checks/{chk_id}:
-    parameters:
-      - in: path
-        name: chk_id
-        description: id of the check
-        required: true
-        schema:
-          $ref: '#/components/schemas/chk_id'
-    get:
-      operationId: check_retrieve
-      summary: Retrieve
-      description: >-
-        Retrieves the details of an existing check. You need only supply the
-        unique check identifier that was returned upon check creation.
-      tags:
-        - Checks
-      responses:
-        '200':
-          description: Returns a check object
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/check'
-              example:
-                id: chk_534f10783683daa0
-                description: Demo Check
-                metadata: {}
-                check_number: 10062
-                memo: rent
-                amount: 22.5
-                url: >-
-                  https://lob-assets.com/checks/chk_534f10783683daa0.pdf?expires=1540372221&signature=Ty3IV2bGPEoQfrdraYHlNYTaarnHLXb
-                to:
-                  id: adr_bae820679f3f536b
-                  description: Harry - Office
-                  name: HARRY ZHANG
-                  company: LOB
-                  email: harry@lob.com
-                  phone: '5555555555'
-                  address_line1: 210 KING ST STE 6100
-                  address_line2: ''
-                  address_city: SAN FRANCISCO
-                  address_state: CA
-                  address_zip: 94107-1741
-                  address_country: UNITED STATES
-                  metadata: {}
-                  date_created: 2018-12-08T03:08:43.446Z
-                  date_modified: 2018-12-08T03:08:43.446Z
-                  object: address
-                  recipient_moved: false
-                from:
-                  id: adr_b8fb5acf3a2b55db
-                  name: LEORE AVIDAR
-                  address_line1: 210 KING ST STE 6100
-                  address_city: SAN FRANCISCO
-                  address_state: CA
-                  address_zip: 94107-1741
-                  address_country: UNITED STATES
-                  metadata: {}
-                  date_created: 2017-09-05T17:47:53.767Z
-                  date_modified: 2017-09-05T17:47:53.767Z
-                  object: address
-                bank_account:
-                  id: bank_8cad8df5354d33f
-                  description: Test Bank Account
-                  metadata: {}
-                  routing_number: '322271627'
-                  account_number: '123456789'
-                  signatory: John Doe
-                  bank_name: J.P. MORGAN CHASE BANK, N.A.
-                  verified: true
-                  account_type: company
-                  date_created: 2015-11-06T19:24:24.440Z
-                  date_modified: 2015-11-06T19:41:28.312Z
-                  object: bank_account
-                  signature_url: >-
-                    https://lob-assets.com/bank-accounts/asd_asdfghjkqwertyui.pdf?expires=1234567890&signature=aksdf
-                carrier: USPS
-                tracking_events: []
-                thumbnails:
-                  - small: >-
-                      https://lob-assets.com/checks/chk_534f10783683daa0_thumb_small_1.png?expires=1540372221&signature=ShhPpH74wYkNiAj7Il9B6q8ZKkzlGd4
-                    medium: >-
-                      https://lob-assets.com/checks/chk_534f10783683daa0_thumb_medium_1.png?expires=1540372221&signature=tmIOq6aAyKgzAECp7STj1rvJuMS5Svd
-                    large: >-
-                      https://lob-assets.com/checks/chk_534f10783683daa0_thumb_large_1.png?expires=1540372221&signature=04nLEwE9d2qgQJNgJYWSOgPnU0FZbEv
-                merge_variables:
-                  name: Harry
-                expected_delivery_date: 2017-09-12
-                mail_type: usps_first_class
-                date_created: 2017-09-05T17:47:53.896Z
-                date_modified: 2017-09-05T17:47:53.896Z
-                send_date: 2017-09-05T17:47:53.896Z
-                object: check
-                message: pancakes are good
-                check_bottom_template_id: tmpl_a
-                attachment_template_id: tmpl_a
-                check_bottom_template_version_id: vrsn_a
-                attachment_template_version_id: vrsn_a
-                deleted: true
-        default:
-          $ref: '#/components/responses/mailpiece_error'
-      x-codeSamples:
-        - lang: Shell
-          source: |
-            curl https://api.lob.com/v1/checks/chk_534f10783683daa0 \
-              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
-          label: CURL
-        - lang: Typescript
-          source: |
-            try {
-              const check = await new ChecksApi(config).get('chk_xxxx');
-            } catch (err: any) {
-              console.error(err);
-            }
-          label: TYPESCRIPT
-        - lang: Javascript
-          source: |
-            Lob.checks.retrieve('chk_534f10783683daa0', function (err, res) {
-              console.log(err, res);
-            });
-          label: NODE
-        - lang: Ruby
-          source: |
-            @lob.checks.find("chk_534f10783683daa0")
-          label: RUBY
-        - lang: Python
-          source: |
-            lob.Check.retrieve('chk_534f10783683daa0')
-          label: PYTHON
-        - lang: PHP
-          source: |
-            $lob->checks()->get('chk_534f10783683daa0');
-        - lang: Java
-          source: |
-            ChecksApi apiInstance = new ChecksApi(config);
-
-            try {
-              Check response = apiInstance.get("chk_534f10783683daa0");
-            } catch (ApiException e) {
-              e.printStackTrace();
-            }
-          label: JAVA
-        - lang: Elixir
-          source: |
-            Lob.Check.find("chk_534f10783683daa0")
-          label: ELIXIR
-    delete:
-      operationId: check_cancel
-      summary: Cancel
-      description: >-
-        Completely removes a check from production. This can only be done if the
-        check has a `send_date` and the `send_date` has not yet passed. If the
-        check is successfully canceled, you will not be charged for it. Read
-        more on [cancellation windows](#section/Cancellation-Windows) and
-        [scheduling](#section/Scheduled-Mailings). Scheduling and cancellation
-        is a premium feature. Upgrade to the appropriate <a
-        href="https://dashboard.lob.com/#/settings/editions"
-        target="_blank">Print & Mail Edition</a> to gain access.
-      tags:
-        - Checks
-      responses:
-        '200':
-          $ref: '#/components/responses/check_canceled'
-        default:
-          $ref: '#/components/responses/mailpiece_error'
-      x-codeSamples:
-        - lang: Shell
-          source: |
-            curl -X DELETE https://api.lob.com/v1/checks/chk_534f10783683daa0 \
-              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
-          label: CURL
-        - lang: Typescript
-          source: |
-            try {
-              const deleteCheck = await new ChecksApi(config).delete('chk_xxxx');
-            } catch (err: any) {
-              console.error(err);
-            }
-          label: TYPESCRIPT
-        - lang: Javascript
-          source: |
-            Lob.checks.delete('chk_534f10783683daa0', function (err, res) {
-              console.log(err, res);
-            });
-          label: NODE
-        - lang: Ruby
-          source: |
-            @lob.checks.destroy("chk_534f10783683daa0")
-          label: RUBY
-        - lang: Python
-          source: |
-            lob.Check.delete('chk_534f10783683daa0')
-          label: PYTHON
-        - lang: PHP
-          source: |
-            $lob->checks()->delete('chk_534f10783683daa0');
-        - lang: Java
-          source: |
-            ChecksApi apiInstance = new ChecksApi(config);
-
-            try {
-                CheckDeletion response = apiInstance.cancel("chk_534f10783683daa0");
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
-          label: JAVA
-        - lang: Elixir
-          source: |
-            Lob.Check.destroy("chk_534f10783683daa0")
-          label: ELIXIR
   /checks:
     get:
       operationId: checks_list
@@ -13303,6 +13981,430 @@ paths:
               }
             })
           label: ELIXIR
+  /checks/{chk_id}:
+    parameters:
+      - in: path
+        name: chk_id
+        description: id of the check
+        required: true
+        schema:
+          $ref: '#/components/schemas/chk_id'
+    get:
+      operationId: check_retrieve
+      summary: Retrieve
+      description: >-
+        Retrieves the details of an existing check. You need only supply the
+        unique check identifier that was returned upon check creation.
+      tags:
+        - Checks
+      responses:
+        '200':
+          description: Returns a check object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/check'
+              example:
+                id: chk_534f10783683daa0
+                description: Demo Check
+                metadata: {}
+                check_number: 10062
+                memo: rent
+                amount: 22.5
+                url: >-
+                  https://lob-assets.com/checks/chk_534f10783683daa0.pdf?expires=1540372221&signature=Ty3IV2bGPEoQfrdraYHlNYTaarnHLXb
+                to:
+                  id: adr_bae820679f3f536b
+                  description: Harry - Office
+                  name: HARRY ZHANG
+                  company: LOB
+                  email: harry@lob.com
+                  phone: '5555555555'
+                  address_line1: 210 KING ST STE 6100
+                  address_line2: ''
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: 2018-12-08T03:08:43.446Z
+                  date_modified: 2018-12-08T03:08:43.446Z
+                  object: address
+                  recipient_moved: false
+                from:
+                  id: adr_b8fb5acf3a2b55db
+                  name: LEORE AVIDAR
+                  address_line1: 210 KING ST STE 6100
+                  address_city: SAN FRANCISCO
+                  address_state: CA
+                  address_zip: 94107-1741
+                  address_country: UNITED STATES
+                  metadata: {}
+                  date_created: 2017-09-05T17:47:53.767Z
+                  date_modified: 2017-09-05T17:47:53.767Z
+                  object: address
+                bank_account:
+                  id: bank_8cad8df5354d33f
+                  description: Test Bank Account
+                  metadata: {}
+                  routing_number: '322271627'
+                  account_number: '123456789'
+                  signatory: John Doe
+                  bank_name: J.P. MORGAN CHASE BANK, N.A.
+                  verified: true
+                  account_type: company
+                  date_created: 2015-11-06T19:24:24.440Z
+                  date_modified: 2015-11-06T19:41:28.312Z
+                  object: bank_account
+                  signature_url: >-
+                    https://lob-assets.com/bank-accounts/asd_asdfghjkqwertyui.pdf?expires=1234567890&signature=aksdf
+                carrier: USPS
+                tracking_events: []
+                thumbnails:
+                  - small: >-
+                      https://lob-assets.com/checks/chk_534f10783683daa0_thumb_small_1.png?expires=1540372221&signature=ShhPpH74wYkNiAj7Il9B6q8ZKkzlGd4
+                    medium: >-
+                      https://lob-assets.com/checks/chk_534f10783683daa0_thumb_medium_1.png?expires=1540372221&signature=tmIOq6aAyKgzAECp7STj1rvJuMS5Svd
+                    large: >-
+                      https://lob-assets.com/checks/chk_534f10783683daa0_thumb_large_1.png?expires=1540372221&signature=04nLEwE9d2qgQJNgJYWSOgPnU0FZbEv
+                merge_variables:
+                  name: Harry
+                expected_delivery_date: 2017-09-12
+                mail_type: usps_first_class
+                date_created: 2017-09-05T17:47:53.896Z
+                date_modified: 2017-09-05T17:47:53.896Z
+                send_date: 2017-09-05T17:47:53.896Z
+                object: check
+                message: pancakes are good
+                check_bottom_template_id: tmpl_a
+                attachment_template_id: tmpl_a
+                check_bottom_template_version_id: vrsn_a
+                attachment_template_version_id: vrsn_a
+                deleted: true
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/checks/chk_534f10783683daa0 \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Typescript
+          source: |
+            try {
+              const check = await new ChecksApi(config).get('chk_xxxx');
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
+        - lang: Javascript
+          source: |
+            Lob.checks.retrieve('chk_534f10783683daa0', function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Ruby
+          source: |
+            @lob.checks.find("chk_534f10783683daa0")
+          label: RUBY
+        - lang: Python
+          source: |
+            lob.Check.retrieve('chk_534f10783683daa0')
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->checks()->get('chk_534f10783683daa0');
+        - lang: Java
+          source: |
+            ChecksApi apiInstance = new ChecksApi(config);
+
+            try {
+              Check response = apiInstance.get("chk_534f10783683daa0");
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
+          label: JAVA
+        - lang: Elixir
+          source: |
+            Lob.Check.find("chk_534f10783683daa0")
+          label: ELIXIR
+    delete:
+      operationId: check_cancel
+      summary: Cancel
+      description: >-
+        Completely removes a check from production. This can only be done if the
+        check has a `send_date` and the `send_date` has not yet passed. If the
+        check is successfully canceled, you will not be charged for it. Read
+        more on [cancellation windows](#section/Cancellation-Windows) and
+        [scheduling](#section/Scheduled-Mailings). Scheduling and cancellation
+        is a premium feature. Upgrade to the appropriate <a
+        href="https://dashboard.lob.com/#/settings/editions"
+        target="_blank">Print & Mail Edition</a> to gain access.
+      tags:
+        - Checks
+      responses:
+        '200':
+          $ref: '#/components/responses/check_canceled'
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X DELETE https://api.lob.com/v1/checks/chk_534f10783683daa0 \
+              -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          label: CURL
+        - lang: Typescript
+          source: |
+            try {
+              const deleteCheck = await new ChecksApi(config).delete('chk_xxxx');
+            } catch (err: any) {
+              console.error(err);
+            }
+          label: TYPESCRIPT
+        - lang: Javascript
+          source: |
+            Lob.checks.delete('chk_534f10783683daa0', function (err, res) {
+              console.log(err, res);
+            });
+          label: NODE
+        - lang: Ruby
+          source: |
+            @lob.checks.destroy("chk_534f10783683daa0")
+          label: RUBY
+        - lang: Python
+          source: |
+            lob.Check.delete('chk_534f10783683daa0')
+          label: PYTHON
+        - lang: PHP
+          source: |
+            $lob->checks()->delete('chk_534f10783683daa0');
+        - lang: Java
+          source: |
+            ChecksApi apiInstance = new ChecksApi(config);
+
+            try {
+                CheckDeletion response = apiInstance.cancel("chk_534f10783683daa0");
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+          label: JAVA
+        - lang: Elixir
+          source: |
+            Lob.Check.destroy("chk_534f10783683daa0")
+          label: ELIXIR
+  /creatives:
+    get:
+      operationId: creatives_list
+      summary: List
+      description: >-
+        Returns a list of your creatives. The creatives are returned sorted by
+        creation date, with the most recently created creatives appearing first.
+      tags:
+        - Creatives
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/before_after'
+      responses:
+        '200':
+          $ref: '#/components/responses/all_creatives'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/creatives \
+              -u <YOUR API KEY>:
+          label: CURL
+    post:
+      operationId: creative_create
+      summary: Create
+      description: Creates a new creative with the provided properties
+      tags:
+        - Creatives
+      parameters:
+        - $ref: '#/components/parameters/lang_spec'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/creative_writable'
+            example:
+              campaign_id: cmp_e05ee61ff80764b
+              resource_type: postcard
+              description: Our 4x6 postcard creative
+              details: {}
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/creative_writable'
+            encoding:
+              example-prop:
+                style: deepObject
+                explode: true
+            example:
+              campaign_id: cmp_e05ee61ff80764b
+              resource_type: postcard
+              description: Our 4x6 postcard creative
+              details: {}
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/creative_writable'
+            example:
+              campaign_id: cmp_e05ee61ff80764b
+              resource_type: postcard
+              description: Our 4x6 postcard creative
+              details: {}
+      responses:
+        '200':
+          description: Creative created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/creative'
+              example:
+                id: crv_2a3b096c409b32c
+                account_id: fa9ea650fc7b31a89f92
+                description: Our 4x6 postcard creative
+                from: adr_210a8d4b0b76d77b
+                resource_type: postcard
+                details: {}
+                metadata: {}
+                template_preview_urls: {}
+                template_previews: []
+                campaigns: []
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
+                object: creative
+        default:
+          $ref: '#/components/responses/creatives_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/creatives \
+              -u <YOUR API KEY>: \
+              -d "campaign_id=cmp_e05ee61ff80764b" \
+              -d "resource_type=postcard" \
+              -d "details={}"
+  /creatives/{crv_id}:
+    parameters:
+      - in: path
+        name: crv_id
+        description: id of the creative
+        required: true
+        schema:
+          $ref: '#/components/schemas/crv_id'
+    get:
+      operationId: creative_retrieve
+      summary: Retrieve
+      description: >-
+        Retrieves the details of an existing creative. You need only supply the
+        unique creative identifier that was returned upon creative creation.
+      tags:
+        - Creatives
+      responses:
+        '200':
+          description: Returns a creative object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/creative'
+              example:
+                id: crv_2a3b096c409b32c
+                account_id: fa9ea650fc7b31a89f92
+                description: Our 4x6 postcard creative
+                from: adr_210a8d4b0b76d77b
+                resource_type: postcard
+                details: {}
+                metadata: {}
+                template_preview_urls: {}
+                template_previews: []
+                campaigns: []
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
+                object: creative
+        default:
+          $ref: '#/components/responses/creatives_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
+              -u <YOUR API KEY>:
+          label: CURL
+    patch:
+      operationId: creative_update
+      summary: Update
+      description: >-
+        Update the details of an existing creative. You need only supply the
+        unique identifier that was returned upon creative creation.
+      tags:
+        - Creatives
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/creative_updatable'
+            example:
+              description: Test creative
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/creative_updatable'
+            example:
+              description: Test creative
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/creative_updatable'
+            example:
+              description: Test creative
+      responses:
+        '200':
+          description: Returns a creative object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/creative'
+              example:
+                id: crv_2a3b096c409b32c
+                account_id: fa9ea650fc7b31a89f92
+                description: Our 4x6 postcard creative
+                from: adr_210a8d4b0b76d77b
+                resource_type: postcard
+                details: {}
+                metadata: {}
+                template_preview_urls: {}
+                template_previews: []
+                campaigns: []
+                date_created: 2017-09-05T17:47:53.767Z
+                date_modified: 2017-09-05T17:47:53.767Z
+                object: creative
+        default:
+          $ref: '#/components/responses/creatives_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X PATCH https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
+              -u <YOUR API KEY>: \
+              -d "description=Our updated 4x6 postcard creative"
+          label: CURL
+    delete:
+      operationId: creative_delete
+      summary: Delete
+      description: >-
+        Delete an existing creative. You need only supply the unique identifier
+        that was returned upon creative creation.
+      tags:
+        - Creatives
+      responses:
+        '200':
+          $ref: '#/components/responses/creative_deleted'
+        default:
+          $ref: '#/components/responses/creatives_error'
+      x-codeSamples:
+        - lang: Shell
+          source: >
+            curl -X DELETE https://api.lob.com/v1/creatives/crv_2a3b096c409b32c
+            \
+              -u <YOUR API KEY>:
+          label: CURL
   /intl_autocompletions:
     post:
       operationId: intl_autocompletions
@@ -13383,70 +14485,43 @@ paths:
           label: CURL
         - lang: Typescript
           source: |
-            This feature is not currently supported by this library.
+            const IntlAutocompletions = new IntlAutocompletionsApi(av_config);
+            const autoCompletionData = new IntlAutocompletionsWritable({
+                address_prefix: "340 Wat",
+                city: "Summerside",
+                state: "Prince Edward Island",
+                zip_code: "C1N 1C4",
+                country: "CA",
+            });
+
+            try {
+                const autocompletedAddresses = await IntlAutocompletions.autocomplete(autocompletionData);
+            } catch (err: any) {
+                console.error(err);
+            }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.intlVerifications.verify({
-              address_prefix: '340 Wat',
-              city: 'Summerside',
-              state: 'Prince Edward Island',
-              zip_code: 'C1N 1C4',
-              country: 'CA'
-            }, function (err, res) {
-              console.log (err, res);
-            });
+            This feature is not currently supported by this library.
           label: NODE
         - lang: Ruby
           source: |
-            @lob.intl_verifications.verify(
-              address_prefix: "340 Wat",
-              city:         "Summerside",
-              state:        "Prince Edward Island",
-              zip_code:  "C1N 1C4",
-              country:      "CA"
-            )
+            This feature is not currently supported by this library.
           label: RUBY
         - lang: Python
           source: |
-            lob.IntlVerification.create(
-              address_prefix='340 Wat',
-              city='Summerside',
-              state='Prince Edward Island',
-              zip_code='C1N 1C4',
-              country='CA'
-            )
+            This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
           source: |
-            $lob->intlVerifications()->verify(array(
-              'address_prefix' => '340 Wat',
-              'city'         => 'Summerside',
-              'state'        => 'Prince Edward Island',
-              'zip_code'  => 'C1N 1C4',
-              'country'      => 'CA',
-            ));
+            This feature is not currently supported by this library.
         - lang: Java
-          source: >
-            LobResponse<IntlVerification> response = new
-            IntlVerification.RequestBuilder()
-                    .setAddressPrefix("340 Wat")
-                    .setCity("Summerside")
-                    .setState("Prince Edward Island")
-                    .setPostalCode("C1N 1C4")
-                    .setCountry("CA")
-                    .verify();
-            IntlVerification intlVerification = response.getResponseBody();
+          source: |
+            This feature is not currently supported by this library.
           label: JAVA
         - lang: Elixir
           source: |
-            Lob.IntlVerification.verify(%{
-              address_prefix: "340 Wat",
-              city: "Summerside",
-              state: "Prince Edward Island",
-              zip_code: "C1N 1C4",
-              country: "CA"
-            })
+            This feature is not currently supported by this library.
           label: ELIXIR
   /intl_verifications:
     post:
@@ -14561,7 +15636,9 @@ paths:
             Specifies the size of the postcard. Only `4x6` postcards can be sent
             to international destinations.
           schema:
-            $ref: '#/components/schemas/postcard_size'
+            type: array
+            items:
+              $ref: '#/components/schemas/postcard_size'
         - $ref: '#/components/parameters/scheduled'
         - $ref: '#/components/parameters/send_date'
         - $ref: '#/components/parameters/mail_type'
@@ -15174,7 +16251,9 @@ paths:
           name: size
           description: The self mailer sizes to be returned.
           schema:
-            $ref: '#/components/schemas/self_mailer_size'
+            type: array
+            items:
+              $ref: '#/components/schemas/self_mailer_size'
         - $ref: '#/components/parameters/scheduled'
         - $ref: '#/components/parameters/send_date'
         - $ref: '#/components/parameters/mail_type'
@@ -16342,6 +17421,225 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+  /uploads:
+    get:
+      operationId: uploads_list
+      summary: List
+      description: Returns a list of your uploads. Optionally, filter uploads by campaign.
+      tags:
+        - Uploads
+      parameters:
+        - required: false
+          schema:
+            $ref: '#/components/schemas/cmp_id'
+          name: campaignId
+          in: query
+      responses:
+        '200':
+          $ref: '#/components/responses/all_uploads'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/uploads \
+              -u <YOUR API KEY>:
+          label: CURL
+    post:
+      operationId: upload_create
+      summary: Create
+      description: Creates a new upload with the provided properties
+      tags:
+        - Uploads
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/upload_writable'
+      responses:
+        '201':
+          description: Upload created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upload'
+              example:
+                id: upl_71be866e430b11e9
+                accountId: fa9ea650fc7b31a89f92
+                campaignId: cmp_1933ad629bae1408
+                columnMapping: {}
+                mode: live
+                failuresUrl: http://www.example.com
+                originalFilename: my_audience.csv
+                state: Draft
+                totalMailpieces: 100
+                failedMailpieces: 5
+                validatedMailpieces: 95
+                bytesProcessed: 17628
+                dateCreated: 2017-09-05T17:47:53.767Z
+                dateModified: 2017-09-05T17:47:53.767Z
+        '422':
+          $ref: '#/components/responses/upload_validation_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/uploads \
+              -u <YOUR API KEY>: \
+              -d "campaignId=cmp_1933ad629bae1408" \
+              -d 'columnMapping={"firstName": "first name"}'
+          label: CURL
+  /uploads/{upl_id}:
+    parameters:
+      - in: path
+        name: upl_id
+        description: id of the upload
+        required: true
+        schema:
+          $ref: '#/components/schemas/upl_id'
+    get:
+      operationId: upload_retrieve
+      summary: Retrieve
+      description: >-
+        Retrieves the details of an existing upload. You need only supply the
+        unique upload identifier that was returned upon upload creation.
+      tags:
+        - Uploads
+      responses:
+        '200':
+          description: Returns an upload object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upload'
+              example:
+                id: upl_71be866e430b11e9
+                accountId: fa9ea650fc7b31a89f92
+                campaignId: cmp_1933ad629bae1408
+                columnMapping: {}
+                mode: live
+                failuresUrl: http://www.example.com
+                originalFilename: my_audience.csv
+                state: Draft
+                totalMailpieces: 100
+                failedMailpieces: 5
+                validatedMailpieces: 95
+                bytesProcessed: 17628
+                dateCreated: 2017-09-05T17:47:53.767Z
+                dateModified: 2017-09-05T17:47:53.767Z
+        '404':
+          $ref: '#/components/responses/upload_not_found'
+        '422':
+          $ref: '#/components/responses/upload_validation_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
+              -u <YOUR API KEY>: \
+          label: CURL
+    patch:
+      operationId: upload_update
+      summary: Update
+      description: >-
+        Update the details of an existing upload. You need only supply the
+        unique identifier that was returned upon upload creation.
+      tags:
+        - Uploads
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/upload_updatable'
+      responses:
+        '200':
+          description: Returns an upload object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upload'
+              example:
+                id: upl_71be866e430b11e9
+                accountId: fa9ea650fc7b31a89f92
+                campaignId: cmp_1933ad629bae1408
+                columnMapping: {}
+                mode: live
+                failuresUrl: http://www.example.com
+                originalFilename: my_audience.csv
+                state: Draft
+                totalMailpieces: 100
+                failedMailpieces: 5
+                validatedMailpieces: 95
+                bytesProcessed: 17628
+                dateCreated: 2017-09-05T17:47:53.767Z
+                dateModified: 2017-09-05T17:47:53.767Z
+        '404':
+          $ref: '#/components/responses/upload_not_found'
+        '422':
+          $ref: '#/components/responses/upload_validation_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X PATCH https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
+              -u <YOUR API KEY>: \
+              -d "state=Ready for Validation"
+          label: CURL
+    delete:
+      operationId: upload_delete
+      summary: Delete
+      description: >-
+        Delete an existing upload. You need only supply the unique identifier
+        that was returned upon upload creation.
+      tags:
+        - Uploads
+      responses:
+        '204':
+          description: Successful Response
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X DELETE https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
+              -u <YOUR API KEY>:
+          label: CURL
+  /uploads/{upl_id}/file:
+    parameters:
+      - in: path
+        name: upl_id
+        description: ID of the upload
+        required: true
+        schema:
+          $ref: '#/components/schemas/upl_id'
+    post:
+      operationId: upload_file
+      summary: Upload file
+      description: Upload an audience file and associate it with an upload.
+      tags:
+        - Uploads
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upload_file'
+        '422':
+          $ref: '#/components/responses/upload_validation_error'
+      x-codeSamples:
+        - lang: Shell
+          source: >
+            curl -X POST
+            https://api.lob.com/v1/uploads/upl_71be866e430b11e9/file \
+              -u <YOUR API KEY>: \
+              -F file=@<YOUR FILE NAME HERE>
+          label: CURL
   /us_autocompletions:
     post:
       operationId: autocompletion
@@ -16586,10 +17884,10 @@ paths:
             const ReverseGeocodeLookup = new
             ReverseGeocodeLookupsApi(av_config);
 
-            const coordinates: Location = {
-              Latitude: 37.777456,
+            const coordinates = new Location({
+              latitude: 37.777456,
               longitude: -122.393039
-            };
+            });
 
             try {
               const geocode = await ReverseGeocodeLookup.lookup(coordinates);

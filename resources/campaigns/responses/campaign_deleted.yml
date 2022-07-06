@@ -1,0 +1,18 @@
+description: Deleted the campaign.
+
+content:
+  application/json:
+    schema:
+      description: >-
+        Lob uses RESTful HTTP response codes to indicate success or failure of an
+        API request. In general, 2xx indicates success, 4xx indicate an input error,
+        and 5xx indicates an error on Lob's end.
+      properties:
+        id:
+          $ref: "../attributes/cmp_id.yml"
+        deleted:
+          type: boolean
+          description: True if the resource has been successfully deleted.
+    example:
+      id: cmp_e05ee61ff80764b
+      deleted: true

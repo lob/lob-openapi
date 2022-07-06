@@ -20,7 +20,9 @@ get:
       name: size
       description: The self mailer sizes to be returned.
       schema:
-        $ref: "attributes/self_mailer_size.yml"
+        type: array
+        items:
+          $ref: "attributes/self_mailer_size.yml"
 
     - $ref: "../../shared/parameters/scheduled.yml"
     - $ref: "../../shared/parameters/send_date.yml"

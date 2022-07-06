@@ -1,6 +1,7 @@
 allOf:
   - $ref: "../../../shared/models/form_factor/input_to.yml"
   - $ref: "../../../shared/models/form_factor/input_from.yml"
+  - $ref: "../../../shared/models/form_factor/editable.yml"
 
   - type: object
 
@@ -8,6 +9,7 @@ allOf:
       - to
       - from
       - file
+      - color
 
     properties:
       file:
@@ -78,6 +80,7 @@ allOf:
         description: >-
           Set this key to `true` if you would like to print in color.
           Set to `false` if you would like to print in black and white.
+        default: false
 
       double_sided:
         type: boolean

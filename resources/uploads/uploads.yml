@@ -1,0 +1,62 @@
+get:
+  operationId: uploads_list
+
+  summary: List
+
+  description: >-
+    Returns a list of your uploads. Optionally, filter uploads by campaign.
+
+  tags:
+    - Uploads
+
+  parameters:
+    - required: false
+      schema:
+        $ref: "../campaigns/attributes/cmp_id.yml"
+      name: campaignId
+      in: query
+
+  responses:
+    "200":
+      $ref: responses/all_uploads.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/uploads \
+          -u <YOUR API KEY>:
+      label: CURL
+
+post:
+  operationId: upload_create
+
+  summary: Create
+
+  description: >-
+    Creates a new upload with the provided properties
+
+  tags:
+    - Uploads
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: models/upload_writable.yml
+  responses:
+    "201":
+      description: Upload created successfully
+      content:
+        $ref: responses/upload.yml
+    "422":
+      $ref: responses/upload_validation_error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/uploads \
+          -u <YOUR API KEY>: \
+          -d "campaignId=cmp_1933ad629bae1408" \
+          -d 'columnMapping={"firstName": "first name"}'
+      label: CURL

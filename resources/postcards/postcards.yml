@@ -20,7 +20,9 @@ get:
       name: size
       description: Specifies the size of the postcard. Only `4x6` postcards can be sent to international destinations.
       schema:
-        $ref: "attributes/postcard_size.yml"
+        type: array
+        items:
+          $ref: "attributes/postcard_size.yml"
 
     - $ref: "../../shared/parameters/scheduled.yml"
     - $ref: "../../shared/parameters/send_date.yml"

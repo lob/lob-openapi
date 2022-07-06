@@ -16492,15 +16492,25 @@ paths:
             ));
         - lang: Java
           source: >
-            LobResponse<USAutocompletion> response = new
-            USAutocompletion.RequestBuilder()
-                .setAddressPrefix("185 B")
-                .setCity("San Francisco")
-                .setState("CA")
-                .setZipCode("94107")
-                .autocomplete();
+            UsAutocompletionsApi apiInstance = new UsAutocompletionsApi(config);
 
-            USAutocompletion usAutocompletion = response.getResponseBody();
+            UsAutocompletionsWritable autoCompletionWritable = new
+            UsAutocompletionsWritable(); 
+
+            autoCompletionWritable.setAddressPrefix("185 B");
+
+            autoCompletionWritable.setCity("San Francisco");
+
+            autoCompletionWritable.setState("CA");
+
+            autoCompletionWritable.setZipCode("94017");
+
+
+            try {
+              UsAutocompletions usAutocompletion = apiInstance.autocomplete(autoCompletionWritable);
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -16916,7 +16926,7 @@ paths:
             ZipLookupsApi apiInstance = new ZipLookupsApi(config);
             try {
               Zip response = apiInstance.lookup(zipEditable);
-              } catch (ApiException e) {
+            } catch (ApiException e) {
               e.printStackTrace();
             }
           label: JAVA

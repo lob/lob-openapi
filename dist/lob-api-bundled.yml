@@ -15542,7 +15542,13 @@ paths:
             This feature is not currently supported by this library.
         - lang: Java
           source: |
-            This feature is not currently supported by this library.
+            TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
+
+            try {
+              TemplateVersion response = apiInstance.get("vrsn_534e339882d2282");
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -15733,7 +15739,20 @@ paths:
             This feature is not currently supported by this library.
         - lang: Java
           source: |
-            This feature is not currently supported by this library.
+            TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
+
+            try {
+              List response = apiInstance.list(
+                "tmpl_dadaaf7b76c9f25", // tmplId
+                2, // limit
+                null, // before
+                null, // after
+                null, // include
+                null // dateCreated
+              );
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -15817,7 +15836,17 @@ paths:
             This feature is not currently supported by this library.
         - lang: Java
           source: |
-            This feature is not currently supported by this library.
+            TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
+
+            try {
+              TemplateVersionWritable  = new TemplateVersionWritable(); 
+              .set("Second Version");
+              .set("<html>Second HTML for {{name}}</html>");
+
+              TemplateVersion result = apiInstance.create();
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -15904,7 +15933,13 @@ paths:
             This feature is not currently supported by this library.
         - lang: Java
           source: |
-            This feature is not currently supported by this library.
+            TemplatesApi apiInstance = new TemplatesApi(config);
+
+            try {
+              Template response = apiInstance.get("tmpl_c94e83ca2cd5121");
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -16020,7 +16055,17 @@ paths:
             This feature is not currently supported by this library.
         - lang: Java
           source: |
-            This feature is not currently supported by this library.
+            TemplatesApi apiInstance = new TemplatesApi(config); 
+            TemplateUpdate update = new TemplateUpdate();
+
+            update.setDescription("update template");
+            update.setPublishedVersion("vrsn_362184d96d9b0c9";
+
+            try {
+              apiInstance.update("tmpl_c94e83ca2cd5121", update);
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -16072,7 +16117,13 @@ paths:
             This feature is not currently supported by this library.
         - lang: Java
           source: |
-            This feature is not currently supported by this library.
+            TemplatesApi apiInstance = new TemplatesApi(config);
+
+            try {
+                TemplateDeletion response = apiInstance.delete("tmpl_df934eeda694203");
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -16129,7 +16180,21 @@ paths:
             This feature is not currently supported by this library.
         - lang: Java
           source: |
-            This feature is not currently supported by this library.
+            TemplatesApi apiInstance = new TemplatesApi(config);
+
+            try {
+              List response = apiInstance.list(
+                2, // limit
+                null, // before
+                null, // after
+                null, // include
+                null, // dateCreated
+                null, // metadata
+                null // size
+              );
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |
@@ -16256,7 +16321,17 @@ paths:
             This feature is not currently supported by this library.
         - lang: Java
           source: |
-            This feature is not currently supported by this library.
+            TemplatesApi apiInstance = new TemplatesApi(config);
+
+            try {
+              TemplateWritable  = new TemplateWritable(); 
+              .set("Test Template");
+              .set("<html>HTML for {{name}}</html>");
+
+              Template result = apiInstance.create();
+            } catch (ApiException e) {
+              e.printStackTrace();
+            }
           label: JAVA
         - lang: Elixir
           source: |

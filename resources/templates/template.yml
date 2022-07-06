@@ -58,7 +58,13 @@ get:
         This feature is not currently supported by this library.
     - lang: Java
       source: |
-        This feature is not currently supported by this library.
+        TemplatesApi apiInstance = new TemplatesApi(config);
+
+        try {
+          Template response = apiInstance.get("tmpl_c94e83ca2cd5121");
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -158,7 +164,17 @@ post:
         This feature is not currently supported by this library.
     - lang: Java
       source: |
-        This feature is not currently supported by this library.
+        TemplatesApi apiInstance = new TemplatesApi(config); 
+        TemplateUpdate update = new TemplateUpdate();
+      
+        update.setDescription("update template");
+        update.setPublishedVersion("vrsn_362184d96d9b0c9";
+      
+        try {
+          apiInstance.update("tmpl_c94e83ca2cd5121", update);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -216,7 +232,13 @@ delete:
         This feature is not currently supported by this library.
     - lang: Java
       source: |
-        This feature is not currently supported by this library.
+        TemplatesApi apiInstance = new TemplatesApi(config);
+
+        try {
+            TemplateDeletion response = apiInstance.delete("tmpl_df934eeda694203");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

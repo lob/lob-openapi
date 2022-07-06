@@ -62,7 +62,20 @@ get:
         This feature is not currently supported by this library.
     - lang: Java
       source: |
-        This feature is not currently supported by this library.
+        TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
+
+        try {
+          List response = apiInstance.list(
+            "tmpl_dadaaf7b76c9f25", // tmplId
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null // dateCreated
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -157,7 +170,17 @@ post:
         This feature is not currently supported by this library.
     - lang: Java
       source: |
-        This feature is not currently supported by this library.
+        TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
+
+        try {
+          TemplateVersionWritable  = new TemplateVersionWritable(); 
+          .set("Second Version");
+          .set("<html>Second HTML for {{name}}</html>");
+        
+          TemplateVersion result = apiInstance.create();
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

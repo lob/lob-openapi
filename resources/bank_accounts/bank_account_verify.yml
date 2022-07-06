@@ -94,8 +94,17 @@ post:
         ));
     - lang: Java
       source: |
-        LobResponse<BankAccount> response = BankAccount.verify(newBankAccount.getId(), Arrays.asList(25, 63));
-        BankAccount bankAccount = response.getResponseBody();
+        BankAccountVerify verification = new BankAccountVerify(); 
+        verification.addAmountsItem(25); 
+        verification.addAmountsItem(63); 
+        
+        BankAccountsApi apiInstance = new BankAccountsApi(config);
+        
+        try {
+          apiInstance.verify("bank_dfceb4a2a05b57e", verification);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

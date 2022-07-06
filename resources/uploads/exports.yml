@@ -1,0 +1,49 @@
+parameters:
+  - in: path
+    name: upl_id
+    description: ID of the upload
+    required: true
+    schema:
+      $ref: "attributes/upl_id.yml"
+
+post:
+  operationId: upload_export_create
+
+  summary: Create Export
+
+  description: >-
+    Create an export file associated with an upload. The export ID is returned in the response, which can be used to retrieve the export URL in a separate request. The `type` of export can be `failures`, `successes` or `all`.
+
+  tags:
+    - Uploads
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - all
+                - failures
+                - successes
+
+  responses:
+    "200":
+      description: Successful Response
+      content:
+        application/json:
+          schema:
+            $ref: "responses/upload_create_export.yml"
+    "400":
+      $ref: "responses/upload_export_error.yml"
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9/exports \
+          -u <YOUR API KEY>: \
+          -d "type=failures" \
+      label: CURL

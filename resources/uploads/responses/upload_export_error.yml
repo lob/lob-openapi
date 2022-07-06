@@ -1,0 +1,29 @@
+description: Create Export Error
+
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - code
+        - message
+        - errors
+      properties:
+        code:
+          description: A conventional HTTP status code
+          type: number
+          enum:
+            - 400
+            - 404
+        message:
+          description: A human-readable message with more details about the error
+          type: string
+        errors:
+          description: An array of pre-defined strings that identify an error
+          type: array
+          items:
+            type: string
+      example:
+        code: 400
+        message: Invalid body, check 'errors' property for more info.
+        errors: [ "type must be a string" ]

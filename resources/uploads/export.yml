@@ -1,0 +1,39 @@
+parameters:
+  - in: path
+    name: upl_id
+    description: ID of the upload
+    required: true
+    schema:
+      $ref: "attributes/upl_id.yml"
+  - in: path
+    name: ex_id
+    description: ID of the export
+    required: true
+    schema:
+      $ref: "attributes/ex_id.yml"
+
+get:
+  operationId: export_retrieve
+
+  summary: Retrieve Export
+
+  description: >-
+    Retrieves the details of an existing export. You need only supply
+    the unique export identifier that was returned upon export creation.
+
+  tags:
+    - Uploads
+
+  responses:
+    "200":
+      description: Returns an export object
+      content:
+        application/json:
+          $ref: "responses/upload_export.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9/exports/ex_6a94fe68fd151e0f8 \
+          -u <YOUR API KEY>:
+      label: CURL

@@ -60,8 +60,13 @@ get:
         $lob->postcards()->get('psc_5c002b86ce47537a');
     - lang: Java
       source: |
-        LobResponse<Postcard> response = Postcard.retrieve("psc_5c002b86ce47537a");
-        Postcard postcard = response.getResponseBody();
+        PostcardsApi apiInstance = new PostcardsApi(config);
+
+        try {
+          Postcard response = apiInstance.get("psc_5c002b86ce47537a");
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -126,7 +131,13 @@ delete:
         $lob->postcards()->delete('psc_5c002b86ce47537a');
     - lang: Java
       source: |
-        LobResponse<Postcard> deleteResponse = Postcard.delete("psc_5c002b86ce47537a");
+        PostcardsApi apiInstance = new PostcardsApi(config);
+
+        try {
+            PostcardDeletion response = apiInstance.cancel("psc_5c002b86ce47537a");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

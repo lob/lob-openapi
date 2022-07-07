@@ -55,7 +55,21 @@ get:
         This feature is not currently supported by this library.
     - lang: Java
       source: |
-        This feature is not currently supported by this library.
+        TemplatesApi apiInstance = new TemplatesApi(config);
+
+        try {
+          List response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+            null, // metadata
+            null // size
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -166,7 +180,17 @@ post:
         This feature is not currently supported by this library.
     - lang: Java
       source: |
-        This feature is not currently supported by this library.
+        TemplatesApi apiInstance = new TemplatesApi(config);
+
+        try {
+          TemplateWritable  = new TemplateWritable(); 
+          .set("Test Template");
+          .set("<html>HTML for {{name}}</html>");
+        
+          Template result = apiInstance.create();
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

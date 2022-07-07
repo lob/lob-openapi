@@ -60,8 +60,13 @@ get:
         $lob->bankAccounts()->get('bank_8cad8df5354d33f');
     - lang: Java
       source: |
-        LobResponse<BankAccount> response = BankAccount.retrieve("bank_8cad8df5354d33f");
-        BankAccount bankAccount = response.getResponseBody();
+        BankAccountsApi apiInstance = new BankAccountsApi(config);
+
+        try {
+          BankAccount response = apiInstance.get("bank_8cad8df5354d33f");
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -118,8 +123,13 @@ delete:
         $lob->bankAccounts()->delete('bank_3e64d9904356b20');
     - lang: Java
       source: |
-        LobResponse<BankAccount> response = BankAccount.delete("bank_3e64d9904356b20");
-        BankAccount bankAccount = response.getResponseBody();
+        BankAccountsApi apiInstance = new BankAccountsApi(config);
+
+        try {
+            BankAccountDeletion response = apiInstance.delete("bank_3e64d9904356b20");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

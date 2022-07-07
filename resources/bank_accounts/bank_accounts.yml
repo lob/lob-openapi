@@ -59,11 +59,20 @@ get:
         ));
     - lang: Java
       source: |
-        Map<String, Object> params = new HashMap<>();
-        params.put("limit", 2);
+        BankAccountsApi apiInstance = new BankAccountsApi(config);
 
-        LobResponse<BankAccountCollection> response = BankAccount.list(params);
-        BankAccountCollection bankAccounts = response.getResponseBody();
+        try {
+          BankAccountList response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+            null // metadata
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -204,15 +213,20 @@ post:
         ));
     - lang: Java
       source: |
-        LobResponse<BankAccount> response = new BankAccount.RequestBuilder()
-                .setDescription("Test Bank Account")
-                .setRoutingNumber("322271627")
-                .setAccountNumber("123456789")
-                .setSignatory("John Doe")
-                .setAccountType("company")
-                .create();
+        BankAccountsApi apiInstance = new BankAccountsApi(config);
 
-        BankAccount bankAccount = response.getResponseBody();
+        try {
+          BankAccountWritable bankAccountWritable = new BankAccountWritable(); 
+          bankAccountWritable.setDescription("Test Bank Account");
+          bankAccountWritable.setRoutingNumber("322271627");
+          bankAccountWritable.setAccountNumber("123456789");
+          bankAccountWritable.setSignatory("John Doe");
+          bankAccountWritable.setAccountType(BankTypeEnum.COMPANY);
+        
+          BankAccount result = apiInstance.create(bankAccountWritable);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

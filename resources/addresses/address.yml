@@ -58,8 +58,13 @@ get:
         $lob->addresses()->get('adr_fa85158b26c3eb7c');
     - lang: Java
       source: |
-        LobResponse<Address> response = Address.retrieve("adr_fa85158b26c3eb7c");
-        Address address = response.getResponseBody();
+        AddressesApi apiInstance = new AddressesApi(config);
+
+        try {
+          Address response = apiInstance.get("adr_fa85158b26c3eb7c");
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -118,8 +123,13 @@ delete:
         $lob->addresses()->delete('adr_43769b47aed248c2');
     - lang: Java
       source: |
-        LobResponse<Address> response = Address.delete("adr_43769b47aed248c2");
-        Address address = response.getResponseBody();
+        AddressesApi apiInstance = new AddressesApi(config);
+
+        try {
+            AddressDeletion response = apiInstance.delete("adr_43769b47aed248c2");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

@@ -71,11 +71,25 @@ get:
         ));
     - lang: Java
       source: |
-        Map<String, Object> params = new HashMap<>();
-        params.put('limit', 2);
+        SelfMailersApi apiInstance = new SelfMailersApi(config);
 
-        LobResponse<SelfMailerCollection> response = SelfMailer.list(params);
-        SelfMailerCollection selfMailers = response.getResponseBody();
+        try {
+          SelfMailerList response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+            null, // metadata
+            null, // size
+            null, // scheduled
+            null, // sendDate
+            null, // mailType
+            null // sortBy
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |
@@ -280,26 +294,32 @@ post:
         ));
     - lang: Java
       source: |
-        Map<String, String> mergeVariables = new HashMap<>();
-        mergeVariables.put("name", "Harry");
-
-        LobResponse<SelfMailer> response = new SelfMailer.RequestBuilder()
-                .setDescription("Demo Self Mailer job")
-                .setTo(
-                        new Address.RequestBuilder()
-                                .setName("Harry Zhang")
-                                .setLine1("210 King St")
-                                .setCity("San Francisco")
-                                .setState("CA")
-                                .setZip("94107")
-                )
-                .setFrom("adr_210a8d4b0b76d77b")
-                .setInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>")
-                .setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
-                .setMergeVariables(mergeVariables)
-                .create();
-
-        SelfMailer selfMailer = response.getResponseBody();
+        Map<String, String> merge_variables = new HashMap<String, String>();
+        merge_variables.put("name", "Harry");
+        
+        SelfMailersApi apiInstance = new SelfMailersApi(config);
+        
+        AddressEditable to = new AddressEditable();
+        to.setName("Harry Zhang");
+        to.setAddressLine1("210 King St");
+        to.setAddressLine2("# 6100");
+        to.setAddressCity("San Francisco");
+        to.setAddressState("CA");
+        to.setAddressZip("94107");
+        
+        try {
+          SelfMailerEditable selfMailerEditable = new SelfMailerEditable(); 
+          selfMailerEditable.setDescription("Demo Self Mailer job");
+          selfMailerEditable.setFrom("adr_210a8d4b0b76d77b");
+          selfMailerEditable.setInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>");
+          selfMailerEditable.setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>");
+          selfMailerEditable.setTo(to);
+          selfMailerEditable.setMergeVariables(merge_variables);
+        
+          SelfMailer result = apiInstance.create(selfMailerEditable, null);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
       label: JAVA
     - lang: Elixir
       source: |

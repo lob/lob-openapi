@@ -13625,6 +13625,285 @@
                     "protocolProfileBehavior": {
                         "disableBodyPruning": true
                     }
+                },
+                {
+                    "id": "31e9c751-0064-4ed8-84d5-87049d47ed09",
+                    "name": "Create Export",
+                    "request": {
+                        "name": "Create Export",
+                        "description": {
+                            "content": "Create an export file associated with an upload. The export ID is returned in the response, which can be used to retrieve the export URL in a separate request. The `type` of export can be `failures`, `successes` or `all`.",
+                            "type": "text/plain"
+                        },
+                        "url": {
+                            "path": [
+                                "uploads",
+                                ":upl_id",
+                                "exports"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": [
+                                {
+                                    "disabled": false,
+                                    "type": "any",
+                                    "value": "<string>",
+                                    "key": "upl_id",
+                                    "description": "(Required) ID of the upload"
+                                }
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "method": "POST",
+                        "auth": null,
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"type\": \"<string>\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": [
+                        {
+                            "id": "b73ec4dc-4126-4e5d-864e-201434f95435",
+                            "name": "Successful Response",
+                            "originalRequest": {
+                                "url": {
+                                    "path": [
+                                        "uploads",
+                                        ":upl_id",
+                                        "exports"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "type": "any",
+                                            "value": "<string>",
+                                            "key": "upl_id",
+                                            "description": "(Required) ID of the upload"
+                                        }
+                                    ]
+                                },
+                                "header": [
+                                    {
+                                        "description": {
+                                            "content": "Added as a part of security scheme: basic",
+                                            "type": "text/plain"
+                                        },
+                                        "key": "Authorization",
+                                        "value": "Basic <credentials>"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"type\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"message\": \"Export is processing\",\n  \"exportId\": \"ex_2dafd758ed3da9c43\"\n}",
+                            "cookie": [],
+                            "_postman_previewlanguage": "json"
+                        },
+                        {
+                            "id": "9a5f76d0-c2b7-4d6d-8fb2-7a04443e17e8",
+                            "name": "Create Export Error",
+                            "originalRequest": {
+                                "url": {
+                                    "path": [
+                                        "uploads",
+                                        ":upl_id",
+                                        "exports"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "type": "any",
+                                            "value": "<string>",
+                                            "key": "upl_id",
+                                            "description": "(Required) ID of the upload"
+                                        }
+                                    ]
+                                },
+                                "header": [
+                                    {
+                                        "description": {
+                                            "content": "Added as a part of security scheme: basic",
+                                            "type": "text/plain"
+                                        },
+                                        "key": "Authorization",
+                                        "value": "Basic <credentials>"
+                                    }
+                                ],
+                                "method": "POST",
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"type\": \"<string>\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"code\": 400,\n  \"message\": \"Invalid body, check 'errors' property for more info.\",\n  \"errors\": [\n    \"type must be a string\"\n  ]\n}",
+                            "cookie": [],
+                            "_postman_previewlanguage": "json"
+                        }
+                    ],
+                    "event": [],
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    }
+                },
+                {
+                    "id": "f16c25ba-34f7-44f5-9972-a2d9c11abbd9",
+                    "name": "Retrieve Export",
+                    "request": {
+                        "name": "Retrieve Export",
+                        "description": {
+                            "content": "Retrieves the details of an existing export. You need only supply the unique export identifier that was returned upon export creation.",
+                            "type": "text/plain"
+                        },
+                        "url": {
+                            "path": [
+                                "uploads",
+                                ":upl_id",
+                                "exports",
+                                ":ex_id"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": [
+                                {
+                                    "disabled": false,
+                                    "type": "any",
+                                    "value": "<string>",
+                                    "key": "upl_id",
+                                    "description": "(Required) ID of the upload"
+                                },
+                                {
+                                    "disabled": false,
+                                    "type": "any",
+                                    "value": "<string>",
+                                    "key": "ex_id",
+                                    "description": "(Required) ID of the export"
+                                }
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "method": "GET",
+                        "auth": null
+                    },
+                    "response": [
+                        {
+                            "id": "fa358025-2288-4ee5-9f0e-201a55c1d25d",
+                            "name": "Returns an export object",
+                            "originalRequest": {
+                                "url": {
+                                    "path": [
+                                        "uploads",
+                                        ":upl_id",
+                                        "exports",
+                                        ":ex_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "disabled": false,
+                                            "type": "any",
+                                            "value": "<string>",
+                                            "key": "upl_id",
+                                            "description": "(Required) ID of the upload"
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "type": "any",
+                                            "value": "<string>",
+                                            "key": "ex_id",
+                                            "description": "(Required) ID of the export"
+                                        }
+                                    ]
+                                },
+                                "header": [
+                                    {
+                                        "description": {
+                                            "content": "Added as a part of security scheme: basic",
+                                            "type": "text/plain"
+                                        },
+                                        "key": "Authorization",
+                                        "value": "Basic <credentials>"
+                                    }
+                                ],
+                                "method": "GET",
+                                "body": {}
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n  \"id\": \"ex_6a94fe68fd151e0f8\",\n  \"dateCreated\": \"2021-07-06T22:51:42.838Z\",\n  \"dateModified\": \"2022-07-06T22:51:42.838Z\",\n  \"deleted\": false,\n  \"s3Url\": null,\n  \"state\": \"in_progress\",\n  \"type\": \"failures\",\n  \"uploadId\": \"upl_71be866e430b11e9\"\n}",
+                            "cookie": [],
+                            "_postman_previewlanguage": "json"
+                        }
+                    ],
+                    "event": []
                 }
             ],
             "event": []

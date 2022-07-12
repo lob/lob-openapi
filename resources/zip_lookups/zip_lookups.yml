@@ -78,9 +78,17 @@ post:
       label: Python
     - lang: PHP
       source: |
-        $lob->usZipLookups()->lookup(array(
-          'zip_code' => '94107'
+        $apiInstance = new OpenAPI\Client\Api\ZipLookupsApi($config, new GuzzleHttp\Client());
+
+        $zipRequest = new OpenAPI\Client\Model\ZipEditable(array(
+            "zip_code"  =>  '94107'
         ));
+        
+        try {
+            $result = $apiInstance->lookup($zipRequest);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
       label: PHP
     - lang: Java
       source: |

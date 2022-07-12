@@ -64,9 +64,15 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->letters()->all(array(
-          'limit' => 2
-        ));
+        $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              2, // limit 
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         LettersApi apiInstance = new LettersApi(config);
@@ -363,20 +369,41 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->letters()->create(array(
-          'description'           => 'Demo Letter',
-          'to[name]'              => 'Harry Zhang',
-          'to[address_line1]'     => '210 King St',
-          'to[address_line2]'     => '# 6100',
-          'to[address_city]'      => 'San Francisco',
-          'to[address_zip]'       => '94107',
-          'to[address_state]'     => 'CA',
-          'from'                  => 'adr_210a8d4b0b76d77b',
-          'file'                  => '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
-          'merge_variables[name]' => 'Harry',
-          'color'                 => true,
-          'cards'                 => ['card_c51ae96f5cebf3e']
-        ));
+        $to = new OpenAPI\Client\Model\AddressEditable(
+          array(
+            "name"     => "Harry Zhang",
+            "address_line1"     => "210 King St",
+            "address_line2"     => "# 6100",
+            "address_city"     => "San Francisco",
+            "address_state"     => "CA",
+            "address_zip"     => "94107",
+          )
+        );
+        
+        $merge_variables = new stdClass;
+        $merge_variables->name = "Harry";
+        
+        $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new GuzzleHttp\Client());
+        $letter_editable = new OpenAPI\Client\Model\LetterEditable(
+          array(
+            "description"     => "Demo Letter",
+            "from"     => "adr_210a8d4b0b76d77b",
+            "file"     => "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+            "color"     => "true",
+            "to"     => $to,
+            "merge_variables"     => $merge_variables,
+            "cards"     => array(
+              "card_c51ae96f5cebf3e",
+              "card_thingy",
+            ),
+          )
+        );
+        
+        try {
+            $result = $apiInstance->create($letter_editable);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         Map<String, String> merge_variables = new HashMap<String, String>();

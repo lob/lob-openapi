@@ -58,7 +58,13 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->selfMailers()->get('sfm_8ffbe811dea49dcf');
+        $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("sfm_8ffbe811dea49dcf");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         SelfMailersApi apiInstance = new SelfMailersApi(config);
@@ -125,7 +131,13 @@ delete:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->selfMailers()->delete('sfm_8ffbe811dea49dcf');
+        $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->delete("sfm_8ffbe811dea49dcf");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         SelfMailersApi apiInstance = new SelfMailersApi(config);

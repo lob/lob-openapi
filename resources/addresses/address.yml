@@ -55,7 +55,13 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->addresses()->get('adr_fa85158b26c3eb7c');
+        $apiInstance = new OpenAPI\Client\Api\AddressesApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("adr_fa85158b26c3eb7c");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         AddressesApi apiInstance = new AddressesApi(config);
@@ -120,7 +126,13 @@ delete:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->addresses()->delete('adr_43769b47aed248c2');
+        $apiInstance = new OpenAPI\Client\Api\AddressesApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->delete("adr_43769b47aed248c2");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         AddressesApi apiInstance = new AddressesApi(config);

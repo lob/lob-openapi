@@ -57,7 +57,13 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bankAccounts()->get('bank_8cad8df5354d33f');
+        $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("bank_8cad8df5354d33f");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         BankAccountsApi apiInstance = new BankAccountsApi(config);
@@ -120,7 +126,13 @@ delete:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bankAccounts()->delete('bank_3e64d9904356b20');
+        $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->delete("bank_3e64d9904356b20");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         BankAccountsApi apiInstance = new BankAccountsApi(config);

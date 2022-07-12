@@ -1830,6 +1830,9 @@ tags:
       - <a href="https://github.com/lob/lob-java/tree/12.3.7-Legacy"
       target="_blank">Java (legacy)</a>
 
+      - <a href="https://github.com/lob/lob-php/tree/v3-legacy"
+      target="_blank">PHP (legacy)</a>
+
       <br><br>
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
@@ -11231,10 +11234,18 @@ paths:
             lob.Address.list(limit=2)
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->addresses()->all(array(
-              'limit' => 2
-            ));
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\AddressesApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->list(
+                  2, // limit 
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             AddressesApi apiInstance = new AddressesApi(config);
@@ -11493,20 +11504,33 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->addresses()->create(array(
-              'description'       => 'Harry - Office',
-              'name'              => 'Harry Zhang',
-              'company'           => 'Lob',
-              'address_line1'     => '210 King St',
-              'address_line2'     => '# 6100',
-              'address_city'      => 'San Francisco',
-              'address_state'     => 'CA',
-              'address_country'   => 'US',
-              'address_zip'       => '94107',
-              'email'             => 'harry@lob.com',
-              'phone'             => '5555555555'
-            ));
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\AddressesApi($config, new
+            GuzzleHttp\Client());
+
+
+            $address_editable = new OpenAPI\Client\Model\AddressEditable(
+              array(
+                "description"     => "Harry - Office",
+                "name"     => "Harry Zhang",
+                "company"     => "Lob",
+                "email"     => "harry@lob.com",
+                "phone"     => "5555555555",
+                "address_line1"     => "210 King St",
+                "address_line2"     => "# 6100",
+                "address_city"     => "San Francisco",
+                "address_state"     => "CA",
+                "address_zip"     => "94107",
+                "address_country"     => "US",
+              )
+            );
+
+
+            try {
+                $result = $apiInstance->create($address_editable);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             AddressesApi apiInstance = new AddressesApi(config);
@@ -11596,8 +11620,16 @@ paths:
             lob.Address.retrieve('adr_fa85158b26c3eb7c')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->addresses()->get('adr_fa85158b26c3eb7c');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\AddressesApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->get("adr_fa85158b26c3eb7c");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             AddressesApi apiInstance = new AddressesApi(config);
@@ -11655,8 +11687,16 @@ paths:
             lob.Address.delete('adr_43769b47aed248c2')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->addresses()->delete('adr_43769b47aed248c2');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\AddressesApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->delete("adr_43769b47aed248c2");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             AddressesApi apiInstance = new AddressesApi(config);
@@ -11753,11 +11793,26 @@ paths:
             63])
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->bankAccounts()->verify(array(
-              'id' => 'bank_dfceb4a2a05b57e',
-              'amounts' => array(25, 63)
-            ));
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new
+            GuzzleHttp\Client());
+
+
+            $bankVerify = new OpenAPI\Client\Model\BankAccountVerify();
+
+            $bankVerify->setAmounts([
+              25,
+              63,
+            ]);
+
+
+            try {
+                $result = $apiInstance->verify(
+                  "bank_dfceb4a2a05b57e", $bankVerify
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             BankAccountVerify verification = new BankAccountVerify(); 
@@ -11847,8 +11902,16 @@ paths:
             lob.BankAccount.retrieve('bank_8cad8df5354d33f')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->bankAccounts()->get('bank_8cad8df5354d33f');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->get("bank_8cad8df5354d33f");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             BankAccountsApi apiInstance = new BankAccountsApi(config);
@@ -11905,8 +11968,16 @@ paths:
             lob.BankAccount.delete('bank_3e64d9904356b20')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->bankAccounts()->delete('bank_3e64d9904356b20');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->delete("bank_3e64d9904356b20");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             BankAccountsApi apiInstance = new BankAccountsApi(config);
@@ -11971,10 +12042,18 @@ paths:
             lob.BankAccount.list(limit=2)
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->bankAccounts()->all(array(
-              'limit' => 2
-            ));
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->list(
+                  2, // limit 
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             BankAccountsApi apiInstance = new BankAccountsApi(config);
@@ -12111,14 +12190,27 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->bankAccounts()->create(array(
-              'description'       => 'Test Bank Account',
-              'routing_number'    => '322271627',
-              'account_number'    => '123456789',
-              'signatory'         => 'John Doe',
-              'account_type'      => 'company'
-            ));
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new
+            GuzzleHttp\Client());
+
+            $bank_account_writable = new
+            OpenAPI\Client\Model\BankAccountWritable(
+              array(
+                "description"     => "Test Bank Account",
+                "routing_number"     => "322271627",
+                "account_number"     => "123456789",
+                "signatory"     => "John Doe",
+                "account_type"     => "company",
+              )
+            );
+
+
+            try {
+                $result = $apiInstance->create($bank_account_writable);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             BankAccountsApi apiInstance = new BankAccountsApi(config);
@@ -12479,14 +12571,39 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->bulkUSVerifications()->verify('addresses' => array(
-              array(
-                'primary_line' => '210 King Street',
-                'city'         => 'San Francisco',
-                'state'        => 'CA',
-                'zip_code'     => '94107'
-              )));
+          source: >
+            $verificationData0 = new
+            OpenAPI\Client\Model\MultipleComponents(array( 
+              'primary_line'     => '210 King Street',
+              'city'     => 'San Francisco',
+              'state'     => 'CA',
+              'zip_code'     => '94017',
+            ));
+
+
+            $verificationData1 = new
+            OpenAPI\Client\Model\MultipleComponents(array( 
+              'primary_line'     => '185 BERRY ST STE 6600',
+              'city'     => 'SAN FRANCISCO',
+              'state'     => 'CA',
+              'zip_code'     => '94017',
+            ));
+
+
+            $addressList = new
+            OpenAPI\Client\Model\MultipleComponentsList(array(
+              'addresses'     => [
+                $verificationData0,
+                $verificationData1,
+              ]
+            ));
+
+
+            try {
+                $result = $apiInstance->verifyBulk($addressList);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             MultipleComponentsList bulkVerify = new MultipleComponentsList(); 
@@ -12661,15 +12778,40 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->bulkIntlVerifications()->verify('addresses' => array(
-              array(
-                'primary_line' => '370 Water St',
-                'city' => 'Summerside',
-                'state' => 'Prince Edward Island',
-                'postal_code' => 'C1N 1C4',
-                'country' => 'CA'
-              )));
+          source: >
+            $verificationData0 = new
+            OpenAPI\Client\Model\MultipleComponentsIntl(array( 
+              'primary_line'     => '35 Tower Hill',
+              'city'     => 'London',
+              'postal_code'     => 'EC3N 4DR',
+              'country'     => 'GB',
+            ));
+
+
+            $verificationData1 = new
+            OpenAPI\Client\Model\MultipleComponentsIntl(array( 
+              'primary_line'     => '370 Water St',
+              'city'     => 'Summerside',
+              'state'     => 'Prince Edward Island',
+              'postal_code'     => 'C1N 1C4',
+              'country'     => 'CA',
+            ));
+
+
+            $addressList = new
+            OpenAPI\Client\Model\IntlVerificationsPayload(array(
+              'addresses'     => [
+                $verificationData0,
+                $verificationData1,
+              ]
+            ));
+
+
+            try {
+                $result = $apiInstance->verifyBulk($addressList);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: >
             List<IntlVerification.RequestBuilder> addresses = new
@@ -13619,10 +13761,18 @@ paths:
             lob.Check.list(limit=2)
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->checks()->all(array(
-              'limit' => 2
-            ));
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\ChecksApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->list(
+                  2, // limit 
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             ChecksApi apiInstance = new ChecksApi(config);
@@ -13909,23 +14059,47 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->checks()->create(array(
-              'description'           => 'Demo Check',
-              'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '210 King St',
-              'to[address_line2]'     => '# 6100',
-              'to[address_city]'      => 'San Francisco',
-              'to[address_zip]'       => '94107',
-              'to[address_state]'     => 'CA',
-              'from'                  => 'adr_210a8d4b0b76d77b',
-              'bank_account'          => 'bank_8cad8df5354d33f',
-              'amount'                => 22.50,
-              'memo'                  => 'rent',
-              'logo'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
-              'check_bottom'          => '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
-              'merge_variables[name]' => 'Harry'
-            ));
+          source: >
+            $to = new OpenAPI\Client\Model\AddressEditable(
+              array(
+                "name"     => "Harry Zhang",
+                "address_line1"     => "210 King St",
+                "address_line2"     => "# 6100",
+                "address_city"     => "San Francisco",
+                "address_state"     => "CA",
+                "address_zip"     => "94107",
+              )
+            );
+
+
+            $merge_variables = new stdClass;
+
+            $merge_variables->name = "Harry";
+
+
+            $apiInstance = new OpenAPI\Client\Api\ChecksApi($config, new
+            GuzzleHttp\Client());
+
+            $check_editable = new OpenAPI\Client\Model\CheckEditable(
+              array(
+                "description"     => "Demo Check",
+                "bank_account"     => "bank_8cad8df5354d33f",
+                "amount"     => "22.5",
+                "memo"     => "rent",
+                "logo"     => "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
+                "check_bottom"     => "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+                "from"     => "adr_210a8d4b0b76d77b",
+                "to"     => $to,
+                "merge_variables"     => $merge_variables,
+              )
+            );
+
+
+            try {
+                $result = $apiInstance->create($check_editable);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             Map<String, String> merge_variables = new HashMap<String, String>();
@@ -14112,8 +14286,16 @@ paths:
             lob.Check.retrieve('chk_534f10783683daa0')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->checks()->get('chk_534f10783683daa0');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\ChecksApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->get("chk_534f10783683daa0");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             ChecksApi apiInstance = new ChecksApi(config);
@@ -14176,8 +14358,16 @@ paths:
             lob.Check.delete('chk_534f10783683daa0')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->checks()->delete('chk_534f10783683daa0');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\ChecksApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->cancel("chk_534f10783683daa0");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             ChecksApi apiInstance = new ChecksApi(config);
@@ -14513,8 +14703,27 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new
+            OpenAPI\Client\Api\IntlAutocompletionsApi($config, new
+            GuzzleHttp\Client());
+
+
+            $autoCompletionData = new
+            OpenAPI\Client\Model\IntlAutocompletionsWritable(array(
+                "address_prefix" =>  "340 Wat",
+                "city" =>  "Summerside",
+                "state" =>  "Prince Edward Island",
+                "zip_code" =>  "C1N 1C4",
+                "country" =>  "CA",
+            ));
+
+
+            try {
+                $result = $apiInstance->autocomplete($autoCompletionData);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             This feature is not currently supported by this library.
@@ -14692,14 +14901,26 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->intlVerifications()->verify(array(
-              'primary_line' => '370 Water St',
-              'city'         => 'Summerside',
-              'state'        => 'Prince Edward Island',
-              'postal_code'  => 'C1N 1C4',
-              'country'      => 'CA',
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\IntlVerificationsApi($config,
+            new GuzzleHttp\Client());
+
+
+            $verificationData = new
+            OpenAPI\Client\Model\IntlVerificationWritable(array(
+              'primary_line'     => '370 Water St',
+              'city'     => 'Summerside',
+              'state'     => 'Prince Edward Island',
+              'postal_code'     => 'C1N 1C4',
+              'country'     => 'CA',
             ));
+
+
+            try {
+                $result = $apiInstance->verifySingle($verificationData);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: >
             LobResponse<IntlVerification> response = new
@@ -14882,8 +15103,16 @@ paths:
             lob.Letter.retrieve('ltr_4868c3b754655f90')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->letters()->get('ltr_4868c3b754655f90');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->get("ltr_4868c3b754655f90");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             LettersApi apiInstance = new LettersApi(config);
@@ -14946,8 +15175,16 @@ paths:
             lob.Letter.delete('ltr_4868c3b754655f90')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->letters()->delete('ltr_4868c3b754655f90');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->cancel("ltr_4868c3b754655f90");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             LettersApi apiInstance = new LettersApi(config);
@@ -15022,10 +15259,18 @@ paths:
             lob.Letter.list(limit=2)
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->letters()->all(array(
-              'limit' => 2
-            ));
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->list(
+                  2, // limit 
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             LettersApi apiInstance = new LettersApi(config);
@@ -15315,21 +15560,48 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->letters()->create(array(
-              'description'           => 'Demo Letter',
-              'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '210 King St',
-              'to[address_line2]'     => '# 6100',
-              'to[address_city]'      => 'San Francisco',
-              'to[address_zip]'       => '94107',
-              'to[address_state]'     => 'CA',
-              'from'                  => 'adr_210a8d4b0b76d77b',
-              'file'                  => '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
-              'merge_variables[name]' => 'Harry',
-              'color'                 => true,
-              'cards'                 => ['card_c51ae96f5cebf3e']
-            ));
+          source: >
+            $to = new OpenAPI\Client\Model\AddressEditable(
+              array(
+                "name"     => "Harry Zhang",
+                "address_line1"     => "210 King St",
+                "address_line2"     => "# 6100",
+                "address_city"     => "San Francisco",
+                "address_state"     => "CA",
+                "address_zip"     => "94107",
+              )
+            );
+
+
+            $merge_variables = new stdClass;
+
+            $merge_variables->name = "Harry";
+
+
+            $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new
+            GuzzleHttp\Client());
+
+            $letter_editable = new OpenAPI\Client\Model\LetterEditable(
+              array(
+                "description"     => "Demo Letter",
+                "from"     => "adr_210a8d4b0b76d77b",
+                "file"     => "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+                "color"     => "true",
+                "to"     => $to,
+                "merge_variables"     => $merge_variables,
+                "cards"     => array(
+                  "card_c51ae96f5cebf3e",
+                  "card_thingy",
+                ),
+              )
+            );
+
+
+            try {
+                $result = $apiInstance->create($letter_editable);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             Map<String, String> merge_variables = new HashMap<String, String>();
@@ -15534,8 +15806,16 @@ paths:
             lob.Postcard.retrieve('psc_5c002b86ce47537a')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->postcards()->get('psc_5c002b86ce47537a');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->get("psc_5c002b86ce47537a");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             PostcardsApi apiInstance = new PostcardsApi(config);
@@ -15599,8 +15879,16 @@ paths:
             lob.Postcard.delete('psc_5c002b86ce47537a')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->postcards()->delete('psc_5c002b86ce47537a');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->cancel("psc_5c002b86ce47537a");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             PostcardsApi apiInstance = new PostcardsApi(config);
@@ -15677,10 +15965,18 @@ paths:
             lob.Postcard.list(limit=2)
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->postcards()->all(array(
-              'limit' => 2
-            ));
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->list(
+                  2, // limit 
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             PostcardsApi apiInstance = new PostcardsApi(config);
@@ -15962,20 +16258,44 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->postcards()->create(array(
-              'description'           => 'Demo Postcard job',
-              'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '210 King St',
-              'to[address_line2]'     => '# 6100',
-              'to[address_city]'      => 'San Francisco',
-              'to[address_zip]'       => '94107',
-              'to[address_state]'     => 'CA',
-              'from'                  => 'adr_210a8d4b0b76d77b',
-              'front'                 => '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
-              'back'                  => '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
-              'merge_variables[name]' => 'Harry'
-            ));
+          source: >
+            $to = new OpenAPI\Client\Model\AddressEditable(
+              array(
+                "name"     => "Harry Zhang",
+                "address_line1"     => "210 King St",
+                "address_line2"     => "# 6100",
+                "address_city"     => "San Francisco",
+                "address_state"     => "CA",
+                "address_zip"     => "94107",
+              )
+            );
+
+
+            $merge_variables = new stdClass;
+
+            $merge_variables->name = "Harry";
+
+
+            $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new
+            GuzzleHttp\Client());
+
+            $postcard_editable = new OpenAPI\Client\Model\PostcardEditable(
+              array(
+                "description"     => "Demo Postcard job",
+                "from"     => "adr_210a8d4b0b76d77b",
+                "front"     => "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
+                "back"     => "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+                "to"     => $to,
+                "merge_variables"     => $merge_variables,
+              )
+            );
+
+
+            try {
+                $result = $apiInstance->create($postcard_editable);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             Map<String, String> merge_variables = new HashMap<String, String>();
@@ -16152,8 +16472,16 @@ paths:
             lob.SelfMailer.retrieve('sfm_8ffbe811dea49dcf')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->selfMailers()->get('sfm_8ffbe811dea49dcf');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->get("sfm_8ffbe811dea49dcf");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             SelfMailersApi apiInstance = new SelfMailersApi(config);
@@ -16215,8 +16543,16 @@ paths:
             lob.SelfMailer.delete('sfm_8ffbe811dea49dcf')
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->selfMailers()->delete('sfm_8ffbe811dea49dcf');
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->delete("sfm_8ffbe811dea49dcf");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             SelfMailersApi apiInstance = new SelfMailersApi(config);
@@ -16292,10 +16628,18 @@ paths:
             lob.SelfMailer.list(limit=2)
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->selfMailers()->all(array(
-              'limit' => 2
-            ));
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->list(
+                  2, // limit 
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             SelfMailersApi apiInstance = new SelfMailersApi(config);
@@ -16494,19 +16838,44 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->selfMailers()->create(array(
-              'description'           => 'Demo Self Mailer job',
-              'to[name]'              => 'Harry Zhang',
-              'to[address_line1]'     => '210 King St',
-              'to[address_city]'     => 'San Francisco',
-              'to[address_zip]'       => '94107',
-              'to[address_state]'     => 'CA',
-              'from'                  => 'adr_210a8d4b0b76d77b',
-              'inside'                => '<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>',
-              'outside'               => '<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>',
-              'merge_variables[name]' => 'Harry'
-            ));
+          source: >
+            $to = new OpenAPI\Client\Model\AddressEditable(
+              array(
+                "name"     => "Harry Zhang",
+                "address_line1"     => "210 King St",
+                "address_line2"     => "# 6100",
+                "address_city"     => "San Francisco",
+                "address_state"     => "CA",
+                "address_zip"     => "94107",
+              )
+            );
+
+
+            $merge_variables = new stdClass;
+
+            $merge_variables->name = "Harry";
+
+
+            $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new
+            GuzzleHttp\Client());
+
+            $self_mailer_editable = new OpenAPI\Client\Model\SelfMailerEditable(
+              array(
+                "description"     => "Demo Self Mailer job",
+                "from"     => "adr_210a8d4b0b76d77b",
+                "inside"     => "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+                "outside"     => "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+                "to"     => $to,
+                "merge_variables"     => $merge_variables,
+              )
+            );
+
+
+            try {
+                $result = $apiInstance->create($self_mailer_editable);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             Map<String, String> merge_variables = new HashMap<String, String>();
@@ -16622,8 +16991,16 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\TemplateVersionsApi($config,
+            new GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->get("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
@@ -16702,8 +17079,22 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\TemplateVersionsApi($config,
+            new GuzzleHttp\Client());
+
+
+            $templateVersionUpdate = new
+            OpenAPI\Client\Model\TemplateUpdate(array(
+                "description" =>  "Updated template version"
+            ));
+
+
+            try {
+                $result = $apiInstance->update("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282", $templateVersionUpdate);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             This feature is not currently supported by this library.
@@ -16819,8 +17210,19 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\TemplateVersionsApi($config,
+            new GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->list(
+                  tmpl_dadaaf7b76c9f25, // tmplId 
+                  2, // limit 
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
@@ -16916,8 +17318,24 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\TemplateVersionsApi($config,
+            new GuzzleHttp\Client());
+
+            $template_version_writable = new
+            OpenAPI\Client\Model\TemplateVersionWritable(
+              array(
+                "description"     => "Second Version",
+                "html"     => "<html>Second HTML for {{name}}</html>",
+              )
+            );
+
+
+            try {
+                $result = $apiInstance->create("tmpl_4aa14648113e45b", $template_version_writable);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
@@ -17013,8 +17431,16 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->get("tmpl_c94e83ca2cd5121");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             TemplatesApi apiInstance = new TemplatesApi(config);
@@ -17135,8 +17561,22 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new
+            GuzzleHttp\Client());
+
+
+            $templateUpdate = new OpenAPI\Client\Model\TemplateUpdate(array(
+                "description" =>  "Updated description",
+                "published_version" =>  "vrsn_362184d96d9b0c9"
+            ));
+
+
+            try {
+                $result = $apiInstance->update("tmpl_c94e83ca2cd5121", $templateUpdate);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             TemplatesApi apiInstance = new TemplatesApi(config); 
@@ -17197,8 +17637,16 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->delete("tmpl_df934eeda694203");
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             TemplatesApi apiInstance = new TemplatesApi(config);
@@ -17260,8 +17708,18 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new
+            GuzzleHttp\Client());
+
+
+            try {
+                $result = $apiInstance->list(
+                  2, // limit 
+                );
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             TemplatesApi apiInstance = new TemplatesApi(config);
@@ -17401,8 +17859,23 @@ paths:
             This feature is not currently supported by this library.
           label: PYTHON
         - lang: PHP
-          source: |
-            This feature is not currently supported by this library.
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new
+            GuzzleHttp\Client());
+
+            $template_writable = new OpenAPI\Client\Model\TemplateWritable(
+              array(
+                "description"     => "Test Template",
+                "html"     => "<html>HTML for {{name}}</html>",
+              )
+            );
+
+
+            try {
+                $result = $apiInstance->create($template_writable);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: |
             TemplatesApi apiInstance = new TemplatesApi(config);
@@ -17786,13 +18259,25 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->usAutocompletions()->autocomplete(array(
-              'address_prefix' => '185 B',
-              'city'           => 'San Francisco',
-              'state'          => 'CA',
-              'zip_code'       => '94107'
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\UsAutocompletionsApi($config,
+            new GuzzleHttp\Client());
+
+
+            $autocompletionData = new
+            OpenAPI\Client\Model\UsAutocompletionsWritable(array(
+                "address_prefix" =>  "185 B",
+                "city" =>  "San Francisco",
+                "state" =>  "CA",
+                "zip_code" =>  "94017",
             ));
+
+
+            try {
+                $result = $apiInstance->autocomplete($autocompletionData);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: >
             UsAutocompletionsApi apiInstance = new UsAutocompletionsApi(config);
@@ -17919,12 +18404,23 @@ paths:
             )
           label: Python
         - lang: PHP
-          source: |
-            $lob->reverseGeocodeLookups()->lookup(array(
-              'latitude' => 37.7749,
-              'longitude' => 122.4194
+          source: >
+            $apiInstance = new
+            OpenAPI\Client\Api\ReverseGeocodeLookupsApi($config, new
+            GuzzleHttp\Client());
 
+
+            $coordinates = new OpenAPI\Client\Model\Location(array(
+                "latitude" =>  "37.777456",
+                "longitude" =>  "-122.393039",
             ));
+
+
+            try {
+                $result = $apiInstance->lookup($coordinates);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
           label: PHP
         - lang: Java
           source: >
@@ -18124,13 +18620,25 @@ paths:
             )
           label: PYTHON
         - lang: PHP
-          source: |
-            $lob->usVerifications()->verify(array(
-              'primary_line' => '210 King Street',
-              'city'         => 'San Francisco',
-              'state'        => 'CA',
-              'zip_code'     => '94107'
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\UsVerificationsApi($config,
+            new GuzzleHttp\Client());
+
+
+            $verificationData = new
+            OpenAPI\Client\Model\UsVerificationsWritable(array(
+              'primary_line'     => '210 King Street',
+              'city'     => 'San Francisco',
+              'state'     => 'CA',
+              'zip_code'     => '94017',
             ));
+
+
+            try {
+                $result = $apiInstance->verifySingle($verificationData);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
         - lang: Java
           source: >
             UsVerificationsWritable singleVerify = new
@@ -18232,10 +18740,21 @@ paths:
             )
           label: Python
         - lang: PHP
-          source: |
-            $lob->usZipLookups()->lookup(array(
-              'zip_code' => '94107'
+          source: >
+            $apiInstance = new OpenAPI\Client\Api\ZipLookupsApi($config, new
+            GuzzleHttp\Client());
+
+
+            $zipRequest = new OpenAPI\Client\Model\ZipEditable(array(
+                "zip_code"  =>  '94107'
             ));
+
+
+            try {
+                $result = $apiInstance->lookup($zipRequest);
+            } catch (Exception $e) {
+                echo $e->getMessage(), PHP_EOL;
+            }
           label: PHP
         - lang: Java
           source: |

@@ -52,7 +52,15 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        This feature is not currently supported by this library.
+        $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              2, // limit 
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         TemplatesApi apiInstance = new TemplatesApi(config);
@@ -177,7 +185,19 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        This feature is not currently supported by this library.
+        $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new GuzzleHttp\Client());
+        $template_writable = new OpenAPI\Client\Model\TemplateWritable(
+          array(
+            "description"     => "Test Template",
+            "html"     => "<html>HTML for {{name}}</html>",
+          )
+        );
+        
+        try {
+            $result = $apiInstance->create($template_writable);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         TemplatesApi apiInstance = new TemplatesApi(config);

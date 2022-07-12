@@ -54,9 +54,15 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->addresses()->all(array(
-          'limit' => 2
-        ));
+        $apiInstance = new OpenAPI\Client\Api\AddressesApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              2, // limit 
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         AddressesApi apiInstance = new AddressesApi(config);
@@ -327,19 +333,29 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->addresses()->create(array(
-          'description'       => 'Harry - Office',
-          'name'              => 'Harry Zhang',
-          'company'           => 'Lob',
-          'address_line1'     => '210 King St',
-          'address_line2'     => '# 6100',
-          'address_city'      => 'San Francisco',
-          'address_state'     => 'CA',
-          'address_country'   => 'US',
-          'address_zip'       => '94107',
-          'email'             => 'harry@lob.com',
-          'phone'             => '5555555555'
-        ));
+        $apiInstance = new OpenAPI\Client\Api\AddressesApi($config, new GuzzleHttp\Client());
+
+        $address_editable = new OpenAPI\Client\Model\AddressEditable(
+          array(
+            "description"     => "Harry - Office",
+            "name"     => "Harry Zhang",
+            "company"     => "Lob",
+            "email"     => "harry@lob.com",
+            "phone"     => "5555555555",
+            "address_line1"     => "210 King St",
+            "address_line2"     => "# 6100",
+            "address_city"     => "San Francisco",
+            "address_state"     => "CA",
+            "address_zip"     => "94107",
+            "address_country"     => "US",
+          )
+        );
+
+        try {
+            $result = $apiInstance->create($address_editable);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         AddressesApi apiInstance = new AddressesApi(config);
@@ -357,7 +373,7 @@ post:
           addressEditable.setAddressState("CA");
           addressEditable.setAddressZip("94107");
           addressEditable.setAddressCountry(CountryExtended.US);
-        
+
           Address result = apiInstance.create(addressEditable);
         } catch (ApiException e) {
           e.printStackTrace();

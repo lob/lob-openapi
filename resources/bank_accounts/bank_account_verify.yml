@@ -88,10 +88,21 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bankAccounts()->verify(array(
-          'id' => 'bank_dfceb4a2a05b57e',
-          'amounts' => array(25, 63)
-        ));
+        $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new GuzzleHttp\Client());
+
+        $bankVerify = new OpenAPI\Client\Model\BankAccountVerify();
+        $bankVerify->setAmounts([
+          25,
+          63,
+        ]);
+        
+        try {
+            $result = $apiInstance->verify(
+              "bank_dfceb4a2a05b57e", $bankVerify
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         BankAccountVerify verification = new BankAccountVerify(); 

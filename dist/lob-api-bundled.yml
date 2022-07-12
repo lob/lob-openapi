@@ -7205,18 +7205,18 @@ components:
                     used for the letter.
                   type: string
                 - $ref: '#/components/schemas/vrsn_id'
-            object:
-              type: string
-              description: Value is resource type.
-              enum:
-                - letter
-              default: letter
             campaign_id:
               type: string
               description: >-
                 The unique ID of the associated campaign if the resource was
                 generated from a campaign.
               nullable: true
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - letter
+              default: letter
     certified:
       allOf:
         - type: object
@@ -7626,12 +7626,6 @@ components:
               items:
                 $ref: '#/components/schemas/tracking_event_normal'
               nullable: true
-            object:
-              type: string
-              description: Value is resource type.
-              enum:
-                - postcard
-              default: postcard
             url:
               allOf:
                 - description: >-
@@ -7644,6 +7638,12 @@ components:
                 The unique ID of the associated campaign if the resource was
                 generated from a campaign.
               nullable: true
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - postcard
+              default: postcard
     postcard_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of

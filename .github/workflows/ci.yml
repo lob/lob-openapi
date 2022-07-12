@@ -20,6 +20,13 @@ jobs:
           npm i prettier
           npm run pretty
 
+      - name: run spectral
+        uses: stoplightio/spectral-action@vlatest
+        with:
+          file_glob: "./lob-api-public.yml"
+          repo_token: ${{ github.token }}
+          event_name: ${{ github.event_name }}
+
       - name: run contract tests
         uses: ./actions/contract_tests
         continue-on-error: true

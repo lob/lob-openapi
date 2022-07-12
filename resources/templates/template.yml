@@ -55,7 +55,13 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        This feature is not currently supported by this library.
+        $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("tmpl_c94e83ca2cd5121");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         TemplatesApi apiInstance = new TemplatesApi(config);
@@ -161,7 +167,18 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        This feature is not currently supported by this library.
+        $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new GuzzleHttp\Client());
+
+        $templateUpdate = new OpenAPI\Client\Model\TemplateUpdate(array(
+            "description" =>  "Updated description",
+            "published_version" =>  "vrsn_362184d96d9b0c9"
+        ));
+        
+        try {
+            $result = $apiInstance->update("tmpl_c94e83ca2cd5121", $templateUpdate);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         TemplatesApi apiInstance = new TemplatesApi(config); 
@@ -229,7 +246,13 @@ delete:
       label: PYTHON
     - lang: PHP
       source: |
-        This feature is not currently supported by this library.
+        $apiInstance = new OpenAPI\Client\Api\TemplatesApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->delete("tmpl_df934eeda694203");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         TemplatesApi apiInstance = new TemplatesApi(config);

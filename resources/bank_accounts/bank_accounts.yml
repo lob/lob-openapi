@@ -54,9 +54,15 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bankAccounts()->all(array(
-          'limit' => 2
-        ));
+        $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              2, // limit 
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         BankAccountsApi apiInstance = new BankAccountsApi(config);
@@ -204,13 +210,22 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bankAccounts()->create(array(
-          'description'       => 'Test Bank Account',
-          'routing_number'    => '322271627',
-          'account_number'    => '123456789',
-          'signatory'         => 'John Doe',
-          'account_type'      => 'company'
-        ));
+        $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new GuzzleHttp\Client());
+        $bank_account_writable = new OpenAPI\Client\Model\BankAccountWritable(
+          array(
+            "description"     => "Test Bank Account",
+            "routing_number"     => "322271627",
+            "account_number"     => "123456789",
+            "signatory"     => "John Doe",
+            "account_type"     => "company",
+          )
+        );
+        
+        try {
+            $result = $apiInstance->create($bank_account_writable);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         BankAccountsApi apiInstance = new BankAccountsApi(config);

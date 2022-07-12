@@ -66,9 +66,15 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->postcards()->all(array(
-          'limit' => 2
-        ));
+        $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              2, // limit 
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         PostcardsApi apiInstance = new PostcardsApi(config);
@@ -355,19 +361,37 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->postcards()->create(array(
-          'description'           => 'Demo Postcard job',
-          'to[name]'              => 'Harry Zhang',
-          'to[address_line1]'     => '210 King St',
-          'to[address_line2]'     => '# 6100',
-          'to[address_city]'      => 'San Francisco',
-          'to[address_zip]'       => '94107',
-          'to[address_state]'     => 'CA',
-          'from'                  => 'adr_210a8d4b0b76d77b',
-          'front'                 => '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
-          'back'                  => '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
-          'merge_variables[name]' => 'Harry'
-        ));
+        $to = new OpenAPI\Client\Model\AddressEditable(
+          array(
+            "name"     => "Harry Zhang",
+            "address_line1"     => "210 King St",
+            "address_line2"     => "# 6100",
+            "address_city"     => "San Francisco",
+            "address_state"     => "CA",
+            "address_zip"     => "94107",
+          )
+        );
+        
+        $merge_variables = new stdClass;
+        $merge_variables->name = "Harry";
+        
+        $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new GuzzleHttp\Client());
+        $postcard_editable = new OpenAPI\Client\Model\PostcardEditable(
+          array(
+            "description"     => "Demo Postcard job",
+            "from"     => "adr_210a8d4b0b76d77b",
+            "front"     => "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
+            "back"     => "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+            "to"     => $to,
+            "merge_variables"     => $merge_variables,
+          )
+        );
+        
+        try {
+            $result = $apiInstance->create($postcard_editable);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         Map<String, String> merge_variables = new HashMap<String, String>();

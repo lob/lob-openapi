@@ -57,7 +57,13 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->postcards()->get('psc_5c002b86ce47537a');
+        $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("psc_5c002b86ce47537a");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         PostcardsApi apiInstance = new PostcardsApi(config);
@@ -128,7 +134,13 @@ delete:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->postcards()->delete('psc_5c002b86ce47537a');
+        $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->cancel("psc_5c002b86ce47537a");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         PostcardsApi apiInstance = new PostcardsApi(config);

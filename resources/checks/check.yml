@@ -57,7 +57,13 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->checks()->get('chk_534f10783683daa0');
+        $apiInstance = new OpenAPI\Client\Api\ChecksApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("chk_534f10783683daa0");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         ChecksApi apiInstance = new ChecksApi(config);
@@ -130,7 +136,13 @@ delete:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->checks()->delete('chk_534f10783683daa0');
+        $apiInstance = new OpenAPI\Client\Api\ChecksApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->cancel("chk_534f10783683daa0");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         ChecksApi apiInstance = new ChecksApi(config);

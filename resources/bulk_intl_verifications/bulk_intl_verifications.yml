@@ -145,14 +145,33 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->bulkIntlVerifications()->verify('addresses' => array(
-          array(
-            'primary_line' => '370 Water St',
-            'city' => 'Summerside',
-            'state' => 'Prince Edward Island',
-            'postal_code' => 'C1N 1C4',
-            'country' => 'CA'
-          )));
+        $verificationData0 = new OpenAPI\Client\Model\MultipleComponentsIntl(array( 
+          'primary_line'     => '35 Tower Hill',
+          'city'     => 'London',
+          'postal_code'     => 'EC3N 4DR',
+          'country'     => 'GB',
+        ));
+        
+        $verificationData1 = new OpenAPI\Client\Model\MultipleComponentsIntl(array( 
+          'primary_line'     => '370 Water St',
+          'city'     => 'Summerside',
+          'state'     => 'Prince Edward Island',
+          'postal_code'     => 'C1N 1C4',
+          'country'     => 'CA',
+        ));
+        
+        $addressList = new OpenAPI\Client\Model\IntlVerificationsPayload(array(
+          'addresses'     => [
+            $verificationData0,
+            $verificationData1,
+          ]
+        ));
+        
+        try {
+            $result = $apiInstance->verifyBulk($addressList);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         List<IntlVerification.RequestBuilder> addresses = new ArrayList<IntlVerification.RequestBuilder>();

@@ -177,13 +177,21 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->intlVerifications()->verify(array(
-          'primary_line' => '370 Water St',
-          'city'         => 'Summerside',
-          'state'        => 'Prince Edward Island',
-          'postal_code'  => 'C1N 1C4',
-          'country'      => 'CA',
+        $apiInstance = new OpenAPI\Client\Api\IntlVerificationsApi($config, new GuzzleHttp\Client());
+
+        $verificationData = new OpenAPI\Client\Model\IntlVerificationWritable(array(
+          'primary_line'     => '370 Water St',
+          'city'     => 'Summerside',
+          'state'     => 'Prince Edward Island',
+          'postal_code'     => 'C1N 1C4',
+          'country'     => 'CA',
         ));
+        
+        try {
+            $result = $apiInstance->verifySingle($verificationData);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         LobResponse<IntlVerification> response = new IntlVerification.RequestBuilder()

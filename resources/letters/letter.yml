@@ -57,7 +57,13 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->letters()->get('ltr_4868c3b754655f90');
+        $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("ltr_4868c3b754655f90");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         LettersApi apiInstance = new LettersApi(config);
@@ -128,7 +134,13 @@ delete:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->letters()->delete('ltr_4868c3b754655f90');
+        $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->cancel("ltr_4868c3b754655f90");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         LettersApi apiInstance = new LettersApi(config);

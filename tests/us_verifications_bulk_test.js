@@ -97,7 +97,7 @@ test("errors when given an empty array", async function (t) {
 
 test("errors when given more than 10 addresses", async function (t) {
   try {
-    const addresses = Array(11).fill(address);
+    const addresses = Array(21).fill(address);
 
     const response = await prism.setup({ errors: false }).then((client) =>
       client.post(

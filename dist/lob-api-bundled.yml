@@ -7211,6 +7211,12 @@ components:
               enum:
                 - letter
               default: letter
+              campaign_id:
+                type: string
+                description: >-
+                  The unique ID of the associated campaign if the resource was
+                  generated from a campaign.
+                nullable: true
     certified:
       allOf:
         - type: object
@@ -7632,6 +7638,12 @@ components:
                     A [signed link](#section/Asset-URLs) to the rendered
                     postcard.
                 - $ref: '#/components/schemas/signed_link'
+            campaign_id:
+              type: string
+              description: >-
+                The unique ID of the associated campaign if the resource was
+                generated from a campaign.
+              nullable: true
     postcard_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of

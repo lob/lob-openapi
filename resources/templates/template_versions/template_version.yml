@@ -61,7 +61,13 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        This feature is not currently supported by this library.
+        $apiInstance = new OpenAPI\Client\Api\TemplateVersionsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
@@ -150,7 +156,17 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        This feature is not currently supported by this library.
+        $apiInstance = new OpenAPI\Client\Api\TemplateVersionsApi($config, new GuzzleHttp\Client());
+
+        $templateVersionUpdate = new OpenAPI\Client\Model\TemplateUpdate(array(
+            "description" =>  "Updated template version"
+        ));
+        
+        try {
+            $result = $apiInstance->update("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282", $templateVersionUpdate);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         This feature is not currently supported by this library.

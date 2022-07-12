@@ -59,7 +59,16 @@ get:
       label: PYTHON
     - lang: PHP
       source: |
-        This feature is not currently supported by this library.
+        $apiInstance = new OpenAPI\Client\Api\TemplateVersionsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              tmpl_dadaaf7b76c9f25, // tmplId 
+              2, // limit 
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
@@ -167,7 +176,19 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        This feature is not currently supported by this library.
+        $apiInstance = new OpenAPI\Client\Api\TemplateVersionsApi($config, new GuzzleHttp\Client());
+        $template_version_writable = new OpenAPI\Client\Model\TemplateVersionWritable(
+          array(
+            "description"     => "Second Version",
+            "html"     => "<html>Second HTML for {{name}}</html>",
+          )
+        );
+        
+        try {
+            $result = $apiInstance->create("tmpl_4aa14648113e45b", $template_version_writable);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);

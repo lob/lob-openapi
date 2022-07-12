@@ -180,12 +180,20 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->usVerifications()->verify(array(
-          'primary_line' => '210 King Street',
-          'city'         => 'San Francisco',
-          'state'        => 'CA',
-          'zip_code'     => '94107'
+        $apiInstance = new OpenAPI\Client\Api\UsVerificationsApi($config, new GuzzleHttp\Client());
+
+        $verificationData = new OpenAPI\Client\Model\UsVerificationsWritable(array(
+          'primary_line'     => '210 King Street',
+          'city'     => 'San Francisco',
+          'state'     => 'CA',
+          'zip_code'     => '94017',
         ));
+        
+        try {
+            $result = $apiInstance->verifySingle($verificationData);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         UsVerificationsWritable singleVerify = new UsVerificationsWritable(); 

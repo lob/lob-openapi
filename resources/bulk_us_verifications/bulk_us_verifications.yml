@@ -163,14 +163,33 @@ post:
         )
       label: PYTHON
     - lang: PHP
-      source: |
-        $lob->bulkUSVerifications()->verify('addresses' => array(
-          array(
-            'primary_line' => '210 King Street',
-            'city'         => 'San Francisco',
-            'state'        => 'CA',
-            'zip_code'     => '94107'
-          )));
+      source: |  
+        $verificationData0 = new OpenAPI\Client\Model\MultipleComponents(array( 
+          'primary_line'     => '210 King Street',
+          'city'     => 'San Francisco',
+          'state'     => 'CA',
+          'zip_code'     => '94017',
+        ));
+
+        $verificationData1 = new OpenAPI\Client\Model\MultipleComponents(array( 
+          'primary_line'     => '185 BERRY ST STE 6600',
+          'city'     => 'SAN FRANCISCO',
+          'state'     => 'CA',
+          'zip_code'     => '94017',
+        ));
+
+        $addressList = new OpenAPI\Client\Model\MultipleComponentsList(array(
+          'addresses'     => [
+            $verificationData0,
+            $verificationData1,
+          ]
+        ));
+
+        try {
+            $result = $apiInstance->verifyBulk($addressList);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         MultipleComponentsList bulkVerify = new MultipleComponentsList(); 

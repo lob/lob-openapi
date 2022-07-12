@@ -100,11 +100,18 @@ post:
       label: Python
     - lang: PHP
       source: |
-        $lob->reverseGeocodeLookups()->lookup(array(
-          'latitude' => 37.7749,
-          'longitude' => 122.4194
+        $apiInstance = new OpenAPI\Client\Api\ReverseGeocodeLookupsApi($config, new GuzzleHttp\Client());
 
+        $coordinates = new OpenAPI\Client\Model\Location(array(
+            "latitude" =>  "37.777456",
+            "longitude" =>  "-122.393039",
         ));
+        
+        try {
+            $result = $apiInstance->lookup($coordinates);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
       label: PHP
     - lang: Java
       source: |

@@ -150,12 +150,20 @@ post:
       label: PYTHON
     - lang: PHP
       source: |
-        $lob->usAutocompletions()->autocomplete(array(
-          'address_prefix' => '185 B',
-          'city'           => 'San Francisco',
-          'state'          => 'CA',
-          'zip_code'       => '94107'
+        $apiInstance = new OpenAPI\Client\Api\UsAutocompletionsApi($config, new GuzzleHttp\Client());
+
+        $autocompletionData = new OpenAPI\Client\Model\UsAutocompletionsWritable(array(
+            "address_prefix" =>  "185 B",
+            "city" =>  "San Francisco",
+            "state" =>  "CA",
+            "zip_code" =>  "94017",
         ));
+        
+        try {
+            $result = $apiInstance->autocomplete($autocompletionData);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
     - lang: Java
       source: |
         UsAutocompletionsApi apiInstance = new UsAutocompletionsApi(config);

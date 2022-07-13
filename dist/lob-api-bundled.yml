@@ -8180,6 +8180,26 @@ components:
         filename:
           title: Filename
           type: string
+    upload_create_export:
+      type: object
+      required:
+        - message
+        - exportId
+      properties:
+        message:
+          title: Message
+          enum:
+            - Export is processing
+          type: string
+          default: Export is processing
+        exportId:
+          title: Export ID
+          type: string
+          example: ex_2dafd758ed3da9c43
+    ex_id:
+      type: string
+      description: Unique identifier prefixed with `ex_`.
+      pattern: ^ex_[a-zA-Z0-9]+$
     us_autocompletions_writable:
       type: object
       required:
@@ -10738,6 +10758,36 @@ components:
               code: not_found
               message: upload not found
               status_code: 404
+    upload_export_error:
+      description: Create Export Error
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+              - message
+              - errors
+            properties:
+              code:
+                description: A conventional HTTP status code
+                type: number
+                enum:
+                  - 400
+                  - 404
+              message:
+                description: A human-readable message with more details about the error
+                type: string
+              errors:
+                description: An array of pre-defined strings that identify an error
+                type: array
+                items:
+                  type: string
+            example:
+              code: 400
+              message: Invalid body, check 'errors' property for more info.
+              errors:
+                - type must be a string
     us_autocompletions_error:
       description: Error
       content:
@@ -18108,6 +18158,151 @@ paths:
             https://api.lob.com/v1/uploads/upl_71be866e430b11e9/file \
               -u <YOUR API KEY>: \
               -F file=@<YOUR FILE NAME HERE>
+          label: CURL
+  /uploads/{upl_id}/exports:
+    parameters:
+      - in: path
+        name: upl_id
+        description: ID of the upload
+        required: true
+        schema:
+          $ref: '#/components/schemas/upl_id'
+    post:
+      operationId: upload_export_create
+      summary: Create Export
+      description: >-
+        Create an export file associated with an upload. The export ID is
+        returned in the response, which can be used to retrieve the export URL
+        in a separate request. The `type` of export can be `failures`,
+        `successes` or `all`.
+      tags:
+        - Uploads
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - all
+                    - failures
+                    - successes
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/upload_create_export'
+        4XX:
+          $ref: '#/components/responses/upload_export_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9/exports \
+              -u <YOUR API KEY>: \
+              -d "type=failures" \
+          label: CURL
+  /uploads/{upl_id}/exports/{ex_id}:
+    parameters:
+      - in: path
+        name: upl_id
+        description: ID of the upload
+        required: true
+        schema:
+          $ref: '#/components/schemas/upl_id'
+      - in: path
+        name: ex_id
+        description: ID of the export
+        required: true
+        schema:
+          $ref: '#/components/schemas/ex_id'
+    get:
+      operationId: export_retrieve
+      summary: Retrieve Export
+      description: >-
+        Retrieves the details of an existing export. You need only supply the
+        unique export identifier that was returned upon export creation.
+      tags:
+        - Uploads
+      responses:
+        '200':
+          description: Returns an export object
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - dateCreated
+                  - dateModified
+                  - deleted
+                  - s3Url
+                  - state
+                  - type
+                  - uploadId
+                properties:
+                  id:
+                    $ref: '#/components/schemas/ex_id'
+                  dateCreated:
+                    type: string
+                    format: date-time
+                    description: >-
+                      A timestamp in ISO 8601 format of the date the export was
+                      created
+                  dateModified:
+                    type: string
+                    format: date-time
+                    description: >-
+                      A timestamp in ISO 8601 format of the date the export was
+                      last modified
+                  deleted:
+                    type: boolean
+                    description: >-
+                      Returns as `true` if the resource has been successfully
+                      deleted.
+                  s3Url:
+                    type: string
+                    description: The URL for the generated export file.
+                  state:
+                    type: string
+                    enum:
+                      - in_progress
+                      - failed
+                      - succeeded
+                    description: >-
+                      The state of the export file, which can be `in_progress`,
+                      `failed` or `succeeded`.
+                  type:
+                    type: string
+                    enum:
+                      - all
+                      - failures
+                      - successes
+                    description: >-
+                      The export file type, which can be `all`, `failures` or
+                      `successes`.
+                  uploadId:
+                    $ref: '#/components/schemas/upl_id'
+              example:
+                id: ex_6a94fe68fd151e0f8
+                dateCreated: '2021-07-06T22:51:42.838Z'
+                dateModified: '2022-07-06T22:51:42.838Z'
+                deleted: false
+                s3Url: null
+                state: in_progress
+                type: failures
+                uploadId: upl_71be866e430b11e9
+      x-codeSamples:
+        - lang: Shell
+          source: >
+            curl
+            https://api.lob.com/v1/uploads/upl_71be866e430b11e9/exports/ex_6a94fe68fd151e0f8
+            \
+              -u <YOUR API KEY>:
           label: CURL
   /us_autocompletions:
     post:

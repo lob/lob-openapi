@@ -1,0 +1,54 @@
+schema:
+  type: object
+  required:
+    - id
+    - dateCreated
+    - dateModified
+    - deleted
+    - s3Url
+    - state
+    - type
+    - uploadId
+  properties:
+    id:
+      $ref: "../attributes/ex_id.yml"
+    dateCreated:
+      type: string
+      format: date-time
+      description: A timestamp in ISO 8601 format of the date the export was created
+    dateModified:
+      type: string
+      format: date-time
+      description: A timestamp in ISO 8601 format of the date the export was last modified
+    deleted:
+      type: boolean
+      description: Returns as `true` if the resource has been successfully deleted.
+    s3Url:
+      type: string
+      description: The URL for the generated export file.
+    state:
+      type: string
+      enum:
+        - in_progress
+        - failed
+        - succeeded
+      description: The state of the export file, which can be `in_progress`, `failed` or `succeeded`.
+    type:
+      type: string
+      enum:
+        - all
+        - failures
+        - successes
+      description: The export file type, which can be `all`, `failures` or `successes`.
+    uploadId:
+      $ref: "../attributes/upl_id.yml"
+
+example:
+  id: ex_6a94fe68fd151e0f8
+  dateCreated: "2021-07-06T22:51:42.838Z"
+  dateModified: "2022-07-06T22:51:42.838Z"
+  deleted: false
+  s3Url: null
+  state: in_progress
+  type: failures
+  uploadId: upl_71be866e430b11e9

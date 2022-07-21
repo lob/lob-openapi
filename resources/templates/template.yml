@@ -173,7 +173,7 @@ post:
             "description" =>  "Updated description",
             "published_version" =>  "vrsn_362184d96d9b0c9"
         ));
-        
+
         try {
             $result = $apiInstance->update("tmpl_c94e83ca2cd5121", $templateUpdate);
         } catch (Exception $e) {
@@ -183,10 +183,10 @@ post:
       source: |
         TemplatesApi apiInstance = new TemplatesApi(config); 
         TemplateUpdate update = new TemplateUpdate();
-      
+
         update.setDescription("update template");
         update.setPublishedVersion("vrsn_362184d96d9b0c9";
-      
+
         try {
           apiInstance.update("tmpl_c94e83ca2cd5121", update);
         } catch (ApiException e) {

@@ -371,10 +371,10 @@ post:
             "address_zip"     => "94107",
           )
         );
-        
+
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
-        
+
         $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new GuzzleHttp\Client());
         $postcard_editable = new OpenAPI\Client\Model\PostcardEditable(
           array(
@@ -386,7 +386,7 @@ post:
             "merge_variables"     => $merge_variables,
           )
         );
-        
+
         try {
             $result = $apiInstance->create($postcard_editable);
         } catch (Exception $e) {
@@ -396,9 +396,9 @@ post:
       source: |
         Map<String, String> merge_variables = new HashMap<String, String>();
         merge_variables.put("name", "Harry");
-        
+
         PostcardsApi apiInstance = new PostcardsApi(config);
-        
+
         AddressEditable to = new AddressEditable();
         to.setName("Harry Zhang");
         to.setAddressLine1("210 King St");
@@ -406,7 +406,7 @@ post:
         to.setAddressCity("San Francisco");
         to.setAddressState("CA");
         to.setAddressZip("94107");
-        
+
         try {
           PostcardEditable postcardEditable = new PostcardEditable(); 
           postcardEditable.setDescription("Demo Postcard job");
@@ -415,7 +415,7 @@ post:
           postcardEditable.setBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>");
           postcardEditable.setTo(to);
           postcardEditable.setMergeVariables(merge_variables);
-        
+
           Postcard result = apiInstance.create(postcardEditable, null);
         } catch (ApiException e) {
           e.printStackTrace();

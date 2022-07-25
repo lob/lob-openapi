@@ -111,7 +111,7 @@ test("list self mailers' params", async function (t) {
 });
 
 test.serial.before(
-  "create a letter, letter with full payload, and certified letter",
+  "create a barebones self mailer, and one with full payload",
   async function (t) {
     // NORMAL SELF MAILER
     const makeAddress = async (address_data) => {

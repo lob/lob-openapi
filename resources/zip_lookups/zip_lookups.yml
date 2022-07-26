@@ -83,7 +83,7 @@ post:
         $zipRequest = new OpenAPI\Client\Model\ZipEditable(array(
             "zip_code"  =>  '94107'
         ));
-        
+
         try {
             $result = $apiInstance->lookup($zipRequest);
         } catch (Exception $e) {
@@ -94,7 +94,7 @@ post:
       source: |
         ZipEditable zipEditable = new ZipEditable();
         zipEditable.setZipCode("94107");
-        
+
         ZipLookupsApi apiInstance = new ZipLookupsApi(config);
         try {
           Zip response = apiInstance.lookup(zipEditable);

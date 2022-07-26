@@ -211,7 +211,7 @@ test.serial.before(
             double_sided: false,
             address_placement: "insert_blank_page",
             mail_type: "usps_first_class",
-            extra_service: "registered",
+            // extra_service: "registered",
             return_envelope: true,
             perforated_page: 1,
             custom_envelope: null,
@@ -275,46 +275,46 @@ test.serial.before(
       }
     }
 
-    // CERTIFIED LETTER
-    try {
-      const create = await prism.setup().then((client) =>
-        client.post(
-          resource_endpoint,
-          {
-            to: {
-              company: "Lob (old)",
-              address_line1: "210 King St",
-              address_line2: "# 6100",
-              address_city: "San Francisco",
-              address_state: "CA",
-              address_zip: "94107",
-              address_country: "US",
-            },
-            from: {
-              company: "Lob (new)",
-              address_line1: "210 King St",
-              address_city: "San Francisco",
-              address_state: "CA",
-              address_zip: "94107",
-              address_country: "US",
-            },
-            color: true,
-            extra_service: "certified",
-            file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
-          },
-          { headers: prism.authHeader }
-        )
-      );
-      t.assert(create.status === 200);
-      t.assert(create.data.tracking_number);
-      t.context.certified_id = create.data.id;
-    } catch (prismError) {
-      if (Object.keys(prismError).length > 0) {
-        t.fail(JSON.stringify(prismError, null, 2));
-      } else {
-        t.fail(prismError.toString());
-      }
-    }
+    // // CERTIFIED LETTER
+    // try {
+    //   const create = await prism.setup().then((client) =>
+    //     client.post(
+    //       resource_endpoint,
+    //       {
+    //         to: {
+    //           company: "Lob (old)",
+    //           address_line1: "210 King St",
+    //           address_line2: "# 6100",
+    //           address_city: "San Francisco",
+    //           address_state: "CA",
+    //           address_zip: "94107",
+    //           address_country: "US",
+    //         },
+    //         from: {
+    //           company: "Lob (new)",
+    //           address_line1: "210 King St",
+    //           address_city: "San Francisco",
+    //           address_state: "CA",
+    //           address_zip: "94107",
+    //           address_country: "US",
+    //         },
+    //         color: true,
+    //         extra_service: "certified",
+    //         file: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf",
+    //       },
+    //       { headers: prism.authHeader }
+    //     )
+    //   );
+    //   t.assert(create.status === 200);
+    //   t.assert(create.data.tracking_number);
+    //   t.context.certified_id = create.data.id;
+    // } catch (prismError) {
+    //   if (Object.keys(prismError).length > 0) {
+    //     t.fail(JSON.stringify(prismError, null, 2));
+    //   } else {
+    //     t.fail(prismError.toString());
+    //   }
+    // }
   }
 );
 
@@ -419,52 +419,52 @@ test.serial(
 );
 
 // add any failure cases you need here
-test.serial("list, read then cancel a certified letter", async function (t) {
-  try {
-    const list = await prism
-      .setup()
-      .then((client) =>
-        client.get(resource_endpoint, { headers: prism.authHeader })
-      );
-    t.assert(list.status === 200);
-  } catch (prismError) {
-    if (Object.keys(prismError).length > 0) {
-      t.fail(JSON.stringify(prismError, null, 2));
-    } else {
-      t.fail(prismError.toString());
-    }
-  }
+// test.serial("list, read then cancel a certified letter", async function (t) {
+//   try {
+//     const list = await prism
+//       .setup()
+//       .then((client) =>
+//         client.get(resource_endpoint, { headers: prism.authHeader })
+//       );
+//     t.assert(list.status === 200);
+//   } catch (prismError) {
+//     if (Object.keys(prismError).length > 0) {
+//       t.fail(JSON.stringify(prismError, null, 2));
+//     } else {
+//       t.fail(prismError.toString());
+//     }
+//   }
 
-  try {
-    const read = await prism.setup().then((client) =>
-      client.get(`${resource_endpoint}/${t.context.certified_id}`, {
-        headers: prism.authHeader,
-      })
-    );
-    t.assert(read.status === 200);
-  } catch (prismError) {
-    if (Object.keys(prismError).length > 0) {
-      t.fail(JSON.stringify(prismError, null, 2));
-    } else {
-      t.fail(prismError.toString());
-    }
-  }
+//   try {
+//     const read = await prism.setup().then((client) =>
+//       client.get(`${resource_endpoint}/${t.context.certified_id}`, {
+//         headers: prism.authHeader,
+//       })
+//     );
+//     t.assert(read.status === 200);
+//   } catch (prismError) {
+//     if (Object.keys(prismError).length > 0) {
+//       t.fail(JSON.stringify(prismError, null, 2));
+//     } else {
+//       t.fail(prismError.toString());
+//     }
+//   }
 
-  try {
-    const cancel = await prism.setup().then((client) =>
-      client.delete(`${resource_endpoint}/${t.context.certified_id}`, {
-        headers: prism.authHeader,
-      })
-    );
-    t.assert(cancel.status === 200);
-  } catch (prismError) {
-    if (Object.keys(prismError).length > 0) {
-      t.fail(JSON.stringify(prismError, null, 2));
-    } else {
-      t.fail(prismError.toString());
-    }
-  }
-});
+//   try {
+//     const cancel = await prism.setup().then((client) =>
+//       client.delete(`${resource_endpoint}/${t.context.certified_id}`, {
+//         headers: prism.authHeader,
+//       })
+//     );
+//     t.assert(cancel.status === 200);
+//   } catch (prismError) {
+//     if (Object.keys(prismError).length > 0) {
+//       t.fail(JSON.stringify(prismError, null, 2));
+//     } else {
+//       t.fail(prismError.toString());
+//     }
+//   }
+// });
 
 test.after.always("delete addresses", async function (t) {
   const deleteAddress = async (address_id) => {

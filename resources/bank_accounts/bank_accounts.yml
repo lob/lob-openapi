@@ -220,7 +220,7 @@ post:
             "account_type"     => "company",
           )
         );
-        
+
         try {
             $result = $apiInstance->create($bank_account_writable);
         } catch (Exception $e) {
@@ -237,7 +237,7 @@ post:
           bankAccountWritable.setAccountNumber("123456789");
           bankAccountWritable.setSignatory("John Doe");
           bankAccountWritable.setAccountType(BankTypeEnum.COMPANY);
-        
+
           BankAccount result = apiInstance.create(bankAccountWritable);
         } catch (ApiException e) {
           e.printStackTrace();

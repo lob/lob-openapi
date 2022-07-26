@@ -296,10 +296,10 @@ post:
             "address_zip"     => "94107",
           )
         );
-        
+
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
-        
+
         $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new GuzzleHttp\Client());
         $self_mailer_editable = new OpenAPI\Client\Model\SelfMailerEditable(
           array(
@@ -311,7 +311,7 @@ post:
             "merge_variables"     => $merge_variables,
           )
         );
-        
+
         try {
             $result = $apiInstance->create($self_mailer_editable);
         } catch (Exception $e) {
@@ -321,9 +321,9 @@ post:
       source: |
         Map<String, String> merge_variables = new HashMap<String, String>();
         merge_variables.put("name", "Harry");
-        
+
         SelfMailersApi apiInstance = new SelfMailersApi(config);
-        
+
         AddressEditable to = new AddressEditable();
         to.setName("Harry Zhang");
         to.setAddressLine1("210 King St");
@@ -331,7 +331,7 @@ post:
         to.setAddressCity("San Francisco");
         to.setAddressState("CA");
         to.setAddressZip("94107");
-        
+
         try {
           SelfMailerEditable selfMailerEditable = new SelfMailerEditable(); 
           selfMailerEditable.setDescription("Demo Self Mailer job");
@@ -340,7 +340,7 @@ post:
           selfMailerEditable.setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>");
           selfMailerEditable.setTo(to);
           selfMailerEditable.setMergeVariables(merge_variables);
-        
+
           SelfMailer result = apiInstance.create(selfMailerEditable, null);
         } catch (ApiException e) {
           e.printStackTrace();

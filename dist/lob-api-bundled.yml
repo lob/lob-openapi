@@ -5744,11 +5744,15 @@ components:
       enum:
         - immediate
     cmp_use_type:
-      description: The usage type of this campaign. Can be one of marketing or operational.
+      description: >-
+        The usage type of this campaign. Can be one of `marketing` or
+        `operational`.
       type: string
       enum:
         - marketing
         - operational
+        - null
+      nullable: true
     campaign_writable:
       type: object
       required:
@@ -5756,7 +5760,10 @@ components:
         - schedule_type
       properties:
         billing_group_id:
-          $ref: '#/components/schemas/bg_id'
+          type: string
+          description: Unique identifier prefixed with `bg_`.
+          pattern: ^bg_[a-zA-Z0-9]+$
+          nullable: true
         name:
           description: Name of the campaign.
           type: string
@@ -5766,21 +5773,22 @@ components:
           $ref: '#/components/schemas/cmp_schedule_type'
         target_delivery_date:
           description: >-
-            If schedule_type is target_delivery_date, provide a targeted
+            If `schedule_type` is `target_delivery_date`, provide a targeted
             delivery date for mail pieces in this campaign.
           type: string
           format: date-time
           nullable: true
         send_date:
           description: >-
-            If schedule_type is scheduled_send_date, provide a date to send this
-            campaign.
+            If `schedule_type` is `scheduled_send_date`, provide a date to send
+            this campaign.
           type: string
           format: date-time
           nullable: true
         cancel_window_campaign_minutes:
           description: A window, in minutes, within which the campaign can be canceled.
           type: integer
+          nullable: true
         metadata:
           $ref: '#/components/schemas/metadata'
         use_type:
@@ -5795,55 +5803,6 @@ components:
       title: Campaign id
       description: Unique identifier prefixed with `cmp_`.
       pattern: ^cmp_[a-zA-Z0-9]+$
-    inline_address_us:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_us'
-        - type: object
-          required:
-            - address_line1
-            - address_city
-            - address_state
-            - address_zip
-    from_attribute:
-      title: From
-      description: >-
-        Must either be an address ID or an inline object with correct address
-        parameters. All addresses will be standardized into uppercase without
-        being modified by verification.
-      oneOf:
-        - $ref: '#/components/schemas/adr_id'
-        - $ref: '#/components/schemas/inline_address_us'
-    supported_resource_type:
-      title: Resource Type
-      enum:
-        - postcard
-        - letter
-      default: postcard
-      type: string
-      description: Mailpiece type for the creative
-    creative_base:
-      type: object
-      properties:
-        description:
-          title: Description
-          type: string
-          example: Our updated 4x6 postcard creative
-          description: An internal description that identifies this resource
-        from:
-          $ref: '#/components/schemas/from_attribute'
-        resource_type:
-          $ref: '#/components/schemas/supported_resource_type'
-        details:
-          title: Details
-          type: object
-          description: Object with key-value pairs containing creative details
-        metadata:
-          $ref: '#/components/schemas/metadata'
-    crv_id:
-      type: string
-      description: Unique identifier prefixed with `crv_`.
-      pattern: ^crv_[a-zA-Z0-9]+$
-      example: crv_2a3b096c409b32c
     campaign:
       allOf:
         - $ref: '#/components/schemas/lob_base'
@@ -5852,7 +5811,6 @@ components:
           required:
             - id
             - account_id
-            - billing_group_id
             - name
             - description
             - schedule_type
@@ -5878,82 +5836,12 @@ components:
                 An array of creatives that have been associated with this
                 campaign.
               type: array
-              items:
-                $ref: '#/components/schemas/creative'
             object:
               type: string
               description: Value is resource type.
               enum:
                 - campaign
               default: campaign
-    creative:
-      allOf:
-        - $ref: '#/components/schemas/lob_base'
-        - $ref: '#/components/schemas/creative_base'
-        - type: object
-          required:
-            - id
-            - account_id
-            - description
-            - from
-            - resource_type
-            - details
-            - metadata
-            - template_preview_urls
-            - template_previews
-            - campaigns
-            - date_created
-            - date_modified
-            - object
-          properties:
-            id:
-              $ref: '#/components/schemas/crv_id'
-            account_id:
-              title: Account ID
-              type: string
-              example: fa9ea650fc7b31a89f92
-              description: Account ID that made the request
-            template_preview_urls:
-              title: Template Preview URLs
-              type: object
-              description: >-
-                URL to view preview of a creative ID. Currently unpopulated, but
-                will be in the future.
-            template_previews:
-              title: Template Previews
-              type: array
-              items:
-                type: object
-              description: >-
-                IDs for each creative preview. Currently unpopulated, but will
-                be in the future.
-            campaigns:
-              title: Campaigns
-              type: array
-              description: Array of campaigns associated with the creative ID
-              items:
-                $ref: '#/components/schemas/campaign'
-              example:
-                - id: cmp_364c74e0ae263327
-                  billing_group_id: null
-                  name: Docs Example
-                  description: Our docs example description
-                  schedule_type: immediate
-                  send_date: null
-                  target_delivery_date: null
-                  cancel_window_campaign_minutes: 40
-                  is_draft: true
-                  deleted: false
-                  auto_cancel_if_ncoa: false
-                  date_created: '2022-07-01T16:15:32.339Z'
-                  date_modified: '2022-07-01T16:15:32.339Z'
-                  object: campaign
-            object:
-              type: string
-              description: Value is resource type.
-              enum:
-                - creative
-              default: creative
     campaign_updatable:
       type: object
       properties:
@@ -5966,14 +5854,14 @@ components:
           $ref: '#/components/schemas/cmp_schedule_type'
         target_delivery_date:
           description: >-
-            If schedule_type is target_delivery_date, provide a targeted
+            If `schedule_type` is `target_delivery_date`, provide a targeted
             delivery date for mail pieces in this campaign.
           type: string
           format: date-time
         send_date:
           description: >-
-            If schedule_type is scheduled_send_date, provide a date to send this
-            campaign.
+            If `schedule_type` is `scheduled_send_date`, provide a date to send
+            this campaign.
           type: string
           format: date-time
         cancel_window_campaign_minutes:
@@ -6541,6 +6429,15 @@ components:
               $ref: '#/components/schemas/date_modified'
             deleted:
               $ref: '#/components/schemas/deleted'
+    inline_address_us:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_us'
+        - type: object
+          required:
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
     check_input_to:
       type: object
       properties:
@@ -6713,20 +6610,426 @@ components:
           $ref: '#/components/schemas/chk_id'
         deleted:
           $ref: '#/components/schemas/deleted'
-    creative_writable:
+    supported_resource_type:
+      title: Resource Type
+      default: postcard
+      type: string
+      description: Mailpiece type for the creative
+    from_attribute:
+      title: From
+      description: >-
+        Must either be an address ID or an inline object with correct address
+        parameters. All addresses will be standardized into uppercase without
+        being modified by verification.
+      oneOf:
+        - $ref: '#/components/schemas/adr_id'
+        - $ref: '#/components/schemas/inline_address_us'
+    creative_base:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/from_attribute'
+        description:
+          $ref: '#/components/schemas/resource_description'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    postcard_size:
+      type: string
+      enum:
+        - 4x6
+        - 6x9
+        - 6x11
+      description: >
+        Specifies the size of the postcard. Only `4x6` postcards can be sent to
+        international destinations.
+      default: 4x6
+    front:
+      description: >
+        The artwork to use as the front of your postcard.
+
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+        specified `size`.
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - $ref: '#/components/schemas/local_file_path'
+    back:
+      description: >
+        The artwork to use as the back of your postcard.
+
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+        specified `size`.
+
+        - Be sure to leave room for address and postage information by following
+        the templates provided here:
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/4x6_postcard.pdf" target="_blank">4x6 template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x9_postcard.pdf" target="_blank">6x9 template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x11_postcard.pdf" target="_blank">6x11 template</a>
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - $ref: '#/components/schemas/local_file_path'
+    postcardsCreative:
       allOf:
         - $ref: '#/components/schemas/creative_base'
         - type: object
-          required:
-            - campaign_id
-            - resource_type
-            - details
           properties:
-            campaign_id:
-              $ref: '#/components/schemas/cmp_id'
-    creative_updatable:
+            details:
+              description: Properties that the postcards in your Creative should have.
+              properties:
+                mail_type:
+                  $ref: '#/components/schemas/mail_type'
+                size:
+                  $ref: '#/components/schemas/postcard_size'
+            front:
+              $ref: '#/components/schemas/front'
+            back:
+              $ref: '#/components/schemas/back'
+    address_placement:
+      type: string
+      enum:
+        - top_first_page
+        - insert_blank_page
+        - bottom_first_page_center
+        - bottom_first_page
+      description: >
+        Specifies the location of the address information that will show through
+        the double-window envelope. To see how this will impact your letter
+        design, view our letter template.
+
+        This feature is exclusive to certain customers. Upgrade to the
+        appropriate <a href="https://dashboard.lob.com/#/settings/editions"
+        target="_blank">Print & Mail Edition</a> to gain access.
+          * `top_first_page` - (default) print address information at the top of your provided first page
+          * `insert_blank_page` - insert a blank address page at the beginning of your file (you will be charged for the extra page)
+          * `bottom_first_page_center` - **(deprecation planned within a few months)** print address information at the bottom center of your provided first page
+          * `bottom_first_page` - print address information at the bottom of your provided first page
+      default: top_first_page
+    color:
+      type: boolean
+      description: >-
+        Set this key to `true` if you would like to print in color. Set to
+        `false` if you would like to print in black and white.
+    custom_envelope:
+      type: object
+      description: >-
+        A nested custom envelope object containing more information about the
+        custom envelope used or `null` if a custom envelope was not used.
+
+
+        Accepts an envelope ID for any customized envelope with available
+        inventory. If no inventory is available for the specified ID, the letter
+        will not be sent, and an error will be returned. If the letter has more
+        than 6 sheets, it will be sent in a blank flat envelope. Custom
+        envelopes may be created and ordered from the dashboard. This feature is
+        exclusive to certain customers. Upgrade to the appropriate <a
+        href="https://dashboard.lob.com/#/settings/editions"
+        target="_blank">Print & Mail Edition</a> to gain access.
+      required:
+        - id
+        - url
+        - object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the custom envelope used.
+          maxLength: 40
+        url:
+          type: string
+          description: The url of the envelope asset used.
+        object:
+          allOf:
+            - $ref: '#/components/schemas/object'
+            - type: string
+              enum:
+                - envelope
+              default: envelope
+      nullable: true
+    double_sided:
+      type: boolean
+      description: >-
+        Set this attribute to `true` for double sided printing, or `false` for
+        for single sided printing. Defaults to `true`.
+      default: true
+    extra_service:
+      type: string
+      enum:
+        - certified
+        - certified_return_receipt
+        - registered
+        - null
+      description: >
+        Add an extra service to your letter. Can only be non-`null`` if
+        `mail_type` isn't `usps_standard`. See <a
+        href="https://www.lob.com/pricing/print-mail#compare"
+        target="_blank">pricing</a> for extra costs incurred.
+          * `certified` - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf" target="_blank">#10 envelope</a> and <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf" target="_blank">flat envelope</a> (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
+          * `certified_return_receipt` - request an electronic copy of the recipient's signature to prove delivery of your certified letter
+          * `registered` - provides tracking and confirmation for international addresses
+      nullable: true
+    return_envelope:
+      oneOf:
+        - type: boolean
+        - $ref: '#/components/schemas/return_envelope'
+      description: >-
+        Indicates if a return envelope is requested for the letter. The value
+        corresponding to this field is by default a boolean. But if the account
+        is signed up for custom return envelopes, the value is of type string
+        and is `no_9_single_window` for a standard return envelope and a custom
+        `return_envelope_id` for non-standard return envelopes.
+
+
+        To include a return envelope with your letter, set to `true` and specify
+        the `perforated_page`. See <a
+        href="https://www.lob.com/pricing/print-mail#compare"
+        target="_blank">pricing</a> for extra costs incurred.
+      default: false
+    file:
+      description: >-
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - All pages of a supplied PDF file must be sized at 8.5"x11", while
+        supplied HTML will be rendered and trimmed to as many 8.5"x11" pages as
+        necessary.
+
+        - For design specifications, please see our <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf"
+        target="_blank">PDF</a> and [HTML](#section/HTML-Examples) templates.
+
+        - If a `custom_envelope` is used, follow <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf"
+        target="_blank">this template</a>.
+
+        - For domestic destinations, the file limit is 60 pages single-sided or
+        120 pages double-sided. For international destinations, the file limit
+        is 6 pages single-sided or 12 pages double-sided. PDFs that surpass the
+        file limit will error, while HTML that renders more pages than the file
+        limit will be trimmed.
+
+        - Any letters over 6 pages single-sided or 12 pages double-sided will be
+        placed in a <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf"
+        target="_blank">flat envelope</a> instead of the standard double window
+        envelope.
+
+
+        See <a href="https://lob.com/pricing/print-mail#compare"
+        target="_blank">pricing</a> for extra costs incurred.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - type: string
+          pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
+    lettersCreative:
       allOf:
         - $ref: '#/components/schemas/creative_base'
+        - type: object
+          properties:
+            details:
+              description: Properties that the letters in your Creative should have.
+              required:
+                - cards
+                - color
+              properties:
+                address_placement:
+                  $ref: '#/components/schemas/address_placement'
+                cards:
+                  description: >-
+                    A single-element array containing an existing card id in a
+                    string format. See [cards](#tag/Cards) for more information.
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/card_id'
+                  minItems: 0
+                  maxItems: 1
+                  nullable: true
+                color:
+                  $ref: '#/components/schemas/color'
+                custom_envelope:
+                  $ref: '#/components/schemas/custom_envelope'
+                double_sided:
+                  $ref: '#/components/schemas/double_sided'
+                extra_service:
+                  $ref: '#/components/schemas/extra_service'
+                mail_type:
+                  $ref: '#/components/schemas/mail_type'
+                return_envelope:
+                  $ref: '#/components/schemas/return_envelope'
+            file:
+              $ref: '#/components/schemas/file'
+    creative_writable:
+      oneOf:
+        - allOf:
+            - title: Postcard Creative
+              required:
+                - front
+                - back
+                - campaign_id
+                - resource_type
+                - details
+              properties:
+                resource_type:
+                  allOf:
+                    - $ref: '#/components/schemas/supported_resource_type'
+                  enum:
+                    - postcard
+                campaign_id:
+                  $ref: '#/components/schemas/cmp_id'
+            - $ref: '#/components/schemas/postcardsCreative'
+        - allOf:
+            - title: Letter Creative
+              required:
+                - file
+                - from
+                - campaign_id
+                - resource_type
+                - details
+              properties:
+                resource_type:
+                  allOf:
+                    - $ref: '#/components/schemas/supported_resource_type'
+                  enum:
+                    - letter
+                campaign_id:
+                  $ref: '#/components/schemas/cmp_id'
+            - $ref: '#/components/schemas/lettersCreative'
+    crv_id:
+      type: string
+      description: Unique identifier prefixed with `crv_`.
+      pattern: ^crv_[a-zA-Z0-9]+$
+      example: crv_2a3b096c409b32c
+    creative:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/creative_writable'
+        - type: object
+          required:
+            - id
+            - account_id
+            - description
+            - from
+            - resource_type
+            - details
+            - metadata
+            - template_preview_urls
+            - template_previews
+            - campaigns
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/crv_id'
+            account_id:
+              title: Account ID
+              type: string
+              example: fa9ea650fc7b31a89f92
+              description: Account ID that made the request
+            template_preview_urls:
+              title: Template Preview URLs
+              type: object
+              description: >-
+                URL to view preview of a creative ID. Currently unpopulated, but
+                will be filled in the future.
+            template_previews:
+              title: Template Previews
+              type: array
+              items:
+                type: object
+              description: >-
+                IDs for each creative preview. Currently unpopulated, but will
+                be filled in the future.
+            campaigns:
+              title: Campaigns
+              type: array
+              description: Array of campaigns associated with the creative ID
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/campaign_writable'
+                  - type: object
+                    required:
+                      - id
+                      - name
+                      - description
+                      - schedule_type
+                      - is_draft
+                      - auto_cancel_if_ncoa
+                      - date_created
+                      - date_modified
+                      - object
+                    properties:
+                      id:
+                        $ref: '#/components/schemas/cmp_id'
+                      account_id:
+                        description: Account ID that this campaign is associated with.
+                        type: string
+                      is_draft:
+                        description: Whether or not the campaign is still a draft.
+                        type: boolean
+                        default: true
+                      creatives:
+                        description: >-
+                          An array of creatives that have been associated with
+                          this campaign.
+                        type: array
+                      date_created:
+                        $ref: '#/components/schemas/date_created'
+                      date_modified:
+                        $ref: '#/components/schemas/date_modified'
+                      deleted:
+                        $ref: '#/components/schemas/deleted'
+                      object:
+                        allOf:
+                          - $ref: '#/components/schemas/object'
+                          - enum:
+                              - campaign
+                            default: campaign
+              example:
+                - id: cmp_ed76e33e7ac4d0bd
+                  name: My postman Campaign 2
+                  description: Created via postman again
+                  schedule_type: immediate
+                  send_date: null
+                  target_delivery_date: null
+                  cancel_window_campaign_minutes: null
+                  metadata: {}
+                  use_type: null
+                  is_draft: true
+                  deleted: false
+                  creatives: []
+                  auto_cancel_if_ncoa: false
+                  date_created: '2022-07-26T20:20:25.016Z'
+                  date_modified: '2022-07-26T20:20:25.016Z'
+                  object: campaign
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - creative
+              default: creative
     multi_line_address:
       allOf:
         - anyOf:
@@ -7154,20 +7457,6 @@ components:
       oneOf:
         - $ref: '#/components/schemas/adr_id'
         - $ref: '#/components/schemas/inline_address'
-    return_envelope:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The unique ID of the Return Envelope
-        alias:
-          type: string
-          description: A quick reference name for the Return Envelope
-        url:
-          type: string
-          description: The url of the  return envelope
-        object:
-          type: string
     letter_base:
       allOf:
         - $ref: '#/components/schemas/editable_no_mailtype'
@@ -7178,50 +7467,13 @@ components:
             mail_type:
               $ref: '#/components/schemas/mail_type'
             color:
-              type: boolean
-              description: >-
-                Set this key to `true` if you would like to print in color. Set
-                to `false` if you would like to print in black and white.
+              $ref: '#/components/schemas/color'
             double_sided:
-              type: boolean
-              description: >-
-                Set this attribute to `true` for double sided printing, or
-                `false` for for single sided printing. Defaults to `true`.
-              default: true
+              $ref: '#/components/schemas/double_sided'
             address_placement:
-              type: string
-              enum:
-                - top_first_page
-                - insert_blank_page
-                - bottom_first_page_center
-                - bottom_first_page
-              description: >
-                Specifies the location of the address information that will show
-                through the double-window envelope. To see how this will impact
-                your letter design, view our letter template.
-                  * `top_first_page` - (default) print address information at the top of your provided first page
-                  * `insert_blank_page` - insert a blank address page at the beginning of your file (you will be charged for the extra page)
-                  * `bottom_first_page_center` - **(deprecation planned within a few months)** print address information at the bottom center of your provided first page
-                  * `bottom_first_page` - print address information at the bottom of your provided first page
-              default: top_first_page
+              $ref: '#/components/schemas/address_placement'
             return_envelope:
-              oneOf:
-                - type: boolean
-                - $ref: '#/components/schemas/return_envelope'
-              description: >-
-                Indicates if a return envelope is requested for the letter. The
-                value corresponding to this field is by default a boolean. But
-                if the account is signed up for custom return envelopes, the
-                value is of type string and is `no_9_single_window` for a
-                standard return envelope and a custom `return_envelope_id` for
-                non-standard return envelopes.
-
-
-                To include a return envelope with your letter, set to `true` and
-                specify the `perforated_page`. See <a
-                href="https://www.lob.com/pricing/print-mail#compare"
-                target="_blank">pricing</a> for extra costs incurred.
-              default: false
+              $ref: '#/components/schemas/return_envelope'
             perforated_page:
               type: integer
               description: >-
@@ -7235,39 +7487,7 @@ components:
                 target="_blank">perforation guide</a>.
               nullable: true
             custom_envelope:
-              type: object
-              description: >-
-                A nested custom envelope object containing more information
-                about the custom envelope used or `null` if a custom envelope
-                was not used.
-
-                Accepts an envelope ID for any customized envelope with
-                available inventory. If no inventory is available for the
-                specified ID, the letter will not be sent, and an error will be
-                returned. If the letter has more than 6 sheets, it will be sent
-                in a blank flat envelope. Custom envelopes may be created and
-                ordered from the dashboard. This feature is exclusive to certain
-                customers. Upgrade to the appropriate Print & Mail Edition to
-                gain access.
-              required:
-                - id
-                - url
-                - object
-              properties:
-                id:
-                  type: string
-                  description: The unique identifier of the custom envelope used.
-                  maxLength: 40
-                url:
-                  type: string
-                  description: The url of the envelope asset used.
-                object:
-                  type: string
-                  description: Value is resource type.
-                  enum:
-                    - envelope
-                  default: envelope
-              nullable: true
+              $ref: '#/components/schemas/custom_envelope'
     generated:
       type: object
       required:
@@ -7497,61 +7717,9 @@ components:
             - color
           properties:
             file:
-              description: >-
-                Notes:
-
-                - HTML merge variables should not include delimiting whitespace.
-
-                - All pages of a supplied PDF file must be sized at 8.5"x11",
-                while supplied HTML will be rendered and trimmed to as many
-                8.5"x11" pages as necessary.
-
-                - For design specifications, please see our <a
-                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf"
-                target="_blank">PDF</a> and [HTML](#section/HTML-Examples)
-                templates.
-
-                - If a `custom_envelope` is used, follow <a
-                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf"
-                target="_blank">this template</a>.
-
-                - For domestic destinations, the file limit is 60 pages
-                single-sided or 120 pages double-sided. For international
-                destinations, the file limit is 6 pages single-sided or 12 pages
-                double-sided. PDFs that surpass the file limit will error, while
-                HTML that renders more pages than the file limit will be
-                trimmed.
-
-                - Any letters over 6 pages single-sided or 12 pages double-sided
-                will be placed in a <a
-                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf"
-                target="_blank">flat envelope</a> instead of the standard double
-                window envelope.
-
-
-                See <a href="https://lob.com/pricing/print-mail#compare"
-                target="_blank">pricing</a> for extra costs incurred.
-              oneOf:
-                - $ref: '#/components/schemas/html_string'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - type: string
-                  pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
+              $ref: '#/components/schemas/file'
             extra_service:
-              type: string
-              enum:
-                - certified
-                - certified_return_receipt
-                - registered
-                - null
-              description: >
-                Add an extra service to your letter. See <a
-                href="https://www.lob.com/pricing/print-mail#compare"
-                target="_blank">pricing</a> for extra costs incurred.
-                  * `certified` - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf" target="_blank">#10 envelope</a> and <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf" target="_blank">flat envelope</a> (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
-                  * `certified_return_receipt` - request an electronic copy of the recipient's signature to prove delivery of your certified letter
-                  * `registered` - provides tracking and confirmation for international addresses
-              nullable: true
+              $ref: '#/components/schemas/extra_service'
             cards:
               description: >-
                 A single-element array containing an existing card id in a
@@ -7565,56 +7733,15 @@ components:
             mail_type:
               $ref: '#/components/schemas/mail_type'
             color:
-              type: boolean
-              description: >-
-                Set this key to `true` if you would like to print in color. Set
-                to `false` if you would like to print in black and white.
-              default: false
+              allOf:
+                - $ref: '#/components/schemas/color'
+                - default: false
             double_sided:
-              type: boolean
-              description: >-
-                Set this attribute to `true` for double sided printing, or
-                `false` for for single sided printing. Defaults to `true`.
-              default: true
+              $ref: '#/components/schemas/double_sided'
             address_placement:
-              type: string
-              enum:
-                - top_first_page
-                - insert_blank_page
-                - bottom_first_page_center
-                - bottom_first_page
-              description: >
-                Specifies the location of the address information that will show
-                through the double-window envelope. To see how this will impact
-                your letter design, view our letter template.
-
-                This feature is exclusive to certain customers. Upgrade to the
-                appropriate <a
-                href="https://dashboard.lob.com/#/settings/editions"
-                target="_blank">Print & Mail Edition</a> to gain access.
-                  * `top_first_page` - (default) print address information at the top of your provided first page
-                  * `insert_blank_page` - insert a blank address page at the beginning of your file (you will be charged for the extra page)
-                  * `bottom_first_page_center` - **(deprecation planned within a few months)** print address information at the bottom center of your provided first page
-                  * `bottom_first_page` - print address information at the bottom of your provided first page
-              default: top_first_page
+              $ref: '#/components/schemas/address_placement'
             return_envelope:
-              oneOf:
-                - type: string
-                - type: boolean
-              description: >-
-                Indicates if a return envelope is requested for the letter. The
-                value corresponding to this field is by default a boolean. But
-                if the account is signed up for custom return envelopes, the
-                value is of type string and is `no_9_single_window` for a
-                standard return envelope and a custom `return_envelope_id` for
-                non-standard return envelopes.
-
-
-                To include a return envelope with your letter, set to `true` and
-                specify the `perforated_page`. See <a
-                href="https://www.lob.com/pricing/print-mail#compare"
-                target="_blank">pricing</a> for extra costs incurred.
-              default: false
+              $ref: '#/components/schemas/return_envelope'
             perforated_page:
               type: integer
               description: >-
@@ -7628,58 +7755,13 @@ components:
                 target="_blank">perforation guide</a>.
               nullable: true
             custom_envelope:
-              type: object
-              description: >-
-                A nested custom envelope object containing more information
-                about the custom envelope used or `null` if a custom envelope
-                was not used.
-
-
-                Accepts an envelope ID for any customized envelope with
-                available inventory. If no inventory is available for the
-                specified ID, the letter will not be sent, and an error will be
-                returned. If the letter has more than 6 sheets, it will be sent
-                in a blank flat envelope. Custom envelopes may be created and
-                ordered from the dashboard. This feature is exclusive to certain
-                customers. Upgrade to the appropriate <a
-                href="https://dashboard.lob.com/#/settings/editions"
-                target="_blank">Print & Mail Edition</a> to gain access.
-              required:
-                - id
-                - url
-                - object
-              properties:
-                id:
-                  type: string
-                  description: The unique identifier of the custom envelope used.
-                  maxLength: 40
-                url:
-                  type: string
-                  description: The url of the envelope asset used.
-                object:
-                  allOf:
-                    - $ref: '#/components/schemas/object'
-                    - type: string
-                      enum:
-                        - envelope
-                      default: envelope
-              nullable: true
+              $ref: '#/components/schemas/custom_envelope'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
       pattern: ^psc_[a-zA-Z0-9]+$
-    postcard_size:
-      type: string
-      enum:
-        - 4x6
-        - 6x9
-        - 6x11
-      description: >
-        Specifies the size of the postcard. Only `4x6` postcards can be sent to
-        international destinations.
-      default: 4x6
     postcard_base:
       allOf:
         - $ref: '#/components/schemas/editable'
@@ -7794,51 +7876,9 @@ components:
             - back
           properties:
             front:
-              description: >
-                The artwork to use as the front of your postcard.
-
-
-                Notes:
-
-                - HTML merge variables should not include delimiting whitespace.
-
-                - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25",
-                or 6.25"x11.25" at 300 DPI, while supplied HTML will be rendered
-                to the specified `size`.
-
-
-                See [here](#section/HTML-Examples) for HTML examples.
-              oneOf:
-                - $ref: '#/components/schemas/html_string'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path'
+              $ref: '#/components/schemas/front'
             back:
-              description: >
-                The artwork to use as the back of your postcard.
-
-
-                Notes:
-
-                - HTML merge variables should not include delimiting whitespace.
-
-                - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25",
-                or 6.25"x11.25" at 300 DPI, while supplied HTML will be rendered
-                to the specified `size`.
-
-                - Be sure to leave room for address and postage information by
-                following the templates provided here:
-                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/4x6_postcard.pdf" target="_blank">4x6 template</a>
-                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x9_postcard.pdf" target="_blank">6x9 template</a>
-                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x11_postcard.pdf" target="_blank">6x11 template</a>
-
-
-                See [here](#section/HTML-Examples) for HTML examples.
-              oneOf:
-                - $ref: '#/components/schemas/html_string'
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/remote_file_url'
-                - $ref: '#/components/schemas/local_file_path'
+              $ref: '#/components/schemas/back'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
     sfm_id:
@@ -8281,14 +8321,19 @@ components:
       type: object
       properties:
         columnMapping:
-          title: Column Mapping
-          type: object
+          $ref: '#/components/schemas/column_mapping'
         state:
           $ref: '#/components/schemas/upload_state'
         originalFilename:
           title: Original Filename
           type: string
-          description: Original filename provided when the upload is created
+          description: Original filename provided when the upload is created.
+        overwriteColumnMapping:
+          title: Overwrite Column Mapping
+          type: boolean
+          description: >
+            Properties in `columnMapping` will be appended to the existing
+            `columnMapping` object.
     upload_file:
       type: object
       required:
@@ -9609,45 +9654,6 @@ components:
           example:
             id: chk_123456789
             deleted: true
-    all_creatives:
-      description: >-
-        A dictionary with a data property that contains an array of up to
-        `limit` creatives. Each entry in the array is a separate creative. The
-        previous and next page of creatives can be retrieved by calling the
-        endpoint contained in the `previous_url` and `next_url` fields in the
-        API response respectively.<br>If no more creatives are available beyond
-        the current set of returned results, the `next_url` field will be empty.
-      content:
-        application/json:
-          schema:
-            allOf:
-              - $ref: '#/components/schemas/list'
-              - type: object
-                properties:
-                  data:
-                    type: array
-                    description: list of creatives
-                    items:
-                      $ref: '#/components/schemas/creative'
-          example:
-            data:
-              - id: crv_2a3b096c409b32c
-                account_id: fa9ea650fc7b31a89f92
-                description: Our 4x6 postcard creative
-                from: adr_210a8d4b0b76d77b
-                resource_type: postcard
-                details: {}
-                metadata: {}
-                template_preview_urls: {}
-                template_previews: []
-                campaigns: []
-                date_created: '2017-09-05T17:47:53.767Z'
-                date_modified: '2017-09-05T17:47:53.767Z'
-                object: creative
-            object: list
-            previous_url: null
-            next_url: null
-            count: 1
     creatives_error:
       description: Error
       content:
@@ -9659,24 +9665,6 @@ components:
               code: not_found
               message: creative not found
               status_code: 404
-    creative_deleted:
-      description: Deleted the creative.
-      content:
-        application/json:
-          schema:
-            description: >-
-              Lob uses RESTful HTTP response codes to indicate success or
-              failure of an API request. In general, 2xx indicates success, 4xx
-              indicate an input error, and 5xx indicates an error on Lob's end.
-            properties:
-              id:
-                $ref: '#/components/schemas/crv_id'
-              deleted:
-                type: boolean
-                description: True if the resource has been successfully deleted.
-          example:
-            id: crv_2a3b096c409b32c
-            deleted: true
     identity_validation_error:
       description: Error
       content:
@@ -10906,7 +10894,7 @@ components:
                       title: Error Type
                       type: string
     upload_not_found:
-      description: Error
+      description: Not Found Error
       content:
         application/json:
           schema:
@@ -13074,7 +13062,10 @@ paths:
     post:
       operationId: campaign_create
       summary: Create
-      description: Creates a new campaign with the provided properties
+      description: >-
+        Creates a new campaign with the provided properties. See how to launch
+        your first campaign
+        [here](https://help.lob.com/best-practices/launching-your-first-campaign).
       tags:
         - Campaigns
       parameters:
@@ -13253,7 +13244,10 @@ paths:
       summary: Delete
       description: >-
         Delete an existing campaign. You need only supply the unique identifier
-        that was returned upon campaign creation.
+        that was returned upon campaign creation. Deleting a campaign also
+        deletes any associated mail pieces that have been created but not sent.
+        A campaign's `send_date` matches its associated mail pieces'
+        `send_date`s.
       tags:
         - Campaigns
       responses:
@@ -14587,27 +14581,6 @@ paths:
             Lob.Check.destroy("chk_534f10783683daa0")
           label: ELIXIR
   /creatives:
-    get:
-      operationId: creatives_list
-      summary: List
-      description: >-
-        Returns a list of your creatives. The creatives are returned sorted by
-        creation date, with the most recently created creatives appearing first.
-      tags:
-        - Creatives
-      parameters:
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/include'
-        - $ref: '#/components/parameters/before_after'
-      responses:
-        '200':
-          $ref: '#/components/responses/all_creatives'
-      x-codeSamples:
-        - lang: Shell
-          source: |
-            curl https://api.lob.com/v1/creatives \
-              -u <YOUR API KEY>:
-          label: CURL
     post:
       operationId: creative_create
       summary: Create
@@ -14736,17 +14709,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/creative_updatable'
+              $ref: '#/components/schemas/creative_base'
             example:
               description: Test creative
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/creative_updatable'
+              $ref: '#/components/schemas/creative_base'
             example:
               description: Test creative
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/creative_updatable'
+              $ref: '#/components/schemas/creative_base'
             example:
               description: Test creative
       responses:
@@ -14778,26 +14751,6 @@ paths:
             curl -X PATCH https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
               -u <YOUR API KEY>: \
               -d "description=Our updated 4x6 postcard creative"
-          label: CURL
-    delete:
-      operationId: creative_delete
-      summary: Delete
-      description: >-
-        Delete an existing creative. You need only supply the unique identifier
-        that was returned upon creative creation.
-      tags:
-        - Creatives
-      responses:
-        '200':
-          $ref: '#/components/responses/creative_deleted'
-        default:
-          $ref: '#/components/responses/creatives_error'
-      x-codeSamples:
-        - lang: Shell
-          source: >
-            curl -X DELETE https://api.lob.com/v1/creatives/crv_2a3b096c409b32c
-            \
-              -u <YOUR API KEY>:
           label: CURL
   /identity_validation:
     post:
@@ -18168,6 +18121,7 @@ paths:
           schema:
             $ref: '#/components/schemas/cmp_id'
           name: campaignId
+          description: id of the campaign
           in: query
       responses:
         '200':
@@ -18181,7 +18135,7 @@ paths:
     post:
       operationId: upload_create
       summary: Create
-      description: Creates a new upload with the provided properties
+      description: Creates a new upload with the provided properties.
       tags:
         - Uploads
       requestBody:
@@ -18345,7 +18299,10 @@ paths:
     post:
       operationId: upload_file
       summary: Upload file
-      description: Upload an audience file and associate it with an upload.
+      description: >-
+        Upload an [audience
+        file](https://help.lob.com/best-practices/campaign-audience-guide) and
+        associate it with an upload.
       tags:
         - Uploads
       requestBody:
@@ -18387,10 +18344,15 @@ paths:
       operationId: upload_export_create
       summary: Create Export
       description: >-
-        Create an export file associated with an upload. The export ID is
-        returned in the response, which can be used to retrieve the export URL
-        in a separate request. The `type` of export can be `failures`,
-        `successes` or `all`.
+        Campaign Exports can help you understand exactly which records in a
+        campaign could not be created. By initiating and retrieving an export,
+        you will get row-by-row errors for your campaign. For a step-by-step
+        walkthrough of creating a campaign and exporting failures, see our
+        [Campaigns
+        Guide](https://help.lob.com/best-practices/launching-your-first-campaign).
+
+
+        Create an export file associated with an upload.
       tags:
         - Uploads
       requestBody:
@@ -18441,7 +18403,10 @@ paths:
       summary: Retrieve Export
       description: >-
         Retrieves the details of an existing export. You need only supply the
-        unique export identifier that was returned upon export creation.
+        unique export identifier that was returned upon export creation. If you
+        try retrieving an export immediately after creating one (i.e., before
+        we're done processing the export), you will get back an export object
+        with `state = in_progress`.
       tags:
         - Uploads
       responses:

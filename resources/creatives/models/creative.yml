@@ -1,6 +1,6 @@
 allOf:
   - $ref: "../../../shared/models/lob_base.yml"
-  - $ref: "creative_base.yml"
+  - $ref: "creative_writable.yml"
 
   - type: object
 
@@ -30,35 +30,85 @@ allOf:
       template_preview_urls:
         title: Template Preview URLs
         type: object
-        description: URL to view preview of a creative ID. Currently unpopulated, but will be in the future.
+        description: URL to view preview of a creative ID. Currently unpopulated, but will be filled in the future.
       template_previews:
         title: Template Previews
         type: array
         items:
           type: object
-        description: IDs for each creative preview. Currently unpopulated, but will be in the future.
+        description: IDs for each creative preview. Currently unpopulated, but will be filled in the future.
       campaigns:
         title: Campaigns
         type: array
         description: Array of campaigns associated with the creative ID
         items:
-          $ref: "../../campaigns/models/campaign.yml"
+          allOf:
+            - $ref: "../../campaigns/models/campaign_writable.yml"
+
+            - type: object
+
+              required:
+                - id
+                - name
+                - description
+                - schedule_type
+                - is_draft
+                - auto_cancel_if_ncoa
+                - date_created
+                - date_modified
+                - object
+
+              properties:
+                id:
+                  $ref: "../../campaigns/attributes/cmp_id.yml"
+
+                account_id:
+                  description: Account ID that this campaign is associated with.
+                  type: string
+
+                is_draft:
+                  description: Whether or not the campaign is still a draft.
+                  type: boolean
+                  default: true
+
+                creatives:
+                  description: An array of creatives that have been associated with this campaign.
+                  type: array
+
+                date_created:
+                  $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+                date_modified:
+                  $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+                deleted:
+                  $ref: "../../../shared/attributes/deleted.yml"
+
+                object:
+                  allOf:
+                    - $ref: "../../../shared/attributes/object.yml"
+                    - enum:
+                        - campaign
+                      default: campaign
+
         example:
           [
             {
-              "id": "cmp_364c74e0ae263327",
-              "billing_group_id": null,
-              "name": "Docs Example",
-              "description": "Our docs example description",
+              "id": "cmp_ed76e33e7ac4d0bd",
+              "name": "My postman Campaign 2",
+              "description": "Created via postman again",
               "schedule_type": "immediate",
               "send_date": null,
               "target_delivery_date": null,
-              "cancel_window_campaign_minutes": 40,
+              "cancel_window_campaign_minutes": null,
+              "metadata": {},
+              "use_type": null,
               "is_draft": true,
               "deleted": false,
+              "creatives": [],
               "auto_cancel_if_ncoa": false,
-              "date_created": "2022-07-01T16:15:32.339Z",
-              "date_modified": "2022-07-01T16:15:32.339Z",
+              "date_created": "2022-07-26T20:20:25.016Z",
+              "date_modified": "2022-07-26T20:20:25.016Z",
               "object": "campaign",
             },
           ]

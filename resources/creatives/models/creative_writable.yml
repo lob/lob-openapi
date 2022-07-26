@@ -1,13 +1,36 @@
-allOf:
-  - $ref: "creative_base.yml"
+oneOf:
+  - allOf:
+      - title: Postcard Creative
+        required:
+          - front
+          - back
+          - campaign_id
+          - resource_type
+          - details
+        properties:
+          resource_type:
+            allOf:
+              - $ref: "../attributes/supported_resource_type.yml"
+            enum:
+              - postcard
 
-  - type: object
-
-    required:
-      - campaign_id
-      - resource_type
-      - details
-
-    properties:
-      campaign_id:
-        $ref: "../../campaigns/attributes/cmp_id.yml"
+          campaign_id:
+            $ref: "../../campaigns/attributes/cmp_id.yml"
+      - $ref: "./creatives.yml#/postcardsCreative"
+  - allOf:
+      - title: Letter Creative
+        required:
+          - file
+          - from
+          - campaign_id
+          - resource_type
+          - details
+        properties:
+          resource_type:
+            allOf:
+              - $ref: "../attributes/supported_resource_type.yml"
+            enum:
+              - letter
+          campaign_id:
+            $ref: "../../campaigns/attributes/cmp_id.yml"
+      - $ref: "./creatives.yml#/lettersCreative"

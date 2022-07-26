@@ -7,7 +7,6 @@ allOf:
     required:
       - id
       - account_id
-      - billing_group_id
       - name
       - description
       - schedule_type
@@ -35,8 +34,6 @@ allOf:
       creatives:
         description: An array of creatives that have been associated with this campaign.
         type: array
-        items:
-          $ref: "../../creatives/models/creative.yml"
 
       object:
         type: string

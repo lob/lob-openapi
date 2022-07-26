@@ -6,7 +6,10 @@ required:
 
 properties:
   billing_group_id:
-    $ref: "../../billing_groups/attributes/bg_id.yml"
+    type: string
+    description: Unique identifier prefixed with `bg_`.
+    pattern: "^bg_[a-zA-Z0-9]+$"
+    nullable: true
   name:
     description: Name of the campaign.
     type: string
@@ -15,18 +18,19 @@ properties:
   schedule_type:
     $ref: "../attributes/cmp_schedule_type.yml"
   target_delivery_date:
-    description: If schedule_type is target_delivery_date, provide a targeted delivery date for mail pieces in this campaign.
+    description: If `schedule_type` is `target_delivery_date`, provide a targeted delivery date for mail pieces in this campaign.
     type: string
     format: date-time
     nullable: true
   send_date:
-    description: If schedule_type is scheduled_send_date, provide a date to send this campaign.
+    description: If `schedule_type` is `scheduled_send_date`, provide a date to send this campaign.
     type: string
     format: date-time
     nullable: true
   cancel_window_campaign_minutes:
     description: A window, in minutes, within which the campaign can be canceled.
     type: integer
+    nullable: true
   metadata:
     $ref: "../../../shared/models/metadata.yml"
   use_type:

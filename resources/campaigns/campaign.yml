@@ -95,6 +95,9 @@ delete:
   description: >-
     Delete an existing campaign. You need only supply
     the unique identifier that was returned upon campaign creation.
+    Deleting a campaign also deletes any associated mail pieces that have
+    been created but not sent. A campaign's `send_date` matches its
+    associated mail pieces' `send_date`s.
 
   tags:
     - Campaigns

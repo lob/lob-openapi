@@ -18,22 +18,20 @@ const prism = new Prism(specFile, lobUri, process.env.LOB_API_TEST_TOKEN);
 
 test("validate recipient and address", async function (t) {
   try {
-    const response = await prism
-      .setup()
-      .then((client) =>
-        client.post(
-          resource_endpoint,
-          {
-            recipient: recipient,
-            primary_line: primary_line,
-            secondary_line: secondary_line,
-            city: city,
-            state: state,
-            zip_code: zip_code,
-          },
-          { headers: prism.authHeader }
-        )
-      );
+    const response = await prism.setup().then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          recipient: recipient,
+          primary_line: primary_line,
+          secondary_line: secondary_line,
+          city: city,
+          state: state,
+          zip_code: zip_code,
+        },
+        { headers: prism.authHeader }
+      )
+    );
 
     t.assert(response.status === 200);
   } catch (prismError) {
@@ -47,22 +45,20 @@ test("validate recipient and address", async function (t) {
 
 test("absent recipient", async function (t) {
   try {
-    const response = await prism
-      .setup({ errors: false })
-      .then((client) =>
-        client.post(
-          resource_endpoint,
-          {
-            recipient: recipient,
-            primary_line: primary_line,
-            secondary_line: secondary_line,
-            city: city,
-            state: state,
-            zip_code: zip_code,
-          },
-          { headers: prism.authHeader }
-        )
-      );
+    const response = await prism.setup({ errors: false }).then((client) =>
+      client.post(
+        resource_endpoint,
+        {
+          recipient: recipient,
+          primary_line: primary_line,
+          secondary_line: secondary_line,
+          city: city,
+          state: state,
+          zip_code: zip_code,
+        },
+        { headers: prism.authHeader }
+      )
+    );
 
     t.assert(response.status === 422);
     t.assert(response.data.error.message.includes("recipient"));

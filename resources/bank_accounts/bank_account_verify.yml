@@ -95,7 +95,7 @@ post:
           25,
           63,
         ]);
-        
+
         try {
             $result = $apiInstance->verify(
               "bank_dfceb4a2a05b57e", $bankVerify
@@ -108,9 +108,9 @@ post:
         BankAccountVerify verification = new BankAccountVerify(); 
         verification.addAmountsItem(25); 
         verification.addAmountsItem(63); 
-        
+
         BankAccountsApi apiInstance = new BankAccountsApi(config);
-        
+
         try {
           apiInstance.verify("bank_dfceb4a2a05b57e", verification);
         } catch (ApiException e) {

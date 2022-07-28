@@ -379,10 +379,10 @@ post:
             "address_zip"     => "94107",
           )
         );
-        
+
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
-        
+
         $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new GuzzleHttp\Client());
         $letter_editable = new OpenAPI\Client\Model\LetterEditable(
           array(
@@ -398,7 +398,7 @@ post:
             ),
           )
         );
-        
+
         try {
             $result = $apiInstance->create($letter_editable);
         } catch (Exception $e) {
@@ -408,9 +408,9 @@ post:
       source: |
         Map<String, String> merge_variables = new HashMap<String, String>();
         merge_variables.put("name", "Harry");
-        
+
         LettersApi apiInstance = new LettersApi(config);
-        
+
         AddressEditable to = new AddressEditable();
         to.setName("Harry Zhang");
         to.setAddressLine1("210 King St");
@@ -418,11 +418,11 @@ post:
         to.setAddressCity("San Francisco");
         to.setAddressState("CA");
         to.setAddressZip("94107");
-        
+
         List<String> cards = new ArrayList<String>();
         cards.add("card_c51ae96f5cebf3e");
         cards.add("card_thingy");
-        
+
         try {
           LetterEditable letterEditable = new LetterEditable(); 
           letterEditable.setDescription("Demo Letter");
@@ -432,7 +432,7 @@ post:
           letterEditable.setTo(to);
           letterEditable.setMergeVariables(merge_variables);
           letterEditable.setCards(cards);
-        
+
           Letter result = apiInstance.create(letterEditable, null);
         } catch (ApiException e) {
           e.printStackTrace();

@@ -1,11 +1,16 @@
 type: object
 properties:
   columnMapping:
-    title: Column Mapping
-    type: object
+    $ref: "../attributes/column_mapping.yml"
   state:
     $ref: "../attributes/upload_state.yml"
   originalFilename:
     title: Original Filename
     type: string
-    description: Original filename provided when the upload is created
+    description: Original filename provided when the upload is created.
+  overwriteColumnMapping:
+    title: Overwrite Column Mapping
+    type: boolean
+    description: >
+      Properties in `columnMapping` will be appended to the existing
+      `columnMapping` object if set to `false`. If set to `true`, the existing `columnMapping` object will be overwritten with the data supplied in `columnMapping` property.

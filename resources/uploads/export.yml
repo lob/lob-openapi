@@ -20,6 +20,9 @@ get:
   description: >-
     Retrieves the details of an existing export. You need only supply
     the unique export identifier that was returned upon export creation.
+    If you try retrieving an export immediately after creating one (i.e.,
+    before we're done processing the export), you will get back an export
+    object with `state = in_progress`.
 
   tags:
     - Uploads

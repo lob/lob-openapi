@@ -1,17 +1,17 @@
 allOf:
   - anyOf:
-      - title: Identity Validation object with `city` and `state`
+      - title: Address with `city` and `state`
         required:
           - city
           - state
-      - title: Identity Validation object with `zip_code`
+      - title: Address with `zip_code`
         required:
           - zip_code
 
   - type: object
     required:
-      - primary_line
       - recipient
+      - primary_line
 
     properties:
       recipient:
@@ -24,7 +24,7 @@ allOf:
         $ref: "../../../shared/attributes/address/secondary_line.yml"
 
       urbanization:
-        $ref: "../attributes/urbanization.yml"
+        $ref: "../../../shared/attributes/address/urbanization.yml"
 
       city:
         allOf:
@@ -42,7 +42,8 @@ allOf:
 
       zip_code:
         allOf:
-          - description: >-
+          - type: string
+            description: >-
               Required if `city` and `state` are not passed in.
               If included, must be formatted as a US ZIP or ZIP+4 (e.g. `94107`,
               `941072282`, `94107-2282`).

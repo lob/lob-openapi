@@ -14,7 +14,7 @@ properties:
     $ref: "../../../shared/attributes/address/secondary_line.yml"
 
   urbanization:
-    $ref: "../attributes/urbanization.yml"
+    $ref: "../../../shared/attributes/address/urbanization.yml"
 
   last_line:
     type: string
@@ -44,15 +44,15 @@ properties:
       - low
       - ""
     description: |
-      Indicates the likelihood the recipient name and address match. Possible values are:
-      - `high` — Over 70% of mailpieces Lob has sent to this address match the recipient name.
-      - `medium` — Between 40% and 70% of mailpieces Lob has sent to this address match the recipient name.
-      - `low` — Less than 40% of mailpieces Lob has sent to this address match the recipient name.
+      Indicates the likelihood the recipient name and address match based on our custom internal calculation. Possible values are:
+      - `high` — Has a Lob confidence score greater than 70.
+      - `medium` — Has a Lob confidence score between 40 and 70.
+      - `low` — Has a Lob confidence score less than 40.
       - `""` — No tracking data exists for this address.
 
   object:
     type: string
     description: Value is resource type.
     enum:
-      - identity_validation
-    default: identity_validation
+      - id_validation
+    default: id_validation

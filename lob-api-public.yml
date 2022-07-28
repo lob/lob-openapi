@@ -889,6 +889,11 @@ tags:
       * <a href="https://help.lob.com/en_US/use-case-guides/tracking-address-changes" target="_blank">Tracking Address Changes</a>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
+  - name: Identity Validation
+    description: |
+      Validates whether a given name is associated with an address.
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
   - name: Intl Autocompletions
     description: |
       Address autocompletion for non-US addresses. Given partial address information, this endpoint returns up to 10 address suggestions.
@@ -2419,6 +2424,7 @@ x-tagGroups:
       - US Autocompletions
       - Reverse Geocode Lookups
       - Zip Lookups
+      - Identity Validation
       - Intl Autocompletions
       - Intl Verifications
 
@@ -2531,6 +2537,9 @@ paths:
 
   /creatives/{crv_id}:
     $ref: resources/creatives/creative.yml
+
+  /identity_validation:
+    $ref: resources/identity_validation/identity_validation.yml
 
   /intl_autocompletions:
     $ref: resources/intl_autocompletions/intl_autocompletions.yml

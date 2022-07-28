@@ -3384,31 +3384,6 @@ components:
         $ref: '#/components/schemas/date_filter'
       style: deepObject
       explode: true
-    sort_by:
-      in: query
-      name: sort_by
-      description: >
-        Sorts items by ascending or descending dates. Use either `date_created`
-        or `send_date`, not both.
-      schema:
-        allOf:
-          - type: object
-            properties:
-              date_created:
-                type: string
-                enum:
-                  - asc
-                  - desc
-              send_date:
-                type: string
-                enum:
-                  - asc
-                  - desc
-          - oneOf:
-              - required:
-                  - date_created
-              - required:
-                  - send_date
     lang_spec:
       in: header
       name: x-lang-output
@@ -3459,6 +3434,31 @@ components:
         or for any postcards sent outside of the United States.
       schema:
         $ref: '#/components/schemas/mail_type'
+    sort_by:
+      in: query
+      name: sort_by
+      description: >
+        Sorts items by ascending or descending dates. Use either `date_created`
+        or `send_date`, not both.
+      schema:
+        allOf:
+          - type: object
+            properties:
+              date_created:
+                type: string
+                enum:
+                  - asc
+                  - desc
+              send_date:
+                type: string
+                enum:
+                  - asc
+                  - desc
+          - oneOf:
+              - required:
+                  - date_created
+              - required:
+                  - send_date
     idem-header:
       in: header
       name: Idempotency-Key
@@ -12526,7 +12526,30 @@ paths:
         - $ref: '#/components/parameters/include'
         - $ref: '#/components/parameters/date_created'
         - $ref: '#/components/parameters/date_modified'
-        - $ref: '#/components/parameters/sort_by'
+        - in: query
+          name: sort_by
+          description: >
+            Sorts items by ascending or descending dates. Use either
+            `date_created` or `date_modified`, not both.
+          schema:
+            allOf:
+              - type: object
+                properties:
+                  date_created:
+                    type: string
+                    enum:
+                      - asc
+                      - desc
+                  date_modified:
+                    type: string
+                    enum:
+                      - asc
+                      - desc
+              - oneOf:
+                  - required:
+                      - date_created
+                  - required:
+                      - date_modified
       responses:
         '200':
           description: Returns a list of billing_groups.
@@ -13278,7 +13301,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/limit'
         - $ref: '#/components/parameters/before_after'
-        - $ref: '#/components/parameters/sort_by'
+        - $ref: '#/components/parameters/include'
       responses:
         '200':
           description: Returns a list of card objects

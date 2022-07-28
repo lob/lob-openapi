@@ -1,0 +1,24 @@
+description: Returns the likelihood a given name is associated with an address.
+
+headers:
+  ratelimit-limit:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-limit"
+  ratelimit-remaining:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-remaining"
+  ratelimit-reset:
+    $ref: "../../../shared/headers/ratelimit.yml#/ratelimit-reset"
+
+content:
+  application/json:
+    schema:
+      $ref: "../models/identity_validation.yml"
+    example:
+      id: id_validation_8a013f3e
+      recipient: LOB.COM
+      primary_line: 210 KING ST.
+      secondary_line: ""
+      urbanization: ""
+      last_line: SAN FRANCISCO CA 94107-1728
+      score: 100
+      confidence: high
+      object: id_validation

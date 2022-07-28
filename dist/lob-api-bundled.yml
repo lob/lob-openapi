@@ -1032,6 +1032,12 @@ tags:
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
       top</a></div>
+  - name: Identity Validation
+    description: >
+      Validates whether a given name is associated with an address.
+
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
+      top</a></div>
   - name: Intl Autocompletions
     description: >
       Address autocompletion for non-US addresses. Given partial address
@@ -3264,6 +3270,7 @@ x-tagGroups:
       - US Autocompletions
       - Reverse Geocode Lookups
       - Zip Lookups
+      - Identity Validation
       - Intl Autocompletions
       - Intl Verifications
   - name: Webhooks
@@ -6720,6 +6727,111 @@ components:
     creative_updatable:
       allOf:
         - $ref: '#/components/schemas/creative_base'
+    multi_line_address:
+      allOf:
+        - anyOf:
+            - title: Address with `city` and `state`
+              required:
+                - city
+                - state
+            - title: Address with `zip_code`
+              required:
+                - zip_code
+        - type: object
+          required:
+            - recipient
+            - primary_line
+          properties:
+            recipient:
+              $ref: '#/components/schemas/recipient'
+            primary_line:
+              $ref: '#/components/schemas/primary_line_us'
+            secondary_line:
+              $ref: '#/components/schemas/secondary_line'
+            urbanization:
+              $ref: '#/components/schemas/urbanization'
+            city:
+              allOf:
+                - $ref: '#/components/schemas/city_no_description'
+                - type: string
+                  description: >-
+                    The name of the city. `city` and `state` are required if no
+                    `zip_code` is passed.
+            state:
+              type: string
+              description: >-
+                The <a href="https://en.wikipedia.org/wiki/ISO_3166-2:US"
+                target="_blank">ISO 3166-2</a> two letter code or subdivision
+                name for the state. `city` and `state` are required if no
+                `zip_code` is passed.
+              maxLength: 50
+            zip_code:
+              allOf:
+                - type: string
+                  description: >-
+                    Required if `city` and `state` are not passed in. If
+                    included, must be formatted as a US ZIP or ZIP+4 (e.g.
+                    `94107`, `941072282`, `94107-2282`).
+                - $ref: '#/components/schemas/zip_code'
+    identity_validation_id:
+      type: string
+      description: Unique identifier prefixed with `id_validation_`.
+      pattern: ^id_validation_[a-zA-Z0-9_]+$
+    identity_validation:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/identity_validation_id'
+        recipient:
+          $ref: '#/components/schemas/recipient'
+        primary_line:
+          $ref: '#/components/schemas/primary_line_us'
+        secondary_line:
+          $ref: '#/components/schemas/secondary_line'
+        urbanization:
+          $ref: '#/components/schemas/urbanization'
+        last_line:
+          type: string
+          description: |
+            Combination of the following applicable `components`:
+            * City (`city`)
+            * State (`state`)
+            * ZIP code (`zip_code`)
+            * ZIP+4 (`zip_code_plus_4`)
+        score:
+          type: number
+          nullable: true
+          format: float
+          description: >
+            A numerical score between 0 and 100 that represents the likelihood
+            the provided name is associated with a physical address.
+          default: null
+          minimum: 0
+          maximum: 100
+        confidence:
+          type: string
+          enum:
+            - high
+            - medium
+            - low
+            - ''
+          description: >
+            Indicates the likelihood the recipient name and address match based
+            on our custom internal calculation. Possible values are:
+
+            - `high` — Has a Lob confidence score greater than 70.
+
+            - `medium` — Has a Lob confidence score between 40 and 70.
+
+            - `low` — Has a Lob confidence score less than 40.
+
+            - `""` — No tracking data exists for this address.
+        object:
+          type: string
+          description: Value is resource type.
+          enum:
+            - id_validation
+          default: id_validation
     intl_autocompletions_writable:
       type: object
       required:
@@ -9565,6 +9677,40 @@ components:
           example:
             id: crv_2a3b096c409b32c
             deleted: true
+    identity_validation_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: invalid
+              message: recipient is required
+              status_code: 422
+    identity_validation:
+      description: Returns the likelihood a given name is associated with an address.
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/identity_validation'
+          example:
+            id: id_validation_8a013f3e
+            recipient: LOB.COM
+            primary_line: 210 KING ST.
+            secondary_line: ''
+            urbanization: ''
+            last_line: SAN FRANCISCO CA 94107-1728
+            score: 100
+            confidence: high
+            object: id_validation
     intl_autocompletions_error:
       description: Error
       content:
@@ -14652,6 +14798,64 @@ paths:
             curl -X DELETE https://api.lob.com/v1/creatives/crv_2a3b096c409b32c
             \
               -u <YOUR API KEY>:
+          label: CURL
+  /identity_validation:
+    post:
+      operationId: identity_validation
+      summary: Identity Validation
+      description: Validates whether a given name is associated with an address.
+      tags:
+        - Identity Validation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/multi_line_address'
+            example:
+              recipient: Lob.com
+              primary_line: 210 King St.
+              secondary_line: ''
+              city: San Francisco
+              state: CA
+              zip_code: '94107'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/multi_line_address'
+            example:
+              recipient: Lob.com
+              primary_line: 210 King St.
+              secondary_line: ''
+              city: San Francisco
+              state: CA
+              zip_code: '94107'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/multi_line_address'
+            example:
+              recipient: Lob.com
+              primary_line: 210 King St.
+              secondary_line: ''
+              city: San Francisco
+              state: CA
+              zip_code: '94107'
+      responses:
+        '200':
+          $ref: '#/components/responses/identity_validation'
+        default:
+          $ref: '#/components/responses/identity_validation_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/identity_validation \
+              -u <YOUR_LIVE_API_KEY>: \
+              -d "recipient=Lob.com" \
+              -d "primary_line=210 King St" \
+              -d "secondary_line=" \
+              -d "urbanization=" \
+              -d "city=San Francsico" \
+              -d "state=CA" \
+              -d "zip_code=94107" \
           label: CURL
   /intl_autocompletions:
     post:

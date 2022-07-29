@@ -16,7 +16,29 @@ get:
     - $ref: "../../shared/parameters/include.yml"
     - $ref: "../../shared/parameters/date_created.yml"
     - $ref: "../../shared/parameters/date_modified.yml"
-    - $ref: "../../shared/parameters/sort_by.yml"
+    - in: query
+      name: sort_by
+      description: >
+        Sorts items by ascending or descending dates. Use either `date_created` or `date_modified`, not both.
+      schema:
+        allOf:
+          - type: object
+            properties:
+              date_created:
+                type: string
+                enum:
+                  - asc
+                  - desc
+              date_modified:
+                type: string
+                enum:
+                  - asc
+                  - desc
+          - oneOf:
+              - required:
+                  - date_created
+              - required:
+                  - date_modified
 
   responses:
     "200":

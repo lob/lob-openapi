@@ -49,7 +49,6 @@ test("absent recipient", async function (t) {
       client.post(
         resource_endpoint,
         {
-          recipient: recipient,
           primary_line: primary_line,
           secondary_line: secondary_line,
           city: city,

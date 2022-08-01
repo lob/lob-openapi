@@ -11,7 +11,90 @@ inputs:
   testCommand:
     description: npm or yarn command to use to run tests
     required: false
-    default: "npm test"
+    default:
+      readonly ADDRESSES="addresses"
+      readonly BANK_ACCOUNTS="bank_accounts"
+      readonly CAMPAIGNS="campaigns"
+      readonly CHECKS="checks"
+      readonly CREATIVES="creatives"
+      readonly IDENTITY_VALIDATION="identity_validation"
+      readonly INTL_AUTOCOMPLETIONS="intl_autocompletions"
+      readonly INTL_VERIFICATIONS_BULK="intl_verifications_bulk"
+      readonly INTL_VERIFICATIONS="intl_verifications"
+      readonly LETTERS="letters"
+      readonly POSTCARDS="postcards"
+      readonly SELF_MAILERS="self_mailers"
+      readonly TEMPLATE_VERSIONS="template_versions"
+      readonly TEMPLATES="templates"
+      readonly UPLOADS="uploads"
+      readonly US_AUTOCOMPLETIONS="us_autocompletions"
+      readonly US_REVERSE_GEOCODE="us_reverse_geocode"
+      readonly US_VERIFICATIONS_BULK="us_verifications_bulk"
+      readonly US_VERIFICATIONS="us_verifications"
+      readonly ZIP_LOOKUPS="zip_lookups"
+
+      files_changed=""$(git diff --name-status --cached)" "$(git diff --name-status main...)""
+      tests_to_run=()
+      if [[ $files_changed == *"address"* ]]; then
+        tests_to_run+=($ADDRESSES $CHECKS $CREATIVES $IDENTITY_VALIDATION $LETTERS $POSTCARDS $SELF_MAILERS)
+      fi
+      if [[ $files_changed == *"bank_account"* ]]; then
+        tests_to_run+=($BANK_ACCOUNTS $CHECKS)
+      fi
+      if [[ $files_changed == *"campaign"* ]]; then
+        tests_to_run+=($CAMPAIGNS)
+      fi
+      if [[ $files_changed == *"checks"* ]]; then
+        tests_to_run+=($CHECKS)
+      fi
+      if [[ $files_changed == *"creative"* ]]; then
+        tests_to_run+=($CREATIVES)
+      fi
+      if [[ $files_changed == *"identity_validation"* ]]; then
+        tests_to_run+=($IDENTITY_VALIDATION)
+      fi
+      if [[ $files_changed == *"intl_autocompletion"* ]]; then
+        tests_to_run+=($INTL_AUTOCOMPLETIONS)
+      fi
+      if [[ $files_changed == *"intl_verification"* ]]; then
+        tests_to_run+=($INTL_VERIFICATIONS $INTL_VERIFICATIONS_BULK)
+      fi
+      if [[ $files_changed == *"letter"* ]]; then
+        tests_to_run+=($CREATIVES $LETTERS)
+      fi
+      if [[ $files_changed == *"postcard"* ]]; then
+        tests_to_run+=($CREATIVES $POSTCARDS)
+      fi
+      if [[ $files_changed == *"self_mailer"* ]]; then
+        tests_to_run+=($SELF_MAILERS)
+      fi
+      if [[ $files_changed == *"template_version"* ]]; then
+        tests_to_run+=($TEMPLATE_VERSIONS)
+      fi
+      if [[ $files_changed == *"template"* ]]; then
+        tests_to_run+=($TEMPLATES)
+      fi
+      if [[ $files_changed == *"upload"* ]]; then
+        tests_to_run+=($UPLOADS)
+      fi
+      if [[ $files_changed == *"us_autocompletion"* ]]; then
+        tests_to_run+=($US_AUTOCOMPLETIONS)
+      fi
+      if [[ $files_changed == *"us_reverse_geocode"* ]]; then
+        tests_to_run+=($US_REVERSE_GEOCODE)
+      fi
+      if [[ $files_changed == *"us_verification"* ]]; then
+        tests_to_run+=($US_VERIFICATIONS $US_VERIFICATIONS_BULK)
+      fi
+      if [[ $files_changed == *"zip_lookup"* ]]; then
+        tests_to_run+=($ZIP_LOOKUPS)
+      fi
+
+      tests_to_run=($(for v in "${tests_to_run[@]}"; do echo "$v";done| sort| uniq| xargs))
+
+      for test in "${tests_to_run[@]}"; do
+          npm run singleTest $test
+      done
 
 runs:
   using: "docker"

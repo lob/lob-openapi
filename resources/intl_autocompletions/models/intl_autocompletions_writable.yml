@@ -25,3 +25,7 @@ properties:
       An optional Zip Code input used to filter suggestions. Matches partial entries.
   country:
     $ref: "../../../shared/attributes/country_extended.yml"
+  geo_ip_sort:
+    type: boolean
+    description: >
+      If `true`, sort suggestions by proximity to the IP set in the `X-Forwarded-For` header.

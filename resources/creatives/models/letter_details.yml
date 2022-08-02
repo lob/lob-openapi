@@ -1,0 +1,88 @@
+# only diff b/t `writable` and `retured` is the `custom_envelope` field
+writable:
+  description: Properties that the letters in your Creative should have.
+
+  required:
+    - cards
+    - color
+
+  properties:
+    address_placement:
+      $ref: "../../letters/attributes/address_placement.yml"
+
+    # bleed:
+
+    cards:
+      description: A single-element array containing an existing card id in a string format. See [cards](#tag/Cards) for more information.
+      type: array
+      items:
+        $ref: "../../../shared/attributes/model_ids/card_id.yml"
+      minItems: 0
+      maxItems: 1
+      nullable: true
+
+    color:
+      $ref: "../../letters/attributes/color.yml"
+
+    double_sided:
+      $ref: "../../letters/attributes/double_sided.yml"
+
+    extra_service:
+      $ref: "../../letters/attributes/extra_service.yml"
+
+    # fold:
+
+    mail_type:
+      $ref: "../../../shared/attributes/mail_type.yml"
+
+    return_envelope:
+      $ref: "../../letters/attributes/return_envelope.yml"
+
+    # size:
+
+    custom_envelope:
+      $ref: "../../letters/attributes/custom_envelope.yml#/user_provided"
+
+returned:
+  description: Properties that the letters in your Creative should have.
+
+  required:
+    - cards
+    - color
+
+  properties:
+    address_placement:
+      $ref: "../../letters/attributes/address_placement.yml"
+
+    # bleed:
+
+    cards:
+      description: A single-element array containing an existing card id in a string format. See [cards](#tag/Cards) for more information.
+      type: array
+      items:
+        $ref: "../../../shared/attributes/model_ids/card_id.yml"
+      minItems: 0
+      maxItems: 1
+      nullable: true
+
+    color:
+      $ref: "../../letters/attributes/color.yml"
+
+    double_sided:
+      $ref: "../../letters/attributes/double_sided.yml"
+
+    extra_service:
+      $ref: "../../letters/attributes/extra_service.yml"
+
+    # fold:
+
+    mail_type:
+      $ref: "../../../shared/attributes/mail_type.yml"
+
+    return_envelope:
+      $ref: "../../letters/attributes/return_envelope.yml"
+
+    # size:
+
+    custom_envelope:
+      $ref: "../../letters/attributes/custom_envelope.yml#/returned"

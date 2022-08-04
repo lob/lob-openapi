@@ -1,4 +1,4 @@
-# only diff b/t `writable` and `retured` is the `custom_envelope` field
+# only diff b/t `writable` and `returned` are the `custom_envelope` and `return_envelope` fields
 writable:
   description: Properties that the letters in your Creative should have.
 
@@ -36,7 +36,7 @@ writable:
       $ref: "../../../shared/attributes/mail_type.yml"
 
     return_envelope:
-      $ref: "../../letters/attributes/return_envelope.yml"
+      $ref: "../../letters/attributes/return_envelope.yml#/user_provided"
 
     # size:
 
@@ -80,7 +80,7 @@ returned:
       $ref: "../../../shared/attributes/mail_type.yml"
 
     return_envelope:
-      $ref: "../../letters/attributes/return_envelope.yml"
+      $ref: "../../letters/attributes/return_envelope.yml#/returned"
 
     # size:
 

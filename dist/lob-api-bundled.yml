@@ -7011,6 +7011,67 @@ components:
       description: Unique identifier prefixed with `crv_`.
       pattern: ^crv_[a-zA-Z0-9]+$
       example: crv_2a3b096c409b32c
+    campaign_item:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/campaign_writable'
+        - type: object
+          required:
+            - id
+            - account_id
+            - name
+            - description
+            - schedule_type
+            - use_type
+            - is_draft
+            - creatives
+            - auto_cancel_if_ncoa
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/cmp_id'
+            account_id:
+              description: Account ID that this campaign is associated with.
+              type: string
+            is_draft:
+              description: Whether or not the campaign is still a draft.
+              type: boolean
+              default: true
+            creatives:
+              description: >-
+                An array of creatives that have been associated with this
+                campaign.
+              type: array
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - campaign
+              default: campaign
+    campaign_list:
+      type: array
+      description: Array of campaigns associated with the creative ID
+      items:
+        $ref: '#/components/schemas/campaign_item'
+      example:
+        - id: cmp_ed76e33e7ac4d0bd
+          name: My postman Campaign 2
+          description: Created via postman again
+          schedule_type: immediate
+          send_date: null
+          target_delivery_date: null
+          cancel_window_campaign_minutes: null
+          metadata: {}
+          use_type: null
+          is_draft: true
+          deleted: false
+          creatives: []
+          auto_cancel_if_ncoa: false
+          date_created: '2022-07-26T20:20:25.016Z'
+          date_modified: '2022-07-26T20:20:25.016Z'
+          object: campaign
     creative:
       allOf:
         - $ref: '#/components/schemas/lob_base'
@@ -7055,67 +7116,7 @@ components:
                 template(s) as artwork asset(s). An empty array will be returned
                 if no `template_preview`s have been generated for the creative.
             campaigns:
-              title: Campaigns
-              type: array
-              description: Array of campaigns associated with the creative ID
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/campaign_writable'
-                  - type: object
-                    required:
-                      - id
-                      - name
-                      - description
-                      - schedule_type
-                      - is_draft
-                      - auto_cancel_if_ncoa
-                      - date_created
-                      - date_modified
-                      - object
-                    properties:
-                      id:
-                        $ref: '#/components/schemas/cmp_id'
-                      account_id:
-                        description: Account ID that this campaign is associated with.
-                        type: string
-                      is_draft:
-                        description: Whether or not the campaign is still a draft.
-                        type: boolean
-                        default: true
-                      creatives:
-                        description: >-
-                          An array of creatives that have been associated with
-                          this campaign.
-                        type: array
-                      date_created:
-                        $ref: '#/components/schemas/date_created'
-                      date_modified:
-                        $ref: '#/components/schemas/date_modified'
-                      deleted:
-                        $ref: '#/components/schemas/deleted'
-                      object:
-                        allOf:
-                          - $ref: '#/components/schemas/object'
-                          - enum:
-                              - campaign
-                            default: campaign
-              example:
-                - id: cmp_ed76e33e7ac4d0bd
-                  name: My postman Campaign 2
-                  description: Created via postman again
-                  schedule_type: immediate
-                  send_date: null
-                  target_delivery_date: null
-                  cancel_window_campaign_minutes: null
-                  metadata: {}
-                  use_type: null
-                  is_draft: true
-                  deleted: false
-                  creatives: []
-                  auto_cancel_if_ncoa: false
-                  date_created: '2022-07-26T20:20:25.016Z'
-                  date_modified: '2022-07-26T20:20:25.016Z'
-                  object: campaign
+              $ref: '#/components/schemas/campaign_list'
             object:
               type: string
               description: Value is resource type.

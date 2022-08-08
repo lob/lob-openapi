@@ -1,0 +1,43 @@
+allOf:
+  - $ref: "../../../shared/models/lob_base.yml"
+  - $ref: "../../campaigns/models/campaign_writable.yml"
+
+  - type: object
+
+    required:
+      - id
+      - account_id
+      - name
+      - description
+      - schedule_type
+      - use_type
+      - is_draft
+      - creatives
+      - auto_cancel_if_ncoa
+      - date_created
+      - date_modified
+      - object
+
+    properties:
+      id:
+        $ref: "../../campaigns/attributes/cmp_id.yml"
+
+      account_id:
+        description: Account ID that this campaign is associated with.
+        type: string
+
+      is_draft:
+        description: Whether or not the campaign is still a draft.
+        type: boolean
+        default: true
+
+      creatives:
+        description: An array of creatives that have been associated with this campaign.
+        type: array
+
+      object:
+        type: string
+        description: Value is resource type.
+        enum:
+          - campaign
+        default: campaign

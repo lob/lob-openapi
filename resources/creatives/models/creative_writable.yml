@@ -16,7 +16,17 @@ oneOf:
 
           campaign_id:
             $ref: "../../campaigns/attributes/cmp_id.yml"
-      - $ref: "./creatives.yml#/postcardsCreative"
+
+          front:
+            $ref: "../../postcards/attributes/front.yml"
+
+          back:
+            $ref: "../../postcards/attributes/back.yml"
+
+          details:
+            $ref: "postcard_details.yml#/writable"
+
+      - $ref: "creative_base.yml"
   - allOf:
       - title: Letter Creative
         required:
@@ -35,4 +45,6 @@ oneOf:
             $ref: "../../campaigns/attributes/cmp_id.yml"
           details:
             $ref: "letter_details.yml#/writable"
-      - $ref: "./creatives.yml#/lettersCreative"
+          file:
+            $ref: "../../letters/attributes/file.yml"
+      - $ref: "creative_base.yml"

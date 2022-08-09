@@ -2,8 +2,6 @@ oneOf:
   - allOf:
       - title: Postcard Creative
         required:
-          - front
-          - back
           - resource_type
           - details
         properties:
@@ -12,11 +10,14 @@ oneOf:
             description: Mailpiece type for the creative
             enum:
               - postcard
-      - $ref: "./creatives.yml#/postcardsCreative"
+
+          details:
+            $ref: "postcard_details.yml#/returned"
+
+      - $ref: "creative_base.yml"
   - allOf:
       - title: Letter Creative
         required:
-          - file
           - from
           - resource_type
           - details
@@ -28,4 +29,4 @@ oneOf:
               - letter
           details:
             $ref: "letter_details.yml#/returned"
-      - $ref: "./creatives.yml#/lettersCreative"
+      - $ref: "creative_base.yml"

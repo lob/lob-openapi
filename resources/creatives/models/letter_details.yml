@@ -3,14 +3,11 @@ writable:
   description: Properties that the letters in your Creative should have.
 
   required:
-    - cards
     - color
 
   properties:
     address_placement:
       $ref: "../../letters/attributes/address_placement.yml"
-
-    # bleed:
 
     cards:
       description: A single-element array containing an existing card id in a string format. See [cards](#tag/Cards) for more information.
@@ -46,15 +43,9 @@ writable:
 returned:
   description: Properties that the letters in your Creative should have.
 
-  required:
-    - cards
-    - color
-
   properties:
     address_placement:
       $ref: "../../letters/attributes/address_placement.yml"
-
-    # bleed:
 
     cards:
       description: A single-element array containing an existing card id in a string format. See [cards](#tag/Cards) for more information.
@@ -73,6 +64,10 @@ returned:
 
     extra_service:
       $ref: "../../letters/attributes/extra_service.yml"
+
+    file_original_url:
+      description: The original URL of the `file` template.
+      type: string
 
     # fold:
 

@@ -6975,7 +6975,6 @@ components:
               required:
                 - front
                 - back
-                - campaign_id
                 - resource_type
                 - details
               properties:
@@ -6984,15 +6983,12 @@ components:
                     - $ref: '#/components/schemas/supported_resource_type'
                   enum:
                     - postcard
-                campaign_id:
-                  $ref: '#/components/schemas/cmp_id'
             - $ref: '#/components/schemas/postcardsCreative'
         - allOf:
             - title: Letter Creative
               required:
                 - file
                 - from
-                - campaign_id
                 - resource_type
                 - details
               properties:
@@ -7001,8 +6997,6 @@ components:
                     - $ref: '#/components/schemas/supported_resource_type'
                   enum:
                     - letter
-                campaign_id:
-                  $ref: '#/components/schemas/cmp_id'
                 details:
                   $ref: '#/components/schemas/letter_details_returned'
             - $ref: '#/components/schemas/lettersCreative'
@@ -7079,7 +7073,6 @@ components:
         - type: object
           required:
             - id
-            - account_id
             - description
             - from
             - resource_type
@@ -7094,11 +7087,6 @@ components:
           properties:
             id:
               $ref: '#/components/schemas/crv_id'
-            account_id:
-              title: Account ID
-              type: string
-              example: fa9ea650fc7b31a89f92
-              description: Account ID that made the request
             template_preview_urls:
               title: Template Preview URLs
               type: object
@@ -14752,7 +14740,6 @@ paths:
                 $ref: '#/components/schemas/creative'
               example:
                 id: crv_2a3b096c409b32c
-                account_id: fa9ea650fc7b31a89f92
                 description: Our 4x6 postcard creative
                 from: adr_210a8d4b0b76d77b
                 resource_type: postcard
@@ -14799,7 +14786,6 @@ paths:
                 $ref: '#/components/schemas/creative'
               example:
                 id: crv_2a3b096c409b32c
-                account_id: fa9ea650fc7b31a89f92
                 description: Our 4x6 postcard creative
                 from: adr_210a8d4b0b76d77b
                 resource_type: postcard
@@ -14854,7 +14840,6 @@ paths:
                 $ref: '#/components/schemas/creative'
               example:
                 id: crv_2a3b096c409b32c
-                account_id: fa9ea650fc7b31a89f92
                 description: Our 4x6 postcard creative
                 from: adr_210a8d4b0b76d77b
                 resource_type: postcard

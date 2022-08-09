@@ -4,7 +4,6 @@ oneOf:
         required:
           - front
           - back
-          - campaign_id
           - resource_type
           - details
         properties:
@@ -13,16 +12,12 @@ oneOf:
               - $ref: "../attributes/supported_resource_type.yml"
             enum:
               - postcard
-
-          campaign_id:
-            $ref: "../../campaigns/attributes/cmp_id.yml"
       - $ref: "./creatives.yml#/postcardsCreative"
   - allOf:
       - title: Letter Creative
         required:
           - file
           - from
-          - campaign_id
           - resource_type
           - details
         properties:
@@ -31,8 +26,6 @@ oneOf:
               - $ref: "../attributes/supported_resource_type.yml"
             enum:
               - letter
-          campaign_id:
-            $ref: "../../campaigns/attributes/cmp_id.yml"
           details:
             $ref: "letter_details.yml#/returned"
       - $ref: "./creatives.yml#/lettersCreative"

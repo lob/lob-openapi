@@ -5810,7 +5810,6 @@ components:
         - type: object
           required:
             - id
-            - account_id
             - name
             - description
             - schedule_type
@@ -5824,9 +5823,6 @@ components:
           properties:
             id:
               $ref: '#/components/schemas/cmp_id'
-            account_id:
-              description: Account ID that this campaign is associated with.
-              type: string
             is_draft:
               description: Whether or not the campaign is still a draft.
               type: boolean
@@ -6975,7 +6971,6 @@ components:
               required:
                 - front
                 - back
-                - campaign_id
                 - resource_type
                 - details
               properties:
@@ -6984,15 +6979,12 @@ components:
                     - $ref: '#/components/schemas/supported_resource_type'
                   enum:
                     - postcard
-                campaign_id:
-                  $ref: '#/components/schemas/cmp_id'
             - $ref: '#/components/schemas/postcardsCreative'
         - allOf:
             - title: Letter Creative
               required:
                 - file
                 - from
-                - campaign_id
                 - resource_type
                 - details
               properties:
@@ -7001,8 +6993,6 @@ components:
                     - $ref: '#/components/schemas/supported_resource_type'
                   enum:
                     - letter
-                campaign_id:
-                  $ref: '#/components/schemas/cmp_id'
                 details:
                   $ref: '#/components/schemas/letter_details_returned'
             - $ref: '#/components/schemas/lettersCreative'
@@ -7011,6 +7001,63 @@ components:
       description: Unique identifier prefixed with `crv_`.
       pattern: ^crv_[a-zA-Z0-9]+$
       example: crv_2a3b096c409b32c
+    campaign_item:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/campaign_writable'
+        - type: object
+          required:
+            - id
+            - name
+            - description
+            - schedule_type
+            - use_type
+            - is_draft
+            - creatives
+            - auto_cancel_if_ncoa
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/cmp_id'
+            is_draft:
+              description: Whether or not the campaign is still a draft.
+              type: boolean
+              default: true
+            creatives:
+              description: >-
+                An array of creatives that have been associated with this
+                campaign.
+              type: array
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - campaign
+              default: campaign
+    campaign_list:
+      type: array
+      description: Array of campaigns associated with the creative ID
+      items:
+        $ref: '#/components/schemas/campaign_item'
+      example:
+        - id: cmp_ed76e33e7ac4d0bd
+          name: My postman Campaign 2
+          description: Created via postman again
+          schedule_type: immediate
+          send_date: null
+          target_delivery_date: null
+          cancel_window_campaign_minutes: null
+          metadata: {}
+          use_type: null
+          is_draft: true
+          deleted: false
+          creatives: []
+          auto_cancel_if_ncoa: false
+          date_created: '2022-07-26T20:20:25.016Z'
+          date_modified: '2022-07-26T20:20:25.016Z'
+          object: campaign
     creative:
       allOf:
         - $ref: '#/components/schemas/lob_base'
@@ -7018,7 +7065,6 @@ components:
         - type: object
           required:
             - id
-            - account_id
             - description
             - from
             - resource_type
@@ -7033,11 +7079,6 @@ components:
           properties:
             id:
               $ref: '#/components/schemas/crv_id'
-            account_id:
-              title: Account ID
-              type: string
-              example: fa9ea650fc7b31a89f92
-              description: Account ID that made the request
             template_preview_urls:
               title: Template Preview URLs
               type: object
@@ -7055,67 +7096,7 @@ components:
                 template(s) as artwork asset(s). An empty array will be returned
                 if no `template_preview`s have been generated for the creative.
             campaigns:
-              title: Campaigns
-              type: array
-              description: Array of campaigns associated with the creative ID
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/campaign_writable'
-                  - type: object
-                    required:
-                      - id
-                      - name
-                      - description
-                      - schedule_type
-                      - is_draft
-                      - auto_cancel_if_ncoa
-                      - date_created
-                      - date_modified
-                      - object
-                    properties:
-                      id:
-                        $ref: '#/components/schemas/cmp_id'
-                      account_id:
-                        description: Account ID that this campaign is associated with.
-                        type: string
-                      is_draft:
-                        description: Whether or not the campaign is still a draft.
-                        type: boolean
-                        default: true
-                      creatives:
-                        description: >-
-                          An array of creatives that have been associated with
-                          this campaign.
-                        type: array
-                      date_created:
-                        $ref: '#/components/schemas/date_created'
-                      date_modified:
-                        $ref: '#/components/schemas/date_modified'
-                      deleted:
-                        $ref: '#/components/schemas/deleted'
-                      object:
-                        allOf:
-                          - $ref: '#/components/schemas/object'
-                          - enum:
-                              - campaign
-                            default: campaign
-              example:
-                - id: cmp_ed76e33e7ac4d0bd
-                  name: My postman Campaign 2
-                  description: Created via postman again
-                  schedule_type: immediate
-                  send_date: null
-                  target_delivery_date: null
-                  cancel_window_campaign_minutes: null
-                  metadata: {}
-                  use_type: null
-                  is_draft: true
-                  deleted: false
-                  creatives: []
-                  auto_cancel_if_ncoa: false
-                  date_created: '2022-07-26T20:20:25.016Z'
-                  date_modified: '2022-07-26T20:20:25.016Z'
-                  object: campaign
+              $ref: '#/components/schemas/campaign_list'
             object:
               type: string
               description: Value is resource type.
@@ -9392,7 +9373,6 @@ components:
           example:
             data:
               - id: cmp_e05ee61ff80764b
-                account_id: fa9ea650fc7b31a89f92
                 billing_group_id: bg_fe3079dcdd80e5ae
                 name: My Campaign
                 description: My Campaign's description
@@ -13229,7 +13209,6 @@ paths:
                 $ref: '#/components/schemas/campaign'
               example:
                 id: cmp_e05ee61ff80764b
-                account_id: fa9ea650fc7b31a89f92
                 billing_group_id: bg_fe3079dcdd80e5ae
                 name: My Campaign
                 description: My Campaign's description
@@ -13279,7 +13258,6 @@ paths:
                 $ref: '#/components/schemas/campaign'
               example:
                 id: cmp_e05ee61ff80764b
-                account_id: fa9ea650fc7b31a89f92
                 billing_group_id: bg_fe3079dcdd80e5ae
                 name: My Campaign
                 description: My Campaign's description
@@ -13337,7 +13315,6 @@ paths:
                 $ref: '#/components/schemas/campaign'
               example:
                 id: cmp_e05ee61ff80764b
-                account_id: fa9ea650fc7b31a89f92
                 billing_group_id: bg_fe3079dcdd80e5ae
                 name: My Campaign
                 description: My Campaign's description
@@ -14751,7 +14728,6 @@ paths:
                 $ref: '#/components/schemas/creative'
               example:
                 id: crv_2a3b096c409b32c
-                account_id: fa9ea650fc7b31a89f92
                 description: Our 4x6 postcard creative
                 from: adr_210a8d4b0b76d77b
                 resource_type: postcard
@@ -14798,7 +14774,6 @@ paths:
                 $ref: '#/components/schemas/creative'
               example:
                 id: crv_2a3b096c409b32c
-                account_id: fa9ea650fc7b31a89f92
                 description: Our 4x6 postcard creative
                 from: adr_210a8d4b0b76d77b
                 resource_type: postcard
@@ -14853,7 +14828,6 @@ paths:
                 $ref: '#/components/schemas/creative'
               example:
                 id: crv_2a3b096c409b32c
-                account_id: fa9ea650fc7b31a89f92
                 description: Our 4x6 postcard creative
                 from: adr_210a8d4b0b76d77b
                 resource_type: postcard

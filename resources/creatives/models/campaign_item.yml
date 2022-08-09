@@ -6,7 +6,6 @@ allOf:
 
     required:
       - id
-      - account_id
       - name
       - description
       - schedule_type
@@ -21,10 +20,6 @@ allOf:
     properties:
       id:
         $ref: "../../campaigns/attributes/cmp_id.yml"
-
-      account_id:
-        description: Account ID that this campaign is associated with.
-        type: string
 
       is_draft:
         description: Whether or not the campaign is still a draft.

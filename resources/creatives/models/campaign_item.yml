@@ -1,6 +1,5 @@
 # If you change something here, please make the same change to `resources/campaigns/models/campaign.yml`.
 allOf:
-  - $ref: "../../../shared/models/lob_base.yml"
   - $ref: "../../campaigns/models/campaign_writable.yml"
 
   - type: object
@@ -37,3 +36,12 @@ allOf:
         enum:
           - campaign
         default: campaign
+
+      date_created:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+      date_modified:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+      deleted:
+        $ref: "../../../shared/attributes/deleted.yml"

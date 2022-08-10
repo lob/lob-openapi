@@ -6606,11 +6606,6 @@ components:
           $ref: '#/components/schemas/chk_id'
         deleted:
           $ref: '#/components/schemas/deleted'
-    supported_resource_type:
-      title: Resource Type
-      default: postcard
-      type: string
-      description: Mailpiece type for the creative
     from_attribute:
       title: From
       description: >-
@@ -6866,8 +6861,8 @@ components:
                 - details
               properties:
                 resource_type:
-                  allOf:
-                    - $ref: '#/components/schemas/supported_resource_type'
+                  type: string
+                  description: Mailpiece type for the creative
                   enum:
                     - postcard
                 campaign_id:
@@ -6883,8 +6878,8 @@ components:
                 - details
               properties:
                 resource_type:
-                  allOf:
-                    - $ref: '#/components/schemas/supported_resource_type'
+                  type: string
+                  description: Mailpiece type for the creative
                   enum:
                     - letter
                 campaign_id:
@@ -6927,12 +6922,10 @@ components:
           type: string
           description: The url of the envelope asset used.
         object:
-          allOf:
-            - $ref: '#/components/schemas/object'
-            - type: string
-              enum:
-                - envelope
-              default: envelope
+          type: string
+          enum:
+            - envelope
+          default: envelope
       nullable: true
     letter_details_returned:
       description: Properties that the letters in your Creative should have.
@@ -6975,8 +6968,8 @@ components:
                 - details
               properties:
                 resource_type:
-                  allOf:
-                    - $ref: '#/components/schemas/supported_resource_type'
+                  type: string
+                  description: Mailpiece type for the creative
                   enum:
                     - postcard
             - $ref: '#/components/schemas/postcardsCreative'
@@ -6989,8 +6982,8 @@ components:
                 - details
               properties:
                 resource_type:
-                  allOf:
-                    - $ref: '#/components/schemas/supported_resource_type'
+                  type: string
+                  description: Mailpiece type for the creative
                   enum:
                     - letter
                 details:
@@ -7003,7 +6996,6 @@ components:
       example: crv_2a3b096c409b32c
     campaign_item:
       allOf:
-        - $ref: '#/components/schemas/lob_base'
         - $ref: '#/components/schemas/campaign_writable'
         - type: object
           required:
@@ -7036,6 +7028,12 @@ components:
               enum:
                 - campaign
               default: campaign
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            deleted:
+              $ref: '#/components/schemas/deleted'
     campaign_list:
       type: array
       description: Array of campaigns associated with the creative ID
@@ -7329,6 +7327,212 @@ components:
       type: string
       description: Unique identifier prefixed with `ltr_`.
       pattern: ^ltr_[a-zA-Z0-9]+$
+    inline_address_intl:
+      allOf:
+        - $ref: '#/components/schemas/address_editable_intl'
+        - type: object
+          required:
+            - address_line1
+            - address_country
+        - type: object
+          oneOf:
+            - required:
+                - address_city
+                - address_state
+            - required:
+                - address_zip
+    inline_address:
+      oneOf:
+        - $ref: '#/components/schemas/inline_address_us'
+        - $ref: '#/components/schemas/inline_address_intl'
+    return_address:
+      description: >-
+        Specifies the address the return envelope will be sent back to. This is
+        an optional argument that is available if an account is signed up for
+        the return envelope tracking beta, and has `return_envelope`, and
+        `perforated_page` fields populated in the API request.
+      oneOf:
+        - $ref: '#/components/schemas/adr_id'
+        - $ref: '#/components/schemas/inline_address'
+    generated:
+      type: object
+      required:
+        - to
+        - carrier
+      properties:
+        to:
+          $ref: '#/components/schemas/address'
+        carrier:
+          type: string
+          enum:
+            - USPS
+          default: USPS
+        thumbnails:
+          type: array
+          items:
+            $ref: '#/components/schemas/thumbnail'
+        expected_delivery_date:
+          $ref: '#/components/schemas/expected_delivery_date'
+        date_created:
+          $ref: '#/components/schemas/date_created'
+        date_modified:
+          $ref: '#/components/schemas/date_modified'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+    from:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/address'
+    letter_generated_base:
+      allOf:
+        - $ref: '#/components/schemas/generated'
+        - $ref: '#/components/schemas/from'
+        - type: object
+          required:
+            - id
+            - from
+          properties:
+            id:
+              $ref: '#/components/schemas/ltr_id'
+            template_id:
+              allOf:
+                - description: The unique ID of the HTML template used for the letter.
+                - $ref: '#/components/schemas/tmpl_id'
+            template_version_id:
+              allOf:
+                - description: >-
+                    The unique ID of the specific version of the HTML template
+                    used for the letter.
+                  type: string
+                - $ref: '#/components/schemas/vrsn_id'
+            campaign_id:
+              type: string
+              description: >-
+                The unique ID of the associated campaign if the resource was
+                generated from a campaign.
+              nullable: true
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - letter
+              default: letter
+    no_extra_service:
+      allOf:
+        - type: object
+          required:
+            - color
+          properties:
+            tracking_events:
+              description: An array of tracking events ordered by ascending `time`.
+              type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_normal'
+            cards:
+              description: An array of cards associated with a specific letter
+              type: array
+              items:
+                $ref: '#/components/schemas/card'
+              nullable: true
+            return_address:
+              $ref: '#/components/schemas/return_address'
+            description:
+              $ref: '#/components/schemas/resource_description'
+            metadata:
+              $ref: '#/components/schemas/metadata'
+            merge_variables:
+              $ref: '#/components/schemas/merge_variables'
+            send_date:
+              $ref: '#/components/schemas/send_date'
+            mail_type:
+              $ref: '#/components/schemas/mail_type'
+            color:
+              $ref: '#/components/schemas/color'
+            double_sided:
+              $ref: '#/components/schemas/double_sided'
+            address_placement:
+              $ref: '#/components/schemas/address_placement'
+            return_envelope:
+              $ref: '#/components/schemas/returned'
+            perforated_page:
+              type: integer
+              description: >-
+                Required if `return_envelope` is `true`. The number of the page
+                that should be perforated for use with the return envelope. Must
+                be greater than or equal to `1`. The blank page added by
+                `address_placement=insert_blank_page` will be ignored when
+                considering the perforated page number. To see how perforation
+                will impact your letter design, view our <a
+                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf"
+                target="_blank">perforation guide</a>.
+              nullable: true
+            custom_envelope:
+              $ref: '#/components/schemas/custom_envelope_returned'
+        - $ref: '#/components/schemas/letter_generated_base'
+    registered:
+      allOf:
+        - type: object
+          required:
+            - extra_service
+            - color
+          properties:
+            extra_service:
+              type: string
+              enum:
+                - registered
+              description: >
+                Add an extra service to your letter. See <a
+                href="https://www.lob.com/pricing/print-mail#compare"
+                target="_blank">pricing</a> for extra costs incurred.
+                  * registered - provides tracking and confirmation for international addresses
+            tracking_number:
+              type: string
+              description: |-
+                The tracking number will appear here when it becomes available.
+                Dummy tracking numbers are not created in test mode.
+              nullable: true
+            tracking_events:
+              description: Tracking events are not populated for registered letters.
+              type: array
+              items:
+                $ref: '#/components/schemas/tracking_event_normal'
+              maxItems: 0
+            return_address:
+              $ref: '#/components/schemas/return_address'
+            description:
+              $ref: '#/components/schemas/resource_description'
+            metadata:
+              $ref: '#/components/schemas/metadata'
+            merge_variables:
+              $ref: '#/components/schemas/merge_variables'
+            send_date:
+              $ref: '#/components/schemas/send_date'
+            mail_type:
+              $ref: '#/components/schemas/mail_type'
+            color:
+              $ref: '#/components/schemas/color'
+            double_sided:
+              $ref: '#/components/schemas/double_sided'
+            address_placement:
+              $ref: '#/components/schemas/address_placement'
+            return_envelope:
+              $ref: '#/components/schemas/returned'
+            perforated_page:
+              type: integer
+              description: >-
+                Required if `return_envelope` is `true`. The number of the page
+                that should be perforated for use with the return envelope. Must
+                be greater than or equal to `1`. The blank page added by
+                `address_placement=insert_blank_page` will be ignored when
+                considering the perforated page number. To see how perforation
+                will impact your letter design, view our <a
+                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf"
+                target="_blank">perforation guide</a>.
+              nullable: true
+            custom_envelope:
+              $ref: '#/components/schemas/custom_envelope_returned'
+        - $ref: '#/components/schemas/letter_generated_base'
     tracking_event_details:
       type: object
       required:
@@ -7508,134 +7712,13 @@ components:
                 will be the name of a Regional Distribution Center if it exists,
                 otherwise will be null.
               nullable: true
-    inline_address_intl:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_intl'
-        - type: object
-          required:
-            - address_line1
-            - address_country
-        - type: object
-          oneOf:
-            - required:
-                - address_city
-                - address_state
-            - required:
-                - address_zip
-    inline_address:
-      oneOf:
-        - $ref: '#/components/schemas/inline_address_us'
-        - $ref: '#/components/schemas/inline_address_intl'
-    return_address:
-      description: >-
-        Specifies the address the return envelope will be sent back to. This is
-        an optional argument that is available if an account is signed up for
-        the return envelope tracking beta, and has `return_envelope`, and
-        `perforated_page` fields populated in the API request.
-      oneOf:
-        - $ref: '#/components/schemas/adr_id'
-        - $ref: '#/components/schemas/inline_address'
-    letter_base:
-      allOf:
-        - $ref: '#/components/schemas/editable_no_mailtype'
-        - type: object
-          required:
-            - color
-          properties:
-            mail_type:
-              $ref: '#/components/schemas/mail_type'
-            color:
-              $ref: '#/components/schemas/color'
-            double_sided:
-              $ref: '#/components/schemas/double_sided'
-            address_placement:
-              $ref: '#/components/schemas/address_placement'
-            return_envelope:
-              $ref: '#/components/schemas/returned'
-            perforated_page:
-              type: integer
-              description: >-
-                Required if `return_envelope` is `true`. The number of the page
-                that should be perforated for use with the return envelope. Must
-                be greater than or equal to `1`. The blank page added by
-                `address_placement=insert_blank_page` will be ignored when
-                considering the perforated page number. To see how perforation
-                will impact your letter design, view our <a
-                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf"
-                target="_blank">perforation guide</a>.
-              nullable: true
-            custom_envelope:
-              $ref: '#/components/schemas/custom_envelope_returned'
-    generated:
-      type: object
-      required:
-        - to
-        - carrier
-      properties:
-        to:
-          $ref: '#/components/schemas/address'
-        carrier:
-          type: string
-          enum:
-            - USPS
-          default: USPS
-        thumbnails:
-          type: array
-          items:
-            $ref: '#/components/schemas/thumbnail'
-        expected_delivery_date:
-          $ref: '#/components/schemas/expected_delivery_date'
-        date_created:
-          $ref: '#/components/schemas/date_created'
-        date_modified:
-          $ref: '#/components/schemas/date_modified'
-        deleted:
-          $ref: '#/components/schemas/deleted'
-    from:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/address'
-    letter_generated_base:
-      allOf:
-        - $ref: '#/components/schemas/generated'
-        - $ref: '#/components/schemas/from'
-        - type: object
-          required:
-            - id
-            - from
-          properties:
-            id:
-              $ref: '#/components/schemas/ltr_id'
-            template_id:
-              allOf:
-                - description: The unique ID of the HTML template used for the letter.
-                - $ref: '#/components/schemas/tmpl_id'
-            template_version_id:
-              allOf:
-                - description: >-
-                    The unique ID of the specific version of the HTML template
-                    used for the letter.
-                  type: string
-                - $ref: '#/components/schemas/vrsn_id'
-            campaign_id:
-              type: string
-              description: >-
-                The unique ID of the associated campaign if the resource was
-                generated from a campaign.
-              nullable: true
-            object:
-              type: string
-              description: Value is resource type.
-              enum:
-                - letter
-              default: letter
     certified:
       allOf:
         - type: object
           required:
             - extra_service
             - tracking_events
+            - color
           properties:
             extra_service:
               type: string
@@ -7663,66 +7746,50 @@ components:
                 $ref: '#/components/schemas/tracking_event_certified'
             return_address:
               $ref: '#/components/schemas/return_address'
-        - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/letter_generated_base'
-    registered:
-      allOf:
-        - type: object
-          required:
-            - extra_service
-          properties:
-            extra_service:
-              type: string
-              enum:
-                - registered
-              description: >
-                Add an extra service to your letter. See <a
-                href="https://www.lob.com/pricing/print-mail#compare"
-                target="_blank">pricing</a> for extra costs incurred.
-                  * registered - provides tracking and confirmation for international addresses
-            tracking_number:
-              type: string
-              description: |-
-                The tracking number will appear here when it becomes available.
-                Dummy tracking numbers are not created in test mode.
+            description:
+              $ref: '#/components/schemas/resource_description'
+            metadata:
+              $ref: '#/components/schemas/metadata'
+            merge_variables:
+              $ref: '#/components/schemas/merge_variables'
+            send_date:
+              $ref: '#/components/schemas/send_date'
+            mail_type:
+              $ref: '#/components/schemas/mail_type'
+            color:
+              $ref: '#/components/schemas/color'
+            double_sided:
+              $ref: '#/components/schemas/double_sided'
+            address_placement:
+              $ref: '#/components/schemas/address_placement'
+            return_envelope:
+              $ref: '#/components/schemas/returned'
+            perforated_page:
+              type: integer
+              description: >-
+                Required if `return_envelope` is `true`. The number of the page
+                that should be perforated for use with the return envelope. Must
+                be greater than or equal to `1`. The blank page added by
+                `address_placement=insert_blank_page` will be ignored when
+                considering the perforated page number. To see how perforation
+                will impact your letter design, view our <a
+                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf"
+                target="_blank">perforation guide</a>.
               nullable: true
-            tracking_events:
-              description: Tracking events are not populated for registered letters.
-              type: array
-              items:
-                $ref: '#/components/schemas/tracking_event_normal'
-              maxItems: 0
-            return_address:
-              $ref: '#/components/schemas/return_address'
-        - $ref: '#/components/schemas/letter_base'
-        - $ref: '#/components/schemas/letter_generated_base'
-    no_extra_service:
-      allOf:
-        - type: object
-          properties:
-            tracking_events:
-              description: An array of tracking events ordered by ascending `time`.
-              type: array
-              items:
-                $ref: '#/components/schemas/tracking_event_normal'
-            cards:
-              description: An array of cards associated with a specific letter
-              type: array
-              items:
-                $ref: '#/components/schemas/card'
-              nullable: true
-            return_address:
-              $ref: '#/components/schemas/return_address'
-        - $ref: '#/components/schemas/letter_base'
+            custom_envelope:
+              $ref: '#/components/schemas/custom_envelope_returned'
         - $ref: '#/components/schemas/letter_generated_base'
     letter:
       oneOf:
-        - title: certified
-          $ref: '#/components/schemas/certified'
-        - title: registered
-          $ref: '#/components/schemas/registered'
-        - title: regular
-          $ref: '#/components/schemas/no_extra_service'
+        - allOf:
+            - title: regular
+            - $ref: '#/components/schemas/no_extra_service'
+        - allOf:
+            - title: registered
+            - $ref: '#/components/schemas/registered'
+        - allOf:
+            - title: certified
+            - $ref: '#/components/schemas/certified'
     letter_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of

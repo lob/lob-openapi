@@ -4,6 +4,7 @@ allOf:
     required:
       - extra_service
       - tracking_events
+      - color
 
     properties:
       extra_service:
@@ -34,5 +35,45 @@ allOf:
       return_address:
         $ref: "../attributes/return_address.yml"
 
-  - $ref: "letter_base.yml"
+  
+      description:
+        $ref: "../../../shared/attributes/resource_description.yml"
+
+      metadata:
+        $ref: "../../../shared/models/metadata.yml"
+
+      merge_variables:
+        $ref: "../../../shared/models/merge_variables.yml"
+
+      send_date:
+        $ref: "../../../shared/attributes/send_date.yml"
+
+      mail_type:
+        $ref: "../../../shared/attributes/mail_type.yml"
+
+      color:
+        $ref: "../attributes/color.yml"
+
+      double_sided:
+        $ref: "../attributes/double_sided.yml"
+
+      address_placement:
+        $ref: "../attributes/address_placement.yml"
+
+      return_envelope:
+        $ref: "../attributes/return_envelope.yml#/returned"
+
+      perforated_page:
+        type: integer
+        description: >-
+          Required if `return_envelope` is `true`. The number of the page that should be
+          perforated for use with the return envelope. Must be greater than or equal
+          to `1`. The blank page added by `address_placement=insert_blank_page` will be
+          ignored when considering the perforated page number. To see how
+          perforation will impact your letter design, view our <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_perf_template.pdf" target="_blank">perforation guide</a>.
+        nullable: true
+
+      custom_envelope:
+        $ref: "../attributes/custom_envelope.yml#/returned"
+
   - $ref: "letter_generated_base.yml"

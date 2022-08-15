@@ -8357,9 +8357,10 @@ components:
         - columnMapping
       properties:
         campaignId:
-          $ref: '#/components/schemas/cmp_id'
-          description: Associated Campaign ID
-          example: cmp_1933ad629bae1408
+          allOf:
+            - $ref: '#/components/schemas/cmp_id'
+            - description: Associated Campaign ID
+            - example: cmp_1933ad629bae1408
         columnMapping:
           $ref: '#/components/schemas/column_mapping'
     upl_id:

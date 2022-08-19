@@ -2,7 +2,10 @@ in: query
 
 name: date_modified
 
-description: Filter by date modified.
+description: >-
+  Filter by date modified. Accepted formats are ISO-8601
+  date or datetime, e.g. `{ "gt": "2012-01-01", "lt": "2012-01-31T12:34:56Z" }`
+  where `gt` is >, `lt` is <, `gte` is ≥, and `lte` is ≤.
 
 schema:
   $ref: "../models/date_filter.yml"

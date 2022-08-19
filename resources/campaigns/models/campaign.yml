@@ -32,13 +32,10 @@ allOf:
         type: array
 
       uploads:
-        description: A single-element array containing an existing upload id in a string format.
+        description: A single-element array containing the upload object that is assocated with this campaign.
         type: array
-        items:
-          $ref: "../../uploads/attributes/upl_id.yml"
         minItems: 0
         maxItems: 1
-        nullable: true
 
       object:
         type: string

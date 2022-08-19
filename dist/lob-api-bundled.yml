@@ -5803,10 +5803,6 @@ components:
       title: Campaign id
       description: Unique identifier prefixed with `cmp_`.
       pattern: ^cmp_[a-zA-Z0-9]+$
-    upl_id:
-      type: string
-      description: Unique identifier prefixed with `upl_`.
-      pattern: ^upl_[a-zA-Z0-9]+$
     campaign:
       allOf:
         - $ref: '#/components/schemas/lob_base'
@@ -5839,14 +5835,11 @@ components:
               type: array
             uploads:
               description: >-
-                A single-element array containing an existing upload id in a
-                string format.
+                A single-element array containing the upload object that is
+                assocated with this campaign.
               type: array
-              items:
-                $ref: '#/components/schemas/upl_id'
               minItems: 0
               maxItems: 1
-              nullable: true
             object:
               type: string
               description: Value is resource type.
@@ -7021,6 +7014,7 @@ components:
             - use_type
             - is_draft
             - creatives
+            - uploads
             - auto_cancel_if_ncoa
             - date_created
             - date_modified
@@ -7037,6 +7031,13 @@ components:
                 An array of creatives that have been associated with this
                 campaign.
               type: array
+            uploads:
+              description: >-
+                A single-element array containing the upload object that is
+                assocated with this campaign.
+              type: array
+              minItems: 0
+              maxItems: 1
             object:
               type: string
               description: Value is resource type.
@@ -7067,6 +7068,7 @@ components:
           is_draft: true
           deleted: false
           creatives: []
+          uploads: []
           auto_cancel_if_ncoa: false
           date_created: '2022-07-26T20:20:25.016Z'
           date_modified: '2022-07-26T20:20:25.016Z'
@@ -8377,6 +8379,10 @@ components:
           example: cmp_1933ad629bae1408
         columnMapping:
           $ref: '#/components/schemas/column_mapping'
+    upl_id:
+      type: string
+      description: Unique identifier prefixed with `upl_`.
+      pattern: ^upl_[a-zA-Z0-9]+$
     upload_state:
       title: Upload State
       enum:

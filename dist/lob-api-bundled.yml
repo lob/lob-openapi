@@ -3263,6 +3263,11 @@ x-tagGroups:
       - Template Versions
       - Template Design
       - Manage Mail
+  - name: Campaigns API (BETA)
+    tags:
+      - Campaigns
+      - Creatives
+      - Uploads
   - name: Address Verification API
     tags:
       - US Verifications
@@ -3283,9 +3288,6 @@ x-tagGroups:
       - Billing Groups
       - Cards
       - Card Orders
-      - Campaigns
-      - Creatives
-      - Uploads
   - name: Appendix
     tags:
       - Beta Program
@@ -8357,9 +8359,10 @@ components:
         - columnMapping
       properties:
         campaignId:
-          $ref: '#/components/schemas/cmp_id'
-          description: Associated Campaign ID
-          example: cmp_1933ad629bae1408
+          allOf:
+            - $ref: '#/components/schemas/cmp_id'
+            - description: Associated Campaign ID
+            - example: cmp_1933ad629bae1408
         columnMapping:
           $ref: '#/components/schemas/column_mapping'
     upl_id:

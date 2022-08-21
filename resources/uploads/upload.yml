@@ -70,6 +70,20 @@ patch:
           -u <YOUR API KEY>: \
           -d "state=Ready for Validation"
       label: CURL
+    - lang: Python
+      source: |
+        upload_updatable = UploadUpdatable(
+          state = UploadState("Ready for Validation"),
+        )
+
+        with ApiClient(configuration) as api_client:
+          api = UploadsApi(api_client)
+
+        try:
+          updated_upload = api.update_upload("upl_71be866e430b11e9", upload_updatable)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
 
 delete:
   operationId: "upload_delete"

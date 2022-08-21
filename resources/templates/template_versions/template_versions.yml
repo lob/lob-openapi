@@ -55,7 +55,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        This feature is not currently supported by this library.
+        with ApiClient(configuration) as api_client:
+          api = TemplateVersionsApi(api_client)
+
+        try:
+          template_versions = api.list("tmpl_dadaaf7b76c9f25", limit=2)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -63,8 +69,8 @@ get:
 
         try {
             $result = $apiInstance->list(
-              tmpl_dadaaf7b76c9f25, // tmplId 
-              2, // limit 
+              tmpl_dadaaf7b76c9f25, // tmplId
+              2, // limit
             );
         } catch (Exception $e) {
             echo $e->getMessage(), PHP_EOL;
@@ -195,7 +201,18 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        This feature is not currently supported by this library.
+        template_version_writable = TemplateVersionWritable(
+          description = "Second Version",
+          html = "<html>Second HTML for {{name}}</html>",
+        )
+
+        with ApiClient(configuration) as api_client:
+          api = TemplateVersionsApi(api_client)
+
+        try:
+          created_template_version = api.create("tmpl_4aa14648113e45b", template_version_writable)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -217,7 +234,7 @@ post:
         TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
 
         try {
-          TemplateVersionWritable  = new TemplateVersionWritable(); 
+          TemplateVersionWritable  = new TemplateVersionWritable();
           .set("Second Version");
           .set("<html>Second HTML for {{name}}</html>");
 

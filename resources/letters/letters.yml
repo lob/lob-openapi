@@ -60,7 +60,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.Letter.list(limit=2)
+        with ApiClient(configuration) as api_client:
+          api = LettersApi(api_client)
+
+        try:
+          letters = api.list(limit=2)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -68,7 +74,7 @@ get:
 
         try {
             $result = $apiInstance->list(
-              2, // limit 
+              2, // limit
             );
         } catch (Exception $e) {
             echo $e->getMessage(), PHP_EOL;
@@ -381,24 +387,34 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.Letter.create(
-          description = 'Demo Letter',
-          to_address = {
-              'name': 'Harry Zhang',
-              'address_line1': '210 King St',
-              'address_line2': '# 6100',
-              'address_city': 'San Francisco',
-              'address_state': 'CA',
-              'address_zip': '94107'
-          },
-          from_address = 'adr_210a8d4b0b76d77b',
-          file = '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
-          merge_variables = {
-            'name': 'Harry'
-          },
+        letter_editable = LetterEditable(
+          description = "Demo Letter",
+          _from = "adr_210a8d4b0b76d77b",
+          file = "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
           color = True,
-          cards = ['card_c51ae96f5cebf3e']
+          to = AddressEditable(
+            name = "Harry Zhang",
+            address_line1 = "210 King St",
+            address_line2 = "# 6100",
+            address_city = "San Francisco",
+            address_state = "CA",
+            address_zip = "94107",
+          ),
+          merge_variables = MergeVariables(
+            name = "Harry",
+          ),
+          cards = [
+            "card_c51ae96f5cebf3e",
+          ],
         )
+
+        with ApiClient(configuration) as api_client:
+          api = LettersApi(api_client)
+
+        try:
+          created_letter = api.create(letter_editable)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -457,7 +473,7 @@ post:
         cards.add("card_thingy");
 
         try {
-          LetterEditable letterEditable = new LetterEditable(); 
+          LetterEditable letterEditable = new LetterEditable();
           letterEditable.setDescription("Demo Letter");
           letterEditable.setFrom("adr_210a8d4b0b76d77b");
           letterEditable.setFile("<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>");

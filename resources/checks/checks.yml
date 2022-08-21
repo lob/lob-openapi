@@ -54,7 +54,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.Check.list(limit=2)
+        with ApiClient(configuration) as api_client:
+          api = ChecksApi(api_client)
+
+        try:
+          checks = api.list(limit=2)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -62,7 +68,7 @@ get:
 
         try {
             $result = $apiInstance->list(
-              2, // limit 
+              2, // limit
             );
         } catch (Exception $e) {
             echo $e->getMessage(), PHP_EOL;
@@ -372,26 +378,34 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.Check.create(
-          description = 'Demo Check',
-          to_address = {
-            'name': 'Harry Zhang',
-            'address_line1': '210 King St',
-            'address_line2': '# 6100',
-            'address_city': 'San Francisco',
-            'address_state': 'CA',
-            'address_zip': '94107'
-          },
-          from_address = 'adr_210a8d4b0b76d77b',
-          bank_account = 'bank_8cad8df5354d33f',
-          amount = 22.50,
-          memo = 'rent',
-          logo = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
-          check_bottom = '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
-          merge_variables = {
-            'name': 'Harry'
-          }
+        check_editable = CheckEditable(
+          description = "Demo Check",
+          bank_account = "bank_8cad8df5354d33f",
+          amount = 22.5,
+          memo = "rent",
+          logo = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
+          check_bottom = "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+          _from = "adr_210a8d4b0b76d77b",
+          to = AddressDomestic(
+            name = "Harry Zhang",
+            address_line1 = "210 King St",
+            address_line2 = "# 6100",
+            address_city = "San Francisco",
+            address_state = "CA",
+            address_zip = "94107",
+          ),
+          merge_variables = MergeVariables(
+            name = "Harry",
+          ),
         )
+
+        with ApiClient(configuration) as api_client:
+          api = ChecksApi(api_client)
+
+        try:
+          created_check = api.create(check_editable)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -445,7 +459,7 @@ post:
         to.setAddressZip("94107");
 
         try {
-          CheckEditable checkEditable = new CheckEditable(); 
+          CheckEditable checkEditable = new CheckEditable();
           checkEditable.setDescription("Demo Check");
           checkEditable.setBankAccount("bank_8cad8df5354d33f");
           checkEditable.setAmount(22.5f);

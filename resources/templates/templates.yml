@@ -48,7 +48,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        This feature is not currently supported by this library.
+        with ApiClient(configuration) as api_client:
+          api = TemplatesApi(api_client)
+
+        try:
+          templates = api.list(limit=2)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -56,7 +62,7 @@ get:
 
         try {
             $result = $apiInstance->list(
-              2, // limit 
+              2, // limit
             );
         } catch (Exception $e) {
             echo $e->getMessage(), PHP_EOL;
@@ -206,7 +212,18 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        This feature is not currently supported by this library.
+        template_writable = TemplateWritable(
+          description = "Test Template",
+          html = "<html>HTML for {{name}}</html>",
+        )
+
+        with ApiClient(configuration) as api_client:
+          api = TemplatesApi(api_client)
+
+        try:
+          created_template = api.create(template_writable)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -228,7 +245,7 @@ post:
         TemplatesApi apiInstance = new TemplatesApi(config);
 
         try {
-          TemplateWritable  = new TemplateWritable(); 
+          TemplateWritable  = new TemplateWritable();
           .set("Test Template");
           .set("<html>HTML for {{name}}</html>");
 

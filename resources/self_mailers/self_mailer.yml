@@ -54,7 +54,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.SelfMailer.retrieve('sfm_8ffbe811dea49dcf')
+        with ApiClient(configuration) as api_client:
+          api = SelfMailersApi(api_client)
+
+        try:
+          self_mailer = api.get("sfm_8ffbe811dea49dcf")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -137,7 +143,13 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        lob.SelfMailer.delete('sfm_8ffbe811dea49dcf')
+        with ApiClient(configuration) as api_client:
+          api = SelfMailersApi(api_client)
+
+        try:
+          deleted_resource = api.delete("sfm_8ffbe811dea49dcf")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |

@@ -51,7 +51,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.Address.retrieve('adr_fa85158b26c3eb7c')
+        with ApiClient(configuration) as api_client:
+          api = AddressesApi(api_client)
+
+        try:
+          address = api.get("adr_fa85158b26c3eb7c")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -132,7 +138,13 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        lob.Address.delete('adr_43769b47aed248c2')
+        with ApiClient(configuration) as api_client:
+          api = AddressesApi(api_client)
+
+        try:
+          deleted_resource = api.delete("adr_43769b47aed248c2")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |

@@ -11733,7 +11733,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Address.list(limit=2)
+            with lob_python.ApiClient(configuration) as api_client:
+              api = AddressesApi(api_client)
+
+            try:
+              addresses = api.list(limit=2)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -11743,7 +11749,7 @@ paths:
 
             try {
                 $result = $apiInstance->list(
-                  2, // limit 
+                  2, // limit
                 );
             } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
@@ -12026,19 +12032,27 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Address.create(
-              description='Harry - Office',
-              name='Harry Zhang',
-              company='Lob',
-              email='harry@lob.com',
-              phone='5555555555',
-              address_line1='210 King St',
-              address_line2='# 6100',
-              address_city='San Francisco',
-              address_state='CA',
-              address_zip='94107',
-              address_country='US',
+            address_editable = AddressEditable(
+              description = "Harry - Office",
+              name = "Harry Zhang",
+              company = "Lob",
+              email = "harry@lob.com",
+              phone = "5555555555",
+              address_line1 = "210 King St",
+              address_line2 = "# 6100",
+              address_city = "San Francisco",
+              address_state = "CA",
+              address_zip = "94107",
+              address_country = CountryExtended("US"),
             )
+
+            with lob_python.ApiClient(configuration) as api_client:
+              api = AddressesApi(api_client)
+
+            try:
+              created_address = api.create(address_editable)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -12073,7 +12087,7 @@ paths:
             AddressesApi apiInstance = new AddressesApi(config);
 
             try {
-              AddressEditable addressEditable = new AddressEditable(); 
+              AddressEditable addressEditable = new AddressEditable();
               addressEditable.setDescription("Harry - Office");
               addressEditable.setName("Harry Zhang");
               addressEditable.setCompany("Lob");
@@ -12178,7 +12192,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Address.retrieve('adr_fa85158b26c3eb7c')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = AddressesApi(api_client)
+
+            try:
+              address = api.get("adr_fa85158b26c3eb7c")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -12255,7 +12275,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Address.delete('adr_43769b47aed248c2')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = AddressesApi(api_client)
+
+            try:
+              deleted_resource = api.delete("adr_43769b47aed248c2")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -12369,9 +12395,21 @@ paths:
             @lob.bank_accounts.verify("bank_dfceb4a2a05b57e", amounts: [25, 63])
           label: RUBY
         - lang: Python
-          source: >
-            lob.BankAccount.verify(id = 'bank_dfceb4a2a05b57e', amounts = [25,
-            63])
+          source: |
+            verification_data = BankAccountVerify(
+              amounts = [
+                25,
+                63,
+              ],
+            )
+
+            with lob_python.ApiClient(configuration) as api_client:
+              api = BankAccountsApi(api_client)
+
+            try:
+              verified_account = api.verify("bank_dfceb4a2a05b57e", verification_data)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -12396,9 +12434,9 @@ paths:
             }
         - lang: Java
           source: |
-            BankAccountVerify verification = new BankAccountVerify(); 
-            verification.addAmountsItem(25); 
-            verification.addAmountsItem(63); 
+            BankAccountVerify verification = new BankAccountVerify();
+            verification.addAmountsItem(25);
+            verification.addAmountsItem(63);
 
             BankAccountsApi apiInstance = new BankAccountsApi(config);
 
@@ -12496,7 +12534,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.BankAccount.retrieve('bank_8cad8df5354d33f')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = BankAccountsApi(api_client)
+
+            try:
+              bank_account = api.get("bank_8cad8df5354d33f")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -12572,7 +12616,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.BankAccount.delete('bank_3e64d9904356b20')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = BankAccountsApi(api_client)
+
+            try:
+              deleted_resource = api.delete("bank_3e64d9904356b20")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -12656,7 +12706,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.BankAccount.list(limit=2)
+            with lob_python.ApiClient(configuration) as api_client:
+              api = BankAccountsApi(api_client)
+
+            try:
+              bank_accounts = api.list(limit=2)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -12666,7 +12722,7 @@ paths:
 
             try {
                 $result = $apiInstance->list(
-                  2, // limit 
+                  2, // limit
                 );
             } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
@@ -12833,13 +12889,21 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.BankAccount.create(
-              description = 'Test Bank Account',
-              routing_number = '322271627',
-              account_number = '123456789',
-              signatory = 'John Doe',
-              account_type = 'company'
+            bank_account_writable = BankAccountWritable(
+              description = "Test Bank Account",
+              routing_number = "322271627",
+              account_number = "123456789",
+              signatory = "John Doe",
+              account_type = BankTypeEnum("company"),
             )
+
+            with lob_python.ApiClient(configuration) as api_client:
+              api = BankAccountsApi(api_client)
+
+            try:
+              created_bank_account = api.create(bank_account_writable)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -12868,7 +12932,7 @@ paths:
             BankAccountsApi apiInstance = new BankAccountsApi(config);
 
             try {
-              BankAccountWritable bankAccountWritable = new BankAccountWritable(); 
+              BankAccountWritable bankAccountWritable = new BankAccountWritable();
               bankAccountWritable.setDescription("Test Bank Account");
               bankAccountWritable.setRoutingNumber("322271627");
               bankAccountWritable.setAccountNumber("123456789");
@@ -13254,19 +13318,40 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.BulkUSVerification.create(
-              addresses=[{
-              'primary_line'='210 King Street',
-              'city'='San Francisco',
-              'state'='CA',
-              'zip_code'='94107'
-              }]
+            with lob_python.ApiClient(configuration) as api_client:
+              api = UsVerificationsApi(api_client)
+
+            verification_data_0 = MultipleComponents(
+              primary_line = "210 King Street",
+              city = "San Francisco",
+              state = "CA",
+              zip_code = "94017",
             )
+
+            verification_data_1 = MultipleComponents(
+              primary_line = "185 BERRY ST STE 6600",
+              city = "SAN FRANCISCO",
+              state = "CA",
+              zip_code = "94017",
+            )
+
+
+            address_list = MultipleComponentsList(
+              addresses = [
+                verification_data_0,
+                verification_data_1,
+              ],
+            )
+
+            try:
+              bulk_verified = api.verifyBulk(address_list)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
             $verificationData0 = new
-            OpenAPI\Client\Model\MultipleComponents(array( 
+            OpenAPI\Client\Model\MultipleComponents(array(
               'primary_line'     => '210 King Street',
               'city'     => 'San Francisco',
               'state'     => 'CA',
@@ -13275,7 +13360,7 @@ paths:
 
 
             $verificationData1 = new
-            OpenAPI\Client\Model\MultipleComponents(array( 
+            OpenAPI\Client\Model\MultipleComponents(array(
               'primary_line'     => '185 BERRY ST STE 6600',
               'city'     => 'SAN FRANCISCO',
               'state'     => 'CA',
@@ -13299,15 +13384,15 @@ paths:
             }
         - lang: Java
           source: |
-            MultipleComponentsList bulkVerify = new MultipleComponentsList(); 
-            MultipleComponents bulkAddress0 = new MultipleComponents(); 
+            MultipleComponentsList bulkVerify = new MultipleComponentsList();
+            MultipleComponents bulkAddress0 = new MultipleComponents();
             bulkAddress0.setPrimaryLine("210 King Street");
             bulkAddress0.setCity("San Francisco");
             bulkAddress0.setState("CA");
             bulkAddress0.setZipCode("94017");
             bulkVerify.addAddressesItem(bulkAddress0);
 
-            MultipleComponents bulkAddress1 = new MultipleComponents(); 
+            MultipleComponents bulkAddress1 = new MultipleComponents();
             bulkAddress1.setPrimaryLine("185 BERRY ST STE 6600");
             bulkAddress1.setCity("SAN FRANCISCO");
             bulkAddress1.setState("CA");
@@ -13462,7 +13547,7 @@ paths:
 
             try {
               const bulkVerified = await IntlVerifications.verifyBulk(addressList);
-                
+
             } catch (err: any) {
               console.error(err);
             }
@@ -13499,23 +13584,41 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.BulkIntlVerification.create(
-              addresses=[
-                {
-                  'primary_line' = '370 Water St',
-                  'secondary_line' = '',
-                  'city' = 'Summerside',
-                  'state'= 'Prince Edward Island',
-                  'postal_code' = 'C1N 1C4',
-                  'country' = 'CA'
-                }
-              ]
+            with lob_python.ApiClient(configuration) as api_client:
+              api = IntlVerificationsApi(api_client)
+
+            verification_data_0 = MultipleComponentsIntl(
+              primary_line = "35 Tower Hill",
+              city = "London",
+              postal_code = "EC3N 4DR",
+              country = CountryExtended("GB"),
             )
+
+            verification_data_1 = MultipleComponentsIntl(
+              primary_line = "370 Water St",
+              city = "Summerside",
+              state = "Prince Edward Island",
+              postal_code = "C1N 1C4",
+              country = CountryExtended("CA"),
+            )
+
+
+            address_list = IntlVerificationsPayload(
+              addresses = [
+                verification_data_0,
+                verification_data_1,
+              ],
+            )
+
+            try:
+              bulk_verified = api.verifyBulk(address_list)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
             $verificationData0 = new
-            OpenAPI\Client\Model\MultipleComponentsIntl(array( 
+            OpenAPI\Client\Model\MultipleComponentsIntl(array(
               'primary_line'     => '35 Tower Hill',
               'city'     => 'London',
               'postal_code'     => 'EC3N 4DR',
@@ -13524,7 +13627,7 @@ paths:
 
 
             $verificationData1 = new
-            OpenAPI\Client\Model\MultipleComponentsIntl(array( 
+            OpenAPI\Client\Model\MultipleComponentsIntl(array(
               'primary_line'     => '370 Water St',
               'city'     => 'Summerside',
               'state'     => 'Prince Edward Island',
@@ -14638,7 +14741,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Check.list(limit=2)
+            with lob_python.ApiClient(configuration) as api_client:
+              api = ChecksApi(api_client)
+
+            try:
+              checks = api.list(limit=2)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -14648,7 +14757,7 @@ paths:
 
             try {
                 $result = $apiInstance->list(
-                  2, // limit 
+                  2, // limit
                 );
             } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
@@ -14964,26 +15073,34 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Check.create(
-              description = 'Demo Check',
-              to_address = {
-                'name': 'Harry Zhang',
-                'address_line1': '210 King St',
-                'address_line2': '# 6100',
-                'address_city': 'San Francisco',
-                'address_state': 'CA',
-                'address_zip': '94107'
-              },
-              from_address = 'adr_210a8d4b0b76d77b',
-              bank_account = 'bank_8cad8df5354d33f',
-              amount = 22.50,
-              memo = 'rent',
-              logo = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
-              check_bottom = '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
-              merge_variables = {
-                'name': 'Harry'
-              }
+            check_editable = CheckEditable(
+              description = "Demo Check",
+              bank_account = "bank_8cad8df5354d33f",
+              amount = 22.5,
+              memo = "rent",
+              logo = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
+              check_bottom = "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+              _from = "adr_210a8d4b0b76d77b",
+              to = AddressEditable(
+                name = "Harry Zhang",
+                address_line1 = "210 King St",
+                address_line2 = "# 6100",
+                address_city = "San Francisco",
+                address_state = "CA",
+                address_zip = "94107",
+              ),
+              merge_variables = MergeVariables(
+                name = "Harry",
+              ),
             )
+
+            with lob_python.ApiClient(configuration) as api_client:
+              api = ChecksApi(api_client)
+
+            try:
+              created_check = api.create(check_editable)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -15043,7 +15160,7 @@ paths:
             to.setAddressZip("94107");
 
             try {
-              CheckEditable checkEditable = new CheckEditable(); 
+              CheckEditable checkEditable = new CheckEditable();
               checkEditable.setDescription("Demo Check");
               checkEditable.setBankAccount("bank_8cad8df5354d33f");
               checkEditable.setAmount(22.5f);
@@ -15256,7 +15373,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Check.retrieve('chk_534f10783683daa0')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = ChecksApi(api_client)
+
+            try:
+              check = api.get("chk_534f10783683daa0")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -15338,7 +15461,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Check.delete('chk_534f10783683daa0')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = ChecksApi(api_client)
+
+            try:
+              deleted_resource = api.cancel("chk_534f10783683daa0")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -15710,7 +15839,21 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            with lob_python.ApiClient(configuration) as api_client:
+              api = IntlAutocompletionsApi(api_client)
+
+            autocompletion_data = IntlAutocompletionsWritable(
+                address_prefix = "340 Wat",
+                city = "Summerside",
+                state = "Prince Edward Island",
+                zip_code = "C1N 1C4",
+                country = CountryExtended("CA"),
+            )
+
+            try:
+              autocompleted_addresses = api.autocomplete(autocompletion_data)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -15894,7 +16037,7 @@ paths:
             };
 
             try {
-              const singleVerified = await IntlVerifications.verifySingle(verificationData1);   
+              const singleVerified = await IntlVerifications.verifySingle(verificationData1);
             } catch (err: any) {
               console.error(err);
             }
@@ -15923,13 +16066,20 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.IntlVerification.create(
-              primary_line='370 Water St',
-              city='Summerside',
-              state='Prince Edward Island',
-              postal_code='C1N 1C4',
-              country='CA'
+            with lob_python.ApiClient(configuration) as api_client:
+              api = IntlVerificationsApi(api_client)
+            verification_data_1 = IntlVerificationWritable(
+              primary_line = "370 Water St",
+              city = "Summerside",
+              state = "Prince Edward Island",
+              postal_code = "C1N 1C4",
+              country = CountryExtended("CA"),
             )
+
+            try:
+              single_verified = api.verifySingle(verification_data_1)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -16154,7 +16304,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Letter.retrieve('ltr_4868c3b754655f90')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = LettersApi(api_client)
+
+            try:
+              letter = api.get("ltr_4868c3b754655f90")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -16236,7 +16392,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Letter.delete('ltr_4868c3b754655f90')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = LettersApi(api_client)
+
+            try:
+              deleted_resource = api.cancel("ltr_4868c3b754655f90")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -16330,7 +16492,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Letter.list(limit=2)
+            with lob_python.ApiClient(configuration) as api_client:
+              api = LettersApi(api_client)
+
+            try:
+              letters = api.list(limit=2)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -16340,7 +16508,7 @@ paths:
 
             try {
                 $result = $apiInstance->list(
-                  2, // limit 
+                  2, // limit
                 );
             } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
@@ -16662,24 +16830,34 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Letter.create(
-              description = 'Demo Letter',
-              to_address = {
-                  'name': 'Harry Zhang',
-                  'address_line1': '210 King St',
-                  'address_line2': '# 6100',
-                  'address_city': 'San Francisco',
-                  'address_state': 'CA',
-                  'address_zip': '94107'
-              },
-              from_address = 'adr_210a8d4b0b76d77b',
-              file = '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
-              merge_variables = {
-                'name': 'Harry'
-              },
+            letter_editable = LetterEditable(
+              description = "Demo Letter",
+              _from = "adr_210a8d4b0b76d77b",
+              file = "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
               color = True,
-              cards = ['card_c51ae96f5cebf3e']
+              to = AddressEditable(
+                name = "Harry Zhang",
+                address_line1 = "210 King St",
+                address_line2 = "# 6100",
+                address_city = "San Francisco",
+                address_state = "CA",
+                address_zip = "94107",
+              ),
+              merge_variables = MergeVariables(
+                name = "Harry",
+              ),
+              cards = [
+                "card_c51ae96f5cebf3e",
+              ],
             )
+
+            with lob_python.ApiClient(configuration) as api_client:
+              api = LettersApi(api_client)
+
+            try:
+              created_letter = api.create(letter_editable)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -16744,7 +16922,7 @@ paths:
             cards.add("card_thingy");
 
             try {
-              LetterEditable letterEditable = new LetterEditable(); 
+              LetterEditable letterEditable = new LetterEditable();
               letterEditable.setDescription("Demo Letter");
               letterEditable.setFrom("adr_210a8d4b0b76d77b");
               letterEditable.setFile("<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>");
@@ -16979,7 +17157,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Postcard.retrieve('psc_5c002b86ce47537a')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = PostcardsApi(api_client)
+
+            try:
+              postcard = api.get("psc_5c002b86ce47537a")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -17062,7 +17246,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Postcard.delete('psc_5c002b86ce47537a')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = PostcardsApi(api_client)
+
+            try:
+              deleted_resource = api.cancel("psc_5c002b86ce47537a")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -17158,7 +17348,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Postcard.list(limit=2)
+            with lob_python.ApiClient(configuration) as api_client:
+              api = PostcardsApi(api_client)
+
+            try:
+              postcards = api.list(limit=2)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -17168,7 +17364,7 @@ paths:
 
             try {
                 $result = $apiInstance->list(
-                  2, // limit 
+                  2, // limit
                 );
             } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
@@ -17487,23 +17683,31 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.Postcard.create(
-              description = 'Demo Postcard job',
-              to_address = {
-                'name': 'Harry Zhang',
-                'address_line1': '210 King St',
-                'address_line2': '# 6100',
-                'address_city': 'San Francisco',
-                'address_state': 'CA',
-                'address_zip': '94107'
-              },
-              from_address = 'adr_210a8d4b0b76d77b',
-              front = '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
-              back = '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
-              merge_variables = {
-                'name': 'Harry'
-              }
+            postcard_editable = PostcardEditable(
+              description = "Demo Postcard job",
+              _from = "adr_210a8d4b0b76d77b",
+              front = "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
+              back = "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+              to = AddressEditable(
+                name = "Harry Zhang",
+                address_line1 = "210 King St",
+                address_line2 = "# 6100",
+                address_city = "San Francisco",
+                address_state = "CA",
+                address_zip = "94107",
+              ),
+              merge_variables = MergeVariables(
+                name = "Harry",
+              ),
             )
+
+            with lob_python.ApiClient(configuration) as api_client:
+              api = PostcardsApi(api_client)
+
+            try:
+              created_postcard = api.create(postcard_editable)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -17560,7 +17764,7 @@ paths:
             to.setAddressZip("94107");
 
             try {
-              PostcardEditable postcardEditable = new PostcardEditable(); 
+              PostcardEditable postcardEditable = new PostcardEditable();
               postcardEditable.setDescription("Demo Postcard job");
               postcardEditable.setFrom("adr_210a8d4b0b76d77b");
               postcardEditable.setFront("<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>");
@@ -17760,7 +17964,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.SelfMailer.retrieve('sfm_8ffbe811dea49dcf')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = SelfMailersApi(api_client)
+
+            try:
+              self_mailer = api.get("sfm_8ffbe811dea49dcf")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -17841,7 +18051,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.SelfMailer.delete('sfm_8ffbe811dea49dcf')
+            with lob_python.ApiClient(configuration) as api_client:
+              api = SelfMailersApi(api_client)
+
+            try:
+              deleted_resource = api.delete("sfm_8ffbe811dea49dcf")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -17936,7 +18152,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.SelfMailer.list(limit=2)
+            with lob_python.ApiClient(configuration) as api_client:
+              api = SelfMailersApi(api_client)
+
+            try:
+              self_mailers = api.list(limit=2)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -17946,7 +18168,7 @@ paths:
 
             try {
                 $result = $apiInstance->list(
-                  2, // limit 
+                  2, // limit
                 );
             } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
@@ -18179,22 +18401,31 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.SelfMailer.create(
-              description = 'Demo Self Mailer job',
-              to_address = {
-                'name': 'Harry Zhang',
-                'address_line1': '210 King St',
-                'address_city': 'San Francisco',
-                'address_state': 'CA',
-                'address_zip': '94107'
-              },
-              from_address = 'adr_210a8d4b0b76d77b',
-              inside = '<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>',
-              outside = '<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>',
-              merge_variables = {
-                'name': 'Harry'
-              }
+            self_mailer_editable = SelfMailerEditable(
+              description = "Demo Self Mailer job",
+              _from = "adr_210a8d4b0b76d77b",
+              inside = "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+              outside = "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+              to = AddressEditable(
+                name = "Harry Zhang",
+                address_line1 = "210 King St",
+                address_line2 = "# 6100",
+                address_city = "San Francisco",
+                address_state = "CA",
+                address_zip = "94107",
+              ),
+              merge_variables = MergeVariables(
+                name = "Harry",
+              ),
             )
+
+            with lob_python.ApiClient(configuration) as api_client:
+              api = SelfMailersApi(api_client)
+
+            try:
+              created_self_mailer = api.create(self_mailer_editable)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -18251,7 +18482,7 @@ paths:
             to.setAddressZip("94107");
 
             try {
-              SelfMailerEditable selfMailerEditable = new SelfMailerEditable(); 
+              SelfMailerEditable selfMailerEditable = new SelfMailerEditable();
               selfMailerEditable.setDescription("Demo Self Mailer job");
               selfMailerEditable.setFrom("adr_210a8d4b0b76d77b");
               selfMailerEditable.setInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>");
@@ -18390,7 +18621,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplateVersionsApi(api_client)
+
+            try:
+              template_version = api.get("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -18488,7 +18725,17 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplateVersionsApi(api_client)
+
+            update_data = TemplateVersionUpdatable(
+              description = "updated template"
+            )
+
+            try:
+              update_template_version = api.update("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282", update_data)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -18568,7 +18815,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplateVersionsApi(api_client)
+
+            try:
+              deleted_resource = api.delete("tmpl_4aa14648113e45b", "vrsn_534e339882d2282")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: |
@@ -18643,7 +18896,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplateVersionsApi(api_client)
+
+            try:
+              template_versions = api.list("tmpl_dadaaf7b76c9f25", limit=2)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -18653,8 +18912,8 @@ paths:
 
             try {
                 $result = $apiInstance->list(
-                  tmpl_dadaaf7b76c9f25, // tmplId 
-                  2, // limit 
+                  tmpl_dadaaf7b76c9f25, // tmplId
+                  2, // limit
                 );
             } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
@@ -18781,7 +19040,18 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            template_version_writable = TemplateVersionWritable(
+              description = "Second Version",
+              html = "<html>Second HTML for {{name}}</html>",
+            )
+
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplateVersionsApi(api_client)
+
+            try:
+              created_template_version = api.create("tmpl_4aa14648113e45b", template_version_writable)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -18807,7 +19077,7 @@ paths:
             TemplateVersionsApi apiInstance = new TemplateVersionsApi(config);
 
             try {
-              TemplateVersionWritable  = new TemplateVersionWritable(); 
+              TemplateVersionWritable  = new TemplateVersionWritable();
               .set("Second Version");
               .set("<html>Second HTML for {{name}}</html>");
 
@@ -18912,7 +19182,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplatesApi(api_client)
+
+            try:
+              template = api.get("tmpl_c94e83ca2cd5121")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -19052,7 +19328,18 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplatesApi(api_client)
+
+            update_data = TemplateUpdate(
+              description = "updated template",
+              published_version = "vrsn_362184d96d9b0c9"
+            )
+
+            try:
+              update_template = api.update("tmpl_c94e83ca2cd5121", update_data)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -19073,7 +19360,7 @@ paths:
             }
         - lang: Java
           source: |
-            TemplatesApi apiInstance = new TemplatesApi(config); 
+            TemplatesApi apiInstance = new TemplatesApi(config);
             TemplateUpdate update = new TemplateUpdate();
 
             update.setDescription("update template");
@@ -19142,7 +19429,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplatesApi(api_client)
+
+            try:
+              deleted_resource = api.delete("tmpl_df934eeda694203")
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -19223,7 +19516,13 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplatesApi(api_client)
+
+            try:
+              templates = api.list(limit=2)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -19233,7 +19532,7 @@ paths:
 
             try {
                 $result = $apiInstance->list(
-                  2, // limit 
+                  2, // limit
                 );
             } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
@@ -19409,7 +19708,18 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            This feature is not currently supported by this library.
+            template_writable = TemplateWritable(
+              description = "Test Template",
+              html = "<html>HTML for {{name}}</html>",
+            )
+
+            with lob_python.ApiClient(configuration) as api_client:
+              api = TemplatesApi(api_client)
+
+            try:
+              created_template = api.create(template_writable)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -19434,7 +19744,7 @@ paths:
             TemplatesApi apiInstance = new TemplatesApi(config);
 
             try {
-              TemplateWritable  = new TemplateWritable(); 
+              TemplateWritable  = new TemplateWritable();
               .set("Test Template");
               .set("<html>HTML for {{name}}</html>");
 
@@ -19867,7 +20177,7 @@ paths:
           description: >-
             Casing of the verified address. Possible values are `upper` and
             `proper` for uppercased (e.g. "PO BOX") and proper-cased (e.g. "PO
-            Box"), respectively. Only affects `primary_line`,  `city`, and
+            Box"), respectively. Only affects `primary_line`, `city`, and
             `state`. Default casing is `upper`.
           required: false
         - in: query
@@ -19881,7 +20191,7 @@ paths:
           description: >-
             Possible values are `true` and `false`. If false, not all of the
             suggestions in the response will be valid addresses; they'll need to
-            be verified in order to determine the deliverability.  The
+            be verified in order to determine the deliverability. The
             valid_addresses flag will greatly reduce the number of keystrokes
             needed before reaching an intended address.
           required: false
@@ -19981,12 +20291,20 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.USAutocompletion.create(
-              address_prefix='185 B',
-              city='San Francisco',
-              state='CA',
-              zip_code='94107'
+            with lob_python.ApiClient(configuration) as api_client:
+              api = UsAutocompletionsApi(api_client)
+
+            autocompletion_data = UsAutocompletionsWritable(
+              address_prefix = "185 B",
+              city = "San Francisco",
+              state = "CA",
+              zip_code = "94017",
             )
+
+            try:
+              autocompleted_addresses = api.autocomplete(autocompletion_data)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -20013,7 +20331,7 @@ paths:
             UsAutocompletionsApi apiInstance = new UsAutocompletionsApi(config);
 
             UsAutocompletionsWritable autoCompletionWritable = new
-            UsAutocompletionsWritable(); 
+            UsAutocompletionsWritable();
 
             autoCompletionWritable.setAddressPrefix("185 B");
 
@@ -20147,11 +20465,19 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.ReverseGeocodeLookups.create(
-              latitude= 37.7749,
-              longitude= 122.4194
+            with lob_python.ApiClient(configuration) as api_client:
+              api = ReverseGeocodeLookupsApi(api_client)
+
+            coordinates = Location(
+              latitude = 37.777456,
+              longitude = -122.393039,
             )
-          label: Python
+
+            try:
+              geocode = api.lookup(coordinates)
+            except ApiException as e:
+              print(e)
+          label: PYTHON
         - lang: PHP
           source: >
             $apiInstance = new
@@ -20376,12 +20702,19 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.USVerification.create(
-              primary_line='210 King Street',
-              city='San Francisco',
-              state='CA',
-              zip_code='94107'
+            with lob_python.ApiClient(configuration) as api_client:
+              api = UsVerificationsApi(api_client)
+            verification_data_1 = UsVerificationsWritable(
+              primary_line = "210 King Street",
+              city = "San Francisco",
+              state = "CA",
+              zip_code = "94017",
             )
+
+            try:
+              single_verified = api.verifySingle(verification_data_1)
+            except ApiException as e:
+              print(e)
           label: PYTHON
         - lang: PHP
           source: >
@@ -20406,7 +20739,7 @@ paths:
         - lang: Java
           source: >
             UsVerificationsWritable singleVerify = new
-            UsVerificationsWritable(); 
+            UsVerificationsWritable();
 
             singleVerify.setPrimaryLine("210 King Street");
 
@@ -20520,10 +20853,18 @@ paths:
           label: RUBY
         - lang: Python
           source: |
-            lob.USZipLookup.create(
-              zip_code='94107'
+            with lob_python.ApiClient(configuration) as api_client:
+              api = ZipLookupsApi(api_client)
+
+            zip_request = ZipEditable(
+              zip_code = "94107"
             )
-          label: Python
+
+            try:
+              zip_lookup = api.lookup(zip_request)
+            except ApiException as e:
+              print(e)
+          label: PYTHON
         - lang: PHP
           source: >
             $apiInstance = new OpenAPI\Client\Api\ZipLookupsApi($config, new

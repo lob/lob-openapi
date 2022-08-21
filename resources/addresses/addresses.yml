@@ -50,7 +50,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.Address.list(limit=2)
+        with ApiClient(configuration) as api_client:
+          api = AddressesApi(api_client)
+
+        try:
+          addresses = api.list(limit=2)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -58,7 +64,7 @@ get:
 
         try {
             $result = $apiInstance->list(
-              2, // limit 
+              2, // limit
             );
         } catch (Exception $e) {
             echo $e->getMessage(), PHP_EOL;
@@ -342,19 +348,27 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.Address.create(
-          description='Harry - Office',
-          name='Harry Zhang',
-          company='Lob',
-          email='harry@lob.com',
-          phone='5555555555',
-          address_line1='210 King St',
-          address_line2='# 6100',
-          address_city='San Francisco',
-          address_state='CA',
-          address_zip='94107',
-          address_country='US',
+        address_editable = AddressEditable(
+          description = "Harry - Office",
+          name = "Harry Zhang",
+          company = "Lob",
+          email = "harry@lob.com",
+          phone = "5555555555",
+          address_line1 = "210 King St",
+          address_line2 = "# 6100",
+          address_city = "San Francisco",
+          address_state = "CA",
+          address_zip = "94107",
+          address_country = CountryExtended("US"),
         )
+
+        with ApiClient(configuration) as api_client:
+          api = AddressesApi(api_client)
+
+        try:
+          created_address = api.create(address_editable)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -386,7 +400,7 @@ post:
         AddressesApi apiInstance = new AddressesApi(config);
 
         try {
-          AddressEditable addressEditable = new AddressEditable(); 
+          AddressEditable addressEditable = new AddressEditable();
           addressEditable.setDescription("Harry - Office");
           addressEditable.setName("Harry Zhang");
           addressEditable.setCompany("Lob");

@@ -52,7 +52,13 @@ get:
       label: NODE
     - lang: Python
       source: |
-        lob.CardOrder.list('card_6afffd19045076c')
+        with ApiClient(configuration) as api_client:
+          api = CardOrdersApi(api_client)
+
+        try:
+          card_order = api.get("card_6afffd19045076c", limit = 2, offset = 1)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -138,7 +144,17 @@ post:
       label: NODE
     - lang: Python
       source: |
-        lob.CardOrder.create('card_6afffd19045076c', quantity = 10000)
+        card_order_editable = CardOrderEditable(
+          quantity = 10000,
+        )
+
+        with ApiClient(configuration) as api_client:
+          api = CardOrdersApi(api_client)
+
+        try:
+          created_card_order = api.create("card_6afffd19045076c", card_order_editable)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |

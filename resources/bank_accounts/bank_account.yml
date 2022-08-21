@@ -53,7 +53,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.BankAccount.retrieve('bank_8cad8df5354d33f')
+        with ApiClient(configuration) as api_client:
+          api = BankAccountsApi(api_client)
+
+        try:
+          bank_account = api.get("bank_8cad8df5354d33f")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -132,7 +138,13 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        lob.BankAccount.delete('bank_3e64d9904356b20')
+        with ApiClient(configuration) as api_client:
+          api = BankAccountsApi(api_client)
+
+        try:
+          deleted_resource = api.delete("bank_3e64d9904356b20")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |

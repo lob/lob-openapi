@@ -171,12 +171,19 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.USVerification.create(
-          primary_line='210 King Street',
-          city='San Francisco',
-          state='CA',
-          zip_code='94107'
+        with ApiClient(configuration) as api_client:
+          api = UsVerificationsApi(api_client)
+        verification_data_1 = UsVerificationsWritable(
+          primary_line = "210 King Street",
+          city = "San Francisco",
+          state = "CA",
+          zip_code = "94017",
         )
+
+        try:
+          single_verified = api.verifySingle(verification_data_1)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -196,7 +203,7 @@ post:
         }
     - lang: Java
       source: |
-        UsVerificationsWritable singleVerify = new UsVerificationsWritable(); 
+        UsVerificationsWritable singleVerify = new UsVerificationsWritable();
         singleVerify.setPrimaryLine("210 King Street");
         singleVerify.setCity("San Francisco");
         singleVerify.setState("CA");

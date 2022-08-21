@@ -53,7 +53,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.Check.retrieve('chk_534f10783683daa0')
+        with ApiClient(configuration) as api_client:
+          api = ChecksApi(api_client)
+
+        try:
+          check = api.get("chk_534f10783683daa0")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -142,7 +148,13 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        lob.Check.delete('chk_534f10783683daa0')
+        with ApiClient(configuration) as api_client:
+          api = ChecksApi(api_client)
+
+        try:
+          deleted_resource = api.cancel("chk_534f10783683daa0")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |

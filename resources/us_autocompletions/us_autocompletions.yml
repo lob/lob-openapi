@@ -23,7 +23,7 @@ post:
       description: >-
         Casing of the verified address. Possible values are `upper` and `proper` for
         uppercased (e.g. "PO BOX") and proper-cased (e.g. "PO Box"),
-        respectively. Only affects `primary_line`, 
+        respectively. Only affects `primary_line`,
         `city`, and `state`. Default casing is `upper`.
       required: false
     - in: query
@@ -36,7 +36,7 @@ post:
         default: false
       description: >-
         Possible values are `true` and `false`.
-        If false, not all of the suggestions in the response will be valid addresses; they'll need to be verified in order to determine the deliverability. 
+        If false, not all of the suggestions in the response will be valid addresses; they'll need to be verified in order to determine the deliverability.
         The valid_addresses flag will greatly reduce the number of keystrokes needed before reaching an intended address.
       required: false
 
@@ -141,12 +141,20 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.USAutocompletion.create(
-          address_prefix='185 B',
-          city='San Francisco',
-          state='CA',
-          zip_code='94107'
+        with ApiClient(configuration) as api_client:
+          api = UsAutocompletionsApi(api_client)
+
+        autocompletion_data = UsAutocompletionsWritable(
+          address_prefix = "185 B",
+          city = "San Francisco",
+          state = "CA",
+          zip_code = "94017",
         )
+
+        try:
+          autocompleted_addresses = api.autocomplete(autocompletion_data)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -167,7 +175,7 @@ post:
     - lang: Java
       source: |
         UsAutocompletionsApi apiInstance = new UsAutocompletionsApi(config);
-        UsAutocompletionsWritable autoCompletionWritable = new UsAutocompletionsWritable(); 
+        UsAutocompletionsWritable autoCompletionWritable = new UsAutocompletionsWritable();
         autoCompletionWritable.setAddressPrefix("185 B");
         autoCompletionWritable.setCity("San Francisco");
         autoCompletionWritable.setState("CA");

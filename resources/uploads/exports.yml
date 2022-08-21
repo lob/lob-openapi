@@ -43,6 +43,7 @@ post:
             $ref: "responses/upload_create_export.yml"
     "4XX":
       $ref: "responses/upload_export_error.yml"
+
   x-codeSamples:
     - lang: Shell
       source: |
@@ -50,3 +51,17 @@ post:
           -u <YOUR API KEY>: \
           -d "type=failures" \
       label: CURL
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = UploadsApi(api_client)
+
+        export_model = ExportModel(
+          type = "all"
+        )
+
+        try:
+          created_export = api.create_export("upl_71be866e430b11e9", export_model)
+        except ApiException as e:
+          print(e)
+      label: PYTHON

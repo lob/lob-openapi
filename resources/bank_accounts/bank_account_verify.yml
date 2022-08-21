@@ -84,7 +84,20 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.BankAccount.verify(id = 'bank_dfceb4a2a05b57e', amounts = [25, 63])
+        verification_data = BankAccountVerify(
+          amounts = [
+            25,
+            63,
+          ],
+        )
+
+        with ApiClient(configuration) as api_client:
+          api = BankAccountsApi(api_client)
+
+        try:
+          verified_account = api.verify("bank_dfceb4a2a05b57e", verification_data)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -105,9 +118,9 @@ post:
         }
     - lang: Java
       source: |
-        BankAccountVerify verification = new BankAccountVerify(); 
-        verification.addAmountsItem(25); 
-        verification.addAmountsItem(63); 
+        BankAccountVerify verification = new BankAccountVerify();
+        verification.addAmountsItem(25);
+        verification.addAmountsItem(63);
 
         BankAccountsApi apiInstance = new BankAccountsApi(config);
 

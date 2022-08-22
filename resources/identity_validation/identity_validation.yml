@@ -14,9 +14,9 @@ post:
     content:
       application/json:
         schema:
-          $ref: "./models/multi_line_address.yml"
+          $ref: "./models/identity_validation_writable.yml"
         example:
-          recipient: "Lob.com"
+          company: "Lob.com"
           primary_line: "210 King St."
           secondary_line: ""
           city: "San Francisco"
@@ -25,9 +25,9 @@ post:
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "./models/multi_line_address.yml"
+          $ref: "./models/identity_validation_writable.yml"
         example:
-          recipient: "Lob.com"
+          company: "Lob.com"
           primary_line: "210 King St."
           secondary_line: ""
           city: "San Francisco"
@@ -36,9 +36,9 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "./models/multi_line_address.yml"
+          $ref: "./models/identity_validation_writable.yml"
         example:
-          recipient: "Lob.com"
+          company: "Lob.com"
           primary_line: "210 King St."
           secondary_line: ""
           city: "San Francisco"
@@ -57,7 +57,7 @@ post:
       source: |
         curl https://api.lob.com/v1/identity_validation \
           -u <YOUR_LIVE_API_KEY>: \
-          -d "recipient=Lob.com" \
+          -d "company=Lob.com" \
           -d "primary_line=210 King St" \
           -d "secondary_line=" \
           -d "urbanization=" \

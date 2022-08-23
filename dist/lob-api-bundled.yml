@@ -3355,7 +3355,10 @@ components:
     date_created:
       in: query
       name: date_created
-      description: Filter by date created.
+      description: >-
+        Filter by date created. Accepted formats are ISO-8601 date or datetime,
+        e.g. `{ "gt": "2012-01-01", "lt": "2012-01-31T12:34:56Z" }` where `gt`
+        is >, `lt` is <, `gte` is ≥, and `lte` is ≤.
       schema:
         $ref: '#/components/schemas/date_filter'
       style: deepObject
@@ -3381,7 +3384,10 @@ components:
     date_modified:
       in: query
       name: date_modified
-      description: Filter by date modified.
+      description: >-
+        Filter by date modified. Accepted formats are ISO-8601 date or datetime,
+        e.g. `{ "gt": "2012-01-01", "lt": "2012-01-31T12:34:56Z" }` where `gt`
+        is >, `lt` is <, `gte` is ≥, and `lte` is ≤.
       schema:
         $ref: '#/components/schemas/date_filter'
       style: deepObject
@@ -5818,6 +5824,7 @@ components:
             - use_type
             - is_draft
             - creatives
+            - uploads
             - auto_cancel_if_ncoa
             - date_created
             - date_modified
@@ -5834,6 +5841,13 @@ components:
                 An array of creatives that have been associated with this
                 campaign.
               type: array
+            uploads:
+              description: >-
+                A single-element array containing the upload object that is
+                assocated with this campaign.
+              type: array
+              minItems: 0
+              maxItems: 1
             object:
               type: string
               description: Value is resource type.
@@ -7008,6 +7022,7 @@ components:
             - use_type
             - is_draft
             - creatives
+            - uploads
             - auto_cancel_if_ncoa
             - date_created
             - date_modified
@@ -7024,6 +7039,13 @@ components:
                 An array of creatives that have been associated with this
                 campaign.
               type: array
+            uploads:
+              description: >-
+                A single-element array containing the upload object that is
+                assocated with this campaign.
+              type: array
+              minItems: 0
+              maxItems: 1
             object:
               type: string
               description: Value is resource type.
@@ -7054,6 +7076,7 @@ components:
           is_draft: true
           deleted: false
           creatives: []
+          uploads: []
           auto_cancel_if_ncoa: false
           date_created: '2022-07-26T20:20:25.016Z'
           date_modified: '2022-07-26T20:20:25.016Z'
@@ -7103,7 +7126,12 @@ components:
               enum:
                 - creative
               default: creative
-    multi_line_address:
+    identity_validation_recipient:
+      type: string
+      description: The name of the person whose identity is being validated.
+      nullable: true
+      maxLength: 500
+    recipient_multi_line_address:
       allOf:
         - anyOf:
             - title: Address with `city` and `state`
@@ -7119,7 +7147,7 @@ components:
             - primary_line
           properties:
             recipient:
-              $ref: '#/components/schemas/recipient'
+              $ref: '#/components/schemas/identity_validation_recipient'
             primary_line:
               $ref: '#/components/schemas/primary_line_us'
             secondary_line:
@@ -7149,65 +7177,189 @@ components:
                     included, must be formatted as a US ZIP or ZIP+4 (e.g.
                     `94107`, `941072282`, `94107-2282`).
                 - $ref: '#/components/schemas/zip_code'
+    identity_validation_company:
+      type: string
+      description: The name of the company or firm.
+      nullable: true
+      maxLength: 500
+    company_multi_line_address:
+      allOf:
+        - anyOf:
+            - title: Address with `city` and `state`
+              required:
+                - city
+                - state
+            - title: Address with `zip_code`
+              required:
+                - zip_code
+        - type: object
+          required:
+            - company
+            - primary_line
+          properties:
+            company:
+              $ref: '#/components/schemas/identity_validation_company'
+            primary_line:
+              $ref: '#/components/schemas/primary_line_us'
+            secondary_line:
+              $ref: '#/components/schemas/secondary_line'
+            urbanization:
+              $ref: '#/components/schemas/urbanization'
+            city:
+              allOf:
+                - $ref: '#/components/schemas/city_no_description'
+                - type: string
+                  description: >-
+                    The name of the city. `city` and `state` are required if no
+                    `zip_code` is passed.
+            state:
+              type: string
+              description: >-
+                The <a href="https://en.wikipedia.org/wiki/ISO_3166-2:US"
+                target="_blank">ISO 3166-2</a> two letter code or subdivision
+                name for the state. `city` and `state` are required if no
+                `zip_code` is passed.
+              maxLength: 50
+            zip_code:
+              allOf:
+                - type: string
+                  description: >-
+                    Required if `city` and `state` are not passed in. If
+                    included, must be formatted as a US ZIP or ZIP+4 (e.g.
+                    `94107`, `941072282`, `94107-2282`).
+                - $ref: '#/components/schemas/zip_code'
+    identity_validation_writable:
+      oneOf:
+        - $ref: '#/components/schemas/recipient_multi_line_address'
+        - $ref: '#/components/schemas/company_multi_line_address'
     identity_validation_id:
       type: string
       description: Unique identifier prefixed with `id_validation_`.
       pattern: ^id_validation_[a-zA-Z0-9_]+$
+    recipient_identity_validation:
+      allOf:
+        - anyOf:
+            - title: Address with `recipient`
+            - title: Addresss with `company`
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/identity_validation_id'
+            recipient:
+              $ref: '#/components/schemas/identity_validation_recipient'
+            primary_line:
+              $ref: '#/components/schemas/primary_line_us'
+            secondary_line:
+              $ref: '#/components/schemas/secondary_line'
+            urbanization:
+              $ref: '#/components/schemas/urbanization'
+            last_line:
+              type: string
+              description: |
+                Combination of the following applicable `components`:
+                * City (`city`)
+                * State (`state`)
+                * ZIP code (`zip_code`)
+                * ZIP+4 (`zip_code_plus_4`)
+            score:
+              type: number
+              nullable: true
+              format: float
+              description: >
+                A numerical score between 0 and 100 that represents the
+                likelihood the provided name is associated with a physical
+                address.
+              default: null
+              minimum: 0
+              maximum: 100
+            confidence:
+              type: string
+              enum:
+                - high
+                - medium
+                - low
+                - ''
+              description: >
+                Indicates the likelihood the recipient name and address match
+                based on our custom internal calculation. Possible values are:
+
+                - `high` — Has a Lob confidence score greater than 70.
+
+                - `medium` — Has a Lob confidence score between 40 and 70.
+
+                - `low` — Has a Lob confidence score less than 40.
+
+                - `""` — No tracking data exists for this address.
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - id_validation
+              default: id_validation
+    company_identity_validation:
+      allOf:
+        - anyOf:
+            - title: Address with `recipient`
+            - title: Addresss with `company`
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/identity_validation_id'
+            company:
+              $ref: '#/components/schemas/identity_validation_company'
+            primary_line:
+              $ref: '#/components/schemas/primary_line_us'
+            secondary_line:
+              $ref: '#/components/schemas/secondary_line'
+            urbanization:
+              $ref: '#/components/schemas/urbanization'
+            last_line:
+              type: string
+              description: |
+                Combination of the following applicable `components`:
+                * City (`city`)
+                * State (`state`)
+                * ZIP code (`zip_code`)
+                * ZIP+4 (`zip_code_plus_4`)
+            score:
+              type: number
+              nullable: true
+              format: float
+              description: >
+                A numerical score between 0 and 100 that represents the
+                likelihood the provided name is associated with a physical
+                address.
+              default: null
+              minimum: 0
+              maximum: 100
+            confidence:
+              type: string
+              enum:
+                - high
+                - medium
+                - low
+                - ''
+              description: >
+                Indicates the likelihood the recipient name and address match
+                based on our custom internal calculation. Possible values are:
+
+                - `high` — Has a Lob confidence score greater than 70.
+
+                - `medium` — Has a Lob confidence score between 40 and 70.
+
+                - `low` — Has a Lob confidence score less than 40.
+
+                - `""` — No tracking data exists for this address.
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - id_validation
+              default: id_validation
     identity_validation:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/identity_validation_id'
-        recipient:
-          $ref: '#/components/schemas/recipient'
-        primary_line:
-          $ref: '#/components/schemas/primary_line_us'
-        secondary_line:
-          $ref: '#/components/schemas/secondary_line'
-        urbanization:
-          $ref: '#/components/schemas/urbanization'
-        last_line:
-          type: string
-          description: |
-            Combination of the following applicable `components`:
-            * City (`city`)
-            * State (`state`)
-            * ZIP code (`zip_code`)
-            * ZIP+4 (`zip_code_plus_4`)
-        score:
-          type: number
-          nullable: true
-          format: float
-          description: >
-            A numerical score between 0 and 100 that represents the likelihood
-            the provided name is associated with a physical address.
-          default: null
-          minimum: 0
-          maximum: 100
-        confidence:
-          type: string
-          enum:
-            - high
-            - medium
-            - low
-            - ''
-          description: >
-            Indicates the likelihood the recipient name and address match based
-            on our custom internal calculation. Possible values are:
-
-            - `high` — Has a Lob confidence score greater than 70.
-
-            - `medium` — Has a Lob confidence score between 40 and 70.
-
-            - `low` — Has a Lob confidence score less than 40.
-
-            - `""` — No tracking data exists for this address.
-        object:
-          type: string
-          description: Value is resource type.
-          enum:
-            - id_validation
-          default: id_validation
+      oneOf:
+        - $ref: '#/components/schemas/recipient_identity_validation'
+        - $ref: '#/components/schemas/company_identity_validation'
     intl_autocompletions_writable:
       type: object
       required:
@@ -9455,6 +9607,7 @@ components:
                 is_draft: true
                 deleted: false
                 creatives: []
+                uploads: []
                 auto_cancel_if_ncoa: false
                 date_created: '2017-09-05T17:47:53.767Z'
                 date_modified: '2017-09-05T17:47:53.767Z'
@@ -9840,7 +9993,7 @@ components:
             $ref: '#/components/schemas/identity_validation'
           example:
             id: id_validation_8a013f3e
-            recipient: LOB.COM
+            company: LOB.COM
             primary_line: 210 KING ST.
             secondary_line: ''
             urbanization: ''
@@ -13289,6 +13442,7 @@ paths:
                 is_draft: true
                 deleted: false
                 creatives: []
+                uploads: []
                 auto_cancel_if_ncoa: false
                 date_created: '2017-09-05T17:47:53.767Z'
                 date_modified: '2017-09-05T17:47:53.767Z'
@@ -13338,6 +13492,7 @@ paths:
                 is_draft: true
                 deleted: false
                 creatives: []
+                uploads: []
                 auto_cancel_if_ncoa: false
                 date_created: '2017-09-05T17:47:53.767Z'
                 date_modified: '2017-09-05T17:47:53.767Z'
@@ -13395,6 +13550,7 @@ paths:
                 is_draft: true
                 deleted: false
                 creatives: []
+                uploads: []
                 auto_cancel_if_ncoa: false
                 date_created: '2017-09-05T17:47:53.767Z'
                 date_modified: '2017-09-05T17:47:53.767Z'
@@ -14930,9 +15086,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/multi_line_address'
+              $ref: '#/components/schemas/identity_validation_writable'
             example:
-              recipient: Lob.com
+              company: Lob.com
               primary_line: 210 King St.
               secondary_line: ''
               city: San Francisco
@@ -14940,9 +15096,9 @@ paths:
               zip_code: '94107'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/multi_line_address'
+              $ref: '#/components/schemas/identity_validation_writable'
             example:
-              recipient: Lob.com
+              company: Lob.com
               primary_line: 210 King St.
               secondary_line: ''
               city: San Francisco
@@ -14950,9 +15106,9 @@ paths:
               zip_code: '94107'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/multi_line_address'
+              $ref: '#/components/schemas/identity_validation_writable'
             example:
-              recipient: Lob.com
+              company: Lob.com
               primary_line: 210 King St.
               secondary_line: ''
               city: San Francisco
@@ -14968,7 +15124,7 @@ paths:
           source: |
             curl https://api.lob.com/v1/identity_validation \
               -u <YOUR_LIVE_API_KEY>: \
-              -d "recipient=Lob.com" \
+              -d "company=Lob.com" \
               -d "primary_line=210 King St" \
               -d "secondary_line=" \
               -d "urbanization=" \

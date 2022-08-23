@@ -12,6 +12,7 @@ allOf:
       - use_type
       - is_draft
       - creatives
+      - uploads
       - auto_cancel_if_ncoa
       - date_created
       - date_modified
@@ -29,6 +30,12 @@ allOf:
       creatives:
         description: An array of creatives that have been associated with this campaign.
         type: array
+
+      uploads:
+        description: A single-element array containing the upload object that is assocated with this campaign.
+        type: array
+        minItems: 0
+        maxItems: 1
 
       object:
         type: string

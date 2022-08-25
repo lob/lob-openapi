@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.10.0
+  version: 1.11.0
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -8497,8 +8497,8 @@ components:
       title: Column Mapping
       type: object
       example:
-        firstName: first_name
-        lastName: last_name
+        name: recipient_name
+        address_line1: primary_line
       description: >-
         The mapping of column headers in your file to Lob-required fields for
         the resource created. See our <a
@@ -18499,7 +18499,7 @@ paths:
             curl https://api.lob.com/v1/uploads \
               -u <YOUR API KEY>: \
               -d "campaignId=cmp_1933ad629bae1408" \
-              -d 'columnMapping={"firstName": "first name"}'
+              -d 'columnMapping={"name": "recipient_name"}'
           label: CURL
   /uploads/{upl_id}:
     parameters:

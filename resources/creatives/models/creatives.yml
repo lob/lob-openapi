@@ -14,10 +14,44 @@ postcardsCreative:
               $ref: "../../postcards/attributes/postcard_size.yml"
 
         front:
-          $ref: "../../postcards/attributes/front.yml"
+          description: >
+            The artwork to use as the front of your postcard.
+
+
+            Notes:
+
+            - HTML merge variables should not include delimiting whitespace.
+
+            - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+            6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+            specified `size`.
+
+
+            See [here](#section/HTML-Examples) for HTML examples.
+          oneOf:
+            - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+            - $ref: "../../../shared/attributes/local_file_path.yml"
+
 
         back:
-          $ref: "../../postcards/attributes/back.yml"
+          description: >
+            The artwork to use as the back of your postcard.
+
+
+            Notes:
+
+            - HTML merge variables should not include delimiting whitespace.
+
+            - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+            6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+            specified `size`.
+
+
+            See [here](#section/HTML-Examples) for HTML examples.
+          oneOf:
+            - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+            - $ref: "../../../shared/attributes/local_file_path.yml"
+
 
 lettersCreative:
   allOf:
@@ -26,4 +60,37 @@ lettersCreative:
 
       properties:
         file:
-          $ref: "../../letters/attributes/file.yml"
+          description: >-
+            Notes:
+
+            - HTML merge variables should not include delimiting whitespace.
+
+            - All pages of a supplied PDF file must be sized at 8.5"x11",
+            while supplied HTML will be rendered and trimmed to as many 8.5"x11" pages
+            as necessary.
+
+            - For design specifications, please see our
+            <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf" target="_blank">PDF</a>
+            and [HTML](#section/HTML-Examples) templates.
+
+            - If a `custom_envelope` is used, follow
+            <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf" target="_blank">this template</a>.
+
+            - For domestic destinations, the file limit is 60 pages single-sided or 120
+            pages double-sided. For international destinations, the file limit is 6
+            pages single-sided or 12 pages double-sided. PDFs that surpass the file
+            limit will error, while HTML that renders more pages than the file limit
+            will be trimmed.
+
+            - Any letters over 6
+            pages single-sided or 12 pages double-sided will be placed in a
+            <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf" target="_blank">flat envelope</a> instead of the standard double window envelope.
+
+
+            See <a href="https://lob.com/pricing/print-mail#compare" target="_blank">pricing</a> for extra costs incurred.
+
+          oneOf:
+            - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+            - type: string
+              pattern: "^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$"
+

@@ -11220,8 +11220,8 @@ components:
               accountId: fa9ea650fc7b31a89f92
               campaignId: cmp_1933ad629bae1408
               columnMapping:
-                firstName: first name
-                lastName: last name
+                name: recipient
+                address_line1: primary_line
               mode: test
               failuresUrl: https://www.example.com
               originalFilename: my_audience.csv
@@ -18565,10 +18565,15 @@ paths:
       x-codeSamples:
         - lang: Shell
           source: |
-            curl https://api.lob.com/v1/uploads \
-              -u <YOUR API KEY>: \
-              -d "campaignId=cmp_1933ad629bae1408" \
-              -d 'columnMapping={"name": "recipient_name"}'
+            curl --location --request POST 'https://api.lob.com/v1/uploads' \
+            --header 'Content-Type: application/json' \
+            -u YOUR_KEY_HERE: \
+            --data-raw '{
+                "campaignId": "cmp_f33809b18b6f3ea8",
+                "columnMapping": {
+                    "name": "recipient"
+                }
+            }'
           label: CURL
   /uploads/{upl_id}:
     parameters:

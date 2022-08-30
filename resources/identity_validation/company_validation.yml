@@ -1,0 +1,67 @@
+post:
+  operationId: company_validation
+
+  summary: Company Validation
+
+  description: >-
+    Validates whether a firm or company name is associated with an address.
+
+  tags:
+    - Identity Validation
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "./models/company_multi_line_address.yml"
+        example:
+          company: "Lob.com"
+          primary_line: "210 King St."
+          secondary_line: ""
+          city: "San Francisco"
+          state: "CA"
+          zip_code: "94107"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "./models/company_multi_line_address.yml"
+        example:
+          company: "Lob.com"
+          primary_line: "210 King St."
+          secondary_line: ""
+          city: "San Francisco"
+          state: "CA"
+          zip_code: "94107"
+
+      multipart/form-data:
+        schema:
+          $ref: "./models/company_multi_line_address.yml"
+        example:
+          company: "Lob.com"
+          primary_line: "210 King St."
+          secondary_line: ""
+          city: "San Francisco"
+          state: "CA"
+          zip_code: "94107"
+
+  responses:
+    "200":
+      $ref: responses/company_identity_validation.yml
+
+    default:
+      $ref: responses/identity_validation_error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/identity_validation \
+          -u <YOUR_LIVE_API_KEY>: \
+          -d "company=Lob.com" \
+          -d "primary_line=210 King St" \
+          -d "secondary_line=" \
+          -d "urbanization=" \
+          -d "city=San Francsico" \
+          -d "state=CA" \
+          -d "zip_code=94107" \
+      label: CURL

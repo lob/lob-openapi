@@ -1,7 +1,7 @@
 post:
-  operationId: identity_validation
+  operationId: recipient_validation
 
-  summary: Identity Validation
+  summary: Recipient Validation
 
   description: >-
     Validates whether a given name is associated with an address.
@@ -14,9 +14,9 @@ post:
     content:
       application/json:
         schema:
-          $ref: "./models/identity_validation_writable.yml"
+          $ref: "./models/recipient_multi_line_address.yml"
         example:
-          company: "Lob.com"
+          recipient: "Lob.com"
           primary_line: "210 King St."
           secondary_line: ""
           city: "San Francisco"
@@ -25,9 +25,9 @@ post:
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: "./models/identity_validation_writable.yml"
+          $ref: "./models/recipient_multi_line_address.yml"
         example:
-          company: "Lob.com"
+          recipient: "Lob.com"
           primary_line: "210 King St."
           secondary_line: ""
           city: "San Francisco"
@@ -36,9 +36,9 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: "./models/identity_validation_writable.yml"
+          $ref: "./models/recipient_multi_line_address.yml"
         example:
-          company: "Lob.com"
+          recipient: "Lob.com"
           primary_line: "210 King St."
           secondary_line: ""
           city: "San Francisco"
@@ -47,7 +47,7 @@ post:
 
   responses:
     "200":
-      $ref: responses/identity_validation.yml
+      $ref: responses/recipient_identity_validation.yml
 
     default:
       $ref: responses/identity_validation_error.yml
@@ -57,7 +57,7 @@ post:
       source: |
         curl https://api.lob.com/v1/identity_validation \
           -u <YOUR_LIVE_API_KEY>: \
-          -d "company=Lob.com" \
+          -d "recipient=Lob.com" \
           -d "primary_line=210 King St" \
           -d "secondary_line=" \
           -d "urbanization=" \

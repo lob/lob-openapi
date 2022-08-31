@@ -6620,6 +6620,71 @@ components:
           $ref: '#/components/schemas/chk_id'
         deleted:
           $ref: '#/components/schemas/deleted'
+    front:
+      description: >
+        The artwork to use as the front of your postcard.
+
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+        specified `size`.
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - $ref: '#/components/schemas/local_file_path'
+    back:
+      description: >
+        The artwork to use as the back of your postcard.
+
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+        specified `size`.
+
+        - Be sure to leave room for address and postage information by following
+        the templates provided here:
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/4x6_postcard.pdf" target="_blank">4x6 template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x9_postcard.pdf" target="_blank">6x9 template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x11_postcard.pdf" target="_blank">6x11 template</a>
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - $ref: '#/components/schemas/local_file_path'
+    postcard_size:
+      type: string
+      enum:
+        - 4x6
+        - 6x9
+        - 6x11
+      description: >
+        Specifies the size of the postcard. Only `4x6` postcards can be sent to
+        international destinations.
+      default: 4x6
+    writable:
+      description: Properties that the postcards in your Creative should have.
+      required:
+        - color
+      properties:
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        size:
+          $ref: '#/components/schemas/postcard_size'
     from_attribute:
       title: From
       description: >-
@@ -6638,64 +6703,6 @@ components:
           $ref: '#/components/schemas/resource_description'
         metadata:
           $ref: '#/components/schemas/metadata'
-    postcard_size:
-      type: string
-      enum:
-        - 4x6
-        - 6x9
-        - 6x11
-      description: >
-        Specifies the size of the postcard. Only `4x6` postcards can be sent to
-        international destinations.
-      default: 4x6
-    postcardsCreative:
-      allOf:
-        - $ref: '#/components/schemas/creative_base'
-        - type: object
-          properties:
-            details:
-              description: Properties that the postcards in your Creative should have.
-              properties:
-                mail_type:
-                  $ref: '#/components/schemas/mail_type'
-                size:
-                  $ref: '#/components/schemas/postcard_size'
-            front:
-              description: >
-                The artwork to use as the front of your postcard.
-
-
-                Notes:
-
-                - HTML merge variables should not include delimiting whitespace.
-
-                - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25",
-                or 6.25"x11.25" at 300 DPI, while supplied HTML will be rendered
-                to the specified `size`.
-
-
-                See [here](#section/HTML-Examples) for HTML examples.
-              oneOf:
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/local_file_path'
-            back:
-              description: >
-                The artwork to use as the back of your postcard.
-
-
-                Notes:
-
-                - HTML merge variables should not include delimiting whitespace.
-
-                - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25",
-                or 6.25"x11.25" at 300 DPI, while supplied HTML will be rendered
-                to the specified `size`.
-
-
-                See [here](#section/HTML-Examples) for HTML examples.
-              oneOf:
-                - $ref: '#/components/schemas/tmpl_id'
-                - $ref: '#/components/schemas/local_file_path'
     address_placement:
       type: string
       enum:
@@ -6773,10 +6780,9 @@ components:
         target="_blank">Print & Mail Edition</a> to gain access.
       nullable: true
       pattern: ^env_[a-zA-Z0-9]+$
-    writable:
+    letter_details_writable:
       description: Properties that the letters in your Creative should have.
       required:
-        - cards
         - color
       properties:
         address_placement:
@@ -6803,50 +6809,45 @@ components:
           $ref: '#/components/schemas/user_provided'
         custom_envelope:
           $ref: '#/components/schemas/custom_envelope_user_provided'
-    lettersCreative:
-      allOf:
-        - $ref: '#/components/schemas/creative_base'
-        - type: object
-          properties:
-            file:
-              description: >-
-                Notes:
+    file:
+      description: >-
+        Notes:
 
-                - HTML merge variables should not include delimiting whitespace.
+        - HTML merge variables should not include delimiting whitespace.
 
-                - All pages of a supplied PDF file must be sized at 8.5"x11",
-                while supplied HTML will be rendered and trimmed to as many
-                8.5"x11" pages as necessary.
+        - All pages of a supplied PDF file must be sized at 8.5"x11", while
+        supplied HTML will be rendered and trimmed to as many 8.5"x11" pages as
+        necessary.
 
-                - For design specifications, please see our <a
-                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf"
-                target="_blank">PDF</a> and [HTML](#section/HTML-Examples)
-                templates.
+        - For design specifications, please see our <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf"
+        target="_blank">PDF</a> and [HTML](#section/HTML-Examples) templates.
 
-                - If a `custom_envelope` is used, follow <a
-                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf"
-                target="_blank">this template</a>.
+        - If a `custom_envelope` is used, follow <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf"
+        target="_blank">this template</a>.
 
-                - For domestic destinations, the file limit is 60 pages
-                single-sided or 120 pages double-sided. For international
-                destinations, the file limit is 6 pages single-sided or 12 pages
-                double-sided. PDFs that surpass the file limit will error, while
-                HTML that renders more pages than the file limit will be
-                trimmed.
+        - For domestic destinations, the file limit is 60 pages single-sided or
+        120 pages double-sided. For international destinations, the file limit
+        is 6 pages single-sided or 12 pages double-sided. PDFs that surpass the
+        file limit will error, while HTML that renders more pages than the file
+        limit will be trimmed.
 
-                - Any letters over 6 pages single-sided or 12 pages double-sided
-                will be placed in a <a
-                href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf"
-                target="_blank">flat envelope</a> instead of the standard double
-                window envelope.
+        - Any letters over 6 pages single-sided or 12 pages double-sided will be
+        placed in a <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf"
+        target="_blank">flat envelope</a> instead of the standard double window
+        envelope.
 
 
-                See <a href="https://lob.com/pricing/print-mail#compare"
-                target="_blank">pricing</a> for extra costs incurred.
-              oneOf:
-                - $ref: '#/components/schemas/tmpl_id'
-                - type: string
-                  pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
+        See <a href="https://lob.com/pricing/print-mail#compare"
+        target="_blank">pricing</a> for extra costs incurred.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - type: string
+          pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
     creative_writable:
       oneOf:
         - allOf:
@@ -6865,7 +6866,13 @@ components:
                     - postcard
                 campaign_id:
                   $ref: '#/components/schemas/cmp_id'
-            - $ref: '#/components/schemas/postcardsCreative'
+                front:
+                  $ref: '#/components/schemas/front'
+                back:
+                  $ref: '#/components/schemas/back'
+                details:
+                  $ref: '#/components/schemas/writable'
+            - $ref: '#/components/schemas/creative_base'
         - allOf:
             - title: Letter Creative
               required:
@@ -6883,9 +6890,30 @@ components:
                 campaign_id:
                   $ref: '#/components/schemas/cmp_id'
                 details:
-                  $ref: '#/components/schemas/writable'
-            - $ref: '#/components/schemas/lettersCreative'
+                  $ref: '#/components/schemas/letter_details_writable'
+                file:
+                  $ref: '#/components/schemas/file'
+            - $ref: '#/components/schemas/creative_base'
     returned:
+      description: Properties that the postcards in your Creative should have.
+      properties:
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        size:
+          $ref: '#/components/schemas/postcard_size'
+        front_original_url:
+          description: The original URL of the `front` template.
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        back_original_url:
+          description: The original URL of the `back` template.
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+    return_envelope_returned:
       oneOf:
         - type: boolean
         - type: object
@@ -6927,9 +6955,6 @@ components:
       nullable: true
     letter_details_returned:
       description: Properties that the letters in your Creative should have.
-      required:
-        - cards
-        - color
       properties:
         address_placement:
           $ref: '#/components/schemas/address_placement'
@@ -6949,10 +6974,13 @@ components:
           $ref: '#/components/schemas/double_sided'
         extra_service:
           $ref: '#/components/schemas/extra_service'
+        file_original_url:
+          description: The original URL of the `file` template.
+          type: string
         mail_type:
           $ref: '#/components/schemas/mail_type'
         return_envelope:
-          $ref: '#/components/schemas/returned'
+          $ref: '#/components/schemas/return_envelope_returned'
         custom_envelope:
           $ref: '#/components/schemas/custom_envelope_returned'
     returned_resource:
@@ -6960,8 +6988,6 @@ components:
         - allOf:
             - title: Postcard Creative
               required:
-                - front
-                - back
                 - resource_type
                 - details
               properties:
@@ -6970,11 +6996,12 @@ components:
                   description: Mailpiece type for the creative
                   enum:
                     - postcard
-            - $ref: '#/components/schemas/postcardsCreative'
+                details:
+                  $ref: '#/components/schemas/returned'
+            - $ref: '#/components/schemas/creative_base'
         - allOf:
             - title: Letter Creative
               required:
-                - file
                 - from
                 - resource_type
                 - details
@@ -6986,7 +7013,7 @@ components:
                     - letter
                 details:
                   $ref: '#/components/schemas/letter_details_returned'
-            - $ref: '#/components/schemas/lettersCreative'
+            - $ref: '#/components/schemas/creative_base'
     crv_id:
       type: string
       description: Unique identifier prefixed with `crv_`.
@@ -7081,7 +7108,11 @@ components:
             - date_created
             - date_modified
             - object
+            - deleted
           properties:
+            deleted:
+              type: boolean
+              description: Whether the resource has been deleted.
             id:
               $ref: '#/components/schemas/crv_id'
             template_preview_urls:
@@ -7592,7 +7623,7 @@ components:
             address_placement:
               $ref: '#/components/schemas/address_placement'
             return_envelope:
-              $ref: '#/components/schemas/returned'
+              $ref: '#/components/schemas/return_envelope_returned'
             perforated_page:
               type: integer
               description: >-
@@ -7655,7 +7686,7 @@ components:
             address_placement:
               $ref: '#/components/schemas/address_placement'
             return_envelope:
-              $ref: '#/components/schemas/returned'
+              $ref: '#/components/schemas/return_envelope_returned'
             perforated_page:
               type: integer
               description: >-
@@ -7901,7 +7932,7 @@ components:
             address_placement:
               $ref: '#/components/schemas/address_placement'
             return_envelope:
-              $ref: '#/components/schemas/returned'
+              $ref: '#/components/schemas/return_envelope_returned'
             perforated_page:
               type: integer
               description: >-
@@ -7987,45 +8018,6 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
-    file:
-      description: >-
-        Notes:
-
-        - HTML merge variables should not include delimiting whitespace.
-
-        - All pages of a supplied PDF file must be sized at 8.5"x11", while
-        supplied HTML will be rendered and trimmed to as many 8.5"x11" pages as
-        necessary.
-
-        - For design specifications, please see our <a
-        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf"
-        target="_blank">PDF</a> and [HTML](#section/HTML-Examples) templates.
-
-        - If a `custom_envelope` is used, follow <a
-        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf"
-        target="_blank">this template</a>.
-
-        - For domestic destinations, the file limit is 60 pages single-sided or
-        120 pages double-sided. For international destinations, the file limit
-        is 6 pages single-sided or 12 pages double-sided. PDFs that surpass the
-        file limit will error, while HTML that renders more pages than the file
-        limit will be trimmed.
-
-        - Any letters over 6 pages single-sided or 12 pages double-sided will be
-        placed in a <a
-        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf"
-        target="_blank">flat envelope</a> instead of the standard double window
-        envelope.
-
-
-        See <a href="https://lob.com/pricing/print-mail#compare"
-        target="_blank">pricing</a> for extra costs incurred.
-      oneOf:
-        - $ref: '#/components/schemas/html_string'
-        - $ref: '#/components/schemas/tmpl_id'
-        - $ref: '#/components/schemas/remote_file_url'
-        - type: string
-          pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/input_to'
@@ -8182,52 +8174,6 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address_us'
-    front:
-      description: >
-        The artwork to use as the front of your postcard.
-
-
-        Notes:
-
-        - HTML merge variables should not include delimiting whitespace.
-
-        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
-        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
-        specified `size`.
-
-
-        See [here](#section/HTML-Examples) for HTML examples.
-      oneOf:
-        - $ref: '#/components/schemas/html_string'
-        - $ref: '#/components/schemas/tmpl_id'
-        - $ref: '#/components/schemas/remote_file_url'
-        - $ref: '#/components/schemas/local_file_path'
-    back:
-      description: >
-        The artwork to use as the back of your postcard.
-
-
-        Notes:
-
-        - HTML merge variables should not include delimiting whitespace.
-
-        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
-        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
-        specified `size`.
-
-        - Be sure to leave room for address and postage information by following
-        the templates provided here:
-          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/4x6_postcard.pdf" target="_blank">4x6 template</a>
-          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x9_postcard.pdf" target="_blank">6x9 template</a>
-          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x11_postcard.pdf" target="_blank">6x11 template</a>
-
-
-        See [here](#section/HTML-Examples) for HTML examples.
-      oneOf:
-        - $ref: '#/components/schemas/html_string'
-        - $ref: '#/components/schemas/tmpl_id'
-        - $ref: '#/components/schemas/remote_file_url'
-        - $ref: '#/components/schemas/local_file_path'
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'

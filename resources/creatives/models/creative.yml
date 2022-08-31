@@ -17,8 +17,12 @@ allOf:
       - date_created
       - date_modified
       - object
+      - deleted
 
     properties:
+      deleted:
+        type: boolean
+        description: Whether the resource has been deleted.
       id:
         $ref: "../attributes/crv_id.yml"
       template_preview_urls:

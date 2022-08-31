@@ -1,0 +1,36 @@
+writable:
+  description: Properties that the postcards in your Creative should have.
+
+  required:
+    - color
+
+  properties:
+    mail_type:
+      $ref: "../../../shared/attributes/mail_type.yml"
+
+    size:
+      $ref: "../../postcards/attributes/postcard_size.yml"
+
+returned:
+  description: Properties that the postcards in your Creative should have.
+
+  properties:
+    mail_type:
+      $ref: "../../../shared/attributes/mail_type.yml"
+
+    size:
+      $ref: "../../postcards/attributes/postcard_size.yml"
+
+    front_original_url:
+      description: The original URL of the `front` template.
+      maxLength: 2083
+      minLength: 1
+      type: string
+      format: uri
+
+    back_original_url:
+      description: The original URL of the `back` template.
+      maxLength: 2083
+      minLength: 1
+      type: string
+      format: uri

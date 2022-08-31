@@ -6405,9 +6405,7 @@ components:
                   type: string
                 - $ref: '#/components/schemas/vrsn_id'
             url:
-              allOf:
-                - description: A [signed link](#section/Asset-URLs) to the rendered check.
-                - $ref: '#/components/schemas/signed_link'
+              $ref: '#/components/schemas/signed_link'
             to:
               $ref: '#/components/schemas/address_us'
             carrier:
@@ -7531,6 +7529,8 @@ components:
             - id
             - from
           properties:
+            url:
+              $ref: '#/components/schemas/signed_link'
             id:
               $ref: '#/components/schemas/ltr_id'
             template_id:
@@ -8146,11 +8146,7 @@ components:
                 $ref: '#/components/schemas/tracking_event_normal'
               nullable: true
             url:
-              allOf:
-                - description: >-
-                    A [signed link](#section/Asset-URLs) to the rendered
-                    postcard.
-                - $ref: '#/components/schemas/signed_link'
+              $ref: '#/components/schemas/signed_link'
             campaign_id:
               type: string
               description: >-
@@ -8326,11 +8322,7 @@ components:
               items:
                 $ref: '#/components/schemas/tracking_event_certified'
             url:
-              allOf:
-                - description: >-
-                    A [signed link](#section/Asset-URLs) to the rendered self
-                    mailer.
-                - $ref: '#/components/schemas/signed_link'
+              $ref: '#/components/schemas/signed_link'
     self_mailer_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of

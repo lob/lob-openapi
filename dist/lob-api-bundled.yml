@@ -13372,7 +13372,7 @@ paths:
             UsVerificationsApi api = new UsVerificationsApi(config);
 
             try {
-              UsVerifications bulkVerifyResponse = api.bulkVerify(bulkVerify, null);
+              UsVerifications bulkVerifyResponse = api.verifyBulk(bulkVerify, null);
             } catch (ApiException e) {
               Console.WriteLine(e.ToString());
             }
@@ -13946,6 +13946,23 @@ paths:
             $lob->cards()->all(array(
               'limit' => 2
             ));
+        - lang: CSharp
+          source: |
+            CardsApi api = new CardsApi(config);
+            List<string> includeList = new List<string>();
+            includeList.Add("total_count");
+
+            try {
+              CardList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList // include
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: card_create
       summary: Create
@@ -14088,6 +14105,24 @@ paths:
               'back'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
               'size' =>               => '2.125x3.375'
             ));
+          label: PHP
+        - lang: CSharp
+          source: |
+            CardsApi api = new CardsApi(config);
+
+            CardEditable cardEditable = new CardEditable(
+              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",  // front
+              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",  // back
+              CardEditable.SizeEnum._2125x3375,  // size
+              "Test Card" // description
+            );
+
+            try {
+              Card result = api.create(cardEditable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /cards/{card_id}:
     parameters:
       - in: path
@@ -14181,6 +14216,17 @@ paths:
         - lang: PHP
           source: |
             $lob->cards()->get('card_7a6d73c5c8457fc');
+          label: PHP
+        - lang: CSharp
+          source: |
+            CardsApi api = new CardsApi(config);
+
+            try {
+              Card response = api.get("card_7a6d73c5c8457fc");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: card_update
       summary: Update
@@ -14290,6 +14336,16 @@ paths:
               console.log(err, res);
             });
           label: NODE
+        - lang: CSharp
+          source: |
+            CardsApi api = new CardsApi(config);
+
+            try {
+              CardDeletion response = api.delete("card_7a6d73c5c8457fc");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: card_delete
       summary: Delete
@@ -14330,6 +14386,17 @@ paths:
         - lang: PHP
           source: |
             $lob->cards()->delete('card_7a6d73c5c8457fc');
+          label: PHP
+        - lang: CSharp
+          source: |
+            CardsApi api = new CardsApi(config);
+
+            try {
+              CardDeletion response = api.delete("card_6afffd19045076c");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /cards/{card_id}/orders:
     parameters:
       - in: path

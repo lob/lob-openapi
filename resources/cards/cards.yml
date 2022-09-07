@@ -53,6 +53,23 @@ get:
         $lob->cards()->all(array(
           'limit' => 2
         ));
+    - lang: CSharp
+      source: |
+        CardsApi api = new CardsApi(config);
+        List<string> includeList = new List<string>();
+        includeList.Add("total_count");
+
+        try {
+          CardList response = api.list(
+            2, // limit
+            null, // before
+            null, // after
+            includeList // include
+          );
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 post:
   operationId: card_create
@@ -157,3 +174,21 @@ post:
           'back'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
           'size' =>               => '2.125x3.375'
         ));
+      label: PHP
+    - lang: CSharp
+      source: |
+        CardsApi api = new CardsApi(config);
+
+        CardEditable cardEditable = new CardEditable(
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",  // front
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",  // back
+          CardEditable.SizeEnum._2125x3375,  // size
+          "Test Card" // description
+        );
+
+        try {
+          Card result = api.create(cardEditable);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

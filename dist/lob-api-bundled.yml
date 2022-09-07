@@ -13335,6 +13335,48 @@ paths:
              ]
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            List<MultipleComponents> addresses = new List<MultipleComponents>();
+
+            MultipleComponents bulkAddress0 = new MultipleComponents(
+              null,  // recipient 
+              "210 King Street",  // primaryLine 
+              null,  // secondaryLine 
+              null,  // urbanization 
+              "San Francisco",  // city 
+              "CA",  // state 
+              "94017" // zipCode 
+            );
+
+            addresses.Add(bulkAddress0);
+
+
+            MultipleComponents bulkAddress1 = new MultipleComponents(
+              null,  // recipient 
+              "185 BERRY ST STE 6600",  // primaryLine 
+              null,  // secondaryLine 
+              null,  // urbanization 
+              "San Francisco",  // city 
+              "CA",  // state 
+              "94017" // zipCode 
+            );
+
+            addresses.Add(bulkAddress1);
+
+
+            MultipleComponentsList bulkVerify = new
+            MultipleComponentsList(addresses);
+
+
+            UsVerificationsApi api = new UsVerificationsApi(config);
+
+            try {
+              UsVerifications bulkVerifyResponse = api.bulkVerify(bulkVerify, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /bulk/intl_verifications:
     post:
       operationId: bulk_intl_verifications
@@ -19615,6 +19657,27 @@ paths:
               zip_code: "94107"
             })
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            UsVerificationsWritable singleVerify = new UsVerificationsWritable(
+              null, 
+              null, 
+              "210 King Street", 
+              null, 
+              null, 
+              "San Francisco", 
+              "CA", 
+              "94017"
+            );
+
+            UsVerificationsApi api = new UsVerificationsApi(config);
+
+            try {
+              api.verifySingle(singleVerify, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /us_zip_lookups:
     post:
       operationId: zip_lookup

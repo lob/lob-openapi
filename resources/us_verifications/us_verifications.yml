@@ -218,3 +218,24 @@ post:
           zip_code: "94107"
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        UsVerificationsWritable singleVerify = new UsVerificationsWritable(
+          null, 
+          null, 
+          "210 King Street", 
+          null, 
+          null, 
+          "San Francisco", 
+          "CA", 
+          "94017"
+        );
+
+        UsVerificationsApi api = new UsVerificationsApi(config);
+
+        try {
+          api.verifySingle(singleVerify, null);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

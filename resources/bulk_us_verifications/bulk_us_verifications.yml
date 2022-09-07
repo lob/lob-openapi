@@ -228,3 +228,37 @@ post:
          ]
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        List<MultipleComponents> addresses = new List<MultipleComponents>();
+        MultipleComponents bulkAddress0 = new MultipleComponents(
+          null,  // recipient 
+          "210 King Street",  // primaryLine 
+          null,  // secondaryLine 
+          null,  // urbanization 
+          "San Francisco",  // city 
+          "CA",  // state 
+          "94017" // zipCode 
+        );
+        addresses.Add(bulkAddress0);
+
+        MultipleComponents bulkAddress1 = new MultipleComponents(
+          null,  // recipient 
+          "185 BERRY ST STE 6600",  // primaryLine 
+          null,  // secondaryLine 
+          null,  // urbanization 
+          "San Francisco",  // city 
+          "CA",  // state 
+          "94017" // zipCode 
+        );
+        addresses.Add(bulkAddress1);
+
+        MultipleComponentsList bulkVerify = new MultipleComponentsList(addresses);
+
+        UsVerificationsApi api = new UsVerificationsApi(config);
+        try {
+          UsVerifications bulkVerifyResponse = api.verifyBulk(bulkVerify, null);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

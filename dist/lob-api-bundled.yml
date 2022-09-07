@@ -17742,6 +17742,16 @@ paths:
           source: |
             Lob.SelfMailer.find("sfm_8ffbe811dea49dcf")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            SelfMailersApi api = new SelfMailersApi(config);
+
+            try {
+              SelfMailer response = api.get("sfm_8ffbe811dea49dcf");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: self_mailer_delete
       summary: Delete
@@ -17813,6 +17823,16 @@ paths:
           source: |
             Lob.SelfMailer.destroy("sfm_8ffbe811dea49dcf")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            SelfMailersApi api = new SelfMailersApi(config);
+
+            try {
+              SelfMailerDeletion response = api.delete("sfm_8ffbe811dea49dcf");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /self_mailers:
     get:
       operationId: self_mailers_list
@@ -17912,6 +17932,54 @@ paths:
           source: |
             Lob.SelfMailer.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            SelfMailersApi api = new SelfMailersApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+            Dictionary<String, String> sendDate = new Dictionary<String,
+            String>();
+
+            sendDate.Add("lt",
+            DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz"));
+
+            SortBy3 sortBy = new SortBy3(SortBy3.DateCreatedEnum.Asc);
+
+
+            try {
+              SelfMailerList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata, // metadata
+                null, // size
+                true, // scheduled
+                sendDate, // sendDate
+                MailType.FirstClass, // mailType
+                sortBy // sortBy
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: self_mailer_create
       summary: Create
@@ -18170,6 +18238,49 @@ paths:
               }
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            Dictionary<string, string> mergeVariables = new Dictionary<string,
+            string>();
+
+            mergeVariables.Add("name", "Harry");
+
+
+            SelfMailersApi api = new SelfMailersApi(config);
+
+
+            AddressEditable to = new AddressEditable(
+              "210 King St",  // addressLine1
+              "# 6100",  // addressLine2
+              "San Francisco",  // addressCity
+              "CA",  // addressState
+              "94107",  // addressZip
+              default(CountryExtended),  // addressCounty
+              null,  // description
+              "Harry Zhang" // name
+            );
+
+
+            SelfMailerEditable selfMailerEditable = new SelfMailerEditable(
+              to.ToJson(),  // to
+              "adr_249af768103d2810",  // from
+              default(SelfMailerSize),  // size
+              "Demo Self Mailer Job",  // description
+              default(Dictionary<string, string>),  // metadata
+              default(MailType),  // mailType
+              mergeVariables,  // mergeVariables
+              default(DateTime),  // sendDate
+              "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
+              "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" // outside
+            );
+
+
+            try {
+              SelfMailer result = api.create(selfMailerEditable, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /templates/{tmpl_id}/versions/{vrsn_id}:
     parameters:
       - in: path
@@ -19866,7 +19977,7 @@ paths:
             );
 
             try {
-              api.ReverseGeocodeLookup(location, null);
+              api.lookup(location, null);
             } catch (ApiException e) {
               Console.WriteLine(e.ToString());
             }

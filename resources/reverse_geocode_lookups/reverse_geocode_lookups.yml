@@ -134,3 +134,18 @@ post:
           longitude: 122.4194
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        ReverseGeocodeLookupsApi api = new ReverseGeocodeLookupsApi(config);
+
+        Location location = new Location(
+          37.777456f, 
+          -122.393039f
+        );
+
+        try {
+          api.lookup(location, null);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

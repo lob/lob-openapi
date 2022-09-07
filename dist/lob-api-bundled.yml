@@ -16136,6 +16136,16 @@ paths:
           source: |
             Lob.Letter.find("ltr_4868c3b754655f90")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            LettersApi api = new LettersApi(config);
+
+            try {
+              Letter response = api.get("ltr_4868c3b754655f90");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: letter_cancel
       summary: Cancel
@@ -16208,6 +16218,16 @@ paths:
           source: |
             Lob.Letter.destroy("ltr_4868c3b754655f90")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            LettersApi api = new LettersApi(config);
+
+            try {
+              LetterDeletion response = api.cancel("ltr_4868c3b754655f90");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /letters:
     get:
       operationId: letters_list
@@ -16306,6 +16326,54 @@ paths:
           source: |
             Lob.Letter.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            LettersApi api = new LettersApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+            Dictionary<String, String> sendDate = new Dictionary<String,
+            String>();
+
+            sendDate.Add("lt",
+            DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz"));
+
+            SortBy3 sortBy = new SortBy3(SortBy3.DateCreatedEnum.Asc);
+
+
+            try {
+              LetterList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata, // metadata
+                true, // color
+                true, // scheduled
+                sendDate, // sendDate
+                MailType.FirstClass, // mailType
+                sortBy // sortBy
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: letter_create
       summary: Create
@@ -16666,6 +16734,60 @@ paths:
               cards: ['card_c51ae96f5cebf3e']
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            Dictionary<string, string> mergeVariables = new Dictionary<string,
+            string>();
+
+            mergeVariables.Add("name", "Harry");
+
+
+            LettersApi api = new LettersApi(config);
+
+
+            AddressEditable to = new AddressEditable(
+              "210 King St",  // addressLine1
+              "# 6100",  // addressLine2
+              "San Francisco",  // addressCity
+              "CA",  // addressState
+              "94107",  // addressZip
+              default(CountryExtended),  // addressCounty
+              null,  // description
+              "Harry Zhang" // name
+            );
+
+
+            List<String> cards = new List<String>();
+
+            cards.Add("card_c51ae96f5cebf3e");
+
+
+            LetterEditable letterEditable = new LetterEditable(
+              "Demo Letter",  // description
+              default(Dictionary<string, string>),  // metadata
+              default(MailType),  // mailType
+              mergeVariables,  // mergeVariables
+              default(DateTime),  // sendDate
+              true,  // color
+              true,  // doubleSided
+              LetterEditable.AddressPlacementEnum.TopFirstPage,  // addressPlacement
+              default(Object),  // returnEnvelope
+              default(int?),  // perforatedPage
+              default(LetterEditableCustomEnvelope),  // customEnvelope
+              to.ToJson(),  // to
+              "adr_249af768103d2810",  // from
+              "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",  // file
+              default(LetterEditable.ExtraServiceEnum?),  // extraService
+              cards // cards
+            );
+
+
+            try {
+              Letter result = api.create(letterEditable, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /postcards/{psc_id}:
     parameters:
       - in: path

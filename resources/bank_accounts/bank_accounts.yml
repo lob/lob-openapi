@@ -84,6 +84,31 @@ get:
       source: |
         Lob.BankAccount.list(%{limit: 2})
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        BankAccountsApi api = new BankAccountsApi(config);
+
+        List<string> includeList = new List<string>();
+        includeList.Add("total_count");
+        Dictionary<String, String> metadata = new Dictionary<String, String>();
+        metadata.Add("name", "Harry");
+        Dictionary<String, DateTime> dateCreated = new Dictionary<String, DateTime>();
+        DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+        dateCreated.Add("lt", dateCreatedDate);
+
+        try {
+          BankAccountList response = api.list(
+            2, // limit
+            null, // before
+            null, // after
+            includeList, // include
+            dateCreated, // dateCreated
+            metadata // metadata
+          );
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 post:
   operationId: bank_account_create
@@ -253,3 +278,21 @@ post:
           account_type: "company"
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        BankAccountsApi api = new BankAccountsApi(config);
+
+        BankAccountWritable bankAccountWritable = new BankAccountWritable(
+          "Test Bank Account",  // description
+          "322271627",  // routingNumber
+          "123456789",  // accountNumber
+          BankTypeEnum.Company,  // accountType
+          "John Doe" // signatory
+        );
+
+        try {
+          BankAccount result = api.create(bankAccountWritable);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

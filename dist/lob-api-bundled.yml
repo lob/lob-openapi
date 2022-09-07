@@ -12412,6 +12412,22 @@ paths:
           source: |
             Lob.BankAccount.verify("bank_dfceb4a2a05b57e", %{amounts: [25, 63]})
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            List<int> amounts = new List<int>();
+            amounts.Add(25);
+            amounts.Add(63);
+
+            BankAccountVerify verification = new BankAccountVerify(amounts);
+
+            BankAccountsApi api = new BankAccountsApi(config);
+
+            try {
+              BankAccount verified_account = api.verify("bank_dfceb4a2a05b57e", verification);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /bank_accounts/{bank_id}:
     parameters:
       - in: path
@@ -12507,6 +12523,16 @@ paths:
           source: |
             Lob.BankAccount.find("bank_8cad8df5354d33f")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            BankAccountsApi api = new BankAccountsApi(config);
+
+            try {
+              BankAccount response = api.get("bank_8cad8df5354d33f");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: bank_account_delete
       summary: Delete
@@ -12573,6 +12599,16 @@ paths:
           source: |
             Lob.BankAccount.destroy("bank_3e64d9904356b20")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            BankAccountsApi api = new BankAccountsApi(config);
+
+            try {
+              BankAccountDeletion response = api.delete("bank_3e64d9904356b20");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /bank_accounts:
     get:
       operationId: bank_accounts_list
@@ -12656,6 +12692,41 @@ paths:
           source: |
             Lob.BankAccount.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            BankAccountsApi api = new BankAccountsApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+
+            try {
+              BankAccountList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata // metadata
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: bank_account_create
       summary: Create
@@ -12819,6 +12890,24 @@ paths:
               account_type: "company"
             })
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            BankAccountsApi api = new BankAccountsApi(config);
+
+            BankAccountWritable bankAccountWritable = new BankAccountWritable(
+              "Test Bank Account",  // description
+              "322271627",  // routingNumber
+              "123456789",  // accountNumber
+              BankTypeEnum.Company,  // accountType
+              "John Doe" // signatory
+            );
+
+            try {
+              BankAccount result = api.create(bankAccountWritable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /billing_groups/{bg_id}:
     parameters:
       - in: path

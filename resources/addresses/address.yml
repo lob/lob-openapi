@@ -76,6 +76,16 @@ get:
       source: |
         Lob.Address.retrieve("adr_fa85158b26c3eb7c")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        AddressesApi api = new AddressesApi(config);
+
+        try {
+          Address response = api.get("adr_fa85158b26c3eb7c");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 delete:
   operationId: address_delete
@@ -147,3 +157,13 @@ delete:
       source: |
         Lob.Address.delete("adr_43769b47aed248c2")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        AddressesApi api = new AddressesApi(config);
+
+        try {
+          AddressDeletion response = api.delete("adr_43769b47aed248c2");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

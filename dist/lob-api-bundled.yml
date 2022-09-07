@@ -12146,6 +12146,15 @@ paths:
           source: |
             Lob.Address.retrieve("adr_fa85158b26c3eb7c")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            AddressesApi api = new AddressesApi(config);
+
+            try {
+              Address response = api.AddressRetrieve("adr_fa85158b26c3eb7c");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
     delete:
       operationId: address_delete
       summary: Delete

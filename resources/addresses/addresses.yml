@@ -84,6 +84,31 @@ get:
       source: |
         Lob.Address.list(%{limit: 2})
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        AddressesApi api = new AddressesApi(config);
+
+        List<string> includeList = new List<string>();
+        includeList.Add("total_count");
+        Dictionary<String, String> metadata = new Dictionary<String, String>();
+        metadata.Add("name", "Harry");
+        Dictionary<String, DateTime> dateCreated = new Dictionary<String, DateTime>();
+        DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+        dateCreated.Add("lt", dateCreatedDate);
+
+        try {
+          AddressList response = api.list(
+            2, // limit
+            null, // before
+            null, // after
+            includeList, // include
+            dateCreated, // dateCreated
+            metadata // metadata
+          );
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 post:
   operationId: address_create
@@ -395,3 +420,27 @@ post:
           address_zip: "94107"
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        AddressesApi api = new AddressesApi(config);
+
+        AddressEditable addressEditable = new AddressEditable(
+          "210 King St",  // addressLine1
+          "# 6100",  // addressLine2
+          "San Francisco",  // addressCity
+          "CA",  // addressState
+          "94107",  // addressZip
+          CountryExtended.US,  // addressCountry
+          "Harry - Office",  // description
+          "Harry Zhang",  // name
+          "Lob",  // company
+          "5555555555",  // phone
+          "harry@lob.com" // email
+        );
+        
+        try {
+          Address result = api.create(addressEditable);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

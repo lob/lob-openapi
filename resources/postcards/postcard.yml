@@ -78,6 +78,16 @@ get:
       source: |
         Lob.Postcard.find("psc_5c002b86ce47537a")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        PostcardsApi api = new PostcardsApi(config);
+
+        try {
+          Postcard response = api.get("psc_5c002b86ce47537a");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 delete:
   operationId: postcard_delete
@@ -155,3 +165,13 @@ delete:
       source: |
         Lob.Postcard.destroy("psc_5c002b86ce47537a")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        PostcardsApi api = new PostcardsApi(config);
+
+        try {
+          PostcardDeletion response = api.delete("psc_5c002b86ce47537a");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

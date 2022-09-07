@@ -16961,6 +16961,16 @@ paths:
           source: |
             Lob.Postcard.find("psc_5c002b86ce47537a")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            PostcardsApi api = new PostcardsApi(config);
+
+            try {
+              Postcard response = api.get("psc_5c002b86ce47537a");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: postcard_delete
       summary: Cancel
@@ -17034,6 +17044,16 @@ paths:
           source: |
             Lob.Postcard.destroy("psc_5c002b86ce47537a")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            PostcardsApi api = new PostcardsApi(config);
+
+            try {
+              PostcardDeletion response = api.delete("psc_5c002b86ce47537a");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /postcards:
     get:
       operationId: postcards_list
@@ -17134,6 +17154,58 @@ paths:
           source: |
             Lob.Postcard.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            PostcardsApi api = new PostcardsApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+            Dictionary<String, String> sendDate = new Dictionary<String,
+            String>();
+
+            sendDate.Add("lt",
+            DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz"));
+
+            SortBy3 sortBy = new SortBy3(SortBy3.DateCreatedEnum.Asc);
+
+            List<PostcardSize> sizeArray = new List<PostcardSize>();
+
+            sizeArray.Add(PostcardSize._4x6);
+
+
+            try {
+              PostcardList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata, // metadata
+                sizeArray, // size
+                true, // scheduled
+                sendDate, // sendDate
+                MailType.FirstClass, // mailType
+                sortBy // sortBy
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: postcard_create
       summary: Create
@@ -17476,6 +17548,49 @@ paths:
               }
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            Dictionary<string, string> mergeVariables = new Dictionary<string,
+            string>();
+
+            mergeVariables.Add("name", "Harry");
+
+
+            PostcardsApi api = new PostcardsApi(config);
+
+
+            AddressEditable to = new AddressEditable(
+              "210 King St",  // addressLine1
+              "# 6100",  // addressLine2
+              "San Francisco",  // addressCity
+              "CA",  // addressState
+              "94107",  // addressZip
+              CountryExtended.US,  // addressCounty
+              null,  // description
+              "Harry Zhang" // name
+            );
+
+
+            PostcardEditable postcardEditable = new PostcardEditable(
+              to.ToJson(),  // to
+              "adr_249af768103d2810",  // from
+              default(PostcardSize),  // size
+              "Demo Postcard Job",  // description
+              null,  // metadata
+              default(MailType),  // mailType
+              mergeVariables,  // mergeVariables
+              default(DateTime),  // sendDate
+              "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",  // front
+              "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>" // back
+            );
+
+
+            try {
+              Postcard result = api.create(postcardEditable, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /self_mailers/{sfm_id}:
     parameters:
       - in: path

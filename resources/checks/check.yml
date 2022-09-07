@@ -78,6 +78,16 @@ get:
       source: |
         Lob.Check.find("chk_534f10783683daa0")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        ChecksApi api = new ChecksApi(config);
+
+        try {
+          Check response = api.get("chk_534f10783683daa0");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 # For Form Factors, delete is actually cancel. If you need
 # delete verbiage, check Bank Accounts or Template Versions.
@@ -157,3 +167,13 @@ delete:
       source: |
         Lob.Check.destroy("chk_534f10783683daa0")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        ChecksApi api = new ChecksApi(config);
+
+        try {
+          CheckDeletion response = api.cancel("chk_534f10783683daa0");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

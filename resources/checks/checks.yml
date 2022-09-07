@@ -92,6 +92,38 @@ get:
       source: |
         Lob.Check.list(%{limit: 2})
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        ChecksApi api = new ChecksApi(config);
+
+        List<string> includeList = new List<string>();
+        includeList.Add("total_count");
+        Dictionary<String, String> metadata = new Dictionary<String, String>();
+        metadata.Add("name", "Harry");
+        Dictionary<String, DateTime> dateCreated = new Dictionary<String, DateTime>();
+        DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+        dateCreated.Add("lt", dateCreatedDate);
+        Dictionary<String, String> sendDate = new Dictionary<String, String>();
+        sendDate.Add("lt", DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz"));
+        SortBy3 sortBy = new SortBy3(SortBy3.DateCreatedEnum.Asc);
+
+        try {
+          CheckList response = api.list(
+            2, // limit
+            null, // before
+            null, // after
+            includeList, // include
+            dateCreated, // dateCreated
+            metadata, // metadata
+            true, // scheduled
+            sendDate, // sendDate
+            MailType.FirstClass, // mailType
+            sortBy // sortBy
+          );
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 post:
   operationId: check_create
@@ -452,3 +484,43 @@ post:
           }
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        Dictionary<string, string> mergeVariables = new Dictionary<string, string>();
+        mergeVariables.Add("name", "Harry");
+
+        ChecksApi api = new ChecksApi(config);
+
+        AddressEditable to = new AddressEditable(
+          "210 King St",  // addressLine1
+          "# 6100",  // addressLine2
+          "San Francisco",  // addressCity
+          "CA",  // addressState
+          "94107",  // addressZip
+          default(CountryExtended),  // addressCounty
+          "",  // description
+          "Harry Zhang" // name
+        );
+
+        CheckEditable checkEditable = new CheckEditable(
+          "adr_249af768103d2810",  // from
+          to.ToJson(),  // to
+          "bank_8cad8df5354d33f",  // bank_account
+          22.5f,  // amount
+          "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",  // logo
+          "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",  // checkBottom
+          default(string),  // attachment
+          "Demo Check",  // description
+          default(Dictionary<string, string>),  // metadata
+          mergeVariables,  // mergeVariables
+          default(DateTime),  // sendDate
+          CheckEditable.MailTypeEnum.UspsFirstClass,  // mailType
+          "rent" // memo
+        );
+
+        try {
+          Check result = api.create(checkEditable, null);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

@@ -83,6 +83,31 @@ get:
       source: |
         This feature is not currently supported by this library.
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        TemplatesApi api = new TemplatesApi(config);
+
+        List<string> includeList = new List<string>();
+        includeList.Add("total_count");
+        Dictionary<String, String> metadata = new Dictionary<String, String>();
+        metadata.Add("name", "Harry");
+        Dictionary<String, DateTime> dateCreated = new Dictionary<String, DateTime>();
+        DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+        dateCreated.Add("lt", dateCreatedDate);
+
+        try {
+          TemplateList response = api.list(
+            2, // limit
+            null, // before
+            null, // after
+            includeList, // include
+            dateCreated, // dateCreated
+            metadata // metadata
+          );
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 post:
   operationId: create_template
@@ -216,3 +241,18 @@ post:
       source: |
         This feature is not currently supported by this library.
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        TemplatesApi api = new TemplatesApi(config);
+
+        TemplateWritable templateWritable = new TemplateWritable(
+          "Test Template",  // description
+          "<html>HTML for {{name}}</html>" // html
+        );
+
+        try {
+          Template result = api.create(templateWritable);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

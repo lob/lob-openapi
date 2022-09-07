@@ -76,6 +76,16 @@ get:
       source: |
         This feature is not currently supported by this library.
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        TemplatesApi api = new TemplatesApi(config);
+
+        try {
+          Template response = api.get("tmpl_c94e83ca2cd5121");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 post:
   operationId: template_update
@@ -197,6 +207,17 @@ post:
       source: |
         This feature is not currently supported by this library.
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        TemplatesApi api = new TemplatesApi(config);
+        TemplateUpdate update = new TemplateUpdate("update template", "vrsn_362184d96d9b0c9");
+
+        try {
+          api.update("tmpl_c94e83ca2cd5121", update);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 delete:
   operationId: template_delete
@@ -267,3 +288,13 @@ delete:
       source: |
         This feature is not currently supported by this library.
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        TemplatesApi api = new TemplatesApi(config);
+
+        try {
+          TemplateDeletion response = api.delete("tmpl_df934eeda694203");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

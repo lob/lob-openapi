@@ -201,3 +201,38 @@ post:
           ]
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        List<MultipleComponentsIntl> addresses = new List<MultipleComponentsIntl>();
+        MultipleComponentsIntl bulkAddress0 = new MultipleComponentsIntl(
+          null,  // recipient 
+          "35 Tower Hill",  // primaryLine 
+          null,  // secondaryLine 
+          "London",  // city 
+          null,  // state 
+          "EC3N 4DR",  // postalCode 
+          CountryExtended.GB // country 
+        );
+        addresses.Add(bulkAddress0);
+
+        MultipleComponentsIntl bulkAddress1 = new MultipleComponentsIntl(
+          null,  // recipient 
+          "370 Water St",  // primaryLine 
+          null,  // secondaryLine 
+          "Summerside",  // city 
+          "Prince Edward Island",  // state 
+          "C1N 1C4",  // postalCode 
+          CountryExtended.CA // country 
+        );
+        addresses.Add(bulkAddress1);
+
+        IntlVerificationsPayload bulkVerify = new IntlVerificationsPayload(addresses);
+
+        IntlVerificationsApi api = new IntlVerificationsApi(config);
+
+        try {
+          IntlVerifications bulkVerifyResponse = api.verifyBulk(bulkVerify);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

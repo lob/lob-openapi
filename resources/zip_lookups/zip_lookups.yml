@@ -108,3 +108,15 @@ post:
           zip_code: "94107"
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        ZipEditable zipEditable = new ZipEditable("94107");
+
+        ZipLookupsApi api = new ZipLookupsApi(config);
+
+        try {
+          Zip response = api.lookup(zipEditable);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

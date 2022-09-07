@@ -188,3 +188,19 @@ post:
           zip_code:       "94107"
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        UsAutocompletionsApi api = new UsAutocompletionsApi(config);
+        UsAutocompletionsWritable autoCompletionWritable = new UsAutocompletionsWritable(
+          "185 B",  // address_prefix 
+          "San Francisco",  // city 
+          "CA",  // state 
+          "94017" // zip_code 
+        );
+
+        try {
+          UsAutocompletions usAutocompletion = api.autocomplete(autoCompletionWritable);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

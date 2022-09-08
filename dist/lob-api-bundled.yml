@@ -18393,6 +18393,16 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+            try {
+              TemplateVersion response = api.get("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: template_version_update
       summary: Update
@@ -18481,6 +18491,20 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+            TemplateVersionUpdatable update = new
+            TemplateVersionUpdatable("update template", EngineHtml.Handlebars);
+
+
+            try {
+              api.update("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282", update);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: template_version_delete
       summary: Delete
@@ -18533,6 +18557,16 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+            try {
+              TemplateVersionDeletion response = api.delete("tmpl_xxx", "vrsn_xxx");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /templates/{tmpl_id}/versions:
     get:
       operationId: template_versions_list
@@ -18622,6 +18656,36 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+
+            try {
+              TemplateVersionList response = api.list(
+                "tmpl_dadaaf7b76c9f25", // tmplId
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated // dateCreated
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: create_template_version
       summary: Create
@@ -18732,6 +18796,24 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+
+            TemplateVersionWritable templateVersionWritable = new
+            TemplateVersionWritable(
+              "Second Version",  // description
+              "<html>Second HTML for {{name}}</html>" // html
+            );
+
+
+            try {
+              TemplateVersion result = api.create("tmpl_4aa14648113e45b", templateVersionWritable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /templates/{tmpl_id}:
     parameters:
       - in: path

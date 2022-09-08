@@ -14480,6 +14480,16 @@ paths:
         - lang: PHP
           source: |
             $lob->cardOrders('card_6afffd19045076c')->all();
+        - lang: CSharp
+          source: |
+            CardOrdersApi api = new CardOrdersApi(config);
+
+            try {
+              CardOrderList response = api.get("card_6afffd19045076c", 2, 1);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: card_order_create
       summary: Create
@@ -14564,6 +14574,20 @@ paths:
             $lob->cardOrders('card_6afffd19045076c')->create(array(
               'quantity'           => 10000
             ));
+        - lang: CSharp
+          source: |
+            CardOrdersApi api = new CardOrdersApi(config);
+
+            CardOrderEditable cardOrderEditable = new CardOrderEditable(
+              10000 // quantity
+            );
+
+            try {
+              CardOrder result = api.create("card_6afffd19045076c", cardOrderEditable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /checks:
     get:
       operationId: checks_list

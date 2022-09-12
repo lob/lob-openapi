@@ -78,6 +78,16 @@ get:
       source: |
         Lob.Letter.find("ltr_4868c3b754655f90")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        LettersApi api = new LettersApi(config);
+
+        try {
+          Letter response = api.get("ltr_4868c3b754655f90");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 delete:
   operationId: letter_cancel
@@ -155,3 +165,13 @@ delete:
       source: |
         Lob.Letter.destroy("ltr_4868c3b754655f90")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        LettersApi api = new LettersApi(config);
+
+        try {
+          LetterDeletion response = api.cancel("ltr_4868c3b754655f90");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

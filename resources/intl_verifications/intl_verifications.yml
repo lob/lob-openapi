@@ -214,3 +214,23 @@ post:
           country: "CA"
         })
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        IntlVerificationWritable singleVerify = new IntlVerificationWritable(
+          null, 
+          "370 Water St", 
+          null, 
+          "Summerside", 
+          "Prince Edward Island", 
+          "C1N 1C4", 
+          CountryExtended.CA
+        );
+
+        IntlVerificationsApi api = new IntlVerificationsApi(config);
+
+        try {
+          api.verifySingle(singleVerify, null);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

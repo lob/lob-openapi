@@ -79,6 +79,16 @@ get:
       source: |
         Lob.SelfMailer.find("sfm_8ffbe811dea49dcf")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        SelfMailersApi api = new SelfMailersApi(config);
+
+        try {
+          SelfMailer response = api.get("sfm_8ffbe811dea49dcf");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 delete:
   operationId: self_mailer_delete
@@ -152,3 +162,13 @@ delete:
       source: |
         Lob.SelfMailer.destroy("sfm_8ffbe811dea49dcf")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        SelfMailersApi api = new SelfMailersApi(config);
+
+        try {
+          SelfMailerDeletion response = api.delete("sfm_8ffbe811dea49dcf");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

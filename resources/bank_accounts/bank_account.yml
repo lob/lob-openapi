@@ -78,6 +78,16 @@ get:
       source: |
         Lob.BankAccount.find("bank_8cad8df5354d33f")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        BankAccountsApi api = new BankAccountsApi(config);
+
+        try {
+          BankAccount response = api.get("bank_8cad8df5354d33f");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 delete:
   operationId: bank_account_delete
@@ -147,3 +157,13 @@ delete:
       source: |
         Lob.BankAccount.destroy("bank_3e64d9904356b20")
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        BankAccountsApi api = new BankAccountsApi(config);
+
+        try {
+          BankAccountDeletion response = api.delete("bank_3e64d9904356b20");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

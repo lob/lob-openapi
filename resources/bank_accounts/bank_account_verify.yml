@@ -121,3 +121,19 @@ post:
       source: |
         Lob.BankAccount.verify("bank_dfceb4a2a05b57e", %{amounts: [25, 63]})
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        List<int> amounts = new List<int>();
+        amounts.Add(25);
+        amounts.Add(63);
+
+        BankAccountVerify verification = new BankAccountVerify(amounts);
+
+        BankAccountsApi api = new BankAccountsApi(config);
+
+        try {
+          BankAccount verified_account = api.verify("bank_dfceb4a2a05b57e", verification);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

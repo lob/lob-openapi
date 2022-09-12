@@ -139,3 +139,21 @@ post:
       source: |
         This feature is not currently supported by this library.
       label: ELIXIR
+    - lang: CSharp
+      source: |
+        IntlAutocompletionsApi api = new IntlAutocompletionsApi(config);
+
+        IntlAutocompletionsWritable autocompletionData = new IntlAutocompletionsWritable(
+          "340 Wat", 
+          "Summerside", 
+          "Prince Edward Island", 
+          "C1N 1C4", 
+          CountryExtended.CA
+        );
+
+        try {
+          IntlAutocompletions autocompletedAddresses = api.autocomplete(autocompletionData);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

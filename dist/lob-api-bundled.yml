@@ -11769,6 +11769,41 @@ paths:
           source: |
             Lob.Address.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            AddressesApi api = new AddressesApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+
+            try {
+              AddressList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata // metadata
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: address_create
       summary: Create
@@ -12072,6 +12107,30 @@ paths:
               address_zip: "94107"
             })
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            AddressesApi api = new AddressesApi(config);
+
+            AddressEditable addressEditable = new AddressEditable(
+              "210 King St",  // addressLine1
+              "# 6100",  // addressLine2
+              "San Francisco",  // addressCity
+              "CA",  // addressState
+              "94107",  // addressZip
+              CountryExtended.US,  // addressCountry
+              "Harry - Office",  // description
+              "Harry Zhang",  // name
+              "Lob",  // company
+              "5555555555",  // phone
+              "harry@lob.com" // email
+            );
+
+            try {
+              Address result = api.create(addressEditable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /addresses/{adr_id}:
     parameters:
       - in: path
@@ -12146,6 +12205,16 @@ paths:
           source: |
             Lob.Address.retrieve("adr_fa85158b26c3eb7c")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            AddressesApi api = new AddressesApi(config);
+
+            try {
+              Address response = api.get("adr_fa85158b26c3eb7c");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: address_delete
       summary: Delete
@@ -12213,6 +12282,16 @@ paths:
           source: |
             Lob.Address.delete("adr_43769b47aed248c2")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            AddressesApi api = new AddressesApi(config);
+
+            try {
+              AddressDeletion response = api.delete("adr_43769b47aed248c2");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /bank_accounts/{bank_id}/verify:
     parameters:
       - in: path
@@ -12333,6 +12412,22 @@ paths:
           source: |
             Lob.BankAccount.verify("bank_dfceb4a2a05b57e", %{amounts: [25, 63]})
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            List<int> amounts = new List<int>();
+            amounts.Add(25);
+            amounts.Add(63);
+
+            BankAccountVerify verification = new BankAccountVerify(amounts);
+
+            BankAccountsApi api = new BankAccountsApi(config);
+
+            try {
+              BankAccount verified_account = api.verify("bank_dfceb4a2a05b57e", verification);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /bank_accounts/{bank_id}:
     parameters:
       - in: path
@@ -12428,6 +12523,16 @@ paths:
           source: |
             Lob.BankAccount.find("bank_8cad8df5354d33f")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            BankAccountsApi api = new BankAccountsApi(config);
+
+            try {
+              BankAccount response = api.get("bank_8cad8df5354d33f");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: bank_account_delete
       summary: Delete
@@ -12494,6 +12599,16 @@ paths:
           source: |
             Lob.BankAccount.destroy("bank_3e64d9904356b20")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            BankAccountsApi api = new BankAccountsApi(config);
+
+            try {
+              BankAccountDeletion response = api.delete("bank_3e64d9904356b20");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /bank_accounts:
     get:
       operationId: bank_accounts_list
@@ -12577,6 +12692,41 @@ paths:
           source: |
             Lob.BankAccount.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            BankAccountsApi api = new BankAccountsApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+
+            try {
+              BankAccountList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata // metadata
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: bank_account_create
       summary: Create
@@ -12740,6 +12890,24 @@ paths:
               account_type: "company"
             })
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            BankAccountsApi api = new BankAccountsApi(config);
+
+            BankAccountWritable bankAccountWritable = new BankAccountWritable(
+              "Test Bank Account",  // description
+              "322271627",  // routingNumber
+              "123456789",  // accountNumber
+              BankTypeEnum.Company,  // accountType
+              "John Doe" // signatory
+            );
+
+            try {
+              BankAccount result = api.create(bankAccountWritable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /billing_groups/{bg_id}:
     parameters:
       - in: path
@@ -13167,6 +13335,48 @@ paths:
              ]
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            List<MultipleComponents> addresses = new List<MultipleComponents>();
+
+            MultipleComponents bulkAddress0 = new MultipleComponents(
+              null,  // recipient 
+              "210 King Street",  // primaryLine 
+              null,  // secondaryLine 
+              null,  // urbanization 
+              "San Francisco",  // city 
+              "CA",  // state 
+              "94017" // zipCode 
+            );
+
+            addresses.Add(bulkAddress0);
+
+
+            MultipleComponents bulkAddress1 = new MultipleComponents(
+              null,  // recipient 
+              "185 BERRY ST STE 6600",  // primaryLine 
+              null,  // secondaryLine 
+              null,  // urbanization 
+              "San Francisco",  // city 
+              "CA",  // state 
+              "94017" // zipCode 
+            );
+
+            addresses.Add(bulkAddress1);
+
+
+            MultipleComponentsList bulkVerify = new
+            MultipleComponentsList(addresses);
+
+
+            UsVerificationsApi api = new UsVerificationsApi(config);
+
+            try {
+              UsVerifications bulkVerifyResponse = api.verifyBulk(bulkVerify, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /bulk/intl_verifications:
     post:
       operationId: bulk_intl_verifications
@@ -13370,6 +13580,50 @@ paths:
               ]
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            List<MultipleComponentsIntl> addresses = new
+            List<MultipleComponentsIntl>();
+
+            MultipleComponentsIntl bulkAddress0 = new MultipleComponentsIntl(
+              null,  // recipient 
+              "35 Tower Hill",  // primaryLine 
+              null,  // secondaryLine 
+              "London",  // city 
+              null,  // state 
+              "EC3N 4DR",  // postalCode 
+              CountryExtended.GB // country 
+            );
+
+            addresses.Add(bulkAddress0);
+
+
+            MultipleComponentsIntl bulkAddress1 = new MultipleComponentsIntl(
+              null,  // recipient 
+              "370 Water St",  // primaryLine 
+              null,  // secondaryLine 
+              "Summerside",  // city 
+              "Prince Edward Island",  // state 
+              "C1N 1C4",  // postalCode 
+              CountryExtended.CA // country 
+            );
+
+            addresses.Add(bulkAddress1);
+
+
+            IntlVerificationsPayload bulkVerify = new
+            IntlVerificationsPayload(addresses);
+
+
+            IntlVerificationsApi api = new IntlVerificationsApi(config);
+
+
+            try {
+              IntlVerifications bulkVerifyResponse = api.verifyBulk(bulkVerify);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /campaigns:
     get:
       operationId: campaigns_list
@@ -13692,6 +13946,23 @@ paths:
             $lob->cards()->all(array(
               'limit' => 2
             ));
+        - lang: CSharp
+          source: |
+            CardsApi api = new CardsApi(config);
+            List<string> includeList = new List<string>();
+            includeList.Add("total_count");
+
+            try {
+              CardList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList // include
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: card_create
       summary: Create
@@ -13834,6 +14105,24 @@ paths:
               'back'                  => 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
               'size' =>               => '2.125x3.375'
             ));
+          label: PHP
+        - lang: CSharp
+          source: |
+            CardsApi api = new CardsApi(config);
+
+            CardEditable cardEditable = new CardEditable(
+              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",  // front
+              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",  // back
+              CardEditable.SizeEnum._2125x3375,  // size
+              "Test Card" // description
+            );
+
+            try {
+              Card result = api.create(cardEditable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /cards/{card_id}:
     parameters:
       - in: path
@@ -13927,6 +14216,17 @@ paths:
         - lang: PHP
           source: |
             $lob->cards()->get('card_7a6d73c5c8457fc');
+          label: PHP
+        - lang: CSharp
+          source: |
+            CardsApi api = new CardsApi(config);
+
+            try {
+              Card response = api.get("card_7a6d73c5c8457fc");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: card_update
       summary: Update
@@ -14036,6 +14336,20 @@ paths:
               console.log(err, res);
             });
           label: NODE
+        - lang: CSharp
+          source: >
+            CardsApi api = new CardsApi(config);
+
+            CardUpdatable update = new CardUpdatable("Awesome card", true,
+            15000);
+
+
+            try {
+              api.update("card_6afffd19045076c", update);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: card_delete
       summary: Delete
@@ -14076,6 +14390,17 @@ paths:
         - lang: PHP
           source: |
             $lob->cards()->delete('card_7a6d73c5c8457fc');
+          label: PHP
+        - lang: CSharp
+          source: |
+            CardsApi api = new CardsApi(config);
+
+            try {
+              CardDeletion response = api.delete("card_6afffd19045076c");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /cards/{card_id}/orders:
     parameters:
       - in: path
@@ -14155,6 +14480,16 @@ paths:
         - lang: PHP
           source: |
             $lob->cardOrders('card_6afffd19045076c')->all();
+        - lang: CSharp
+          source: |
+            CardOrdersApi api = new CardOrdersApi(config);
+
+            try {
+              CardOrderList response = api.get("card_6afffd19045076c", 2, 1);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: card_order_create
       summary: Create
@@ -14239,6 +14574,20 @@ paths:
             $lob->cardOrders('card_6afffd19045076c')->create(array(
               'quantity'           => 10000
             ));
+        - lang: CSharp
+          source: |
+            CardOrdersApi api = new CardOrdersApi(config);
+
+            CardOrderEditable cardOrderEditable = new CardOrderEditable(
+              10000 // quantity
+            );
+
+            try {
+              CardOrder result = api.create("card_6afffd19045076c", cardOrderEditable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /checks:
     get:
       operationId: checks_list
@@ -14329,6 +14678,53 @@ paths:
           source: |
             Lob.Check.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            ChecksApi api = new ChecksApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+            Dictionary<String, String> sendDate = new Dictionary<String,
+            String>();
+
+            sendDate.Add("lt",
+            DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz"));
+
+            SortBy3 sortBy = new SortBy3(SortBy3.DateCreatedEnum.Asc);
+
+
+            try {
+              CheckList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata, // metadata
+                true, // scheduled
+                sendDate, // sendDate
+                MailType.FirstClass, // mailType
+                sortBy // sortBy
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: check_create
       summary: Create
@@ -14686,6 +15082,52 @@ paths:
               }
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            Dictionary<string, string> mergeVariables = new Dictionary<string,
+            string>();
+
+            mergeVariables.Add("name", "Harry");
+
+
+            ChecksApi api = new ChecksApi(config);
+
+
+            AddressEditable to = new AddressEditable(
+              "210 King St",  // addressLine1
+              "# 6100",  // addressLine2
+              "San Francisco",  // addressCity
+              "CA",  // addressState
+              "94107",  // addressZip
+              default(CountryExtended),  // addressCounty
+              "",  // description
+              "Harry Zhang" // name
+            );
+
+
+            CheckEditable checkEditable = new CheckEditable(
+              "adr_249af768103d2810",  // from
+              to.ToJson(),  // to
+              "bank_8cad8df5354d33f",  // bank_account
+              22.5f,  // amount
+              "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",  // logo
+              "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",  // checkBottom
+              default(string),  // attachment
+              "Demo Check",  // description
+              default(Dictionary<string, string>),  // metadata
+              mergeVariables,  // mergeVariables
+              default(DateTime),  // sendDate
+              CheckEditable.MailTypeEnum.UspsFirstClass,  // mailType
+              "rent" // memo
+            );
+
+
+            try {
+              Check result = api.create(checkEditable, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /checks/{chk_id}:
     parameters:
       - in: path
@@ -14841,6 +15283,16 @@ paths:
           source: |
             Lob.Check.find("chk_534f10783683daa0")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            ChecksApi api = new ChecksApi(config);
+
+            try {
+              Check response = api.get("chk_534f10783683daa0");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: check_cancel
       summary: Cancel
@@ -14913,6 +15365,16 @@ paths:
           source: |
             Lob.Check.destroy("chk_534f10783683daa0")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            ChecksApi api = new ChecksApi(config);
+
+            try {
+              CheckDeletion response = api.cancel("chk_534f10783683daa0");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /creatives:
     post:
       operationId: creative_create
@@ -15280,6 +15742,27 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            IntlAutocompletionsApi api = new IntlAutocompletionsApi(config);
+
+
+            IntlAutocompletionsWritable autocompletionData = new
+            IntlAutocompletionsWritable(
+              "340 Wat", 
+              "Summerside", 
+              "Prince Edward Island", 
+              "C1N 1C4", 
+              CountryExtended.CA
+            );
+
+
+            try {
+              IntlAutocompletions autocompletedAddresses = api.autocomplete(autocompletionData);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /intl_verifications:
     post:
       operationId: intl_verification
@@ -15492,6 +15975,29 @@ paths:
               country: "CA"
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            IntlVerificationWritable singleVerify = new
+            IntlVerificationWritable(
+              null, 
+              "370 Water St", 
+              null, 
+              "Summerside", 
+              "Prince Edward Island", 
+              "C1N 1C4", 
+              CountryExtended.CA
+            );
+
+
+            IntlVerificationsApi api = new IntlVerificationsApi(config);
+
+
+            try {
+              api.verifySingle(singleVerify, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /letters/{ltr_id}:
     parameters:
       - in: path
@@ -15675,6 +16181,16 @@ paths:
           source: |
             Lob.Letter.find("ltr_4868c3b754655f90")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            LettersApi api = new LettersApi(config);
+
+            try {
+              Letter response = api.get("ltr_4868c3b754655f90");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: letter_cancel
       summary: Cancel
@@ -15747,6 +16263,16 @@ paths:
           source: |
             Lob.Letter.destroy("ltr_4868c3b754655f90")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            LettersApi api = new LettersApi(config);
+
+            try {
+              LetterDeletion response = api.cancel("ltr_4868c3b754655f90");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /letters:
     get:
       operationId: letters_list
@@ -15845,6 +16371,54 @@ paths:
           source: |
             Lob.Letter.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            LettersApi api = new LettersApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+            Dictionary<String, String> sendDate = new Dictionary<String,
+            String>();
+
+            sendDate.Add("lt",
+            DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz"));
+
+            SortBy3 sortBy = new SortBy3(SortBy3.DateCreatedEnum.Asc);
+
+
+            try {
+              LetterList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata, // metadata
+                true, // color
+                true, // scheduled
+                sendDate, // sendDate
+                MailType.FirstClass, // mailType
+                sortBy // sortBy
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: letter_create
       summary: Create
@@ -16205,6 +16779,60 @@ paths:
               cards: ['card_c51ae96f5cebf3e']
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            Dictionary<string, string> mergeVariables = new Dictionary<string,
+            string>();
+
+            mergeVariables.Add("name", "Harry");
+
+
+            LettersApi api = new LettersApi(config);
+
+
+            AddressEditable to = new AddressEditable(
+              "210 King St",  // addressLine1
+              "# 6100",  // addressLine2
+              "San Francisco",  // addressCity
+              "CA",  // addressState
+              "94107",  // addressZip
+              default(CountryExtended),  // addressCounty
+              null,  // description
+              "Harry Zhang" // name
+            );
+
+
+            List<String> cards = new List<String>();
+
+            cards.Add("card_c51ae96f5cebf3e");
+
+
+            LetterEditable letterEditable = new LetterEditable(
+              "Demo Letter",  // description
+              default(Dictionary<string, string>),  // metadata
+              default(MailType),  // mailType
+              mergeVariables,  // mergeVariables
+              default(DateTime),  // sendDate
+              true,  // color
+              true,  // doubleSided
+              LetterEditable.AddressPlacementEnum.TopFirstPage,  // addressPlacement
+              default(Object),  // returnEnvelope
+              default(int?),  // perforatedPage
+              default(LetterEditableCustomEnvelope),  // customEnvelope
+              to.ToJson(),  // to
+              "adr_249af768103d2810",  // from
+              "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",  // file
+              default(LetterEditable.ExtraServiceEnum?),  // extraService
+              cards // cards
+            );
+
+
+            try {
+              Letter result = api.create(letterEditable, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /postcards/{psc_id}:
     parameters:
       - in: path
@@ -16378,6 +17006,16 @@ paths:
           source: |
             Lob.Postcard.find("psc_5c002b86ce47537a")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            PostcardsApi api = new PostcardsApi(config);
+
+            try {
+              Postcard response = api.get("psc_5c002b86ce47537a");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: postcard_delete
       summary: Cancel
@@ -16451,6 +17089,16 @@ paths:
           source: |
             Lob.Postcard.destroy("psc_5c002b86ce47537a")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            PostcardsApi api = new PostcardsApi(config);
+
+            try {
+              PostcardDeletion response = api.delete("psc_5c002b86ce47537a");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /postcards:
     get:
       operationId: postcards_list
@@ -16551,6 +17199,58 @@ paths:
           source: |
             Lob.Postcard.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            PostcardsApi api = new PostcardsApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+            Dictionary<String, String> sendDate = new Dictionary<String,
+            String>();
+
+            sendDate.Add("lt",
+            DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz"));
+
+            SortBy3 sortBy = new SortBy3(SortBy3.DateCreatedEnum.Asc);
+
+            List<PostcardSize> sizeArray = new List<PostcardSize>();
+
+            sizeArray.Add(PostcardSize._4x6);
+
+
+            try {
+              PostcardList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata, // metadata
+                sizeArray, // size
+                true, // scheduled
+                sendDate, // sendDate
+                MailType.FirstClass, // mailType
+                sortBy // sortBy
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: postcard_create
       summary: Create
@@ -16893,6 +17593,49 @@ paths:
               }
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            Dictionary<string, string> mergeVariables = new Dictionary<string,
+            string>();
+
+            mergeVariables.Add("name", "Harry");
+
+
+            PostcardsApi api = new PostcardsApi(config);
+
+
+            AddressEditable to = new AddressEditable(
+              "210 King St",  // addressLine1
+              "# 6100",  // addressLine2
+              "San Francisco",  // addressCity
+              "CA",  // addressState
+              "94107",  // addressZip
+              CountryExtended.US,  // addressCounty
+              null,  // description
+              "Harry Zhang" // name
+            );
+
+
+            PostcardEditable postcardEditable = new PostcardEditable(
+              to.ToJson(),  // to
+              "adr_249af768103d2810",  // from
+              default(PostcardSize),  // size
+              "Demo Postcard Job",  // description
+              null,  // metadata
+              default(MailType),  // mailType
+              mergeVariables,  // mergeVariables
+              default(DateTime),  // sendDate
+              "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",  // front
+              "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>" // back
+            );
+
+
+            try {
+              Postcard result = api.create(postcardEditable, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /self_mailers/{sfm_id}:
     parameters:
       - in: path
@@ -17044,6 +17787,16 @@ paths:
           source: |
             Lob.SelfMailer.find("sfm_8ffbe811dea49dcf")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            SelfMailersApi api = new SelfMailersApi(config);
+
+            try {
+              SelfMailer response = api.get("sfm_8ffbe811dea49dcf");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: self_mailer_delete
       summary: Delete
@@ -17115,6 +17868,16 @@ paths:
           source: |
             Lob.SelfMailer.destroy("sfm_8ffbe811dea49dcf")
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            SelfMailersApi api = new SelfMailersApi(config);
+
+            try {
+              SelfMailerDeletion response = api.delete("sfm_8ffbe811dea49dcf");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /self_mailers:
     get:
       operationId: self_mailers_list
@@ -17214,6 +17977,54 @@ paths:
           source: |
             Lob.SelfMailer.list(%{limit: 2})
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            SelfMailersApi api = new SelfMailersApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+            Dictionary<String, String> sendDate = new Dictionary<String,
+            String>();
+
+            sendDate.Add("lt",
+            DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz"));
+
+            SortBy3 sortBy = new SortBy3(SortBy3.DateCreatedEnum.Asc);
+
+
+            try {
+              SelfMailerList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata, // metadata
+                null, // size
+                true, // scheduled
+                sendDate, // sendDate
+                MailType.FirstClass, // mailType
+                sortBy // sortBy
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: self_mailer_create
       summary: Create
@@ -17472,6 +18283,49 @@ paths:
               }
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            Dictionary<string, string> mergeVariables = new Dictionary<string,
+            string>();
+
+            mergeVariables.Add("name", "Harry");
+
+
+            SelfMailersApi api = new SelfMailersApi(config);
+
+
+            AddressEditable to = new AddressEditable(
+              "210 King St",  // addressLine1
+              "# 6100",  // addressLine2
+              "San Francisco",  // addressCity
+              "CA",  // addressState
+              "94107",  // addressZip
+              default(CountryExtended),  // addressCounty
+              null,  // description
+              "Harry Zhang" // name
+            );
+
+
+            SelfMailerEditable selfMailerEditable = new SelfMailerEditable(
+              to.ToJson(),  // to
+              "adr_249af768103d2810",  // from
+              default(SelfMailerSize),  // size
+              "Demo Self Mailer Job",  // description
+              default(Dictionary<string, string>),  // metadata
+              default(MailType),  // mailType
+              mergeVariables,  // mergeVariables
+              default(DateTime),  // sendDate
+              "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
+              "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" // outside
+            );
+
+
+            try {
+              SelfMailer result = api.create(selfMailerEditable, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /templates/{tmpl_id}/versions/{vrsn_id}:
     parameters:
       - in: path
@@ -17563,6 +18417,16 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+            try {
+              TemplateVersion response = api.get("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: template_version_update
       summary: Update
@@ -17651,6 +18515,20 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+            TemplateVersionUpdatable update = new
+            TemplateVersionUpdatable("update template", EngineHtml.Handlebars);
+
+
+            try {
+              api.update("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282", update);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: template_version_delete
       summary: Delete
@@ -17703,6 +18581,16 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+            try {
+              TemplateVersionDeletion response = api.delete("tmpl_xxx", "vrsn_xxx");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /templates/{tmpl_id}/versions:
     get:
       operationId: template_versions_list
@@ -17792,6 +18680,36 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+
+            try {
+              TemplateVersionList response = api.list(
+                "tmpl_dadaaf7b76c9f25", // tmplId
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated // dateCreated
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: create_template_version
       summary: Create
@@ -17902,6 +18820,24 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            TemplateVersionsApi api = new TemplateVersionsApi(config);
+
+
+            TemplateVersionWritable templateVersionWritable = new
+            TemplateVersionWritable(
+              "Second Version",  // description
+              "<html>Second HTML for {{name}}</html>" // html
+            );
+
+
+            try {
+              TemplateVersion result = api.create("tmpl_4aa14648113e45b", templateVersionWritable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /templates/{tmpl_id}:
     parameters:
       - in: path
@@ -18003,6 +18939,16 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            TemplatesApi api = new TemplatesApi(config);
+
+            try {
+              Template response = api.get("tmpl_c94e83ca2cd5121");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: template_update
       summary: Update
@@ -18143,6 +19089,20 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            TemplatesApi api = new TemplatesApi(config);
+
+            TemplateUpdate update = new TemplateUpdate("update template",
+            "vrsn_362184d96d9b0c9");
+
+
+            try {
+              api.update("tmpl_c94e83ca2cd5121", update);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     delete:
       operationId: template_delete
       summary: Delete
@@ -18209,6 +19169,16 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            TemplatesApi api = new TemplatesApi(config);
+
+            try {
+              TemplateDeletion response = api.delete("tmpl_df934eeda694203");
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /templates:
     get:
       operationId: templates_list
@@ -18290,6 +19260,41 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            TemplatesApi api = new TemplatesApi(config);
+
+
+            List<string> includeList = new List<string>();
+
+            includeList.Add("total_count");
+
+            Dictionary<String, String> metadata = new Dictionary<String,
+            String>();
+
+            metadata.Add("name", "Harry");
+
+            Dictionary<String, DateTime> dateCreated = new Dictionary<String,
+            DateTime>();
+
+            DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+
+            dateCreated.Add("lt", dateCreatedDate);
+
+
+            try {
+              TemplateList response = api.list(
+                2, // limit
+                null, // before
+                null, // after
+                includeList, // include
+                dateCreated, // dateCreated
+                metadata // metadata
+              );
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
     post:
       operationId: create_template
       summary: Create
@@ -18442,6 +19447,21 @@ paths:
           source: |
             This feature is not currently supported by this library.
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            TemplatesApi api = new TemplatesApi(config);
+
+            TemplateWritable templateWritable = new TemplateWritable(
+              "Test Template",  // description
+              "<html>HTML for {{name}}</html>" // html
+            );
+
+            try {
+              Template result = api.create(templateWritable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /uploads:
     get:
       operationId: uploads_list
@@ -19019,6 +20039,25 @@ paths:
               zip_code:       "94107"
             })
           label: ELIXIR
+        - lang: CSharp
+          source: >
+            UsAutocompletionsApi api = new UsAutocompletionsApi(config);
+
+            UsAutocompletionsWritable autoCompletionWritable = new
+            UsAutocompletionsWritable(
+              "185 B",  // address_prefix 
+              "San Francisco",  // city 
+              "CA",  // state 
+              "94017" // zip_code 
+            );
+
+
+            try {
+              UsAutocompletions usAutocompletion = api.autocomplete(autoCompletionWritable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /us_reverse_geocode_lookups:
     post:
       operationId: reverse_geocode_lookup
@@ -19158,6 +20197,21 @@ paths:
               longitude: 122.4194
             })
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            ReverseGeocodeLookupsApi api = new ReverseGeocodeLookupsApi(config);
+
+            Location location = new Location(
+              37.777456f, 
+              -122.393039f
+            );
+
+            try {
+              api.lookup(location, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /us_verifications:
     post:
       operationId: us_verification
@@ -19380,6 +20434,27 @@ paths:
               zip_code: "94107"
             })
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            UsVerificationsWritable singleVerify = new UsVerificationsWritable(
+              null, 
+              null, 
+              "210 King Street", 
+              null, 
+              null, 
+              "San Francisco", 
+              "CA", 
+              "94017"
+            );
+
+            UsVerificationsApi api = new UsVerificationsApi(config);
+
+            try {
+              api.verifySingle(singleVerify, null);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP
   /us_zip_lookups:
     post:
       operationId: zip_lookup
@@ -19484,3 +20559,15 @@ paths:
               zip_code: "94107"
             })
           label: ELIXIR
+        - lang: CSharp
+          source: |
+            ZipEditable zipEditable = new ZipEditable("94107");
+
+            ZipLookupsApi api = new ZipLookupsApi(config);
+
+            try {
+              Zip response = api.lookup(zipEditable);
+            } catch (ApiException e) {
+              Console.WriteLine(e.ToString());
+            }
+          label: CSHARP

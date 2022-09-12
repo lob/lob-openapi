@@ -54,6 +54,17 @@ get:
     - lang: PHP
       source: |
         $lob->cards()->get('card_7a6d73c5c8457fc');
+      label: PHP
+    - lang: CSharp
+      source: |
+        CardsApi api = new CardsApi(config);
+
+        try {
+          Card response = api.get("card_7a6d73c5c8457fc");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 post:
   operationId: card_update
@@ -130,13 +141,17 @@ post:
           console.log(err, res);
         });
       label: NODE
-    # - lang: Python
-    #   source: |
-    #     lob.Card.update('card_7a6d73c5c8457fc')
-    #   label: PYTHON
-    # - lang: PHP
-    #   source: |
-    #     $lob->cards()->update('card_7a6d73c5c8457fc');
+    - lang: CSharp
+      source: |
+        CardsApi api = new CardsApi(config);
+        CardUpdatable update = new CardUpdatable("Awesome card", true, 15000);
+
+        try {
+          api.update("card_6afffd19045076c", update);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
 
 delete:
   operationId: card_delete
@@ -184,3 +199,14 @@ delete:
     - lang: PHP
       source: |
         $lob->cards()->delete('card_7a6d73c5c8457fc');
+      label: PHP
+    - lang: CSharp
+      source: |
+        CardsApi api = new CardsApi(config);
+
+        try {
+          CardDeletion response = api.delete("card_6afffd19045076c");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP

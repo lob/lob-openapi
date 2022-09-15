@@ -1,0 +1,38 @@
+type: object
+description: Customize and place a QR code on the creative at the required position.
+required:
+  - position
+  - redirect_url
+  - width
+
+properties:
+  position:
+    type: string
+    enum:
+      - fixed
+      - relative
+    description: Sets how a QR code is being positioned in the document.
+
+  top:
+    type: string
+    description: Vertical distance(in inches) to place QR code from the top.
+
+  right:
+    type: string
+    description: Horizonal distance(in inches) to place QR code from the right.
+
+  left:
+    type: string
+    description: Horizonal distance(in inches) to place QR code from the left.
+
+  bottom:
+    type: string
+    description: Vertical distance(in inches) to place QR code from the bottom.
+
+  redirect_url:
+    type: string
+    description: The url to redirect the user when a QR code is scanned. The url must start with `https://`
+
+  width:
+    type: string
+    description: The size(in inches) of the QR code. All QR codes are generated as a square.

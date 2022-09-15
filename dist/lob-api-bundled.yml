@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.11.1
+  version: 1.11.2
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -7139,19 +7139,14 @@ components:
               enum:
                 - creative
               default: creative
-    identity_validation_recipient:
-      type: string
-      description: The name of the person whose identity is being validated.
-      nullable: true
-      maxLength: 500
-    recipient_multi_line_address:
+    recipient_input:
       allOf:
         - anyOf:
-            - title: Address with `city` and `state`
+            - title: Address object with `city` and `state`
               required:
                 - city
                 - state
-            - title: Address with `zip_code`
+            - title: Address object with `zip_code`
               required:
                 - zip_code
         - type: object
@@ -7160,7 +7155,7 @@ components:
             - primary_line
           properties:
             recipient:
-              $ref: '#/components/schemas/identity_validation_recipient'
+              $ref: '#/components/schemas/recipient'
             primary_line:
               $ref: '#/components/schemas/primary_line_us'
             secondary_line:
@@ -7184,8 +7179,7 @@ components:
               maxLength: 50
             zip_code:
               allOf:
-                - type: string
-                  description: >-
+                - description: >-
                     Required if `city` and `state` are not passed in. If
                     included, must be formatted as a US ZIP or ZIP+4 (e.g.
                     `94107`, `941072282`, `94107-2282`).
@@ -7195,14 +7189,14 @@ components:
       description: The name of the company or firm.
       nullable: true
       maxLength: 500
-    company_multi_line_address:
+    company_input:
       allOf:
         - anyOf:
-            - title: Address with `city` and `state`
+            - title: Address object with `city` and `state`
               required:
                 - city
                 - state
-            - title: Address with `zip_code`
+            - title: Address object with `zip_code`
               required:
                 - zip_code
         - type: object
@@ -7243,136 +7237,131 @@ components:
                 - $ref: '#/components/schemas/zip_code'
     identity_validation_writable:
       oneOf:
-        - $ref: '#/components/schemas/recipient_multi_line_address'
-        - $ref: '#/components/schemas/company_multi_line_address'
+        - $ref: '#/components/schemas/recipient_input'
+        - $ref: '#/components/schemas/company_input'
     identity_validation_id:
       type: string
       description: Unique identifier prefixed with `id_validation_`.
       pattern: ^id_validation_[a-zA-Z0-9_]+$
-    recipient_identity_validation:
-      allOf:
-        - anyOf:
-            - title: Address with `recipient`
-            - title: Addresss with `company`
-        - type: object
-          properties:
-            id:
-              $ref: '#/components/schemas/identity_validation_id'
-            recipient:
-              $ref: '#/components/schemas/identity_validation_recipient'
-            primary_line:
-              $ref: '#/components/schemas/primary_line_us'
-            secondary_line:
-              $ref: '#/components/schemas/secondary_line'
-            urbanization:
-              $ref: '#/components/schemas/urbanization'
-            last_line:
-              type: string
-              description: |
-                Combination of the following applicable `components`:
-                * City (`city`)
-                * State (`state`)
-                * ZIP code (`zip_code`)
-                * ZIP+4 (`zip_code_plus_4`)
-            score:
-              type: number
-              nullable: true
-              format: float
-              description: >
-                A numerical score between 0 and 100 that represents the
-                likelihood the provided name is associated with a physical
-                address.
-              default: null
-              minimum: 0
-              maximum: 100
-            confidence:
-              type: string
-              enum:
-                - high
-                - medium
-                - low
-                - ''
-              description: >
-                Indicates the likelihood the recipient name and address match
-                based on our custom internal calculation. Possible values are:
+    identity_validation_recipient:
+      type: string
+      description: The name of the person whose identity is being validated.
+      nullable: true
+      maxLength: 500
+    recipient_validation:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/identity_validation_id'
+        recipient:
+          $ref: '#/components/schemas/identity_validation_recipient'
+        primary_line:
+          $ref: '#/components/schemas/primary_line_us'
+        secondary_line:
+          $ref: '#/components/schemas/secondary_line'
+        urbanization:
+          $ref: '#/components/schemas/urbanization'
+        last_line:
+          type: string
+          description: |
+            Combination of the following applicable `components`:
+            * City (`city`)
+            * State (`state`)
+            * ZIP code (`zip_code`)
+            * ZIP+4 (`zip_code_plus_4`)
+        score:
+          type: number
+          nullable: true
+          format: float
+          description: >
+            A numerical score between 0 and 100 that represents the likelihood
+            the provided name is associated with a physical address.
+          default: null
+          minimum: 0
+          maximum: 100
+        confidence:
+          type: string
+          enum:
+            - high
+            - medium
+            - low
+            - ''
+          description: >
+            Indicates the likelihood the recipient name and address match based
+            on our custom internal calculation. Possible values are:
 
-                - `high` — Has a Lob confidence score greater than 70.
+            - `high` — Has a Lob confidence score greater than 70.
 
-                - `medium` — Has a Lob confidence score between 40 and 70.
+            - `medium` — Has a Lob confidence score between 40 and 70.
 
-                - `low` — Has a Lob confidence score less than 40.
+            - `low` — Has a Lob confidence score less than 40.
 
-                - `""` — No tracking data exists for this address.
-            object:
-              type: string
-              description: Value is resource type.
-              enum:
-                - id_validation
-              default: id_validation
-    company_identity_validation:
-      allOf:
-        - anyOf:
-            - title: Address with `recipient`
-            - title: Addresss with `company`
-        - type: object
-          properties:
-            id:
-              $ref: '#/components/schemas/identity_validation_id'
-            company:
-              $ref: '#/components/schemas/identity_validation_company'
-            primary_line:
-              $ref: '#/components/schemas/primary_line_us'
-            secondary_line:
-              $ref: '#/components/schemas/secondary_line'
-            urbanization:
-              $ref: '#/components/schemas/urbanization'
-            last_line:
-              type: string
-              description: |
-                Combination of the following applicable `components`:
-                * City (`city`)
-                * State (`state`)
-                * ZIP code (`zip_code`)
-                * ZIP+4 (`zip_code_plus_4`)
-            score:
-              type: number
-              nullable: true
-              format: float
-              description: >
-                A numerical score between 0 and 100 that represents the
-                likelihood the provided name is associated with a physical
-                address.
-              default: null
-              minimum: 0
-              maximum: 100
-            confidence:
-              type: string
-              enum:
-                - high
-                - medium
-                - low
-                - ''
-              description: >
-                Indicates the likelihood the recipient name and address match
-                based on our custom internal calculation. Possible values are:
+            - `""` — No tracking data exists for this address.
+        object:
+          type: string
+          description: Value is resource type.
+          enum:
+            - id_validation
+          default: id_validation
+    company_validation:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/identity_validation_id'
+        company:
+          $ref: '#/components/schemas/identity_validation_company'
+        primary_line:
+          $ref: '#/components/schemas/primary_line_us'
+        secondary_line:
+          $ref: '#/components/schemas/secondary_line'
+        urbanization:
+          $ref: '#/components/schemas/urbanization'
+        last_line:
+          type: string
+          description: |
+            Combination of the following applicable `components`:
+            * City (`city`)
+            * State (`state`)
+            * ZIP code (`zip_code`)
+            * ZIP+4 (`zip_code_plus_4`)
+        score:
+          type: number
+          nullable: true
+          format: float
+          description: >
+            A numerical score between 0 and 100 that represents the likelihood
+            the provided name is associated with a physical address.
+          default: null
+          minimum: 0
+          maximum: 100
+        confidence:
+          type: string
+          enum:
+            - high
+            - medium
+            - low
+            - ''
+          description: >
+            Indicates the likelihood the recipient name and address match based
+            on our custom internal calculation. Possible values are:
 
-                - `high` — Has a Lob confidence score greater than 70.
+            - `high` — Has a Lob confidence score greater than 70.
 
-                - `medium` — Has a Lob confidence score between 40 and 70.
+            - `medium` — Has a Lob confidence score between 40 and 70.
 
-                - `low` — Has a Lob confidence score less than 40.
+            - `low` — Has a Lob confidence score less than 40.
 
-                - `""` — No tracking data exists for this address.
-            object:
-              type: string
-              description: Value is resource type.
-              enum:
-                - id_validation
-              default: id_validation
+            - `""` — No tracking data exists for this address.
+        object:
+          type: string
+          description: Value is resource type.
+          enum:
+            - id_validation
+          default: id_validation
     identity_validation:
       oneOf:
-        - $ref: '#/components/schemas/recipient_identity_validation'
-        - $ref: '#/components/schemas/company_identity_validation'
+        - $ref: '#/components/schemas/recipient_validation'
+        - $ref: '#/components/schemas/company_validation'
     intl_autocompletions_writable:
       type: object
       required:
@@ -8018,6 +8007,42 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
+    qr_code:
+      type: object
+      description: Customize and place a QR code on the creative at the required position.
+      required:
+        - position
+        - redirect_url
+        - width
+      properties:
+        position:
+          type: string
+          enum:
+            - fixed
+            - relative
+          description: Sets how a QR code is being positioned in the document.
+        top:
+          type: string
+          description: Vertical distance(in inches) to place QR code from the top.
+        right:
+          type: string
+          description: Horizonal distance(in inches) to place QR code from the right.
+        left:
+          type: string
+          description: Horizonal distance(in inches) to place QR code from the left.
+        bottom:
+          type: string
+          description: Vertical distance(in inches) to place QR code from the bottom.
+        redirect_url:
+          type: string
+          description: >-
+            The url to redirect the user when a QR code is scanned. The url must
+            start with `https://`
+        width:
+          type: string
+          description: >-
+            The size(in inches) of the QR code. All QR codes are generated as a
+            square.
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/input_to'
@@ -8072,6 +8097,8 @@ components:
               $ref: '#/components/schemas/custom_envelope_user_provided'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
+            qr_code:
+              $ref: '#/components/schemas/qr_code'
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
@@ -8191,6 +8218,8 @@ components:
               $ref: '#/components/schemas/back'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
+            qr_code:
+              $ref: '#/components/schemas/qr_code'
     sfm_id:
       type: string
       description: Unique identifier prefixed with `sfm_`.
@@ -10001,7 +10030,7 @@ components:
             $ref: '#/components/schemas/identity_validation'
           example:
             id: id_validation_8a013f3e
-            company: LOB.COM
+            recipient: LARRY LOBSTER
             primary_line: 210 KING ST.
             secondary_line: ''
             urbanization: ''
@@ -15558,7 +15587,7 @@ paths:
             schema:
               $ref: '#/components/schemas/identity_validation_writable'
             example:
-              company: Lob.com
+              recipient: Larry Lobster
               primary_line: 210 King St.
               secondary_line: ''
               city: San Francisco
@@ -15568,7 +15597,7 @@ paths:
             schema:
               $ref: '#/components/schemas/identity_validation_writable'
             example:
-              company: Lob.com
+              recipient: Larry Lobster
               primary_line: 210 King St.
               secondary_line: ''
               city: San Francisco
@@ -15578,7 +15607,7 @@ paths:
             schema:
               $ref: '#/components/schemas/identity_validation_writable'
             example:
-              company: Lob.com
+              recipient: Larry Lobster
               primary_line: 210 King St.
               secondary_line: ''
               city: San Francisco
@@ -15594,7 +15623,7 @@ paths:
           source: |
             curl https://api.lob.com/v1/identity_validation \
               -u <YOUR_LIVE_API_KEY>: \
-              -d "company=Lob.com" \
+              -d "recipient=Larry Lobster" \
               -d "primary_line=210 King St" \
               -d "secondary_line=" \
               -d "urbanization=" \
@@ -16473,6 +16502,12 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
+              qr_code:
+                position: relative
+                redirect_url: https://www.lob.com
+                width: '2'
+                top: '2'
+                right: '2'
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/letter_editable'
@@ -16515,6 +16550,12 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
+              qr_code:
+                position: relative
+                redirect_url: https://www.lob.com
+                width: '2'
+                bottom: '2'
+                right: '2'
             encoding:
               to:
                 style: deepObject
@@ -16570,6 +16611,12 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
+              qr_code:
+                position: relative
+                redirect_url: https://www.lob.com
+                width: '2'
+                bottom: '2'
+                left: '2'
       responses:
         '200':
           $ref: '#/components/responses/post_letter'
@@ -16591,7 +16638,12 @@ paths:
               --data-urlencode 'file=<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>' \
               -d 'merge_variables[name]=Harry' \
               -d 'color=true' \
-              -d 'cards[]=card_c51ae96f5cebf3e'
+              -d 'cards[]=card_c51ae96f5cebf3e' \
+              -d 'qr_code[position]=relative' \
+              -d 'qr_code[redirect_url]=https://www.lob.com' \
+              -d 'qr_code[width]=2' \
+              -d 'qr_code[bottom]=2' \
+              -d 'qr_code[left]=2'
           label: CURL
         - lang: Typescript
           source: |
@@ -16607,7 +16659,14 @@ paths:
               from: 'adr_xxxx',
               color: true,
               extra_service: LetterEditableExtraServiceEnum.Certified,
-              file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf'
+              file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf',
+              qr_code : {
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2',
+                bottom: '2',
+                left: '2'
+              }
             });
 
             try {
@@ -16634,7 +16693,14 @@ paths:
                 name: 'Harry'
               },
               color: true,
-              cards: ['card_c51ae96f5cebf3e']
+              cards: ['card_c51ae96f5cebf3e'],
+              qr_code : {
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2',
+                bottom: '2',
+                left: '2'
+              }
             }, function (err, res) {
               console.log(err, res);
             });
@@ -16657,7 +16723,14 @@ paths:
                 name: 'Harry'
               },
               color: true,
-              cards: ['card_c51ae96f5cebf3e']
+              cards: ['card_c51ae96f5cebf3e'],
+              qr_code : {
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2',
+                bottom: '2',
+                left: '2'
+              }
             )
           label: RUBY
         - lang: Python
@@ -16678,7 +16751,14 @@ paths:
                 'name': 'Harry'
               },
               color = True,
-              cards = ['card_c51ae96f5cebf3e']
+              cards = ['card_c51ae96f5cebf3e'],
+              qr_code = {
+                'position' : 'relative',
+                'redirect_url' : 'https://www.lob.com',
+                'width' : '2',
+                'bottom' : '2',
+                'left' : '2'
+              }
             )
           label: PYTHON
         - lang: PHP
@@ -16691,6 +16771,17 @@ paths:
                 "address_city"     => "San Francisco",
                 "address_state"     => "CA",
                 "address_zip"     => "94107",
+              )
+            );
+
+
+            $qr_code = new OpenAPI\Client\Model\QRCode(
+              array(
+                "position" => "relative",
+                "redirect_url" => "https://www.lob.com",
+                "width" => "2",
+                "bottom" => "2",
+                "left" => "2",
               )
             );
 
@@ -16715,6 +16806,7 @@ paths:
                   "card_c51ae96f5cebf3e",
                   "card_thingy",
                 ),
+                "qr_code"   => $qr_code,
               )
             );
 
@@ -16739,6 +16831,13 @@ paths:
             to.setAddressState("CA");
             to.setAddressZip("94107");
 
+            QRCode qrCode = new QRCode();
+            qrCode.setPosition("relative");
+            qrCode.setRedirectUrl("https://www.lob.com");
+            qrCode.setWidth("2");
+            qrCode.setLeft("2");
+            qrCode.setBottom("2");
+
             List<String> cards = new ArrayList<String>();
             cards.add("card_c51ae96f5cebf3e");
             cards.add("card_thingy");
@@ -16752,6 +16851,7 @@ paths:
               letterEditable.setTo(to);
               letterEditable.setMergeVariables(merge_variables);
               letterEditable.setCards(cards);
+              letterEditable.setQRCode(qrCode);
 
               Letter result = apiInstance.create(letterEditable, null);
             } catch (ApiException e) {
@@ -16776,7 +16876,14 @@ paths:
                 name: 'Harry'
               },
               color: true,
-              cards: ['card_c51ae96f5cebf3e']
+              cards: ['card_c51ae96f5cebf3e'],
+              qr_code: %{
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2',
+                bottom: '2',
+                left: '2'
+              }
             })
           label: ELIXIR
         - lang: CSharp
@@ -16802,6 +16909,15 @@ paths:
             );
 
 
+            QRCode qrCode = new QRCode(
+              "relative",  //position,
+              "https://www.lob.com", //redirect_url
+              "2", //width
+              "2", //left
+              "2", //bottom
+            );
+
+
             List<String> cards = new List<String>();
 
             cards.Add("card_c51ae96f5cebf3e");
@@ -16823,7 +16939,8 @@ paths:
               "adr_249af768103d2810",  // from
               "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",  // file
               default(LetterEditable.ExtraServiceEnum?),  // extraService
-              cards // cards
+              cards, // cards
+              qrCode
             );
 
 
@@ -17301,6 +17418,12 @@ paths:
               metadata:
                 spiffy: 'true'
               send_date: '2017-11-01T00:00:00.000Z'
+              qr_code:
+                position: relative
+                redirect_url: https://www.lob.com
+                width: '2'
+                top: '2'
+                right: '2'
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/postcard_editable'
@@ -17339,6 +17462,12 @@ paths:
               metadata:
                 spiffy: 'true'
               send_date: '2017-11-01T00:00:00.000Z'
+              qr_code:
+                position: relative
+                redirect_url: https://www.lob.com
+                width: '2'
+                bottom: '2'
+                right: '2'
             encoding:
               to:
                 style: deepObject
@@ -17390,6 +17519,12 @@ paths:
               metadata:
                 spiffy: 'true'
               send_date: '2017-11-01T00:00:00.000Z'
+              qr_code:
+                position: relative
+                redirect_url: https://www.lob.com
+                width: '2'
+                bottom: '2'
+                left: '2'
       responses:
         '200':
           $ref: '#/components/responses/post_postcard'
@@ -17410,7 +17545,12 @@ paths:
               -d 'from=adr_210a8d4b0b76d77b' \
               --data-urlencode 'front=<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>' \
               --data-urlencode 'back=<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>' \
-              -d 'merge_variables[name]=Harry'
+              -d 'merge_variables[name]=Harry' \
+              -d 'qr_code[position]=relative' \
+              -d 'qr_code[redirect_url]=https://www.lob.com' \
+              -d 'qr_code[width]=2' \
+              -d 'qr_code[bottom]=2' \
+              -d 'qr_code[left]=2'
           label: CURL
         - lang: Typescript
           source: >
@@ -17432,7 +17572,15 @@ paths:
             'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
 
             back:
-            'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf'
+            'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
+
+            qr_code : {
+              position: 'relative',
+              redirect_url: 'https://www.lob.com',
+              width: '2',
+              bottom: '2',
+              left: '2'
+            }
 
             });
 
@@ -17460,6 +17608,13 @@ paths:
               back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
               merge_variables: {
                 name: 'Harry'
+              },
+              qr_code : {
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2',
+                bottom: '2',
+                left: '2'
               }
             }, function (err, res) {
               console.log(err, res);
@@ -17482,6 +17637,13 @@ paths:
               back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
               merge_variables: {
                 name: 'Harry'
+              },
+              qr_code : {
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2',
+                bottom: '2',
+                left: '2'
               }
             )
           label: RUBY
@@ -17502,6 +17664,13 @@ paths:
               back = '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
               merge_variables = {
                 'name': 'Harry'
+              },
+              qr_code = {
+                'position' : 'relative',
+                'redirect_url' : 'https://www.lob.com',
+                'width' : '2',
+                'bottom' : '2',
+                'left' : '2'
               }
             )
           label: PYTHON
@@ -17524,6 +17693,17 @@ paths:
             $merge_variables->name = "Harry";
 
 
+            $qr_code = new OpenAPI\Client\Model\QRCode(
+              array(
+                "position" => "relative",
+                "redirect_url" => "https://www.lob.com",
+                "width" => "2",
+                "bottom" => "2",
+                "left" => "2",
+              )
+            );
+
+
             $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new
             GuzzleHttp\Client());
 
@@ -17534,7 +17714,8 @@ paths:
                 "front"     => "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
                 "back"     => "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
                 "to"     => $to,
-                "merge_variables"     => $merge_variables,
+                "merge_variables"   => $merge_variables,
+                "qr_code"   => $qr_code,
               )
             );
 
@@ -17559,6 +17740,13 @@ paths:
             to.setAddressState("CA");
             to.setAddressZip("94107");
 
+            QRCode qrCode = new QRCode();
+            qrCode.setPosition("relative");
+            qrCode.setRedirectUrl("https://www.lob.com");
+            qrCode.setWidth("2");
+            qrCode.setLeft("2");
+            qrCode.setBottom("2");
+
             try {
               PostcardEditable postcardEditable = new PostcardEditable(); 
               postcardEditable.setDescription("Demo Postcard job");
@@ -17567,6 +17755,7 @@ paths:
               postcardEditable.setBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>");
               postcardEditable.setTo(to);
               postcardEditable.setMergeVariables(merge_variables);
+              postcardEditable.setQRCode(qrCode);
 
               Postcard result = apiInstance.create(postcardEditable, null);
             } catch (ApiException e) {
@@ -17590,6 +17779,13 @@ paths:
               back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
               merge_variables: %{
                 name: 'Harry'
+              },
+              qr_code: %{
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2',
+                bottom: '2',
+                left: '2'
               }
             })
           label: ELIXIR
@@ -17616,6 +17812,15 @@ paths:
             );
 
 
+            QRCode qrCode = new QRCode(
+              "relative",  //position,
+              "https://www.lob.com", //redirect_url
+              "2", //width
+              "2", //left
+              "2", //bottom
+            );
+
+
             PostcardEditable postcardEditable = new PostcardEditable(
               to.ToJson(),  // to
               "adr_249af768103d2810",  // from
@@ -17626,7 +17831,8 @@ paths:
               mergeVariables,  // mergeVariables
               default(DateTime),  // sendDate
               "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",  // front
-              "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>" // back
+              "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>", // back
+              qrCode
             );
 
 

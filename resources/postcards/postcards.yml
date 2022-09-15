@@ -193,6 +193,12 @@ post:
           metadata:
             spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
+          qr_code:
+            position: "relative"
+            redirect_url: "https://www.lob.com"
+            width: "2"
+            top: "2"
+            right: "2"
 
       application/x-www-form-urlencoded:
         schema:
@@ -232,6 +238,12 @@ post:
           metadata:
             spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
+          qr_code:
+            position: "relative"
+            redirect_url: "https://www.lob.com"
+            width: "2"
+            bottom: "2"
+            right: "2"
         encoding:
           to:
             style: deepObject
@@ -284,6 +296,12 @@ post:
           metadata:
             spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
+          qr_code:
+            position: "relative"
+            redirect_url: "https://www.lob.com"
+            width: "2"
+            bottom: "2"
+            left: "2"
 
   responses:
     "200":
@@ -307,7 +325,12 @@ post:
           -d 'from=adr_210a8d4b0b76d77b' \
           --data-urlencode 'front=<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>' \
           --data-urlencode 'back=<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>' \
-          -d 'merge_variables[name]=Harry'
+          -d 'merge_variables[name]=Harry' \
+          -d 'qr_code[position]=relative' \
+          -d 'qr_code[redirect_url]=https://www.lob.com' \
+          -d 'qr_code[width]=2' \
+          -d 'qr_code[bottom]=2' \
+          -d 'qr_code[left]=2'
       label: CURL
     - lang: Typescript
       source: |
@@ -323,7 +346,14 @@ post:
         from: 'adr_xxxx',
         front:
         'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
-        back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf'
+        back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
+        qr_code : {
+          position: 'relative',
+          redirect_url: 'https://www.lob.com',
+          width: '2',
+          bottom: '2',
+          left: '2'
+        }
         });
 
         try {
@@ -349,6 +379,13 @@ post:
           back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
           merge_variables: {
             name: 'Harry'
+          },
+          qr_code : {
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2',
+            bottom: '2',
+            left: '2'
           }
         }, function (err, res) {
           console.log(err, res);
@@ -371,6 +408,13 @@ post:
           back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
           merge_variables: {
             name: 'Harry'
+          },
+          qr_code : {
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2',
+            bottom: '2',
+            left: '2'
           }
         )
       label: RUBY
@@ -391,6 +435,13 @@ post:
           back = '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
           merge_variables = {
             'name': 'Harry'
+          },
+          qr_code = {
+            'position' : 'relative',
+            'redirect_url' : 'https://www.lob.com',
+            'width' : '2',
+            'bottom' : '2',
+            'left' : '2'
           }
         )
       label: PYTHON
@@ -410,6 +461,16 @@ post:
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
 
+        $qr_code = new OpenAPI\Client\Model\QRCode(
+          array(
+            "position" => "relative",
+            "redirect_url" => "https://www.lob.com",
+            "width" => "2",
+            "bottom" => "2",
+            "left" => "2",
+          )
+        );
+
         $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new GuzzleHttp\Client());
         $postcard_editable = new OpenAPI\Client\Model\PostcardEditable(
           array(
@@ -418,7 +479,8 @@ post:
             "front"     => "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
             "back"     => "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
             "to"     => $to,
-            "merge_variables"     => $merge_variables,
+            "merge_variables"   => $merge_variables,
+            "qr_code"   => $qr_code,
           )
         );
 
@@ -442,6 +504,13 @@ post:
         to.setAddressState("CA");
         to.setAddressZip("94107");
 
+        QRCode qrCode = new QRCode();
+        qrCode.setPosition("relative");
+        qrCode.setRedirectUrl("https://www.lob.com");
+        qrCode.setWidth("2");
+        qrCode.setLeft("2");
+        qrCode.setBottom("2");
+
         try {
           PostcardEditable postcardEditable = new PostcardEditable(); 
           postcardEditable.setDescription("Demo Postcard job");
@@ -450,6 +519,7 @@ post:
           postcardEditable.setBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>");
           postcardEditable.setTo(to);
           postcardEditable.setMergeVariables(merge_variables);
+          postcardEditable.setQRCode(qrCode);
 
           Postcard result = apiInstance.create(postcardEditable, null);
         } catch (ApiException e) {
@@ -473,6 +543,13 @@ post:
           back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
           merge_variables: %{
             name: 'Harry'
+          },
+          qr_code: %{
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2',
+            bottom: '2',
+            left: '2'
           }
         })
       label: ELIXIR
@@ -494,6 +571,14 @@ post:
           "Harry Zhang" // name
         );
 
+        QRCode qrCode = new QRCode(
+          "relative",  //position,
+          "https://www.lob.com", //redirect_url
+          "2", //width
+          "2", //left
+          "2", //bottom
+        );
+
         PostcardEditable postcardEditable = new PostcardEditable(
           to.ToJson(),  // to
           "adr_249af768103d2810",  // from
@@ -504,7 +589,8 @@ post:
           mergeVariables,  // mergeVariables
           default(DateTime),  // sendDate
           "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",  // front
-          "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>" // back
+          "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>", // back
+          qrCode
         );
 
         try {

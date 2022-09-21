@@ -197,6 +197,12 @@ post:
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
+          qr_code:
+            position: "relative"
+            redirect_url: "https://www.lob.com"
+            width: "2"
+            top: "2"
+            right: "2"
 
       application/x-www-form-urlencoded:
         schema:
@@ -238,6 +244,12 @@ post:
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
+          qr_code:
+            position: "relative"
+            redirect_url: "https://www.lob.com"
+            width: "2"
+            bottom: "2"
+            right: "2"
         encoding:
           to:
             style: deepObject
@@ -292,6 +304,12 @@ post:
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
+          qr_code:
+            position: "relative"
+            redirect_url: "https://www.lob.com"
+            width: "2"
+            bottom: "2"
+            left: "2"
 
   responses:
     "200":
@@ -316,7 +334,12 @@ post:
           --data-urlencode 'file=<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>' \
           -d 'merge_variables[name]=Harry' \
           -d 'color=true' \
-          -d 'cards[]=card_c51ae96f5cebf3e'
+          -d 'cards[]=card_c51ae96f5cebf3e' \
+          -d 'qr_code[position]=relative' \
+          -d 'qr_code[redirect_url]=https://www.lob.com' \
+          -d 'qr_code[width]=2' \
+          -d 'qr_code[bottom]=2' \
+          -d 'qr_code[left]=2'
       label: CURL
     - lang: Typescript
       source: |
@@ -332,7 +355,14 @@ post:
           from: 'adr_xxxx',
           color: true,
           extra_service: LetterEditableExtraServiceEnum.Certified,
-          file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf'
+          file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf',
+          qr_code : {
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2',
+            bottom: '2',
+            left: '2'
+          }
         });
 
         try {
@@ -359,7 +389,14 @@ post:
             name: 'Harry'
           },
           color: true,
-          cards: ['card_c51ae96f5cebf3e']
+          cards: ['card_c51ae96f5cebf3e'],
+          qr_code : {
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2',
+            bottom: '2',
+            left: '2'
+          }
         }, function (err, res) {
           console.log(err, res);
         });
@@ -382,7 +419,14 @@ post:
             name: 'Harry'
           },
           color: true,
-          cards: ['card_c51ae96f5cebf3e']
+          cards: ['card_c51ae96f5cebf3e'],
+          qr_code : {
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2',
+            bottom: '2',
+            left: '2'
+          }
         )
       label: RUBY
     - lang: Python
@@ -406,6 +450,13 @@ post:
           cards = [
             "card_c51ae96f5cebf3e",
           ],
+          qr_code = {
+            'position' : 'relative',
+            'redirect_url' : 'https://www.lob.com',
+            'width' : '2',
+            'bottom' : '2',
+            'left' : '2'
+          }
         )
 
         with ApiClient(configuration) as api_client:
@@ -429,6 +480,16 @@ post:
           )
         );
 
+        $qr_code = new OpenAPI\Client\Model\QRCode(
+          array(
+            "position" => "relative",
+            "redirect_url" => "https://www.lob.com",
+            "width" => "2",
+            "bottom" => "2",
+            "left" => "2",
+          )
+        );
+
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
 
@@ -445,6 +506,7 @@ post:
               "card_c51ae96f5cebf3e",
               "card_thingy",
             ),
+            "qr_code"   => $qr_code,
           )
         );
 
@@ -468,6 +530,13 @@ post:
         to.setAddressState("CA");
         to.setAddressZip("94107");
 
+        QRCode qrCode = new QRCode();
+        qrCode.setPosition("relative");
+        qrCode.setRedirectUrl("https://www.lob.com");
+        qrCode.setWidth("2");
+        qrCode.setLeft("2");
+        qrCode.setBottom("2");
+
         List<String> cards = new ArrayList<String>();
         cards.add("card_c51ae96f5cebf3e");
         cards.add("card_thingy");
@@ -481,6 +550,7 @@ post:
           letterEditable.setTo(to);
           letterEditable.setMergeVariables(merge_variables);
           letterEditable.setCards(cards);
+          letterEditable.setQRCode(qrCode);
 
           Letter result = apiInstance.create(letterEditable, null);
         } catch (ApiException e) {
@@ -505,7 +575,14 @@ post:
             name: 'Harry'
           },
           color: true,
-          cards: ['card_c51ae96f5cebf3e']
+          cards: ['card_c51ae96f5cebf3e'],
+          qr_code: %{
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2',
+            bottom: '2',
+            left: '2'
+          }
         })
       label: ELIXIR
     - lang: CSharp
@@ -524,6 +601,14 @@ post:
           default(CountryExtended),  // addressCounty
           null,  // description
           "Harry Zhang" // name
+        );
+
+        QRCode qrCode = new QRCode(
+          "relative",  //position,
+          "https://www.lob.com", //redirect_url
+          "2", //width
+          "2", //left
+          "2", //bottom
         );
 
         List<String> cards = new List<String>();
@@ -545,7 +630,8 @@ post:
           "adr_249af768103d2810",  // from
           "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",  // file
           default(LetterEditable.ExtraServiceEnum?),  // extraService
-          cards // cards
+          cards, // cards
+          qrCode
         );
 
         try {

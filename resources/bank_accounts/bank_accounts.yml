@@ -50,7 +50,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        lob.BankAccount.list(limit=2)
+        with ApiClient(configuration) as api_client:
+          api = BankAccountsApi(api_client)
+
+        try:
+          bank_accounts = api.list(limit=2)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -58,7 +64,7 @@ get:
 
         try {
             $result = $apiInstance->list(
-              2, // limit 
+              2, // limit
             );
         } catch (Exception $e) {
             echo $e->getMessage(), PHP_EOL;
@@ -225,13 +231,21 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.BankAccount.create(
-          description = 'Test Bank Account',
-          routing_number = '322271627',
-          account_number = '123456789',
-          signatory = 'John Doe',
-          account_type = 'company'
+        bank_account_writable = BankAccountWritable(
+          description = "Test Bank Account",
+          routing_number = "322271627",
+          account_number = "123456789",
+          signatory = "John Doe",
+          account_type = BankTypeEnum("company"),
         )
+
+        with ApiClient(configuration) as api_client:
+          api = BankAccountsApi(api_client)
+
+        try:
+          created_bank_account = api.create(bank_account_writable)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -256,7 +270,7 @@ post:
         BankAccountsApi apiInstance = new BankAccountsApi(config);
 
         try {
-          BankAccountWritable bankAccountWritable = new BankAccountWritable(); 
+          BankAccountWritable bankAccountWritable = new BankAccountWritable();
           bankAccountWritable.setDescription("Test Bank Account");
           bankAccountWritable.setRoutingNumber("322271627");
           bankAccountWritable.setAccountNumber("123456789");

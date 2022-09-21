@@ -93,7 +93,7 @@ post:
 
         try {
           const bulkVerified = await IntlVerifications.verifyBulk(addressList);
-            
+
         } catch (err: any) {
           console.error(err);
         }
@@ -130,29 +130,47 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.BulkIntlVerification.create(
-          addresses=[
-            {
-              'primary_line' = '370 Water St',
-              'secondary_line' = '',
-              'city' = 'Summerside',
-              'state'= 'Prince Edward Island',
-              'postal_code' = 'C1N 1C4',
-              'country' = 'CA'
-            }
-          ]
+        with ApiClient(configuration) as api_client:
+          api = IntlVerificationsApi(api_client)
+
+        verification_data_0 = MultipleComponentsIntl(
+          primary_line = "35 Tower Hill",
+          city = "London",
+          postal_code = "EC3N 4DR",
+          country = CountryExtended("GB"),
         )
+
+        verification_data_1 = MultipleComponentsIntl(
+          primary_line = "370 Water St",
+          city = "Summerside",
+          state = "Prince Edward Island",
+          postal_code = "C1N 1C4",
+          country = CountryExtended("CA"),
+        )
+
+
+        address_list = IntlVerificationsPayload(
+          addresses = [
+            verification_data_0,
+            verification_data_1,
+          ],
+        )
+
+        try:
+          bulk_verified = api.verifyBulk(address_list)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
-        $verificationData0 = new OpenAPI\Client\Model\MultipleComponentsIntl(array( 
+        $verificationData0 = new OpenAPI\Client\Model\MultipleComponentsIntl(array(
           'primary_line'     => '35 Tower Hill',
           'city'     => 'London',
           'postal_code'     => 'EC3N 4DR',
           'country'     => 'GB',
         ));
 
-        $verificationData1 = new OpenAPI\Client\Model\MultipleComponentsIntl(array( 
+        $verificationData1 = new OpenAPI\Client\Model\MultipleComponentsIntl(array(
           'primary_line'     => '370 Water St',
           'city'     => 'Summerside',
           'state'     => 'Prince Edward Island',

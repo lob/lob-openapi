@@ -86,3 +86,17 @@ patch:
           -u <YOUR API KEY>: \
           -d "description=Our updated 4x6 postcard creative"
       label: CURL
+    - lang: Python
+      source: |
+        creative_patch = CreativePatch(
+          description = "Our updated 4x6 postcard creative",
+        )
+
+        with ApiClient(configuration) as api_client:
+          api = CreativesApi(api_client)
+
+        try:
+          updated_creative = api.update("crv_2a3b096c409b32c", creative_patch)
+        except ApiException as e:
+          print(e)
+      label: PYTHON

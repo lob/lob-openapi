@@ -72,10 +72,18 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.USZipLookup.create(
-          zip_code='94107'
+        with ApiClient(configuration) as api_client:
+          api = ZipLookupsApi(api_client)
+
+        zip_request = ZipEditable(
+          zip_code = "94107"
         )
-      label: Python
+
+        try:
+          zip_lookup = api.lookup(zip_request)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
     - lang: PHP
       source: |
         $apiInstance = new OpenAPI\Client\Api\ZipLookupsApi($config, new GuzzleHttp\Client());

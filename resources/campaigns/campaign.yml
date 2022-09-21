@@ -86,6 +86,20 @@ patch:
           -u <YOUR API KEY>: \
           -d "description=Awesome campaign"
       label: CURL
+    - lang: Python
+      source: |
+        campaign_updatable = CampaignUpdatable(
+          description = "Awesome campaign",
+        )
+
+        with ApiClient(configuration) as api_client:
+          api = CampaignsApi(api_client)
+
+        try:
+          updated_campaign = api.update("cmp_e05ee61ff80764b", campaign_updatable)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
 
 delete:
   operationId: campaign_delete

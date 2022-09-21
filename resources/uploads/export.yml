@@ -40,3 +40,13 @@ get:
         curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9/exports/ex_6a94fe68fd151e0f8 \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = UploadsApi(api_client)
+
+        try:
+          retrieved_export = api.get_export("upl_71be866e430b11e9", "ex_6a94fe68fd151e0f8")
+        except ApiException as e:
+          print(e)
+      label: PYTHON

@@ -93,11 +93,19 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        lob.ReverseGeocodeLookups.create(
-          latitude= 37.7749,
-          longitude= 122.4194
+        with ApiClient(configuration) as api_client:
+          api = ReverseGeocodeLookupsApi(api_client)
+
+        coordinates = Location(
+          latitude = 37.777456,
+          longitude = -122.393039,
         )
-      label: Python
+
+        try:
+          geocode = api.lookup(coordinates)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
     - lang: PHP
       source: |
         $apiInstance = new OpenAPI\Client\Api\ReverseGeocodeLookupsApi($config, new GuzzleHttp\Client());

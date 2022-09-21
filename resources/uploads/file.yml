@@ -45,3 +45,13 @@ post:
           -u <YOUR API KEY>: \
           -F file=@<YOUR FILE NAME HERE>
       label: CURL
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = UploadsApi(api_client)
+
+        try:
+          res = api.upload_file("upl_71be866e430b11e9", open("<PATH_TO_CSV>", "rb"))
+        except ApiException as e:
+          print(e)
+      label: PYTHON

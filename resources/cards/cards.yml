@@ -46,7 +46,13 @@ get:
       label: NODE
     - lang: Python
       source: |
-        lob.Card.list(limit=2)
+        with ApiClient(configuration) as api_client:
+          api = CardsApi(api_client)
+
+        try:
+          cards = api.list(limit=2)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -159,12 +165,20 @@ post:
       label: NODE
     - lang: Python
       source: |
-        lob.Card.create(
-          description = 'Test card',
-          front = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-          back = 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf',
-          size = '2.125x3.375'
+        card_editable = CardEditable(
+          front = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          back = "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          size = "2.125x3.375",
+          description = "Test Card",
         )
+
+        with ApiClient(configuration) as api_client:
+          api = CardsApi(api_client)
+
+        try:
+          created_card = api.create(card_editable)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |

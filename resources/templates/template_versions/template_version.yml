@@ -57,7 +57,13 @@ get:
       label: RUBY
     - lang: Python
       source: |
-        This feature is not currently supported by this library.
+        with ApiClient(configuration) as api_client:
+          api = TemplateVersionsApi(api_client)
+
+        try:
+          template_version = api.get("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -162,7 +168,17 @@ post:
       label: RUBY
     - lang: Python
       source: |
-        This feature is not currently supported by this library.
+        with ApiClient(configuration) as api_client:
+          api = TemplateVersionsApi(api_client)
+
+        update_data = TemplateVersionUpdatable(
+          description = "updated template"
+        )
+
+        try:
+          update_template_version = api.update("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282", update_data)
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -239,7 +255,13 @@ delete:
       label: RUBY
     - lang: Python
       source: |
-        This feature is not currently supported by this library.
+        with ApiClient(configuration) as api_client:
+          api = TemplateVersionsApi(api_client)
+
+        try:
+          deleted_resource = api.delete("tmpl_4aa14648113e45b", "vrsn_534e339882d2282")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |

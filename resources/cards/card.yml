@@ -49,7 +49,13 @@ get:
       label: NODE
     - lang: Python
       source: |
-        lob.Card.retrieve('card_7a6d73c5c8457fc')
+        with ApiClient(configuration) as api_client:
+          api = CardsApi(api_client)
+
+        try:
+          card = api.get("card_7a6d73c5c8457fc")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |
@@ -152,6 +158,22 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Python
+      source: |
+        card_updatable = CardUpdatable(
+          description = "Awesome card",
+          auto_reorder = True,
+          reorder_quantity = 10000,
+        )
+
+        with ApiClient(configuration) as api_client:
+          api = CardsApi(api_client)
+
+        try:
+          updated_card = api.update("card_6afffd19045076c", card_updatable)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
 
 delete:
   operationId: card_delete
@@ -194,7 +216,13 @@ delete:
       label: NODE
     - lang: Python
       source: |
-        lob.Card.delete('card_7a6d73c5c8457fc')
+        with ApiClient(configuration) as api_client:
+          api = CardsApi(api_client)
+
+        try:
+          deleted_resource = api.delete("card_6afffd19045076c")
+        except ApiException as e:
+          print(e)
       label: PYTHON
     - lang: PHP
       source: |

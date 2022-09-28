@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.12.0
+  version: 1.13.0
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -5817,9 +5817,240 @@ components:
       title: Campaign id
       description: Unique identifier prefixed with `cmp_`.
       pattern: ^cmp_[a-zA-Z0-9]+$
-    campaign:
+    mail_type:
+      type: string
+      enum:
+        - usps_first_class
+        - usps_standard
+      description: >
+        A string designating the mail postage type:
+
+        * `usps_first_class` - (default)
+
+        * `usps_standard` - a <a
+        href="https://lob.com/pricing/print-mail#compare"
+        target="_blank">cheaper option</a> which is
+
+        less predictable and takes longer to deliver. `usps_standard` cannot be
+        used with `4x6`
+
+        postcards or for any postcards sent outside of the United States.
+      default: usps_first_class
+    postcard_size:
+      type: string
+      enum:
+        - 4x6
+        - 6x9
+        - 6x11
+      description: >
+        Specifies the size of the postcard. Only `4x6` postcards can be sent to
+        international destinations.
+      default: 4x6
+    returned:
+      description: Properties that the postcards in your Creative should have.
+      properties:
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        size:
+          $ref: '#/components/schemas/postcard_size'
+        front_original_url:
+          description: The original URL of the `front` template.
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+        back_original_url:
+          description: The original URL of the `back` template.
+          maxLength: 2083
+          minLength: 1
+          type: string
+          format: uri
+    inline_address_us:
       allOf:
-        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/address_editable_us'
+        - type: object
+          required:
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
+    from_attribute:
+      title: From
+      description: >-
+        Must either be an address ID or an inline object with correct address
+        parameters. All addresses will be standardized into uppercase without
+        being modified by verification.
+      oneOf:
+        - $ref: '#/components/schemas/adr_id'
+        - $ref: '#/components/schemas/inline_address_us'
+    creative_base:
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/from_attribute'
+        description:
+          $ref: '#/components/schemas/resource_description'
+        metadata:
+          $ref: '#/components/schemas/metadata'
+    address_placement:
+      type: string
+      enum:
+        - top_first_page
+        - insert_blank_page
+        - bottom_first_page_center
+        - bottom_first_page
+      description: >
+        Specifies the location of the address information that will show through
+        the double-window envelope. To see how this will impact your letter
+        design, view our letter template.
+
+        Some values are exclusive to certain customers. Upgrade to the
+        appropriate <a href="https://dashboard.lob.com/#/settings/editions"
+        target="_blank">Print & Mail Edition</a> to gain access.
+          * `top_first_page` - (default) print address information at the top of your provided first page
+          * `insert_blank_page` - insert a blank address page at the beginning of your file (you will be charged for the extra page)
+          * `bottom_first_page_center` - **(exclusive, deprecation planned within a few months)** print address information at the bottom center of your provided first page
+          * `bottom_first_page` - **(exclusive)** print address information at the bottom of your provided first page
+      default: top_first_page
+    card_id:
+      type: string
+      description: Unique identifier prefixed with `card_`.
+      pattern: ^card_[a-zA-Z0-9]+$
+    color:
+      type: boolean
+      description: >-
+        Set this key to `true` if you would like to print in color. Set to
+        `false` if you would like to print in black and white.
+    double_sided:
+      type: boolean
+      description: >-
+        Set this attribute to `true` for double sided printing, or `false` for
+        for single sided printing. Defaults to `true`.
+      default: true
+    extra_service:
+      type: string
+      enum:
+        - certified
+        - certified_return_receipt
+        - registered
+        - null
+      description: >
+        Add an extra service to your letter. Can only be non-`null` if
+        `mail_type` isn't `usps_standard`. See <a
+        href="https://www.lob.com/pricing/print-mail#compare"
+        target="_blank">pricing</a> for extra costs incurred.
+          * `certified` - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf" target="_blank">#10 envelope</a> and <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf" target="_blank">flat envelope</a> (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
+          * `certified_return_receipt` - request an electronic copy of the recipient's signature to prove delivery of your certified letter
+          * `registered` - provides tracking and confirmation for international addresses
+      nullable: true
+    return_envelope_returned:
+      oneOf:
+        - type: boolean
+        - type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the Return Envelope.
+        alias:
+          type: string
+          description: A quick reference name for the Return Envelope.
+        url:
+          type: string
+          description: The url of the return envelope.
+        object:
+          type: string
+          description: Value is resource type.
+    custom_envelope_returned:
+      type: object
+      description: >-
+        A nested custom envelope object containing more information about the
+        custom envelope used or `null` if a custom envelope was not used.
+      required:
+        - id
+        - url
+        - object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the custom envelope used.
+          maxLength: 40
+        url:
+          type: string
+          description: The url of the envelope asset used.
+        object:
+          type: string
+          enum:
+            - envelope
+          default: envelope
+      nullable: true
+    letter_details_returned:
+      description: Properties that the letters in your Creative should have.
+      properties:
+        address_placement:
+          $ref: '#/components/schemas/address_placement'
+        cards:
+          description: >-
+            A single-element array containing an existing card id in a string
+            format. See [cards](#tag/Cards) for more information.
+          type: array
+          items:
+            $ref: '#/components/schemas/card_id'
+          minItems: 0
+          maxItems: 1
+          nullable: true
+        color:
+          $ref: '#/components/schemas/color'
+        double_sided:
+          $ref: '#/components/schemas/double_sided'
+        extra_service:
+          $ref: '#/components/schemas/extra_service'
+        file_original_url:
+          description: The original URL of the `file` template.
+          type: string
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        return_envelope:
+          $ref: '#/components/schemas/return_envelope_returned'
+        custom_envelope:
+          $ref: '#/components/schemas/custom_envelope_returned'
+    returned_resource:
+      oneOf:
+        - allOf:
+            - title: Postcard Creative
+              required:
+                - resource_type
+                - details
+              properties:
+                resource_type:
+                  type: string
+                  description: Mailpiece type for the creative
+                  enum:
+                    - postcard
+                details:
+                  $ref: '#/components/schemas/returned'
+            - $ref: '#/components/schemas/creative_base'
+        - allOf:
+            - title: Letter Creative
+              required:
+                - from
+                - resource_type
+                - details
+              properties:
+                resource_type:
+                  type: string
+                  description: Mailpiece type for the creative
+                  enum:
+                    - letter
+                details:
+                  $ref: '#/components/schemas/letter_details_returned'
+            - $ref: '#/components/schemas/creative_base'
+    crv_id:
+      type: string
+      description: Unique identifier prefixed with `crv_`.
+      pattern: ^crv_[a-zA-Z0-9]+$
+      example: crv_2a3b096c409b32c
+    campaign_item:
+      allOf:
         - $ref: '#/components/schemas/campaign_writable'
         - type: object
           required:
@@ -5852,6 +6083,257 @@ components:
                 A single-element array containing the upload object that is
                 assocated with this campaign.
               type: array
+              minItems: 0
+              maxItems: 1
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - campaign
+              default: campaign
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            deleted:
+              $ref: '#/components/schemas/deleted'
+    campaign_list:
+      type: array
+      description: Array of campaigns associated with the creative ID
+      items:
+        $ref: '#/components/schemas/campaign_item'
+      example:
+        - id: cmp_ed76e33e7ac4d0bd
+          name: My postman Campaign 2
+          description: Created via postman again
+          schedule_type: immediate
+          send_date: null
+          target_delivery_date: null
+          cancel_window_campaign_minutes: null
+          metadata: {}
+          use_type: null
+          is_draft: true
+          deleted: false
+          creatives: []
+          uploads: []
+          auto_cancel_if_ncoa: false
+          date_created: '2022-07-26T20:20:25.016Z'
+          date_modified: '2022-07-26T20:20:25.016Z'
+          object: campaign
+    creative:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/returned_resource'
+        - type: object
+          required:
+            - id
+            - description
+            - from
+            - resource_type
+            - details
+            - metadata
+            - template_preview_urls
+            - template_previews
+            - campaigns
+            - date_created
+            - date_modified
+            - object
+            - deleted
+          properties:
+            deleted:
+              type: boolean
+              description: Whether the resource has been deleted.
+            id:
+              $ref: '#/components/schemas/crv_id'
+            template_preview_urls:
+              title: Template Preview URLs
+              type: object
+              description: >-
+                Preview URLs associated with a creative's artwork asset(s) if
+                the creative uses HTML templates as assets. An empty object will
+                be returned if no `template_preview`s have been generated.
+            template_previews:
+              title: Template Previews
+              type: array
+              items:
+                type: object
+              description: >-
+                A list of template preview objects if the creative uses HTML
+                template(s) as artwork asset(s). An empty array will be returned
+                if no `template_preview`s have been generated for the creative.
+            campaigns:
+              $ref: '#/components/schemas/campaign_list'
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - creative
+              default: creative
+    column_mapping:
+      title: Column Mapping
+      type: object
+      example:
+        name: recipient_name
+        address_line1: primary_line
+      description: >-
+        The mapping of column headers in your file to Lob-required fields for
+        the resource created. See our <a
+        href="https://help.lob.com/best-practices/campaign-audience-guide"
+        target="_blank">Campaign Audience Guide</a> for additional details.
+    upload_writable:
+      type: object
+      required:
+        - campaignId
+        - columnMapping
+      properties:
+        campaignId:
+          allOf:
+            - $ref: '#/components/schemas/cmp_id'
+            - description: Associated Campaign ID
+              type: string
+              example: cmp_1933ad629bae1408
+        columnMapping:
+          $ref: '#/components/schemas/column_mapping'
+    upl_id:
+      type: string
+      description: Unique identifier prefixed with `upl_`.
+      pattern: ^upl_[a-zA-Z0-9]+$
+    upload_state:
+      title: Upload State
+      enum:
+        - Preprocessing
+        - Draft
+        - Ready for Validation
+        - Validating
+        - Scheduled
+        - Cancelled
+        - Errored
+      default: Draft
+      type: string
+      description: >-
+        The `state` property on the `upload` object. As the file is processed,
+        the `state` will change from `Ready for Validation` to `Validating` and
+        then will be either `Scheduled` (successfully processed) or `Errored`
+        (Unsuccessfully processed).
+    upload:
+      allOf:
+        - $ref: '#/components/schemas/upload_writable'
+        - type: object
+          required:
+            - id
+            - accountId
+            - campaignId
+            - columnMapping
+            - mode
+            - state
+            - totalMailpieces
+            - failedMailpieces
+            - validatedMailpieces
+            - bytesProcessed
+            - dateCreated
+            - dateModified
+          properties:
+            id:
+              $ref: '#/components/schemas/upl_id'
+            accountId:
+              title: Account ID
+              type: string
+              description: Account ID that made the request
+              example: fa9ea650fc7b31a89f92
+            mode:
+              enum:
+                - test
+                - live
+              type: string
+              description: >-
+                The environment in which the mailpieces were created. Today,
+                will only be `live`.
+            failuresUrl:
+              title: Failures URL
+              type: string
+              example: https://www.example.com
+              description: Url where your campaign mailpiece failures can be retrieved
+            originalFilename:
+              title: Original Filename
+              type: string
+              example: my_audience.csv
+              description: Filename of the upload
+            state:
+              $ref: '#/components/schemas/upload_state'
+            totalMailpieces:
+              title: Total Mailpieces
+              type: integer
+              example: 100
+              description: Total number of recipients for the campaign
+            failedMailpieces:
+              title: Failed Mailpieces
+              type: integer
+              example: 5
+              description: Number of mailpieces that failed to create
+            validatedMailpieces:
+              title: Validated Mailpieces
+              type: integer
+              example: 95
+              description: Number of mailpieces that were successfully created
+            bytesProcessed:
+              title: Bytes Processed
+              type: integer
+              example: 17268
+              description: Number of bytes processed in your CSV
+            dateCreated:
+              title: Date Created
+              type: string
+              format: date-time
+              description: >-
+                A timestamp in ISO 8601 format of the date the upload was
+                created
+            dateModified:
+              title: Date Modified
+              type: string
+              format: date-time
+              description: >-
+                A timestamp in ISO 8601 format of the date the upload was last
+                modified
+    campaign:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/campaign_writable'
+        - type: object
+          required:
+            - id
+            - name
+            - description
+            - schedule_type
+            - use_type
+            - is_draft
+            - creatives
+            - uploads
+            - auto_cancel_if_ncoa
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/cmp_id'
+            is_draft:
+              description: Whether or not the campaign is still a draft.
+              type: boolean
+              default: true
+            creatives:
+              description: >-
+                An array of creatives that have been associated with this
+                campaign.
+              type: array
+              items:
+                $ref: '#/components/schemas/creative'
+              minItems: 0
+            uploads:
+              description: >-
+                A single-element array containing the upload object that is
+                assocated with this campaign.
+              type: array
+              items:
+                $ref: '#/components/schemas/upload'
               minItems: 0
               maxItems: 1
             object:
@@ -5915,10 +6397,6 @@ components:
             - 2.125x3.375
           type: string
           default: 2.125x3.375
-    card_id:
-      type: string
-      description: Unique identifier prefixed with `card_`.
-      pattern: ^card_[a-zA-Z0-9]+$
     thumbnail:
       type: object
       properties:
@@ -6147,25 +6625,6 @@ components:
       anyOf:
         - format: date-time
         - format: date
-    mail_type:
-      type: string
-      enum:
-        - usps_first_class
-        - usps_standard
-      description: >
-        A string designating the mail postage type:
-
-        * `usps_first_class` - (default)
-
-        * `usps_standard` - a <a
-        href="https://lob.com/pricing/print-mail#compare"
-        target="_blank">cheaper option</a> which is
-
-        less predictable and takes longer to deliver. `usps_standard` cannot be
-        used with `4x6`
-
-        postcards or for any postcards sent outside of the United States.
-      default: usps_first_class
     merge_variables:
       type: object
       description: >-
@@ -6445,15 +6904,6 @@ components:
               $ref: '#/components/schemas/date_modified'
             deleted:
               $ref: '#/components/schemas/deleted'
-    inline_address_us:
-      allOf:
-        - $ref: '#/components/schemas/address_editable_us'
-        - type: object
-          required:
-            - address_line1
-            - address_city
-            - address_state
-            - address_zip
     check_input_to:
       type: object
       properties:
@@ -6672,16 +7122,6 @@ components:
         - $ref: '#/components/schemas/tmpl_id'
         - $ref: '#/components/schemas/remote_file_url'
         - $ref: '#/components/schemas/local_file_path'
-    postcard_size:
-      type: string
-      enum:
-        - 4x6
-        - 6x9
-        - 6x11
-      description: >
-        Specifies the size of the postcard. Only `4x6` postcards can be sent to
-        international destinations.
-      default: 4x6
     writable:
       description: Properties that the postcards in your Creative should have.
       required:
@@ -6691,71 +7131,6 @@ components:
           $ref: '#/components/schemas/mail_type'
         size:
           $ref: '#/components/schemas/postcard_size'
-    from_attribute:
-      title: From
-      description: >-
-        Must either be an address ID or an inline object with correct address
-        parameters. All addresses will be standardized into uppercase without
-        being modified by verification.
-      oneOf:
-        - $ref: '#/components/schemas/adr_id'
-        - $ref: '#/components/schemas/inline_address_us'
-    creative_base:
-      type: object
-      properties:
-        from:
-          $ref: '#/components/schemas/from_attribute'
-        description:
-          $ref: '#/components/schemas/resource_description'
-        metadata:
-          $ref: '#/components/schemas/metadata'
-    address_placement:
-      type: string
-      enum:
-        - top_first_page
-        - insert_blank_page
-        - bottom_first_page_center
-        - bottom_first_page
-      description: >
-        Specifies the location of the address information that will show through
-        the double-window envelope. To see how this will impact your letter
-        design, view our letter template.
-
-        Some values are exclusive to certain customers. Upgrade to the
-        appropriate <a href="https://dashboard.lob.com/#/settings/editions"
-        target="_blank">Print & Mail Edition</a> to gain access.
-          * `top_first_page` - (default) print address information at the top of your provided first page
-          * `insert_blank_page` - insert a blank address page at the beginning of your file (you will be charged for the extra page)
-          * `bottom_first_page_center` - **(exclusive, deprecation planned within a few months)** print address information at the bottom center of your provided first page
-          * `bottom_first_page` - **(exclusive)** print address information at the bottom of your provided first page
-      default: top_first_page
-    color:
-      type: boolean
-      description: >-
-        Set this key to `true` if you would like to print in color. Set to
-        `false` if you would like to print in black and white.
-    double_sided:
-      type: boolean
-      description: >-
-        Set this attribute to `true` for double sided printing, or `false` for
-        for single sided printing. Defaults to `true`.
-      default: true
-    extra_service:
-      type: string
-      enum:
-        - certified
-        - certified_return_receipt
-        - registered
-        - null
-      description: >
-        Add an extra service to your letter. Can only be non-`null` if
-        `mail_type` isn't `usps_standard`. See <a
-        href="https://www.lob.com/pricing/print-mail#compare"
-        target="_blank">pricing</a> for extra costs incurred.
-          * `certified` - track and confirm delivery for domestic destinations. An extra sheet (1 PDF page single-sided or 2 PDF pages double-sided) is added to the beginning of your letter for address and barcode information. See here for templates: <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_template.pdf" target="_blank">#10 envelope</a> and <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_certified_flat_template.pdf" target="_blank">flat envelope</a> (used for letters over 6 pages single-sided or 12 pages double-sided). You will not be charged for this extra sheet.
-          * `certified_return_receipt` - request an electronic copy of the recipient's signature to prove delivery of your certified letter
-          * `registered` - provides tracking and confirmation for international addresses
-      nullable: true
     user_provided:
       oneOf:
         - type: boolean
@@ -6900,251 +7275,6 @@ components:
                 file:
                   $ref: '#/components/schemas/file'
             - $ref: '#/components/schemas/creative_base'
-    returned:
-      description: Properties that the postcards in your Creative should have.
-      properties:
-        mail_type:
-          $ref: '#/components/schemas/mail_type'
-        size:
-          $ref: '#/components/schemas/postcard_size'
-        front_original_url:
-          description: The original URL of the `front` template.
-          maxLength: 2083
-          minLength: 1
-          type: string
-          format: uri
-        back_original_url:
-          description: The original URL of the `back` template.
-          maxLength: 2083
-          minLength: 1
-          type: string
-          format: uri
-    return_envelope_returned:
-      oneOf:
-        - type: boolean
-        - type: object
-      properties:
-        id:
-          type: string
-          description: The unique ID of the Return Envelope.
-        alias:
-          type: string
-          description: A quick reference name for the Return Envelope.
-        url:
-          type: string
-          description: The url of the return envelope.
-        object:
-          type: string
-          description: Value is resource type.
-    custom_envelope_returned:
-      type: object
-      description: >-
-        A nested custom envelope object containing more information about the
-        custom envelope used or `null` if a custom envelope was not used.
-      required:
-        - id
-        - url
-        - object
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the custom envelope used.
-          maxLength: 40
-        url:
-          type: string
-          description: The url of the envelope asset used.
-        object:
-          type: string
-          enum:
-            - envelope
-          default: envelope
-      nullable: true
-    letter_details_returned:
-      description: Properties that the letters in your Creative should have.
-      properties:
-        address_placement:
-          $ref: '#/components/schemas/address_placement'
-        cards:
-          description: >-
-            A single-element array containing an existing card id in a string
-            format. See [cards](#tag/Cards) for more information.
-          type: array
-          items:
-            $ref: '#/components/schemas/card_id'
-          minItems: 0
-          maxItems: 1
-          nullable: true
-        color:
-          $ref: '#/components/schemas/color'
-        double_sided:
-          $ref: '#/components/schemas/double_sided'
-        extra_service:
-          $ref: '#/components/schemas/extra_service'
-        file_original_url:
-          description: The original URL of the `file` template.
-          type: string
-        mail_type:
-          $ref: '#/components/schemas/mail_type'
-        return_envelope:
-          $ref: '#/components/schemas/return_envelope_returned'
-        custom_envelope:
-          $ref: '#/components/schemas/custom_envelope_returned'
-    returned_resource:
-      oneOf:
-        - allOf:
-            - title: Postcard Creative
-              required:
-                - resource_type
-                - details
-              properties:
-                resource_type:
-                  type: string
-                  description: Mailpiece type for the creative
-                  enum:
-                    - postcard
-                details:
-                  $ref: '#/components/schemas/returned'
-            - $ref: '#/components/schemas/creative_base'
-        - allOf:
-            - title: Letter Creative
-              required:
-                - from
-                - resource_type
-                - details
-              properties:
-                resource_type:
-                  type: string
-                  description: Mailpiece type for the creative
-                  enum:
-                    - letter
-                details:
-                  $ref: '#/components/schemas/letter_details_returned'
-            - $ref: '#/components/schemas/creative_base'
-    crv_id:
-      type: string
-      description: Unique identifier prefixed with `crv_`.
-      pattern: ^crv_[a-zA-Z0-9]+$
-      example: crv_2a3b096c409b32c
-    campaign_item:
-      allOf:
-        - $ref: '#/components/schemas/campaign_writable'
-        - type: object
-          required:
-            - id
-            - name
-            - description
-            - schedule_type
-            - use_type
-            - is_draft
-            - creatives
-            - uploads
-            - auto_cancel_if_ncoa
-            - date_created
-            - date_modified
-            - object
-          properties:
-            id:
-              $ref: '#/components/schemas/cmp_id'
-            is_draft:
-              description: Whether or not the campaign is still a draft.
-              type: boolean
-              default: true
-            creatives:
-              description: >-
-                An array of creatives that have been associated with this
-                campaign.
-              type: array
-            uploads:
-              description: >-
-                A single-element array containing the upload object that is
-                assocated with this campaign.
-              type: array
-              minItems: 0
-              maxItems: 1
-            object:
-              type: string
-              description: Value is resource type.
-              enum:
-                - campaign
-              default: campaign
-            date_created:
-              $ref: '#/components/schemas/date_created'
-            date_modified:
-              $ref: '#/components/schemas/date_modified'
-            deleted:
-              $ref: '#/components/schemas/deleted'
-    campaign_list:
-      type: array
-      description: Array of campaigns associated with the creative ID
-      items:
-        $ref: '#/components/schemas/campaign_item'
-      example:
-        - id: cmp_ed76e33e7ac4d0bd
-          name: My postman Campaign 2
-          description: Created via postman again
-          schedule_type: immediate
-          send_date: null
-          target_delivery_date: null
-          cancel_window_campaign_minutes: null
-          metadata: {}
-          use_type: null
-          is_draft: true
-          deleted: false
-          creatives: []
-          uploads: []
-          auto_cancel_if_ncoa: false
-          date_created: '2022-07-26T20:20:25.016Z'
-          date_modified: '2022-07-26T20:20:25.016Z'
-          object: campaign
-    creative:
-      allOf:
-        - $ref: '#/components/schemas/lob_base'
-        - $ref: '#/components/schemas/returned_resource'
-        - type: object
-          required:
-            - id
-            - description
-            - from
-            - resource_type
-            - details
-            - metadata
-            - template_preview_urls
-            - template_previews
-            - campaigns
-            - date_created
-            - date_modified
-            - object
-            - deleted
-          properties:
-            deleted:
-              type: boolean
-              description: Whether the resource has been deleted.
-            id:
-              $ref: '#/components/schemas/crv_id'
-            template_preview_urls:
-              title: Template Preview URLs
-              type: object
-              description: >-
-                Preview URLs associated with a creative's artwork asset(s) if
-                the creative uses HTML templates as assets. An empty object will
-                be returned if no `template_preview`s have been generated.
-            template_previews:
-              title: Template Previews
-              type: array
-              items:
-                type: object
-              description: >-
-                A list of template preview objects if the creative uses HTML
-                template(s) as artwork asset(s). An empty array will be returned
-                if no `template_preview`s have been generated for the creative.
-            campaigns:
-              $ref: '#/components/schemas/campaign_list'
-            object:
-              type: string
-              description: Value is resource type.
-              enum:
-                - creative
-              default: creative
     recipient_input:
       allOf:
         - anyOf:
@@ -8535,138 +8665,11 @@ components:
           $ref: '#/components/schemas/metadata'
         engine:
           $ref: '#/components/schemas/engine'
-    column_mapping:
-      title: Column Mapping
-      type: object
-      example:
-        name: recipient_name
-        address_line1: primary_line
-      description: >-
-        The mapping of column headers in your file to Lob-required fields for
-        the resource created. See our <a
-        href="https://help.lob.com/best-practices/campaign-audience-guide"
-        target="_blank">Campaign Audience Guide</a> for additional details.
-    upload_writable:
-      type: object
-      required:
-        - campaignId
-        - columnMapping
-      properties:
-        campaignId:
-          allOf:
-            - $ref: '#/components/schemas/cmp_id'
-            - description: Associated Campaign ID
-              type: string
-              example: cmp_1933ad629bae1408
-        columnMapping:
-          $ref: '#/components/schemas/column_mapping'
-    upl_id:
-      type: string
-      description: Unique identifier prefixed with `upl_`.
-      pattern: ^upl_[a-zA-Z0-9]+$
-    upload_state:
-      title: Upload State
-      enum:
-        - Preprocessing
-        - Draft
-        - Ready for Validation
-        - Validating
-        - Scheduled
-        - Cancelled
-        - Errored
-      default: Draft
-      type: string
-      description: >-
-        The `state` property on the `upload` object. As the file is processed,
-        the `state` will change from `Ready for Validation` to `Validating` and
-        then will be either `Scheduled` (successfully processed) or `Errored`
-        (Unsuccessfully processed).
-    upload:
-      allOf:
-        - $ref: '#/components/schemas/upload_writable'
-        - type: object
-          required:
-            - id
-            - accountId
-            - campaignId
-            - columnMapping
-            - mode
-            - state
-            - totalMailpieces
-            - failedMailpieces
-            - validatedMailpieces
-            - bytesProcessed
-            - dateCreated
-            - dateModified
-          properties:
-            id:
-              $ref: '#/components/schemas/upl_id'
-            accountId:
-              title: Account ID
-              type: string
-              description: Account ID that made the request
-              example: fa9ea650fc7b31a89f92
-            mode:
-              enum:
-                - test
-                - live
-              type: string
-              description: >-
-                The environment in which the mailpieces were created. Today,
-                will only be `live`.
-            failuresUrl:
-              title: Failures URL
-              type: string
-              example: https://www.example.com
-              description: Url where your campaign mailpiece failures can be retrieved
-            originalFilename:
-              title: Original Filename
-              type: string
-              example: my_audience.csv
-              description: Filename of the upload
-            state:
-              $ref: '#/components/schemas/upload_state'
-            totalMailpieces:
-              title: Total Mailpieces
-              type: integer
-              example: 100
-              description: Total number of recipients for the campaign
-            failedMailpieces:
-              title: Failed Mailpieces
-              type: integer
-              example: 5
-              description: Number of mailpieces that failed to create
-            validatedMailpieces:
-              title: Validated Mailpieces
-              type: integer
-              example: 95
-              description: Number of mailpieces that were successfully created
-            bytesProcessed:
-              title: Bytes Processed
-              type: integer
-              example: 17268
-              description: Number of bytes processed in your CSV
-            dateCreated:
-              title: Date Created
-              type: string
-              format: date-time
-              description: >-
-                A timestamp in ISO 8601 format of the date the upload was
-                created
-            dateModified:
-              title: Date Modified
-              type: string
-              format: date-time
-              description: >-
-                A timestamp in ISO 8601 format of the date the upload was last
-                modified
     upload_updatable:
       type: object
       properties:
         columnMapping:
           $ref: '#/components/schemas/column_mapping'
-        state:
-          $ref: '#/components/schemas/upload_state'
         originalFilename:
           title: Original Filename
           type: string
@@ -13999,6 +14002,54 @@ paths:
           source: >
             curl -X DELETE https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b
             \
+              -u <YOUR API KEY>:
+          label: CURL
+  /campaigns/{cmp_id}/send:
+    parameters:
+      - in: path
+        name: cmp_id
+        description: id of the campaign
+        required: true
+        schema:
+          $ref: '#/components/schemas/cmp_id'
+    post:
+      operationId: campaign_send
+      summary: Send Campaign
+      description: >-
+        Sends a campaign. You need only supply the unique campaign identifier
+        that was returned upon campaign creation.
+      tags:
+        - Campaigns
+      responses:
+        '200':
+          description: Returns a campaign object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/campaign'
+              example:
+                id: cmp_e05ee61ff80764b
+                billing_group_id: bg_fe3079dcdd80e5ae
+                name: My Campaign
+                description: My Campaign's description
+                schedule_type: immediate
+                cancel_window_campaign_minutes: 60
+                metadata: {}
+                use_type: marketing
+                is_draft: true
+                deleted: false
+                creatives: []
+                uploads: []
+                auto_cancel_if_ncoa: false
+                date_created: '2017-09-05T17:47:53.767Z'
+                date_modified: '2017-09-05T17:47:53.767Z'
+                object: campaign
+        default:
+          $ref: '#/components/responses/campaigns_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b/send \
               -u <YOUR API KEY>:
           label: CURL
   /cards:

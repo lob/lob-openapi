@@ -1,0 +1,35 @@
+parameters:
+  - in: path
+    name: cmp_id
+    description: id of the campaign
+    required: true
+    schema:
+      $ref: "attributes/cmp_id.yml"
+
+post:
+  operationId: campaign_send
+
+  summary: Send Campaign
+
+  description: >-
+    Sends a campaign. You need only supply
+    the unique campaign identifier that was returned upon campaign creation.
+
+  tags:
+    - Campaigns
+
+  responses:
+    "200":
+      description: Returns a campaign object
+      content:
+        $ref: "responses/campaign.yml"
+
+    default:
+      $ref: "responses/campaigns_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b/send \
+          -u <YOUR API KEY>:
+      label: CURL

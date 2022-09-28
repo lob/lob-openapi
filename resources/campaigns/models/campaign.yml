@@ -30,10 +30,15 @@ allOf:
       creatives:
         description: An array of creatives that have been associated with this campaign.
         type: array
+        items:
+          $ref: "../../creatives/models/creative.yml"
+        minItems: 0
 
       uploads:
         description: A single-element array containing the upload object that is assocated with this campaign.
         type: array
+        items:
+          $ref: "../../uploads/models/upload.yml"
         minItems: 0
         maxItems: 1
 

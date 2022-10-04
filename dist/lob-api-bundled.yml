@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.14.0
+  version: 1.14.1
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -2146,10 +2146,6 @@ tags:
           <td style="white-space: nowrap">TrueType</td>
         </tr>
         <tr>
-          <td style="white-space: nowrap"><code>Candara-Bold</code></td>
-          <td style="white-space: nowrap">TrueType</td>
-        </tr>
-        <tr>
           <td style="white-space: nowrap"><code>Courier</code></td>
           <td style="white-space: nowrap">Type 1</td>
         </tr>
@@ -2254,19 +2250,11 @@ tags:
           <td style="white-space: nowrap">TrueType</td>
         </tr>
         <tr>
-          <td style="white-space: nowrap"><code>TrebuchetMS</code></td>
-          <td style="white-space: nowrap">TrueType</td>
-        </tr>
-        <tr>
           <td style="white-space: nowrap"><code>Verdana</code></td>
           <td style="white-space: nowrap">TrueType</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>Verdana-Bold</code></td>
-          <td style="white-space: nowrap">TrueType</td>
-        </tr>
-        <tr>
-          <td style="white-space: nowrap"><code>Verdana,Bold</code></td>
           <td style="white-space: nowrap">TrueType</td>
         </tr>
         <tr>
@@ -6370,9 +6358,10 @@ components:
         metadata:
           $ref: '#/components/schemas/metadata'
         is_draft:
-          description: Whether or not the campaign is still a draft.
+          description: >-
+            Whether or not the campaign is still a draft. Can either be excluded
+            or `false`.
           type: boolean
-          default: true
         use_type:
           $ref: '#/components/schemas/cmp_use_type'
         auto_cancel_if_ncoa:

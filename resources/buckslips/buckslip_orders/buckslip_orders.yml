@@ -1,0 +1,177 @@
+parameters:
+  - in: path
+    name: buckslip_id
+    description: The ID of the buckslip to which the buckslip orders belong.
+    required: true
+    schema:
+      $ref: "../../../shared/attributes/model_ids/buckslip_id.yml"
+
+get:
+  operationId: buckslip_orders_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the buckslip orders associated with the given buckslip id.
+
+  tags:
+    - Buckslip Orders
+
+  parameters:
+    - $ref: "../../../shared/parameters/limit.yml"
+    - $ref: "../../../shared/parameters/offset.yml"
+
+  responses:
+    "200":
+      description: Returns the buckslip orders associated with the given buckslip id
+      content:
+        $ref: "responses/all_buckslip_orders.yml"
+
+    default:
+      $ref: "../../../shared/responses/buckslip_order_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/buckslips/bck_6afffd19045076c/orders/ \
+          -u <YOUR API KEY>:
+      label: CURL
+    # - lang: Typescript
+    #   source: |
+    #     try {
+    #       const buckslipOrders = await new BuckslipOrdersApi(cofig).get( 'bo_xxxx' );
+    #     } catch (err: any) {
+    #       console.error(err);
+    #     }
+    #   label: TYPESCRIPT
+    # - lang: Javascript
+    #   source: |
+    #     Lob.buckslipOrders.list('bck_6afffd19045076c', function (err, res) {
+    #       console.log(err, res);
+    #     });
+    #   label: NODE
+    # - lang: Python
+    #   source: |
+    #     with ApiClient(configuration) as api_client:
+    #       api = BuckslipOrdersApi(api_client)
+
+    #     try:
+    #       buckslip_order = api.get("bck_6afffd19045076c", limit = 2, offset = 1)
+    #     except ApiException as e:
+    #       print(e)
+    #   label: PYTHON
+    # - lang: PHP
+    #   source: |
+    #     $lob->buckslipOrders('bck_6afffd19045076c')->all();
+    # - lang: CSharp
+    #   source: |
+    #     BuckslipOrdersApi api = new BuckslipOrdersApi(config);
+
+    #     try {
+    #       BuckslipOrderList response = api.get("bck_6afffd19045076c", 2, 1);
+    #     } catch (ApiException e) {
+    #       Console.WriteLine(e.ToString());
+    #     }
+    #   label: CSHARP
+
+post:
+  operationId: buckslip_order_create
+
+  summary: Create
+
+  description: >-
+    Creates a new buckslip order given information
+
+  tags:
+    - Buckslip Orders
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/buckslip_order_editable.yml"
+        example:
+          quantity: 10000
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/buckslip_order_editable.yml"
+        example:
+          quantity: 10000
+
+      multipart/form-data:
+        schema:
+          $ref: "models/buckslip_order_editable.yml"
+        example:
+          quantity: 10000
+
+  responses:
+    "200":
+      description: Buckslip order created successfully
+      content:
+        $ref: "responses/buckslip_order.yml"
+
+    default:
+      $ref: "../../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/buckslips/bck_6afffd19045076c/orders \
+          -u <YOUR API KEY>: \
+          -d "quantity=10000"
+      label: CURL
+    # - lang: Typescript
+    #   source: |
+    #     const buckslipForCreate = new BuckslipOrderEditable({
+    #       quantity: 200
+    #     });
+
+    #     try {
+    #       const myBuckslipOrder = await new BuckslipOrdersApi(config).create('bck_xxxx', buckslipForCreate);
+    #     } catch (err: any) {
+    #       console.error(err);
+    #     }
+    #   label: TYPESCRIPT
+    # - lang: Javascript
+    #   source: |
+    #     Lob.buckslipOrders.create('bck_6afffd19045076c', {
+    #       quantity: 10000
+    #     }, function (err, res) {
+    #       console.log(err, res);
+    #     });
+    #   label: NODE
+    # - lang: Python
+    #   source: |
+    #     buckslip_order_editable = BuckslipOrderEditable(
+    #       quantity = 10000,
+    #     )
+
+    #     with ApiClient(configuration) as api_client:
+    #       api = BuckslipOrdersApi(api_client)
+
+    #     try:
+    #       created_buckslip_order = api.create("bck_6afffd19045076c", buckslip_order_editable)
+    #     except ApiException as e:
+    #       print(e)
+    #   label: PYTHON
+    # - lang: PHP
+    #   source: |
+    #     $lob->buckslipOrders('bck_6afffd19045076c')->create(array(
+    #       'quantity'           => 10000
+    #     ));
+    # - lang: CSharp
+    #   source: |
+    #     BuckslipOrdersApi api = new BuckslipOrdersApi(config);
+
+    #     BuckslipOrderEditable buckslipOrderEditable = new BuckslipOrderEditable(
+    #       10000 // quantity
+    #     );
+
+    #     try {
+    #       BuckslipOrder result = api.create("bck_6afffd19045076c", buckslipOrderEditable);
+    #     } catch (ApiException e) {
+    #       Console.WriteLine(e.ToString());
+    #     }
+    #   label: CSHARP

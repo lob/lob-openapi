@@ -1,0 +1,36 @@
+allOf:
+  - $ref: "../../../../shared/models/lob_base.yml"
+  - type: object
+    properties:
+      id:
+        $ref: "../../../../shared/attributes/model_ids/bo_id.yml"
+      buckslip_id:
+        $ref: "../../../../shared/attributes/model_ids/buckslip_id.yml"
+      status:
+        description: The status of the buckslip order.
+        enum:
+          - pending
+          - printing
+          - available
+          - cancelled
+          - depleted
+        type: string
+      quantity_ordered:
+        description: The quantity of buckslips ordered
+        type: number
+        default: 0
+      unit_price:
+        description: The unit price for the buckslip order.
+        type: number
+        default: 0
+      cancelled_reason:
+        description: The reason for cancellation.
+        type: string
+      availability_date:
+        type: string
+        format: date-time
+        description: A timestamp in ISO 8601 format of the date the resource was created.
+      expected_availability_date:
+        type: string
+        format: date-time
+        description: The fixed deadline for the buckslips to be printed.

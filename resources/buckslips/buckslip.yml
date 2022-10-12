@@ -1,0 +1,240 @@
+parameters:
+  - in: path
+    name: buckslip_id
+    description: id of the buckslip
+    required: true
+    schema:
+      $ref: "../../shared/attributes/model_ids/buckslip_id.yml"
+
+get:
+  operationId: buckslip_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing buckslip. You need only supply
+    the unique customer identifier that was returned upon buckslip creation.
+
+  tags:
+    - Buckslips
+
+  responses:
+    "200":
+      description: Returns a buckslip object
+      content:
+        $ref: "responses/buckslip.yml"
+
+    default:
+      $ref: "../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/buckslips/bck_7a6d73c5c8457fc \
+          -u <YOUR API KEY>:
+      label: CURL
+    # - lang: Typescript
+    #   source: |
+    #     try {
+    #       const buckslip = await new BuckslipsApi(config).get('bck_xxxx');
+    #     } catch (err: any) {
+    #       console.error(err);
+    #     }
+    #   label: TYPESCRIPT
+    # - lang: Javascript
+    #   source: |
+    #     Lob.buckslips.retrieve('bck_7a6d73c5c8457fc', function (err, res) {
+    #       console.log(err, res);
+    #     });
+    #   label: NODE
+    # - lang: Python
+    #   source: |
+    #     with ApiClient(configuration) as api_client:
+    #       api = BuckslipsApi(api_client)
+
+    #     try:
+    #       buckslip = api.get("bck_7a6d73c5c8457fc")
+    #     except ApiException as e:
+    #       print(e)
+    #   label: PYTHON
+    # - lang: PHP
+    #   source: |
+    #     $lob->buckslips()->get('bck_7a6d73c5c8457fc');
+    #   label: PHP
+    # - lang: CSharp
+    #   source: |
+    #     BuckslipsApi api = new BuckslipsApi(config);
+
+    #     try {
+    #       Buckslip response = api.get("bck_7a6d73c5c8457fc");
+    #     } catch (ApiException e) {
+    #       Console.WriteLine(e.ToString());
+    #     }
+    #   label: CSHARP
+
+patch:
+  operationId: buckslip_update
+
+  summary: Update
+
+  description: >-
+    Update the details of an existing buckslip. You need only supply
+    the unique identifier that was returned upon buckslip creation.
+
+  tags:
+    - Buckslips
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/buckslip_updatable.yml"
+        example:
+          description: Test buckslip
+          auto_reorder: true
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/buckslip_updatable.yml"
+        example:
+          description: Test buckslip
+          auto_reorder: true
+
+      multipart/form-data:
+        schema:
+          $ref: "models/buckslip_updatable.yml"
+        example:
+          description: Test buckslip
+          auto_reorder: true
+
+  responses:
+    "200":
+      description: Returns a buckslip object
+      content:
+        $ref: "responses/buckslip.yml"
+
+    default:
+      $ref: "../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X PATCH https://api.lob.com/v1/buckslips/bck_7a6d73c5c8457fc \
+          -u <YOUR API KEY>: \
+          -d "description=Awesome buckslip" \
+          -d "auto_reorder=true"
+      label: CURL
+    # - lang: Typescript
+    #   source: |
+    #     const buckslipUpdatable =  new BuckslipEditable ({
+    #       description: 'Awesome buckslip',
+    #       auto_reorder: true
+    #     });
+
+    #     try {
+    #       await new BuckslipsApi(config).update(buckslipUpdatable);
+    #     } catch (err: any) {
+    #       console.error(err);
+    #     }
+    #   label: TYPESCRIPT
+    # - lang: Javascript
+    #   source: |
+    #     Lob.buckslips.update('bck_7a6d73c5c8457fc', {
+    #       description: 'Awesome buckslip',
+    #       auto_reorder: true
+    #     }, function (err, res) {
+    #       console.log(err, res);
+    #     });
+    #   label: NODE
+    # - lang: CSharp
+    #   source: |
+    #     BuckslipsApi api = new BuckslipsApi(config);
+    #     BuckslipUpdatable update = new BuckslipUpdatable("Awesome buckslip", true, 15000);
+
+    #     try {
+    #       api.update("bck_6afffd19045076c", update);
+    #     } catch (ApiException e) {
+    #       Console.WriteLine(e.ToString());
+    #     }
+    #   label: CSHARP
+    # - lang: Python
+    #   source: |
+    #     buckslip_updatable = BuckslipUpdatable(
+    #       description = "Awesome buckslip",
+    #       auto_reorder = True,
+    #       reorder_quantity = 10000,
+    #     )
+
+    #     with ApiClient(configuration) as api_client:
+    #       api = BuckslipsApi(api_client)
+
+    #     try:
+    #       updated_buckslip = api.update("bck_6afffd19045076c", buckslip_updatable)
+    #     except ApiException as e:
+    #       print(e)
+    #   label: PYTHON
+
+delete:
+  operationId: buckslip_delete
+
+  summary: Delete
+
+  description: >-
+    Delete an existing buckslip. You need only supply
+    the unique identifier that was returned upon buckslip creation.
+
+  tags:
+    - Buckslips
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/buckslip_deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X DELETE https://api.lob.com/v1/buckslips/bck_7a6d73c5c8457fc \
+          -u <YOUR API KEY>:
+      label: CURL
+    # - lang: Typescript
+    #   source: |
+    #     try {
+    #       const deleteBuckslip = await new BuckslipsApi(config).delete('bck_xxxx');
+    #     } catch (err: any) {
+    #       console.error(err);
+    #     }
+    #   label: TYPESCRIPT
+    # - lang: Javascript
+    #   source: |
+    #     Lob.buckslips.delete('bck_7a6d73c5c8457fc', function (err, res) {
+    #       console.log(err, res);
+    #     });
+    #   label: NODE
+    # - lang: Python
+    #   source: |
+    #     with ApiClient(configuration) as api_client:
+    #       api = BuckslipsApi(api_client)
+
+    #     try:
+    #       deleted_resource = api.delete("bck_6afffd19045076c")
+    #     except ApiException as e:
+    #       print(e)
+    #   label: PYTHON
+    # - lang: PHP
+    #   source: |
+    #     $lob->buckslips()->delete('bck_7a6d73c5c8457fc');
+    #   label: PHP
+    # - lang: CSharp
+    #   source: |
+    #     BuckslipsApi api = new BuckslipsApi(config);
+
+    #     try {
+    #       BuckslipDeletion response = api.delete("bck_6afffd19045076c");
+    #     } catch (ApiException e) {
+    #       Console.WriteLine(e.ToString());
+    #     }
+    #   label: CSHARP

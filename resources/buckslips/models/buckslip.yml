@@ -15,7 +15,7 @@ allOf:
       - front_original_url
       - back_original_url
       - thumbnails
-      # - buckslip_orders
+      - buckslip_orders
       - stock
       - weight
       - finish
@@ -65,6 +65,12 @@ allOf:
         type: array
         items:
           $ref: "../../../shared/models/thumbnail.yml"
+      buckslip_orders:
+        description: An array of buckslip orders that are associated with the buckslip.
+        type: array
+        items:
+          $ref: "../buckslip_orders/models/buckslip_order.yml"
+        minItems: 0
       stock:
         title: The stock of the buckslip.
         enum:

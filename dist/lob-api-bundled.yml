@@ -6453,6 +6453,49 @@ components:
           $ref: '#/components/schemas/signed_link'
         large:
           $ref: '#/components/schemas/signed_link'
+    bo_id:
+      type: string
+      description: Unique identifier prefixed with `bo_`.
+      pattern: ^bo_[a-zA-Z0-9]+$
+    buckslip_order:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/bo_id'
+            buckslip_id:
+              $ref: '#/components/schemas/buckslip_id'
+            status:
+              description: The status of the buckslip order.
+              enum:
+                - pending
+                - printing
+                - available
+                - cancelled
+                - depleted
+              type: string
+            quantity_ordered:
+              description: The quantity of buckslips ordered
+              type: number
+              default: 0
+            unit_price:
+              description: The unit price for the buckslip order.
+              type: number
+              default: 0
+            cancelled_reason:
+              description: The reason for cancellation.
+              type: string
+            availability_date:
+              type: string
+              format: date-time
+              description: >-
+                A timestamp in ISO 8601 format of the date the resource was
+                created.
+            expected_availability_date:
+              type: string
+              format: date-time
+              description: The fixed deadline for the buckslips to be printed.
     buckslip:
       allOf:
         - $ref: '#/components/schemas/lob_base'
@@ -6470,6 +6513,7 @@ components:
             - front_original_url
             - back_original_url
             - thumbnails
+            - buckslip_orders
             - stock
             - weight
             - finish
@@ -6518,6 +6562,14 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/thumbnail'
+            buckslip_orders:
+              description: >-
+                An array of buckslip orders that are associated with the
+                buckslip.
+              type: array
+              items:
+                $ref: '#/components/schemas/buckslip_order'
+              minItems: 0
             stock:
               title: The stock of the buckslip.
               enum:
@@ -6599,49 +6651,6 @@ components:
           type: number
           minimum: 5000
           maximum: 10000000
-    bo_id:
-      type: string
-      description: Unique identifier prefixed with `bo_`.
-      pattern: ^bo_[a-zA-Z0-9]+$
-    buckslip_order:
-      allOf:
-        - $ref: '#/components/schemas/lob_base'
-        - type: object
-          properties:
-            id:
-              $ref: '#/components/schemas/bo_id'
-            buckslip_id:
-              $ref: '#/components/schemas/buckslip_id'
-            status:
-              description: The status of the buckslip order.
-              enum:
-                - pending
-                - printing
-                - available
-                - cancelled
-                - depleted
-              type: string
-            quantity_ordered:
-              description: The quantity of buckslips ordered
-              type: number
-              default: 0
-            unit_price:
-              description: The unit price for the buckslip order.
-              type: number
-              default: 0
-            cancelled_reason:
-              description: The reason for cancellation.
-              type: string
-            availability_date:
-              type: string
-              format: date-time
-              description: >-
-                A timestamp in ISO 8601 format of the date the resource was
-                created.
-            expected_availability_date:
-              type: string
-              format: date-time
-              description: The fixed deadline for the buckslips to be printed.
     buckslip_order_editable:
       type: object
       required:

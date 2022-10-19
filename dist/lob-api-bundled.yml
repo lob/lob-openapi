@@ -6268,6 +6268,16 @@ components:
       properties:
         address_placement:
           $ref: '#/components/schemas/address_placement'
+        buckslips:
+          description: >-
+            A single-element array containing an existing buckslip id in a
+            string format. See [buckslips](#tag/Buckslips) for more information.
+          type: array
+          items:
+            $ref: '#/components/schemas/buckslip_id'
+          minItems: 0
+          maxItems: 1
+          nullable: true
         cards:
           description: >-
             A single-element array containing an existing card id in a string
@@ -7430,6 +7440,16 @@ components:
       properties:
         address_placement:
           $ref: '#/components/schemas/address_placement'
+        buckslips:
+          description: >-
+            A single-element array containing an existing buckslip id in a
+            string format. See [buckslips](#tag/Buckslips) for more information.
+          type: array
+          items:
+            $ref: '#/components/schemas/buckslip_id'
+          minItems: 0
+          maxItems: 1
+          nullable: true
         cards:
           description: >-
             A single-element array containing an existing card id in a string
@@ -7990,6 +8010,12 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/card'
+              nullable: true
+            buckslips:
+              description: An array of buckslip(s) associated with a specific letter
+              type: array
+              items:
+                $ref: '#/components/schemas/buckslip'
               nullable: true
             return_address:
               $ref: '#/components/schemas/return_address'

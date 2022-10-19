@@ -2513,6 +2513,15 @@ paths:
   /billing_groups:
     $ref: resources/billing_groups/billing_groups.yml
 
+  /buckslips:
+    $ref: resources/buckslips/buckslips.yml
+
+  /buckslips/{buckslip_id}:
+    $ref: resources/buckslips/buckslip.yml
+
+  /buckslips/{buckslip_id}/orders:
+    $ref: resources/buckslips/buckslip_orders/buckslip_orders.yml
+
   /bulk/us_verifications:
     $ref: resources/bulk_us_verifications/bulk_us_verifications.yml
 
@@ -2527,15 +2536,6 @@ paths:
 
   /campaigns/{cmp_id}/send:
     $ref: resources/campaigns/send.yml
-
-  /buckslips:
-    $ref: resources/buckslips/buckslips.yml
-
-  /buckslips/{buckslip_id}:
-    $ref: resources/buckslips/buckslip.yml
-
-  /buckslips/{buckslip_id}/orders:
-    $ref: resources/buckslips/buckslip_orders/buckslip_orders.yml
 
   /cards:
     $ref: resources/cards/cards.yml

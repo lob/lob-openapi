@@ -9,6 +9,15 @@ writable:
     address_placement:
       $ref: "../../letters/attributes/address_placement.yml"
 
+    buckslips:
+      description: A single-element array containing an existing buckslip id in a string format. See [buckslips](#tag/Buckslips) for more information.
+      type: array
+      items:
+        $ref: "../../../shared/attributes/model_ids/buckslip_id.yml"
+      minItems: 0
+      maxItems: 1
+      nullable: true
+
     cards:
       description: A single-element array containing an existing card id in a string format. See [cards](#tag/Cards) for more information.
       type: array
@@ -46,6 +55,15 @@ returned:
   properties:
     address_placement:
       $ref: "../../letters/attributes/address_placement.yml"
+
+    buckslips:
+      description: A single-element array containing an existing buckslip id in a string format. See [buckslips](#tag/Buckslips) for more information.
+      type: array
+      items:
+        $ref: "../../../shared/attributes/model_ids/buckslip_id.yml"
+      minItems: 0
+      maxItems: 1
+      nullable: true
 
     cards:
       description: A single-element array containing an existing card id in a string format. See [cards](#tag/Cards) for more information.

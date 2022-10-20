@@ -1,0 +1,115 @@
+parameters:
+  - in: path
+    name: buckslip_id
+    description: id of the buckslip
+    required: true
+    schema:
+      $ref: "../../shared/attributes/model_ids/buckslip_id.yml"
+
+get:
+  operationId: buckslip_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing buckslip. You need only supply
+    the unique customer identifier that was returned upon buckslip creation.
+
+  tags:
+    - Buckslips
+
+  responses:
+    "200":
+      description: Returns a buckslip object
+      content:
+        $ref: "responses/buckslip.yml"
+
+    default:
+      $ref: "../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/buckslips/bck_7a6d73c5c8457fc \
+          -u <YOUR API KEY>:
+      label: CURL
+
+patch:
+  operationId: buckslip_update
+
+  summary: Update
+
+  description: >-
+    Update the details of an existing buckslip. You need only supply
+    the unique identifier that was returned upon buckslip creation.
+
+  tags:
+    - Buckslips
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/buckslip_updatable.yml"
+        example:
+          description: Test buckslip
+          auto_reorder: true
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/buckslip_updatable.yml"
+        example:
+          description: Test buckslip
+          auto_reorder: true
+
+      multipart/form-data:
+        schema:
+          $ref: "models/buckslip_updatable.yml"
+        example:
+          description: Test buckslip
+          auto_reorder: true
+
+  responses:
+    "200":
+      description: Returns a buckslip object
+      content:
+        $ref: "responses/buckslip.yml"
+
+    default:
+      $ref: "../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X PATCH https://api.lob.com/v1/buckslips/bck_7a6d73c5c8457fc \
+          -u <YOUR API KEY>: \
+          -d "description=Awesome buckslip" \
+          -d "auto_reorder=true"
+      label: CURL
+
+delete:
+  operationId: buckslip_delete
+
+  summary: Delete
+
+  description: >-
+    Delete an existing buckslip. You need only supply
+    the unique identifier that was returned upon buckslip creation.
+
+  tags:
+    - Buckslips
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/buckslip_deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X DELETE https://api.lob.com/v1/buckslips/bck_7a6d73c5c8457fc \
+          -u <YOUR API KEY>:
+      label: CURL

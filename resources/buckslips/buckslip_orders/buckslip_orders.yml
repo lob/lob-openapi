@@ -1,0 +1,87 @@
+parameters:
+  - in: path
+    name: buckslip_id
+    description: The ID of the buckslip to which the buckslip orders belong.
+    required: true
+    schema:
+      $ref: "../../../shared/attributes/model_ids/buckslip_id.yml"
+
+get:
+  operationId: buckslip_orders_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the buckslip orders associated with the given buckslip id.
+
+  tags:
+    - Buckslip Orders
+
+  parameters:
+    - $ref: "../../../shared/parameters/limit.yml"
+    - $ref: "../../../shared/parameters/offset.yml"
+
+  responses:
+    "200":
+      description: Returns the buckslip orders associated with the given buckslip id
+      content:
+        $ref: "responses/all_buckslip_orders.yml"
+
+    default:
+      $ref: "../../../shared/responses/buckslip_order_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/buckslips/bck_6afffd19045076c/orders/ \
+          -u <YOUR API KEY>:
+      label: CURL
+
+post:
+  operationId: buckslip_order_create
+
+  summary: Create
+
+  description: >-
+    Creates a new buckslip order given information
+
+  tags:
+    - Buckslip Orders
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/buckslip_order_editable.yml"
+        example:
+          quantity: 10000
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/buckslip_order_editable.yml"
+        example:
+          quantity: 10000
+
+      multipart/form-data:
+        schema:
+          $ref: "models/buckslip_order_editable.yml"
+        example:
+          quantity: 10000
+
+  responses:
+    "200":
+      description: Buckslip order created successfully
+      content:
+        $ref: "responses/buckslip_order.yml"
+
+    default:
+      $ref: "../../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/buckslips/bck_6afffd19045076c/orders \
+          -u <YOUR API KEY>: \
+          -d "quantity=10000"
+      label: CURL

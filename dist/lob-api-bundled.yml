@@ -159,6 +159,26 @@ tags:
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
       top</a></div>
+  - name: Buckslip Orders
+    description: >
+      The buckslip orders endpoint allows you to easily create buckslip orders
+      for existing buckslips.
+
+      The API provides endpoints for creating buckslip orders and listing
+      buckslip orders for a given buckslip.
+
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
+      top</a></div>
+  - name: Buckslips
+    description: >
+      The buckslips endpoint allows you to easily create buckslips that can
+      later be affixed to Letters.
+
+      The API provides endpoints for creating buckslips, retrieving individual
+      buckslips, creating buckslip orders, and retrieving a list of buckslips.
+
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
+      top</a></div>
   - name: Bulk Intl Verifications
     description: >
       Verify a list of non-US addresses.
@@ -3313,6 +3333,8 @@ x-tagGroups:
   - name: Special Features
     tags:
       - Billing Groups
+      - Buckslips
+      - Buckslip Orders
       - Cards
       - Card Orders
   - name: Appendix
@@ -4846,6 +4868,243 @@ components:
         - $ref: '#/components/schemas/billing_group_base'
         - required:
             - name
+    buckslip_description:
+      type: string
+      description: Description of the buckslip.
+      maxLength: 255
+      nullable: true
+    buckslip_base:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/buckslip_description'
+        size:
+          description: The size of the buckslip
+          enum:
+            - 8.75x3.75
+          type: string
+          default: 8.75x3.75
+    buckslip_id:
+      type: string
+      description: Unique identifier prefixed with `bck_`.
+      pattern: ^bck_[a-zA-Z0-9]+$
+    thumbnail:
+      type: object
+      properties:
+        small:
+          $ref: '#/components/schemas/signed_link'
+        medium:
+          $ref: '#/components/schemas/signed_link'
+        large:
+          $ref: '#/components/schemas/signed_link'
+    bo_id:
+      type: string
+      description: Unique identifier prefixed with `bo_`.
+      pattern: ^bo_[a-zA-Z0-9]+$
+    buckslip_order:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          properties:
+            id:
+              $ref: '#/components/schemas/bo_id'
+            buckslip_id:
+              $ref: '#/components/schemas/buckslip_id'
+            status:
+              description: The status of the buckslip order.
+              enum:
+                - pending
+                - printing
+                - available
+                - cancelled
+                - depleted
+              type: string
+            quantity_ordered:
+              description: The quantity of buckslips ordered
+              type: number
+              default: 0
+            unit_price:
+              description: The unit price for the buckslip order.
+              type: number
+              default: 0
+            cancelled_reason:
+              description: The reason for cancellation.
+              type: string
+            availability_date:
+              type: string
+              format: date-time
+              description: >-
+                A timestamp in ISO 8601 format of the date the resource was
+                created.
+            expected_availability_date:
+              type: string
+              format: date-time
+              description: The fixed deadline for the buckslips to be printed.
+    buckslip:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - $ref: '#/components/schemas/buckslip_base'
+        - required:
+            - description
+        - type: object
+          required:
+            - id
+            - auto_reorder
+            - reorder_quantity
+            - threshold_amount
+            - url
+            - raw_url
+            - front_original_url
+            - back_original_url
+            - thumbnails
+            - buckslip_orders
+            - stock
+            - weight
+            - finish
+            - status
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/buckslip_id'
+            auto_reorder:
+              description: True if the buckslips should be auto-reordered.
+              type: boolean
+              default: false
+            reorder_quantity:
+              description: The number of buckslips to be reordered.
+              type: integer
+              nullable: true
+            threshold_amount:
+              description: The threshold amount of the buckslip
+              type: integer
+              default: 0
+            url:
+              description: The signed link for the buckslip.
+              maxLength: 2083
+              minLength: 1
+              type: string
+              format: uri
+            raw_url:
+              description: The raw URL of the buckslip.
+              maxLength: 2083
+              minLength: 1
+              type: string
+              format: uri
+            front_original_url:
+              description: The original URL of the front template.
+              maxLength: 2083
+              minLength: 1
+              type: string
+              format: uri
+            back_original_url:
+              description: The original URL of the back template.
+              maxLength: 2083
+              minLength: 1
+              type: string
+              format: uri
+            thumbnails:
+              type: array
+              items:
+                $ref: '#/components/schemas/thumbnail'
+            buckslip_orders:
+              description: >-
+                An array of buckslip orders that are associated with the
+                buckslip.
+              type: array
+              items:
+                $ref: '#/components/schemas/buckslip_order'
+              minItems: 0
+            stock:
+              title: The stock of the buckslip.
+              enum:
+                - text
+                - cover
+              type: string
+            weight:
+              title: The weight of the buckslip.
+              enum:
+                - 80#
+              type: string
+            finish:
+              title: The finish of the buckslip.
+              enum:
+                - gloss
+                - matte
+              type: string
+            status:
+              title: The status of the buckslip.
+              enum:
+                - processed
+                - rendered
+              type: string
+            object:
+              description: object
+              enum:
+                - buckslip
+              type: string
+              default: buckslip
+    remote_file_url:
+      type: string
+      description: >
+        The location of a remote file. Remote URLs have a 20 MB file size limit
+        and must be downloaded within 40 seconds.
+      pattern: ^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$
+    local_file_path:
+      type: string
+      description: The path to a local file.
+      pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$
+    buckslip_editable:
+      allOf:
+        - $ref: '#/components/schemas/buckslip_base'
+        - type: object
+          required:
+            - front
+          properties:
+            front:
+              description: A PDF template for the front of the buckslip
+              oneOf:
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+            back:
+              description: A PDF template for the back of the buckslip
+              oneOf:
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+    buckslip_deletion:
+      description: >-
+        Lob uses RESTful HTTP response codes to indicate success or failure of
+        an API request. In general, 2xx indicates success, 4xx indicate an input
+        error, and 5xx indicates an error on Lob's end.
+      properties:
+        id:
+          $ref: '#/components/schemas/buckslip_id'
+        deleted:
+          $ref: '#/components/schemas/deleted'
+    buckslip_updatable:
+      type: object
+      properties:
+        description:
+          $ref: '#/components/schemas/buckslip_description'
+        auto_reorder:
+          description: Allows for auto reordering
+          type: boolean
+        reorder_quantity:
+          description: >-
+            The quantity of items to be reordered (only required when
+            auto_reorder is true).
+          type: number
+          minimum: 5000
+          maximum: 10000000
+    buckslip_order_editable:
+      type: object
+      required:
+        - quantity
+      properties:
+        quantity:
+          type: integer
+          description: The quantity of buckslips in the order (minimum 5,000).
+          minimum: 5000
+          maximum: 10000000
     recipient:
       type: string
       description: The intended recipient, typically a person's or firm's name.
@@ -6009,6 +6268,16 @@ components:
       properties:
         address_placement:
           $ref: '#/components/schemas/address_placement'
+        buckslips:
+          description: >-
+            A single-element array containing an existing buckslip id in a
+            string format. See [buckslips](#tag/Buckslips) for more information.
+          type: array
+          items:
+            $ref: '#/components/schemas/buckslip_id'
+          minItems: 0
+          maxItems: 1
+          nullable: true
         cards:
           description: >-
             A single-element array containing an existing card id in a string
@@ -6419,15 +6688,6 @@ components:
             - 2.125x3.375
           type: string
           default: 2.125x3.375
-    thumbnail:
-      type: object
-      properties:
-        small:
-          $ref: '#/components/schemas/signed_link'
-        medium:
-          $ref: '#/components/schemas/signed_link'
-        large:
-          $ref: '#/components/schemas/signed_link'
     card:
       allOf:
         - $ref: '#/components/schemas/lob_base'
@@ -6520,16 +6780,6 @@ components:
                 - card
               type: string
               default: card
-    remote_file_url:
-      type: string
-      description: >
-        The location of a remote file. Remote URLs have a 20 MB file size limit
-        and must be downloaded within 40 seconds.
-      pattern: ^https://[-a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$
-    local_file_path:
-      type: string
-      description: The path to a local file.
-      pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf|png|jpg)$
     card_editable:
       allOf:
         - $ref: '#/components/schemas/card_base'
@@ -7190,6 +7440,16 @@ components:
       properties:
         address_placement:
           $ref: '#/components/schemas/address_placement'
+        buckslips:
+          description: >-
+            A single-element array containing an existing buckslip id in a
+            string format. See [buckslips](#tag/Buckslips) for more information.
+          type: array
+          items:
+            $ref: '#/components/schemas/buckslip_id'
+          minItems: 0
+          maxItems: 1
+          nullable: true
         cards:
           description: >-
             A single-element array containing an existing card id in a string
@@ -7750,6 +8010,12 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/card'
+              nullable: true
+            buckslips:
+              description: An array of buckslip(s) associated with a specific letter
+              type: array
+              items:
+                $ref: '#/components/schemas/buckslip'
               nullable: true
             return_address:
               $ref: '#/components/schemas/return_address'
@@ -9048,9 +9314,11 @@ components:
         - postcard.rendered_pdf
         - postcard.rendered_thumbnails
         - postcard.deleted
+        - postcard.delivered
         - postcard.mailed
         - postcard.in_transit
         - postcard.in_local_area
+        - postcard.international_exit
         - postcard.processed_for_delivery
         - postcard.re-routed
         - postcard.returned_to_sender
@@ -9062,9 +9330,11 @@ components:
         - self_mailer.rendered_pdf
         - self_mailer.rendered_thumbnails
         - self_mailer.deleted
+        - self_mailer.delivered
         - self_mailer.mailed
         - self_mailer.in_transit
         - self_mailer.in_local_area
+        - self_mailer.international_exit
         - self_mailer.processed_for_delivery
         - self_mailer.re-routed
         - self_mailer.returned_to_sender
@@ -9076,9 +9346,11 @@ components:
         - letter.rendered_pdf
         - letter.rendered_thumbnails
         - letter.deleted
+        - letter.delivered
         - letter.mailed
         - letter.in_transit
         - letter.in_local_area
+        - letter.international_exit
         - letter.processed_for_delivery
         - letter.re-routed
         - letter.returned_to_sender
@@ -9092,8 +9364,10 @@ components:
         - letter.certified.pickup_available
         - letter.certified.issue
         - letter.return_envelope.created
+        - letter.return_envelope.delivered
         - letter.return_envelope.in_transit
         - letter.return_envelope.in_local_area
+        - letter.return_envelope.international_exit
         - letter.return_envelope.processed_for_delivery
         - letter.return_envelope.re_routed
         - letter.return_envelope.returned_to_sender
@@ -9105,9 +9379,11 @@ components:
         - check.rendered_pdf
         - check.rendered_thumbnails
         - check.deleted
+        - check.delivered
         - check.mailed
         - check.in_transit
         - check.in_local_area
+        - check.international_exit
         - check.processed_for_delivery
         - check.re-routed
         - check.returned_to_sender
@@ -9519,6 +9795,37 @@ components:
             date_created: '2017-11-07T22:56:10.962Z'
             date_modified: '2017-11-07T22:56:10.962Z'
             object: billing_group
+    buckslip_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: invalid
+              message: message about incorrect parameter
+              status_code: 422
+    buckslip_deleted:
+      description: Deleted the buckslip
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/buckslip_deletion'
+          example:
+            id: buckslip_123456789
+            deleted: true
+    buckslip_order_error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            error:
+              code: not_found
+              message: buckslip not found
+              status_code: 404
     us_verifications_error:
       description: Error
       content:
@@ -13231,6 +13538,464 @@ paths:
 
             -d "description=Usage group used for the Marketing Department's
             resource sends"
+  /buckslips:
+    get:
+      operationId: buckslips_list
+      summary: List
+      description: >-
+        Returns a list of your buckslips. The buckslips are returned sorted by
+        creation date, with the most recently created buckslips appearing first.
+      tags:
+        - Buckslips
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/before_after'
+        - $ref: '#/components/parameters/include'
+      responses:
+        '200':
+          description: Returns a list of buckslip objects
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/list'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        description: list of buckslips
+                        items:
+                          $ref: '#/components/schemas/buckslip'
+              example:
+                data:
+                  - id: bck_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: null
+                    url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                    stock: text
+                    weight: 80#
+                    finish: gloss
+                    status: rendered
+                    mode: test
+                    threshold_amount: 0
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
+                    object: buckslip
+                object: list
+                previous_url: null
+                next_url: null
+                count: 1
+        default:
+          $ref: '#/components/responses/buckslip_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X GET "https://api.lob.com/v1/buckslips?limit=2" \
+              -u <YOUR API KEY>:
+          label: CURL
+    post:
+      operationId: buckslip_create
+      summary: Create
+      description: Creates a new buckslip given information
+      tags:
+        - Buckslips
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/buckslip_editable'
+            example:
+              description: Test buckslip
+              front: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+              back: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/buckslip_editable'
+            example:
+              description: Test buckslip
+              front: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+              back: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/buckslip_editable'
+            example:
+              description: Test buckslip
+              front: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+              back: >-
+                https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+      responses:
+        '200':
+          description: Buckslip created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/buckslip'
+              examples:
+                basic:
+                  value:
+                    id: bck_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test buckslip
+                    url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    countries: null
+                    stock: text
+                    weight: 80#
+                    finish: gloss
+                    status: rendered
+                    mode: test
+                    threshold_amount: 0
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
+                    object: buckslip
+        default:
+          $ref: '#/components/responses/buckslip_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/buckslips \
+              -u <YOUR API KEY>: \
+              -d "description=Test buckslip" \
+              -d "front=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf" \
+              -d "back=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf"
+          label: CURL
+  /buckslips/{buckslip_id}:
+    parameters:
+      - in: path
+        name: buckslip_id
+        description: id of the buckslip
+        required: true
+        schema:
+          $ref: '#/components/schemas/buckslip_id'
+    get:
+      operationId: buckslip_retrieve
+      summary: Retrieve
+      description: >-
+        Retrieves the details of an existing buckslip. You need only supply the
+        unique customer identifier that was returned upon buckslip creation.
+      tags:
+        - Buckslips
+      responses:
+        '200':
+          description: Returns a buckslip object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/buckslip'
+              examples:
+                basic:
+                  value:
+                    id: bck_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test buckslip
+                    url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    countries: null
+                    stock: text
+                    weight: 80#
+                    finish: gloss
+                    status: rendered
+                    mode: test
+                    threshold_amount: 0
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
+                    object: buckslip
+        default:
+          $ref: '#/components/responses/buckslip_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/buckslips/bck_7a6d73c5c8457fc \
+              -u <YOUR API KEY>:
+          label: CURL
+    patch:
+      operationId: buckslip_update
+      summary: Update
+      description: >-
+        Update the details of an existing buckslip. You need only supply the
+        unique identifier that was returned upon buckslip creation.
+      tags:
+        - Buckslips
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/buckslip_updatable'
+            example:
+              description: Test buckslip
+              auto_reorder: true
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/buckslip_updatable'
+            example:
+              description: Test buckslip
+              auto_reorder: true
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/buckslip_updatable'
+            example:
+              description: Test buckslip
+              auto_reorder: true
+      responses:
+        '200':
+          description: Returns a buckslip object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/buckslip'
+              examples:
+                basic:
+                  value:
+                    id: bck_7a6d73c5c8457fc
+                    account_id: fa9ea650fc7b31a89f92
+                    description: Test buckslip
+                    url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
+                    size: 2.125x3.375
+                    auto_reorder: false
+                    reorder_quantity: null
+                    raw_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    front_original_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    back_original_url: >-
+                      https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
+                    thumbnails:
+                      - small: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_small_1.png?version=v1&expires=1636910992&signature=mrv8JDvpZK4I8WUGH0tPdtK-My5oes0Ltj_gL7BDw96SpCTTeZFHkz81SzclyFP9dQRtlsvAsjcuGcTBvCvOCg
+                        medium: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
+                        large: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                      - small: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_small_2.png?version=v1&expires=1636910992&signature=IWsmPa_ULlv2yyqjX564d_YfHHY_M7i9YxDnw-WXDr2jtOFcArmRZQbnHeE9g_rYxnddJbgosuv8-c2utiu7Cg
+                        medium: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
+                        large: >-
+                          https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
+                    countries: null
+                    stock: text
+                    weight: 80#
+                    finish: gloss
+                    status: rendered
+                    mode: test
+                    threshold_amount: 0
+                    date_created: '2021-03-24T22:51:42.838Z'
+                    date_modified: '2021-03-24T22:51:42.838Z'
+                    send_date: '2021-03-24T22:51:42.838Z'
+                    object: buckslip
+        default:
+          $ref: '#/components/responses/buckslip_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X PATCH https://api.lob.com/v1/buckslips/bck_7a6d73c5c8457fc \
+              -u <YOUR API KEY>: \
+              -d "description=Awesome buckslip" \
+              -d "auto_reorder=true"
+          label: CURL
+    delete:
+      operationId: buckslip_delete
+      summary: Delete
+      description: >-
+        Delete an existing buckslip. You need only supply the unique identifier
+        that was returned upon buckslip creation.
+      tags:
+        - Buckslips
+      responses:
+        '200':
+          $ref: '#/components/responses/buckslip_deleted'
+        default:
+          $ref: '#/components/responses/buckslip_error'
+      x-codeSamples:
+        - lang: Shell
+          source: >
+            curl -X DELETE https://api.lob.com/v1/buckslips/bck_7a6d73c5c8457fc
+            \
+              -u <YOUR API KEY>:
+          label: CURL
+  /buckslips/{buckslip_id}/orders:
+    parameters:
+      - in: path
+        name: buckslip_id
+        description: The ID of the buckslip to which the buckslip orders belong.
+        required: true
+        schema:
+          $ref: '#/components/schemas/buckslip_id'
+    get:
+      operationId: buckslip_orders_retrieve
+      summary: Retrieve
+      description: Retrieves the buckslip orders associated with the given buckslip id.
+      tags:
+        - Buckslip Orders
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+      responses:
+        '200':
+          description: Returns the buckslip orders associated with the given buckslip id
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/list'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        description: List of buckslip orders
+                        items:
+                          $ref: '#/components/schemas/buckslip_order'
+              example:
+                data:
+                  - id: bo_e0f8a0562a06bea7f
+                    buckslip_id: bck_6afffd19045076c
+                    status: available
+                    quantity_ordered: 5000
+                    unit_price: 0.75
+                    cancelled_reason: No longer needed
+                    availability_date: '2021-10-12T21:41:48.326Z'
+                    expected_availability_date: '2021-11-04T21:03:18.871Z'
+                    date_created: '2021-10-07T21:03:18.871Z'
+                    date_modified: '2021-10-16T01:00:30.144Z'
+                    object: buckslip_order
+                object: list
+                next_url: null
+                previous_url: null
+                count: 1
+        default:
+          $ref: '#/components/responses/buckslip_order_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/buckslips/bck_6afffd19045076c/orders/ \
+              -u <YOUR API KEY>:
+          label: CURL
+    post:
+      operationId: buckslip_order_create
+      summary: Create
+      description: Creates a new buckslip order given information
+      tags:
+        - Buckslip Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/buckslip_order_editable'
+            example:
+              quantity: 10000
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/buckslip_order_editable'
+            example:
+              quantity: 10000
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/buckslip_order_editable'
+            example:
+              quantity: 10000
+      responses:
+        '200':
+          description: Buckslip order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/buckslip_order'
+              examples:
+                basic:
+                  value:
+                    id: bo_e0f8a0562a06bea7f
+                    buckslip_id: bck_6afffd19045076c
+                    status: available
+                    quantity_ordered: 10000
+                    unit_price: 0.75
+                    cancelled_reason: No longer needed
+                    availability_date: '2021-10-12T21:41:48.326Z'
+                    expected_availability_date: '2021-11-04T21:03:18.871Z'
+                    date_created: '2021-10-07T21:03:18.871Z'
+                    date_modified: '2021-10-16T01:00:30.144Z'
+                    object: buckslip_order
+        default:
+          $ref: '#/components/responses/buckslip_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/buckslips/bck_6afffd19045076c/orders \
+              -u <YOUR API KEY>: \
+              -d "quantity=10000"
+          label: CURL
   /bulk/us_verifications:
     post:
       operationId: bulk_us_verifications

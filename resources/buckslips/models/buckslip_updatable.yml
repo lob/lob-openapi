@@ -1,0 +1,12 @@
+type: object
+properties:
+  description:
+    $ref: "../attributes/buckslip_description.yml"
+  auto_reorder:
+    description: Allows for auto reordering
+    type: boolean
+  reorder_quantity:
+    description: The quantity of items to be reordered (only required when auto_reorder is true).
+    type: number
+    minimum: 5000
+    maximum: 10000000

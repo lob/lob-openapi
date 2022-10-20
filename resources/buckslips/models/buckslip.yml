@@ -1,0 +1,102 @@
+allOf:
+  - $ref: "../../../shared/models/lob_base.yml"
+  - $ref: buckslip_base.yml
+  - required:
+      - description
+  - type: object
+
+    required:
+      - id
+      - auto_reorder
+      - reorder_quantity
+      - threshold_amount
+      - url
+      - raw_url
+      - front_original_url
+      - back_original_url
+      - thumbnails
+      - buckslip_orders
+      - stock
+      - weight
+      - finish
+      - status
+      - object
+
+    properties:
+      id:
+        $ref: "../../../shared/attributes/model_ids/buckslip_id.yml"
+      auto_reorder:
+        description: True if the buckslips should be auto-reordered.
+        type: boolean
+        default: false
+      reorder_quantity:
+        description: The number of buckslips to be reordered.
+        type: integer
+        nullable: true
+      threshold_amount:
+        description: The threshold amount of the buckslip
+        type: integer
+        default: 0
+      url:
+        description: The signed link for the buckslip.
+        maxLength: 2083
+        minLength: 1
+        type: string
+        format: uri
+      raw_url:
+        description: The raw URL of the buckslip.
+        maxLength: 2083
+        minLength: 1
+        type: string
+        format: uri
+      front_original_url:
+        description: The original URL of the front template.
+        maxLength: 2083
+        minLength: 1
+        type: string
+        format: uri
+      back_original_url:
+        description: The original URL of the back template.
+        maxLength: 2083
+        minLength: 1
+        type: string
+        format: uri
+      thumbnails:
+        type: array
+        items:
+          $ref: "../../../shared/models/thumbnail.yml"
+      buckslip_orders:
+        description: An array of buckslip orders that are associated with the buckslip.
+        type: array
+        items:
+          $ref: "../buckslip_orders/models/buckslip_order.yml"
+        minItems: 0
+      stock:
+        title: The stock of the buckslip.
+        enum:
+          - text
+          - cover
+        type: string
+      weight:
+        title: The weight of the buckslip.
+        enum:
+          - 80#
+        type: string
+      finish:
+        title: The finish of the buckslip.
+        enum:
+          - gloss
+          - matte
+        type: string
+      status:
+        title: The status of the buckslip.
+        enum:
+          - processed
+          - rendered
+        type: string
+      object:
+        description: object
+        enum:
+          - buckslip
+        type: string
+        default: buckslip

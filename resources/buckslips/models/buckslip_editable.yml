@@ -1,0 +1,18 @@
+allOf:
+  - $ref: buckslip_base.yml
+  - type: object
+    required:
+      - front
+
+    properties:
+      front:
+        description: A PDF template for the front of the buckslip
+        oneOf:
+          - $ref: "../../../shared/attributes/remote_file_url.yml"
+          - $ref: "../../../shared/attributes/local_file_path.yml"
+
+      back:
+        description: A PDF template for the back of the buckslip
+        oneOf:
+          - $ref: "../../../shared/attributes/remote_file_url.yml"
+          - $ref: "../../../shared/attributes/local_file_path.yml"

@@ -1,0 +1,89 @@
+get:
+  operationId: buckslips_list
+
+  summary: List
+
+  description: >-
+    Returns a list of your buckslips. The buckslips are returned sorted by
+    creation date, with the most recently created buckslips appearing first.
+
+  tags:
+    - Buckslips
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/before_after.yml"
+    - $ref: "../../shared/parameters/include.yml"
+
+  responses:
+    "200":
+      description: Returns a list of buckslip objects
+      content:
+        $ref: "responses/all_buckslips.yml"
+
+    default:
+      $ref: "../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/buckslips?limit=2" \
+          -u <YOUR API KEY>:
+      label: CURL
+
+post:
+  operationId: buckslip_create
+
+  summary: Create
+
+  description: >-
+    Creates a new buckslip given information
+
+  tags:
+    - Buckslips
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/buckslip_editable.yml"
+        example:
+          description: Test buckslip
+          front: https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+          back: https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/buckslip_editable.yml"
+        example:
+          description: Test buckslip
+          front: https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+          back: https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+
+      multipart/form-data:
+        schema:
+          $ref: "models/buckslip_editable.yml"
+        example:
+          description: Test buckslip
+          front: https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+          back: https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf
+
+  responses:
+    "200":
+      description: Buckslip created successfully
+      content:
+        $ref: "responses/buckslip.yml"
+
+    default:
+      $ref: "../../shared/responses/buckslip_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/buckslips \
+          -u <YOUR API KEY>: \
+          -d "description=Test buckslip" \
+          -d "front=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf" \
+          -d "back=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/buckslip.pdf"
+      label: CURL

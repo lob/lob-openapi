@@ -100,6 +100,18 @@ tags:
       resource API section to learn more about how to access the Billing Groups API.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
+  - name: Buckslip Orders
+    description: |
+      The buckslip orders endpoint allows you to easily create buckslip orders for existing buckslips.
+      The API provides endpoints for creating buckslip orders and listing buckslip orders for a given buckslip.
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
+  - name: Buckslips
+    description: |
+      The buckslips endpoint allows you to easily create buckslips that can later be affixed to Letters.
+      The API provides endpoints for creating buckslips, retrieving individual buckslips, creating buckslip orders, and retrieving a list of buckslips.
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
   - name: Bulk Intl Verifications
     description: |
       Verify a list of non-US addresses.
@@ -2434,6 +2446,8 @@ x-tagGroups:
   - name: Special Features
     tags:
       - Billing Groups
+      - Buckslips
+      - Buckslip Orders
       - Cards
       - Card Orders
 
@@ -2498,6 +2512,15 @@ paths:
 
   /billing_groups:
     $ref: resources/billing_groups/billing_groups.yml
+
+  /buckslips:
+    $ref: resources/buckslips/buckslips.yml
+
+  /buckslips/{buckslip_id}:
+    $ref: resources/buckslips/buckslip.yml
+
+  /buckslips/{buckslip_id}/orders:
+    $ref: resources/buckslips/buckslip_orders/buckslip_orders.yml
 
   /bulk/us_verifications:
     $ref: resources/bulk_us_verifications/bulk_us_verifications.yml

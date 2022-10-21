@@ -1,6 +1,26 @@
 # TODO add documentation about these being string or null and required?
 title: Optional Address Columns
 type: object
+required:
+  - address_line2
+  - company
+  - address_country
+properties:
+  address_line2:
+    type: string
+    nullable: true
+    default: null
+    description: The column header from the csv file that should be mapped to the optional field "address_line2"
+  company:
+    type: string
+    nullable: true
+    default: null
+    description: The column header from the csv file that should be mapped to the optional field "company"
+  address_country:
+    type: string
+    nullable: true
+    default: null
+    description: The column header from the csv file that should be mapped to the optional field "address_country"
 example:
   address_line2: secondary_line
   company: company

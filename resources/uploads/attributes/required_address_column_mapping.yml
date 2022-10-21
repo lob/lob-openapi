@@ -1,6 +1,38 @@
 # TODO add documentation about these being string or null and required?
 title: Required Address Columns
 type: object
+required:
+  - name
+  - address_line1
+  - address_city
+  - address_state
+  - address_zip
+properties:
+  name:
+    type: string
+    nullable: true
+    default: null
+    description: The column header from the csv file that should be mapped to the required field "name"
+  address_line1:
+    type: string
+    nullable: true
+    default: null
+    description: The column header from the csv file that should be mapped to the required field "address_line1"
+  address_city:
+    type: string
+    nullable: true
+    default: null
+    description: The column header from the csv file that should be mapped to the required field "address_city"
+  address_state:
+    type: string
+    nullable: true
+    default: null
+    description: The column header from the csv file that should be mapped to the required field "address_state"
+  address_zip:
+    type: string
+    nullable: true
+    default: null
+    description: The column header from the csv file that should be mapped to the required field "address_zip"
 example:
   name: recipient_name
   address_line1: primary_line

@@ -6515,10 +6515,156 @@ components:
       example:
         name: recipient_name
         address_line1: primary_line
+        address_city: city,
+        address_state: state,
+        address_zip: zip_code
+        address_line2: secondary_line
+        company: company
+        address_country: country,
+        metadata:
+          columns:
+            - recipient_name
+        gift_code: code
       description: >-
         The mapping of column headers in your file to Lob-required fields for
         the resource created. See our <a
         href="https://help.lob.com/best-practices/campaign-audience-guide"
+        target="_blank">Campaign Audience Guide</a> for additional details.
+        <br/>Please note that this field will be **deprecated on 31st October,
+        2022**. <br/>The new fields that will replace this are
+        'requiredAddressColumnMapping', 'optionalAddressColumnMapping',
+        'metadata', and 'mergeVariableColumnMapping'
+    required_address_column_mapping:
+      title: Required Address Columns
+      type: object
+      required:
+        - name
+        - address_line1
+        - address_city
+        - address_state
+        - address_zip
+      properties:
+        name:
+          type: string
+          nullable: true
+          default: null
+          description: >-
+            The column header from the csv file that should be mapped to the
+            required field "name"
+        address_line1:
+          type: string
+          nullable: true
+          default: null
+          description: >-
+            The column header from the csv file that should be mapped to the
+            required field "address_line1"
+        address_city:
+          type: string
+          nullable: true
+          default: null
+          description: >-
+            The column header from the csv file that should be mapped to the
+            required field "address_city"
+        address_state:
+          type: string
+          nullable: true
+          default: null
+          description: >-
+            The column header from the csv file that should be mapped to the
+            required field "address_state"
+        address_zip:
+          type: string
+          nullable: true
+          default: null
+          description: >-
+            The column header from the csv file that should be mapped to the
+            required field "address_zip"
+      example:
+        name: recipient_name
+        address_line1: primary_line
+        address_city: city
+        address_state: state
+        address_zip: zip_code
+      description: >-
+        The mapping of column headers in your file to Lob-required fields for
+        the resource created. See our <a
+        href="https://help.lob.com/best-practices/campaign-audience-guide"
+        target="_blank">Campaign Audience Guide</a> for additional details.
+    optional_address_column_mapping:
+      title: Optional Address Columns
+      type: object
+      required:
+        - address_line2
+        - company
+        - address_country
+      properties:
+        address_line2:
+          type: string
+          nullable: true
+          default: null
+          description: >-
+            The column header from the csv file that should be mapped to the
+            optional field "address_line2"
+        company:
+          type: string
+          nullable: true
+          default: null
+          description: >-
+            The column header from the csv file that should be mapped to the
+            optional field "company"
+        address_country:
+          type: string
+          nullable: true
+          default: null
+          description: >-
+            The column header from the csv file that should be mapped to the
+            optional field "address_country"
+      example:
+        address_line2: secondary_line
+        company: company
+        address_country: country,
+      description: >-
+        The mapping of column headers in your file to Lob-optional fields for
+        the resource created. See our <a
+        href="https://help.lob.com/best-practices/campaign-audience-guide"
+        target="_blank">Campaign Audience Guide</a> for additional details.
+    metadata-2:
+      title: Metadata
+      type: object
+      required:
+        - columns
+      properties:
+        columns:
+          type: array
+          description: >-
+            The list of column name from the csv file which you want associated
+            with each of your mailpiece
+          default: []
+          items:
+            type: string
+      default:
+        columns: []
+      example:
+        columns:
+          - recipient_name
+      description: >-
+        The list of column headers in your file as an array that you want as
+        metadata associated with each mailpiece in the format
+        {csv_column_name:value_of_row_for_csv_column_name}. See our <a
+        href="https://help.lob.com/best-practices/campaign-audience-guide"
+        target="_blank">Campaign Audience Guide</a> for additional details.
+    merge_variable_column_mapping:
+      title: Merge Variable Mapping
+      type: object
+      nullable: true
+      default: null
+      example:
+        name: recipient_name
+        gift_code: code
+      description: >-
+        The mapping of column headers in your file to the merge variables
+        present in your creative. See our <a
+        href="https://help.lob.com/en_US/best-practices/campaign-audience-guide#step-3-map-merge-variable-data-if-applicable-8"
         target="_blank">Campaign Audience Guide</a> for additional details.
     upload_writable:
       type: object
@@ -6534,6 +6680,14 @@ components:
               example: cmp_1933ad629bae1408
         columnMapping:
           $ref: '#/components/schemas/column_mapping'
+        requiredAddressColumnMapping:
+          $ref: '#/components/schemas/required_address_column_mapping'
+        optionalAddressColumnMapping:
+          $ref: '#/components/schemas/optional_address_column_mapping'
+        metadata:
+          $ref: '#/components/schemas/metadata-2'
+        mergeVariableColumnMapping:
+          $ref: '#/components/schemas/merge_variable_column_mapping'
     upl_id:
       type: string
       description: Unique identifier prefixed with `upl_`.
@@ -6564,6 +6718,10 @@ components:
             - accountId
             - campaignId
             - columnMapping
+            - requiredAddressColumnMapping
+            - optionalAddressColumnMapping
+            - metadata
+            - mergeVariableColumnMapping
             - mode
             - state
             - totalMailpieces
@@ -9030,7 +9188,16 @@ components:
             Properties in `columnMapping` will be appended to the existing
             `columnMapping` object if set to `false`. If set to `true`, the
             existing `columnMapping` object will be overwritten with the data
-            supplied in `columnMapping` property.
+            supplied in `columnMapping` property. <br/>Please note that this
+            field will be **deprecated on 31st October, 2022**.
+        requiredAddressColumnMapping:
+          $ref: '#/components/schemas/required_address_column_mapping'
+        optionalAddressColumnMapping:
+          $ref: '#/components/schemas/optional_address_column_mapping'
+        metadata:
+          $ref: '#/components/schemas/metadata-2'
+        mergeVariableColumnMapping:
+          $ref: '#/components/schemas/merge_variable_column_mapping'
     upload_file:
       type: object
       required:
@@ -11587,8 +11754,15 @@ components:
               accountId: fa9ea650fc7b31a89f92
               campaignId: cmp_1933ad629bae1408
               columnMapping:
-                name: recipient
+                name: recipient_name
                 address_line1: primary_line
+                address_city: city
+                address_state: state
+                address_zip: zip_code
+                address_line2: secondary_line
+                company: company
+                address_country: country
+                gift_code: code
               mode: test
               failuresUrl: https://www.example.com
               originalFilename: my_audience.csv
@@ -11599,6 +11773,22 @@ components:
               bytesProcessed: 17268
               dateCreated: '2017-09-05T17:47:53.767Z'
               dateModified: '2017-09-05T17:47:53.767Z'
+              requiredAddressColumnMapping:
+                name: recipient_name
+                address_line1: primary_line
+                address_city: city
+                address_state: state
+                address_zip: zip_code
+              optionalAddressColumnMapping:
+                address_line2: secondary_line
+                company: company
+                address_country: country
+              mergeVariableColumnMapping:
+                gift_code: code
+              metadata:
+                columns:
+                  - recipient_name
+                  - zip_code
     upload_validation_error:
       description: Validation Error
       content:
@@ -21026,6 +21216,19 @@ paths:
                 bytesProcessed: 17628
                 dateCreated: '2017-09-05T17:47:53.767Z'
                 dateModified: '2017-09-05T17:47:53.767Z'
+                requiredAddressColumnMapping:
+                  name: null
+                  address_line1: null
+                  address_city: null
+                  address_state: null
+                  address_zip: null
+                optionalAddressColumnMapping:
+                  address_line2: null
+                  company: null
+                  address_country: null
+                mergeVariableColumnMapping: null
+                metadata:
+                  columns: []
         '422':
           $ref: '#/components/responses/upload_validation_error'
       x-codeSamples:
@@ -21079,6 +21282,19 @@ paths:
                 bytesProcessed: 17628
                 dateCreated: '2017-09-05T17:47:53.767Z'
                 dateModified: '2017-09-05T17:47:53.767Z'
+                requiredAddressColumnMapping:
+                  name: null
+                  address_line1: null
+                  address_city: null
+                  address_state: null
+                  address_zip: null
+                optionalAddressColumnMapping:
+                  address_line2: null
+                  company: null
+                  address_country: null
+                mergeVariableColumnMapping: null
+                metadata:
+                  columns: []
         '404':
           $ref: '#/components/responses/upload_not_found'
         '422':
@@ -21125,6 +21341,19 @@ paths:
                 bytesProcessed: 17628
                 dateCreated: '2017-09-05T17:47:53.767Z'
                 dateModified: '2017-09-05T17:47:53.767Z'
+                requiredAddressColumnMapping:
+                  name: null
+                  address_line1: null
+                  address_city: null
+                  address_state: null
+                  address_zip: null
+                optionalAddressColumnMapping:
+                  address_line2: null
+                  company: null
+                  address_country: null
+                mergeVariableColumnMapping: null
+                metadata:
+                  columns: []
         '404':
           $ref: '#/components/responses/upload_not_found'
         '422':

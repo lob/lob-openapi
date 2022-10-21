@@ -3,4 +3,12 @@ type: object
 example:
   name: recipient_name
   address_line1: primary_line
-description: The mapping of column headers in your file to Lob-required fields for the resource created. See our <a href="https://help.lob.com/best-practices/campaign-audience-guide" target="_blank">Campaign Audience Guide</a> for additional details.
+  address_city: city,
+  address_state: state,
+  address_zip: zip_code
+  address_line2: secondary_line
+  company: company
+  address_country: country,
+  metadata: { columns: ["recipient_name"] }
+  gift_code: code
+description: The mapping of column headers in your file to Lob-required fields for the resource created. See our <a href="https://help.lob.com/best-practices/campaign-audience-guide" target="_blank">Campaign Audience Guide</a> for additional details. <br/>Please note that this field will be **deprecated on 31st October, 2022**. <br/>The new fields that will replace this are 'requiredAddressColumnMapping', 'optionalAddressColumnMapping', 'metadata', and 'mergeVariableColumnMapping'

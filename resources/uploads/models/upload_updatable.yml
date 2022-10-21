@@ -11,4 +11,12 @@ properties:
     type: boolean
     description: >
       Properties in `columnMapping` will be appended to the existing
-      `columnMapping` object if set to `false`. If set to `true`, the existing `columnMapping` object will be overwritten with the data supplied in `columnMapping` property.
+      `columnMapping` object if set to `false`. If set to `true`, the existing `columnMapping` object will be overwritten with the data supplied in `columnMapping` property. <br/>Please note that this field will be **deprecated on 31st October, 2022**.
+  requiredAddressColumnMapping:
+    $ref: "../attributes/required_address_column_mapping.yml"
+  optionalAddressColumnMapping:
+    $ref: "../attributes/optional_address_column_mapping.yml"
+  metadata:
+    $ref: "../attributes/metadata.yml"
+  mergeVariableColumnMapping:
+    $ref: "../attributes/merge_variable_column_mapping.yml"

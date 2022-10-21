@@ -21,8 +21,10 @@ allOf:
           - In Transit
           - In Local Area
           - Processed for Delivery
+          - Delivered
           - Re-Routed
           - Returned to Sender
+          - International Exit
         description: >
           Name of tracking event (for normal postcards, self mailers, letters, and checks):
 
@@ -42,12 +44,21 @@ allOf:
               should reach the mailbox within 1 business day of this tracking
               event.
 
+            * `Delivered` - The mail piece has been delivered to 
+              the recipient’s address. The final scan is generated when the mail 
+              carrier's GPS unit leaves the delivery area.
+
             * `Re-Routed` - The mailpiece is re-routed due to recipient change of
               address, address errors, or USPS relabeling of barcode/ID tag
               area.
 
             * `Returned to Sender` - The mailpiece is being returned to sender due
               to barcode, ID tag area, or address errors.
+            
+            * `International Exit` - The mail piece has been processed to 
+              ship to a destination abroad. This is typically the last 
+              scan a US-originated international mail piece will receive 
+              from the USPS.
 
           <a href="https://help.lob.com/print_mail/mail-data-tracking?from_search=85693657#what-is-mail-tracking" target="_blank">More about tracking</a>
 

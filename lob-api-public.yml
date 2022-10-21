@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: Lob
-  version: "1.16.0"
+  version: "1.16.1"
   description: >
     The Lob API is organized around REST. Our API is designed to have predictable,
     resource-oriented URLs and uses HTTP response codes to indicate any API errors.
@@ -537,6 +537,11 @@ tags:
           <td style="white-space: nowrap">A postcard receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
+          <td style="white-space: nowrap"><code>postcard.delivered</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A postcard receives a "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
           <td style="white-space: nowrap"><code>postcard.re-routed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A postcard receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
@@ -545,6 +550,11 @@ tags:
           <td style="white-space: nowrap"><code>postcard.returned_to_sender</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A postcard receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.international_exit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A postcard receives a "International Exit" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
       </table>
 
@@ -598,6 +608,11 @@ tags:
           <td style="white-space: nowrap">A self_mailer receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
+          <td style="white-space: nowrap"><code>self_mailer.delivered</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A self_mailer receives an "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
           <td style="white-space: nowrap"><code>self_mailer.re-routed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A self_mailer receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
@@ -606,6 +621,11 @@ tags:
           <td style="white-space: nowrap"><code>self_mailer.returned_to_sender</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A self_mailer receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.international_exit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A self_mailer receives an "International Exit" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
       </table>
 
@@ -657,6 +677,11 @@ tags:
           <td style="white-space: nowrap"><code>letter.processed_for_delivery</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A letter receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.delivered</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A letter receives a "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>letter.re-routed</code></td>
@@ -720,6 +745,11 @@ tags:
           <td style="white-space: nowrap">A certified letter receives an "Issue" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
+          <td style="white-space: nowrap"><code>letter.international_exit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A letter receives a "International Exit" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
           <td style="white-space: nowrap"><code>letter.return_envelope.created</code></td>
           <td style="white-space: nowrap"><code>false</code></td>
           <td style="white-space: nowrap">A return envelope is created (occurs simultaneously with letter creation).</td>
@@ -740,6 +770,11 @@ tags:
           <td style="white-space: nowrap">A return envelope receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
+          <td style="white-space: nowrap"><code>letter.return_envelope.delivered</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A return envelope receives a "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
           <td style="white-space: nowrap"><code>letter.return_envelope.re-routed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A return envelope receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
@@ -748,6 +783,11 @@ tags:
           <td style="white-space: nowrap"><code>letter.return_envelope.returned_to_senders</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A return envelope receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.return_envelope.international_exit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A return envelope receives a "International Exit" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
       </table>
 
@@ -800,6 +840,11 @@ tags:
           <td style="white-space: nowrap">A check receives a "Processed for Delivery" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
+          <td style="white-space: nowrap"><code>check.delivered</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A check receives a "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
           <td style="white-space: nowrap"><code>check.re-routed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A check receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
@@ -808,6 +853,11 @@ tags:
           <td style="white-space: nowrap"><code>check.returned_to_sender</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A check receives a "Returned to Sender" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.international_exit</code></td>
+          <td style="white-space: nowrap"><code>true</code></td>
+          <td style="white-space: nowrap">A check receives a "International Exit" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
       </table>
 

@@ -6793,15 +6793,22 @@ components:
             name:
               type: string
               enum:
+                - Mailed
                 - In Transit
                 - In Local Area
                 - Processed for Delivery
                 - Re-Routed
                 - Returned to Sender
-                - Mailed
               description: >
                 Name of tracking event (for normal postcards, self mailers,
                 letters, and checks):
+
+                  * `Mailed` - The mailpiece has been handed off to and accepted by USPS
+                    and is en route. <a href="https://help.lob.com/print_mail/mail-data-tracking?from_search=85693657#mail-tracking-events" target="_blank">More about
+                    Mailed.</a>
+                    Note this data is only available in Enterprise editions of
+                    Lob. <a href="https://lob.com/support/contact#contact" target="_blank">Contact Sales</a> if
+                    you want access to this feature.
 
                   * `In Transit` - The mailpiece is being processed at the entry/origin facility.
 
@@ -6818,13 +6825,6 @@ components:
 
                   * `Returned to Sender` - The mailpiece is being returned to sender due
                     to barcode, ID tag area, or address errors.
-
-                  * `Mailed` - The mailpiece has been handed off to and accepted by USPS
-                    and is en route. <a href="https://help.lob.com/print_mail/mail-data-tracking?from_search=85693657#mail-tracking-events" target="_blank">More about
-                    Mailed.</a>
-                    Note this data is only available in Enterprise editions of
-                    Lob. <a href="https://lob.com/support/contact#contact" target="_blank">Contact Sales</a> if
-                    you want access to this feature.
 
                 <a
                 href="https://help.lob.com/print_mail/mail-data-tracking?from_search=85693657#what-is-mail-tracking"
@@ -9048,9 +9048,11 @@ components:
         - postcard.rendered_pdf
         - postcard.rendered_thumbnails
         - postcard.deleted
+        - postcard.delivered
         - postcard.mailed
         - postcard.in_transit
         - postcard.in_local_area
+        - postcard.international_exit
         - postcard.processed_for_delivery
         - postcard.re-routed
         - postcard.returned_to_sender
@@ -9062,9 +9064,11 @@ components:
         - self_mailer.rendered_pdf
         - self_mailer.rendered_thumbnails
         - self_mailer.deleted
+        - self_mailer.delivered
         - self_mailer.mailed
         - self_mailer.in_transit
         - self_mailer.in_local_area
+        - self_mailer.international_exit
         - self_mailer.processed_for_delivery
         - self_mailer.re-routed
         - self_mailer.returned_to_sender
@@ -9076,9 +9080,11 @@ components:
         - letter.rendered_pdf
         - letter.rendered_thumbnails
         - letter.deleted
+        - letter.delivered
         - letter.mailed
         - letter.in_transit
         - letter.in_local_area
+        - letter.international_exit
         - letter.processed_for_delivery
         - letter.re-routed
         - letter.returned_to_sender
@@ -9092,8 +9098,10 @@ components:
         - letter.certified.pickup_available
         - letter.certified.issue
         - letter.return_envelope.created
+        - letter.return_envelope.delivered
         - letter.return_envelope.in_transit
         - letter.return_envelope.in_local_area
+        - letter.return_envelope.international_exit
         - letter.return_envelope.processed_for_delivery
         - letter.return_envelope.re_routed
         - letter.return_envelope.returned_to_sender
@@ -9105,9 +9113,11 @@ components:
         - check.rendered_pdf
         - check.rendered_thumbnails
         - check.deleted
+        - check.delivered
         - check.mailed
         - check.in_transit
         - check.in_local_area
+        - check.international_exit
         - check.processed_for_delivery
         - check.re-routed
         - check.returned_to_sender

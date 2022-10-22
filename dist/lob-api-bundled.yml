@@ -6532,8 +6532,8 @@ components:
         target="_blank">Campaign Audience Guide</a> for additional details.
         <br/>Please note that this field will be **deprecated on 31st October,
         2022**. <br/>The new fields that will replace this are
-        'requiredAddressColumnMapping', 'optionalAddressColumnMapping',
-        'metadata', and 'mergeVariableColumnMapping'
+        `requiredAddressColumnMapping`, `optionalAddressColumnMapping`,
+        `metadata`, and `mergeVariableColumnMapping`.
     required_address_column_mapping:
       title: Required Address Columns
       type: object
@@ -6550,35 +6550,35 @@ components:
           default: null
           description: >-
             The column header from the csv file that should be mapped to the
-            required field "name"
+            required field `name`
         address_line1:
           type: string
           nullable: true
           default: null
           description: >-
             The column header from the csv file that should be mapped to the
-            required field "address_line1"
+            required field `address_line1`
         address_city:
           type: string
           nullable: true
           default: null
           description: >-
             The column header from the csv file that should be mapped to the
-            required field "address_city"
+            required field `address_city`
         address_state:
           type: string
           nullable: true
           default: null
           description: >-
             The column header from the csv file that should be mapped to the
-            required field "address_state"
+            required field `address_state`
         address_zip:
           type: string
           nullable: true
           default: null
           description: >-
             The column header from the csv file that should be mapped to the
-            required field "address_zip"
+            required field `address_zip`
       example:
         name: recipient_name
         address_line1: primary_line
@@ -6628,7 +6628,7 @@ components:
         the resource created. See our <a
         href="https://help.lob.com/best-practices/campaign-audience-guide"
         target="_blank">Campaign Audience Guide</a> for additional details.
-    metadata-2:
+    uploads_metadata:
       title: Metadata
       type: object
       required:
@@ -6649,8 +6649,8 @@ components:
           - recipient_name
       description: >-
         The list of column headers in your file as an array that you want as
-        metadata associated with each mailpiece in the format
-        {csv_column_name:value_of_row_for_csv_column_name}. See our <a
+        metadata associated with each mailpiece in the format `{
+        csv_column_name: value_of_row_for_csv_column_name }`. See our <a
         href="https://help.lob.com/best-practices/campaign-audience-guide"
         target="_blank">Campaign Audience Guide</a> for additional details.
     merge_variable_column_mapping:
@@ -6685,7 +6685,7 @@ components:
         optionalAddressColumnMapping:
           $ref: '#/components/schemas/optional_address_column_mapping'
         metadata:
-          $ref: '#/components/schemas/metadata-2'
+          $ref: '#/components/schemas/uploads_metadata'
         mergeVariableColumnMapping:
           $ref: '#/components/schemas/merge_variable_column_mapping'
     upl_id:
@@ -9195,7 +9195,7 @@ components:
         optionalAddressColumnMapping:
           $ref: '#/components/schemas/optional_address_column_mapping'
         metadata:
-          $ref: '#/components/schemas/metadata-2'
+          $ref: '#/components/schemas/uploads_metadata'
         mergeVariableColumnMapping:
           $ref: '#/components/schemas/merge_variable_column_mapping'
     upload_file:

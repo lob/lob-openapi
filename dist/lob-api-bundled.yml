@@ -6530,8 +6530,8 @@ components:
         the resource created. See our <a
         href="https://help.lob.com/best-practices/campaign-audience-guide"
         target="_blank">Campaign Audience Guide</a> for additional details.
-        <br/>Please note that this field will be **deprecated on 31st October,
-        2022**. <br/>The new fields that will replace this are
+        <br/>Please note that this field is **now deprecated and will be removed
+        on 2nd November, 2022**. <br/>The new fields that should be used are
         `requiredAddressColumnMapping`, `optionalAddressColumnMapping`,
         `metadata`, and `mergeVariableColumnMapping`.
     required_address_column_mapping:
@@ -6637,8 +6637,8 @@ components:
         columns:
           type: array
           description: >-
-            The list of column name from the csv file which you want associated
-            with each of your mailpiece
+            The list of column names from the csv file which you want associated
+            with each of your mailpieces
           default: []
           items:
             type: string
@@ -6649,8 +6649,7 @@ components:
           - recipient_name
       description: >-
         The list of column headers in your file as an array that you want as
-        metadata associated with each mailpiece in the format `{
-        csv_column_name: value_of_row_for_csv_column_name }`. See our <a
+        metadata associated with each mailpiece. See our <a
         href="https://help.lob.com/best-practices/campaign-audience-guide"
         target="_blank">Campaign Audience Guide</a> for additional details.
     merge_variable_column_mapping:
@@ -9189,7 +9188,7 @@ components:
             `columnMapping` object if set to `false`. If set to `true`, the
             existing `columnMapping` object will be overwritten with the data
             supplied in `columnMapping` property. <br/>Please note that this
-            field will be **deprecated on 31st October, 2022**.
+            field is **now deprecated will be removed on 2nd November, 2022**.
         requiredAddressColumnMapping:
           $ref: '#/components/schemas/required_address_column_mapping'
         optionalAddressColumnMapping:

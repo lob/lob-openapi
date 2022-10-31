@@ -1,0 +1,36 @@
+get:
+  operationId: qr_codes_list
+
+  summary: List
+
+  description: >-
+    Returns a list of your QR codes. The QR codes are returned sorted by
+    scan date, with the most recently scanned QR codes appearing first.
+
+  tags:
+    - QR Codes
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/offset.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - in: query
+      name: resource_ids
+      description: Filter by the resource ID.
+      schema:
+        type: array
+        maxItems: 100
+        default: []
+
+  responses:
+    "200":
+      description: Returns a list of QR Codes and their analytics.
+      content:
+        $ref: responses/all_qr_codes.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/qr_codes?limit=2" \
+        -u <YOUR API KEY>:

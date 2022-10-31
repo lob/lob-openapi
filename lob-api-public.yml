@@ -1164,6 +1164,17 @@ tags:
       retrieving individual postcards, canceling postcards, and retrieving a list of postcards.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
+  - name: QR Codes
+    description: |
+
+      Lob QR codes allow you to generate a QR code that is unique to each mailpiece, thereby allowing each and every customers to receive a personalized link. See the Create endpoint for <a href="#tag/Webhooks" onclick="toTopLink()">Letters</a> or <a href="#" onclick="toTopLink()">Postcards</a> to learn how to embed a QR code into your mail piece.
+
+      Furthermore, our QR code Analytics can be used to track the impact and engagement rate of your mail sends. Lob can tell you exactly which recipients opened your mailpiece. Our Analytics endpoint allows you to see exactly which recipient scanned a mailpiece, when they scanned it, and more!
+
+      Webhooks can be used to integrate Lob QR code scans into your omni channel marketing strategy. See the <a href="#tag/Webhooks">Webhooks</a> section of our documentation to learn how to enable the `letter.viewed` and `postcard.viewed` event notifications for your mail pieces.
+
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
   - name: Rate Limiting
     x-traitTag: true
     description: >-
@@ -2500,6 +2511,7 @@ x-tagGroups:
       - Buckslip Orders
       - Cards
       - Card Orders
+      - QR Codes
 
   - name: Appendix
     tags:
@@ -2628,6 +2640,9 @@ paths:
 
   /postcards:
     $ref: resources/postcards/postcards.yml
+
+  /qr_codes:
+    $ref: resources/qr_codes/qr_codes.yml
 
   /self_mailers/{sfm_id}:
     $ref: resources/self_mailers/self_mailer.yml

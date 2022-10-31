@@ -1,0 +1,41 @@
+application/json:
+  schema:
+    allOf:
+      - type: object
+        properties:
+          object:
+            $ref: "../../../shared/attributes/object.yml"
+          count:
+            $ref: "../../../shared/attributes/count.yml"
+          total_count:
+            type: integer
+            description: Indicates the total number of records. Provided when the request specifies an "include" query parameter
+          scanned_count:
+            type: integer
+            description: Indicates the number of QR Codes out of `count` that were scanned atleast once.
+          data:
+            type: array
+            description: list of QR codes
+            items:
+              $ref: "../models/qr_code_scans.yml"
+
+  example:
+    data:
+      - resource_id: ltr_d5a5a89da9106f8
+        date_created: "2019-07-27T23:49:01.511Z"
+        number_of_scans: 2
+        scans:
+          [
+            { ip_location: "127.0.0.1", scan_date: "2022-07-27T23:49:01.511Z" },
+            { ip_location: "127.0.0.1", scan_date: "2022-07-29T23:45:00.436Z" },
+          ]
+
+      - resource_id: psc_d5a5a89da9106f8
+        date_created: "2022-09-27T23:49:01.511Z"
+        number_of_scans: 1
+        scans:
+          [{ ip_location: "127.0.0.1", scan_date: "2022-09-27T23:49:01.511Z" }]
+    object: list
+    count: 2
+    scanned_count: 2
+    total_count: 2

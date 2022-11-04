@@ -44,10 +44,6 @@ test("create, retrieve, update upload, create export, retrieve export, delete up
         resource_endpoint,
         {
           campaignId: t.context.cmp_id,
-          columnMapping: {
-            name: "recipient",
-            address_line1: "primary line",
-          },
         },
         { headers: prism.authHeader }
       )
@@ -71,10 +67,12 @@ test("create, retrieve, update upload, create export, retrieve export, delete up
       client.patch(
         `${resource_endpoint}/${upl_id}`,
         {
-          columnMapping: {
+          reuiredAddressColumnMapping: {
             address_zip: "zip_code",
             address_state: "state",
             address_city: "city",
+            address_line1: "line1",
+            name: "recipient",
           },
         },
         {
@@ -84,8 +82,21 @@ test("create, retrieve, update upload, create export, retrieve export, delete up
     );
 
     t.assert(response.status === 200);
-    t.assert(response.data.columnMapping.name === "recipient");
-    t.assert(response.data.columnMapping.address_zip === "zip_code");
+    t.assert(response.data.reuiredAddressColumnMapping.name === "recipient");
+    t.assert(
+      response.data.reuiredAddressColumnMapping.address_zip === "zip_code"
+    );
+    t.assert(
+      response.data.reuiredAddressColumnMapping.address_state ===
+        "address_state"
+    );
+    t.assert(
+      response.data.reuiredAddressColumnMapping.address_city === "address_city"
+    );
+    t.assert(
+      response.data.reuiredAddressColumnMapping.address_line1 ===
+        "address_line1"
+    );
 
     /* commented because can't get it to work with prism/javascript */
     // // upload file
@@ -167,29 +178,6 @@ test("list uploads", async function (t) {
     if (response.status !== 200) console.log(response);
     t.assert(response.status === 200);
     return response.data;
-  } catch (prismError) {
-    if (Object.keys(prismError).length > 0) {
-      t.fail(JSON.stringify(prismError, null, 2));
-    } else {
-      t.fail(prismError.toString());
-    }
-  }
-});
-
-test("errors when columnMapping is not passed in", async function (t) {
-  try {
-    const response = await prism.setup({ errors: false }).then((client) =>
-      client.post(
-        resource_endpoint,
-        {
-          campaignId: t.context.cmp_id,
-        },
-        { headers: prism.authHeader }
-      )
-    );
-
-    t.assert(response.status === 400);
-    t.assert(response.data.message.includes("Invalid body"));
   } catch (prismError) {
     if (Object.keys(prismError).length > 0) {
       t.fail(JSON.stringify(prismError, null, 2));

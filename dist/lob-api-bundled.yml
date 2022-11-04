@@ -6526,31 +6526,6 @@ components:
               enum:
                 - creative
               default: creative
-    column_mapping:
-      title: Column Mapping
-      type: object
-      example:
-        name: recipient_name
-        address_line1: primary_line
-        address_city: city,
-        address_state: state,
-        address_zip: zip_code
-        address_line2: secondary_line
-        company: company
-        address_country: country,
-        metadata:
-          columns:
-            - recipient_name
-        gift_code: code
-      description: >-
-        The mapping of column headers in your file to Lob-required fields for
-        the resource created. See our <a
-        href="https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide"
-        target="_blank">Campaign Audience Guide</a> for additional details.
-        <br/>Please note that this field is **now deprecated and will be removed
-        on 2nd November, 2022**. <br/>The new fields that should be used are
-        `requiredAddressColumnMapping`, `optionalAddressColumnMapping`,
-        `metadata`, and `mergeVariableColumnMapping`.
     required_address_column_mapping:
       title: Required Address Columns
       type: object
@@ -6681,7 +6656,14 @@ components:
         The mapping of column headers in your file to the merge variables
         present in your creative. See our <a
         href="https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide#step-3-map-merge-variable-data-if-applicable-7"
-        target="_blank">Campaign Audience Guide</a> for additional details.
+        target="_blank">Campaign Audience Guide</a> for additional details. <br
+        />If a merge variable has the same "name" as a "key" in the
+        `requiredAddressColumnMapping` or `optionalAddressColumnMapping`
+        objects, then they **CANNOT** have a different value in this object. If
+        a different value is provided, then when the campaign is processing it
+        will get overwritten with the mapped value present in the
+        `requiredAddressColumnMapping` or `optionalAddressColumnMapping`
+        objects.
     upload_writable:
       type: object
       required:
@@ -6693,8 +6675,6 @@ components:
             - description: Associated Campaign ID
               type: string
               example: cmp_1933ad629bae1408
-        columnMapping:
-          $ref: '#/components/schemas/column_mapping'
         requiredAddressColumnMapping:
           $ref: '#/components/schemas/required_address_column_mapping'
         optionalAddressColumnMapping:
@@ -6703,6 +6683,7 @@ components:
           $ref: '#/components/schemas/uploads_metadata'
         mergeVariableColumnMapping:
           $ref: '#/components/schemas/merge_variable_column_mapping'
+          description: test
     upl_id:
       type: string
       description: Unique identifier prefixed with `upl_`.
@@ -6732,7 +6713,6 @@ components:
             - id
             - accountId
             - campaignId
-            - columnMapping
             - requiredAddressColumnMapping
             - optionalAddressColumnMapping
             - metadata
@@ -9221,21 +9201,10 @@ components:
     upload_updatable:
       type: object
       properties:
-        columnMapping:
-          $ref: '#/components/schemas/column_mapping'
         originalFilename:
           title: Original Filename
           type: string
           description: Original filename provided when the upload is created.
-        overwriteColumnMapping:
-          title: Overwrite Column Mapping
-          type: boolean
-          description: >
-            Properties in `columnMapping` will be appended to the existing
-            `columnMapping` object if set to `false`. If set to `true`, the
-            existing `columnMapping` object will be overwritten with the data
-            supplied in `columnMapping` property. <br/>Please note that this
-            field is **now deprecated will be removed on 2nd November, 2022**.
         requiredAddressColumnMapping:
           $ref: '#/components/schemas/required_address_column_mapping'
         optionalAddressColumnMapping:
@@ -11799,16 +11768,6 @@ components:
             - id: upl_71be866e430b11e9
               accountId: fa9ea650fc7b31a89f92
               campaignId: cmp_1933ad629bae1408
-              columnMapping:
-                name: recipient_name
-                address_line1: primary_line
-                address_city: city
-                address_state: state
-                address_zip: zip_code
-                address_line2: secondary_line
-                company: company
-                address_country: country
-                gift_code: code
               mode: test
               failuresUrl: https://www.example.com
               originalFilename: my_audience.csv
@@ -21274,7 +21233,6 @@ paths:
                 id: upl_71be866e430b11e9
                 accountId: fa9ea650fc7b31a89f92
                 campaignId: cmp_1933ad629bae1408
-                columnMapping: {}
                 mode: live
                 failuresUrl: http://www.example.com
                 originalFilename: my_audience.csv
@@ -21307,10 +21265,7 @@ paths:
             --header 'Content-Type: application/json' \
             -u YOUR_KEY_HERE: \
             --data-raw '{
-                "campaignId": "cmp_f33809b18b6f3ea8",
-                "columnMapping": {
-                    "name": "recipient"
-                }
+                "campaignId": "cmp_f33809b18b6f3ea8"
             }'
           label: CURL
   /uploads/{upl_id}:
@@ -21340,7 +21295,6 @@ paths:
                 id: upl_71be866e430b11e9
                 accountId: fa9ea650fc7b31a89f92
                 campaignId: cmp_1933ad629bae1408
-                columnMapping: {}
                 mode: live
                 failuresUrl: http://www.example.com
                 originalFilename: my_audience.csv
@@ -21399,7 +21353,6 @@ paths:
                 id: upl_71be866e430b11e9
                 accountId: fa9ea650fc7b31a89f92
                 campaignId: cmp_1933ad629bae1408
-                columnMapping: {}
                 mode: live
                 failuresUrl: http://www.example.com
                 originalFilename: my_audience.csv

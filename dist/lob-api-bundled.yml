@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.17.1
+  version: 1.17.2
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -1079,26 +1079,31 @@ tags:
 
       Try our quick start (TypeScript, Python, PHP, Java or Ruby):
 
-      * <a
-      href="https://help.lob.com/en_US/developer-documentation/developer-quickstart-guide"
+      * <a href="https://help.lob.com/developer-docs/quickstart-guide"
       target="_blank">Send your first Postcards</a>
 
 
       Use Case guides
 
-      * <a href="https://help.lob.com/use-case-guides/massdeletion"
+      * <a
+      href="https://help.lob.com/developer-docs/use-case-guides/mass-deletion-setup"
       target="_blank">Mass Deletion Best Practices</a>
 
-      * <a href="https://help.lob.com/en_US/use-case-guides/ncoa-restrictions"
+      * <a
+      href="https://help.lob.com/developer-docs/use-case-guides/ncoa-restrictions"
       target="_blank">NCOALink Restrictions</a>
 
       * <a
-      href="https://help.lob.com/use-case-guides/override-cancellation-window"
+      href="https://help.lob.com/developer-docs/use-case-guides/override-cancellation-window"
       target="_blank">Override Cancellation Window</a>
 
       * <a
-      href="https://help.lob.com/en_US/use-case-guides/tracking-address-changes"
+      href="https://help.lob.com/developer-docs/use-case-guides/visibility-of-address-changes"
       target="_blank">Tracking Address Changes</a>
+
+      * <a
+      href="https://help.lob.com/developer-docs/use-case-guides/ingesting-tracking-events-with-webhooks"
+      target="_blank">Ingesting Tracking Events with Webhooks</a>
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
       top</a></div>
@@ -1289,7 +1294,7 @@ tags:
       feature,
 
       check out our <a
-      href="https://help.lob.com/print_mail/mail-send-settings#cancellation-windows"
+      href="https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings#cancellation-windows-4"
       target="_blank">Cancellation Guide</a>.
 
 
@@ -1337,7 +1342,7 @@ tags:
       For implementation details, see documentation below for each respective
 
       endpoint. For more help, see our <a
-      href="https://help.lob.com/print_mail/mail-send-settings#scheduling-mailings-for-a-future-date"
+      href="https://help.lob.com/print-and-mail/building-a-mail-strategy/choosing-a-delivery-strategy#scheduled-mailings-15"
       target="_blank">Scheduled Mailings Guide</a>.
 
 
@@ -1404,7 +1409,7 @@ tags:
 
 
       For more information, see our <a
-      href="https://help.lob.com/print_mail/all-about-addresses#national-change-of-address-ncoa"
+      href="https://help.lob.com/print-and-mail/all-about-addresses#national-change-of-address-ncoa-7"
       target="_blank">NCOALink guide</a>.
 
       <br>
@@ -1654,7 +1659,7 @@ tags:
       For more help integrating idempotency keys, refer to our
 
       <a
-      href="https://help.lob.com/print_mail/mail-send-settings#idempotent-requests"
+      href="https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings#idempotent-requests-12"
       target="_blank">implementation guide</a>.
 
 
@@ -1953,7 +1958,7 @@ tags:
       using templates, check out our
 
       <a
-      href="https://help.lob.com/print_mail/dynamic-personalization#html-templates"
+      href="https://help.lob.com/print-and-mail/designing-mail-creatives/dynamic-personalization#html-templates-1"
       target="_blank">HTML Templates Guide</a> or get started with a
 
       <a href="https://lob.com/template-gallery" target="_blank">pre-designed
@@ -3323,7 +3328,7 @@ tags:
       href="https://dashboard.lob.com/#/events" target="_blank">events</a>.
 
       See our <a
-      href="https://help.lob.com/print_mail/webhooks-for-tracking-events"
+      href="https://help.lob.com/print-and-mail/getting-data-and-results/using-webhooks"
       target="_blank">Webhooks Integration Guide</a> for more
 
       details on how to integrate. Please see the full list of event types
@@ -3573,7 +3578,7 @@ components:
       description: >
         A string of no longer than 256 characters that uniquely identifies this
         resource. For more help integrating idempotency keys, refer to our <a
-        href="https://help.lob.com/print_mail/mail-send-settings#idempotent-requests"
+        href="https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings#idempotent-requests-12"
         target="_blank">implementation guide</a>.
       schema:
         type: string
@@ -3586,7 +3591,7 @@ components:
       description: >
         A string of no longer than 256 characters that uniquely identifies this
         resource. For more help integrating idempotency keys, refer to our <a
-        href="https://help.lob.com/print_mail/mail-send-settings#idempotent-requests"
+        href="https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings#idempotent-requests-12"
         target="_blank">implementation guide</a>.
       schema:
         type: string
@@ -6528,7 +6533,7 @@ components:
       description: >-
         The mapping of column headers in your file to Lob-required fields for
         the resource created. See our <a
-        href="https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guideguide"
+        href="https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide"
         target="_blank">Campaign Audience Guide</a> for additional details.
         <br/>Please note that this field is **now deprecated and will be removed
         on 2nd November, 2022**. <br/>The new fields that should be used are
@@ -6588,7 +6593,7 @@ components:
       description: >-
         The mapping of column headers in your file to Lob-required fields for
         the resource created. See our <a
-        href="https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide#required-columns-2guide"
+        href="https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide#required-columns-2"
         target="_blank">Campaign Audience Guide</a> for additional details.
     optional_address_column_mapping:
       title: Optional Address Columns
@@ -6663,7 +6668,7 @@ components:
       description: >-
         The mapping of column headers in your file to the merge variables
         present in your creative. See our <a
-        href="https://help.lob.com/en_US/best-practices/campaign-audience-guide#step-3-map-merge-variable-data-if-applicable-8"
+        href="https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide#step-3-map-merge-variable-data-if-applicable-7"
         target="_blank">Campaign Audience Guide</a> for additional details.
     upload_writable:
       type: object
@@ -7117,8 +7122,8 @@ components:
         cannot contain any whitespace or any of the following special
         characters: `!`, `"`, `#`, `%`, `&`, `'`, `(`, `)`, `*`, `+`, `,`, `/`,
         `;`, `<`, `=`, `>`, `@`, `[`, `\`, `]`, `^`, `` ` ``, `{`, `|`, `}`,
-        `~`. More instructions can be found in  <a
-        href="https://help.lob.com/en_US/print_mail/dynamic-personalization#using-html-and-merge-variables"
+        `~`. More instructions can be found in <a
+        href="https://help.lob.com/print-and-mail/designing-mail-creatives/dynamic-personalization#using-html-and-merge-variables-10"
         target="_blank">our guide to using html and merge variables</a>.
         Depending on your <a href="https://dashboard.lob.com/#/settings/account"
         target="_blank">Merge Variable strictness</a> setting, if you define
@@ -7414,7 +7419,7 @@ components:
             href="https://dashboard.lob.com/#/settings/account"
             target="_blank">US Mail Strictness Setting</a>, the request will
             fail. <a
-            href="https://help.lob.com/en_US/print_mail/all-about-addresses#standardization-verification"
+            href="https://help.lob.com/print-and-mail/all-about-addresses"
             target="_blank">More about verification of mailing addresses</a>
           oneOf:
             - $ref: '#/components/schemas/adr_id'
@@ -8618,7 +8623,7 @@ components:
             href="https://dashboard.lob.com/#/settings/account"
             target="_blank">US Mail strictness setting</a>, the request will
             fail. <a
-            href="https://help.lob.com/en_US/print_mail/all-about-addresses#standardization-verification"
+            href="https://help.lob.com/print-and-mail/all-about-addresses"
             target="_blank">Lob Guide: Verification of Mailing Addresses</a>
           oneOf:
             - $ref: '#/components/schemas/adr_id'
@@ -14829,7 +14834,7 @@ paths:
       description: >-
         Creates a new campaign with the provided properties. See how to launch
         your first campaign
-        [here](https://help.lob.com/best-practices/launching-your-first-campaign).
+        [here](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/launch-your-first-campaign).
       tags:
         - Campaigns
       parameters:
@@ -21465,7 +21470,7 @@ paths:
         you will get row-by-row errors for your campaign. For a step-by-step
         walkthrough of creating a campaign and exporting failures, see our
         [Campaigns
-        Guide](https://help.lob.com/best-practices/launching-your-first-campaign).
+        Guide](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/launch-your-first-campaign).
 
 
         Create an export file associated with an upload.

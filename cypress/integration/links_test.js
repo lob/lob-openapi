@@ -120,20 +120,20 @@ describe("ensures introduction links and text are valid", () => {
     cy.get('*[class^="sc-hKFxyN dmghQN"]')
       .contains("Postcards")
       .should("have.attr", "href")
-      .and(
-        "include",
-        "https://help.lob.com/en_US/developer-documentation/developer-quickstart-guide"
-      );
+      .and("include", "https://help.lob.com/developer-docs/quickstart-guide");
     cy.get('*[class^="sc-hKFxyN dmghQN"]')
       .contains("Mass Deletion")
       .should("have.attr", "href")
-      .and("include", "https://help.lob.com/use-case-guides/massdeletion");
+      .and(
+        "include",
+        "https://help.lob.com/developer-docs/use-case-guides/mass-deletion-setup"
+      );
     cy.get('*[class^="sc-hKFxyN dmghQN"]')
       .contains("NCOALink Restrictions")
       .should("have.attr", "href")
       .and(
         "include",
-        "https://help.lob.com/en_US/use-case-guides/ncoa-restrictions"
+        "https://help.lob.com/developer-docs/use-case-guides/ncoa-restrictions"
       );
   });
 

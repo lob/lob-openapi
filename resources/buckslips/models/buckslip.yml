@@ -15,6 +15,11 @@ allOf:
       - front_original_url
       - back_original_url
       - thumbnails
+      - available_quantity
+      - allocated_quantity
+      - onhand_quantity
+      - pending_quantity
+      - projected_quantity
       - buckslip_orders
       - stock
       - weight
@@ -65,6 +70,26 @@ allOf:
         type: array
         items:
           $ref: "../../../shared/models/thumbnail.yml"
+      available_quantity:
+        description: The available quantity of buckslips.
+        type: number
+        default: 0
+      allocated_quantity:
+        description: The allocated quantity of buckslips.
+        type: number
+        default: 0
+      onhand_quantity:
+        description: The onhand quantity of buckslips.
+        type: number
+        default: 0
+      pending_quantity:
+        description: The pending quantity of buckslips.
+        type: number
+        default: 0
+      projected_quantity:
+        description: The sum of pending and onhand quantities of buckslips.
+        type: number
+        default: 0
       buckslip_orders:
         description: An array of buckslip orders that are associated with the buckslip.
         type: array

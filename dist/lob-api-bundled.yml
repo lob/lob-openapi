@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.17.2
+  version: 1.17.3
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -161,7 +161,7 @@ tags:
       top</a></div>
   - name: Buckslip Orders
     description: >
-      The buckslip orders endpoint allows you to easily create buckslip orders
+      The Buckslip Orders endpoint allows you to easily create buckslip orders
       for existing buckslips.
 
       The API provides endpoints for creating buckslip orders and listing
@@ -171,8 +171,10 @@ tags:
       top</a></div>
   - name: Buckslips
     description: >
-      The buckslips endpoint allows you to easily create buckslips that can
-      later be affixed to Letters.
+      The Buckslips endpoint allows you to easily create buckslips that can
+      later be used as add-ons for Letters Campaigns. Note that a Letter
+      Campaign with Buckslip add-on requires a minimum send quantity of 5,000
+      letters.
 
       The API provides endpoints for creating buckslips, retrieving individual
       buckslips, creating buckslip orders, and retrieving a list of buckslips.
@@ -1087,11 +1089,11 @@ tags:
 
       * <a
       href="https://help.lob.com/developer-docs/use-case-guides/mass-deletion-setup"
-      target="_blank">Mass Deletion Best Practices</a>
+      target="_blank">Mass Deletion Setup</a>
 
       * <a
       href="https://help.lob.com/developer-docs/use-case-guides/ncoa-restrictions"
-      target="_blank">NCOALink Restrictions</a>
+      target="_blank">NCOA Restrictions</a>
 
       * <a
       href="https://help.lob.com/developer-docs/use-case-guides/override-cancellation-window"
@@ -1099,7 +1101,7 @@ tags:
 
       * <a
       href="https://help.lob.com/developer-docs/use-case-guides/visibility-of-address-changes"
-      target="_blank">Tracking Address Changes</a>
+      target="_blank">Visibility of Address Changes</a>
 
       * <a
       href="https://help.lob.com/developer-docs/use-case-guides/ingesting-tracking-events-with-webhooks"
@@ -4975,11 +4977,15 @@ components:
                 - depleted
               type: string
             quantity_ordered:
-              description: The quantity of buckslips ordered
+              description: The quantity of buckslips ordered.
               type: number
               default: 0
             unit_price:
               description: The unit price for the buckslip order.
+              type: number
+              default: 0
+            inventory:
+              description: The inventory of the buckslip order.
               type: number
               default: 0
             cancelled_reason:
@@ -5012,6 +5018,11 @@ components:
             - front_original_url
             - back_original_url
             - thumbnails
+            - available_quantity
+            - allocated_quantity
+            - onhand_quantity
+            - pending_quantity
+            - projected_quantity
             - buckslip_orders
             - stock
             - weight
@@ -5061,6 +5072,26 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/thumbnail'
+            available_quantity:
+              description: The available quantity of buckslips.
+              type: number
+              default: 0
+            allocated_quantity:
+              description: The allocated quantity of buckslips.
+              type: number
+              default: 0
+            onhand_quantity:
+              description: The onhand quantity of buckslips.
+              type: number
+              default: 0
+            pending_quantity:
+              description: The pending quantity of buckslips.
+              type: number
+              default: 0
+            projected_quantity:
+              description: The sum of pending and onhand quantities of buckslips.
+              type: number
+              default: 0
             buckslip_orders:
               description: >-
                 An array of buckslip orders that are associated with the
@@ -6251,6 +6282,29 @@ components:
       type: string
       description: Unique identifier prefixed with `card_`.
       pattern: ^card_[a-zA-Z0-9]+$
+    custom_envelope_returned:
+      type: object
+      description: >-
+        A nested custom envelope object containing more information about the
+        custom envelope used or `null` if a custom envelope was not used.
+      required:
+        - id
+        - url
+        - object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the custom envelope used.
+          maxLength: 40
+        url:
+          type: string
+          description: The url of the envelope asset used.
+        object:
+          type: string
+          enum:
+            - envelope
+          default: envelope
+      nullable: true
     color:
       type: boolean
       description: >-
@@ -6278,46 +6332,6 @@ components:
           * `certified_return_receipt` - request an electronic copy of the recipient's signature to prove delivery of your certified letter
           * `registered` - provides tracking and confirmation for international addresses
       nullable: true
-    return_envelope_returned:
-      oneOf:
-        - type: boolean
-        - type: object
-      properties:
-        id:
-          type: string
-          description: The unique ID of the Return Envelope.
-        alias:
-          type: string
-          description: A quick reference name for the Return Envelope.
-        url:
-          type: string
-          description: The url of the return envelope.
-        object:
-          type: string
-          description: Value is resource type.
-    custom_envelope_returned:
-      type: object
-      description: >-
-        A nested custom envelope object containing more information about the
-        custom envelope used or `null` if a custom envelope was not used.
-      required:
-        - id
-        - url
-        - object
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the custom envelope used.
-          maxLength: 40
-        url:
-          type: string
-          description: The url of the envelope asset used.
-        object:
-          type: string
-          enum:
-            - envelope
-          default: envelope
-      nullable: true
     letter_details_returned:
       description: Properties that the letters in your Creative should have.
       properties:
@@ -6343,6 +6357,8 @@ components:
           minItems: 0
           maxItems: 1
           nullable: true
+        custom_envelope:
+          $ref: '#/components/schemas/custom_envelope_returned'
         color:
           $ref: '#/components/schemas/color'
         double_sided:
@@ -6354,10 +6370,6 @@ components:
           type: string
         mail_type:
           $ref: '#/components/schemas/mail_type'
-        return_envelope:
-          $ref: '#/components/schemas/return_envelope_returned'
-        custom_envelope:
-          $ref: '#/components/schemas/custom_envelope_returned'
     returned_resource:
       oneOf:
         - allOf:
@@ -6514,31 +6526,6 @@ components:
               enum:
                 - creative
               default: creative
-    column_mapping:
-      title: Column Mapping
-      type: object
-      example:
-        name: recipient_name
-        address_line1: primary_line
-        address_city: city,
-        address_state: state,
-        address_zip: zip_code
-        address_line2: secondary_line
-        company: company
-        address_country: country,
-        metadata:
-          columns:
-            - recipient_name
-        gift_code: code
-      description: >-
-        The mapping of column headers in your file to Lob-required fields for
-        the resource created. See our <a
-        href="https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide"
-        target="_blank">Campaign Audience Guide</a> for additional details.
-        <br/>Please note that this field is **now deprecated and will be removed
-        on 2nd November, 2022**. <br/>The new fields that should be used are
-        `requiredAddressColumnMapping`, `optionalAddressColumnMapping`,
-        `metadata`, and `mergeVariableColumnMapping`.
     required_address_column_mapping:
       title: Required Address Columns
       type: object
@@ -6669,7 +6656,14 @@ components:
         The mapping of column headers in your file to the merge variables
         present in your creative. See our <a
         href="https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide#step-3-map-merge-variable-data-if-applicable-7"
-        target="_blank">Campaign Audience Guide</a> for additional details.
+        target="_blank">Campaign Audience Guide</a> for additional details. <br
+        />If a merge variable has the same "name" as a "key" in the
+        `requiredAddressColumnMapping` or `optionalAddressColumnMapping`
+        objects, then they **CANNOT** have a different value in this object. If
+        a different value is provided, then when the campaign is processing it
+        will get overwritten with the mapped value present in the
+        `requiredAddressColumnMapping` or `optionalAddressColumnMapping`
+        objects.
     upload_writable:
       type: object
       required:
@@ -6681,8 +6675,6 @@ components:
             - description: Associated Campaign ID
               type: string
               example: cmp_1933ad629bae1408
-        columnMapping:
-          $ref: '#/components/schemas/column_mapping'
         requiredAddressColumnMapping:
           $ref: '#/components/schemas/required_address_column_mapping'
         optionalAddressColumnMapping:
@@ -6691,6 +6683,7 @@ components:
           $ref: '#/components/schemas/uploads_metadata'
         mergeVariableColumnMapping:
           $ref: '#/components/schemas/merge_variable_column_mapping'
+          description: test
     upl_id:
       type: string
       description: Unique identifier prefixed with `upl_`.
@@ -6720,7 +6713,6 @@ components:
             - id
             - accountId
             - campaignId
-            - columnMapping
             - requiredAddressColumnMapping
             - optionalAddressColumnMapping
             - metadata
@@ -7625,24 +7617,13 @@ components:
           $ref: '#/components/schemas/mail_type'
         size:
           $ref: '#/components/schemas/postcard_size'
+    letter_add_on_types:
+      type: string
+      enum:
+        - buckslips
+        - cards
+        - custom_envelope
     user_provided:
-      oneOf:
-        - type: boolean
-        - type: string
-      description: >-
-        Indicates if a return envelope is requested for the letter. The value
-        corresponding to this field is by default a boolean. But if the account
-        is signed up for custom return envelopes, the value is of type string
-        and is `no_9_single_window` for a standard return envelope and a custom
-        `return_envelope_id` for non-standard return envelopes.
-
-
-        To include a return envelope with your letter, set to `true` and specify
-        the `perforated_page`. See <a
-        href="https://www.lob.com/pricing/print-mail#compare"
-        target="_blank">pricing</a> for extra costs incurred.
-      default: false
-    custom_envelope_user_provided:
       type: string
       description: >-
         Accepts an envelope ID for any customized envelope with available
@@ -7662,10 +7643,20 @@ components:
       properties:
         address_placement:
           $ref: '#/components/schemas/address_placement'
+        add_on_types:
+          description: An array containing the types of add-ons for the Letter Creative.
+          type: array
+          items:
+            $ref: '#/components/schemas/letter_add_on_types'
+          minItems: 0
+          maxItems: 3
+          nullable: true
         buckslips:
           description: >-
             A single-element array containing an existing buckslip id in a
             string format. See [buckslips](#tag/Buckslips) for more information.
+            Note that buckslip letter campaigns require a minimum send quantity
+            of 5,000 letters per campaign.
           type: array
           items:
             $ref: '#/components/schemas/buckslip_id'
@@ -7684,16 +7675,14 @@ components:
           nullable: true
         color:
           $ref: '#/components/schemas/color'
+        custom_envelope:
+          $ref: '#/components/schemas/user_provided'
         double_sided:
           $ref: '#/components/schemas/double_sided'
         extra_service:
           $ref: '#/components/schemas/extra_service'
         mail_type:
           $ref: '#/components/schemas/mail_type'
-        return_envelope:
-          $ref: '#/components/schemas/user_provided'
-        custom_envelope:
-          $ref: '#/components/schemas/custom_envelope_user_provided'
     file:
       description: >-
         Notes:
@@ -8150,6 +8139,23 @@ components:
       oneOf:
         - $ref: '#/components/schemas/adr_id'
         - $ref: '#/components/schemas/inline_address'
+    return_envelope_returned:
+      oneOf:
+        - type: boolean
+        - type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the Return Envelope.
+        alias:
+          type: string
+          description: A quick reference name for the Return Envelope.
+        url:
+          type: string
+          description: The url of the return envelope.
+        object:
+          type: string
+          description: Value is resource type.
     generated:
       type: object
       required:
@@ -8653,6 +8659,23 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
+    return_envelope_user_provided:
+      oneOf:
+        - type: boolean
+        - type: string
+      description: >-
+        Indicates if a return envelope is requested for the letter. The value
+        corresponding to this field is by default a boolean. But if the account
+        is signed up for custom return envelopes, the value is of type string
+        and is `no_9_single_window` for a standard return envelope and a custom
+        `return_envelope_id` for non-standard return envelopes.
+
+
+        To include a return envelope with your letter, set to `true` and specify
+        the `perforated_page`. See <a
+        href="https://www.lob.com/pricing/print-mail#compare"
+        target="_blank">pricing</a> for extra costs incurred.
+      default: false
     qr_code:
       type: object
       description: Customize and place a QR code on the creative at the required position.
@@ -8726,7 +8749,7 @@ components:
             address_placement:
               $ref: '#/components/schemas/address_placement'
             return_envelope:
-              $ref: '#/components/schemas/user_provided'
+              $ref: '#/components/schemas/return_envelope_user_provided'
             perforated_page:
               type: integer
               description: >-
@@ -8740,7 +8763,7 @@ components:
                 target="_blank">perforation guide</a>.
               nullable: true
             custom_envelope:
-              $ref: '#/components/schemas/custom_envelope_user_provided'
+              $ref: '#/components/schemas/user_provided'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
             qr_code:
@@ -9178,21 +9201,10 @@ components:
     upload_updatable:
       type: object
       properties:
-        columnMapping:
-          $ref: '#/components/schemas/column_mapping'
         originalFilename:
           title: Original Filename
           type: string
           description: Original filename provided when the upload is created.
-        overwriteColumnMapping:
-          title: Overwrite Column Mapping
-          type: boolean
-          description: >
-            Properties in `columnMapping` will be appended to the existing
-            `columnMapping` object if set to `false`. If set to `true`, the
-            existing `columnMapping` object will be overwritten with the data
-            supplied in `columnMapping` property. <br/>Please note that this
-            field is **now deprecated will be removed on 2nd November, 2022**.
         requiredAddressColumnMapping:
           $ref: '#/components/schemas/required_address_column_mapping'
         optionalAddressColumnMapping:
@@ -11756,16 +11768,6 @@ components:
             - id: upl_71be866e430b11e9
               accountId: fa9ea650fc7b31a89f92
               campaignId: cmp_1933ad629bae1408
-              columnMapping:
-                name: recipient_name
-                address_line1: primary_line
-                address_city: city
-                address_state: state
-                address_zip: zip_code
-                address_line2: secondary_line
-                company: company
-                address_country: country
-                gift_code: code
               mode: test
               failuresUrl: https://www.example.com
               originalFilename: my_audience.csv
@@ -13827,9 +13829,12 @@ paths:
                     description: null
                     url: >-
                       https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
-                    size: 2.125x3.375
+                    size: 8.75x3.75
+                    has_front: true
+                    has_back: true
                     auto_reorder: false
                     reorder_quantity: null
+                    threshold_amount: 0
                     raw_url: >-
                       https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
                     front_original_url: >-
@@ -13843,12 +13848,17 @@ paths:
                           https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_1.png?version=v1&expires=1636910992&signature=VgL_2Ckm_kxKiWGgWtdNoy9HHOn8dGYSVOn7UqyCbwdbVlUtx28TRN4Bo8Iru3n0keKp9He0YhKT1ILotznMDA
                         large: >-
                           https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_1.png?version=v1&expires=1636910992&signature=FKSzymA13j-CQ0uk20cGHZTzT3vimzNBYrgp-xifLFg4mMdo1BZALR5O0aF_jVhsX614hKP35ONdYl47TQxXAw
+                    available_quantity: 0
+                    allocated_quantity: 0
+                    onhand_quantity: 0
+                    pending_quantity: 0
+                    projected_quantity: 0
+                    buckslip_orders: []
                     stock: text
                     weight: 80#
                     finish: gloss
                     status: rendered
                     mode: test
-                    threshold_amount: 0
                     date_created: '2021-03-24T22:51:42.838Z'
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
@@ -13916,9 +13926,10 @@ paths:
                     description: Test buckslip
                     url: >-
                       https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
-                    size: 2.125x3.375
+                    size: 8.75x3.755
                     auto_reorder: false
                     reorder_quantity: null
+                    threshold_amount: 0
                     raw_url: >-
                       https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
                     front_original_url: >-
@@ -13938,13 +13949,17 @@ paths:
                           https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
                         large: >-
                           https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
-                    countries: null
+                    available_quantity: 0
+                    allocated_quantity: 0
+                    onhand_quantity: 0
+                    pending_quantity: 0
+                    projected_quantity: 0
+                    buckslip_orders: []
                     stock: text
                     weight: 80#
                     finish: gloss
                     status: rendered
                     mode: test
-                    threshold_amount: 0
                     date_created: '2021-03-24T22:51:42.838Z'
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
@@ -13991,9 +14006,10 @@ paths:
                     description: Test buckslip
                     url: >-
                       https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
-                    size: 2.125x3.375
+                    size: 8.75x3.755
                     auto_reorder: false
                     reorder_quantity: null
+                    threshold_amount: 0
                     raw_url: >-
                       https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
                     front_original_url: >-
@@ -14013,13 +14029,17 @@ paths:
                           https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
                         large: >-
                           https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
-                    countries: null
+                    available_quantity: 0
+                    allocated_quantity: 0
+                    onhand_quantity: 0
+                    pending_quantity: 0
+                    projected_quantity: 0
+                    buckslip_orders: []
                     stock: text
                     weight: 80#
                     finish: gloss
                     status: rendered
                     mode: test
-                    threshold_amount: 0
                     date_created: '2021-03-24T22:51:42.838Z'
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
@@ -14076,9 +14096,10 @@ paths:
                     description: Test buckslip
                     url: >-
                       https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e.pdf?version=v1&expires=1636910992&signature=mnsDH2DAxdkN9VibdlLMxJC86sME5WYDqkNtmvGwdNsAaUWfbnv0rJhJ1mR8Ol4uxQq61j5wYZ0r3s-lBkQfDA
-                    size: 2.125x3.375
+                    size: 8.75x3.755
                     auto_reorder: false
                     reorder_quantity: null
+                    threshold_amount: 0
                     raw_url: >-
                       https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_raw.pdf?version=v1&expires=1636910992&signature=-bZo31FMAp2vmNaZKyXn_Qa4APqwtNinw76FrQ7uyQejFZw6VBQQYfoiQ642iXh0H2K5i2aOo8_BAkt3UJdVDw
                     front_original_url: >-
@@ -14098,13 +14119,17 @@ paths:
                           https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_medium_2.png?version=v1&expires=1636910992&signature=zxK7VKGiTvz5Ywrkaydd0v3GcYf58R7A08J4tNfI7-aiNODDcTF3l0MqY13n9Pyc8RXSdD0XVBY-OpbA1VM-Ag
                         large: >-
                           https://lob-assets.com/buckslips/bck_c51ae96f5cebf3e_thumb_large_2.png?version=v1&expires=1636910992&signature=r0OFUhh315ZwN0raMZdIwJd2oCIEYsz0BABaMxIuO1PKTD0ckGWrhcGdzk2dlWQ6vSvp0CUQ5k1RXGqkIIqkDw
-                    countries: null
+                    available_quantity: 0
+                    allocated_quantity: 0
+                    onhand_quantity: 0
+                    pending_quantity: 0
+                    projected_quantity: 0
+                    buckslip_orders: []
                     stock: text
                     weight: 80#
                     finish: gloss
                     status: rendered
                     mode: test
-                    threshold_amount: 0
                     date_created: '2021-03-24T22:51:42.838Z'
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
@@ -21208,7 +21233,6 @@ paths:
                 id: upl_71be866e430b11e9
                 accountId: fa9ea650fc7b31a89f92
                 campaignId: cmp_1933ad629bae1408
-                columnMapping: {}
                 mode: live
                 failuresUrl: http://www.example.com
                 originalFilename: my_audience.csv
@@ -21241,10 +21265,7 @@ paths:
             --header 'Content-Type: application/json' \
             -u YOUR_KEY_HERE: \
             --data-raw '{
-                "campaignId": "cmp_f33809b18b6f3ea8",
-                "columnMapping": {
-                    "name": "recipient"
-                }
+                "campaignId": "cmp_f33809b18b6f3ea8"
             }'
           label: CURL
   /uploads/{upl_id}:
@@ -21274,7 +21295,6 @@ paths:
                 id: upl_71be866e430b11e9
                 accountId: fa9ea650fc7b31a89f92
                 campaignId: cmp_1933ad629bae1408
-                columnMapping: {}
                 mode: live
                 failuresUrl: http://www.example.com
                 originalFilename: my_audience.csv
@@ -21333,7 +21353,6 @@ paths:
                 id: upl_71be866e430b11e9
                 accountId: fa9ea650fc7b31a89f92
                 campaignId: cmp_1933ad629bae1408
-                columnMapping: {}
                 mode: live
                 failuresUrl: http://www.example.com
                 originalFilename: my_audience.csv

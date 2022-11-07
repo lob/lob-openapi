@@ -9,8 +9,17 @@ writable:
     address_placement:
       $ref: "../../letters/attributes/address_placement.yml"
 
+    add_on_types:
+      description: An array containing the types of add-ons for the Letter Creative.
+      type: array
+      items:
+        $ref: "../attributes/letter_add_on_types.yml"
+      minItems: 0
+      maxItems: 3
+      nullable: true
+
     buckslips:
-      description: A single-element array containing an existing buckslip id in a string format. See [buckslips](#tag/Buckslips) for more information.
+      description: A single-element array containing an existing buckslip id in a string format. See [buckslips](#tag/Buckslips) for more information. Note that buckslip letter campaigns require a minimum send quantity of 5,000 letters per campaign.
       type: array
       items:
         $ref: "../../../shared/attributes/model_ids/buckslip_id.yml"
@@ -30,6 +39,9 @@ writable:
     color:
       $ref: "../../letters/attributes/color.yml"
 
+    custom_envelope:
+      $ref: "../../letters/attributes/custom_envelope.yml#/user_provided"
+
     double_sided:
       $ref: "../../letters/attributes/double_sided.yml"
 
@@ -41,13 +53,11 @@ writable:
     mail_type:
       $ref: "../../../shared/attributes/mail_type.yml"
 
-    return_envelope:
-      $ref: "../../letters/attributes/return_envelope.yml#/user_provided"
+    # commented out as this add-on feature is not supported yet
+    # return_envelope:
+    #   $ref: "../../letters/attributes/return_envelope.yml#/user_provided"
 
     # size:
-
-    custom_envelope:
-      $ref: "../../letters/attributes/custom_envelope.yml#/user_provided"
 
 returned:
   description: Properties that the letters in your Creative should have.
@@ -74,6 +84,9 @@ returned:
       maxItems: 1
       nullable: true
 
+    custom_envelope:
+      $ref: "../../letters/attributes/custom_envelope.yml#/returned"
+
     color:
       $ref: "../../letters/attributes/color.yml"
 
@@ -92,10 +105,8 @@ returned:
     mail_type:
       $ref: "../../../shared/attributes/mail_type.yml"
 
-    return_envelope:
-      $ref: "../../letters/attributes/return_envelope.yml#/returned"
+    # commented out as this add-on feature is not supported yet
+    # return_envelope:
+    #   $ref: "../../letters/attributes/return_envelope.yml#/returned"
 
     # size:
-
-    custom_envelope:
-      $ref: "../../letters/attributes/custom_envelope.yml#/returned"

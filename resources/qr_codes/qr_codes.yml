@@ -16,6 +16,11 @@ get:
     - $ref: "../../shared/parameters/include.yml"
     - $ref: "../../shared/parameters/date_created.yml"
     - in: query
+      name: scanned
+      description: Filter list of responses to only include QR codes with at least one scan event.
+      schema:
+        type: boolean
+    - in: query
       name: resource_ids
       description: Filter by the resource ID.
       schema:
@@ -32,5 +37,5 @@ get:
   x-codeSamples:
     - lang: Shell
       source: |
-        curl -X GET "https://api.lob.com/v1/qr_codes?limit=2" \
+        curl -X GET "https://lob-api.lob.com/v1/qr_code_analytics?limit=2&scanned=true" \
         -u <YOUR API KEY>:

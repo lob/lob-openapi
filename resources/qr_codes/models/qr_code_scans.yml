@@ -1,0 +1,20 @@
+allOf:
+  - type: object
+
+    properties:
+      resource_id:
+        type: string
+        description: Unique identifier for each mail piece.
+
+      date_created:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+      number_of_scans:
+        type: number
+        description: Number of times the QR Code associated with this mail piece was scanned.
+
+      scans:
+        type: array
+        description: Detailed scan information associated with each mail piece.
+        items:
+          $ref: "../models/scans.yml"

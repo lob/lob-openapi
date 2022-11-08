@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.17.3
+  version: 1.18.0
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -660,6 +660,11 @@ tags:
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A postcard receives a "International Exit" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>postcard.viewed</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A postcard QR code or URL was scanned or viewed by the recipient. </td>
+        </tr>
       </table>
 
 
@@ -896,6 +901,11 @@ tags:
           <td style="white-space: nowrap"><code>letter.return_envelope.international_exit</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A return envelope receives a "International Exit" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.viewed</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A letter's QR code or URL was scanned or viewed by the recipient. </td>
         </tr>
       </table>
 
@@ -1499,6 +1509,32 @@ tags:
 
       retrieving individual postcards, canceling postcards, and retrieving a
       list of postcards.
+
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
+      top</a></div>
+  - name: QR Codes
+    description: >
+
+      Lob QR codes allow you to generate a QR code that is unique to each
+      mailpiece, thereby allowing each and every customers to receive a
+      personalized link. See the Create endpoint for <a
+      href="#tag/Letters/operation/letter_create">Letters</a> or <a
+      href="#tag/Postcards/operation/postcard_create">Postcards</a> to learn how
+      to embed a QR code into your mail piece.
+
+
+      Webhooks can be used to integrate Lob QR code scans into your omni channel
+      marketing strategy. See the <a href="#tag/Webhooks">Webhooks</a> section
+      of our documentation to learn how to enable the `letter.viewed` and
+      `postcard.viewed` event notifications for your mail pieces.
+
+
+      Furthermore, our QR code Analytics endpoint can be used to track the
+      impact and engagement rate of your mail sends. Lob can tell you exactly
+      which recipients opened your mailpiece. Our Analytics endpoint allows you
+      to see exactly which recipient scanned a mailpiece, when they scanned it,
+      and more!
+
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
       top</a></div>
@@ -3394,6 +3430,7 @@ x-tagGroups:
       - Buckslip Orders
       - Cards
       - Card Orders
+      - QR Codes
   - name: Appendix
     tags:
       - Beta Program
@@ -3882,7 +3919,7 @@ components:
         total_count:
           type: integer
           description: >-
-            indicates the total number of records. Provided when the request
+            Indicates the total number of records. Provided when the request
             specifies an "include" query parameter
     date_created:
       type: string
@@ -8889,6 +8926,32 @@ components:
               $ref: '#/components/schemas/billing_group_id'
             qr_code:
               $ref: '#/components/schemas/qr_code'
+    scans:
+      type: object
+      properties:
+        ip_location:
+          type: string
+        scan_date:
+          type: string
+    qr_code_scans:
+      allOf:
+        - type: object
+          properties:
+            resource_id:
+              type: string
+              description: Unique identifier for each mail piece.
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            number_of_scans:
+              type: number
+              description: >-
+                Number of times the QR Code associated with this mail piece was
+                scanned.
+            scans:
+              type: array
+              description: Detailed scan information associated with each mail piece.
+              items:
+                $ref: '#/components/schemas/scans'
     sfm_id:
       type: string
       description: Unique identifier prefixed with `sfm_`.
@@ -19255,6 +19318,90 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+  /qr_code_analytics:
+    get:
+      operationId: qr_codes_list
+      summary: List
+      description: >-
+        Returns a list of your QR codes. The QR codes are returned sorted by
+        scan date, with the most recently scanned QR codes appearing first.
+      tags:
+        - QR Codes
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+        - in: query
+          name: scanned
+          description: >-
+            Filter list of responses to only include QR codes with at least one
+            scan event.
+          schema:
+            type: boolean
+        - in: query
+          name: resource_ids
+          description: Filter by the resource ID.
+          schema:
+            type: array
+            maxItems: 100
+            default: []
+      responses:
+        '200':
+          description: Returns a list of QR Codes and their analytics.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      object:
+                        $ref: '#/components/schemas/object'
+                      count:
+                        $ref: '#/components/schemas/count'
+                      total_count:
+                        type: integer
+                        description: >-
+                          Indicates the total number of records. Provided when
+                          the request specifies an "include" query parameter
+                      scanned_count:
+                        type: integer
+                        description: >-
+                          Indicates the number of QR Codes out of `count` that
+                          were scanned atleast once.
+                      data:
+                        type: array
+                        description: List of QR code analytics
+                        items:
+                          $ref: '#/components/schemas/qr_code_scans'
+              example:
+                data:
+                  - resource_id: ltr_d5a5a89da9106f8
+                    date_created: '2019-07-27T23:49:01.511Z'
+                    number_of_scans: 2
+                    scans:
+                      - ip_location: 127.0.0.1
+                        scan_date: '2022-07-27T23:49:01.511Z'
+                      - ip_location: 127.0.0.1
+                        scan_date: '2022-07-29T23:45:00.436Z'
+                  - resource_id: psc_d5a5a89da9106f8
+                    date_created: '2022-09-27T23:49:01.511Z'
+                    number_of_scans: 1
+                    scans:
+                      - ip_location: 127.0.0.1
+                        scan_date: '2022-09-27T23:49:01.511Z'
+                object: list
+                count: 2
+                scanned_count: 2
+                total_count: 2
+      x-codeSamples:
+        - lang: Shell
+          source: >
+            curl -X GET
+            "https://lob-api.lob.com/v1/qr_code_analytics?limit=2&scanned=true"
+            \
+
+            -u <YOUR API KEY>:
   /self_mailers/{sfm_id}:
     parameters:
       - in: path

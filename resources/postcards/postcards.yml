@@ -202,9 +202,10 @@ post:
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
-            width: "2"
-            top: "2"
-            right: "2"
+            width: "2.5"
+            top: "2.5"
+            right: "2.5"
+            pages: "front,back"
 
       application/x-www-form-urlencoded:
         schema:
@@ -247,9 +248,10 @@ post:
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
-            width: "2"
-            bottom: "2"
-            right: "2"
+            width: "2.5"
+            bottom: "2.5"
+            right: "2.5"
+            pages: "back"
         encoding:
           to:
             style: deepObject
@@ -305,9 +307,10 @@ post:
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
-            width: "2"
-            bottom: "2"
-            left: "2"
+            width: "2.5"
+            bottom: "2.5"
+            left: "2.5"
+            pages: "front"
 
   responses:
     "200":
@@ -334,9 +337,10 @@ post:
           -d 'merge_variables[name]=Harry' \
           -d 'qr_code[position]=relative' \
           -d 'qr_code[redirect_url]=https://www.lob.com' \
-          -d 'qr_code[width]=2' \
-          -d 'qr_code[bottom]=2' \
-          -d 'qr_code[left]=2'
+          -d 'qr_code[width]=2.5' \
+          -d 'qr_code[bottom]=2.5' \
+          -d 'qr_code[left]=2.5' \
+          -d 'qr_code[pages]=front,back'
       label: CURL
     - lang: Typescript
       source: |
@@ -356,9 +360,10 @@ post:
         qr_code : {
           position: 'relative',
           redirect_url: 'https://www.lob.com',
-          width: '2',
-          bottom: '2',
-          left: '2'
+          width: '2.5',
+          bottom: '2.5',
+          left: '2.5',
+          pages: 'front'
         }
         });
 
@@ -389,9 +394,10 @@ post:
           qr_code : {
             position: 'relative',
             redirect_url: 'https://www.lob.com',
-            width: '2',
-            bottom: '2',
-            left: '2'
+            width: '2.5',
+            bottom: '2.5',
+            left: '2.5',
+            pages: 'back'
           }
         }, function (err, res) {
           console.log(err, res);
@@ -418,9 +424,10 @@ post:
           qr_code : {
             position: 'relative',
             redirect_url: 'https://www.lob.com',
-            width: '2',
-            bottom: '2',
-            left: '2'
+            width: '2.5',
+            bottom: '2.5',
+            left: '2.5',
+            pages: 'front'
           }
         )
       label: RUBY
@@ -445,9 +452,10 @@ post:
           qr_code = {
             'position' : 'relative',
             'redirect_url' : 'https://www.lob.com',
-            'width' : '2',
-            'bottom' : '2',
-            'left' : '2'
+            'width' : '2.5',
+            'bottom' : '2.5',
+            'left' : '2.5',
+            'pages' : 'front'
           }
         )
 
@@ -482,6 +490,7 @@ post:
             "width" => "2",
             "bottom" => "2",
             "left" => "2",
+            "pages" => "front,back"
           )
         );
 
@@ -524,6 +533,7 @@ post:
         qrCode.setWidth("2");
         qrCode.setLeft("2");
         qrCode.setBottom("2");
+        qrCode.setPages("back");
 
         try {
           PostcardEditable postcardEditable = new PostcardEditable();
@@ -563,7 +573,8 @@ post:
             redirect_url: 'https://www.lob.com',
             width: '2',
             bottom: '2',
-            left: '2'
+            left: '2',
+            pages: 'front,back'
           }
         })
       label: ELIXIR
@@ -591,6 +602,7 @@ post:
           "2", //width
           "2", //left
           "2", //bottom
+          "front", //pages
         );
 
         PostcardEditable postcardEditable = new PostcardEditable(

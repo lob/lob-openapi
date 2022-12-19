@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: '2'
+  version: 1.19.0
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -8733,9 +8733,9 @@ components:
           type: string
           description: >-
             Specify the pages where the QR code should be stamped in a comma
-            separated format. For postcards, The values should be front and/or
-            back. For letters, the values can be specific page numbers or page
-            number ranges.
+            separated format. For postcards, the values should be either
+            `front`, `back`, or `front,back`. For letters, the values can be
+            specific page numbers or page number ranges.
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/input_to'

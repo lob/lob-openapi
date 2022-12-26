@@ -53,7 +53,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        This feature is not currently supported by this library.
+        templateVersionApi = TemplateVersionsApi.new(config)
+
+        begin
+          retrievedTemplateVersion = templateVersionApi.get("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -164,7 +170,17 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        This feature is not currently supported by this library.
+        templateVersionUpdatable = TemplateUpdate.new({
+          description: "updated template version",
+        })
+
+        templateVersionApi = TemplateVersionsApi.new(config)
+
+        begin
+          updatedTemplateVersion = templateVersionApi.update("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282", templateVersionUpdatable)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -251,7 +267,13 @@ delete:
       label: NODE
     - lang: Ruby
       source: |
-        This feature is not currently supported by this library.
+        templateVersionApi = TemplateVersionsApi.new(config)
+
+        begin
+          deletedTemplateVersion = templateVersionApi.delete("tmpl_4aa14648113e45b", "vrsn_534e339882d2282")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

@@ -80,7 +80,20 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.bank_accounts.verify("bank_dfceb4a2a05b57e", amounts: [25, 63])
+        verificationData = BankAccountVerify.new({
+          amounts: [
+            25,
+            63,
+          ],
+        })
+
+        bankAccountsApi = BankAccountsApi.new(config)
+
+        begin
+          verifiedAccount = bankAccountsApi.verify("bank_dfceb4a2a05b57e", verificationData)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

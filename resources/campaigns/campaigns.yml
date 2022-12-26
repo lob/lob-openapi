@@ -25,6 +25,16 @@ get:
         curl https://api.lob.com/v1/campaigns \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Ruby
+      source: |
+        campaignsApi = CampaignsApi.new(config)
+
+        begin
+          campaigns = campaignsApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 post:
   operationId: campaign_create
@@ -89,3 +99,18 @@ post:
           -d "name=My First Campaign" \
           -d "schedule_type=immediate"
       label: CURL
+    - lang: Ruby
+      source: |
+        campaignCreate = CampaignWritable.new({
+          name: "My First Campaign",
+          schedule_type: "immediate",
+        });
+
+        campaignApi = CampaignsApi.new(config)
+
+        begin
+          createdCampaign = campaignApi.create(campaignCreate)
+        rescue => err
+          p err.message
+        end
+      label: RUBY

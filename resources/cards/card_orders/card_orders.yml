@@ -73,6 +73,16 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardOrderApi = CardOrdersApi.new(config)
+
+        begin
+          retrievedCardOrderList = cardOrderApi.get("card_6afffd19045076c", { limit: 2, offset: 1 })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 post:
   operationId: card_order_create
@@ -175,3 +185,17 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardOrderCreate = CardOrderEditable.new({
+          quantity: 10000,
+        });
+
+        cardOrderApi = CardOrdersApi.new(config)
+
+        begin
+          createdCardOrder = cardOrderApi.create("card_6afffd19045076c", cardOrderCreate)
+        rescue => err
+          p err.message
+        end
+      label: RUBY

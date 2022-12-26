@@ -63,3 +63,25 @@ post:
           -d "campaign_id=cmp_e05ee61ff80764b" \
           -d "resource_type=postcard" \
           -d "details={}"
+    - lang: Ruby
+      source: |
+        creativeCreate = CreativeWritable.new({
+          campaign_id: "cmp_e05ee61ff80764b",
+          resource_type: "postcard",
+          description: "Our 4x6 postcard creative",
+          from: "adr_210a8d4b0b76d77b",
+          front: "tmpl_4aa14648113e45b",
+          back: "tmpl_4aa14648113e45b",
+          details: PostcardDetailsWritable.new({
+            mail_type: "usps_first_class",
+          }),
+        });
+
+        creativeApi = CreativesApi.new(config)
+
+        begin
+          createdCreative = creativeApi.create(creativeCreate)
+        rescue => err
+          p err.message
+        end
+      label: RUBY

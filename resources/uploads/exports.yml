@@ -65,3 +65,17 @@ post:
         except ApiException as e:
           print(e)
       label: PYTHON
+    - lang: Ruby
+      source: |
+        exportModel = ExportModel.new({
+          type: "all"
+        })
+
+        uploadsApi = UploadsApi.new(config)
+
+        begin
+          createdExport = uploadsApi.create_export("upl_71be866e430b11e9", exportModel)
+        rescue => err
+          p err.message
+        end
+      label: RUBY

@@ -50,7 +50,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.checks.list(limit: 2)
+        checksApi = ChecksApi.new(config)
+
+        begin
+          checks = checksApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -355,26 +361,34 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.checks.create(
-          description: 'Demo Check',
-          bank_account: 'bank_8cad8df5354d33f',
-          to: {
-            name: 'Harry Zhang',
-            address_line1: '210 King St',
-            address_line2: '# 6100',
-            address_city: 'San Francisco',
-            address_state: 'CA',
-            address_zip: '94107'
-          },
-          from: 'adr_210a8d4b0b76d77b',
-          amount: 22.50,
-          memo: 'rent',
-          logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
-          check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
+        checkCreate = CheckEditable.new({
+          description: "Demo Check",
+          bank_account: "bank_8cad8df5354d33f",
+          amount: 22.5,
+          memo: "rent",
+          logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
+          check_bottom: "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+          from: "adr_210a8d4b0b76d77b",
+          to: AddressDomestic.new({
+            name: "Harry Zhang",
+            address_line1: "210 King St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          }),
           merge_variables: {
-            name: 'Harry'
-          }
-        )
+            name: "Harry"
+          },
+        });
+
+        checkApi = ChecksApi.new(config)
+
+        begin
+          createdCheck = checkApi.create(checkCreate)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

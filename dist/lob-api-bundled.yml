@@ -7579,7 +7579,7 @@ components:
           $ref: '#/components/schemas/chk_id'
         deleted:
           $ref: '#/components/schemas/deleted'
-    front:
+    crv_front:
       description: >
         The artwork to use as the front of your postcard.
 
@@ -7597,7 +7597,7 @@ components:
       oneOf:
         - $ref: '#/components/schemas/tmpl_id'
         - $ref: '#/components/schemas/local_file_path'
-    back:
+    crv_back:
       description: >
         The artwork to use as the back of your postcard creative.
 
@@ -7696,7 +7696,7 @@ components:
           $ref: '#/components/schemas/extra_service'
         mail_type:
           $ref: '#/components/schemas/mail_type'
-    file:
+    crv_file:
       description: >-
         Notes:
 
@@ -7751,9 +7751,9 @@ components:
                 campaign_id:
                   $ref: '#/components/schemas/cmp_id'
                 front:
-                  $ref: '#/components/schemas/front'
+                  $ref: '#/components/schemas/crv_front'
                 back:
-                  $ref: '#/components/schemas/back'
+                  $ref: '#/components/schemas/crv_back'
                 details:
                   $ref: '#/components/schemas/writable'
             - $ref: '#/components/schemas/creative_base'
@@ -7776,7 +7776,7 @@ components:
                 details:
                   $ref: '#/components/schemas/letter_details_writable'
                 file:
-                  $ref: '#/components/schemas/file'
+                  $ref: '#/components/schemas/crv_file'
             - $ref: '#/components/schemas/creative_base'
     recipient_input:
       allOf:
@@ -8669,7 +8669,7 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
-    file-2:
+    ltr_file:
       description: >-
         Notes:
 
@@ -8736,7 +8736,6 @@ components:
         position:
           type: string
           enum:
-            - fixed
             - relative
           description: Sets how a QR code is being positioned in the document.
         top:
@@ -8759,8 +8758,8 @@ components:
         width:
           type: string
           description: >-
-            The size(in inches) of the QR code with a minimum of .25 inches. All
-            QR codes are generated as a square.
+            The size(in inches) of the QR code with a minimum of 1 inch. All QR
+            codes are generated as a square.
         pages:
           type: string
           description: >-
@@ -8781,7 +8780,7 @@ components:
             - color
           properties:
             file:
-              $ref: '#/components/schemas/file-2'
+              $ref: '#/components/schemas/ltr_file'
             extra_service:
               $ref: '#/components/schemas/extra_service'
             cards:
@@ -8926,7 +8925,7 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address_us'
-    front-2:
+    psc_front:
       description: >
         The artwork to use as the front of your postcard.
 
@@ -8946,7 +8945,7 @@ components:
         - $ref: '#/components/schemas/tmpl_id'
         - $ref: '#/components/schemas/remote_file_url'
         - $ref: '#/components/schemas/local_file_path'
-    back-2:
+    psc_back:
       description: >
         The artwork to use as the back of your postcard.
 
@@ -8984,9 +8983,9 @@ components:
             - back
           properties:
             front:
-              $ref: '#/components/schemas/front-2'
+              $ref: '#/components/schemas/psc_front'
             back:
-              $ref: '#/components/schemas/back-2'
+              $ref: '#/components/schemas/psc_back'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
             qr_code:
@@ -12480,7 +12479,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.addresses.list(limit: 2)
+            addressesApi = AddressesApi.new(config)
+
+            begin
+              addresses = addressesApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -12767,7 +12772,7 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.addresses.create(
+            addressCreate = AddressEditable.new({
               description: "Harry - Office",
               name: "Harry Zhang",
               company: "Lob",
@@ -12777,9 +12782,17 @@ paths:
               address_line2: "# 6100",
               address_city: "San Francisco",
               address_state: "CA",
+              address_zip: "94107",
               address_country: "US",
-              address_zip: "94107"
-            )
+            });
+
+            addressApi = AddressesApi.new(config)
+
+            begin
+              createdAddress = addressApi.create(addressCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -12939,7 +12952,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.addresses.find("adr_fa85158b26c3eb7c")
+            addressApi = AddressesApi.new(config)
+
+            begin
+              retrievedAddress = addressApi.get("adr_fa85158b26c3eb7c")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13022,7 +13041,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.addresses.destroy("adr_43769b47aed248c2")
+            addressApi = AddressesApi.new(config)
+
+            begin
+              deletedAddress = addressApi.delete("adr_43769b47aed248c2")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13143,7 +13168,20 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.verify("bank_dfceb4a2a05b57e", amounts: [25, 63])
+            verificationData = BankAccountVerify.new({
+              amounts: [
+                25,
+                63,
+              ],
+            })
+
+            bankAccountsApi = BankAccountsApi.new(config)
+
+            begin
+              verifiedAccount = bankAccountsApi.verify("bank_dfceb4a2a05b57e", verificationData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13281,7 +13319,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.find("bank_8cad8df5354d33f")
+            bankAccountApi = BankAccountsApi.new(config)
+
+            begin
+              retrievedBankAccount = bankAccountApi.get("bank_8cad8df5354d33f")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13363,7 +13407,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.destroy("bank_3e64d9904356b20")
+            bankAccountApi = BankAccountsApi.new(config)
+
+            begin
+              deletedBankAccount = bankAccountApi.delete("bank_3e64d9904356b20")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13453,7 +13503,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.list(limit: 2)
+            bankAccountsApi = BankAccountsApi.new(config)
+
+            begin
+              bankAccounts = bankAccountsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13630,13 +13686,21 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.create(
+            bankAccountCreate = BankAccountWritable.new({
               description: "Test Bank Account",
               routing_number: "322271627",
               account_number: "123456789",
               signatory: "John Doe",
-              account_type: "company"
-            )
+              account_type: BankTypeEnum::COMPANY,
+            });
+
+            bankAccountApi = BankAccountsApi.new(config)
+
+            begin
+              createdBankAccount = bankAccountApi.create(bankAccountCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13761,6 +13825,16 @@ paths:
           source: |
             curl https://api.lob.com/v1/billing_groups/bg_4bb02b527a72667d0 \
             -u <YOUR API KEY>:
+        - lang: Ruby
+          source: |
+            billingGroupApi = BillingGroupsApi.new(config)
+
+            begin
+              retrievedBillingGroup = billingGroupApi.get("bg_4bb02b527a72667d0")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     post:
       operationId: billing_group_update
       summary: Update
@@ -13794,6 +13868,20 @@ paths:
             curl https://api.lob.com/v1/billing_groups/bg_759954f540a1bfdb5 \
             -u <YOUR API KEY>: \
             -d "description=demo replacement" \
+        - lang: Ruby
+          source: |
+            billingGroupEditable = BillingGroupEditable.new({
+              description: "demo replacement",
+            })
+
+            bgApi = BillingGroupsApi.new(config)
+
+            begin
+              updatedBillingGroup = bgApi.update("bg_759954f540a1bfdb5", billingGroupEditable)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
       responses:
         '200':
           $ref: '#/components/responses/post_billing_group'
@@ -13879,6 +13967,16 @@ paths:
           source: |
             curl -X GET "https://api.lob.com/v1/billing_groups?limit=2" \
             -u <YOUR API KEY>:
+        - lang: Ruby
+          source: |
+            billingGroupsApi = BillingGroupsApi.new(config)
+
+            begin
+              billingGroups = billingGroupsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     post:
       operationId: billing_group_create
       summary: Create
@@ -13922,6 +14020,21 @@ paths:
 
             -d "description=Usage group used for the Marketing Department's
             resource sends"
+        - lang: Ruby
+          source: |
+            bgCreate = BillingGroupEditable.new({
+              description: "Usage group used for the Marketing Department's resource sends",
+              name: "Marketing Department",
+            });
+
+            bgApi = BillingGroupsApi.new(config)
+
+            begin
+              createdBillingGroup = bgApi.create(bgCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /buckslips:
     get:
       operationId: buckslips_list
@@ -14536,17 +14649,35 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bulk_us_verifications.verify(
+            usVerificationsApi = UsVerificationsApi.new(config)
+
+            verificationData0 = MultipleComponents.new({
+              primary_line: "210 King Street",
+              city: "San Francisco",
+              state: "CA",
+              zip_code: "94017",
+            })
+
+            verificationData1 = MultipleComponents.new({
+              primary_line: "185 BERRY ST STE 6600",
+              city: "SAN FRANCISCO",
+              state: "CA",
+              zip_code: "94017",
+            })
+
+
+            addressList = MultipleComponentsList.new({
               addresses: [
-                {
-                recipient: "LOB.COM",
-                primary_line: "185 BERRY ST STE 6600",
-                city: "SAN FRANCISCO",
-                state: "CA",
-                zip_code: "94107"
-                }
-              ]
-            )
+                verificationData0,
+                verificationData1,
+              ],
+            })
+
+            begin
+              bulkVerifiedAddrs = usVerificationsApi.verifyBulk(addressList)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -14657,26 +14788,26 @@ paths:
             List<MultipleComponents> addresses = new List<MultipleComponents>();
 
             MultipleComponents bulkAddress0 = new MultipleComponents(
-              null,  // recipient 
-              "210 King Street",  // primaryLine 
-              null,  // secondaryLine 
-              null,  // urbanization 
-              "San Francisco",  // city 
-              "CA",  // state 
-              "94017" // zipCode 
+              null,  // recipient
+              "210 King Street",  // primaryLine
+              null,  // secondaryLine
+              null,  // urbanization
+              "San Francisco",  // city
+              "CA",  // state
+              "94017" // zipCode
             );
 
             addresses.Add(bulkAddress0);
 
 
             MultipleComponents bulkAddress1 = new MultipleComponents(
-              null,  // recipient 
-              "185 BERRY ST STE 6600",  // primaryLine 
-              null,  // secondaryLine 
-              null,  // urbanization 
-              "San Francisco",  // city 
-              "CA",  // state 
-              "94017" // zipCode 
+              null,  // recipient
+              "185 BERRY ST STE 6600",  // primaryLine
+              null,  // secondaryLine
+              null,  // urbanization
+              "San Francisco",  // city
+              "CA",  // state
+              "94017" // zipCode
             );
 
             addresses.Add(bulkAddress1);
@@ -14801,18 +14932,36 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bulk_intl_verifications.verify(
+            intlVerificationsApi = IntlVerificationsApi.new(config)
+
+            verificationData0 = MultipleComponentsIntl.new({
+              primary_line: "35 Tower Hill",
+              city: "London",
+              postal_code: "EC3N 4DR",
+              country: "GB",
+            })
+
+            verificationData1 = MultipleComponentsIntl.new({
+              primary_line: "370 Water St",
+              city: "Summerside",
+              state: "Prince Edward Island",
+              postal_code: "C1N 1C4",
+              country: "CA",
+            })
+
+
+            addressList = IntlVerificationsPayload.new({
               addresses: [
-                {
-                  primary_line: '370 Water St',
-                  secondary_line: '',
-                  city: 'Summerside',
-                  state: 'Prince Edward Island',
-                  postal_code: 'C1N 1C4',
-                  country: 'CA'
-                }
-              ]
-            )
+                verificationData0,
+                verificationData1,
+              ],
+            })
+
+            begin
+              bulkVerifiedAddrs = intlVerificationsApi.verifyBulk(addressList)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -14921,26 +15070,26 @@ paths:
             List<MultipleComponentsIntl>();
 
             MultipleComponentsIntl bulkAddress0 = new MultipleComponentsIntl(
-              null,  // recipient 
-              "35 Tower Hill",  // primaryLine 
-              null,  // secondaryLine 
-              "London",  // city 
-              null,  // state 
-              "EC3N 4DR",  // postalCode 
-              CountryExtended.GB // country 
+              null,  // recipient
+              "35 Tower Hill",  // primaryLine
+              null,  // secondaryLine
+              "London",  // city
+              null,  // state
+              "EC3N 4DR",  // postalCode
+              CountryExtended.GB // country
             );
 
             addresses.Add(bulkAddress0);
 
 
             MultipleComponentsIntl bulkAddress1 = new MultipleComponentsIntl(
-              null,  // recipient 
-              "370 Water St",  // primaryLine 
-              null,  // secondaryLine 
-              "Summerside",  // city 
-              "Prince Edward Island",  // state 
-              "C1N 1C4",  // postalCode 
-              CountryExtended.CA // country 
+              null,  // recipient
+              "370 Water St",  // primaryLine
+              null,  // secondaryLine
+              "Summerside",  // city
+              "Prince Edward Island",  // state
+              "C1N 1C4",  // postalCode
+              CountryExtended.CA // country
             );
 
             addresses.Add(bulkAddress1);
@@ -14981,6 +15130,16 @@ paths:
             curl https://api.lob.com/v1/campaigns \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            campaignsApi = CampaignsApi.new(config)
+
+            begin
+              campaigns = campaignsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     post:
       operationId: campaign_create
       summary: Create
@@ -15054,6 +15213,21 @@ paths:
               -d "name=My First Campaign" \
               -d "schedule_type=immediate"
           label: CURL
+        - lang: Ruby
+          source: |
+            campaignCreate = CampaignWritable.new({
+              name: "My First Campaign",
+              schedule_type: "immediate",
+            });
+
+            campaignApi = CampaignsApi.new(config)
+
+            begin
+              createdCampaign = campaignApi.create(campaignCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /campaigns/{cmp_id}:
     parameters:
       - in: path
@@ -15102,6 +15276,16 @@ paths:
             curl https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            campaignApi = CampaignsApi.new(config)
+
+            begin
+              retrievedCampaign = campaignApi.get("cmp_e05ee61ff80764b")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     patch:
       operationId: campaign_update
       summary: Update
@@ -15175,6 +15359,20 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            campaignUpdatable = CampaignUpdatable.new({
+              description: "Awesome campaign",
+            })
+
+            campaignApi = CampaignsApi.new(config)
+
+            begin
+              updatedCampaign = campaignApi.update("cmp_e05ee61ff80764b", campaignUpdatable)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     delete:
       operationId: campaign_delete
       summary: Delete
@@ -15198,6 +15396,16 @@ paths:
             \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            campaignApi = CampaignsApi.new(config)
+
+            begin
+              deletedCampaign = campaignApi.delete("cmp_e05ee61ff80764b")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /campaigns/{cmp_id}/send:
     parameters:
       - in: path
@@ -15366,6 +15574,16 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardsApi = CardsApi.new(config)
+
+            begin
+              cards = cardsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     post:
       operationId: card_create
       summary: Create
@@ -15534,6 +15752,23 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardCreate = CardEditable.new({
+              front: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              size: "2.125x3.375",
+              description: "Test Card",
+            });
+
+            cardApi = CardsApi.new(config)
+
+            begin
+              createdCard = cardApi.create(cardCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /cards/{card_id}:
     parameters:
       - in: path
@@ -15644,6 +15879,16 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardApi = CardsApi.new(config)
+
+            begin
+              retrievedCard = cardApi.get("card_7a6d73c5c8457fc")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     post:
       operationId: card_update
       summary: Update
@@ -15783,6 +16028,22 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            cardUpdatable = CardUpdatable.new({
+              description: "Awesome card",
+              auto_reorder: "true",
+              reorder_quantity: 10000,
+            })
+
+            cardApi = CardsApi.new(config)
+
+            begin
+              updatedCard = cardApi.update("card_6afffd19045076c", cardUpdatable)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     delete:
       operationId: card_delete
       summary: Delete
@@ -15840,6 +16101,16 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardApi = CardsApi.new(config)
+
+            begin
+              deletedCard = cardApi.delete("card_6afffd19045076c")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /cards/{card_id}/orders:
     parameters:
       - in: path
@@ -15935,6 +16206,16 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardOrderApi = CardOrdersApi.new(config)
+
+            begin
+              retrievedCardOrderList = cardOrderApi.get("card_6afffd19045076c", { limit: 2, offset: 1 })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     post:
       operationId: card_order_create
       summary: Create
@@ -16043,6 +16324,20 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardOrderCreate = CardOrderEditable.new({
+              quantity: 10000,
+            });
+
+            cardOrderApi = CardOrdersApi.new(config)
+
+            begin
+              createdCardOrder = cardOrderApi.create("card_6afffd19045076c", cardOrderCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /checks:
     get:
       operationId: checks_list
@@ -16089,7 +16384,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.checks.list(limit: 2)
+            checksApi = ChecksApi.new(config)
+
+            begin
+              checks = checksApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -16402,26 +16703,34 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.checks.create(
-              description: 'Demo Check',
-              bank_account: 'bank_8cad8df5354d33f',
-              to: {
-                name: 'Harry Zhang',
-                address_line1: '210 King St',
-                address_line2: '# 6100',
-                address_city: 'San Francisco',
-                address_state: 'CA',
-                address_zip: '94107'
-              },
-              from: 'adr_210a8d4b0b76d77b',
-              amount: 22.50,
-              memo: 'rent',
-              logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
-              check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
+            checkCreate = CheckEditable.new({
+              description: "Demo Check",
+              bank_account: "bank_8cad8df5354d33f",
+              amount: 22.5,
+              memo: "rent",
+              logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
+              check_bottom: "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+              from: "adr_210a8d4b0b76d77b",
+              to: AddressDomestic.new({
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107",
+              }),
               merge_variables: {
-                name: 'Harry'
-              }
-            )
+                name: "Harry"
+              },
+            });
+
+            checkApi = ChecksApi.new(config)
+
+            begin
+              createdCheck = checkApi.create(checkCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -16721,7 +17030,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.checks.find("chk_534f10783683daa0")
+            checkApi = ChecksApi.new(config)
+
+            begin
+              retrievedCheck = checkApi.get("chk_534f10783683daa0")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -16809,7 +17124,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.checks.destroy("chk_534f10783683daa0")
+            checkApi = ChecksApi.new(config)
+
+            begin
+              deletedCheck = checkApi.cancel("chk_534f10783683daa0")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -16926,6 +17247,28 @@ paths:
               -d "campaign_id=cmp_e05ee61ff80764b" \
               -d "resource_type=postcard" \
               -d "details={}"
+        - lang: Ruby
+          source: |
+            creativeCreate = CreativeWritable.new({
+              campaign_id: "cmp_e05ee61ff80764b",
+              resource_type: "postcard",
+              description: "Our 4x6 postcard creative",
+              from: "adr_210a8d4b0b76d77b",
+              front: "tmpl_4aa14648113e45b",
+              back: "tmpl_4aa14648113e45b",
+              details: PostcardDetailsWritable.new({
+                mail_type: "usps_first_class",
+              }),
+            });
+
+            creativeApi = CreativesApi.new(config)
+
+            begin
+              createdCreative = creativeApi.create(creativeCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /creatives/{crv_id}:
     parameters:
       - in: path
@@ -16970,6 +17313,16 @@ paths:
             curl https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            creativeApi = CreativesApi.new(config)
+
+            begin
+              retrievedCreative = creativeApi.get("crv_2a3b096c409b32c")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     patch:
       operationId: creative_update
       summary: Update
@@ -17039,6 +17392,20 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            creativePatch = CreativePatch.new({
+              description: "Our updated 4x6 postcard creative",
+            })
+
+            creativeApi = CreativesApi.new(config)
+
+            begin
+              updatedCreative = creativeApi.update("crv_2a3b096c409b32c", creativePatch)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /identity_validation:
     post:
       operationId: identity_validation
@@ -17201,7 +17568,21 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            intlAutocompletionsApi = IntlAutocompletionsApi.new(config)
+
+            autocompletionData = IntlAutocompletionsWritable.new({
+              address_prefix: "340 Wat",
+              city: "Summerside",
+              state: "Prince Edward Island",
+              zip_code: "C1N 1C4",
+              country: CountryExtended::CA,
+            })
+
+            begin
+              autocompletedAddr = intlAutocompletionsApi.autocomplete(autocompletionData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -17258,10 +17639,10 @@ paths:
 
             IntlAutocompletionsWritable autocompletionData = new
             IntlAutocompletionsWritable(
-              "340 Wat", 
-              "Summerside", 
-              "Prince Edward Island", 
-              "C1N 1C4", 
+              "340 Wat",
+              "Summerside",
+              "Prince Edward Island",
+              "C1N 1C4",
               CountryExtended.CA
             );
 
@@ -17422,13 +17803,21 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.intl_verifications.verify(
+            intlVerificationsApi = IntlVerificationsApi.new(config)
+
+            verificationData = IntlVerificationWritable.new({
               primary_line: "370 Water St",
-              city:         "Summerside",
-              state:        "Prince Edward Island",
-              postal_code:  "C1N 1C4",
-              country:      "CA"
-            )
+              city: "Summerside",
+              state: "Prince Edward Island",
+              postal_code: "C1N 1C4",
+              country: CountryExtended::CA,
+            })
+
+            begin
+              verifiedAddr = intlVerificationsApi.verifySingle(verificationData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -17495,12 +17884,12 @@ paths:
           source: >
             IntlVerificationWritable singleVerify = new
             IntlVerificationWritable(
-              null, 
-              "370 Water St", 
-              null, 
-              "Summerside", 
-              "Prince Edward Island", 
-              "C1N 1C4", 
+              null,
+              "370 Water St",
+              null,
+              "Summerside",
+              "Prince Edward Island",
+              "C1N 1C4",
               CountryExtended.CA
             );
 
@@ -17666,7 +18055,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.letters.find("ltr_4868c3b754655f90")
+            letterApi = LettersApi.new(config)
+
+            begin
+              retrievedLetter = letterApi.get("ltr_4868c3b754655f90")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -17754,7 +18149,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.letters.destroy("ltr_4868c3b754655f90")
+            letterApi = LettersApi.new(config)
+
+            begin
+              deletedLetter = letterApi.cancel("ltr_4868c3b754655f90")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -17854,7 +18255,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.letters.list(limit: 2)
+            lettersApi = LettersApi.new(config)
+
+            begin
+              letters = lettersApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -18218,32 +18625,34 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.letters.create(
-              description: 'Demo Letter',
-              to: {
-                name: 'Harry Zhang',
-                address_line1: '210 King St',
-                address_line2: '# 6100',
-                address_city: 'San Francisco',
-                address_state: 'CA',
-                address_zip: '94107'
-              },
-              from: 'adr_210a8d4b0b76d77b',
-              file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
+            letterCreate = LetterEditable.new({
+              description: "Demo Letter",
+              from: "adr_210a8d4b0b76d77b",
+              file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+              color: "true",
+              to: AddressEditable.new({
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107",
+              }),
               merge_variables: {
-                name: 'Harry'
+                name: "Harry"
               },
-              color: true,
-              cards: ['card_c51ae96f5cebf3e'],
-              qr_code : {
-                position: 'relative',
-                redirect_url: 'https://www.lob.com',
-                width: '2',
-                bottom: '2',
-                left: '2',
-                pages: '2,4-5'
-              }
-            )
+              cards: [
+                "card_c51ae96f5cebf3e",
+              ],
+            });
+
+            letterApi = LettersApi.new(config)
+
+            begin
+              createdLetter = letterApi.create(letterCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -18619,7 +19028,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.postcards.find("psc_5c002b86ce47537a")
+            letterApi = LettersApi.new(config)
+
+            begin
+              retrievedLetter = letterApi.get("ltr_4868c3b754655f90")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -18708,7 +19123,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.postcards.destroy("psc_5c002b86ce47537a")
+            letterApi = LettersApi.new(config)
+
+            begin
+              deletedLetter = letterApi.cancel("ltr_4868c3b754655f90")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -18810,7 +19231,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.postcards.list(limit: 2)
+            postcardsApi = PostcardsApi.new(config)
+
+            begin
+              postcards = postcardsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -19173,31 +19600,31 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.postcards.create(
-              description: 'Demo Postcard job',
-              to: {
-                name: 'Harry Zhang',
-                address_line1: '210 King St',
-                address_line2: '# 6100',
-                address_city: 'San Francisco',
-                address_state: 'CA',
-                address_zip: '94107'
-              },
-              from: 'adr_210a8d4b0b76d77b',
-              front: '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
-              back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
+            postcardCreate = PostcardEditable.new({
+              description: "Demo Postcard job",
+              from: "adr_210a8d4b0b76d77b",
+              front: "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
+              back: "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+              to: AddressEditable.new({
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107",
+              }),
               merge_variables: {
-                name: 'Harry'
+                name: "Harry"
               },
-              qr_code : {
-                position: 'relative',
-                redirect_url: 'https://www.lob.com',
-                width: '2.5',
-                bottom: '2.5',
-                left: '2.5',
-                pages: 'front'
-              }
-            )
+            });
+
+            postcardApi = PostcardsApi.new(config)
+
+            begin
+              createdPostcard = postcardApi.create(postcardCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -19610,7 +20037,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.self_mailers.find("sfm_8ffbe811dea49dcf")
+            selfMailerApi = SelfMailersApi.new(config)
+
+            begin
+              retrievedSelfMailer = selfMailerApi.get("sfm_8ffbe811dea49dcf")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -19697,7 +20130,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.self_mailers.destroy("sfm_8ffbe811dea49dcf")
+            selfMailerApi = SelfMailersApi.new(config)
+
+            begin
+              deletedSelfMailer = selfMailerApi.delete("sfm_8ffbe811dea49dcf")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -19798,7 +20237,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.self_mailers.list(limit: 2)
+            selfMailersApi = SelfMailersApi.new(config)
+
+            begin
+              selfMailers = selfMailersApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20032,22 +20477,31 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.self_mailers.create(
-               description: "Demo Self Mailers job",
-               to: {
-                 name: "Harry Zhang",
-                 address_line1: "210 King St",
-                 address_city: "San Francisco",
-                 address_state: "CA",
-                 address_zip: "94107"
-               },
-               from: "adr_210a8d4b0b76d77b",
-               inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
-               outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
-               merge_variables: {
-                 name: "Harry"
-               }
-             )
+            selfMailerCreate = SelfMailerEditable.new({
+              description: "Demo Self Mailer job",
+              from: "adr_210a8d4b0b76d77b",
+              inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+              outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+              to: AddressEditable.new({
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107",
+              }),
+              merge_variables: {
+                name: "Harry"
+              },
+            });
+
+            selfMailerApi = SelfMailersApi.new(config)
+
+            begin
+              createdSelfMailer = selfMailerApi.create(selfMailerCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20267,7 +20721,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionApi = TemplateVersionsApi.new(config)
+
+            begin
+              retrievedTemplateVersion = templateVersionApi.get("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20371,7 +20831,17 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionUpdatable = TemplateUpdate.new({
+              description: "updated template version",
+            })
+
+            templateVersionApi = TemplateVersionsApi.new(config)
+
+            begin
+              updatedTemplateVersion = templateVersionApi.update("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282", templateVersionUpdatable)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20461,7 +20931,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionApi = TemplateVersionsApi.new(config)
+
+            begin
+              deletedTemplateVersion = templateVersionApi.delete("tmpl_4aa14648113e45b", "vrsn_534e339882d2282")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20542,7 +21018,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionsApi = TemplateVersionsApi.new(config)
+
+            begin
+              templateVersions = templateVersionsApi.list("tmpl_dadaaf7b76c9f25", { limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20686,7 +21168,18 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionCreate = TemplateVersionWritable.new({
+              description: "Second Version",
+              html: "<html>Second HTML for {{name}}</html>",
+            });
+
+            templateVersionApi = TemplateVersionsApi.new(config)
+
+            begin
+              createdTemplateVersion = templateVersionApi.create("tmpl_4aa14648113e45b", templateVersionCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20828,7 +21321,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateApi = TemplatesApi.new(config)
+
+            begin
+              retrievedTemplate = templateApi.get("tmpl_c94e83ca2cd5121")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20974,7 +21473,18 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateUpdate = TemplateUpdate.new({
+              description: "updated template",
+              published_version: "vrsn_362184d96d9b0c9",
+            })
+
+            templateApi = TemplatesApi.new(config)
+
+            begin
+              updatedTemplate = templateApi.update("tmpl_c94e83ca2cd5121", templateUpdate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -21075,7 +21585,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateApi = TemplatesApi.new(config)
+
+            begin
+              deletedTemplate = templateApi.delete("tmpl_df934eeda694203")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -21162,7 +21678,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templatesApi = TemplatesApi.new(config)
+
+            begin
+              templates = templatesApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -21354,7 +21876,18 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateCreate = TemplateWritable.new({
+              description: "Test Template",
+              html: "<html>HTML for {{name}}</html>",
+            });
+
+            templateApi = TemplatesApi.new(config)
+
+            begin
+              createdTemplate = templateApi.create(templateCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -21445,6 +21978,16 @@ paths:
             curl https://api.lob.com/v1/uploads \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            uploadsApi = UploadsApi.new(config)
+
+            begin
+              uploads = uploadsApi.list_upload({ campaign_id: "cmp_e05ee61ff80764b" })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     post:
       operationId: upload_create
       summary: Create
@@ -21503,6 +22046,20 @@ paths:
                 "campaignId": "cmp_f33809b18b6f3ea8"
             }'
           label: CURL
+        - lang: Ruby
+          source: |
+            uploadCreate = UploadWritable.new({
+              campaign_id: "cmp_e05ee61ff80764b",
+            });
+
+            uploadApi = UploadsApi.new(config)
+
+            begin
+              createdUpload = uploadApi.create_upload(uploadCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /uploads/{upl_id}:
     parameters:
       - in: path
@@ -21563,6 +22120,16 @@ paths:
             curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
               -u <YOUR API KEY>: \
           label: CURL
+        - lang: Ruby
+          source: |
+            uploadApi = UploadsApi.new(config)
+
+            begin
+              retrievedUpload = uploadApi.get_upload("upl_71be866e430b11e9")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     patch:
       operationId: upload_update
       summary: Update
@@ -21636,6 +22203,26 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            uploadUpdatable = UploadUpdatable.new({
+              required_address_column_mapping: RequiredAddressColumnMapping.new({
+                name: "recipient",
+                address_line1: "primary line",
+                address_city: "city",
+                address_state: "state",
+                address_zip: "zip_code",
+              }),
+            })
+
+            uploadApi = UploadsApi.new(config)
+
+            begin
+              updatedUpload = uploadApi.update_upload("upl_71be866e430b11e9", uploadUpdatable)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     delete:
       operationId: upload_delete
       summary: Delete
@@ -21653,6 +22240,16 @@ paths:
             curl -X DELETE https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            uploadApi = UploadsApi.new(config)
+
+            begin
+              deletedUpload = uploadApi.delete_upload("upl_71be866e430b11e9")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /uploads/{upl_id}/file:
     parameters:
       - in: path
@@ -21773,6 +22370,20 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            exportModel = ExportModel.new({
+              type: "all"
+            })
+
+            uploadsApi = UploadsApi.new(config)
+
+            begin
+              createdExport = uploadsApi.create_export("upl_71be866e430b11e9", exportModel)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /uploads/{upl_id}/exports/{ex_id}:
     parameters:
       - in: path
@@ -21884,6 +22495,16 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            uploadsApi = UploadsApi.new(config)
+
+            begin
+              retrievedExport = uploadsApi.get_export("upl_71be866e430b11e9", "ex_6a94fe68fd151e0f8")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /us_autocompletions:
     post:
       operationId: autocompletion
@@ -22013,12 +22634,20 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.us_autocompletions.autocomplete(
+            usAutocompletionsApi = UsAutocompletionsApi.new(config)
+
+            autocompletionData = UsAutocompletionsWritable.new({
               address_prefix: "185 B",
-              city:           "San Francisco",
-              state:          "CA",
-              zip_code:       "94107"
-            )
+              city: "San Francisco",
+              state: "CA",
+              zip_code: "94017",
+            })
+
+            begin
+              autocompletedAddress = usAutocompletionsApi.autocomplete(autocompletionData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -22094,10 +22723,10 @@ paths:
 
             UsAutocompletionsWritable autoCompletionWritable = new
             UsAutocompletionsWritable(
-              "185 B",  // address_prefix 
-              "San Francisco",  // city 
-              "CA",  // state 
-              "94017" // zip_code 
+              "185 B",  // address_prefix
+              "San Francisco",  // city
+              "CA",  // state
+              "94017" // zip_code
             );
 
 
@@ -22189,10 +22818,18 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.reverse_geocode_lookups.lookup(
-              latitude: 37.7749,
-              longitude: 122.4194
-            )
+            reverseGeocodeLookupsApi = ReverseGeocodeLookupsApi.new(config)
+
+            coordinates = Location.new({
+              latitude: 37.777456,
+              longitude: -122.393039,
+            })
+
+            begin
+              geocode = reverseGeocodeLookupsApi.lookup(coordinates)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -22259,7 +22896,7 @@ paths:
             ReverseGeocodeLookupsApi api = new ReverseGeocodeLookupsApi(config);
 
             Location location = new Location(
-              37.777456f, 
+              37.777456f,
               -122.393039f
             );
 
@@ -22424,12 +23061,20 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.us_verifications.verify(
+            usVerificationsApi = UsVerificationsApi.new(config)
+
+            verificationData = UsVerificationsWritable.new({
               primary_line: "210 King Street",
-              city:         "San Francisco",
-              state:        "CA",
-              zip_code:     "94107"
-            )
+              city: "San Francisco",
+              state: "CA",
+              zip_code: "94017",
+            })
+
+            begin
+              singleVerifiedAddr = usVerificationsApi.verifySingle(verificationData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -22501,13 +23146,13 @@ paths:
         - lang: CSharp
           source: |
             UsVerificationsWritable singleVerify = new UsVerificationsWritable(
-              null, 
-              null, 
-              "210 King Street", 
-              null, 
-              null, 
-              "San Francisco", 
-              "CA", 
+              null,
+              null,
+              "210 King Street",
+              null,
+              null,
+              "San Francisco",
+              "CA",
               "94017"
             );
 
@@ -22578,9 +23223,17 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.us_zip_lookups.lookup(
+            zipLookupsApi = ZipLookupsApi.new(config)
+
+            zipRequest = ZipEditable.new({
               zip_code: "94107"
-            )
+            })
+
+            begin
+              zipLookup = zipLookupsApi.lookup(zipRequest)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |

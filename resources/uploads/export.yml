@@ -50,3 +50,13 @@ get:
         except ApiException as e:
           print(e)
       label: PYTHON
+    - lang: Ruby
+      source: |
+        uploadsApi = UploadsApi.new(config)
+
+        begin
+          retrievedExport = uploadsApi.get_export("upl_71be866e430b11e9", "ex_6a94fe68fd151e0f8")
+        rescue => err
+          p err.message
+        end
+      label: RUBY

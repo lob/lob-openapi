@@ -162,12 +162,20 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.us_verifications.verify(
+        usVerificationsApi = UsVerificationsApi.new(config)
+
+        verificationData = UsVerificationsWritable.new({
           primary_line: "210 King Street",
-          city:         "San Francisco",
-          state:        "CA",
-          zip_code:     "94107"
-        )
+          city: "San Francisco",
+          state: "CA",
+          zip_code: "94017",
+        })
+
+        begin
+          singleVerifiedAddr = usVerificationsApi.verifySingle(verificationData)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -228,13 +236,13 @@ post:
     - lang: CSharp
       source: |
         UsVerificationsWritable singleVerify = new UsVerificationsWritable(
-          null, 
-          null, 
-          "210 King Street", 
-          null, 
-          null, 
-          "San Francisco", 
-          "CA", 
+          null,
+          null,
+          "210 King Street",
+          null,
+          null,
+          "San Francisco",
+          "CA",
           "94017"
         );
 

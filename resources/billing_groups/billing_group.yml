@@ -32,6 +32,16 @@ get:
       source: |
         curl https://api.lob.com/v1/billing_groups/bg_4bb02b527a72667d0 \
         -u <YOUR API KEY>:
+    - lang: Ruby
+      source: |
+        billingGroupApi = BillingGroupsApi.new(config)
+
+        begin
+          retrievedBillingGroup = billingGroupApi.get("bg_4bb02b527a72667d0")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 post:
   operationId: billing_group_update
@@ -74,6 +84,20 @@ post:
         curl https://api.lob.com/v1/billing_groups/bg_759954f540a1bfdb5 \
         -u <YOUR API KEY>: \
         -d "description=demo replacement" \
+    - lang: Ruby
+      source: |
+        billingGroupEditable = BillingGroupEditable.new({
+          description: "demo replacement",
+        })
+
+        bgApi = BillingGroupsApi.new(config)
+
+        begin
+          updatedBillingGroup = bgApi.update("bg_759954f540a1bfdb5", billingGroupEditable)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
   responses:
     "200":

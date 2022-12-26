@@ -51,7 +51,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        This feature is not currently supported by this library.
+        templateVersionsApi = TemplateVersionsApi.new(config)
+
+        begin
+          templateVersions = templateVersionsApi.list("tmpl_dadaaf7b76c9f25", { limit: 2 })
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -197,7 +203,18 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        This feature is not currently supported by this library.
+        templateVersionCreate = TemplateVersionWritable.new({
+          description: "Second Version",
+          html: "<html>Second HTML for {{name}}</html>",
+        });
+
+        templateVersionApi = TemplateVersionsApi.new(config)
+
+        begin
+          createdTemplateVersion = templateVersionApi.create("tmpl_4aa14648113e45b", templateVersionCreate)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

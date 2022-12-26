@@ -50,7 +50,13 @@ get:
 
     - lang: Ruby
       source: |
-        @lob.self_mailers.find("sfm_8ffbe811dea49dcf")
+        selfMailerApi = SelfMailersApi.new(config)
+
+        begin
+          retrievedSelfMailer = selfMailerApi.get("sfm_8ffbe811dea49dcf")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -139,7 +145,13 @@ delete:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.self_mailers.destroy("sfm_8ffbe811dea49dcf")
+        selfMailerApi = SelfMailersApi.new(config)
+
+        begin
+          deletedSelfMailer = selfMailerApi.delete("sfm_8ffbe811dea49dcf")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

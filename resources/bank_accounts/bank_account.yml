@@ -49,7 +49,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.bank_accounts.find("bank_8cad8df5354d33f")
+        bankAccountApi = BankAccountsApi.new(config)
+
+        begin
+          retrievedBankAccount = bankAccountApi.get("bank_8cad8df5354d33f")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -134,7 +140,13 @@ delete:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.bank_accounts.destroy("bank_3e64d9904356b20")
+        bankAccountApi = BankAccountsApi.new(config)
+
+        begin
+          deletedBankAccount = bankAccountApi.delete("bank_3e64d9904356b20")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

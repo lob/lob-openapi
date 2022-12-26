@@ -58,7 +58,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.self_mailers.list(limit: 2)
+        selfMailersApi = SelfMailersApi.new(config)
+
+        begin
+          selfMailers = selfMailersApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -287,22 +293,31 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.self_mailers.create(
-           description: "Demo Self Mailers job",
-           to: {
-             name: "Harry Zhang",
-             address_line1: "210 King St",
-             address_city: "San Francisco",
-             address_state: "CA",
-             address_zip: "94107"
-           },
-           from: "adr_210a8d4b0b76d77b",
-           inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
-           outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
-           merge_variables: {
-             name: "Harry"
-           }
-         )
+        selfMailerCreate = SelfMailerEditable.new({
+          description: "Demo Self Mailer job",
+          from: "adr_210a8d4b0b76d77b",
+          inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+          outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+          to: AddressEditable.new({
+            name: "Harry Zhang",
+            address_line1: "210 King St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          }),
+          merge_variables: {
+            name: "Harry"
+          },
+        });
+
+        selfMailerApi = SelfMailersApi.new(config)
+
+        begin
+          createdSelfMailer = selfMailerApi.create(selfMailerCreate)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

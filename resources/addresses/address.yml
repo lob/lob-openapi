@@ -47,7 +47,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.addresses.find("adr_fa85158b26c3eb7c")
+        addressApi = AddressesApi.new(config)
+
+        begin
+          retrievedAddress = addressApi.get("adr_fa85158b26c3eb7c")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -134,7 +140,13 @@ delete:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.addresses.destroy("adr_43769b47aed248c2")
+        addressApi = AddressesApi.new(config)
+
+        begin
+          deletedAddress = addressApi.delete("adr_43769b47aed248c2")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

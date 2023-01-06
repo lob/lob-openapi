@@ -7589,19 +7589,17 @@ components:
         - HTML merge variables should not include delimiting whitespace.
 
         - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
-        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
-        specified `size`.
+        6.25"x11.25" at 300 DPI, while supplied HTML template will be rendered
+        to the specified `size`.
 
 
         See [here](#section/HTML-Examples) for HTML examples.
       oneOf:
-        - $ref: '#/components/schemas/html_string'
         - $ref: '#/components/schemas/tmpl_id'
-        - $ref: '#/components/schemas/remote_file_url'
         - $ref: '#/components/schemas/local_file_path'
     back:
       description: >
-        The artwork to use as the back of your postcard.
+        The artwork to use as the back of your postcard creative.
 
 
         Notes:
@@ -7609,8 +7607,8 @@ components:
         - HTML merge variables should not include delimiting whitespace.
 
         - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
-        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
-        specified `size`.
+        6.25"x11.25" at 300 DPI, while supplied HTML template will be rendered
+        to the specified `size`.
 
         - Be sure to leave room for address and postage information by following
         the templates provided here:
@@ -7621,9 +7619,7 @@ components:
 
         See [here](#section/HTML-Examples) for HTML examples.
       oneOf:
-        - $ref: '#/components/schemas/html_string'
         - $ref: '#/components/schemas/tmpl_id'
-        - $ref: '#/components/schemas/remote_file_url'
         - $ref: '#/components/schemas/local_file_path'
     writable:
       description: Properties that the postcards in your Creative should have.
@@ -7734,11 +7730,8 @@ components:
         See <a href="https://lob.com/pricing/print-mail#compare"
         target="_blank">pricing</a> for extra costs incurred.
       oneOf:
-        - $ref: '#/components/schemas/html_string'
         - $ref: '#/components/schemas/tmpl_id'
-        - $ref: '#/components/schemas/remote_file_url'
-        - type: string
-          pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
+        - $ref: '#/components/schemas/local_file_path'
     creative_writable:
       oneOf:
         - allOf:
@@ -8676,6 +8669,45 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
+    file-2:
+      description: >-
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - All pages of a supplied PDF file must be sized at 8.5"x11", while
+        supplied HTML will be rendered and trimmed to as many 8.5"x11" pages as
+        necessary.
+
+        - For design specifications, please see our <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf"
+        target="_blank">PDF</a> and [HTML](#section/HTML-Examples) templates.
+
+        - If a `custom_envelope` is used, follow <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf"
+        target="_blank">this template</a>.
+
+        - For domestic destinations, the file limit is 60 pages single-sided or
+        120 pages double-sided. For international destinations, the file limit
+        is 6 pages single-sided or 12 pages double-sided. PDFs that surpass the
+        file limit will error, while HTML that renders more pages than the file
+        limit will be trimmed.
+
+        - Any letters over 6 pages single-sided or 12 pages double-sided will be
+        placed in a <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf"
+        target="_blank">flat envelope</a> instead of the standard double window
+        envelope.
+
+
+        See <a href="https://lob.com/pricing/print-mail#compare"
+        target="_blank">pricing</a> for extra costs incurred.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - type: string
+          pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
     return_envelope_user_provided:
       oneOf:
         - type: boolean
@@ -8727,8 +8759,8 @@ components:
         width:
           type: string
           description: >-
-            The size(in inches) of the QR code. All QR codes are generated as a
-            square.
+            The size(in inches) of the QR code with a minimum of .25 inches. All
+            QR codes are generated as a square.
         pages:
           type: string
           description: >-
@@ -8749,7 +8781,7 @@ components:
             - color
           properties:
             file:
-              $ref: '#/components/schemas/file'
+              $ref: '#/components/schemas/file-2'
             extra_service:
               $ref: '#/components/schemas/extra_service'
             cards:
@@ -8894,6 +8926,52 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address_us'
+    front-2:
+      description: >
+        The artwork to use as the front of your postcard.
+
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+        specified `size`.
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - $ref: '#/components/schemas/local_file_path'
+    back-2:
+      description: >
+        The artwork to use as the back of your postcard.
+
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+        specified `size`.
+
+        - Be sure to leave room for address and postage information by following
+        the templates provided here:
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/4x6_postcard.pdf" target="_blank">4x6 template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x9_postcard.pdf" target="_blank">6x9 template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x11_postcard.pdf" target="_blank">6x11 template</a>
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - $ref: '#/components/schemas/local_file_path'
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -8906,9 +8984,9 @@ components:
             - back
           properties:
             front:
-              $ref: '#/components/schemas/front'
+              $ref: '#/components/schemas/front-2'
             back:
-              $ref: '#/components/schemas/back'
+              $ref: '#/components/schemas/back-2'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
             qr_code:

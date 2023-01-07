@@ -49,7 +49,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.checks.find("chk_534f10783683daa0")
+        checkApi = ChecksApi.new(config)
+
+        begin
+          retrievedCheck = checkApi.get("chk_534f10783683daa0")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -144,7 +150,13 @@ delete:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.checks.destroy("chk_534f10783683daa0")
+        checkApi = ChecksApi.new(config)
+
+        begin
+          deletedCheck = checkApi.cancel("chk_534f10783683daa0")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

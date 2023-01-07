@@ -132,12 +132,20 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.us_autocompletions.autocomplete(
+        usAutocompletionsApi = UsAutocompletionsApi.new(config)
+
+        autocompletionData = UsAutocompletionsWritable.new({
           address_prefix: "185 B",
-          city:           "San Francisco",
-          state:          "CA",
-          zip_code:       "94107"
-        )
+          city: "San Francisco",
+          state: "CA",
+          zip_code: "94017",
+        })
+
+        begin
+          autocompletedAddress = usAutocompletionsApi.autocomplete(autocompletionData)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -200,10 +208,10 @@ post:
       source: |
         UsAutocompletionsApi api = new UsAutocompletionsApi(config);
         UsAutocompletionsWritable autoCompletionWritable = new UsAutocompletionsWritable(
-          "185 B",  // address_prefix 
-          "San Francisco",  // city 
-          "CA",  // state 
-          "94017" // zip_code 
+          "185 B",  // address_prefix
+          "San Francisco",  // city
+          "CA",  // state
+          "94017" // zip_code
         );
 
         try {

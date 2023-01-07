@@ -46,7 +46,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.bank_accounts.list(limit: 2)
+        bankAccountsApi = BankAccountsApi.new(config)
+
+        begin
+          bankAccounts = bankAccountsApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -221,13 +227,21 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.bank_accounts.create(
+        bankAccountCreate = BankAccountWritable.new({
           description: "Test Bank Account",
           routing_number: "322271627",
           account_number: "123456789",
           signatory: "John Doe",
-          account_type: "company"
-        )
+          account_type: BankTypeEnum::COMPANY,
+        });
+
+        bankAccountApi = BankAccountsApi.new(config)
+
+        begin
+          createdBankAccount = bankAccountApi.create(bankAccountCreate)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

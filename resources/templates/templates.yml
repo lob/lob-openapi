@@ -44,7 +44,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        This feature is not currently supported by this library.
+        templatesApi = TemplatesApi.new(config)
+
+        begin
+          templates = templatesApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -208,7 +214,18 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        This feature is not currently supported by this library.
+        templateCreate = TemplateWritable.new({
+          description: "Test Template",
+          html: "<html>HTML for {{name}}</html>",
+        });
+
+        templateApi = TemplatesApi.new(config)
+
+        begin
+          createdTemplate = templateApi.create(templateCreate)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

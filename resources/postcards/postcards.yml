@@ -58,7 +58,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.postcards.list(limit: 2)
+        postcardsApi = PostcardsApi.new(config)
+
+        begin
+          postcards = postcardsApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -405,31 +411,31 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.postcards.create(
-          description: 'Demo Postcard job',
-          to: {
-            name: 'Harry Zhang',
-            address_line1: '210 King St',
-            address_line2: '# 6100',
-            address_city: 'San Francisco',
-            address_state: 'CA',
-            address_zip: '94107'
-          },
-          from: 'adr_210a8d4b0b76d77b',
-          front: '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
-          back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
+        postcardCreate = PostcardEditable.new({
+          description: "Demo Postcard job",
+          from: "adr_210a8d4b0b76d77b",
+          front: "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
+          back: "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+          to: AddressEditable.new({
+            name: "Harry Zhang",
+            address_line1: "210 King St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          }),
           merge_variables: {
-            name: 'Harry'
+            name: "Harry"
           },
-          qr_code : {
-            position: 'relative',
-            redirect_url: 'https://www.lob.com',
-            width: '2.5',
-            bottom: '2.5',
-            left: '2.5',
-            pages: 'front'
-          }
-        )
+        });
+
+        postcardApi = PostcardsApi.new(config)
+
+        begin
+          createdPostcard = postcardApi.create(postcardCreate)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

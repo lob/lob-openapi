@@ -139,17 +139,35 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.bulk_us_verifications.verify(
+        usVerificationsApi = UsVerificationsApi.new(config)
+
+        verificationData0 = MultipleComponents.new({
+          primary_line: "210 King Street",
+          city: "San Francisco",
+          state: "CA",
+          zip_code: "94017",
+        })
+
+        verificationData1 = MultipleComponents.new({
+          primary_line: "185 BERRY ST STE 6600",
+          city: "SAN FRANCISCO",
+          state: "CA",
+          zip_code: "94017",
+        })
+
+
+        addressList = MultipleComponentsList.new({
           addresses: [
-            {
-            recipient: "LOB.COM",
-            primary_line: "185 BERRY ST STE 6600",
-            city: "SAN FRANCISCO",
-            state: "CA",
-            zip_code: "94107"
-            }
-          ]
-        )
+            verificationData0,
+            verificationData1,
+          ],
+        })
+
+        begin
+          bulkVerifiedAddrs = usVerificationsApi.verifyBulk(addressList)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -253,24 +271,24 @@ post:
       source: |
         List<MultipleComponents> addresses = new List<MultipleComponents>();
         MultipleComponents bulkAddress0 = new MultipleComponents(
-          null,  // recipient 
-          "210 King Street",  // primaryLine 
-          null,  // secondaryLine 
-          null,  // urbanization 
-          "San Francisco",  // city 
-          "CA",  // state 
-          "94017" // zipCode 
+          null,  // recipient
+          "210 King Street",  // primaryLine
+          null,  // secondaryLine
+          null,  // urbanization
+          "San Francisco",  // city
+          "CA",  // state
+          "94017" // zipCode
         );
         addresses.Add(bulkAddress0);
 
         MultipleComponents bulkAddress1 = new MultipleComponents(
-          null,  // recipient 
-          "185 BERRY ST STE 6600",  // primaryLine 
-          null,  // secondaryLine 
-          null,  // urbanization 
-          "San Francisco",  // city 
-          "CA",  // state 
-          "94017" // zipCode 
+          null,  // recipient
+          "185 BERRY ST STE 6600",  // primaryLine
+          null,  // secondaryLine
+          null,  // urbanization
+          "San Francisco",  // city
+          "CA",  // state
+          "94017" // zipCode
         );
         addresses.Add(bulkAddress1);
 

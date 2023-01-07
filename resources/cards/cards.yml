@@ -76,6 +76,16 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardsApi = CardsApi.new(config)
+
+        begin
+          cards = cardsApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 post:
   operationId: card_create
@@ -206,3 +216,20 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardCreate = CardEditable.new({
+          front: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+          size: "2.125x3.375",
+          description: "Test Card",
+        });
+
+        cardApi = CardsApi.new(config)
+
+        begin
+          createdCard = cardApi.create(cardCreate)
+        rescue => err
+          p err.message
+        end
+      label: RUBY

@@ -86,10 +86,18 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.reverse_geocode_lookups.lookup(
-          latitude: 37.7749,
-          longitude: 122.4194
-        )
+        reverseGeocodeLookupsApi = ReverseGeocodeLookupsApi.new(config)
+
+        coordinates = Location.new({
+          latitude: 37.777456,
+          longitude: -122.393039,
+        })
+
+        begin
+          geocode = reverseGeocodeLookupsApi.lookup(coordinates)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -147,7 +155,7 @@ post:
         ReverseGeocodeLookupsApi api = new ReverseGeocodeLookupsApi(config);
 
         Location location = new Location(
-          37.777456f, 
+          37.777456f,
           -122.393039f
         );
 

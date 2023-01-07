@@ -108,7 +108,21 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        This feature is not currently supported by this library.
+        intlAutocompletionsApi = IntlAutocompletionsApi.new(config)
+
+        autocompletionData = IntlAutocompletionsWritable.new({
+          address_prefix: "340 Wat",
+          city: "Summerside",
+          state: "Prince Edward Island",
+          zip_code: "C1N 1C4",
+          country: CountryExtended::CA,
+        })
+
+        begin
+          autocompletedAddr = intlAutocompletionsApi.autocomplete(autocompletionData)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -158,10 +172,10 @@ post:
         IntlAutocompletionsApi api = new IntlAutocompletionsApi(config);
 
         IntlAutocompletionsWritable autocompletionData = new IntlAutocompletionsWritable(
-          "340 Wat", 
-          "Summerside", 
-          "Prince Edward Island", 
-          "C1N 1C4", 
+          "340 Wat",
+          "Summerside",
+          "Prince Edward Island",
+          "C1N 1C4",
           CountryExtended.CA
         );
 

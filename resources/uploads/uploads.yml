@@ -27,6 +27,16 @@ get:
         curl https://api.lob.com/v1/uploads \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Ruby
+      source: |
+        uploadsApi = UploadsApi.new(config)
+
+        begin
+          uploads = uploadsApi.list_upload({ campaign_id: "cmp_e05ee61ff80764b" })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 post:
   operationId: upload_create
@@ -63,3 +73,17 @@ post:
             "campaignId": "cmp_f33809b18b6f3ea8"
         }'
       label: CURL
+    - lang: Ruby
+      source: |
+        uploadCreate = UploadWritable.new({
+          campaign_id: "cmp_e05ee61ff80764b",
+        });
+
+        uploadApi = UploadsApi.new(config)
+
+        begin
+          createdUpload = uploadApi.create_upload(uploadCreate)
+        rescue => err
+          p err.message
+        end
+      label: RUBY

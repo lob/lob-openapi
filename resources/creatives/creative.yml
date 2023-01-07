@@ -33,6 +33,16 @@ get:
         curl https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Ruby
+      source: |
+        creativeApi = CreativesApi.new(config)
+
+        begin
+          retrievedCreative = creativeApi.get("crv_2a3b096c409b32c")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 patch:
   operationId: creative_update
@@ -100,3 +110,17 @@ patch:
         except ApiException as e:
           print(e)
       label: PYTHON
+    - lang: Ruby
+      source: |
+        creativePatch = CreativePatch.new({
+          description: "Our updated 4x6 postcard creative",
+        })
+
+        creativeApi = CreativesApi.new(config)
+
+        begin
+          updatedCreative = creativeApi.update("crv_2a3b096c409b32c", creativePatch)
+        rescue => err
+          p err.message
+        end
+      label: RUBY

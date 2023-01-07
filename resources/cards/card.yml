@@ -71,6 +71,16 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardApi = CardsApi.new(config)
+
+        begin
+          retrievedCard = cardApi.get("card_7a6d73c5c8457fc")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 post:
   operationId: card_update
@@ -174,6 +184,22 @@ post:
         except ApiException as e:
           print(e)
       label: PYTHON
+    - lang: Ruby
+      source: |
+        cardUpdatable = CardUpdatable.new({
+          description: "Awesome card",
+          auto_reorder: "true",
+          reorder_quantity: 10000,
+        })
+
+        cardApi = CardsApi.new(config)
+
+        begin
+          updatedCard = cardApi.update("card_6afffd19045076c", cardUpdatable)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 delete:
   operationId: card_delete
@@ -238,3 +264,13 @@ delete:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardApi = CardsApi.new(config)
+
+        begin
+          deletedCard = cardApi.delete("card_6afffd19045076c")
+        rescue => err
+          p err.message
+        end
+      label: RUBY

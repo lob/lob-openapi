@@ -33,6 +33,16 @@ get:
         curl https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Ruby
+      source: |
+        campaignApi = CampaignsApi.new(config)
+
+        begin
+          retrievedCampaign = campaignApi.get("cmp_e05ee61ff80764b")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 patch:
   operationId: campaign_update
@@ -100,6 +110,20 @@ patch:
         except ApiException as e:
           print(e)
       label: PYTHON
+    - lang: Ruby
+      source: |
+        campaignUpdatable = CampaignUpdatable.new({
+          description: "Awesome campaign",
+        })
+
+        campaignApi = CampaignsApi.new(config)
+
+        begin
+          updatedCampaign = campaignApi.update("cmp_e05ee61ff80764b", campaignUpdatable)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 delete:
   operationId: campaign_delete
@@ -129,3 +153,13 @@ delete:
         curl -X DELETE https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Ruby
+      source: |
+        campaignApi = CampaignsApi.new(config)
+
+        begin
+          deletedCampaign = campaignApi.delete("cmp_e05ee61ff80764b")
+        rescue => err
+          p err.message
+        end
+      label: RUBY

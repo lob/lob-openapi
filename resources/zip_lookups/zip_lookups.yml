@@ -66,9 +66,17 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.us_zip_lookups.lookup(
+        zipLookupsApi = ZipLookupsApi.new(config)
+
+        zipRequest = ZipEditable.new({
           zip_code: "94107"
-        )
+        })
+
+        begin
+          zipLookup = zipLookupsApi.lookup(zipRequest)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |

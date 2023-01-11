@@ -557,8 +557,6 @@ post:
         to.setAddressState("CA");
         to.setAddressZip("94107");
 
-        UseType usetype = new UseType();
-
         QRCode qrCode = new QRCode();
         qrCode.setPosition("relative");
         qrCode.setRedirectUrl("https://www.lob.com");
@@ -580,7 +578,7 @@ post:
           letterEditable.setTo(to);
           letterEditable.setMergeVariables(merge_variables);
           letterEditable.setCards(cards);
-          letterEditable.setUseType(usetype);
+          letterEditable.setUseType("operational");
           letterEditable.setQRCode(qrCode);
 
           Letter result = apiInstance.create(letterEditable, null);

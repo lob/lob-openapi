@@ -1919,7 +1919,8 @@ tags:
 
       - <a href="https://github.com/lob/lob-java" target="_blank">Java</a>
 
-      - <a href="https://github.com/lob/lob-ruby" target="_blank">Ruby</a>
+      - <a href="https://github.com/lob/lob-ruby/tree/main"
+      target="_blank">Ruby</a>
 
       - <a href="https://github.com/lob/lob-dotnet" target="_blank">CSharp</a>
 
@@ -1936,6 +1937,9 @@ tags:
 
       - <a href="https://github.com/lob/lob-python/tree/legacy_v4"
       target="_blank">Python (Legacy)</a>
+
+      - <a href="https://github.com/lob/lob-ruby/tree/legacy-v5"
+      target="_blank">Ruby (Legacy)</a>
 
 
       <br><br>
@@ -6142,8 +6146,11 @@ components:
         - immediate
     cmp_use_type:
       description: >-
-        The usage type of this campaign. Can be one of `marketing` or
-        `operational`.
+        The use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
       type: string
       enum:
         - marketing
@@ -6155,6 +6162,7 @@ components:
       required:
         - name
         - schedule_type
+        - use_type
       properties:
         billing_group_id:
           type: string
@@ -6852,6 +6860,8 @@ components:
               enum:
                 - campaign
               default: campaign
+            use_type:
+              $ref: '#/components/schemas/cmp_use_type'
     campaign_updatable:
       type: object
       properties:
@@ -7151,6 +7161,19 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
+    chk_use_type:
+      description: >-
+        TThe use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
+      type: string
+      enum:
+        - marketing
+        - operational
+        - null
+      nullable: true
     check_base:
       allOf:
         - $ref: '#/components/schemas/editable_no_mailtype'
@@ -7187,6 +7210,8 @@ components:
                 page.
               type: string
               maxLength: 400
+            use_type:
+              $ref: '#/components/schemas/chk_use_type'
     from_us:
       type: object
       properties:
@@ -7336,7 +7361,7 @@ components:
             - carrier
             - date_created
             - date_modified
-            - object
+            - use_type
           properties:
             id:
               $ref: '#/components/schemas/chk_id'
@@ -7395,6 +7420,8 @@ components:
               items:
                 $ref: '#/components/schemas/tracking_event_normal'
               nullable: true
+            use_type:
+              $ref: '#/components/schemas/chk_use_type'
             object:
               type: string
               description: Value is resource type.
@@ -7479,6 +7506,7 @@ components:
             - to
             - from
             - amount
+            - use_type
           properties:
             from:
               description: >-
@@ -7557,6 +7585,8 @@ components:
                 - $ref: '#/components/schemas/local_file_path'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
+            use_type:
+              $ref: '#/components/schemas/chk_use_type'
     check_editable:
       oneOf:
         - title: words at check bottom
@@ -8196,6 +8226,19 @@ components:
       properties:
         from:
           $ref: '#/components/schemas/address'
+    ltr_use_type:
+      description: >-
+        The use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
+      type: string
+      enum:
+        - marketing
+        - operational
+        - null
+      nullable: true
     letter_generated_base:
       allOf:
         - $ref: '#/components/schemas/generated'
@@ -8204,6 +8247,7 @@ components:
           required:
             - id
             - from
+            - use_type
           properties:
             url:
               $ref: '#/components/schemas/signed_link'
@@ -8226,6 +8270,8 @@ components:
                 The unique ID of the associated campaign if the resource was
                 generated from a campaign.
               nullable: true
+            use_type:
+              $ref: '#/components/schemas/ltr_use_type'
             object:
               type: string
               description: Value is resource type.
@@ -8778,6 +8824,7 @@ components:
             - from
             - file
             - color
+            - use_type
           properties:
             file:
               $ref: '#/components/schemas/ltr_file'
@@ -8823,6 +8870,8 @@ components:
               $ref: '#/components/schemas/billing_group_id'
             qr_code:
               $ref: '#/components/schemas/qr_code'
+            use_type:
+              $ref: '#/components/schemas/ltr_use_type'
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
@@ -8834,6 +8883,19 @@ components:
           properties:
             size:
               $ref: '#/components/schemas/postcard_size'
+    psc_use_type:
+      description: >-
+        The use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
+      type: string
+      enum:
+        - marketing
+        - operational
+        - null
+      nullable: true
     postcard:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -8896,6 +8958,8 @@ components:
                 The unique ID of the associated campaign if the resource was
                 generated from a campaign.
               nullable: true
+            use_type:
+              $ref: '#/components/schemas/psc_use_type'
             object:
               type: string
               description: Value is resource type.
@@ -8981,6 +9045,7 @@ components:
             - to
             - front
             - back
+            - use_type
           properties:
             front:
               $ref: '#/components/schemas/psc_front'
@@ -8990,6 +9055,8 @@ components:
               $ref: '#/components/schemas/billing_group_id'
             qr_code:
               $ref: '#/components/schemas/qr_code'
+            use_type:
+              $ref: '#/components/schemas/psc_use_type'
     scans:
       type: object
       properties:
@@ -9035,6 +9102,19 @@ components:
           properties:
             size:
               $ref: '#/components/schemas/self_mailer_size'
+    sfm_use_type:
+      description: >-
+        The use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
+      type: string
+      enum:
+        - marketing
+        - operational
+        - null
+      nullable: true
     self_mailer:
       allOf:
         - $ref: '#/components/schemas/self_mailer_base'
@@ -9044,6 +9124,7 @@ components:
           required:
             - id
             - url
+            - use_type
           properties:
             id:
               $ref: '#/components/schemas/sfm_id'
@@ -9092,6 +9173,8 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/tracking_event_certified'
+            use_type:
+              $ref: '#/components/schemas/sfm_use_type'
             url:
               $ref: '#/components/schemas/signed_link'
     self_mailer_deletion:
@@ -9114,6 +9197,7 @@ components:
             - to
             - inside
             - outside
+            - use_type
           properties:
             inside:
               description: >
@@ -9160,6 +9244,8 @@ components:
                 - $ref: '#/components/schemas/local_file_path'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
+            use_type:
+              $ref: '#/components/schemas/sfm_use_type'
     template_html:
       type: string
       description: >
@@ -10523,6 +10609,7 @@ components:
                 check_bottom_template_version_id: vrsn_a
                 attachment_template_version_id: vrsn_a
                 merge_variables: {}
+                use_type: operational
                 deleted: true
               - id: chk_92b9a6714bc0557c
                 description: Demo Check
@@ -10596,6 +10683,7 @@ components:
                 date_created: '2019-08-08T19:34:27.802Z'
                 date_modified: '2019-08-08T19:34:30.582Z'
                 send_date: '2019-08-08T19:34:27.802Z'
+                use_type: operational
                 object: check
             object: list
             next_url: >-
@@ -10691,6 +10779,7 @@ components:
             attachment_template_id: tmpl_a
             check_bottom_template_version_id: vrsn_a
             attachment_template_version_id: vrsn_a
+            use_type: operational
             deleted: true
     check_canceled:
       description: Deleted
@@ -11042,6 +11131,7 @@ components:
                 date_created: '2019-08-08T17:09:14.514Z'
                 date_modified: '2019-08-08T17:09:16.850Z'
                 send_date: '2019-08-08'
+                use_type: marketing
                 object: letter
               - id: ltr_da8267c6a6545cd6
                 description: Demo Letter
@@ -11106,6 +11196,7 @@ components:
                 date_modified: '2019-08-08T17:08:13.990Z'
                 send_date: '2019-08-08T17:08:12.224Z'
                 cards: null
+                use_type: marketing
                 object: letter
             object: list
             next_url: >-
@@ -11229,6 +11320,7 @@ components:
                 date_created: '2017-08-05T15:54:53.346Z'
                 date_modified: '2017-08-05T15:54:53.346Z'
                 object: card
+            use_type: marketing
             object: letter
     postcard_deleted:
       description: Deleted
@@ -11291,6 +11383,7 @@ components:
                 date_created: '2021-03-24T22:51:42.838Z'
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
+                use_type: marketing
                 object: postcard
               - id: psc_0e03d1ad7d31f151
                 description: null
@@ -11352,6 +11445,7 @@ components:
                 date_created: '2021-03-24T22:51:42.838Z'
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
+                use_type: marketing
                 object: postcard
             object: list
             previous_url: null
@@ -11401,6 +11495,7 @@ components:
                 date_created: '2021-03-24T22:51:42.838Z'
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
+                use_type: marketing
                 object: postcard
             full:
               value:
@@ -11464,6 +11559,7 @@ components:
                 date_created: '2021-03-24T22:51:42.838Z'
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
+                use_type: marketing
                 object: postcard
     self_mailer_deleted:
       description: Deleted
@@ -11565,6 +11661,7 @@ components:
                 date_modified: '2021-03-16T18:41:06.691Z'
                 send_date: '2021-03-16T18:45:40.493Z'
                 deleted: true
+                use_type: marketing
                 object: self_mailer
               - id: sfm_8ffbe811dea49dcf
                 description: April Campaign
@@ -11634,6 +11731,7 @@ components:
                 date_modified: '2021-03-16T18:41:06.691Z'
                 send_date: '2021-03-16T18:45:40.493Z'
                 deleted: true
+                use_type: marketing
                 object: self_mailer
             object: list
             next_url: null
@@ -11721,6 +11819,7 @@ components:
             date_created: '2021-03-16T18:40:40.504Z'
             date_modified: '2021-03-16T18:40:40.504Z'
             send_date: '2021-03-16T18:45:40.493Z'
+            use_type: marketing
             object: self_mailer
     template_error:
       description: Error
@@ -16535,6 +16634,7 @@ paths:
                 memo: rafting trip
               attachment: ./cool.pdf
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: operational
               mail_type: usps_first_class
               check_number: 10001
           application/x-www-form-urlencoded:
@@ -16624,6 +16724,7 @@ paths:
                 memo: rafting trip
               attachment: ./cool.pdf
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: operational
               mail_type: usps_first_class
               check_number: 10001
             encoding:
@@ -16649,6 +16750,7 @@ paths:
               -d 'from=adr_210a8d4b0b76d77b' \
               -d 'bank_account=bank_8cad8df5354d33f' \
               -d 'amount=22.50' \
+              -d 'use_type=operational' \
               -d 'memo=rent' \
               --data-urlencode 'logo=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png' \
               --data-urlencode 'check_bottom=<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>' \
@@ -16667,7 +16769,8 @@ paths:
             }),
             from: 'adr_xxxx',
             bank_account: 'bank_xxxx',
-            amount: 100
+            amount: 100,
+            use_type: 'operational'
             });
 
             try {
@@ -16691,6 +16794,7 @@ paths:
               },
               from: 'adr_210a8d4b0b76d77b',
               amount: 22.50,
+              use_type: 'operational', 
               memo: 'rent',
               logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
               check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
@@ -16722,6 +16826,7 @@ paths:
               merge_variables: {
                 name: "Harry"
               },
+              use_type: "operational"
             });
 
             checkApi = ChecksApi.new(config)
@@ -16753,6 +16858,7 @@ paths:
               merge_variables = MergeVariables(
                 name = "Harry",
               ),
+              use_type = "operational"
             )
 
             with ApiClient(configuration) as api_client:
@@ -16782,6 +16888,9 @@ paths:
             $merge_variables->name = "Harry";
 
 
+            $use_type = "operational";
+
+
             $apiInstance = new OpenAPI\Client\Api\ChecksApi($config, new
             GuzzleHttp\Client());
 
@@ -16796,6 +16905,7 @@ paths:
                 "from"     => "adr_210a8d4b0b76d77b",
                 "to"     => $to,
                 "merge_variables"     => $merge_variables,
+                "use_type" => $use_type
               )
             );
 
@@ -16831,6 +16941,7 @@ paths:
               checkEditable.setFrom("adr_210a8d4b0b76d77b");
               checkEditable.setTo(to);
               checkEditable.setMergeVariables(merge_variables);
+              checkEditable.setUseType("operational");
 
               Check result = apiInstance.create(checkEditable, null);
             } catch (ApiException e) {
@@ -16857,7 +16968,8 @@ paths:
               check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
               merge_variables: %{
                 name: 'Harry'
-              }
+              },
+              use_type: 'operational'
             })
           label: ELIXIR
         - lang: CSharp
@@ -16896,7 +17008,8 @@ paths:
               mergeVariables,  // mergeVariables
               default(DateTime),  // sendDate
               CheckEditable.MailTypeEnum.UspsFirstClass,  // mailType
-              "rent" // memo
+              "rent", // memo
+              "operational" // use_type
             );
 
 
@@ -17005,6 +17118,7 @@ paths:
                 attachment_template_id: tmpl_a
                 check_bottom_template_version_id: vrsn_a
                 attachment_template_version_id: vrsn_a
+                use_type: operational
                 deleted: true
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -18030,6 +18144,7 @@ paths:
                     date_created: '2017-08-05T15:54:53.346Z'
                     date_modified: '2017-08-05T15:54:53.346Z'
                     object: card
+                use_type: marketing
                 object: letter
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -18414,6 +18529,7 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
@@ -18463,6 +18579,7 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
@@ -18525,6 +18642,7 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
@@ -18576,6 +18694,7 @@ paths:
               color: true,
               extra_service: LetterEditableExtraServiceEnum.Certified,
               file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf',
+              use_type: 'marketing',
               qr_code : {
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
@@ -18611,6 +18730,7 @@ paths:
               },
               color: true,
               cards: ['card_c51ae96f5cebf3e'],
+              use_type: 'marketing',
               qr_code : {
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
@@ -18644,6 +18764,7 @@ paths:
               cards: [
                 "card_c51ae96f5cebf3e",
               ],
+              use_type: "marketing"
             });
 
             letterApi = LettersApi.new(config)
@@ -18675,13 +18796,14 @@ paths:
               cards = [
                 "card_c51ae96f5cebf3e",
               ],
+              use_type: "marketing",
               qr_code = {
-                'position' : 'relative',
-                'redirect_url' : 'https://www.lob.com',
-                'width' : '2',
-                'bottom' : '2',
-                'left' : '2',
-                'pages' : '1,3'
+                "position" : "relative",
+                "redirect_url" : "https://www.lob.com",
+                "width" : "2",
+                "bottom" : "2",
+                "left" : "2",
+                "pages" : "1,3"
               }
             )
 
@@ -18724,6 +18846,9 @@ paths:
             $merge_variables->name = "Harry";
 
 
+            $use_type = "marketing";
+
+
             $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new
             GuzzleHttp\Client());
 
@@ -18739,6 +18864,7 @@ paths:
                   "card_c51ae96f5cebf3e",
                   "card_thingy",
                 ),
+                "use_type" => $use_type;
                 "qr_code"   => $qr_code,
               )
             );
@@ -18785,6 +18911,7 @@ paths:
               letterEditable.setTo(to);
               letterEditable.setMergeVariables(merge_variables);
               letterEditable.setCards(cards);
+              letterEditable.setUseType("operational");
               letterEditable.setQRCode(qrCode);
 
               Letter result = apiInstance.create(letterEditable, null);
@@ -18811,6 +18938,7 @@ paths:
               },
               color: true,
               cards: ['card_c51ae96f5cebf3e'],
+              use_type: 'marketing',
               qr_code: %{
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
@@ -18842,6 +18970,9 @@ paths:
               null,  // description
               "Harry Zhang" // name
             );
+
+
+            UseType usetype = new UseType("marketing");
 
 
             QRCode qrCode = new QRCode(
@@ -18876,6 +19007,7 @@ paths:
               "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",  // file
               default(LetterEditable.ExtraServiceEnum?),  // extraService
               cards, // cards
+              usetype,
               qrCode
             );
 
@@ -18940,6 +19072,7 @@ paths:
                     date_created: '2021-03-24T22:51:42.838Z'
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
+                    use_type: marketing
                     object: postcard
                 full:
                   value:
@@ -19003,6 +19136,7 @@ paths:
                     date_created: '2021-03-24T22:51:42.838Z'
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
+                    use_type: marketing
                     object: postcard
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -19390,6 +19524,7 @@ paths:
               metadata:
                 spiffy: 'true'
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
@@ -19435,6 +19570,7 @@ paths:
               metadata:
                 spiffy: 'true'
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
@@ -19493,6 +19629,7 @@ paths:
               metadata:
                 spiffy: 'true'
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
@@ -19521,6 +19658,7 @@ paths:
               --data-urlencode 'front=<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>' \
               --data-urlencode 'back=<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>' \
               -d 'merge_variables[name]=Harry' \
+              -d 'use_type=marketing' \
               -d 'qr_code[position]=relative' \
               -d 'qr_code[redirect_url]=https://www.lob.com' \
               -d 'qr_code[width]=2.5' \
@@ -19549,6 +19687,8 @@ paths:
 
             back:
             'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
+
+            use_type: 'marketing',
 
             qr_code : {
               position: 'relative',
@@ -19586,6 +19726,7 @@ paths:
               merge_variables: {
                 name: 'Harry'
               },
+              use_type: 'marketing'
               qr_code : {
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
@@ -19644,13 +19785,14 @@ paths:
               merge_variables = MergeVariables(
                 name = "Harry",
               ),
+              use_type = "marketing",
               qr_code = {
-                'position' : 'relative',
-                'redirect_url' : 'https://www.lob.com',
-                'width' : '2.5',
-                'bottom' : '2.5',
-                'left' : '2.5',
-                'pages' : 'front'
+                "position" : "relative",
+                "redirect_url" : "https://www.lob.com",
+                "width" : "2.5",
+                "bottom" : "2.5",
+                "left" : "2.5",
+                "pages" : "front"
               }
             )
 
@@ -19680,6 +19822,8 @@ paths:
 
             $merge_variables->name = "Harry";
 
+            $use_type = "marketing";
+
 
             $qr_code = new OpenAPI\Client\Model\QRCode(
               array(
@@ -19704,6 +19848,7 @@ paths:
                 "back"     => "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
                 "to"     => $to,
                 "merge_variables"   => $merge_variables,
+                "use_type" => $use_type,
                 "qr_code"   => $qr_code,
               )
             );
@@ -19745,6 +19890,7 @@ paths:
               postcardEditable.setBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>");
               postcardEditable.setTo(to);
               postcardEditable.setMergeVariables(merge_variables);
+              postcardEditable.setUseType("operational");
               postcardEditable.setQRCode(qrCode);
 
               Postcard result = apiInstance.create(postcardEditable, null);
@@ -19770,6 +19916,7 @@ paths:
               merge_variables: %{
                 name: 'Harry'
               },
+              use_type: 'marketing'
               qr_code: %{
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
@@ -19803,6 +19950,9 @@ paths:
             );
 
 
+            UseType usetype = new UseType('marketing');
+
+
             QRCode qrCode = new QRCode(
               "relative",  //position,
               "https://www.lob.com", //redirect_url
@@ -19824,6 +19974,7 @@ paths:
               default(DateTime),  // sendDate
               "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",  // front
               "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>", // back
+              usetype,
               qrCode
             );
 
@@ -20010,6 +20161,7 @@ paths:
                 date_created: '2021-03-16T18:40:40.504Z'
                 date_modified: '2021-03-16T18:40:40.504Z'
                 send_date: '2021-03-16T18:45:40.493Z'
+                use_type: marketing
                 object: self_mailer
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -20370,6 +20522,7 @@ paths:
               merge_variables:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'
@@ -20386,6 +20539,7 @@ paths:
               merge_variables:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
             encoding:
               merge_variables:
                 style: deepObject
@@ -20409,6 +20563,7 @@ paths:
               merge_variables:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
       responses:
         '200':
           $ref: '#/components/responses/post_self_mailer'
@@ -20426,6 +20581,7 @@ paths:
               -d "to[address_state]=CA" \
               -d "to[address_zip]=94107" \
               -d "from=adr_210a8d4b0b76d77b" \
+              -d "use_type=marketing" \
               --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
               --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
               -d "merge_variables[name]=Harry"
@@ -20445,7 +20601,8 @@ paths:
               inside:
               'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf',
               outside:
-              'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf'
+              'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf',
+              use_type: 'marketing'
             });
 
             try {
@@ -20470,7 +20627,8 @@ paths:
               outside: '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
               merge_variables: {
                 name: 'Harry'
-              }
+              },
+              use_type: 'marketing'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -20493,6 +20651,7 @@ paths:
               merge_variables: {
                 name: "Harry"
               },
+              use_type: 'marketing'
             });
 
             selfMailerApi = SelfMailersApi.new(config)
@@ -20521,6 +20680,7 @@ paths:
               merge_variables = MergeVariables(
                 name = "Harry",
               ),
+              use_type: "marketing"
             )
 
             with ApiClient(configuration) as api_client:
@@ -20550,6 +20710,9 @@ paths:
             $merge_variables->name = "Harry";
 
 
+            $use_type = "marketing";
+
+
             $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new
             GuzzleHttp\Client());
 
@@ -20561,6 +20724,7 @@ paths:
                 "outside"     => "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
                 "to"     => $to,
                 "merge_variables"     => $merge_variables,
+                "use_type"    => $use_type
               )
             );
 
@@ -20585,6 +20749,8 @@ paths:
             to.setAddressState("CA");
             to.setAddressZip("94107");
 
+            UseType usetype = new UseType("marketing");
+
             try {
               SelfMailerEditable selfMailerEditable = new SelfMailerEditable();
               selfMailerEditable.setDescription("Demo Self Mailer job");
@@ -20593,6 +20759,7 @@ paths:
               selfMailerEditable.setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>");
               selfMailerEditable.setTo(to);
               selfMailerEditable.setMergeVariables(merge_variables);
+              selfMailerEditable.setUseType(use_type);
 
               SelfMailer result = apiInstance.create(selfMailerEditable, null);
             } catch (ApiException e) {
@@ -20615,7 +20782,8 @@ paths:
               outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
               merge_variables: %{
                 name: "Harry"
-              }
+              },
+              use_type: "marketing"
             })
           label: ELIXIR
         - lang: CSharp
@@ -20651,7 +20819,8 @@ paths:
               mergeVariables,  // mergeVariables
               default(DateTime),  // sendDate
               "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
-              "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" // outside
+              "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
+              "marketing" // use_type 
             );
 
 

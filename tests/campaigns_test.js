@@ -51,7 +51,7 @@ test("create, retrieve, update, then delete a campaign", async function (t) {
             name: "Harry Zhang",
           },
           auto_cancel_if_ncoa: false,
-          use_type: "marketing"
+          use_type: "marketing",
         },
         {
           headers: { ...prism.authHeader, "x-lang-output": "match" },

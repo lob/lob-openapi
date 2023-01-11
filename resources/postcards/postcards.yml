@@ -542,8 +542,6 @@ post:
         to.setAddressState("CA");
         to.setAddressZip("94107");
 
-        UseType usetype = new UseType();
-
         QRCode qrCode = new QRCode();
         qrCode.setPosition("relative");
         qrCode.setRedirectUrl("https://www.lob.com");
@@ -560,7 +558,7 @@ post:
           postcardEditable.setBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>");
           postcardEditable.setTo(to);
           postcardEditable.setMergeVariables(merge_variables);
-          postcardEditable.setUseType(useType);
+          postcardEditable.setUseType("operational");
           postcardEditable.setQRCode(qrCode);
 
           Postcard result = apiInstance.create(postcardEditable, null);

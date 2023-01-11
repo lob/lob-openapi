@@ -101,10 +101,11 @@ version of the docs.
 ## Contributing to this repo
 
 When you try to commit your changes, a pre-commit hook with run. It will:
+
 1. Check linting
 2. Run tests
 
-If your tests fail, it is because your hook is looking for specific keys in your environment. In order to commit your changes and test on Github, you will need to pass `--no-verify` after your commit. 
+If your tests fail, it is because your hook is looking for specific keys in your environment. In order to commit your changes and test on Github, you will need to pass `--no-verify` after your commit.
 
 ## E2E Testing
 

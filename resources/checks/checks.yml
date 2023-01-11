@@ -417,7 +417,7 @@ post:
           merge_variables = MergeVariables(
             name = "Harry",
           ),
-          use_type = "opereational"
+          use_type = "operational"
         )
 
         with ApiClient(configuration) as api_client:
@@ -482,8 +482,6 @@ post:
         to.setAddressState("CA");
         to.setAddressZip("94107");
 
-        UseType use_type = new UseType("operational");
-
         try {
           CheckEditable checkEditable = new CheckEditable();
           checkEditable.setDescription("Demo Check");
@@ -495,7 +493,7 @@ post:
           checkEditable.setFrom("adr_210a8d4b0b76d77b");
           checkEditable.setTo(to);
           checkEditable.setMergeVariables(merge_variables);
-          checkEditable.setUseType(use_type);
+          checkEditable.setUseType("operational");
 
           Check result = apiInstance.create(checkEditable, null);
         } catch (ApiException e) {

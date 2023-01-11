@@ -406,8 +406,6 @@ post:
         to.setAddressState("CA");
         to.setAddressZip("94107");
 
-        UseType usetype = new UseType("marketing");
-
         try {
           SelfMailerEditable selfMailerEditable = new SelfMailerEditable();
           selfMailerEditable.setDescription("Demo Self Mailer job");
@@ -416,7 +414,7 @@ post:
           selfMailerEditable.setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>");
           selfMailerEditable.setTo(to);
           selfMailerEditable.setMergeVariables(merge_variables);
-          selfMailerEditable.setUseType(use_type);
+          selfMailerEditable.setUseType("marketing");
 
           SelfMailer result = apiInstance.create(selfMailerEditable, null);
         } catch (ApiException e) {

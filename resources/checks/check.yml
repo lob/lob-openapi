@@ -100,6 +100,19 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedCheck, _, err := apiClient.ChecksApi.Get(context,"chk_534f10783683daa0").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 # For Form Factors, delete is actually cancel. If you need
 # delete verbiage, check Bank Accounts or Template Versions.
@@ -201,3 +214,16 @@ delete:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        deletedCheck, _, err := apiClient.ChecksApi.Cancel(context, "chk_534f10783683daa0").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

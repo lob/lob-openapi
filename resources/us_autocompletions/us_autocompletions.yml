@@ -220,3 +220,18 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(context, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var usAutocomplationsWritable = *lob.NewUsAutocompletionsWritable("340 Wat")
+
+        resp, _, err := suite.apiClient.UsAutocompletionsApi.Autocomplete(suite.ctx).UsAutocompletionsWritable(suite.usAutocomplationsWritable).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

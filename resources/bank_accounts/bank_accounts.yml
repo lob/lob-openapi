@@ -121,6 +121,17 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        BankAccountList = apiClient.BankAccountsApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: bank_account_create
@@ -324,3 +335,26 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+
+        var bankAccountCreate = *lob.NewBankAccountWritable()
+        bankAccountCreate.SetDescription("Test Bank Account")
+        bankAccountCreate.SetRoutingNumber("322271627")
+        bankAccountCreate.SetAccountNumber("123456789")
+        bankAccountCreate.SetSignatory("John Doe")
+        bankAccountCreate.SetAccountType("company")
+
+
+
+        createdbankAccount, _, err := apiClient.BankAccountsApi.Create(context).BankAccountWritable(bankAccountCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

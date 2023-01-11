@@ -104,6 +104,19 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedTemplateVersion, _, err := apiClient.TemplateVersionsApi.Get(context,"tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: template_version_update
@@ -228,6 +241,25 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var templateWritable = *lob.NewTemplateWritable("<html>Updated HTML for Template 1/html>")
+        var templateVersionWritable = *lob.NewTemplateVersionWritable("<html>Updated HTML for Template 1/html>")
+        createdTemplate, _, _ := apiClient.TemplatesApi.Create(context).TemplateWritable(templateWritable).Execute()
+
+        createdTemplateVersion, _, err := apiClient.TemplateVersionsApi.Create(context, createdTemplate.Id).TemplateVersionWritable(templateVersionWritable).Execute()
+        createdTemplateVersion.SetDescription("New Template Version")
+        resp, _, err := apiClient.TemplatesApi.Update(context, createdTemplate.Id, createdTemplateVersion.Id).TemplateVersionWritable(templateVersionWritable).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 delete:
   operationId: template_version_delete
@@ -306,3 +338,16 @@ delete:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        deletedTemplateVersion, _, err := apiClient.TemplateVersionsApi.Delete(context, "tmpl_4aa14648113e45b", "vrsn_534e339882d2282").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

@@ -98,6 +98,19 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedTemplate, _, err := apiClient.TemplatesApi.Get(context,"tmpl_c94e83ca2cd5121").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: template_update
@@ -252,6 +265,23 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var templateWritable = *lob.NewTemplateWritable("<html>Updated HTML for Template 1/html>")
+        createdTemplate, _, _ := apiClient.TemplatesApi.Create(context).TemplateWritable(templateWritable).Execute()
+
+        templateWritable.SetDescription("Template updated")
+        resp, _, err := apiClient.TemplatesApi.Update(context, createdTemplate.Id).TemplateWritable(templateWritable).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 delete:
   operationId: template_delete
@@ -344,3 +374,16 @@ delete:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        deletedTemplate, _, err := apiClient.TemplatesApi.Delete(context, "tmpl_df934eeda694203").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

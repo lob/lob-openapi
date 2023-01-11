@@ -121,6 +121,17 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        AddressList = apiClient.AddressesApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: address_create
@@ -472,3 +483,32 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+
+        var addressCreate = *lob.NewAddressEditable()
+        addressCreate.SetDescription("Harry - Office")
+        addressCreate.SetName("Harry Zhang")
+        addressCreate.SetCompany("Lob")
+        addressCreate.SetEmail("harry@lob.com")
+        addressCreate.SetPhone("5555555555")
+        addressCreate.SetAddressLine1("210 King St")
+        addressCreate.SetAddressLine2("# 6100")
+        addressCreate.SetAddressCity("San Francisco")
+        addressCreate.SetAddressState("CA")
+        addressCreate.SetAddressZip("94107")
+        addressCreate.SetAddressCountry("US")
+
+
+
+        createdaddress, _, err := apiClient.AddressesApi.Create(context).AddressEditable(addressCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

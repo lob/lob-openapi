@@ -101,6 +101,19 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedSelfMailer, _, err := apiClient.SelfMailersApi.Get(context,"sfm_8ffbe811dea49dcf").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 delete:
   operationId: self_mailer_delete
@@ -196,3 +209,16 @@ delete:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        deletedSelfMailer, _, err := apiClient.SelfMailersApi.Delete(context, "sfm_8ffbe811dea49dcf").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

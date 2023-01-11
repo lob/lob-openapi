@@ -146,6 +146,17 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        SelfMailerList = apiClient.SelfMailersApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: self_mailer_create
@@ -465,3 +476,34 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var to = *lob.NewAddressEditable()
+        to.SetAddressLine1("210 King St")
+        to.SetAddressLine2("# 6100")
+        to.SetAddressCity("San Francisco")
+        to.SetAddressState("CA")
+        to.SetAddressZip("94107")
+        to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+        to.SetDescription("")
+        to.SetName("Harry Zhang")
+
+        var selfMailerCreate = *lob.NewSelfMailerEditable()
+        selfMailerCreate.SetDescription("Demo Self Mailer job")
+        selfMailerCreate.SetFrom("adr_210a8d4b0b76d77b")
+        selfMailerCreate.SetInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>")
+        selfMailerCreate.SetOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
+        selfMailerCreate.SetTo(to)
+
+
+        createdselfMailer, _, err := apiClient.SelfMailersApi.Create(context).SelfMailerEditable(selfMailerCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

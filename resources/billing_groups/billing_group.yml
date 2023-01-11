@@ -42,6 +42,19 @@ get:
           p err.message
         end
       label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedBillingGroup, _, err := apiClient.BillingGroupsApi.Get(context,"bg_4bb02b527a72667d0").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: billing_group_update
@@ -98,6 +111,23 @@ post:
           p err.message
         end
       label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var bgEditable = *lob.NewBillingGroupEditable("Test Billing group")
+        createdBillingGroup, _, _ := apiClient.BillingGroupsApi.Create(context).BillingGroupEditable(suite.bgEditable).Execute()
+
+        bgEditable.SetDescription("BG updated")
+        resp, _, err := suite.apiClient.BillingGroupsApi.Update(context, createdBillingGroup.Id).BillingGroupEditable(suite.bgEditable).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
   responses:
     "200":

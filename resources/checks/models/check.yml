@@ -13,7 +13,7 @@ allOf:
       - carrier
       - date_created
       - date_modified
-      - object
+      - use_type
 
     properties:
       id:
@@ -78,6 +78,9 @@ allOf:
         items:
           $ref: "../../../shared/resources/tracking_events/models/tracking_event_normal.yml"
         nullable: true
+
+      use_type:
+        $ref: "../attributes/chk_use_type.yml"
 
       object:
         type: string

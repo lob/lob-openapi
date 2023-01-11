@@ -50,8 +50,8 @@ test("create, retrieve, update, then delete a campaign", async function (t) {
           metadata: {
             name: "Harry Zhang",
           },
-          use_type: "operational",
           auto_cancel_if_ncoa: false,
+          use_type: "marketing"
         },
         {
           headers: { ...prism.authHeader, "x-lang-output": "match" },

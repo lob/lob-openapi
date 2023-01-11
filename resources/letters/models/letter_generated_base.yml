@@ -7,6 +7,7 @@ allOf:
     required:
       - id
       - from
+      - use_type
 
     properties:
       url:
@@ -30,6 +31,9 @@ allOf:
         type: string
         description: The unique ID of the associated campaign if the resource was generated from a campaign.
         nullable: true
+
+      use_type:
+        $ref: "../attributes/ltr_use_type.yml"
 
       object:
         type: string

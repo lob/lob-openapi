@@ -98,6 +98,15 @@ generated docs will apppear in `docs/index.html`. Then you can point
 your browser to the absolute path of that file to review your local
 version of the docs.
 
+## Contributing to this repo
+
+When you try to commit your changes, a pre-commit hook with run. It will:
+
+1. Check linting
+2. Run tests
+
+If your tests fail, it is because your hook is looking for specific keys in your environment. In order to commit your changes and test on Github, you will need to pass `--no-verify` after your commit.
+
 ## E2E Testing
 
 You can run the currently available end-to-end tests with the command `npm run docsTest`.

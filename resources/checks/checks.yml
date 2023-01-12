@@ -190,6 +190,7 @@ post:
             memo: rafting trip
           attachment: "./cool.pdf"
           send_date: "2017-11-01T00:00:00.000Z"
+          use_type: operational
           mail_type: usps_first_class
           check_number: 10001
 
@@ -279,6 +280,7 @@ post:
             memo: rafting trip
           attachment: "./cool.pdf"
           send_date: "2017-11-01T00:00:00.000Z"
+          use_type: operational
           mail_type: usps_first_class
           check_number: 10001
         encoding:
@@ -307,6 +309,7 @@ post:
           -d 'from=adr_210a8d4b0b76d77b' \
           -d 'bank_account=bank_8cad8df5354d33f' \
           -d 'amount=22.50' \
+          -d 'use_type=operational' \
           -d 'memo=rent' \
           --data-urlencode 'logo=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png' \
           --data-urlencode 'check_bottom=<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>' \
@@ -325,7 +328,8 @@ post:
         }),
         from: 'adr_xxxx',
         bank_account: 'bank_xxxx',
-        amount: 100
+        amount: 100,
+        use_type: 'operational'
         });
 
         try {
@@ -349,6 +353,7 @@ post:
           },
           from: 'adr_210a8d4b0b76d77b',
           amount: 22.50,
+          use_type: 'operational', 
           memo: 'rent',
           logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
           check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
@@ -380,6 +385,7 @@ post:
           merge_variables: {
             name: "Harry"
           },
+          use_type: "operational"
         });
 
         checkApi = ChecksApi.new(config)
@@ -411,6 +417,7 @@ post:
           merge_variables = MergeVariables(
             name = "Harry",
           ),
+          use_type = "operational"
         )
 
         with ApiClient(configuration) as api_client:
@@ -437,6 +444,8 @@ post:
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
 
+        $use_type = "operational";
+
         $apiInstance = new OpenAPI\Client\Api\ChecksApi($config, new GuzzleHttp\Client());
         $check_editable = new OpenAPI\Client\Model\CheckEditable(
           array(
@@ -449,6 +458,7 @@ post:
             "from"     => "adr_210a8d4b0b76d77b",
             "to"     => $to,
             "merge_variables"     => $merge_variables,
+            "use_type" => $use_type
           )
         );
 
@@ -483,6 +493,7 @@ post:
           checkEditable.setFrom("adr_210a8d4b0b76d77b");
           checkEditable.setTo(to);
           checkEditable.setMergeVariables(merge_variables);
+          checkEditable.setUseType("operational");
 
           Check result = apiInstance.create(checkEditable, null);
         } catch (ApiException e) {
@@ -509,7 +520,8 @@ post:
           check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
           merge_variables: %{
             name: 'Harry'
-          }
+          },
+          use_type: 'operational'
         })
       label: ELIXIR
     - lang: CSharp
@@ -543,7 +555,8 @@ post:
           mergeVariables,  // mergeVariables
           default(DateTime),  // sendDate
           CheckEditable.MailTypeEnum.UspsFirstClass,  // mailType
-          "rent" // memo
+          "rent", // memo
+          "operational" // use_type
         );
 
         try {

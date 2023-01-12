@@ -120,6 +120,17 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        TemplateList = apiClient.TemplatesApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: create_template
@@ -290,3 +301,23 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+
+        var templateCreate = *lob.NewTemplateWritable()
+        templateCreate.SetDescription("Test Template")
+        templateCreate.SetHtml("<html>HTML for {{name}}</html>")
+
+
+
+        createdtemplate, _, err := apiClient.TemplatesApi.Create(context).TemplateWritable(templateCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

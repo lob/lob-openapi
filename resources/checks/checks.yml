@@ -136,6 +136,17 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        CheckList = apiClient.ChecksApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: check_create
@@ -565,3 +576,37 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var to = *lob.NewAddressEditable()
+        to.SetAddressLine1("210 King St")
+        to.SetAddressLine2("# 6100")
+        to.SetAddressCity("San Francisco")
+        to.SetAddressState("CA")
+        to.SetAddressZip("94107")
+        to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+        to.SetDescription("")
+        to.SetName("Harry Zhang")
+
+        var checkCreate = *lob.NewCheckEditable()
+        checkCreate.SetDescription("Demo Check")
+        checkCreate.SetBankAccount("bank_8cad8df5354d33f")
+        checkCreate.SetAmount(22.5)
+        checkCreate.SetMemo("rent")
+        checkCreate.SetLogo("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png")
+        checkCreate.SetCheckBottom("<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>")
+        checkCreate.SetFrom("adr_210a8d4b0b76d77b")
+        checkCreate.SetTo(to)
+
+
+        createdcheck, _, err := apiClient.ChecksApi.Create(context).CheckEditable(checkCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

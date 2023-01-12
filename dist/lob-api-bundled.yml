@@ -1926,6 +1926,8 @@ tags:
 
       - <a href="https://github.com/lob/lob-elixir" target="_blank">Elixir</a>
 
+      - <a href="https://github.com/lob/lob-go" target="_blank">Go</a>
+
       - <a href="https://github.com/lob/lob-node" target="_blank">Node.js
       (legacy)</a>
 
@@ -12665,6 +12667,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            AddressList = apiClient.AddressesApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: address_create
       summary: Create
@@ -13008,6 +13026,53 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var addressCreate = *lob.NewAddressEditable()
+
+            addressCreate.SetDescription("Harry - Office")
+
+            addressCreate.SetName("Harry Zhang")
+
+            addressCreate.SetCompany("Lob")
+
+            addressCreate.SetEmail("harry@lob.com")
+
+            addressCreate.SetPhone("5555555555")
+
+            addressCreate.SetAddressLine1("210 King St")
+
+            addressCreate.SetAddressLine2("# 6100")
+
+            addressCreate.SetAddressCity("San Francisco")
+
+            addressCreate.SetAddressState("CA")
+
+            addressCreate.SetAddressZip("94107")
+
+            addressCreate.SetAddressCountry("US")
+
+
+
+
+            createdaddress, _, err :=
+            apiClient.AddressesApi.Create(context).AddressEditable(addressCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /addresses/{adr_id}:
     parameters:
       - in: path
@@ -13104,6 +13169,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedAddress, _, err :=
+            apiClient.AddressesApi.Get(context,"adr_fa85158b26c3eb7c").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: address_delete
       summary: Delete
@@ -13193,6 +13277,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedAddress, _, err := apiClient.AddressesApi.Delete(context,
+            "adr_43769b47aed248c2").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /bank_accounts/{bank_id}/verify:
     parameters:
       - in: path
@@ -13354,6 +13457,38 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var bankAccountWritable = *lob.NewBankAccountWritable("322271627",
+            "123456789", lob.BANKTYPEENUM_INDIVIDUAL, "Sinead Connor")
+
+
+            createdBankAccount, _, _ :=
+            apiClient.BankAccountsApi.Create(context).BankAccountWritable(bankAccountWritable).Execute()
+
+
+            verifyAmounts := []int32{11, 35}
+
+            verify := *lob.NewBankAccountVerify(verifyAmounts)
+
+
+            verifiedAccount, _, err := apiClient.BankAccountsApi.Verify(context,
+            createdBankAccount.Id).BankAccountVerify(verify).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /bank_accounts/{bank_id}:
     parameters:
       - in: path
@@ -13471,6 +13606,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedBankAccount, _, err :=
+            apiClient.BankAccountsApi.Get(context,"bank_8cad8df5354d33f").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: bank_account_delete
       summary: Delete
@@ -13559,6 +13713,26 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedBankAccount, _, err :=
+            apiClient.BankAccountsApi.Delete(context,
+            "bank_3e64d9904356b20").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /bank_accounts:
     get:
       operationId: bank_accounts_list
@@ -13689,6 +13863,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            BankAccountList = apiClient.BankAccountsApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: bank_account_create
       summary: Create
@@ -13886,6 +14076,41 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var bankAccountCreate = *lob.NewBankAccountWritable()
+
+            bankAccountCreate.SetDescription("Test Bank Account")
+
+            bankAccountCreate.SetRoutingNumber("322271627")
+
+            bankAccountCreate.SetAccountNumber("123456789")
+
+            bankAccountCreate.SetSignatory("John Doe")
+
+            bankAccountCreate.SetAccountType("company")
+
+
+
+
+            createdbankAccount, _, err :=
+            apiClient.BankAccountsApi.Create(context).BankAccountWritable(bankAccountCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /billing_groups/{bg_id}:
     parameters:
       - in: path
@@ -13934,6 +14159,25 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedBillingGroup, _, err :=
+            apiClient.BillingGroupsApi.Get(context,"bg_4bb02b527a72667d0").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: billing_group_update
       summary: Update
@@ -13981,6 +14225,33 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var bgEditable = *lob.NewBillingGroupEditable("Test Billing group")
+
+            createdBillingGroup, _, _ :=
+            apiClient.BillingGroupsApi.Create(context).BillingGroupEditable(suite.bgEditable).Execute()
+
+
+            bgEditable.SetDescription("BG updated")
+
+            resp, _, err := suite.apiClient.BillingGroupsApi.Update(context,
+            createdBillingGroup.Id).BillingGroupEditable(suite.bgEditable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
       responses:
         '200':
           $ref: '#/components/responses/post_billing_group'
@@ -14076,6 +14347,23 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            BillingGroupList =
+            apiClient.BillingGroupsApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: billing_group_create
       summary: Create
@@ -14134,6 +14422,36 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var bgCreate = *lob.NewBillingGroupEditable()
+
+            bgCreate.SetDescription("Usage group used for the Marketing
+            Department's resource sends")
+
+            bgCreate.SetName("Marketing Department")
+
+
+
+
+            createdbg, _, err :=
+            apiClient.BillingGroupsApi.Create(context).BillingGroupEditable(bgCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /buckslips:
     get:
       operationId: buckslips_list
@@ -15683,6 +16001,22 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            CardList = apiClient.CardsApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: card_create
       summary: Create
@@ -15868,6 +16202,39 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var cardCreate = *lob.NewCardEditable()
+
+            cardCreate.SetFront("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf")
+
+            cardCreate.SetBack("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf")
+
+            cardCreate.SetSize("2.125x3.375")
+
+            cardCreate.SetDescription("Test Card")
+
+
+
+
+            createdcard, _, err :=
+            apiClient.CardsApi.Create(context).CardEditable(cardCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /cards/{card_id}:
     parameters:
       - in: path
@@ -15988,6 +16355,25 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedCard, _, err :=
+            apiClient.CardsApi.Get(context,"card_7a6d73c5c8457fc").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: card_update
       summary: Update
@@ -16143,6 +16529,36 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            cardEditable =
+            *lob.NewCardEditable("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf()")
+
+            createdCard, _, _ :=
+            apiClient.CardsApi.Create(context).CardEditable(suite.cardEditable).Execute()
+
+            var updatedCard = *lob.NewCardUpdatable()
+
+            updatedCard.SetDescription("Card was updated")
+
+
+            resp, _, err := suite.apiClient.CardsApi.Update(context,
+            createdCard.Id).CardUpdatable(updatedCard).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: card_delete
       summary: Delete
@@ -16210,6 +16626,25 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedCard, _, err := apiClient.CardsApi.Delete(context,
+            "card_6afffd19045076c").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /cards/{card_id}/orders:
     parameters:
       - in: path
@@ -16315,6 +16750,25 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedCardOrderList, _, err := apiClient.CardOrdersApi.Get(context,
+            "card_6afffd19045076c").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: card_order_create
       summary: Create
@@ -16437,6 +16891,33 @@ paths:
               p err.message
             end
           label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var cardOrderCreate = *lob.NewCardOrderEditable()
+
+            cardOrderCreate.SetQuantity("10000")
+
+
+
+
+            createdcardOrder, _, err := apiClient.CardOrdersApi.Create(context,
+            "card_6afffd19045076c").CardOrderEditable(cardOrderCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /checks:
     get:
       operationId: checks_list
@@ -16586,6 +17067,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            CheckList = apiClient.ChecksApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: check_create
       summary: Create
@@ -17019,6 +17516,65 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var to = *lob.NewAddressEditable()
+
+            to.SetAddressLine1("210 King St")
+
+            to.SetAddressLine2("# 6100")
+
+            to.SetAddressCity("San Francisco")
+
+            to.SetAddressState("CA")
+
+            to.SetAddressZip("94107")
+
+            to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+
+            to.SetDescription("")
+
+            to.SetName("Harry Zhang")
+
+
+            var checkCreate = *lob.NewCheckEditable()
+
+            checkCreate.SetDescription("Demo Check")
+
+            checkCreate.SetBankAccount("bank_8cad8df5354d33f")
+
+            checkCreate.SetAmount(22.5)
+
+            checkCreate.SetMemo("rent")
+
+            checkCreate.SetLogo("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png")
+
+            checkCreate.SetCheckBottom("<h1 style='padding-top:4in;'>Demo Check
+            for {{name}}</h1>")
+
+            checkCreate.SetFrom("adr_210a8d4b0b76d77b")
+
+            checkCreate.SetTo(to)
+
+
+
+            createdcheck, _, err :=
+            apiClient.ChecksApi.Create(context).CheckEditable(checkCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /checks/{chk_id}:
     parameters:
       - in: path
@@ -17197,6 +17753,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedCheck, _, err :=
+            apiClient.ChecksApi.Get(context,"chk_534f10783683daa0").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: check_cancel
       summary: Cancel
@@ -17291,6 +17866,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedCheck, _, err := apiClient.ChecksApi.Cancel(context,
+            "chk_534f10783683daa0").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /creatives:
     post:
       operationId: creative_create
@@ -17767,6 +18361,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(context, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            resp, _, err :=
+            suite.apiClient.IntlAutocompletionsApi.Autocomplete(context).IntlAutocompletionsWritable(suite.intlAutocomplationsWritable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /intl_verifications:
     post:
       operationId: intl_verification
@@ -18223,6 +18836,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedLetter, _, err :=
+            apiClient.LettersApi.Get(context,"ltr_4868c3b754655f90").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: letter_cancel
       summary: Cancel
@@ -18317,6 +18949,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedLetter, _, err := apiClient.LettersApi.Cancel(context,
+            "ltr_4868c3b754655f90").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /letters:
     get:
       operationId: letters_list
@@ -18475,6 +19126,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            LetterList = apiClient.LettersApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: letter_create
       summary: Create
@@ -19018,6 +19685,59 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var to = *lob.NewAddressEditable()
+
+            to.SetAddressLine1("210 King St")
+
+            to.SetAddressLine2("# 6100")
+
+            to.SetAddressCity("San Francisco")
+
+            to.SetAddressState("CA")
+
+            to.SetAddressZip("94107")
+
+            to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+
+            to.SetDescription("")
+
+            to.SetName("Harry Zhang")
+
+
+            var letterCreate = *lob.NewLetterEditable()
+
+            letterCreate.SetDescription("Demo Letter")
+
+            letterCreate.SetFrom("adr_210a8d4b0b76d77b")
+
+            letterCreate.SetFile("<html style='padding-top: 3in; margin:
+            .5in;'>HTML Letter for {{name}}</html>")
+
+            letterCreate.SetColor("true")
+
+            letterCreate.SetTo(to)
+
+
+
+            createdletter, _, err :=
+            apiClient.LettersApi.Create(context).LetterEditable(letterCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /postcards/{psc_id}:
     parameters:
       - in: path
@@ -19215,6 +19935,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedPostcard, _, err :=
+            apiClient.PostcardsApi.Get(context,"psc_5c002b86ce47537a").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: postcard_delete
       summary: Cancel
@@ -19310,6 +20049,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedPostcard, _, err := apiClient.PostcardsApi.Delete(context,
+            "psc_5c002b86ce47537a").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /postcards:
     get:
       operationId: postcards_list
@@ -19474,6 +20232,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            PostcardList = apiClient.PostcardsApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: postcard_create
       summary: Create
@@ -19985,6 +20759,60 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var to = *lob.NewAddressEditable()
+
+            to.SetAddressLine1("210 King St")
+
+            to.SetAddressLine2("# 6100")
+
+            to.SetAddressCity("San Francisco")
+
+            to.SetAddressState("CA")
+
+            to.SetAddressZip("94107")
+
+            to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+
+            to.SetDescription("")
+
+            to.SetName("Harry Zhang")
+
+
+            var postcardCreate = *lob.NewPostcardEditable()
+
+            postcardCreate.SetDescription("Demo Postcard job")
+
+            postcardCreate.SetFrom("adr_210a8d4b0b76d77b")
+
+            postcardCreate.SetFront("<html style='padding: 1in; font-size:
+            50;'>Front HTML for {{name}}</html>")
+
+            postcardCreate.SetBack("<html style='padding: 1in; font-size:
+            20;'>Back HTML for {{name}}</html>")
+
+            postcardCreate.SetTo(to)
+
+
+
+            createdpostcard, _, err :=
+            apiClient.PostcardsApi.Create(context).PostcardEditable(postcardCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /qr_code_analytics:
     get:
       operationId: qr_codes_list
@@ -20242,6 +21070,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedSelfMailer, _, err :=
+            apiClient.SelfMailersApi.Get(context,"sfm_8ffbe811dea49dcf").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: self_mailer_delete
       summary: Delete
@@ -20335,6 +21182,26 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedSelfMailer, _, err :=
+            apiClient.SelfMailersApi.Delete(context,
+            "sfm_8ffbe811dea49dcf").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /self_mailers:
     get:
       operationId: self_mailers_list
@@ -20494,6 +21361,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            SelfMailerList = apiClient.SelfMailersApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: self_mailer_create
       summary: Create
@@ -20828,6 +21711,60 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var to = *lob.NewAddressEditable()
+
+            to.SetAddressLine1("210 King St")
+
+            to.SetAddressLine2("# 6100")
+
+            to.SetAddressCity("San Francisco")
+
+            to.SetAddressState("CA")
+
+            to.SetAddressZip("94107")
+
+            to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+
+            to.SetDescription("")
+
+            to.SetName("Harry Zhang")
+
+
+            var selfMailerCreate = *lob.NewSelfMailerEditable()
+
+            selfMailerCreate.SetDescription("Demo Self Mailer job")
+
+            selfMailerCreate.SetFrom("adr_210a8d4b0b76d77b")
+
+            selfMailerCreate.SetInside("<html style='padding: 1in; font-size:
+            50;'>Inside HTML for {{name}}</html>")
+
+            selfMailerCreate.SetOutside("<html style='padding: 1in; font-size:
+            20;'>Outside HTML for {{name}}</html>")
+
+            selfMailerCreate.SetTo(to)
+
+
+
+            createdselfMailer, _, err :=
+            apiClient.SelfMailersApi.Create(context).SelfMailerEditable(selfMailerCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /templates/{tmpl_id}/versions/{vrsn_id}:
     parameters:
       - in: path
@@ -20941,6 +21878,26 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedTemplateVersion, _, err :=
+            apiClient.TemplateVersionsApi.Get(context,"tmpl_c94e83ca2cd5121",
+            "vrsn_534e339882d2282").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: template_version_update
       summary: Update
@@ -21063,6 +22020,43 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var templateWritable = *lob.NewTemplateWritable("<html>Updated HTML
+            for Template 1/html>")
+
+            var templateVersionWritable =
+            *lob.NewTemplateVersionWritable("<html>Updated HTML for Template
+            1/html>")
+
+            createdTemplate, _, _ :=
+            apiClient.TemplatesApi.Create(context).TemplateWritable(templateWritable).Execute()
+
+
+            createdTemplateVersion, _, err :=
+            apiClient.TemplateVersionsApi.Create(context,
+            createdTemplate.Id).TemplateVersionWritable(templateVersionWritable).Execute()
+
+            createdTemplateVersion.SetDescription("New Template Version")
+
+            resp, _, err := apiClient.TemplatesApi.Update(context,
+            createdTemplate.Id,
+            createdTemplateVersion.Id).TemplateVersionWritable(templateVersionWritable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: template_version_delete
       summary: Delete
@@ -21137,6 +22131,26 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedTemplateVersion, _, err :=
+            apiClient.TemplateVersionsApi.Delete(context,
+            "tmpl_4aa14648113e45b", "vrsn_534e339882d2282").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /templates/{tmpl_id}/versions:
     get:
       operationId: template_versions_list
@@ -21268,6 +22282,23 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            TemplateVersionList = apiClient.TemplateVersionsApi.List(context,
+            "tmpl_4aa14648113e45b").Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: create_template_version
       summary: Create
@@ -21418,6 +22449,37 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var templateVersionCreate = *lob.NewTemplateVersionWritable()
+
+            templateVersionCreate.SetDescription("Second Version")
+
+            templateVersionCreate.SetHtml("<html>Second HTML for
+            {{name}}</html>")
+
+
+
+
+            createdtemplateVersion, _, err :=
+            apiClient.TemplateVersionsApi.Create(context,
+            "tmpl_4aa14648113e45b").TemplateVersionWritable(templateVersionCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /templates/{tmpl_id}:
     parameters:
       - in: path
@@ -21541,6 +22603,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedTemplate, _, err :=
+            apiClient.TemplatesApi.Get(context,"tmpl_c94e83ca2cd5121").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: template_update
       summary: Update
@@ -21717,6 +22798,34 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var templateWritable = *lob.NewTemplateWritable("<html>Updated HTML
+            for Template 1/html>")
+
+            createdTemplate, _, _ :=
+            apiClient.TemplatesApi.Create(context).TemplateWritable(templateWritable).Execute()
+
+
+            templateWritable.SetDescription("Template updated")
+
+            resp, _, err := apiClient.TemplatesApi.Update(context,
+            createdTemplate.Id).TemplateWritable(templateWritable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: template_delete
       summary: Delete
@@ -21805,6 +22914,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedTemplate, _, err := apiClient.TemplatesApi.Delete(context,
+            "tmpl_df934eeda694203").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /templates:
     get:
       operationId: templates_list
@@ -21933,6 +23061,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            TemplateList = apiClient.TemplatesApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: create_template
       summary: Create
@@ -22122,6 +23266,35 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var templateCreate = *lob.NewTemplateWritable()
+
+            templateCreate.SetDescription("Test Template")
+
+            templateCreate.SetHtml("<html>HTML for {{name}}</html>")
+
+
+
+
+            createdtemplate, _, err :=
+            apiClient.TemplatesApi.Create(context).TemplateWritable(templateCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /uploads:
     get:
       operationId: uploads_list
@@ -22903,6 +24076,29 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(context, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var usAutocomplationsWritable =
+            *lob.NewUsAutocompletionsWritable("340 Wat")
+
+
+            resp, _, err :=
+            suite.apiClient.UsAutocompletionsApi.Autocomplete(suite.ctx).UsAutocompletionsWritable(suite.usAutocomplationsWritable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /us_reverse_geocode_lookups:
     post:
       operationId: reverse_geocode_lookup
@@ -23073,6 +24269,32 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(context, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var location = *lob.NewLocationWithDefaults()
+
+            location.SetLatitude(37.777456)
+
+            location.SetLongitude(122.393039)
+
+
+            resp, _, err :=
+            apiClient.ReverseGeocodeLookupsApi.Lookup(context).Location(location).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /us_verifications:
     post:
       operationId: us_verification
@@ -23463,3 +24685,27 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(context, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var zipEditable = *lob.NewZipEditable()
+
+            zipEditable.SetZipCode("94107")
+
+
+            resp, _, err :=
+            apiClient.ZipLookupsApi.Lookup(context).ZipEditable(zipEditable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO

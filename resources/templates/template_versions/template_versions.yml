@@ -125,6 +125,17 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        TemplateVersionList = apiClient.TemplateVersionsApi.List(context, "tmpl_4aa14648113e45b").Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: create_template_version
@@ -279,3 +290,23 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+
+        var templateVersionCreate = *lob.NewTemplateVersionWritable()
+        templateVersionCreate.SetDescription("Second Version")
+        templateVersionCreate.SetHtml("<html>Second HTML for {{name}}</html>")
+
+
+
+        createdtemplateVersion, _, err := apiClient.TemplateVersionsApi.Create(context, "tmpl_4aa14648113e45b").TemplateVersionWritable(templateVersionCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

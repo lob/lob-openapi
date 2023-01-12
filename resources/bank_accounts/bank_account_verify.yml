@@ -163,3 +163,23 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var bankAccountWritable = *lob.NewBankAccountWritable("322271627", "123456789", lob.BANKTYPEENUM_INDIVIDUAL, "Sinead Connor")
+
+        createdBankAccount, _, _ := apiClient.BankAccountsApi.Create(context).BankAccountWritable(bankAccountWritable).Execute()
+
+        verifyAmounts := []int32{11, 35}
+        verify := *lob.NewBankAccountVerify(verifyAmounts)
+
+        verifiedAccount, _, err := apiClient.BankAccountsApi.Verify(context, createdBankAccount.Id).BankAccountVerify(verify).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

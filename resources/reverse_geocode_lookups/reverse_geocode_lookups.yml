@@ -165,3 +165,20 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(context, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var location = *lob.NewLocationWithDefaults()
+        location.SetLatitude(37.777456)
+        location.SetLongitude(122.393039)
+
+        resp, _, err := apiClient.ReverseGeocodeLookupsApi.Lookup(context).Location(location).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

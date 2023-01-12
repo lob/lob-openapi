@@ -148,6 +148,17 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        PostcardList = apiClient.PostcardsApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: postcard_create
@@ -645,3 +656,34 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var to = *lob.NewAddressEditable()
+        to.SetAddressLine1("210 King St")
+        to.SetAddressLine2("# 6100")
+        to.SetAddressCity("San Francisco")
+        to.SetAddressState("CA")
+        to.SetAddressZip("94107")
+        to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+        to.SetDescription("")
+        to.SetName("Harry Zhang")
+
+        var postcardCreate = *lob.NewPostcardEditable()
+        postcardCreate.SetDescription("Demo Postcard job")
+        postcardCreate.SetFrom("adr_210a8d4b0b76d77b")
+        postcardCreate.SetFront("<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>")
+        postcardCreate.SetBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>")
+        postcardCreate.SetTo(to)
+
+
+        createdpostcard, _, err := apiClient.PostcardsApi.Create(context).PostcardEditable(postcardCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

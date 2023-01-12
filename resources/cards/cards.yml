@@ -86,6 +86,17 @@ get:
           p err.message
         end
       label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        CardList = apiClient.CardsApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: card_create
@@ -233,3 +244,25 @@ post:
           p err.message
         end
       label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+
+        var cardCreate = *lob.NewCardEditable()
+        cardCreate.SetFront("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf")
+        cardCreate.SetBack("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf")
+        cardCreate.SetSize("2.125x3.375")
+        cardCreate.SetDescription("Test Card")
+
+
+
+        createdcard, _, err := apiClient.CardsApi.Create(context).CardEditable(cardCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

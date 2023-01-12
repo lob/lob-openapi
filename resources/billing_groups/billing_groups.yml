@@ -64,6 +64,17 @@ get:
           p err.message
         end
       label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        BillingGroupList = apiClient.BillingGroupsApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: billing_group_create
@@ -129,3 +140,23 @@ post:
           p err.message
         end
       label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+
+        var bgCreate = *lob.NewBillingGroupEditable()
+        bgCreate.SetDescription("Usage group used for the Marketing Department's resource sends")
+        bgCreate.SetName("Marketing Department")
+
+
+
+        createdbg, _, err := apiClient.BillingGroupsApi.Create(context).BillingGroupEditable(bgCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

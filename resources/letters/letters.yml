@@ -213,7 +213,8 @@ post:
             spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
-          custom_envelope:
+          custom_envelope: null
+          use_type: marketing
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
@@ -262,6 +263,7 @@ post:
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
+          use_type: marketing
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
@@ -323,6 +325,7 @@ post:
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
+          use_type: marketing
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
@@ -377,6 +380,7 @@ post:
           color: true,
           extra_service: LetterEditableExtraServiceEnum.Certified,
           file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf',
+          use_type: 'marketing',
           qr_code : {
             position: 'relative',
             redirect_url: 'https://www.lob.com',
@@ -412,6 +416,7 @@ post:
           },
           color: true,
           cards: ['card_c51ae96f5cebf3e'],
+          use_type: 'marketing',
           qr_code : {
             position: 'relative',
             redirect_url: 'https://www.lob.com',
@@ -445,6 +450,7 @@ post:
           cards: [
             "card_c51ae96f5cebf3e",
           ],
+          use_type: "marketing"
         });
 
         letterApi = LettersApi.new(config)
@@ -476,13 +482,14 @@ post:
           cards = [
             "card_c51ae96f5cebf3e",
           ],
+          use_type: "marketing",
           qr_code = {
-            'position' : 'relative',
-            'redirect_url' : 'https://www.lob.com',
-            'width' : '2',
-            'bottom' : '2',
-            'left' : '2',
-            'pages' : '1,3'
+            "position" : "relative",
+            "redirect_url" : "https://www.lob.com",
+            "width" : "2",
+            "bottom" : "2",
+            "left" : "2",
+            "pages" : "1,3"
           }
         )
 
@@ -521,6 +528,8 @@ post:
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
 
+        $use_type = "marketing";
+
         $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new GuzzleHttp\Client());
         $letter_editable = new OpenAPI\Client\Model\LetterEditable(
           array(
@@ -534,6 +543,7 @@ post:
               "card_c51ae96f5cebf3e",
               "card_thingy",
             ),
+            "use_type" => $use_type;
             "qr_code"   => $qr_code,
           )
         );
@@ -579,6 +589,7 @@ post:
           letterEditable.setTo(to);
           letterEditable.setMergeVariables(merge_variables);
           letterEditable.setCards(cards);
+          letterEditable.setUseType("operational");
           letterEditable.setQRCode(qrCode);
 
           Letter result = apiInstance.create(letterEditable, null);
@@ -605,6 +616,7 @@ post:
           },
           color: true,
           cards: ['card_c51ae96f5cebf3e'],
+          use_type: 'marketing',
           qr_code: %{
             position: 'relative',
             redirect_url: 'https://www.lob.com',
@@ -632,6 +644,8 @@ post:
           null,  // description
           "Harry Zhang" // name
         );
+
+        UseType usetype = new UseType("marketing");
 
         QRCode qrCode = new QRCode(
           "relative",  //position,
@@ -662,6 +676,7 @@ post:
           "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",  // file
           default(LetterEditable.ExtraServiceEnum?),  // extraService
           cards, // cards
+          usetype,
           qrCode
         );
 

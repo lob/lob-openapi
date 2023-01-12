@@ -192,6 +192,7 @@ post:
           merge_variables:
             name: Harry
           send_date: "2017-11-01T00:00:00.000Z"
+          use_type: marketing
 
       application/x-www-form-urlencoded:
         schema:
@@ -209,6 +210,7 @@ post:
           merge_variables:
             name: Harry
           send_date: "2017-11-01T00:00:00.000Z"
+          use_type: marketing
         encoding:
           merge_variables:
             style: deepObject
@@ -233,6 +235,7 @@ post:
           merge_variables:
             name: Harry
           send_date: "2017-11-01T00:00:00.000Z"
+          use_type: marketing
 
   responses:
     "200":
@@ -253,6 +256,7 @@ post:
           -d "to[address_state]=CA" \
           -d "to[address_zip]=94107" \
           -d "from=adr_210a8d4b0b76d77b" \
+          -d "use_type=marketing" \
           --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
           --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
           -d "merge_variables[name]=Harry"
@@ -272,7 +276,8 @@ post:
           inside:
           'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf',
           outside:
-          'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf'
+          'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf',
+          use_type: 'marketing'
         });
 
         try {
@@ -297,7 +302,8 @@ post:
           outside: '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
           merge_variables: {
             name: 'Harry'
-          }
+          },
+          use_type: 'marketing'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -320,6 +326,7 @@ post:
           merge_variables: {
             name: "Harry"
           },
+          use_type: 'marketing'
         });
 
         selfMailerApi = SelfMailersApi.new(config)
@@ -348,6 +355,7 @@ post:
           merge_variables = MergeVariables(
             name = "Harry",
           ),
+          use_type: "marketing"
         )
 
         with ApiClient(configuration) as api_client:
@@ -374,6 +382,8 @@ post:
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
 
+        $use_type = "marketing";
+
         $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new GuzzleHttp\Client());
         $self_mailer_editable = new OpenAPI\Client\Model\SelfMailerEditable(
           array(
@@ -383,6 +393,7 @@ post:
             "outside"     => "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
             "to"     => $to,
             "merge_variables"     => $merge_variables,
+            "use_type"    => $use_type
           )
         );
 
@@ -414,6 +425,7 @@ post:
           selfMailerEditable.setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>");
           selfMailerEditable.setTo(to);
           selfMailerEditable.setMergeVariables(merge_variables);
+          selfMailerEditable.setUseType("marketing");
 
           SelfMailer result = apiInstance.create(selfMailerEditable, null);
         } catch (ApiException e) {
@@ -436,7 +448,8 @@ post:
           outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
           merge_variables: %{
             name: "Harry"
-          }
+          },
+          use_type: "marketing"
         })
       label: ELIXIR
     - lang: CSharp
@@ -467,7 +480,8 @@ post:
           mergeVariables,  // mergeVariables
           default(DateTime),  // sendDate
           "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
-          "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" // outside
+          "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
+          "marketing" // use_type 
         );
 
         try {

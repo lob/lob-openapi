@@ -1,0 +1,25 @@
+type: object
+properties:
+  id:
+    description: Unique identifier prefixed with `lnk_`.
+    type: string
+  campaign_id:
+    $ref: "../../campaigns/attributes/cmp_id.yml"
+  domain_id:
+    description: A unique identifier for the registered domain.
+    type: string
+  resource_id:
+    description: The unique ID of the associated resource where the link was used.
+    type: string
+  redirect_link:
+    $ref: "../attributes/redirect_link.yml"
+  short_link:
+    description: The shortened URL for the associated original URL.
+    type: string
+  metadata_tag:
+    $ref: "../../../shared/parameters/metadata.yml"
+  billing_group_id:
+    $ref: "../../shared/attributes/billing_group_id.yml"
+  clicks:
+    description: The number of times a the short URL was opened.
+    type: string

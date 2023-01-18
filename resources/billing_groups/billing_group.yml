@@ -32,6 +32,29 @@ get:
       source: |
         curl https://api.lob.com/v1/billing_groups/bg_4bb02b527a72667d0 \
         -u <YOUR API KEY>:
+    - lang: Ruby
+      source: |
+        billingGroupApi = BillingGroupsApi.new(config)
+
+        begin
+          retrievedBillingGroup = billingGroupApi.get("bg_4bb02b527a72667d0")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedBillingGroup, _, err := apiClient.BillingGroupsApi.Get(context,"bg_4bb02b527a72667d0").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: billing_group_update
@@ -74,6 +97,37 @@ post:
         curl https://api.lob.com/v1/billing_groups/bg_759954f540a1bfdb5 \
         -u <YOUR API KEY>: \
         -d "description=demo replacement" \
+    - lang: Ruby
+      source: |
+        billingGroupEditable = BillingGroupEditable.new({
+          description: "demo replacement",
+        })
+
+        bgApi = BillingGroupsApi.new(config)
+
+        begin
+          updatedBillingGroup = bgApi.update("bg_759954f540a1bfdb5", billingGroupEditable)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var bgEditable = *lob.NewBillingGroupEditable("Test Billing group")
+        createdBillingGroup, _, _ := apiClient.BillingGroupsApi.Create(context).BillingGroupEditable(suite.bgEditable).Execute()
+
+        bgEditable.SetDescription("BG updated")
+        resp, _, err := suite.apiClient.BillingGroupsApi.Update(context, createdBillingGroup.Id).BillingGroupEditable(suite.bgEditable).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
   responses:
     "200":

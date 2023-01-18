@@ -9,7 +9,6 @@ properties:
   position:
     type: string
     enum:
-      - fixed
       - relative
     description: Sets how a QR code is being positioned in the document.
 
@@ -35,4 +34,8 @@ properties:
 
   width:
     type: string
-    description: The size(in inches) of the QR code. All QR codes are generated as a square.
+    description: The size(in inches) of the QR code with a minimum of 1 inch. All QR codes are generated as a square.
+
+  pages:
+    type: string
+    description: Specify the pages where the QR code should be stamped in a comma separated format. For postcards, the values should be either `front`, `back`, or `front,back`. For letters, the values can be specific page numbers or page number ranges.

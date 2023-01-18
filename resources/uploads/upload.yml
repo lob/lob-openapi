@@ -34,6 +34,16 @@ get:
         curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
           -u <YOUR API KEY>: \
       label: CURL
+    - lang: Ruby
+      source: |
+        uploadApi = UploadsApi.new(config)
+
+        begin
+          retrievedUpload = uploadApi.get_upload("upl_71be866e430b11e9")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 patch:
   operationId: upload_update
@@ -84,6 +94,26 @@ patch:
         except ApiException as e:
           print(e)
       label: PYTHON
+    - lang: Ruby
+      source: |
+        uploadUpdatable = UploadUpdatable.new({
+          required_address_column_mapping: RequiredAddressColumnMapping.new({
+            name: "recipient",
+            address_line1: "primary line",
+            address_city: "city",
+            address_state: "state",
+            address_zip: "zip_code",
+          }),
+        })
+
+        uploadApi = UploadsApi.new(config)
+
+        begin
+          updatedUpload = uploadApi.update_upload("upl_71be866e430b11e9", uploadUpdatable)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
 
 delete:
   operationId: "upload_delete"
@@ -107,3 +137,13 @@ delete:
         curl -X DELETE https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
           -u <YOUR API KEY>:
       label: CURL
+    - lang: Ruby
+      source: |
+        uploadApi = UploadsApi.new(config)
+
+        begin
+          deletedUpload = uploadApi.delete_upload("upl_71be866e430b11e9")
+        rescue => err
+          p err.message
+        end
+      label: RUBY

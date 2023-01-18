@@ -49,7 +49,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.bank_accounts.find("bank_8cad8df5354d33f")
+        bankAccountApi = BankAccountsApi.new(config)
+
+        begin
+          retrievedBankAccount = bankAccountApi.get("bank_8cad8df5354d33f")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -94,6 +100,19 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedBankAccount, _, err := apiClient.BankAccountsApi.Get(context,"bank_8cad8df5354d33f").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 delete:
   operationId: bank_account_delete
@@ -134,7 +153,13 @@ delete:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.bank_accounts.destroy("bank_3e64d9904356b20")
+        bankAccountApi = BankAccountsApi.new(config)
+
+        begin
+          deletedBankAccount = bankAccountApi.delete("bank_3e64d9904356b20")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -179,3 +204,16 @@ delete:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        deletedBankAccount, _, err := apiClient.BankAccountsApi.Delete(context, "bank_3e64d9904356b20").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

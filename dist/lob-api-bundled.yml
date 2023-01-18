@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: '2'
+  version: 1.19.1
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -1919,11 +1919,14 @@ tags:
 
       - <a href="https://github.com/lob/lob-java" target="_blank">Java</a>
 
-      - <a href="https://github.com/lob/lob-ruby" target="_blank">Ruby</a>
+      - <a href="https://github.com/lob/lob-ruby/tree/main"
+      target="_blank">Ruby</a>
 
       - <a href="https://github.com/lob/lob-dotnet" target="_blank">CSharp</a>
 
       - <a href="https://github.com/lob/lob-elixir" target="_blank">Elixir</a>
+
+      - <a href="https://github.com/lob/lob-go" target="_blank">Go</a>
 
       - <a href="https://github.com/lob/lob-node" target="_blank">Node.js
       (legacy)</a>
@@ -1936,6 +1939,9 @@ tags:
 
       - <a href="https://github.com/lob/lob-python/tree/legacy_v4"
       target="_blank">Python (Legacy)</a>
+
+      - <a href="https://github.com/lob/lob-ruby/tree/legacy-v5"
+      target="_blank">Ruby (Legacy)</a>
 
 
       <br><br>
@@ -6142,8 +6148,11 @@ components:
         - immediate
     cmp_use_type:
       description: >-
-        The usage type of this campaign. Can be one of `marketing` or
-        `operational`.
+        The use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
       type: string
       enum:
         - marketing
@@ -6155,6 +6164,7 @@ components:
       required:
         - name
         - schedule_type
+        - use_type
       properties:
         billing_group_id:
           type: string
@@ -6852,6 +6862,8 @@ components:
               enum:
                 - campaign
               default: campaign
+            use_type:
+              $ref: '#/components/schemas/cmp_use_type'
     campaign_updatable:
       type: object
       properties:
@@ -7151,6 +7163,19 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
+    chk_use_type:
+      description: >-
+        TThe use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
+      type: string
+      enum:
+        - marketing
+        - operational
+        - null
+      nullable: true
     check_base:
       allOf:
         - $ref: '#/components/schemas/editable_no_mailtype'
@@ -7187,6 +7212,8 @@ components:
                 page.
               type: string
               maxLength: 400
+            use_type:
+              $ref: '#/components/schemas/chk_use_type'
     from_us:
       type: object
       properties:
@@ -7336,7 +7363,7 @@ components:
             - carrier
             - date_created
             - date_modified
-            - object
+            - use_type
           properties:
             id:
               $ref: '#/components/schemas/chk_id'
@@ -7395,6 +7422,8 @@ components:
               items:
                 $ref: '#/components/schemas/tracking_event_normal'
               nullable: true
+            use_type:
+              $ref: '#/components/schemas/chk_use_type'
             object:
               type: string
               description: Value is resource type.
@@ -7479,6 +7508,7 @@ components:
             - to
             - from
             - amount
+            - use_type
           properties:
             from:
               description: >-
@@ -7557,6 +7587,8 @@ components:
                 - $ref: '#/components/schemas/local_file_path'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
+            use_type:
+              $ref: '#/components/schemas/chk_use_type'
     check_editable:
       oneOf:
         - title: words at check bottom
@@ -7579,7 +7611,7 @@ components:
           $ref: '#/components/schemas/chk_id'
         deleted:
           $ref: '#/components/schemas/deleted'
-    front:
+    crv_front:
       description: >
         The artwork to use as the front of your postcard.
 
@@ -7589,19 +7621,17 @@ components:
         - HTML merge variables should not include delimiting whitespace.
 
         - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
-        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
-        specified `size`.
+        6.25"x11.25" at 300 DPI, while supplied HTML template will be rendered
+        to the specified `size`.
 
 
         See [here](#section/HTML-Examples) for HTML examples.
       oneOf:
-        - $ref: '#/components/schemas/html_string'
         - $ref: '#/components/schemas/tmpl_id'
-        - $ref: '#/components/schemas/remote_file_url'
         - $ref: '#/components/schemas/local_file_path'
-    back:
+    crv_back:
       description: >
-        The artwork to use as the back of your postcard.
+        The artwork to use as the back of your postcard creative.
 
 
         Notes:
@@ -7609,8 +7639,8 @@ components:
         - HTML merge variables should not include delimiting whitespace.
 
         - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
-        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
-        specified `size`.
+        6.25"x11.25" at 300 DPI, while supplied HTML template will be rendered
+        to the specified `size`.
 
         - Be sure to leave room for address and postage information by following
         the templates provided here:
@@ -7621,9 +7651,7 @@ components:
 
         See [here](#section/HTML-Examples) for HTML examples.
       oneOf:
-        - $ref: '#/components/schemas/html_string'
         - $ref: '#/components/schemas/tmpl_id'
-        - $ref: '#/components/schemas/remote_file_url'
         - $ref: '#/components/schemas/local_file_path'
     writable:
       description: Properties that the postcards in your Creative should have.
@@ -7700,7 +7728,7 @@ components:
           $ref: '#/components/schemas/extra_service'
         mail_type:
           $ref: '#/components/schemas/mail_type'
-    file:
+    crv_file:
       description: >-
         Notes:
 
@@ -7734,11 +7762,8 @@ components:
         See <a href="https://lob.com/pricing/print-mail#compare"
         target="_blank">pricing</a> for extra costs incurred.
       oneOf:
-        - $ref: '#/components/schemas/html_string'
         - $ref: '#/components/schemas/tmpl_id'
-        - $ref: '#/components/schemas/remote_file_url'
-        - type: string
-          pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
+        - $ref: '#/components/schemas/local_file_path'
     creative_writable:
       oneOf:
         - allOf:
@@ -7758,9 +7783,9 @@ components:
                 campaign_id:
                   $ref: '#/components/schemas/cmp_id'
                 front:
-                  $ref: '#/components/schemas/front'
+                  $ref: '#/components/schemas/crv_front'
                 back:
-                  $ref: '#/components/schemas/back'
+                  $ref: '#/components/schemas/crv_back'
                 details:
                   $ref: '#/components/schemas/writable'
             - $ref: '#/components/schemas/creative_base'
@@ -7783,7 +7808,7 @@ components:
                 details:
                   $ref: '#/components/schemas/letter_details_writable'
                 file:
-                  $ref: '#/components/schemas/file'
+                  $ref: '#/components/schemas/crv_file'
             - $ref: '#/components/schemas/creative_base'
     recipient_input:
       allOf:
@@ -8203,6 +8228,19 @@ components:
       properties:
         from:
           $ref: '#/components/schemas/address'
+    ltr_use_type:
+      description: >-
+        The use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
+      type: string
+      enum:
+        - marketing
+        - operational
+        - null
+      nullable: true
     letter_generated_base:
       allOf:
         - $ref: '#/components/schemas/generated'
@@ -8211,6 +8249,7 @@ components:
           required:
             - id
             - from
+            - use_type
           properties:
             url:
               $ref: '#/components/schemas/signed_link'
@@ -8233,6 +8272,8 @@ components:
                 The unique ID of the associated campaign if the resource was
                 generated from a campaign.
               nullable: true
+            use_type:
+              $ref: '#/components/schemas/ltr_use_type'
             object:
               type: string
               description: Value is resource type.
@@ -8676,6 +8717,45 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
+    ltr_file:
+      description: >-
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - All pages of a supplied PDF file must be sized at 8.5"x11", while
+        supplied HTML will be rendered and trimmed to as many 8.5"x11" pages as
+        necessary.
+
+        - For design specifications, please see our <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf"
+        target="_blank">PDF</a> and [HTML](#section/HTML-Examples) templates.
+
+        - If a `custom_envelope` is used, follow <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_custom_envelope.pdf"
+        target="_blank">this template</a>.
+
+        - For domestic destinations, the file limit is 60 pages single-sided or
+        120 pages double-sided. For international destinations, the file limit
+        is 6 pages single-sided or 12 pages double-sided. PDFs that surpass the
+        file limit will error, while HTML that renders more pages than the file
+        limit will be trimmed.
+
+        - Any letters over 6 pages single-sided or 12 pages double-sided will be
+        placed in a <a
+        href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_flat_template.pdf"
+        target="_blank">flat envelope</a> instead of the standard double window
+        envelope.
+
+
+        See <a href="https://lob.com/pricing/print-mail#compare"
+        target="_blank">pricing</a> for extra costs incurred.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - type: string
+          pattern: ^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$
     return_envelope_user_provided:
       oneOf:
         - type: boolean
@@ -8704,7 +8784,6 @@ components:
         position:
           type: string
           enum:
-            - fixed
             - relative
           description: Sets how a QR code is being positioned in the document.
         top:
@@ -8727,8 +8806,15 @@ components:
         width:
           type: string
           description: >-
-            The size(in inches) of the QR code. All QR codes are generated as a
-            square.
+            The size(in inches) of the QR code with a minimum of 1 inch. All QR
+            codes are generated as a square.
+        pages:
+          type: string
+          description: >-
+            Specify the pages where the QR code should be stamped in a comma
+            separated format. For postcards, the values should be either
+            `front`, `back`, or `front,back`. For letters, the values can be
+            specific page numbers or page number ranges.
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/input_to'
@@ -8740,9 +8826,10 @@ components:
             - from
             - file
             - color
+            - use_type
           properties:
             file:
-              $ref: '#/components/schemas/file'
+              $ref: '#/components/schemas/ltr_file'
             extra_service:
               $ref: '#/components/schemas/extra_service'
             cards:
@@ -8785,6 +8872,8 @@ components:
               $ref: '#/components/schemas/billing_group_id'
             qr_code:
               $ref: '#/components/schemas/qr_code'
+            use_type:
+              $ref: '#/components/schemas/ltr_use_type'
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
@@ -8796,6 +8885,19 @@ components:
           properties:
             size:
               $ref: '#/components/schemas/postcard_size'
+    psc_use_type:
+      description: >-
+        The use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
+      type: string
+      enum:
+        - marketing
+        - operational
+        - null
+      nullable: true
     postcard:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -8858,6 +8960,8 @@ components:
                 The unique ID of the associated campaign if the resource was
                 generated from a campaign.
               nullable: true
+            use_type:
+              $ref: '#/components/schemas/psc_use_type'
             object:
               type: string
               description: Value is resource type.
@@ -8887,6 +8991,52 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address_us'
+    psc_front:
+      description: >
+        The artwork to use as the front of your postcard.
+
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+        specified `size`.
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - $ref: '#/components/schemas/local_file_path'
+    psc_back:
+      description: >
+        The artwork to use as the back of your postcard.
+
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 4.25"x6.25", 6.25"x9.25", or
+        6.25"x11.25" at 300 DPI, while supplied HTML will be rendered to the
+        specified `size`.
+
+        - Be sure to leave room for address and postage information by following
+        the templates provided here:
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/4x6_postcard.pdf" target="_blank">4x6 template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x9_postcard.pdf" target="_blank">6x9 template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/postcards/6x11_postcard.pdf" target="_blank">6x11 template</a>
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/html_string'
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/remote_file_url'
+        - $ref: '#/components/schemas/local_file_path'
     postcard_editable:
       allOf:
         - $ref: '#/components/schemas/postcard_base'
@@ -8897,15 +9047,18 @@ components:
             - to
             - front
             - back
+            - use_type
           properties:
             front:
-              $ref: '#/components/schemas/front'
+              $ref: '#/components/schemas/psc_front'
             back:
-              $ref: '#/components/schemas/back'
+              $ref: '#/components/schemas/psc_back'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
             qr_code:
               $ref: '#/components/schemas/qr_code'
+            use_type:
+              $ref: '#/components/schemas/psc_use_type'
     scans:
       type: object
       properties:
@@ -8951,6 +9104,19 @@ components:
           properties:
             size:
               $ref: '#/components/schemas/self_mailer_size'
+    sfm_use_type:
+      description: >-
+        The use type for each mailpiece. Can be one of marketing, operational,
+        or null. Null use_type is only allowed if an account default use_type is
+        selected in Account Settings. For more information on use_type, see our 
+        [Help Center
+        article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
+      type: string
+      enum:
+        - marketing
+        - operational
+        - null
+      nullable: true
     self_mailer:
       allOf:
         - $ref: '#/components/schemas/self_mailer_base'
@@ -8960,6 +9126,7 @@ components:
           required:
             - id
             - url
+            - use_type
           properties:
             id:
               $ref: '#/components/schemas/sfm_id'
@@ -9008,6 +9175,8 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/tracking_event_certified'
+            use_type:
+              $ref: '#/components/schemas/sfm_use_type'
             url:
               $ref: '#/components/schemas/signed_link'
     self_mailer_deletion:
@@ -9030,6 +9199,7 @@ components:
             - to
             - inside
             - outside
+            - use_type
           properties:
             inside:
               description: >
@@ -9076,6 +9246,8 @@ components:
                 - $ref: '#/components/schemas/local_file_path'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
+            use_type:
+              $ref: '#/components/schemas/sfm_use_type'
     template_html:
       type: string
       description: >
@@ -10439,6 +10611,7 @@ components:
                 check_bottom_template_version_id: vrsn_a
                 attachment_template_version_id: vrsn_a
                 merge_variables: {}
+                use_type: operational
                 deleted: true
               - id: chk_92b9a6714bc0557c
                 description: Demo Check
@@ -10512,6 +10685,7 @@ components:
                 date_created: '2019-08-08T19:34:27.802Z'
                 date_modified: '2019-08-08T19:34:30.582Z'
                 send_date: '2019-08-08T19:34:27.802Z'
+                use_type: operational
                 object: check
             object: list
             next_url: >-
@@ -10607,6 +10781,7 @@ components:
             attachment_template_id: tmpl_a
             check_bottom_template_version_id: vrsn_a
             attachment_template_version_id: vrsn_a
+            use_type: operational
             deleted: true
     check_canceled:
       description: Deleted
@@ -10958,6 +11133,7 @@ components:
                 date_created: '2019-08-08T17:09:14.514Z'
                 date_modified: '2019-08-08T17:09:16.850Z'
                 send_date: '2019-08-08'
+                use_type: marketing
                 object: letter
               - id: ltr_da8267c6a6545cd6
                 description: Demo Letter
@@ -11022,6 +11198,7 @@ components:
                 date_modified: '2019-08-08T17:08:13.990Z'
                 send_date: '2019-08-08T17:08:12.224Z'
                 cards: null
+                use_type: marketing
                 object: letter
             object: list
             next_url: >-
@@ -11145,6 +11322,7 @@ components:
                 date_created: '2017-08-05T15:54:53.346Z'
                 date_modified: '2017-08-05T15:54:53.346Z'
                 object: card
+            use_type: marketing
             object: letter
     postcard_deleted:
       description: Deleted
@@ -11207,6 +11385,7 @@ components:
                 date_created: '2021-03-24T22:51:42.838Z'
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
+                use_type: marketing
                 object: postcard
               - id: psc_0e03d1ad7d31f151
                 description: null
@@ -11268,6 +11447,7 @@ components:
                 date_created: '2021-03-24T22:51:42.838Z'
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
+                use_type: marketing
                 object: postcard
             object: list
             previous_url: null
@@ -11317,6 +11497,7 @@ components:
                 date_created: '2021-03-24T22:51:42.838Z'
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
+                use_type: marketing
                 object: postcard
             full:
               value:
@@ -11380,6 +11561,7 @@ components:
                 date_created: '2021-03-24T22:51:42.838Z'
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
+                use_type: marketing
                 object: postcard
     self_mailer_deleted:
       description: Deleted
@@ -11481,6 +11663,7 @@ components:
                 date_modified: '2021-03-16T18:41:06.691Z'
                 send_date: '2021-03-16T18:45:40.493Z'
                 deleted: true
+                use_type: marketing
                 object: self_mailer
               - id: sfm_8ffbe811dea49dcf
                 description: April Campaign
@@ -11550,6 +11733,7 @@ components:
                 date_modified: '2021-03-16T18:41:06.691Z'
                 send_date: '2021-03-16T18:45:40.493Z'
                 deleted: true
+                use_type: marketing
                 object: self_mailer
             object: list
             next_url: null
@@ -11637,6 +11821,7 @@ components:
             date_created: '2021-03-16T18:40:40.504Z'
             date_modified: '2021-03-16T18:40:40.504Z'
             send_date: '2021-03-16T18:45:40.493Z'
+            use_type: marketing
             object: self_mailer
     template_error:
       description: Error
@@ -12395,7 +12580,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.addresses.list(limit: 2)
+            addressesApi = AddressesApi.new(config)
+
+            begin
+              addresses = addressesApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -12476,6 +12667,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            AddressList = apiClient.AddressesApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: address_create
       summary: Create
@@ -12682,7 +12889,7 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.addresses.create(
+            addressCreate = AddressEditable.new({
               description: "Harry - Office",
               name: "Harry Zhang",
               company: "Lob",
@@ -12692,9 +12899,17 @@ paths:
               address_line2: "# 6100",
               address_city: "San Francisco",
               address_state: "CA",
+              address_zip: "94107",
               address_country: "US",
-              address_zip: "94107"
-            )
+            });
+
+            addressApi = AddressesApi.new(config)
+
+            begin
+              createdAddress = addressApi.create(addressCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -12811,6 +13026,53 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var addressCreate = *lob.NewAddressEditable()
+
+            addressCreate.SetDescription("Harry - Office")
+
+            addressCreate.SetName("Harry Zhang")
+
+            addressCreate.SetCompany("Lob")
+
+            addressCreate.SetEmail("harry@lob.com")
+
+            addressCreate.SetPhone("5555555555")
+
+            addressCreate.SetAddressLine1("210 King St")
+
+            addressCreate.SetAddressLine2("# 6100")
+
+            addressCreate.SetAddressCity("San Francisco")
+
+            addressCreate.SetAddressState("CA")
+
+            addressCreate.SetAddressZip("94107")
+
+            addressCreate.SetAddressCountry("US")
+
+
+
+
+            createdaddress, _, err :=
+            apiClient.AddressesApi.Create(context).AddressEditable(addressCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /addresses/{adr_id}:
     parameters:
       - in: path
@@ -12854,7 +13116,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.addresses.find("adr_fa85158b26c3eb7c")
+            addressApi = AddressesApi.new(config)
+
+            begin
+              retrievedAddress = addressApi.get("adr_fa85158b26c3eb7c")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -12901,6 +13169,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedAddress, _, err :=
+            apiClient.AddressesApi.Get(context,"adr_fa85158b26c3eb7c").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: address_delete
       summary: Delete
@@ -12937,7 +13224,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.addresses.destroy("adr_43769b47aed248c2")
+            addressApi = AddressesApi.new(config)
+
+            begin
+              deletedAddress = addressApi.delete("adr_43769b47aed248c2")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -12984,6 +13277,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedAddress, _, err := apiClient.AddressesApi.Delete(context,
+            "adr_43769b47aed248c2").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /bank_accounts/{bank_id}/verify:
     parameters:
       - in: path
@@ -13058,7 +13370,20 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.verify("bank_dfceb4a2a05b57e", amounts: [25, 63])
+            verificationData = BankAccountVerify.new({
+              amounts: [
+                25,
+                63,
+              ],
+            })
+
+            bankAccountsApi = BankAccountsApi.new(config)
+
+            begin
+              verifiedAccount = bankAccountsApi.verify("bank_dfceb4a2a05b57e", verificationData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13132,6 +13457,38 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var bankAccountWritable = *lob.NewBankAccountWritable("322271627",
+            "123456789", lob.BANKTYPEENUM_INDIVIDUAL, "Sinead Connor")
+
+
+            createdBankAccount, _, _ :=
+            apiClient.BankAccountsApi.Create(context).BankAccountWritable(bankAccountWritable).Execute()
+
+
+            verifyAmounts := []int32{11, 35}
+
+            verify := *lob.NewBankAccountVerify(verifyAmounts)
+
+
+            verifiedAccount, _, err := apiClient.BankAccountsApi.Verify(context,
+            createdBankAccount.Id).BankAccountVerify(verify).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /bank_accounts/{bank_id}:
     parameters:
       - in: path
@@ -13196,7 +13553,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.find("bank_8cad8df5354d33f")
+            bankAccountApi = BankAccountsApi.new(config)
+
+            begin
+              retrievedBankAccount = bankAccountApi.get("bank_8cad8df5354d33f")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13243,6 +13606,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedBankAccount, _, err :=
+            apiClient.BankAccountsApi.Get(context,"bank_8cad8df5354d33f").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: bank_account_delete
       summary: Delete
@@ -13278,7 +13660,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.destroy("bank_3e64d9904356b20")
+            bankAccountApi = BankAccountsApi.new(config)
+
+            begin
+              deletedBankAccount = bankAccountApi.delete("bank_3e64d9904356b20")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13325,6 +13713,26 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedBankAccount, _, err :=
+            apiClient.BankAccountsApi.Delete(context,
+            "bank_3e64d9904356b20").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /bank_accounts:
     get:
       operationId: bank_accounts_list
@@ -13368,7 +13776,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.list(limit: 2)
+            bankAccountsApi = BankAccountsApi.new(config)
+
+            begin
+              bankAccounts = bankAccountsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13449,6 +13863,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            BankAccountList = apiClient.BankAccountsApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: bank_account_create
       summary: Create
@@ -13545,13 +13975,21 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bank_accounts.create(
+            bankAccountCreate = BankAccountWritable.new({
               description: "Test Bank Account",
               routing_number: "322271627",
               account_number: "123456789",
               signatory: "John Doe",
-              account_type: "company"
-            )
+              account_type: BankTypeEnum::COMPANY,
+            });
+
+            bankAccountApi = BankAccountsApi.new(config)
+
+            begin
+              createdBankAccount = bankAccountApi.create(bankAccountCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -13638,6 +14076,41 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var bankAccountCreate = *lob.NewBankAccountWritable()
+
+            bankAccountCreate.SetDescription("Test Bank Account")
+
+            bankAccountCreate.SetRoutingNumber("322271627")
+
+            bankAccountCreate.SetAccountNumber("123456789")
+
+            bankAccountCreate.SetSignatory("John Doe")
+
+            bankAccountCreate.SetAccountType("company")
+
+
+
+
+            createdbankAccount, _, err :=
+            apiClient.BankAccountsApi.Create(context).BankAccountWritable(bankAccountCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /billing_groups/{bg_id}:
     parameters:
       - in: path
@@ -13676,6 +14149,35 @@ paths:
           source: |
             curl https://api.lob.com/v1/billing_groups/bg_4bb02b527a72667d0 \
             -u <YOUR API KEY>:
+        - lang: Ruby
+          source: |
+            billingGroupApi = BillingGroupsApi.new(config)
+
+            begin
+              retrievedBillingGroup = billingGroupApi.get("bg_4bb02b527a72667d0")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedBillingGroup, _, err :=
+            apiClient.BillingGroupsApi.Get(context,"bg_4bb02b527a72667d0").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: billing_group_update
       summary: Update
@@ -13709,6 +14211,47 @@ paths:
             curl https://api.lob.com/v1/billing_groups/bg_759954f540a1bfdb5 \
             -u <YOUR API KEY>: \
             -d "description=demo replacement" \
+        - lang: Ruby
+          source: |
+            billingGroupEditable = BillingGroupEditable.new({
+              description: "demo replacement",
+            })
+
+            bgApi = BillingGroupsApi.new(config)
+
+            begin
+              updatedBillingGroup = bgApi.update("bg_759954f540a1bfdb5", billingGroupEditable)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var bgEditable = *lob.NewBillingGroupEditable("Test Billing group")
+
+            createdBillingGroup, _, _ :=
+            apiClient.BillingGroupsApi.Create(context).BillingGroupEditable(suite.bgEditable).Execute()
+
+
+            bgEditable.SetDescription("BG updated")
+
+            resp, _, err := suite.apiClient.BillingGroupsApi.Update(context,
+            createdBillingGroup.Id).BillingGroupEditable(suite.bgEditable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
       responses:
         '200':
           $ref: '#/components/responses/post_billing_group'
@@ -13794,6 +14337,33 @@ paths:
           source: |
             curl -X GET "https://api.lob.com/v1/billing_groups?limit=2" \
             -u <YOUR API KEY>:
+        - lang: Ruby
+          source: |
+            billingGroupsApi = BillingGroupsApi.new(config)
+
+            begin
+              billingGroups = billingGroupsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            BillingGroupList =
+            apiClient.BillingGroupsApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: billing_group_create
       summary: Create
@@ -13837,6 +14407,51 @@ paths:
 
             -d "description=Usage group used for the Marketing Department's
             resource sends"
+        - lang: Ruby
+          source: |
+            bgCreate = BillingGroupEditable.new({
+              description: "Usage group used for the Marketing Department's resource sends",
+              name: "Marketing Department",
+            });
+
+            bgApi = BillingGroupsApi.new(config)
+
+            begin
+              createdBillingGroup = bgApi.create(bgCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var bgCreate = *lob.NewBillingGroupEditable()
+
+            bgCreate.SetDescription("Usage group used for the Marketing
+            Department's resource sends")
+
+            bgCreate.SetName("Marketing Department")
+
+
+
+
+            createdbg, _, err :=
+            apiClient.BillingGroupsApi.Create(context).BillingGroupEditable(bgCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /buckslips:
     get:
       operationId: buckslips_list
@@ -14451,17 +15066,35 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bulk_us_verifications.verify(
+            usVerificationsApi = UsVerificationsApi.new(config)
+
+            verificationData0 = MultipleComponents.new({
+              primary_line: "210 King Street",
+              city: "San Francisco",
+              state: "CA",
+              zip_code: "94017",
+            })
+
+            verificationData1 = MultipleComponents.new({
+              primary_line: "185 BERRY ST STE 6600",
+              city: "SAN FRANCISCO",
+              state: "CA",
+              zip_code: "94017",
+            })
+
+
+            addressList = MultipleComponentsList.new({
               addresses: [
-                {
-                recipient: "LOB.COM",
-                primary_line: "185 BERRY ST STE 6600",
-                city: "SAN FRANCISCO",
-                state: "CA",
-                zip_code: "94107"
-                }
-              ]
-            )
+                verificationData0,
+                verificationData1,
+              ],
+            })
+
+            begin
+              bulkVerifiedAddrs = usVerificationsApi.verifyBulk(addressList)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -14572,26 +15205,26 @@ paths:
             List<MultipleComponents> addresses = new List<MultipleComponents>();
 
             MultipleComponents bulkAddress0 = new MultipleComponents(
-              null,  // recipient 
-              "210 King Street",  // primaryLine 
-              null,  // secondaryLine 
-              null,  // urbanization 
-              "San Francisco",  // city 
-              "CA",  // state 
-              "94017" // zipCode 
+              null,  // recipient
+              "210 King Street",  // primaryLine
+              null,  // secondaryLine
+              null,  // urbanization
+              "San Francisco",  // city
+              "CA",  // state
+              "94017" // zipCode
             );
 
             addresses.Add(bulkAddress0);
 
 
             MultipleComponents bulkAddress1 = new MultipleComponents(
-              null,  // recipient 
-              "185 BERRY ST STE 6600",  // primaryLine 
-              null,  // secondaryLine 
-              null,  // urbanization 
-              "San Francisco",  // city 
-              "CA",  // state 
-              "94017" // zipCode 
+              null,  // recipient
+              "185 BERRY ST STE 6600",  // primaryLine
+              null,  // secondaryLine
+              null,  // urbanization
+              "San Francisco",  // city
+              "CA",  // state
+              "94017" // zipCode
             );
 
             addresses.Add(bulkAddress1);
@@ -14716,18 +15349,36 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.bulk_intl_verifications.verify(
+            intlVerificationsApi = IntlVerificationsApi.new(config)
+
+            verificationData0 = MultipleComponentsIntl.new({
+              primary_line: "35 Tower Hill",
+              city: "London",
+              postal_code: "EC3N 4DR",
+              country: "GB",
+            })
+
+            verificationData1 = MultipleComponentsIntl.new({
+              primary_line: "370 Water St",
+              city: "Summerside",
+              state: "Prince Edward Island",
+              postal_code: "C1N 1C4",
+              country: "CA",
+            })
+
+
+            addressList = IntlVerificationsPayload.new({
               addresses: [
-                {
-                  primary_line: '370 Water St',
-                  secondary_line: '',
-                  city: 'Summerside',
-                  state: 'Prince Edward Island',
-                  postal_code: 'C1N 1C4',
-                  country: 'CA'
-                }
-              ]
-            )
+                verificationData0,
+                verificationData1,
+              ],
+            })
+
+            begin
+              bulkVerifiedAddrs = intlVerificationsApi.verifyBulk(addressList)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -14836,26 +15487,26 @@ paths:
             List<MultipleComponentsIntl>();
 
             MultipleComponentsIntl bulkAddress0 = new MultipleComponentsIntl(
-              null,  // recipient 
-              "35 Tower Hill",  // primaryLine 
-              null,  // secondaryLine 
-              "London",  // city 
-              null,  // state 
-              "EC3N 4DR",  // postalCode 
-              CountryExtended.GB // country 
+              null,  // recipient
+              "35 Tower Hill",  // primaryLine
+              null,  // secondaryLine
+              "London",  // city
+              null,  // state
+              "EC3N 4DR",  // postalCode
+              CountryExtended.GB // country
             );
 
             addresses.Add(bulkAddress0);
 
 
             MultipleComponentsIntl bulkAddress1 = new MultipleComponentsIntl(
-              null,  // recipient 
-              "370 Water St",  // primaryLine 
-              null,  // secondaryLine 
-              "Summerside",  // city 
-              "Prince Edward Island",  // state 
-              "C1N 1C4",  // postalCode 
-              CountryExtended.CA // country 
+              null,  // recipient
+              "370 Water St",  // primaryLine
+              null,  // secondaryLine
+              "Summerside",  // city
+              "Prince Edward Island",  // state
+              "C1N 1C4",  // postalCode
+              CountryExtended.CA // country
             );
 
             addresses.Add(bulkAddress1);
@@ -14896,6 +15547,16 @@ paths:
             curl https://api.lob.com/v1/campaigns \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            campaignsApi = CampaignsApi.new(config)
+
+            begin
+              campaigns = campaignsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     post:
       operationId: campaign_create
       summary: Create
@@ -14969,6 +15630,21 @@ paths:
               -d "name=My First Campaign" \
               -d "schedule_type=immediate"
           label: CURL
+        - lang: Ruby
+          source: |
+            campaignCreate = CampaignWritable.new({
+              name: "My First Campaign",
+              schedule_type: "immediate",
+            });
+
+            campaignApi = CampaignsApi.new(config)
+
+            begin
+              createdCampaign = campaignApi.create(campaignCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /campaigns/{cmp_id}:
     parameters:
       - in: path
@@ -15017,6 +15693,16 @@ paths:
             curl https://api.lob.com/v1/campaigns/cmp_e05ee61ff80764b \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            campaignApi = CampaignsApi.new(config)
+
+            begin
+              retrievedCampaign = campaignApi.get("cmp_e05ee61ff80764b")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     patch:
       operationId: campaign_update
       summary: Update
@@ -15090,6 +15776,20 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            campaignUpdatable = CampaignUpdatable.new({
+              description: "Awesome campaign",
+            })
+
+            campaignApi = CampaignsApi.new(config)
+
+            begin
+              updatedCampaign = campaignApi.update("cmp_e05ee61ff80764b", campaignUpdatable)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     delete:
       operationId: campaign_delete
       summary: Delete
@@ -15113,6 +15813,16 @@ paths:
             \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            campaignApi = CampaignsApi.new(config)
+
+            begin
+              deletedCampaign = campaignApi.delete("cmp_e05ee61ff80764b")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /campaigns/{cmp_id}/send:
     parameters:
       - in: path
@@ -15281,6 +15991,32 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardsApi = CardsApi.new(config)
+
+            begin
+              cards = cardsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            CardList = apiClient.CardsApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: card_create
       summary: Create
@@ -15449,6 +16185,56 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardCreate = CardEditable.new({
+              front: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              back: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf",
+              size: "2.125x3.375",
+              description: "Test Card",
+            });
+
+            cardApi = CardsApi.new(config)
+
+            begin
+              createdCard = cardApi.create(cardCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var cardCreate = *lob.NewCardEditable()
+
+            cardCreate.SetFront("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf")
+
+            cardCreate.SetBack("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf")
+
+            cardCreate.SetSize("2.125x3.375")
+
+            cardCreate.SetDescription("Test Card")
+
+
+
+
+            createdcard, _, err :=
+            apiClient.CardsApi.Create(context).CardEditable(cardCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /cards/{card_id}:
     parameters:
       - in: path
@@ -15559,6 +16345,35 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardApi = CardsApi.new(config)
+
+            begin
+              retrievedCard = cardApi.get("card_7a6d73c5c8457fc")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedCard, _, err :=
+            apiClient.CardsApi.Get(context,"card_7a6d73c5c8457fc").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: card_update
       summary: Update
@@ -15698,6 +16513,52 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            cardUpdatable = CardUpdatable.new({
+              description: "Awesome card",
+              auto_reorder: "true",
+              reorder_quantity: 10000,
+            })
+
+            cardApi = CardsApi.new(config)
+
+            begin
+              updatedCard = cardApi.update("card_6afffd19045076c", cardUpdatable)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            cardEditable =
+            *lob.NewCardEditable("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf()")
+
+            createdCard, _, _ :=
+            apiClient.CardsApi.Create(context).CardEditable(suite.cardEditable).Execute()
+
+            var updatedCard = *lob.NewCardUpdatable()
+
+            updatedCard.SetDescription("Card was updated")
+
+
+            resp, _, err := suite.apiClient.CardsApi.Update(context,
+            createdCard.Id).CardUpdatable(updatedCard).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: card_delete
       summary: Delete
@@ -15755,6 +16616,35 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardApi = CardsApi.new(config)
+
+            begin
+              deletedCard = cardApi.delete("card_6afffd19045076c")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedCard, _, err := apiClient.CardsApi.Delete(context,
+            "card_6afffd19045076c").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /cards/{card_id}/orders:
     parameters:
       - in: path
@@ -15850,6 +16740,35 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardOrderApi = CardOrdersApi.new(config)
+
+            begin
+              retrievedCardOrderList = cardOrderApi.get("card_6afffd19045076c", { limit: 2, offset: 1 })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedCardOrderList, _, err := apiClient.CardOrdersApi.Get(context,
+            "card_6afffd19045076c").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: card_order_create
       summary: Create
@@ -15958,6 +16877,47 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Ruby
+          source: |
+            cardOrderCreate = CardOrderEditable.new({
+              quantity: 10000,
+            });
+
+            cardOrderApi = CardOrdersApi.new(config)
+
+            begin
+              createdCardOrder = cardOrderApi.create("card_6afffd19045076c", cardOrderCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var cardOrderCreate = *lob.NewCardOrderEditable()
+
+            cardOrderCreate.SetQuantity("10000")
+
+
+
+
+            createdcardOrder, _, err := apiClient.CardOrdersApi.Create(context,
+            "card_6afffd19045076c").CardOrderEditable(cardOrderCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /checks:
     get:
       operationId: checks_list
@@ -16004,7 +16964,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.checks.list(limit: 2)
+            checksApi = ChecksApi.new(config)
+
+            begin
+              checks = checksApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -16101,6 +17067,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            CheckList = apiClient.ChecksApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: check_create
       summary: Create
@@ -16149,6 +17131,7 @@ paths:
                 memo: rafting trip
               attachment: ./cool.pdf
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: operational
               mail_type: usps_first_class
               check_number: 10001
           application/x-www-form-urlencoded:
@@ -16238,6 +17221,7 @@ paths:
                 memo: rafting trip
               attachment: ./cool.pdf
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: operational
               mail_type: usps_first_class
               check_number: 10001
             encoding:
@@ -16263,6 +17247,7 @@ paths:
               -d 'from=adr_210a8d4b0b76d77b' \
               -d 'bank_account=bank_8cad8df5354d33f' \
               -d 'amount=22.50' \
+              -d 'use_type=operational' \
               -d 'memo=rent' \
               --data-urlencode 'logo=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png' \
               --data-urlencode 'check_bottom=<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>' \
@@ -16281,7 +17266,8 @@ paths:
             }),
             from: 'adr_xxxx',
             bank_account: 'bank_xxxx',
-            amount: 100
+            amount: 100,
+            use_type: 'operational'
             });
 
             try {
@@ -16305,6 +17291,7 @@ paths:
               },
               from: 'adr_210a8d4b0b76d77b',
               amount: 22.50,
+              use_type: 'operational', 
               memo: 'rent',
               logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
               check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
@@ -16317,26 +17304,35 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.checks.create(
-              description: 'Demo Check',
-              bank_account: 'bank_8cad8df5354d33f',
-              to: {
-                name: 'Harry Zhang',
-                address_line1: '210 King St',
-                address_line2: '# 6100',
-                address_city: 'San Francisco',
-                address_state: 'CA',
-                address_zip: '94107'
-              },
-              from: 'adr_210a8d4b0b76d77b',
-              amount: 22.50,
-              memo: 'rent',
-              logo: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png',
-              check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
+            checkCreate = CheckEditable.new({
+              description: "Demo Check",
+              bank_account: "bank_8cad8df5354d33f",
+              amount: 22.5,
+              memo: "rent",
+              logo: "https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png",
+              check_bottom: "<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>",
+              from: "adr_210a8d4b0b76d77b",
+              to: AddressDomestic.new({
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107",
+              }),
               merge_variables: {
-                name: 'Harry'
-              }
-            )
+                name: "Harry"
+              },
+              use_type: "operational"
+            });
+
+            checkApi = ChecksApi.new(config)
+
+            begin
+              createdCheck = checkApi.create(checkCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -16359,6 +17355,7 @@ paths:
               merge_variables = MergeVariables(
                 name = "Harry",
               ),
+              use_type = "operational"
             )
 
             with ApiClient(configuration) as api_client:
@@ -16388,6 +17385,9 @@ paths:
             $merge_variables->name = "Harry";
 
 
+            $use_type = "operational";
+
+
             $apiInstance = new OpenAPI\Client\Api\ChecksApi($config, new
             GuzzleHttp\Client());
 
@@ -16402,6 +17402,7 @@ paths:
                 "from"     => "adr_210a8d4b0b76d77b",
                 "to"     => $to,
                 "merge_variables"     => $merge_variables,
+                "use_type" => $use_type
               )
             );
 
@@ -16437,6 +17438,7 @@ paths:
               checkEditable.setFrom("adr_210a8d4b0b76d77b");
               checkEditable.setTo(to);
               checkEditable.setMergeVariables(merge_variables);
+              checkEditable.setUseType("operational");
 
               Check result = apiInstance.create(checkEditable, null);
             } catch (ApiException e) {
@@ -16463,7 +17465,8 @@ paths:
               check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
               merge_variables: %{
                 name: 'Harry'
-              }
+              },
+              use_type: 'operational'
             })
           label: ELIXIR
         - lang: CSharp
@@ -16502,7 +17505,8 @@ paths:
               mergeVariables,  // mergeVariables
               default(DateTime),  // sendDate
               CheckEditable.MailTypeEnum.UspsFirstClass,  // mailType
-              "rent" // memo
+              "rent", // memo
+              "operational" // use_type
             );
 
 
@@ -16512,6 +17516,65 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var to = *lob.NewAddressEditable()
+
+            to.SetAddressLine1("210 King St")
+
+            to.SetAddressLine2("# 6100")
+
+            to.SetAddressCity("San Francisco")
+
+            to.SetAddressState("CA")
+
+            to.SetAddressZip("94107")
+
+            to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+
+            to.SetDescription("")
+
+            to.SetName("Harry Zhang")
+
+
+            var checkCreate = *lob.NewCheckEditable()
+
+            checkCreate.SetDescription("Demo Check")
+
+            checkCreate.SetBankAccount("bank_8cad8df5354d33f")
+
+            checkCreate.SetAmount(22.5)
+
+            checkCreate.SetMemo("rent")
+
+            checkCreate.SetLogo("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png")
+
+            checkCreate.SetCheckBottom("<h1 style='padding-top:4in;'>Demo Check
+            for {{name}}</h1>")
+
+            checkCreate.SetFrom("adr_210a8d4b0b76d77b")
+
+            checkCreate.SetTo(to)
+
+
+
+            createdcheck, _, err :=
+            apiClient.ChecksApi.Create(context).CheckEditable(checkCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /checks/{chk_id}:
     parameters:
       - in: path
@@ -16611,6 +17674,7 @@ paths:
                 attachment_template_id: tmpl_a
                 check_bottom_template_version_id: vrsn_a
                 attachment_template_version_id: vrsn_a
+                use_type: operational
                 deleted: true
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -16636,7 +17700,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.checks.find("chk_534f10783683daa0")
+            checkApi = ChecksApi.new(config)
+
+            begin
+              retrievedCheck = checkApi.get("chk_534f10783683daa0")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -16683,6 +17753,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedCheck, _, err :=
+            apiClient.ChecksApi.Get(context,"chk_534f10783683daa0").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: check_cancel
       summary: Cancel
@@ -16724,7 +17813,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.checks.destroy("chk_534f10783683daa0")
+            checkApi = ChecksApi.new(config)
+
+            begin
+              deletedCheck = checkApi.cancel("chk_534f10783683daa0")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -16771,6 +17866,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedCheck, _, err := apiClient.ChecksApi.Cancel(context,
+            "chk_534f10783683daa0").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /creatives:
     post:
       operationId: creative_create
@@ -16841,6 +17955,28 @@ paths:
               -d "campaign_id=cmp_e05ee61ff80764b" \
               -d "resource_type=postcard" \
               -d "details={}"
+        - lang: Ruby
+          source: |
+            creativeCreate = CreativeWritable.new({
+              campaign_id: "cmp_e05ee61ff80764b",
+              resource_type: "postcard",
+              description: "Our 4x6 postcard creative",
+              from: "adr_210a8d4b0b76d77b",
+              front: "tmpl_4aa14648113e45b",
+              back: "tmpl_4aa14648113e45b",
+              details: PostcardDetailsWritable.new({
+                mail_type: "usps_first_class",
+              }),
+            });
+
+            creativeApi = CreativesApi.new(config)
+
+            begin
+              createdCreative = creativeApi.create(creativeCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /creatives/{crv_id}:
     parameters:
       - in: path
@@ -16885,6 +18021,16 @@ paths:
             curl https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            creativeApi = CreativesApi.new(config)
+
+            begin
+              retrievedCreative = creativeApi.get("crv_2a3b096c409b32c")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     patch:
       operationId: creative_update
       summary: Update
@@ -16954,6 +18100,20 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            creativePatch = CreativePatch.new({
+              description: "Our updated 4x6 postcard creative",
+            })
+
+            creativeApi = CreativesApi.new(config)
+
+            begin
+              updatedCreative = creativeApi.update("crv_2a3b096c409b32c", creativePatch)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /identity_validation:
     post:
       operationId: identity_validation
@@ -17116,7 +18276,21 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            intlAutocompletionsApi = IntlAutocompletionsApi.new(config)
+
+            autocompletionData = IntlAutocompletionsWritable.new({
+              address_prefix: "340 Wat",
+              city: "Summerside",
+              state: "Prince Edward Island",
+              zip_code: "C1N 1C4",
+              country: CountryExtended::CA,
+            })
+
+            begin
+              autocompletedAddr = intlAutocompletionsApi.autocomplete(autocompletionData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -17173,10 +18347,10 @@ paths:
 
             IntlAutocompletionsWritable autocompletionData = new
             IntlAutocompletionsWritable(
-              "340 Wat", 
-              "Summerside", 
-              "Prince Edward Island", 
-              "C1N 1C4", 
+              "340 Wat",
+              "Summerside",
+              "Prince Edward Island",
+              "C1N 1C4",
               CountryExtended.CA
             );
 
@@ -17187,6 +18361,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(context, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            resp, _, err :=
+            suite.apiClient.IntlAutocompletionsApi.Autocomplete(context).IntlAutocompletionsWritable(suite.intlAutocomplationsWritable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /intl_verifications:
     post:
       operationId: intl_verification
@@ -17337,13 +18530,21 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.intl_verifications.verify(
+            intlVerificationsApi = IntlVerificationsApi.new(config)
+
+            verificationData = IntlVerificationWritable.new({
               primary_line: "370 Water St",
-              city:         "Summerside",
-              state:        "Prince Edward Island",
-              postal_code:  "C1N 1C4",
-              country:      "CA"
-            )
+              city: "Summerside",
+              state: "Prince Edward Island",
+              postal_code: "C1N 1C4",
+              country: CountryExtended::CA,
+            })
+
+            begin
+              verifiedAddr = intlVerificationsApi.verifySingle(verificationData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -17410,12 +18611,12 @@ paths:
           source: >
             IntlVerificationWritable singleVerify = new
             IntlVerificationWritable(
-              null, 
-              "370 Water St", 
-              null, 
-              "Summerside", 
-              "Prince Edward Island", 
-              "C1N 1C4", 
+              null,
+              "370 Water St",
+              null,
+              "Summerside",
+              "Prince Edward Island",
+              "C1N 1C4",
               CountryExtended.CA
             );
 
@@ -17556,6 +18757,7 @@ paths:
                     date_created: '2017-08-05T15:54:53.346Z'
                     date_modified: '2017-08-05T15:54:53.346Z'
                     object: card
+                use_type: marketing
                 object: letter
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -17581,7 +18783,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.letters.find("ltr_4868c3b754655f90")
+            letterApi = LettersApi.new(config)
+
+            begin
+              retrievedLetter = letterApi.get("ltr_4868c3b754655f90")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -17628,6 +18836,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedLetter, _, err :=
+            apiClient.LettersApi.Get(context,"ltr_4868c3b754655f90").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: letter_cancel
       summary: Cancel
@@ -17669,7 +18896,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.letters.destroy("ltr_4868c3b754655f90")
+            letterApi = LettersApi.new(config)
+
+            begin
+              deletedLetter = letterApi.cancel("ltr_4868c3b754655f90")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -17716,6 +18949,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedLetter, _, err := apiClient.LettersApi.Cancel(context,
+            "ltr_4868c3b754655f90").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /letters:
     get:
       operationId: letters_list
@@ -17769,7 +19021,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.letters.list(limit: 2)
+            lettersApi = LettersApi.new(config)
+
+            begin
+              letters = lettersApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -17868,6 +19126,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            LetterList = apiClient.LettersApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: letter_create
       summary: Create
@@ -17922,12 +19196,14 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
                 width: '2'
                 top: '2'
                 right: '2'
+                pages: 1-2,4-5
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/letter_editable'
@@ -17970,12 +19246,14 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
                 width: '2'
                 bottom: '2'
                 right: '2'
+                pages: 1,4
             encoding:
               to:
                 style: deepObject
@@ -18031,12 +19309,14 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               extra_service: registered
               custom_envelope: null
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
                 width: '2'
                 bottom: '2'
                 left: '2'
+                pages: 1,3-5
       responses:
         '200':
           $ref: '#/components/responses/post_letter'
@@ -18063,7 +19343,8 @@ paths:
               -d 'qr_code[redirect_url]=https://www.lob.com' \
               -d 'qr_code[width]=2' \
               -d 'qr_code[bottom]=2' \
-              -d 'qr_code[left]=2'
+              -d 'qr_code[left]=2' \
+              -d 'qr_code[pages]=3,4-5'
           label: CURL
         - lang: Typescript
           source: |
@@ -18080,12 +19361,14 @@ paths:
               color: true,
               extra_service: LetterEditableExtraServiceEnum.Certified,
               file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf',
+              use_type: 'marketing',
               qr_code : {
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
                 width: '2',
                 bottom: '2',
-                left: '2'
+                left: '2',
+                pages: '2,5'
               }
             });
 
@@ -18114,12 +19397,14 @@ paths:
               },
               color: true,
               cards: ['card_c51ae96f5cebf3e'],
+              use_type: 'marketing',
               qr_code : {
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
                 width: '2',
                 bottom: '2',
-                left: '2'
+                left: '2',
+                pages: '2,4-5'
               }
             }, function (err, res) {
               console.log(err, res);
@@ -18127,31 +19412,35 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.letters.create(
-              description: 'Demo Letter',
-              to: {
-                name: 'Harry Zhang',
-                address_line1: '210 King St',
-                address_line2: '# 6100',
-                address_city: 'San Francisco',
-                address_state: 'CA',
-                address_zip: '94107'
-              },
-              from: 'adr_210a8d4b0b76d77b',
-              file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
+            letterCreate = LetterEditable.new({
+              description: "Demo Letter",
+              from: "adr_210a8d4b0b76d77b",
+              file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+              color: "true",
+              to: AddressEditable.new({
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107",
+              }),
               merge_variables: {
-                name: 'Harry'
+                name: "Harry"
               },
-              color: true,
-              cards: ['card_c51ae96f5cebf3e'],
-              qr_code : {
-                position: 'relative',
-                redirect_url: 'https://www.lob.com',
-                width: '2',
-                bottom: '2',
-                left: '2'
-              }
-            )
+              cards: [
+                "card_c51ae96f5cebf3e",
+              ],
+              use_type: "marketing"
+            });
+
+            letterApi = LettersApi.new(config)
+
+            begin
+              createdLetter = letterApi.create(letterCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -18174,12 +19463,14 @@ paths:
               cards = [
                 "card_c51ae96f5cebf3e",
               ],
+              use_type: "marketing",
               qr_code = {
-                'position' : 'relative',
-                'redirect_url' : 'https://www.lob.com',
-                'width' : '2',
-                'bottom' : '2',
-                'left' : '2'
+                "position" : "relative",
+                "redirect_url" : "https://www.lob.com",
+                "width" : "2",
+                "bottom" : "2",
+                "left" : "2",
+                "pages" : "1,3"
               }
             )
 
@@ -18212,6 +19503,7 @@ paths:
                 "width" => "2",
                 "bottom" => "2",
                 "left" => "2",
+                "pages" => "1,3,5",
               )
             );
 
@@ -18219,6 +19511,9 @@ paths:
             $merge_variables = new stdClass;
 
             $merge_variables->name = "Harry";
+
+
+            $use_type = "marketing";
 
 
             $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new
@@ -18236,6 +19531,7 @@ paths:
                   "card_c51ae96f5cebf3e",
                   "card_thingy",
                 ),
+                "use_type" => $use_type;
                 "qr_code"   => $qr_code,
               )
             );
@@ -18267,6 +19563,7 @@ paths:
             qrCode.setWidth("2");
             qrCode.setLeft("2");
             qrCode.setBottom("2");
+            qrCode.setPages("1,3,5");
 
             List<String> cards = new ArrayList<String>();
             cards.add("card_c51ae96f5cebf3e");
@@ -18281,6 +19578,7 @@ paths:
               letterEditable.setTo(to);
               letterEditable.setMergeVariables(merge_variables);
               letterEditable.setCards(cards);
+              letterEditable.setUseType("operational");
               letterEditable.setQRCode(qrCode);
 
               Letter result = apiInstance.create(letterEditable, null);
@@ -18307,12 +19605,14 @@ paths:
               },
               color: true,
               cards: ['card_c51ae96f5cebf3e'],
+              use_type: 'marketing',
               qr_code: %{
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
                 width: '2',
                 bottom: '2',
-                left: '2'
+                left: '2',
+                pages: '1-2,5'
               }
             })
           label: ELIXIR
@@ -18339,12 +19639,16 @@ paths:
             );
 
 
+            UseType usetype = new UseType("marketing");
+
+
             QRCode qrCode = new QRCode(
               "relative",  //position,
               "https://www.lob.com", //redirect_url
               "2", //width
               "2", //left
               "2", //bottom
+              "1-2,5", //pages
             );
 
 
@@ -18370,6 +19674,7 @@ paths:
               "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",  // file
               default(LetterEditable.ExtraServiceEnum?),  // extraService
               cards, // cards
+              usetype,
               qrCode
             );
 
@@ -18380,6 +19685,59 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var to = *lob.NewAddressEditable()
+
+            to.SetAddressLine1("210 King St")
+
+            to.SetAddressLine2("# 6100")
+
+            to.SetAddressCity("San Francisco")
+
+            to.SetAddressState("CA")
+
+            to.SetAddressZip("94107")
+
+            to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+
+            to.SetDescription("")
+
+            to.SetName("Harry Zhang")
+
+
+            var letterCreate = *lob.NewLetterEditable()
+
+            letterCreate.SetDescription("Demo Letter")
+
+            letterCreate.SetFrom("adr_210a8d4b0b76d77b")
+
+            letterCreate.SetFile("<html style='padding-top: 3in; margin:
+            .5in;'>HTML Letter for {{name}}</html>")
+
+            letterCreate.SetColor("true")
+
+            letterCreate.SetTo(to)
+
+
+
+            createdletter, _, err :=
+            apiClient.LettersApi.Create(context).LetterEditable(letterCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /postcards/{psc_id}:
     parameters:
       - in: path
@@ -18434,6 +19792,7 @@ paths:
                     date_created: '2021-03-24T22:51:42.838Z'
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
+                    use_type: marketing
                     object: postcard
                 full:
                   value:
@@ -18497,6 +19856,7 @@ paths:
                     date_created: '2021-03-24T22:51:42.838Z'
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
+                    use_type: marketing
                     object: postcard
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -18522,7 +19882,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.postcards.find("psc_5c002b86ce47537a")
+            letterApi = LettersApi.new(config)
+
+            begin
+              retrievedLetter = letterApi.get("ltr_4868c3b754655f90")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -18569,6 +19935,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedPostcard, _, err :=
+            apiClient.PostcardsApi.Get(context,"psc_5c002b86ce47537a").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: postcard_delete
       summary: Cancel
@@ -18611,7 +19996,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.postcards.destroy("psc_5c002b86ce47537a")
+            letterApi = LettersApi.new(config)
+
+            begin
+              deletedLetter = letterApi.cancel("ltr_4868c3b754655f90")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -18658,6 +20049,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedPostcard, _, err := apiClient.PostcardsApi.Delete(context,
+            "psc_5c002b86ce47537a").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /postcards:
     get:
       operationId: postcards_list
@@ -18713,7 +20123,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.postcards.list(limit: 2)
+            postcardsApi = PostcardsApi.new(config)
+
+            begin
+              postcards = postcardsApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -18816,6 +20232,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            PostcardList = apiClient.PostcardsApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: postcard_create
       summary: Create
@@ -18866,12 +20298,14 @@ paths:
               metadata:
                 spiffy: 'true'
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
-                width: '2'
-                top: '2'
-                right: '2'
+                width: '2.5'
+                top: '2.5'
+                right: '2.5'
+                pages: front,back
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/postcard_editable'
@@ -18910,12 +20344,14 @@ paths:
               metadata:
                 spiffy: 'true'
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
-                width: '2'
-                bottom: '2'
-                right: '2'
+                width: '2.5'
+                bottom: '2.5'
+                right: '2.5'
+                pages: back
             encoding:
               to:
                 style: deepObject
@@ -18967,12 +20403,14 @@ paths:
               metadata:
                 spiffy: 'true'
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
               qr_code:
                 position: relative
                 redirect_url: https://www.lob.com
-                width: '2'
-                bottom: '2'
-                left: '2'
+                width: '2.5'
+                bottom: '2.5'
+                left: '2.5'
+                pages: front
       responses:
         '200':
           $ref: '#/components/responses/post_postcard'
@@ -18994,11 +20432,13 @@ paths:
               --data-urlencode 'front=<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>' \
               --data-urlencode 'back=<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>' \
               -d 'merge_variables[name]=Harry' \
+              -d 'use_type=marketing' \
               -d 'qr_code[position]=relative' \
               -d 'qr_code[redirect_url]=https://www.lob.com' \
-              -d 'qr_code[width]=2' \
-              -d 'qr_code[bottom]=2' \
-              -d 'qr_code[left]=2'
+              -d 'qr_code[width]=2.5' \
+              -d 'qr_code[bottom]=2.5' \
+              -d 'qr_code[left]=2.5' \
+              -d 'qr_code[pages]=front,back'
           label: CURL
         - lang: Typescript
           source: >
@@ -19022,12 +20462,15 @@ paths:
             back:
             'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
 
+            use_type: 'marketing',
+
             qr_code : {
               position: 'relative',
               redirect_url: 'https://www.lob.com',
-              width: '2',
-              bottom: '2',
-              left: '2'
+              width: '2.5',
+              bottom: '2.5',
+              left: '2.5',
+              pages: 'front'
             }
 
             });
@@ -19057,12 +20500,14 @@ paths:
               merge_variables: {
                 name: 'Harry'
               },
+              use_type: 'marketing'
               qr_code : {
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
-                width: '2',
-                bottom: '2',
-                left: '2'
+                width: '2.5',
+                bottom: '2.5',
+                left: '2.5',
+                pages: 'back'
               }
             }, function (err, res) {
               console.log(err, res);
@@ -19070,30 +20515,31 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.postcards.create(
-              description: 'Demo Postcard job',
-              to: {
-                name: 'Harry Zhang',
-                address_line1: '210 King St',
-                address_line2: '# 6100',
-                address_city: 'San Francisco',
-                address_state: 'CA',
-                address_zip: '94107'
-              },
-              from: 'adr_210a8d4b0b76d77b',
-              front: '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
-              back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
+            postcardCreate = PostcardEditable.new({
+              description: "Demo Postcard job",
+              from: "adr_210a8d4b0b76d77b",
+              front: "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
+              back: "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+              to: AddressEditable.new({
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107",
+              }),
               merge_variables: {
-                name: 'Harry'
+                name: "Harry"
               },
-              qr_code : {
-                position: 'relative',
-                redirect_url: 'https://www.lob.com',
-                width: '2',
-                bottom: '2',
-                left: '2'
-              }
-            )
+            });
+
+            postcardApi = PostcardsApi.new(config)
+
+            begin
+              createdPostcard = postcardApi.create(postcardCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -19113,12 +20559,14 @@ paths:
               merge_variables = MergeVariables(
                 name = "Harry",
               ),
+              use_type = "marketing",
               qr_code = {
-                'position' : 'relative',
-                'redirect_url' : 'https://www.lob.com',
-                'width' : '2',
-                'bottom' : '2',
-                'left' : '2'
+                "position" : "relative",
+                "redirect_url" : "https://www.lob.com",
+                "width" : "2.5",
+                "bottom" : "2.5",
+                "left" : "2.5",
+                "pages" : "front"
               }
             )
 
@@ -19148,6 +20596,8 @@ paths:
 
             $merge_variables->name = "Harry";
 
+            $use_type = "marketing";
+
 
             $qr_code = new OpenAPI\Client\Model\QRCode(
               array(
@@ -19156,6 +20606,7 @@ paths:
                 "width" => "2",
                 "bottom" => "2",
                 "left" => "2",
+                "pages" => "front,back"
               )
             );
 
@@ -19171,6 +20622,7 @@ paths:
                 "back"     => "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
                 "to"     => $to,
                 "merge_variables"   => $merge_variables,
+                "use_type" => $use_type,
                 "qr_code"   => $qr_code,
               )
             );
@@ -19202,6 +20654,7 @@ paths:
             qrCode.setWidth("2");
             qrCode.setLeft("2");
             qrCode.setBottom("2");
+            qrCode.setPages("back");
 
             try {
               PostcardEditable postcardEditable = new PostcardEditable();
@@ -19211,6 +20664,7 @@ paths:
               postcardEditable.setBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>");
               postcardEditable.setTo(to);
               postcardEditable.setMergeVariables(merge_variables);
+              postcardEditable.setUseType("operational");
               postcardEditable.setQRCode(qrCode);
 
               Postcard result = apiInstance.create(postcardEditable, null);
@@ -19236,12 +20690,14 @@ paths:
               merge_variables: %{
                 name: 'Harry'
               },
+              use_type: 'marketing'
               qr_code: %{
                 position: 'relative',
                 redirect_url: 'https://www.lob.com',
                 width: '2',
                 bottom: '2',
-                left: '2'
+                left: '2',
+                pages: 'front,back'
               }
             })
           label: ELIXIR
@@ -19268,12 +20724,16 @@ paths:
             );
 
 
+            UseType usetype = new UseType('marketing');
+
+
             QRCode qrCode = new QRCode(
               "relative",  //position,
               "https://www.lob.com", //redirect_url
               "2", //width
               "2", //left
               "2", //bottom
+              "front", //pages
             );
 
 
@@ -19288,6 +20748,7 @@ paths:
               default(DateTime),  // sendDate
               "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",  // front
               "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>", // back
+              usetype,
               qrCode
             );
 
@@ -19298,6 +20759,60 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var to = *lob.NewAddressEditable()
+
+            to.SetAddressLine1("210 King St")
+
+            to.SetAddressLine2("# 6100")
+
+            to.SetAddressCity("San Francisco")
+
+            to.SetAddressState("CA")
+
+            to.SetAddressZip("94107")
+
+            to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+
+            to.SetDescription("")
+
+            to.SetName("Harry Zhang")
+
+
+            var postcardCreate = *lob.NewPostcardEditable()
+
+            postcardCreate.SetDescription("Demo Postcard job")
+
+            postcardCreate.SetFrom("adr_210a8d4b0b76d77b")
+
+            postcardCreate.SetFront("<html style='padding: 1in; font-size:
+            50;'>Front HTML for {{name}}</html>")
+
+            postcardCreate.SetBack("<html style='padding: 1in; font-size:
+            20;'>Back HTML for {{name}}</html>")
+
+            postcardCreate.SetTo(to)
+
+
+
+            createdpostcard, _, err :=
+            apiClient.PostcardsApi.Create(context).PostcardEditable(postcardCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /qr_code_analytics:
     get:
       operationId: qr_codes_list
@@ -19474,6 +20989,7 @@ paths:
                 date_created: '2021-03-16T18:40:40.504Z'
                 date_modified: '2021-03-16T18:40:40.504Z'
                 send_date: '2021-03-16T18:45:40.493Z'
+                use_type: marketing
                 object: self_mailer
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -19501,7 +21017,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.self_mailers.find("sfm_8ffbe811dea49dcf")
+            selfMailerApi = SelfMailersApi.new(config)
+
+            begin
+              retrievedSelfMailer = selfMailerApi.get("sfm_8ffbe811dea49dcf")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -19548,6 +21070,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedSelfMailer, _, err :=
+            apiClient.SelfMailersApi.Get(context,"sfm_8ffbe811dea49dcf").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: self_mailer_delete
       summary: Delete
@@ -19588,7 +21129,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.self_mailers.destroy("sfm_8ffbe811dea49dcf")
+            selfMailerApi = SelfMailersApi.new(config)
+
+            begin
+              deletedSelfMailer = selfMailerApi.delete("sfm_8ffbe811dea49dcf")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -19635,6 +21182,26 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedSelfMailer, _, err :=
+            apiClient.SelfMailersApi.Delete(context,
+            "sfm_8ffbe811dea49dcf").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /self_mailers:
     get:
       operationId: self_mailers_list
@@ -19689,7 +21256,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.self_mailers.list(limit: 2)
+            selfMailersApi = SelfMailersApi.new(config)
+
+            begin
+              selfMailers = selfMailersApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -19788,6 +21361,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            SelfMailerList = apiClient.SelfMailersApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: self_mailer_create
       summary: Create
@@ -19816,6 +21405,7 @@ paths:
               merge_variables:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'
@@ -19832,6 +21422,7 @@ paths:
               merge_variables:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
             encoding:
               merge_variables:
                 style: deepObject
@@ -19855,6 +21446,7 @@ paths:
               merge_variables:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
+              use_type: marketing
       responses:
         '200':
           $ref: '#/components/responses/post_self_mailer'
@@ -19872,6 +21464,7 @@ paths:
               -d "to[address_state]=CA" \
               -d "to[address_zip]=94107" \
               -d "from=adr_210a8d4b0b76d77b" \
+              -d "use_type=marketing" \
               --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
               --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
               -d "merge_variables[name]=Harry"
@@ -19891,7 +21484,8 @@ paths:
               inside:
               'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_inside.pdf',
               outside:
-              'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf'
+              'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf',
+              use_type: 'marketing'
             });
 
             try {
@@ -19916,29 +21510,40 @@ paths:
               outside: '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
               merge_variables: {
                 name: 'Harry'
-              }
+              },
+              use_type: 'marketing'
             }, function (err, res) {
               console.log(err, res);
             });
           label: NODE
         - lang: Ruby
           source: |
-            @lob.self_mailers.create(
-               description: "Demo Self Mailers job",
-               to: {
-                 name: "Harry Zhang",
-                 address_line1: "210 King St",
-                 address_city: "San Francisco",
-                 address_state: "CA",
-                 address_zip: "94107"
-               },
-               from: "adr_210a8d4b0b76d77b",
-               inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
-               outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
-               merge_variables: {
-                 name: "Harry"
-               }
-             )
+            selfMailerCreate = SelfMailerEditable.new({
+              description: "Demo Self Mailer job",
+              from: "adr_210a8d4b0b76d77b",
+              inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+              outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+              to: AddressEditable.new({
+                name: "Harry Zhang",
+                address_line1: "210 King St",
+                address_line2: "# 6100",
+                address_city: "San Francisco",
+                address_state: "CA",
+                address_zip: "94107",
+              }),
+              merge_variables: {
+                name: "Harry"
+              },
+              use_type: 'marketing'
+            });
+
+            selfMailerApi = SelfMailersApi.new(config)
+
+            begin
+              createdSelfMailer = selfMailerApi.create(selfMailerCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -19958,6 +21563,7 @@ paths:
               merge_variables = MergeVariables(
                 name = "Harry",
               ),
+              use_type: "marketing"
             )
 
             with ApiClient(configuration) as api_client:
@@ -19987,6 +21593,9 @@ paths:
             $merge_variables->name = "Harry";
 
 
+            $use_type = "marketing";
+
+
             $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new
             GuzzleHttp\Client());
 
@@ -19998,6 +21607,7 @@ paths:
                 "outside"     => "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
                 "to"     => $to,
                 "merge_variables"     => $merge_variables,
+                "use_type"    => $use_type
               )
             );
 
@@ -20030,6 +21640,7 @@ paths:
               selfMailerEditable.setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>");
               selfMailerEditable.setTo(to);
               selfMailerEditable.setMergeVariables(merge_variables);
+              selfMailerEditable.setUseType("marketing");
 
               SelfMailer result = apiInstance.create(selfMailerEditable, null);
             } catch (ApiException e) {
@@ -20052,7 +21663,8 @@ paths:
               outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
               merge_variables: %{
                 name: "Harry"
-              }
+              },
+              use_type: "marketing"
             })
           label: ELIXIR
         - lang: CSharp
@@ -20088,7 +21700,8 @@ paths:
               mergeVariables,  // mergeVariables
               default(DateTime),  // sendDate
               "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
-              "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" // outside
+              "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
+              "marketing" // use_type 
             );
 
 
@@ -20098,6 +21711,60 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var to = *lob.NewAddressEditable()
+
+            to.SetAddressLine1("210 King St")
+
+            to.SetAddressLine2("# 6100")
+
+            to.SetAddressCity("San Francisco")
+
+            to.SetAddressState("CA")
+
+            to.SetAddressZip("94107")
+
+            to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+
+            to.SetDescription("")
+
+            to.SetName("Harry Zhang")
+
+
+            var selfMailerCreate = *lob.NewSelfMailerEditable()
+
+            selfMailerCreate.SetDescription("Demo Self Mailer job")
+
+            selfMailerCreate.SetFrom("adr_210a8d4b0b76d77b")
+
+            selfMailerCreate.SetInside("<html style='padding: 1in; font-size:
+            50;'>Inside HTML for {{name}}</html>")
+
+            selfMailerCreate.SetOutside("<html style='padding: 1in; font-size:
+            20;'>Outside HTML for {{name}}</html>")
+
+            selfMailerCreate.SetTo(to)
+
+
+
+            createdselfMailer, _, err :=
+            apiClient.SelfMailersApi.Create(context).SelfMailerEditable(selfMailerCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /templates/{tmpl_id}/versions/{vrsn_id}:
     parameters:
       - in: path
@@ -20158,7 +21825,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionApi = TemplateVersionsApi.new(config)
+
+            begin
+              retrievedTemplateVersion = templateVersionApi.get("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20205,6 +21878,26 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedTemplateVersion, _, err :=
+            apiClient.TemplateVersionsApi.Get(context,"tmpl_c94e83ca2cd5121",
+            "vrsn_534e339882d2282").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: template_version_update
       summary: Update
@@ -20262,7 +21955,17 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionUpdatable = TemplateUpdate.new({
+              description: "updated template version",
+            })
+
+            templateVersionApi = TemplateVersionsApi.new(config)
+
+            begin
+              updatedTemplateVersion = templateVersionApi.update("tmpl_c94e83ca2cd5121", "vrsn_534e339882d2282", templateVersionUpdatable)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20317,6 +22020,43 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var templateWritable = *lob.NewTemplateWritable("<html>Updated HTML
+            for Template 1/html>")
+
+            var templateVersionWritable =
+            *lob.NewTemplateVersionWritable("<html>Updated HTML for Template
+            1/html>")
+
+            createdTemplate, _, _ :=
+            apiClient.TemplatesApi.Create(context).TemplateWritable(templateWritable).Execute()
+
+
+            createdTemplateVersion, _, err :=
+            apiClient.TemplateVersionsApi.Create(context,
+            createdTemplate.Id).TemplateVersionWritable(templateVersionWritable).Execute()
+
+            createdTemplateVersion.SetDescription("New Template Version")
+
+            resp, _, err := apiClient.TemplatesApi.Update(context,
+            createdTemplate.Id,
+            createdTemplateVersion.Id).TemplateVersionWritable(templateVersionWritable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: template_version_delete
       summary: Delete
@@ -20352,7 +22092,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionApi = TemplateVersionsApi.new(config)
+
+            begin
+              deletedTemplateVersion = templateVersionApi.delete("tmpl_4aa14648113e45b", "vrsn_534e339882d2282")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20385,6 +22131,26 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedTemplateVersion, _, err :=
+            apiClient.TemplateVersionsApi.Delete(context,
+            "tmpl_4aa14648113e45b", "vrsn_534e339882d2282").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /templates/{tmpl_id}/versions:
     get:
       operationId: template_versions_list
@@ -20433,7 +22199,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionsApi = TemplateVersionsApi.new(config)
+
+            begin
+              templateVersions = templateVersionsApi.list("tmpl_dadaaf7b76c9f25", { limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20510,6 +22282,23 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            TemplateVersionList = apiClient.TemplateVersionsApi.List(context,
+            "tmpl_4aa14648113e45b").Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: create_template_version
       summary: Create
@@ -20577,7 +22366,18 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateVersionCreate = TemplateVersionWritable.new({
+              description: "Second Version",
+              html: "<html>Second HTML for {{name}}</html>",
+            });
+
+            templateVersionApi = TemplateVersionsApi.new(config)
+
+            begin
+              createdTemplateVersion = templateVersionApi.create("tmpl_4aa14648113e45b", templateVersionCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20649,6 +22449,37 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var templateVersionCreate = *lob.NewTemplateVersionWritable()
+
+            templateVersionCreate.SetDescription("Second Version")
+
+            templateVersionCreate.SetHtml("<html>Second HTML for
+            {{name}}</html>")
+
+
+
+
+            createdtemplateVersion, _, err :=
+            apiClient.TemplateVersionsApi.Create(context,
+            "tmpl_4aa14648113e45b").TemplateVersionWritable(templateVersionCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /templates/{tmpl_id}:
     parameters:
       - in: path
@@ -20719,7 +22550,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateApi = TemplatesApi.new(config)
+
+            begin
+              retrievedTemplate = templateApi.get("tmpl_c94e83ca2cd5121")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20766,6 +22603,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            fetchedTemplate, _, err :=
+            apiClient.TemplatesApi.Get(context,"tmpl_c94e83ca2cd5121").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: template_update
       summary: Update
@@ -20865,7 +22721,18 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateUpdate = TemplateUpdate.new({
+              description: "updated template",
+              published_version: "vrsn_362184d96d9b0c9",
+            })
+
+            templateApi = TemplatesApi.new(config)
+
+            begin
+              updatedTemplate = templateApi.update("tmpl_c94e83ca2cd5121", templateUpdate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -20931,6 +22798,34 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var templateWritable = *lob.NewTemplateWritable("<html>Updated HTML
+            for Template 1/html>")
+
+            createdTemplate, _, _ :=
+            apiClient.TemplatesApi.Create(context).TemplateWritable(templateWritable).Execute()
+
+
+            templateWritable.SetDescription("Template updated")
+
+            resp, _, err := apiClient.TemplatesApi.Update(context,
+            createdTemplate.Id).TemplateWritable(templateWritable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
     delete:
       operationId: template_delete
       summary: Delete
@@ -20966,7 +22861,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateApi = TemplatesApi.new(config)
+
+            begin
+              deletedTemplate = templateApi.delete("tmpl_df934eeda694203")
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -21013,6 +22914,25 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            deletedTemplate, _, err := apiClient.TemplatesApi.Delete(context,
+            "tmpl_df934eeda694203").Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /templates:
     get:
       operationId: templates_list
@@ -21053,7 +22973,13 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templatesApi = TemplatesApi.new(config)
+
+            begin
+              templates = templatesApi.list({ limit: 2 })
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -21135,6 +23061,22 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+            TemplateList = apiClient.TemplatesApi.List(context).Execute()
+
+            if err != nil {
+                return err
+            }
+          label: GO
     post:
       operationId: create_template
       summary: Create
@@ -21245,7 +23187,18 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            This feature is not currently supported by this library.
+            templateCreate = TemplateWritable.new({
+              description: "Test Template",
+              html: "<html>HTML for {{name}}</html>",
+            });
+
+            templateApi = TemplatesApi.new(config)
+
+            begin
+              createdTemplate = templateApi.create(templateCreate)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -21313,6 +23266,35 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(suite.ctx, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+
+            var templateCreate = *lob.NewTemplateWritable()
+
+            templateCreate.SetDescription("Test Template")
+
+            templateCreate.SetHtml("<html>HTML for {{name}}</html>")
+
+
+
+
+            createdtemplate, _, err :=
+            apiClient.TemplatesApi.Create(context).TemplateWritable(templateCreate).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /uploads:
     get:
       operationId: uploads_list
@@ -21336,6 +23318,16 @@ paths:
             curl https://api.lob.com/v1/uploads \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            uploadsApi = UploadsApi.new(config)
+
+            begin
+              uploads = uploadsApi.list_upload({ campaign_id: "cmp_e05ee61ff80764b" })
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     post:
       operationId: upload_create
       summary: Create
@@ -21394,6 +23386,20 @@ paths:
                 "campaignId": "cmp_f33809b18b6f3ea8"
             }'
           label: CURL
+        - lang: Ruby
+          source: |
+            uploadCreate = UploadWritable.new({
+              campaign_id: "cmp_e05ee61ff80764b",
+            });
+
+            uploadApi = UploadsApi.new(config)
+
+            begin
+              createdUpload = uploadApi.create_upload(uploadCreate)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /uploads/{upl_id}:
     parameters:
       - in: path
@@ -21454,6 +23460,16 @@ paths:
             curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
               -u <YOUR API KEY>: \
           label: CURL
+        - lang: Ruby
+          source: |
+            uploadApi = UploadsApi.new(config)
+
+            begin
+              retrievedUpload = uploadApi.get_upload("upl_71be866e430b11e9")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     patch:
       operationId: upload_update
       summary: Update
@@ -21527,6 +23543,26 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            uploadUpdatable = UploadUpdatable.new({
+              required_address_column_mapping: RequiredAddressColumnMapping.new({
+                name: "recipient",
+                address_line1: "primary line",
+                address_city: "city",
+                address_state: "state",
+                address_zip: "zip_code",
+              }),
+            })
+
+            uploadApi = UploadsApi.new(config)
+
+            begin
+              updatedUpload = uploadApi.update_upload("upl_71be866e430b11e9", uploadUpdatable)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
     delete:
       operationId: upload_delete
       summary: Delete
@@ -21544,6 +23580,16 @@ paths:
             curl -X DELETE https://api.lob.com/v1/uploads/upl_71be866e430b11e9 \
               -u <YOUR API KEY>:
           label: CURL
+        - lang: Ruby
+          source: |
+            uploadApi = UploadsApi.new(config)
+
+            begin
+              deletedUpload = uploadApi.delete_upload("upl_71be866e430b11e9")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /uploads/{upl_id}/file:
     parameters:
       - in: path
@@ -21664,6 +23710,20 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            exportModel = ExportModel.new({
+              type: "all"
+            })
+
+            uploadsApi = UploadsApi.new(config)
+
+            begin
+              createdExport = uploadsApi.create_export("upl_71be866e430b11e9", exportModel)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /uploads/{upl_id}/exports/{ex_id}:
     parameters:
       - in: path
@@ -21775,6 +23835,16 @@ paths:
             except ApiException as e:
               print(e)
           label: PYTHON
+        - lang: Ruby
+          source: |
+            uploadsApi = UploadsApi.new(config)
+
+            begin
+              retrievedExport = uploadsApi.get_export("upl_71be866e430b11e9", "ex_6a94fe68fd151e0f8")
+            rescue => err
+              p err.message
+            end
+          label: RUBY
   /us_autocompletions:
     post:
       operationId: autocompletion
@@ -21904,12 +23974,20 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.us_autocompletions.autocomplete(
+            usAutocompletionsApi = UsAutocompletionsApi.new(config)
+
+            autocompletionData = UsAutocompletionsWritable.new({
               address_prefix: "185 B",
-              city:           "San Francisco",
-              state:          "CA",
-              zip_code:       "94107"
-            )
+              city: "San Francisco",
+              state: "CA",
+              zip_code: "94017",
+            })
+
+            begin
+              autocompletedAddress = usAutocompletionsApi.autocomplete(autocompletionData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -21985,10 +24063,10 @@ paths:
 
             UsAutocompletionsWritable autoCompletionWritable = new
             UsAutocompletionsWritable(
-              "185 B",  // address_prefix 
-              "San Francisco",  // city 
-              "CA",  // state 
-              "94017" // zip_code 
+              "185 B",  // address_prefix
+              "San Francisco",  // city
+              "CA",  // state
+              "94017" // zip_code
             );
 
 
@@ -21998,6 +24076,29 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(context, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var usAutocomplationsWritable =
+            *lob.NewUsAutocompletionsWritable("340 Wat")
+
+
+            resp, _, err :=
+            suite.apiClient.UsAutocompletionsApi.Autocomplete(suite.ctx).UsAutocompletionsWritable(suite.usAutocomplationsWritable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /us_reverse_geocode_lookups:
     post:
       operationId: reverse_geocode_lookup
@@ -22080,10 +24181,18 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.reverse_geocode_lookups.lookup(
-              latitude: 37.7749,
-              longitude: 122.4194
-            )
+            reverseGeocodeLookupsApi = ReverseGeocodeLookupsApi.new(config)
+
+            coordinates = Location.new({
+              latitude: 37.777456,
+              longitude: -122.393039,
+            })
+
+            begin
+              geocode = reverseGeocodeLookupsApi.lookup(coordinates)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -22150,7 +24259,7 @@ paths:
             ReverseGeocodeLookupsApi api = new ReverseGeocodeLookupsApi(config);
 
             Location location = new Location(
-              37.777456f, 
+              37.777456f,
               -122.393039f
             );
 
@@ -22160,6 +24269,32 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(context, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var location = *lob.NewLocationWithDefaults()
+
+            location.SetLatitude(37.777456)
+
+            location.SetLongitude(122.393039)
+
+
+            resp, _, err :=
+            apiClient.ReverseGeocodeLookupsApi.Lookup(context).Location(location).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO
   /us_verifications:
     post:
       operationId: us_verification
@@ -22315,12 +24450,20 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.us_verifications.verify(
+            usVerificationsApi = UsVerificationsApi.new(config)
+
+            verificationData = UsVerificationsWritable.new({
               primary_line: "210 King Street",
-              city:         "San Francisco",
-              state:        "CA",
-              zip_code:     "94107"
-            )
+              city: "San Francisco",
+              state: "CA",
+              zip_code: "94017",
+            })
+
+            begin
+              singleVerifiedAddr = usVerificationsApi.verifySingle(verificationData)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -22392,13 +24535,13 @@ paths:
         - lang: CSharp
           source: |
             UsVerificationsWritable singleVerify = new UsVerificationsWritable(
-              null, 
-              null, 
-              "210 King Street", 
-              null, 
-              null, 
-              "San Francisco", 
-              "CA", 
+              null,
+              null,
+              "210 King Street",
+              null,
+              null,
+              "San Francisco",
+              "CA",
               "94017"
             );
 
@@ -22469,9 +24612,17 @@ paths:
           label: NODE
         - lang: Ruby
           source: |
-            @lob.us_zip_lookups.lookup(
+            zipLookupsApi = ZipLookupsApi.new(config)
+
+            zipRequest = ZipEditable.new({
               zip_code: "94107"
-            )
+            })
+
+            begin
+              zipLookup = zipLookupsApi.lookup(zipRequest)
+            rescue => err
+              p err.message
+            end
           label: RUBY
         - lang: Python
           source: |
@@ -22534,3 +24685,27 @@ paths:
               Console.WriteLine(e.ToString());
             }
           label: CSHARP
+        - lang: Go
+          source: >
+            var context = context.Background()
+
+            context = context.WithValue(context, lob.ContextBasicAuth,
+            lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+
+            var apiClient = *lob.NewAPIClient(configuration)
+
+
+            var zipEditable = *lob.NewZipEditable()
+
+            zipEditable.SetZipCode("94107")
+
+
+            resp, _, err :=
+            apiClient.ZipLookupsApi.Lookup(context).ZipEditable(zipEditable).Execute()
+
+
+            if err != nil {
+                return err
+            }
+          label: GO

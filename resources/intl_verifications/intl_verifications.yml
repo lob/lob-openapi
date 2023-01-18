@@ -157,13 +157,21 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.intl_verifications.verify(
+        intlVerificationsApi = IntlVerificationsApi.new(config)
+
+        verificationData = IntlVerificationWritable.new({
           primary_line: "370 Water St",
-          city:         "Summerside",
-          state:        "Prince Edward Island",
-          postal_code:  "C1N 1C4",
-          country:      "CA"
-        )
+          city: "Summerside",
+          state: "Prince Edward Island",
+          postal_code: "C1N 1C4",
+          country: CountryExtended::CA,
+        })
+
+        begin
+          verifiedAddr = intlVerificationsApi.verifySingle(verificationData)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -224,12 +232,12 @@ post:
     - lang: CSharp
       source: |
         IntlVerificationWritable singleVerify = new IntlVerificationWritable(
-          null, 
-          "370 Water St", 
-          null, 
-          "Summerside", 
-          "Prince Edward Island", 
-          "C1N 1C4", 
+          null,
+          "370 Water St",
+          null,
+          "Summerside",
+          "Prince Edward Island",
+          "C1N 1C4",
           CountryExtended.CA
         );
 

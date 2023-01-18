@@ -56,7 +56,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.letters.list(limit: 2)
+        lettersApi = LettersApi.new(config)
+
+        begin
+          letters = lettersApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -138,6 +144,17 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        LetterList = apiClient.LettersApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: letter_create
@@ -196,13 +213,15 @@ post:
             spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
-          custom_envelope:
+          custom_envelope: null
+          use_type: marketing
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
             width: "2"
             top: "2"
             right: "2"
+            pages: "1-2,4-5"
 
       application/x-www-form-urlencoded:
         schema:
@@ -244,12 +263,14 @@ post:
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
+          use_type: marketing
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
             width: "2"
             bottom: "2"
             right: "2"
+            pages: "1,4"
         encoding:
           to:
             style: deepObject
@@ -304,12 +325,14 @@ post:
           send_date: "2017-11-01T00:00:00.000Z"
           extra_service: registered
           custom_envelope:
+          use_type: marketing
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
             width: "2"
             bottom: "2"
             left: "2"
+            pages: "1,3-5"
 
   responses:
     "200":
@@ -339,7 +362,8 @@ post:
           -d 'qr_code[redirect_url]=https://www.lob.com' \
           -d 'qr_code[width]=2' \
           -d 'qr_code[bottom]=2' \
-          -d 'qr_code[left]=2'
+          -d 'qr_code[left]=2' \
+          -d 'qr_code[pages]=3,4-5'
       label: CURL
     - lang: Typescript
       source: |
@@ -356,12 +380,14 @@ post:
           color: true,
           extra_service: LetterEditableExtraServiceEnum.Certified,
           file: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/us_letter_1pg.pdf',
+          use_type: 'marketing',
           qr_code : {
             position: 'relative',
             redirect_url: 'https://www.lob.com',
             width: '2',
             bottom: '2',
-            left: '2'
+            left: '2',
+            pages: '2,5'
           }
         });
 
@@ -390,12 +416,14 @@ post:
           },
           color: true,
           cards: ['card_c51ae96f5cebf3e'],
+          use_type: 'marketing',
           qr_code : {
             position: 'relative',
             redirect_url: 'https://www.lob.com',
             width: '2',
             bottom: '2',
-            left: '2'
+            left: '2',
+            pages: '2,4-5'
           }
         }, function (err, res) {
           console.log(err, res);
@@ -403,31 +431,35 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.letters.create(
-          description: 'Demo Letter',
-          to: {
-            name: 'Harry Zhang',
-            address_line1: '210 King St',
-            address_line2: '# 6100',
-            address_city: 'San Francisco',
-            address_state: 'CA',
-            address_zip: '94107'
-          },
-          from: 'adr_210a8d4b0b76d77b',
-          file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
+        letterCreate = LetterEditable.new({
+          description: "Demo Letter",
+          from: "adr_210a8d4b0b76d77b",
+          file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",
+          color: "true",
+          to: AddressEditable.new({
+            name: "Harry Zhang",
+            address_line1: "210 King St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          }),
           merge_variables: {
-            name: 'Harry'
+            name: "Harry"
           },
-          color: true,
-          cards: ['card_c51ae96f5cebf3e'],
-          qr_code : {
-            position: 'relative',
-            redirect_url: 'https://www.lob.com',
-            width: '2',
-            bottom: '2',
-            left: '2'
-          }
-        )
+          cards: [
+            "card_c51ae96f5cebf3e",
+          ],
+          use_type: "marketing"
+        });
+
+        letterApi = LettersApi.new(config)
+
+        begin
+          createdLetter = letterApi.create(letterCreate)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -450,12 +482,14 @@ post:
           cards = [
             "card_c51ae96f5cebf3e",
           ],
+          use_type: "marketing",
           qr_code = {
-            'position' : 'relative',
-            'redirect_url' : 'https://www.lob.com',
-            'width' : '2',
-            'bottom' : '2',
-            'left' : '2'
+            "position" : "relative",
+            "redirect_url" : "https://www.lob.com",
+            "width" : "2",
+            "bottom" : "2",
+            "left" : "2",
+            "pages" : "1,3"
           }
         )
 
@@ -487,11 +521,14 @@ post:
             "width" => "2",
             "bottom" => "2",
             "left" => "2",
+            "pages" => "1,3,5",
           )
         );
 
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
+
+        $use_type = "marketing";
 
         $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new GuzzleHttp\Client());
         $letter_editable = new OpenAPI\Client\Model\LetterEditable(
@@ -506,6 +543,7 @@ post:
               "card_c51ae96f5cebf3e",
               "card_thingy",
             ),
+            "use_type" => $use_type;
             "qr_code"   => $qr_code,
           )
         );
@@ -536,6 +574,7 @@ post:
         qrCode.setWidth("2");
         qrCode.setLeft("2");
         qrCode.setBottom("2");
+        qrCode.setPages("1,3,5");
 
         List<String> cards = new ArrayList<String>();
         cards.add("card_c51ae96f5cebf3e");
@@ -550,6 +589,7 @@ post:
           letterEditable.setTo(to);
           letterEditable.setMergeVariables(merge_variables);
           letterEditable.setCards(cards);
+          letterEditable.setUseType("operational");
           letterEditable.setQRCode(qrCode);
 
           Letter result = apiInstance.create(letterEditable, null);
@@ -576,12 +616,14 @@ post:
           },
           color: true,
           cards: ['card_c51ae96f5cebf3e'],
+          use_type: 'marketing',
           qr_code: %{
             position: 'relative',
             redirect_url: 'https://www.lob.com',
             width: '2',
             bottom: '2',
-            left: '2'
+            left: '2',
+            pages: '1-2,5'
           }
         })
       label: ELIXIR
@@ -603,12 +645,15 @@ post:
           "Harry Zhang" // name
         );
 
+        UseType usetype = new UseType("marketing");
+
         QRCode qrCode = new QRCode(
           "relative",  //position,
           "https://www.lob.com", //redirect_url
           "2", //width
           "2", //left
           "2", //bottom
+          "1-2,5", //pages
         );
 
         List<String> cards = new List<String>();
@@ -631,6 +676,7 @@ post:
           "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>",  // file
           default(LetterEditable.ExtraServiceEnum?),  // extraService
           cards, // cards
+          usetype,
           qrCode
         );
 
@@ -640,3 +686,34 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var to = *lob.NewAddressEditable()
+        to.SetAddressLine1("210 King St")
+        to.SetAddressLine2("# 6100")
+        to.SetAddressCity("San Francisco")
+        to.SetAddressState("CA")
+        to.SetAddressZip("94107")
+        to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+        to.SetDescription("")
+        to.SetName("Harry Zhang")
+
+        var letterCreate = *lob.NewLetterEditable()
+        letterCreate.SetDescription("Demo Letter")
+        letterCreate.SetFrom("adr_210a8d4b0b76d77b")
+        letterCreate.SetFile("<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>")
+        letterCreate.SetColor("true")
+        letterCreate.SetTo(to)
+
+
+        createdletter, _, err := apiClient.LettersApi.Create(context).LetterEditable(letterCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

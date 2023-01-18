@@ -10,10 +10,11 @@ allOf:
       - from
       - file
       - color
+      - use_type
 
     properties:
       file:
-        $ref: "../attributes/file.yml"
+        $ref: "../attributes/ltr_file.yml"
 
       extra_service:
         $ref: "../attributes/extra_service.yml"
@@ -62,3 +63,6 @@ allOf:
 
       qr_code:
         $ref: "../../../shared/models/qr_code.yml"
+
+      use_type:
+        $ref: "../attributes/ltr_use_type.yml"

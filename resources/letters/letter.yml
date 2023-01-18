@@ -49,7 +49,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.letters.find("ltr_4868c3b754655f90")
+        letterApi = LettersApi.new(config)
+
+        begin
+          retrievedLetter = letterApi.get("ltr_4868c3b754655f90")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -94,6 +100,19 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedLetter, _, err := apiClient.LettersApi.Get(context,"ltr_4868c3b754655f90").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 delete:
   operationId: letter_cancel
@@ -142,7 +161,13 @@ delete:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.letters.destroy("ltr_4868c3b754655f90")
+        letterApi = LettersApi.new(config)
+
+        begin
+          deletedLetter = letterApi.cancel("ltr_4868c3b754655f90")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -187,3 +212,16 @@ delete:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        deletedLetter, _, err := apiClient.LettersApi.Cancel(context, "ltr_4868c3b754655f90").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

@@ -71,6 +71,29 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardApi = CardsApi.new(config)
+
+        begin
+          retrievedCard = cardApi.get("card_7a6d73c5c8457fc")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedCard, _, err := apiClient.CardsApi.Get(context,"card_7a6d73c5c8457fc").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: card_update
@@ -174,6 +197,40 @@ post:
         except ApiException as e:
           print(e)
       label: PYTHON
+    - lang: Ruby
+      source: |
+        cardUpdatable = CardUpdatable.new({
+          description: "Awesome card",
+          auto_reorder: "true",
+          reorder_quantity: 10000,
+        })
+
+        cardApi = CardsApi.new(config)
+
+        begin
+          updatedCard = cardApi.update("card_6afffd19045076c", cardUpdatable)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        cardEditable = *lob.NewCardEditable("https://s3-us-west-2.amazonaws.com/public.lob.com/assets/card_horizontal.pdf()")
+        createdCard, _, _ := apiClient.CardsApi.Create(context).CardEditable(suite.cardEditable).Execute()
+        var updatedCard = *lob.NewCardUpdatable()
+        updatedCard.SetDescription("Card was updated")
+
+        resp, _, err := suite.apiClient.CardsApi.Update(context, createdCard.Id).CardUpdatable(updatedCard).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 delete:
   operationId: card_delete
@@ -238,3 +295,26 @@ delete:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardApi = CardsApi.new(config)
+
+        begin
+          deletedCard = cardApi.delete("card_6afffd19045076c")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        deletedCard, _, err := apiClient.CardsApi.Delete(context, "card_6afffd19045076c").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

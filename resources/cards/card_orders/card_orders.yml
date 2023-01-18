@@ -73,6 +73,29 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardOrderApi = CardOrdersApi.new(config)
+
+        begin
+          retrievedCardOrderList = cardOrderApi.get("card_6afffd19045076c", { limit: 2, offset: 1 })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedCardOrderList, _, err := apiClient.CardOrdersApi.Get(context, "card_6afffd19045076c").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: card_order_create
@@ -175,3 +198,36 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Ruby
+      source: |
+        cardOrderCreate = CardOrderEditable.new({
+          quantity: 10000,
+        });
+
+        cardOrderApi = CardOrdersApi.new(config)
+
+        begin
+          createdCardOrder = cardOrderApi.create("card_6afffd19045076c", cardOrderCreate)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+
+        var cardOrderCreate = *lob.NewCardOrderEditable()
+        cardOrderCreate.SetQuantity("10000")
+
+
+
+        createdcardOrder, _, err := apiClient.CardOrdersApi.Create(context, "card_6afffd19045076c").CardOrderEditable(cardOrderCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

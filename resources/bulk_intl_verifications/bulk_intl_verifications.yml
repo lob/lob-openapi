@@ -115,18 +115,36 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.bulk_intl_verifications.verify(
+        intlVerificationsApi = IntlVerificationsApi.new(config)
+
+        verificationData0 = MultipleComponentsIntl.new({
+          primary_line: "35 Tower Hill",
+          city: "London",
+          postal_code: "EC3N 4DR",
+          country: "GB",
+        })
+
+        verificationData1 = MultipleComponentsIntl.new({
+          primary_line: "370 Water St",
+          city: "Summerside",
+          state: "Prince Edward Island",
+          postal_code: "C1N 1C4",
+          country: "CA",
+        })
+
+
+        addressList = IntlVerificationsPayload.new({
           addresses: [
-            {
-              primary_line: '370 Water St',
-              secondary_line: '',
-              city: 'Summerside',
-              state: 'Prince Edward Island',
-              postal_code: 'C1N 1C4',
-              country: 'CA'
-            }
-          ]
-        )
+            verificationData0,
+            verificationData1,
+          ],
+        })
+
+        begin
+          bulkVerifiedAddrs = intlVerificationsApi.verifyBulk(addressList)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -223,24 +241,24 @@ post:
       source: |
         List<MultipleComponentsIntl> addresses = new List<MultipleComponentsIntl>();
         MultipleComponentsIntl bulkAddress0 = new MultipleComponentsIntl(
-          null,  // recipient 
-          "35 Tower Hill",  // primaryLine 
-          null,  // secondaryLine 
-          "London",  // city 
-          null,  // state 
-          "EC3N 4DR",  // postalCode 
-          CountryExtended.GB // country 
+          null,  // recipient
+          "35 Tower Hill",  // primaryLine
+          null,  // secondaryLine
+          "London",  // city
+          null,  // state
+          "EC3N 4DR",  // postalCode
+          CountryExtended.GB // country
         );
         addresses.Add(bulkAddress0);
 
         MultipleComponentsIntl bulkAddress1 = new MultipleComponentsIntl(
-          null,  // recipient 
-          "370 Water St",  // primaryLine 
-          null,  // secondaryLine 
-          "Summerside",  // city 
-          "Prince Edward Island",  // state 
-          "C1N 1C4",  // postalCode 
-          CountryExtended.CA // country 
+          null,  // recipient
+          "370 Water St",  // primaryLine
+          null,  // secondaryLine
+          "Summerside",  // city
+          "Prince Edward Island",  // state
+          "C1N 1C4",  // postalCode
+          CountryExtended.CA // country
         );
         addresses.Add(bulkAddress1);
 

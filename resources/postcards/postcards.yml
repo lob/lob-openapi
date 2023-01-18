@@ -58,7 +58,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.postcards.list(limit: 2)
+        postcardsApi = PostcardsApi.new(config)
+
+        begin
+          postcards = postcardsApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -142,6 +148,17 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        PostcardList = apiClient.PostcardsApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: postcard_create
@@ -199,12 +216,14 @@ post:
           metadata:
             spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
+          use_type: marketing
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
-            width: "2"
-            top: "2"
-            right: "2"
+            width: "2.5"
+            top: "2.5"
+            right: "2.5"
+            pages: "front,back"
 
       application/x-www-form-urlencoded:
         schema:
@@ -244,12 +263,14 @@ post:
           metadata:
             spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
+          use_type: marketing
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
-            width: "2"
-            bottom: "2"
-            right: "2"
+            width: "2.5"
+            bottom: "2.5"
+            right: "2.5"
+            pages: "back"
         encoding:
           to:
             style: deepObject
@@ -302,12 +323,14 @@ post:
           metadata:
             spiffy: "true"
           send_date: "2017-11-01T00:00:00.000Z"
+          use_type: marketing
           qr_code:
             position: "relative"
             redirect_url: "https://www.lob.com"
-            width: "2"
-            bottom: "2"
-            left: "2"
+            width: "2.5"
+            bottom: "2.5"
+            left: "2.5"
+            pages: "front"
 
   responses:
     "200":
@@ -332,11 +355,13 @@ post:
           --data-urlencode 'front=<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>' \
           --data-urlencode 'back=<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>' \
           -d 'merge_variables[name]=Harry' \
+          -d 'use_type=marketing' \
           -d 'qr_code[position]=relative' \
           -d 'qr_code[redirect_url]=https://www.lob.com' \
-          -d 'qr_code[width]=2' \
-          -d 'qr_code[bottom]=2' \
-          -d 'qr_code[left]=2'
+          -d 'qr_code[width]=2.5' \
+          -d 'qr_code[bottom]=2.5' \
+          -d 'qr_code[left]=2.5' \
+          -d 'qr_code[pages]=front,back'
       label: CURL
     - lang: Typescript
       source: |
@@ -353,12 +378,14 @@ post:
         front:
         'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
         back: 'https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/4x6_pc_template.pdf',
+        use_type: 'marketing',
         qr_code : {
           position: 'relative',
           redirect_url: 'https://www.lob.com',
-          width: '2',
-          bottom: '2',
-          left: '2'
+          width: '2.5',
+          bottom: '2.5',
+          left: '2.5',
+          pages: 'front'
         }
         });
 
@@ -386,12 +413,14 @@ post:
           merge_variables: {
             name: 'Harry'
           },
+          use_type: 'marketing'
           qr_code : {
             position: 'relative',
             redirect_url: 'https://www.lob.com',
-            width: '2',
-            bottom: '2',
-            left: '2'
+            width: '2.5',
+            bottom: '2.5',
+            left: '2.5',
+            pages: 'back'
           }
         }, function (err, res) {
           console.log(err, res);
@@ -399,30 +428,31 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.postcards.create(
-          description: 'Demo Postcard job',
-          to: {
-            name: 'Harry Zhang',
-            address_line1: '210 King St',
-            address_line2: '# 6100',
-            address_city: 'San Francisco',
-            address_state: 'CA',
-            address_zip: '94107'
-          },
-          from: 'adr_210a8d4b0b76d77b',
-          front: '<html style="padding: 1in; font-size: 50;">Front HTML for {{name}}</html>',
-          back: '<html style="padding: 1in; font-size: 20;">Back HTML for {{name}}</html>',
+        postcardCreate = PostcardEditable.new({
+          description: "Demo Postcard job",
+          from: "adr_210a8d4b0b76d77b",
+          front: "<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>",
+          back: "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
+          to: AddressEditable.new({
+            name: "Harry Zhang",
+            address_line1: "210 King St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          }),
           merge_variables: {
-            name: 'Harry'
+            name: "Harry"
           },
-          qr_code : {
-            position: 'relative',
-            redirect_url: 'https://www.lob.com',
-            width: '2',
-            bottom: '2',
-            left: '2'
-          }
-        )
+        });
+
+        postcardApi = PostcardsApi.new(config)
+
+        begin
+          createdPostcard = postcardApi.create(postcardCreate)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -442,12 +472,14 @@ post:
           merge_variables = MergeVariables(
             name = "Harry",
           ),
+          use_type = "marketing",
           qr_code = {
-            'position' : 'relative',
-            'redirect_url' : 'https://www.lob.com',
-            'width' : '2',
-            'bottom' : '2',
-            'left' : '2'
+            "position" : "relative",
+            "redirect_url" : "https://www.lob.com",
+            "width" : "2.5",
+            "bottom" : "2.5",
+            "left" : "2.5",
+            "pages" : "front"
           }
         )
 
@@ -474,6 +506,7 @@ post:
 
         $merge_variables = new stdClass;
         $merge_variables->name = "Harry";
+        $use_type = "marketing";
 
         $qr_code = new OpenAPI\Client\Model\QRCode(
           array(
@@ -482,6 +515,7 @@ post:
             "width" => "2",
             "bottom" => "2",
             "left" => "2",
+            "pages" => "front,back"
           )
         );
 
@@ -494,6 +528,7 @@ post:
             "back"     => "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",
             "to"     => $to,
             "merge_variables"   => $merge_variables,
+            "use_type" => $use_type,
             "qr_code"   => $qr_code,
           )
         );
@@ -524,6 +559,7 @@ post:
         qrCode.setWidth("2");
         qrCode.setLeft("2");
         qrCode.setBottom("2");
+        qrCode.setPages("back");
 
         try {
           PostcardEditable postcardEditable = new PostcardEditable();
@@ -533,6 +569,7 @@ post:
           postcardEditable.setBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>");
           postcardEditable.setTo(to);
           postcardEditable.setMergeVariables(merge_variables);
+          postcardEditable.setUseType("operational");
           postcardEditable.setQRCode(qrCode);
 
           Postcard result = apiInstance.create(postcardEditable, null);
@@ -558,12 +595,14 @@ post:
           merge_variables: %{
             name: 'Harry'
           },
+          use_type: 'marketing'
           qr_code: %{
             position: 'relative',
             redirect_url: 'https://www.lob.com',
             width: '2',
             bottom: '2',
-            left: '2'
+            left: '2',
+            pages: 'front,back'
           }
         })
       label: ELIXIR
@@ -585,12 +624,15 @@ post:
           "Harry Zhang" // name
         );
 
+        UseType usetype = new UseType('marketing');
+
         QRCode qrCode = new QRCode(
           "relative",  //position,
           "https://www.lob.com", //redirect_url
           "2", //width
           "2", //left
           "2", //bottom
+          "front", //pages
         );
 
         PostcardEditable postcardEditable = new PostcardEditable(
@@ -604,6 +646,7 @@ post:
           default(DateTime),  // sendDate
           "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",  // front
           "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>", // back
+          usetype,
           qrCode
         );
 
@@ -613,3 +656,34 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var to = *lob.NewAddressEditable()
+        to.SetAddressLine1("210 King St")
+        to.SetAddressLine2("# 6100")
+        to.SetAddressCity("San Francisco")
+        to.SetAddressState("CA")
+        to.SetAddressZip("94107")
+        to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+        to.SetDescription("")
+        to.SetName("Harry Zhang")
+
+        var postcardCreate = *lob.NewPostcardEditable()
+        postcardCreate.SetDescription("Demo Postcard job")
+        postcardCreate.SetFrom("adr_210a8d4b0b76d77b")
+        postcardCreate.SetFront("<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>")
+        postcardCreate.SetBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>")
+        postcardCreate.SetTo(to)
+
+
+        createdpostcard, _, err := apiClient.PostcardsApi.Create(context).PostcardEditable(postcardCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

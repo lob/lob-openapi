@@ -47,7 +47,13 @@ get:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.addresses.find("adr_fa85158b26c3eb7c")
+        addressApi = AddressesApi.new(config)
+
+        begin
+          retrievedAddress = addressApi.get("adr_fa85158b26c3eb7c")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -92,6 +98,19 @@ get:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedAddress, _, err := apiClient.AddressesApi.Get(context,"adr_fa85158b26c3eb7c").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
 
 delete:
   operationId: address_delete
@@ -134,7 +153,13 @@ delete:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.addresses.destroy("adr_43769b47aed248c2")
+        addressApi = AddressesApi.new(config)
+
+        begin
+          deletedAddress = addressApi.delete("adr_43769b47aed248c2")
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -179,3 +204,16 @@ delete:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        deletedAddress, _, err := apiClient.AddressesApi.Delete(context, "adr_43769b47aed248c2").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

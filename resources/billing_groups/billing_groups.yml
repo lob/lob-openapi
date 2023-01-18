@@ -54,6 +54,27 @@ get:
       source: |
         curl -X GET "https://api.lob.com/v1/billing_groups?limit=2" \
         -u <YOUR API KEY>:
+    - lang: Ruby
+      source: |
+        billingGroupsApi = BillingGroupsApi.new(config)
+
+        begin
+          billingGroups = billingGroupsApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        BillingGroupList = apiClient.BillingGroupsApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
 
 post:
   operationId: billing_group_create
@@ -104,3 +125,38 @@ post:
         -u <YOUR API KEY>: \
         -d "name=Marketing Department" \
         -d "description=Usage group used for the Marketing Department's resource sends"
+    - lang: Ruby
+      source: |
+        bgCreate = BillingGroupEditable.new({
+          description: "Usage group used for the Marketing Department's resource sends",
+          name: "Marketing Department",
+        });
+
+        bgApi = BillingGroupsApi.new(config)
+
+        begin
+          createdBillingGroup = bgApi.create(bgCreate)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+
+        var bgCreate = *lob.NewBillingGroupEditable()
+        bgCreate.SetDescription("Usage group used for the Marketing Department's resource sends")
+        bgCreate.SetName("Marketing Department")
+
+
+
+        createdbg, _, err := apiClient.BillingGroupsApi.Create(context).BillingGroupEditable(bgCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

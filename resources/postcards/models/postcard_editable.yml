@@ -9,16 +9,20 @@ allOf:
       - to
       - front
       - back
+      - use_type
 
     properties:
       front:
-        $ref: "../attributes/front.yml"
+        $ref: "../attributes/psc_front.yml"
 
       back:
-        $ref: "../attributes/back.yml"
+        $ref: "../attributes/psc_back.yml"
 
       billing_group_id:
         $ref: "../../../shared/attributes/billing_group_id.yml"
 
       qr_code:
         $ref: "../../../shared/models/qr_code.yml"
+
+      use_type:
+        $ref: "../attributes/psc_use_type.yml"

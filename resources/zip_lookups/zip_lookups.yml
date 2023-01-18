@@ -66,9 +66,17 @@ post:
       label: NODE
     - lang: Ruby
       source: |
-        @lob.us_zip_lookups.lookup(
+        zipLookupsApi = ZipLookupsApi.new(config)
+
+        zipRequest = ZipEditable.new({
           zip_code: "94107"
-        )
+        })
+
+        begin
+          zipLookup = zipLookupsApi.lookup(zipRequest)
+        rescue => err
+          p err.message
+        end
       label: RUBY
     - lang: Python
       source: |
@@ -128,3 +136,19 @@ post:
           Console.WriteLine(e.ToString());
         }
       label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(context, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var zipEditable = *lob.NewZipEditable()
+        zipEditable.SetZipCode("94107")
+
+        resp, _, err := apiClient.ZipLookupsApi.Lookup(context).ZipEditable(zipEditable).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

@@ -1,0 +1,16 @@
+type: object
+required:
+  - redirect_link
+properties:
+  redirect_link:
+    $ref: "../attributes/redirect_link.yml"
+  domain:
+    description: The registered domain to be used for the short URL.
+    type: string
+  slug:
+    description: The unique path for the shortened URL, if empty a unique path will be used.
+    type: string
+  metadata_tag:
+    $ref: "../../../shared/models/metadata.yml"
+  billing_group_id:
+    $ref: "../../../shared/attributes/billing_group_id.yml"

@@ -1,0 +1,139 @@
+get:
+  operationId: domain_get
+  summary: Get
+  description: >-
+    Returns details of a single domain.
+
+  tags:
+    - URL Shortener
+
+  parameters:
+    - in: query
+      name: id
+      description: Unique identifier for a domain.
+      schema:
+        type: string
+
+  responses:
+    "200":
+      description: Returns a shortened link.
+      content:
+        application/json:
+          schema:
+            $ref: responses/domains.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/domains/<domain_id>" \
+          -u <YOUR_LIVE_API_KEY>:
+
+post:
+  operationId: domain_create
+  summary: Create Domain
+
+  description: >-
+    Add a new custom domain that can be used to create custom links.
+
+  tags:
+    - URL Shortener
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/domain.yml"
+        examples:
+          basic:
+            value:
+              domain: "lob.st"
+          test:
+            value:
+              domain: "lob.st"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: models/domain.yml
+        examples:
+          basic:
+            value:
+              domain: "lob.st"
+          test:
+            value:
+              domain: "lob.st"
+
+      multipart/form-data:
+        schema:
+          $ref: models/domain.yml
+        examples:
+          basic:
+            value:
+              domain: "lob.st"
+          test:
+            value:
+              domain: "lob.st"
+
+  responses:
+    "200":
+      description: Returns a shortened link.
+      content:
+        application/json:
+          schema:
+            $ref: responses/domains.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+          example:
+            error:
+              code: invalid
+              message: domain is required
+              status_code: 422
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/domains \
+          -u <YOUR_LIVE_API_KEY>: \
+          -d "domain=lob.st"
+      label: CURL
+
+delete:
+  operationId: domain_delete
+  summary: Delete a Domain
+
+  description: >-
+    Delete a registered domain.
+
+  tags:
+    - URL Shortener
+
+  parameters:
+    - in: query
+      name: id
+      description: Unique domain identifier received during registration of the domain.
+      schema:
+        type: string
+
+  responses:
+    "200":
+      description: Returns the deleted link object.
+      content:
+        application/json:
+          schema:
+            $ref: responses/domain.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml

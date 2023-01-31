@@ -1518,6 +1518,25 @@ tags:
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
       top</a></div>
+  - name: URL Shortener
+    description: >
+      Lob's URL shortener allows you to generate unique short links, either with
+      lob's domain or your own custom domains. Each custom link enables Lob to
+      track mail individually and provide customers the relevant tracking data.
+
+
+      Webhooks can be used to integrate Lob's URL Shortener scans into your omni
+      channel marketing stratergy. See the <a href="#tag/Webhooks">Webhooks</a>
+      section of our documentation to learn how to enable the `letter.viewed`
+      and `postcard.viewed` event notifications for your mail pieces.
+
+
+      Furthermore, you can use our Retrieve endpoints to track the impact and
+      engagement rate of links created. 
+
+
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
+      top</a></div>
   - name: Rate Limiting
     x-traitTag: true
     description: >-
@@ -3417,6 +3436,7 @@ x-tagGroups:
       - Cards
       - Card Orders
       - QR Codes
+      - URL Shortener
   - name: Appendix
     tags:
       - Beta Program
@@ -9085,6 +9105,84 @@ components:
               description: Detailed scan information associated with each mail piece.
               items:
                 $ref: '#/components/schemas/scans'
+    redirect_link:
+      type: string
+      description: The original target URL.
+    link:
+      type: object
+      properties:
+        id:
+          description: Unique identifier prefixed with `lnk_`.
+          type: string
+        campaign_id:
+          $ref: '#/components/schemas/cmp_id'
+        domain_id:
+          description: A unique identifier for the registered domain.
+          type: string
+        resource_id:
+          description: The unique ID of the associated resource where the link was used.
+          type: string
+        redirect_link:
+          $ref: '#/components/schemas/redirect_link'
+        short_link:
+          description: The shortened URL for the associated original URL.
+          type: string
+        metadata_tag:
+          $ref: '#/components/schemas/metadata'
+        billing_group_id:
+          $ref: '#/components/schemas/billing_group_id'
+    links:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: The number of results in the current response.
+        limit:
+          type: integer
+          description: How many results to return.
+        offset:
+          type: integer
+          description: >-
+            An integer that designates the offset at which to begin returning
+            results. Defaults to 0.
+        data:
+          type: array
+          description: |
+            list of links
+          items:
+            $ref: '#/components/schemas/link'
+    domain:
+      type: object
+      properties:
+        id:
+          description: Unique identifier for a domain.
+          type: string
+        domain:
+          description: The registered domain(hostname).
+          type: string
+        account_id:
+          description: >-
+            Unique identifier associated with the account the domain is
+            registered for.
+          type: string
+    domains:
+      type: object
+      properties:
+        data:
+          type: array
+          description: list of domains
+          items:
+            $ref: '#/components/schemas/domain'
+    domain-2:
+      type: string
+      description: The registered domain(hostname).
+    domain-3:
+      type: object
+      required:
+        - domain
+      properties:
+        allOf:
+          $ref: '#/components/schemas/domain-2'
     sfm_id:
       type: string
       description: Unique identifier prefixed with `sfm_`.
@@ -20896,6 +20994,176 @@ paths:
             "https://api.lob.com/v1/qr_code_analytics?limit=2&scanned=true" \
 
             -u <YOUR API KEY>:
+  /links:
+    get:
+      operationId: links_list
+      summary: List
+      description: >-
+        Returns a list of shortened links. The links are returned sorted by 
+        creation date, with the most recently created appearing first.
+      tags:
+        - URL Shortener
+      parameters:
+        - $ref: '#/components/parameters/limit'
+        - $ref: '#/components/parameters/offset'
+        - $ref: '#/components/parameters/include'
+        - $ref: '#/components/parameters/date_created'
+        - $ref: '#/components/parameters/metadata'
+        - in: query
+          name: campaign_id
+          description: >-
+            Filter the links generated for a particular campaign using its
+            campaign id.
+          schema:
+            $ref: '#/components/schemas/cmp_id'
+        - in: query
+          name: clicked
+          description: Retrieve the list of links that have been opened.
+          schema:
+            type: boolean
+        - in: query
+          name: billing_group_id
+          description: Filter the links generated for a particular billing group id.
+          schema:
+            $ref: '#/components/schemas/billing_group_id'
+      responses:
+        '200':
+          description: Returns the deleted link object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/links'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X GET "https://api.lob.com/v1/links/?limit=2" \
+              -u <YOUR_LIVE_API_KEY>:
+  /domains:
+    get:
+      operationId: domain_get
+      summary: Get
+      description: Returns details of a single domain.
+      tags:
+        - URL Shortener
+      parameters:
+        - in: query
+          name: id
+          description: Unique identifier for a domain.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a shortened link.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/domains'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X GET "https://api.lob.com/v1/domains/<domain_id>" \
+              -u <YOUR_LIVE_API_KEY>:
+    post:
+      operationId: domain_create
+      summary: Create Domain
+      description: Add a new custom domain that can be used to create custom links.
+      tags:
+        - URL Shortener
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/domain-3'
+            examples:
+              basic:
+                value:
+                  domain: lob.st
+              test:
+                value:
+                  domain: lob.st
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/domain-3'
+            examples:
+              basic:
+                value:
+                  domain: lob.st
+              test:
+                value:
+                  domain: lob.st
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/domain-3'
+            examples:
+              basic:
+                value:
+                  domain: lob.st
+              test:
+                value:
+                  domain: lob.st
+      responses:
+        '200':
+          description: Returns a shortened link.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/domains'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+              example:
+                error:
+                  code: invalid
+                  message: domain is required
+                  status_code: 422
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/domains \
+              -u <YOUR_LIVE_API_KEY>: \
+              -d "domain=lob.st"
+          label: CURL
+    delete:
+      operationId: domain_delete
+      summary: Delete a Domain
+      description: Delete a registered domain.
+      tags:
+        - URL Shortener
+      parameters:
+        - in: query
+          name: id
+          description: Unique domain identifier received during registration of the domain.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns the deleted link object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/domain'
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /self_mailers/{sfm_id}:
     parameters:
       - in: path

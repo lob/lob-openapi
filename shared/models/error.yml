@@ -42,6 +42,7 @@ properties:
           - address_length_exceeds_limit
           - bank_account_already_verified
           - bank_error
+          - billing_address_required
           - custom_envelope_inventory_depleted
           - deleted_bank_account
           - failed_deliverability_strictness
@@ -62,6 +63,7 @@ properties:
           - invalid_international_feature
           - invalid_perforation_return_envelope
           - invalid_template_html
+          - mail_use_type_can_not_be_null
           - merge_variable_required
           - merge_variable_whitespace
           - payment_method_unverified
@@ -94,6 +96,7 @@ properties:
           * `address_length_exceeds_limit` - 422: the sum of to.address_line1 and to.address_line2 cannot surpass 50 characters.
           * `bank_account_already_verified` - 422: the bank account has already been verified.
           * `bank_error` - 422: there's an issue with the bank account.
+          * `billing_address_required` - 403: in order to create a live mail piece, your account needs to set up a billing address.
           * `custom_envelope_inventory_depleted` - 422: custom envelope inventory is depleted, and more will need to be ordered.
           * `deleted_bank_account` - 404: checks cannot be created with a deleted bank account.
           * `failed_deliverability_strictness` - 422: the `to` address doesn't meet strictness requirements. See <a href="https://dashboard.lob.com/#/settings/account" target="_blank">Account Settings</a> to configure strictness.
@@ -114,6 +117,7 @@ properties:
           * `invalid_international_feature` - 422: the specified product cannot be sent to the destination.
           * `invalid_perforation_return_envelope` - 422: both `return_envelope` and `perforation` must be used together.
           * `invalid_template_html` - 422: the provided HTML is invalid.
+          * `mail_use_type_can_not_be_null` - 422: use_type must be one of "marketing" or "operational". Alternatively, an admin can set the account default use type in Account Settings.
           * `merge_variable_required` - 422: a required merge variable is missing.
           * `merge_variable_whitespace` - 422: merge variable names cannot contain whitespace.
           * `payment_method_unverified` - 401: you must have a verified bank account or credit card to submit live requests.

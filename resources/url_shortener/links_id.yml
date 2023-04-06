@@ -1,26 +1,27 @@
+parameters:
+  - in: path
+    name: link_id
+    required: true
+    description: Unique identifier for a link.
+    schema:
+      type: string
+
 get:
-  operationId: domain_get
-  summary: Get
+  operationId: links_get
+  summary: Retrieve a link
   description: >-
-    Returns details of a single domain.
+    Retrievs a single shortened link.
 
   tags:
     - URL Shortener
 
-  parameters:
-    - in: query
-      name: id
-      description: Unique identifier for a domain.
-      schema:
-        type: string
-
   responses:
     "200":
-      description: Returns a shortened link.
+      description: Returns a single link
       content:
         application/json:
           schema:
-            $ref: responses/domains.yml
+            $ref: responses/link.yml
     default:
       description: Error
       content:
@@ -31,15 +32,16 @@ get:
   x-codeSamples:
     - lang: Shell
       source: |
-        curl -X GET "https://api.lob.com/v1/domains/<domain_id>" \
+        curl -X GET "https://api.lob.com/v1/links/<link_id>" \
           -u <YOUR_LIVE_API_KEY>:
+      label: CURL
 
-post:
-  operationId: domain_create
-  summary: Create Domain
+patch:
+  operationId: link_update
+  summary: Update a Link
 
   description: >-
-    Add a new custom domain that can be used to create custom links.
+    Update any of the properties of a short link.
 
   tags:
     - URL Shortener
@@ -49,44 +51,44 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/domain.yml"
+          $ref: models/link.yml
         examples:
           basic:
             value:
-              domain: "lob.st"
+              resource_id: "ltr_133"
           test:
             value:
-              domain: "lob.st"
+              redirect_link: "ltr_133"
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: models/domain.yml
+          $ref: models/link.yml
         examples:
           basic:
             value:
-              domain: "lob.st"
+              resource_id: "ltr_133"
           test:
             value:
-              domain: "lob.st"
+              resource_id: "ltr_133"
 
       multipart/form-data:
         schema:
-          $ref: models/domain.yml
+          $ref: models/link.yml
         examples:
           basic:
             value:
-              domain: "lob.st"
+              resource_id: "ltr_133"
           test:
             value:
-              domain: "lob.st"
+              resource_id: "ltr_133"
 
   responses:
     "200":
-      description: Returns a shortened link.
+      description: Returns the updated link
       content:
         application/json:
           schema:
-            $ref: responses/domains.yml
+            $ref: responses/link.yml
     default:
       description: Error
       content:
@@ -96,41 +98,34 @@ post:
           example:
             error:
               code: invalid
-              message: domain is required
+              message: redirect_link is required
               status_code: 422
 
   x-codeSamples:
     - lang: Shell
       source: |
-        curl https://api.lob.com/v1/domains \
+        curl https://api.lob.com/v1/links/<link_id> \
           -u <YOUR_LIVE_API_KEY>: \
-          -d "domain=lob.st"
+          -d "redirect_link=https://www.lob.com"
       label: CURL
 
 delete:
-  operationId: domain_delete
-  summary: Delete a Domain
+  operationId: links_delete
+  summary: Delete Link
 
   description: >-
-    Delete a registered domain.
+    Delete the short link.
 
   tags:
     - URL Shortener
 
-  parameters:
-    - in: query
-      name: id
-      description: Unique domain identifier received during registration of the domain.
-      schema:
-        type: string
-
   responses:
     "200":
-      description: Returns the deleted link object.
+      description: Returns the deleted short link object
       content:
         application/json:
           schema:
-            $ref: responses/domain.yml
+            $ref: responses/link.yml
     default:
       description: Error
       content:

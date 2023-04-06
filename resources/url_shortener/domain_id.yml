@@ -1,0 +1,60 @@
+parameters:
+  - in: path
+    name: domain_id
+    required: true
+    description: Unique identifier for a domain.
+    schema:
+      type: string
+
+get:
+  operationId: domain_get
+  summary: Retrieve a domain
+  description: >-
+    Retrieve details for a single domain.
+
+  tags:
+    - URL Shortener
+
+  responses:
+    "200":
+      description: Returns domain related details.
+      content:
+        application/json:
+          schema:
+            $ref: responses/domain.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/domains/{domain_id}" \
+          -u <YOUR_LIVE_API_KEY>:
+# to_do: Add more samples for other languages
+delete:
+  operationId: domain_delete
+  summary: Delete a Domain
+
+  description: >-
+    Delete a registered domain. This operation can only be performed if all associated links with the domain are deleted.
+
+  tags:
+    - URL Shortener
+
+  responses:
+    "200":
+      description: Returns the deleted link object.
+      content:
+        application/json:
+          schema:
+            $ref: responses/domain.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml

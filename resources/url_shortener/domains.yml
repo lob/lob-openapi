@@ -1,0 +1,31 @@
+parameters:
+  - in: path
+    name: domain_id
+    required: true
+    description: Unique identifier for a domain.
+    schema:
+      type: string
+
+delete:
+  operationId: domain_delete_links
+  summary: Delete all links for a domain
+
+  description: >-
+    Delete all associated links for a domain
+
+  tags:
+    - URL Shortener
+
+  responses:
+    "200":
+      description: Returns the deleted objects.
+      content:
+        application/json:
+          schema:
+            $ref: responses/domains.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml

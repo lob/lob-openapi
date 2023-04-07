@@ -13,7 +13,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "models/domain.yml"
+          $ref: "models/domains.yml"
         examples:
           basic:
             value:
@@ -24,7 +24,7 @@ post:
 
       application/x-www-form-urlencoded:
         schema:
-          $ref: models/domain.yml
+          $ref: models/domains.yml
         examples:
           basic:
             value:
@@ -35,7 +35,7 @@ post:
 
       multipart/form-data:
         schema:
-          $ref: models/domain.yml
+          $ref: models/domains.yml
         examples:
           basic:
             value:
@@ -50,7 +50,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: responses/domain.yml
+            $ref: responses/domain_response.yml
     default:
       description: Error
       content:
@@ -87,7 +87,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: responses/domains.yml
+            $ref: responses/domains_response.yml
     default:
       description: Error
       content:

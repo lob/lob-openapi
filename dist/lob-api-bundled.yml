@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.1
+  version: 1.19.3
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -459,6 +459,11 @@ tags:
           <td style="white-space: nowrap">There's an issue with the bank account.</td>
         </tr>
         <tr>
+          <td style="white-space: nowrap"><code>403</code></td>
+          <td style="white-space: nowrap">BILLING_ADDRESS_REQUIRED</td>
+          <td style="white-space: nowrap">In order to create a live mail piece, your account needs to set up a billing address.</td>
+        </tr>
+        <tr>
           <td style="white-space: nowrap"><code>422</code></td>
           <td style="white-space: nowrap">CUSTOM_ENVELOPE_INVENTORY_DEPLETED</td>
           <td style="white-space: nowrap">Custom envelope inventory is depleted, and more will need to be ordered.</td>
@@ -553,6 +558,11 @@ tags:
           <td style="white-space: nowrap"><code>422</code></td>
           <td style="white-space: nowrap">INVALID_TEMPLATE_HTML</td>
           <td style="white-space: nowrap">The provided HTML is invalid.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>422</code></td>
+          <td style="white-space: nowrap">MAIL_USE_TYPE_CAN_NOT_BE_NULL</td>
+          <td style="white-space: nowrap">`use_type` must be one of "marketing" or "operational". Alternatively, an admin can set the account default use type in Account Settings.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>422</code></td>
@@ -3724,6 +3734,7 @@ components:
                 - address_length_exceeds_limit
                 - bank_account_already_verified
                 - bank_error
+                - billing_address_required
                 - custom_envelope_inventory_depleted
                 - deleted_bank_account
                 - failed_deliverability_strictness
@@ -3744,6 +3755,7 @@ components:
                 - invalid_international_feature
                 - invalid_perforation_return_envelope
                 - invalid_template_html
+                - mail_use_type_can_not_be_null
                 - merge_variable_required
                 - merge_variable_whitespace
                 - payment_method_unverified
@@ -3807,6 +3819,9 @@ components:
 
                 * `bank_error` - 422: there's an issue with the bank account.
 
+                * `billing_address_required` - 403: in order to create a live
+                mail piece, your account needs to set up a billing address.
+
                 * `custom_envelope_inventory_depleted` - 422: custom envelope
                 inventory is depleted, and more will need to be ordered.
 
@@ -3864,6 +3879,10 @@ components:
                 `return_envelope` and `perforation` must be used together.
 
                 * `invalid_template_html` - 422: the provided HTML is invalid.
+
+                * `mail_use_type_can_not_be_null` - 422: use_type must be one of
+                "marketing" or "operational". Alternatively, an admin can set
+                the account default use type in Account Settings.
 
                 * `merge_variable_required` - 422: a required merge variable is
                 missing.

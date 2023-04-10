@@ -1,15 +1,18 @@
 # ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
-- [What is this project?](#what-is-this-project)
-- [Contributing](#contributing)
-- [Design](#design)
-- [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
-- [Readability](#readability)
-- [OAS v3.1 compatibility](#oas-v31-compatibility)
-- [Previewing changes](#previewing-changes)
-- [E2E Testing](#e2e-testing)
-- [Bundled spec](#bundled-spec)
-- [Postman Collection](#postman-collection)
+- [  Lob OpenAPI v3 Specification](#--lob-openapi-v3-specification)
+  - [What is this project?](#what-is-this-project)
+  - [Contributing](#contributing)
+  - [Design](#design)
+  - [OpenAPI Style Guide and linting](#openapi-style-guide-and-linting)
+  - [Readability](#readability)
+  - [OAS v3.1 compatibility](#oas-v31-compatibility)
+  - [Previewing changes](#previewing-changes)
+  - [Contributing to this repo](#contributing-to-this-repo)
+  - [Releasing a new version](#releasing-a-new-version)
+  - [E2E Testing](#e2e-testing)
+  - [Bundled spec](#bundled-spec)
+  - [Postman Collection](#postman-collection)
 
 ## What is this project?
 
@@ -106,6 +109,26 @@ When you try to commit your changes, a pre-commit hook with run. It will:
 2. Run tests
 
 If your tests fail, it is because your hook is looking for specific keys in your environment. In order to commit your changes and test on Github, you will need to pass `--no-verify` after your commit.
+
+## Releasing a new version
+
+When you are ready to release a new version of the docs:
+
+1. On a completely clean `main` branch, run `npm version patch|minor|major`
+   - Use `patch` when the change is fixing a typo or incorrect information
+   - Use `minor` when the change is adding a new feature or equivelant
+   - Use `major` when the change is a complete overhaul to the docs in some way (Very Rare)
+
+2. In `lob-api-public.yml` you will need to bump the version manually to match the current change. 
+
+3. Run `npm run bundle && npm run redoc && npm run pretty`
+
+4. Commit and push your changes 
+
+5. Go to `https://github.com/lob/lob-openapi` and wait for the test cases and everything to pass
+
+6. Once the build and tests have run successfully, create a new release and the automatic action will deploy the new release for you
+   - If you are not familiar with releasing in GitHub please read about them [here](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 
 ## E2E Testing
 

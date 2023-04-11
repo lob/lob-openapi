@@ -1,0 +1,143 @@
+get:
+  operationId: links_list
+  summary: Retrieve all shortened links
+  description: >-
+    Retrieves a list of shortened links. The list is sorted by 
+    creation date, with the most recently created appearing first.
+
+  tags:
+    - URL Shortener
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/offset.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - $ref: "../../shared/parameters/metadata.yml"
+    - in: query
+      name: campaign_id
+      description: Filter the links generated for a particular campaign using its campaign id.
+      schema:
+        $ref: "../campaigns/attributes/cmp_id.yml"
+    - in: query
+      name: clicked
+      description: Retrieve the list of links that have been opened.
+      schema:
+        type: boolean
+    - in: query
+      name: billing_group_id
+      description: Filter the links generated for a particular billing group id.
+      schema:
+        $ref: "../../shared/attributes/billing_group_id.yml"
+
+  responses:
+    "200":
+      description: Returns the deleted link object.
+      content:
+        application/json:
+          schema:
+            $ref: responses/links_response.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/links/?limit=2" \
+          -u <YOUR_LIVE_API_KEY>:
+      label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const links = await new LinksApi(config).list(2);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.links.list({limit: 2}, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        linksApi = LinksApi.new(config)
+
+        begin
+          links = linksApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = LinksApi(api_client)
+
+        try:
+          links = api.list(limit=2)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $apiInstance = new OpenAPI\Client\Api\LinksApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              2, // limit
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
+    - lang: Java
+      source: |
+        LinksApi apiInstance = new LinksApi(config);
+
+        try {
+          LinksList response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.Links.list(%{limit: 2})
+      label: ELIXIR
+    - lang: CSharp
+      source: |
+        LinksApi api = new LinksApi(config);
+
+        try {
+          LinksList response = api.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+          );
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        LinksList = apiClient.LinksApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO

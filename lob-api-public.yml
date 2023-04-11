@@ -2004,6 +2004,16 @@ tags:
       and marking uploaded files as ready for processing. The API also provides endpoints for downloading files that
       describe the results, both successful and not, of the processing.
 
+  - name: URL Shortener
+    description: |
+      Lob's URL shortener allows you to generate unique short links, either with Lob's own domain or your own custom domains. Each custom link enables Lob to track mail individually and provide customers the relevant tracking data in their dashboard.
+
+      Webhooks can be used to integrate Lob's URL Shortener scans into your omni channel marketing stratergy. See the <a href="#tag/Webhooks">Webhooks</a> section of our documentation to learn how to enable the `letter.viewed` and `postcard.viewed` event notifications for your mail pieces.
+
+      Furthermore, you can use our Retrieve endpoints to track the impact and engagement rate of links created. 
+
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
   - name: US Autocompletions
     description: >
       Given partial address information, this endpoint returns up to 10 address suggestions.
@@ -2515,6 +2525,7 @@ x-tagGroups:
       - Cards
       - Card Orders
       - QR Codes
+      - URL Shortener
 
   - name: Appendix
     tags:
@@ -2646,6 +2657,27 @@ paths:
 
   /qr_code_analytics:
     $ref: resources/qr_codes/qr_codes.yml
+
+  /domains/{domain_id}:
+    $ref: resources/url_shortener/domain_id.yml
+
+  /domains:
+    $ref: resources/url_shortener/domain_non_id.yml
+
+  /domains/{domain_id}/links:
+    $ref: resources/url_shortener/domains.yml
+
+  /links:
+    $ref: resources/url_shortener/links_list.yml
+
+  /links/{link_id}:
+    $ref: resources/url_shortener/links_id.yml
+
+  /links/shorten:
+    $ref: resources/url_shortener/links_shorten.yml
+
+  /links/shorten/bulk:
+    $ref: resources/url_shortener/links_bulk.yml
 
   /self_mailers/{sfm_id}:
     $ref: resources/self_mailers/self_mailer.yml

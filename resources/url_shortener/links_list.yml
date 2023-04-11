@@ -48,5 +48,96 @@ get:
       source: |
         curl -X GET "https://api.lob.com/v1/links/?limit=2" \
           -u <YOUR_LIVE_API_KEY>:
+      label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const links = await new LinksApi(config).list(2);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.links.list({limit: 2}, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        linksApi = LinksApi.new(config)
 
-# to_do: Add more samples for other languages
+        begin
+          links = linksApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = LinksApi(api_client)
+
+        try:
+          links = api.list(limit=2)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $apiInstance = new OpenAPI\Client\Api\LinksApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              2, // limit
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
+    - lang: Java
+      source: |
+        LinksApi apiInstance = new LinksApi(config);
+
+        try {
+          LinksList response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.Links.list(%{limit: 2})
+      label: ELIXIR
+    - lang: CSharp
+      source: |
+        LinksApi api = new LinksApi(config);
+
+        try {
+          LinksList response = api.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+          );
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        LinksList = apiClient.LinksApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO

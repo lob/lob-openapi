@@ -1,0 +1,140 @@
+parameters:
+  - in: path
+    name: domain_id
+    required: true
+    description: Unique identifier for a domain.
+    schema:
+      type: string
+
+get:
+  operationId: domain_get
+  summary: Retrieve a domain
+  description: >-
+    Retrieve details for a single domain.
+
+  tags:
+    - URL Shortener
+
+  responses:
+    "200":
+      description: Returns domain related details.
+      content:
+        application/json:
+          schema:
+            $ref: responses/domain_response.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/domains/{domain_id}" \
+          -u <YOUR_LIVE_API_KEY>:
+      label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const domain = await new DomainsApi(config).get('xxxxxx');
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.domains.retrieve('xxxxxx', function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        domainsAPI = DomainsApi.new(config)
+
+        begin
+          retrievedDomain = domainsAPI.get("xxxxxx")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = DomainsApi(api_client)
+
+        try:
+          domain = api.get("xxxxxx")
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $apiInstance = new OpenAPI\Client\Api\DomainsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("xxxxxx");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
+    - lang: Java
+      source: |
+        DomainsApi apiInstance = new DomainsApi(config);
+
+        try {
+          Domain response = apiInstance.get("xxxxxx");
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.Domain.retrieve("xxxxxx")
+      label: ELIXIR
+    - lang: CSharp
+      source: |
+        DomainsApi api = new DomainsApi(config);
+
+        try {
+          Domain response = api.get("xxxxxx");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedDomain, _, err := apiClient.DomainsApi.Get(context,"xxxxxx").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
+delete:
+  operationId: domain_delete
+  summary: Delete a Domain
+
+  description: >-
+    Delete a registered domain. This operation can only be performed if all associated links with the domain are deleted.
+
+  tags:
+    - URL Shortener
+
+  responses:
+    "200":
+      description: Returns the deleted link object.
+      content:
+        application/json:
+          schema:
+            $ref: responses/domain_response.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml

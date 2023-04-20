@@ -1,0 +1,134 @@
+parameters:
+  - in: path
+    name: link_id
+    required: true
+    description: Unique identifier for a link.
+    schema:
+      type: string
+
+get:
+  operationId: links_get
+  summary: Retrieve a link
+  description: >-
+    Retrievs a single shortened link.
+
+  tags:
+    - URL Shortener
+
+  responses:
+    "200":
+      description: Returns a single link.
+      content:
+        application/json:
+          schema:
+            $ref: responses/link_response.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/links/<link_id>" \
+          -u <YOUR_LIVE_API_KEY>:
+      label: CURL
+
+patch:
+  operationId: link_update
+  summary: Update a Link
+
+  description: >-
+    Update any of the properties of a shortened link.
+
+  tags:
+    - URL Shortener
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: models/link_single.yml
+        examples:
+          basic:
+            value:
+              resource_id: "ltr_133"
+          test:
+            value:
+              redirect_link: "ltr_133"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: models/link_single.yml
+        examples:
+          basic:
+            value:
+              resource_id: "ltr_133"
+          test:
+            value:
+              resource_id: "ltr_133"
+
+      multipart/form-data:
+        schema:
+          $ref: models/link_single.yml
+        examples:
+          basic:
+            value:
+              resource_id: "ltr_133"
+          test:
+            value:
+              resource_id: "ltr_133"
+
+  responses:
+    "200":
+      description: Returns the updated link.
+      content:
+        application/json:
+          schema:
+            $ref: responses/link_response.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+          example:
+            error:
+              code: invalid
+              message: redirect_link is required
+              status_code: 422
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/links/<link_id> \
+          -u <YOUR_LIVE_API_KEY>: \
+          -d "redirect_link=https://www.lob.com"
+      label: CURL
+
+delete:
+  operationId: links_delete
+  summary: Delete Link
+
+  description: >-
+    Delete the shortened link.
+
+  tags:
+    - URL Shortener
+
+  responses:
+    "200":
+      description: Returns the deleted short link object
+      content:
+        application/json:
+          schema:
+            $ref: responses/link_response.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml

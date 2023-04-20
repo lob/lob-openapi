@@ -1,0 +1,73 @@
+post:
+  operationId: link_bulk_create
+  summary: Bulk Create Links
+
+  description: >-
+    Shortens a list of links in a single request.
+
+  tags:
+    - URL Shortener
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/link_list.yml"
+
+        example:
+          links:
+            - redirect_link: "https://www.lob.com"
+              slug: "a1b2c3"
+            - redirect_link: "https://www.lob.com"
+              slug: "a1b2c3"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: "models/link_list.yml"
+
+        example:
+          links:
+            - redirect_link: "https://www.lob.com"
+              slug: "a1b2c3"
+            - redirect_link: "https://www.lob.com"
+              slug: "a1b2c3"
+
+      multipart/form-data:
+        schema:
+          $ref: "models/link_list.yml"
+
+        example:
+          links:
+            - redirect_link: "https://www.lob.com"
+              slug: "a1b2c3"
+            - redirect_link: "https://www.lob.com"
+              slug: "a1b2c3"
+
+  responses:
+    "200":
+      description: Returns all successfully created links
+      content:
+        application/json:
+          schema:
+            $ref: responses/links_response.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+          example:
+            error:
+              code: invalid
+              message: redirect_link is required
+              status_code: 422
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/links/shorten/bulk \
+          -u <YOUR_LIVE_API_KEY>: \
+          --header 'Content-Type: application/x-www-form-urlencoded' \
+          --data-urlencode 'links[0][redirect_link]=https://www.lob.com'
+      label: CURL

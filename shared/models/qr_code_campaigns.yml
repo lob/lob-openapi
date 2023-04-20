@@ -1,0 +1,46 @@
+type: object
+description: Customize and place a QR code on all the postcards and letters in a campaign. Redirection URLs can either be personalized for each sender, or a single link can be used for the whole campaign. See redirect_url attribute below for further details.
+required:
+  - position
+  - width
+
+properties:
+  position:
+    type: string
+    enum:
+      - relative
+    description: Sets how a QR code is being positioned in the document.
+
+  top:
+    type: string
+    description: Vertical distance(in inches) to place QR code from the top.
+
+  right:
+    type: string
+    description: Horizonal distance(in inches) to place QR code from the right.
+
+  left:
+    type: string
+    description: Horizonal distance(in inches) to place QR code from the left.
+
+  bottom:
+    type: string
+    description: Vertical distance(in inches) to place QR code from the bottom.
+
+  redirect_url:
+    description: >
+      Redirect all mail receipients to either a single non-personalized web page or a custom personalized webpage. 
+      To redirect to a single webpage for the whole campaign, add a redirect_url in the request body along with the url.
+      To redirect to a custom webpage for each recipient, create an extra column in the [audience file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide) with column header `qr_code_redirect_url` and add a unique link against each address row.
+      If the QR code section is used but a redirection url is not provided, then there might be failures in creating individual mail pieces.
+    oneOf:
+      - $ref: "../attributes/single_redirect_url.yml"
+      - $ref: "../attributes/customized_redirect_url.yml"
+
+  width:
+    type: string
+    description: The size(in inches) of the QR code with a minimum of 1 inch. All QR codes are generated as a square.
+
+  pages:
+    type: string
+    description: Specify the pages where the QR code should be stamped in a comma separated format. For postcards, the values should be either `front`, `back`, or `front,back`. For letters, the values can be specific page numbers or page number ranges.

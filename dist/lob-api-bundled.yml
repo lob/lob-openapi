@@ -7706,8 +7706,8 @@ components:
         recipient. To use this type of redirection, create an extra column in
         the [audience
         file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide)
-        with title `qr_code.redirect_url` and add a unique link against each
-        address row. This will ensure a unique redirect is created for each
+        with column header `qr_code_redirect_url` and add a unique link against
+        each address row. This will ensure a unique redirect is created for each
         receipient.
     qr_code_campaigns:
       type: object
@@ -7745,10 +7745,10 @@ components:
             body along with the url. To redirect to a custom webpage for each
             recipient, create an extra column in the [audience
             file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide)
-            with title `qr_code.redirect_url` and add a unique link against each
-            address row. If the QR code section is used but a redirection url is
-            not provided, then there might be failures in creating individual
-            mail pieces.
+            with column header `qr_code_redirect_url` and add a unique link
+            against each address row. If the QR code section is used but a
+            redirection url is not provided, then there might be failures in
+            creating individual mail pieces.
           oneOf:
             - $ref: '#/components/schemas/single_redirect_url'
             - $ref: '#/components/schemas/customized_redirect_url'

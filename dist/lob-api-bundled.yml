@@ -6730,7 +6730,9 @@ components:
         a different value is provided, then when the campaign is processing it
         will get overwritten with the mapped value present in the
         `requiredAddressColumnMapping` or `optionalAddressColumnMapping`
-        objects.
+        objects. If using customized QR code redirect from the Audience file,
+        then a `qr_code_redirect_url` must be mapped to the column header as
+        used in the CSV.
     upload_writable:
       type: object
       required:
@@ -7696,26 +7698,23 @@ components:
     single_redirect_url:
       type: string
       description: >-
-        Redirect all mail receipients to a single non-personalized web page. To
-        use this type of redirection, just add a redirect_url with the url where
-        the users should be redirected to after scanning the QR code.
+        Redirect all QRs in the camapign to a common URL. Add a redirect_url in
+        the request body along with the url as string.
     customized_redirect_url:
       type: string
       description: >-
-        Redirect all mail receipients to a unique web page personalized for each
-        recipient. To use this type of redirection, create an extra column in
-        the [audience
+        Redirect all mail receipients to a unique URL per mailpiece. Add an
+        extra column in the [audience
         file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide)
-        with column header `qr_code_redirect_url` and add a unique link against
-        each address row. This will ensure a unique redirect is created for each
-        receipient.
+        with a unique link against each address row and map that row using the
+        merge variable mapping while creating an upload.
     qr_code_campaigns:
       type: object
       description: >-
         Customize and place a QR code on all the postcards and letters in a
-        campaign. Redirection URLs can either be personalized for each sender,
-        or a single link can be used for the whole campaign. See redirect_url
-        attribute below for further details.
+        campaign. Redirect URLs can either be unqiue for each recipient, or a
+        single link can be used for the whole campaign. See `redirect_url`
+        attribute below for more details.
       required:
         - position
         - width
@@ -7739,16 +7738,17 @@ components:
           description: Vertical distance(in inches) to place QR code from the bottom.
         redirect_url:
           description: >
-            Redirect all mail receipients to either a single non-personalized
-            web page or a custom personalized webpage.  To redirect to a single
-            webpage for the whole campaign, add a redirect_url in the request
-            body along with the url. To redirect to a custom webpage for each
-            recipient, create an extra column in the [audience
+            Redirect all mail receipients to either a single URL or a custom
+            personalized URL for each address.  To redirect to a single URL for
+            the whole campaign, add a `redirect_url` in the request body along
+            with the url as string. To redirect to a custom URL for each
+            address, create an extra column in the [audience
             file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide)
-            with column header `qr_code_redirect_url` and add a unique link
-            against each address row. If the QR code section is used but a
-            redirection url is not provided, then there might be failures in
-            creating individual mail pieces.
+            with a unique link against each address row and map that row using
+            the merge variable mapping while creating an upload. If the QR code
+            section is used but a redirection url is not provided or mapped
+            while creating an upload, then there might be failures in creating
+            individual mail pieces.
           oneOf:
             - $ref: '#/components/schemas/single_redirect_url'
             - $ref: '#/components/schemas/customized_redirect_url'

@@ -9501,6 +9501,13 @@ components:
         - handlebars
       nullable: true
       default: legacy
+    template_required_vars:
+      type: array
+      items:
+        type: string
+      description: >
+        An array of required variables to be used in a template. Only available
+        for `handlebars` templates.
     template_version_writable:
       type: object
       required:
@@ -9512,6 +9519,8 @@ components:
           $ref: '#/components/schemas/template_html'
         engine:
           $ref: '#/components/schemas/engine'
+        required_vars:
+          $ref: '#/components/schemas/template_required_vars'
     template_version:
       allOf:
         - $ref: '#/components/schemas/template_version_writable'
@@ -9529,9 +9538,9 @@ components:
             merge_variables:
               type: object
               description: >
-                Used by frontend, an object representing the keys of every merge
-                variable present in the template. It has one key named 'keys',
-                and its value is an array of strings.
+                Object representing the keys of every merge variable present in
+                the template. It has one key named 'keys', and its value is an
+                array of strings.
             object:
               type: string
               description: Value is resource type.
@@ -9545,6 +9554,8 @@ components:
           $ref: '#/components/schemas/resource_description'
         engine:
           $ref: '#/components/schemas/engine'
+        required_vars:
+          $ref: '#/components/schemas/template_required_vars'
     template_version_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of
@@ -9632,6 +9643,8 @@ components:
           $ref: '#/components/schemas/metadata'
         engine:
           $ref: '#/components/schemas/engine'
+        required_vars:
+          $ref: '#/components/schemas/template_required_vars'
     upload_updatable:
       type: object
       properties:

@@ -748,6 +748,11 @@ tags:
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A self_mailer receives an "International Exit" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.viewed</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A self_mailer's QR code or URL was scanned or viewed by the recipient. </td>
+        </tr>
       </table>
 
 
@@ -1508,15 +1513,17 @@ tags:
       Lob QR codes allow you to generate a QR code that is unique to each
       mailpiece, thereby allowing each and every customers to receive a
       personalized link. See the Create endpoint for <a
-      href="#tag/Letters/operation/letter_create">Letters</a> or <a
-      href="#tag/Postcards/operation/postcard_create">Postcards</a> to learn how
-      to embed a QR code into your mail piece.
+      href="#tag/Letters/operation/letter_create">Letters</a>, <a
+      href="#tag/Postcards/operation/postcard_create">Postcards</a> or <a
+      href="#tag/Self-Mailers/operation/self_mailer_create">Self Mailers</a> to
+      learn how to embed a QR code into your mail piece.
 
 
       Webhooks can be used to integrate Lob QR code scans into your omni channel
       marketing strategy. See the <a href="#tag/Webhooks">Webhooks</a> section
-      of our documentation to learn how to enable the `letter.viewed` and
-      `postcard.viewed` event notifications for your mail pieces.
+      of our documentation to learn how to enable the `letter.viewed`,
+      `postcard.viewed` and `self_mailer.viewed` event notifications for your
+      mail pieces.
 
 
       Furthermore, our QR code Analytics endpoint can be used to track the
@@ -2658,8 +2665,9 @@ tags:
 
       Webhooks can be used to integrate Lob's URL Shortener scans into your omni
       channel marketing stratergy. See the <a href="#tag/Webhooks">Webhooks</a>
-      section of our documentation to learn how to enable the `letter.viewed`
-      and `postcard.viewed` event notifications for your mail pieces.
+      section of our documentation to learn how to enable the `letter.viewed`,
+      `postcard.viewed` and `self_mailer.viewed` event notifications for your
+      mail pieces.
 
 
       Furthermore, you can use our Retrieve endpoints to track the impact and

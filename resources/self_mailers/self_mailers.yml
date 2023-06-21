@@ -193,6 +193,13 @@ post:
             name: Harry
           send_date: "2017-11-01T00:00:00.000Z"
           use_type: marketing
+          qr_code:
+            position: "relative"
+            redirect_url: "https://www.lob.com"
+            width: "2.5"
+            top: "2.5"
+            right: "2.5"
+            pages: "inside,outside"
 
       application/x-www-form-urlencoded:
         schema:
@@ -211,6 +218,13 @@ post:
             name: Harry
           send_date: "2017-11-01T00:00:00.000Z"
           use_type: marketing
+          qr_code:
+            position: "relative"
+            redirect_url: "https://www.lob.com"
+            width: "2.5"
+            top: "2.5"
+            right: "2.5"
+            pages: "inside,outside"
         encoding:
           merge_variables:
             style: deepObject
@@ -236,6 +250,13 @@ post:
             name: Harry
           send_date: "2017-11-01T00:00:00.000Z"
           use_type: marketing
+          qr_code:
+            position: "relative"
+            redirect_url: "https://www.lob.com"
+            width: "2.5"
+            top: "2.5"
+            right: "2.5"
+            pages: "inside,outside"
 
   responses:
     "200":
@@ -257,6 +278,12 @@ post:
           -d "to[address_zip]=94107" \
           -d "from=adr_210a8d4b0b76d77b" \
           -d "use_type=marketing" \
+          -d 'qr_code[position]=relative' \
+          -d 'qr_code[redirect_url]=https://www.lob.com' \
+          -d 'qr_code[width]=2.5' \
+          -d 'qr_code[bottom]=2.5' \
+          -d 'qr_code[left]=2.5' \
+          -d 'qr_code[pages]=inside,outside'
           --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
           --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
           -d "merge_variables[name]=Harry"
@@ -278,6 +305,14 @@ post:
           outside:
           'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf',
           use_type: 'marketing'
+          qr_code : {
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2.5',
+            bottom: '2.5',
+            left: '2.5',
+            pages: 'inside'
+          }
         });
 
         try {
@@ -304,6 +339,14 @@ post:
             name: 'Harry'
           },
           use_type: 'marketing'
+          qr_code : {
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2.5',
+            bottom: '2.5',
+            left: '2.5',
+            pages: 'inside'
+          }
         }, function (err, res) {
           console.log(err, res);
         });
@@ -327,6 +370,14 @@ post:
             name: "Harry"
           },
           use_type: 'marketing'
+          qr_code : {
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2.5',
+            bottom: '2.5',
+            left: '2.5',
+            pages: 'inside'
+          }
         });
 
         selfMailerApi = SelfMailersApi.new(config)
@@ -356,6 +407,14 @@ post:
             name = "Harry",
           ),
           use_type: "marketing"
+          qr_code : {
+            position: "relative",
+            redirect_url: "https://www.lob.com",
+            width: "2.5",
+            bottom: "2.5",
+            left: "2.5",
+            pages: "inside"
+          }
         )
 
         with ApiClient(configuration) as api_client:
@@ -384,6 +443,17 @@ post:
 
         $use_type = "marketing";
 
+        $qr_code = new OpenAPI\Client\Model\QRCode(
+          array(
+            "position" => "relative",
+            "redirect_url" => "https://www.lob.com",
+            "width" => "2",
+            "bottom" => "2",
+            "left" => "2",
+            "pages" => "inside,outside"
+          )
+        );
+
         $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new GuzzleHttp\Client());
         $self_mailer_editable = new OpenAPI\Client\Model\SelfMailerEditable(
           array(
@@ -394,6 +464,7 @@ post:
             "to"     => $to,
             "merge_variables"     => $merge_variables,
             "use_type"    => $use_type
+            "qr_code"   => $qr_code,
           )
         );
 
@@ -417,6 +488,14 @@ post:
         to.setAddressState("CA");
         to.setAddressZip("94107");
 
+        QRCode qrCode = new QRCode();
+        qrCode.setPosition("relative");
+        qrCode.setRedirectUrl("https://www.lob.com");
+        qrCode.setWidth("2");
+        qrCode.setLeft("2");
+        qrCode.setBottom("2");
+        qrCode.setPages("outside");
+
         try {
           SelfMailerEditable selfMailerEditable = new SelfMailerEditable();
           selfMailerEditable.setDescription("Demo Self Mailer job");
@@ -426,6 +505,7 @@ post:
           selfMailerEditable.setTo(to);
           selfMailerEditable.setMergeVariables(merge_variables);
           selfMailerEditable.setUseType("marketing");
+          postcardEditable.setQRCode(qrCode);
 
           SelfMailer result = apiInstance.create(selfMailerEditable, null);
         } catch (ApiException e) {
@@ -450,6 +530,14 @@ post:
             name: "Harry"
           },
           use_type: "marketing"
+          qr_code: %{
+            position: 'relative',
+            redirect_url: 'https://www.lob.com',
+            width: '2',
+            bottom: '2',
+            left: '2',
+            pages: 'inside,outside'
+          }
         })
       label: ELIXIR
     - lang: CSharp
@@ -470,6 +558,15 @@ post:
           "Harry Zhang" // name
         );
 
+        QRCode qrCode = new QRCode(
+          "relative",  //position,
+          "https://www.lob.com", //redirect_url
+          "2", //width
+          "2", //left
+          "2", //bottom
+          "inside", //pages
+        );
+
         SelfMailerEditable selfMailerEditable = new SelfMailerEditable(
           to.ToJson(),  // to
           "adr_249af768103d2810",  // from
@@ -481,7 +578,8 @@ post:
           default(DateTime),  // sendDate
           "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
           "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
-          "marketing" // use_type 
+          "marketing", // use_type 
+          qrCode
         );
 
         try {

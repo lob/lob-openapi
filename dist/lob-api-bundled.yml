@@ -8937,7 +8937,8 @@ components:
             Specify the pages where the QR code should be stamped in a comma
             separated format. For postcards, the values should be either
             `front`, `back`, or `front,back`. For letters, the values can be
-            specific page numbers or page number ranges.
+            specific page numbers or page number ranges. For selfmailers, the
+            values should be either `inside`, `outside`, or `inside,outside`.
     letter_editable:
       allOf:
         - $ref: '#/components/schemas/input_to'
@@ -9473,6 +9474,8 @@ components:
                 - $ref: '#/components/schemas/local_file_path'
             billing_group_id:
               $ref: '#/components/schemas/billing_group_id'
+            qr_code:
+              $ref: '#/components/schemas/qr_code'
             use_type:
               $ref: '#/components/schemas/sfm_use_type'
     template_html:
@@ -22501,6 +22504,13 @@ paths:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
               use_type: marketing
+              qr_code:
+                position: relative
+                redirect_url: https://www.lob.com
+                width: '2.5'
+                top: '2.5'
+                right: '2.5'
+                pages: inside,outside
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'
@@ -22518,6 +22528,13 @@ paths:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
               use_type: marketing
+              qr_code:
+                position: relative
+                redirect_url: https://www.lob.com
+                width: '2.5'
+                top: '2.5'
+                right: '2.5'
+                pages: inside,outside
             encoding:
               merge_variables:
                 style: deepObject
@@ -22542,6 +22559,13 @@ paths:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
               use_type: marketing
+              qr_code:
+                position: relative
+                redirect_url: https://www.lob.com
+                width: '2.5'
+                top: '2.5'
+                right: '2.5'
+                pages: inside,outside
       responses:
         '200':
           $ref: '#/components/responses/post_self_mailer'
@@ -22560,6 +22584,12 @@ paths:
               -d "to[address_zip]=94107" \
               -d "from=adr_210a8d4b0b76d77b" \
               -d "use_type=marketing" \
+              -d 'qr_code[position]=relative' \
+              -d 'qr_code[redirect_url]=https://www.lob.com' \
+              -d 'qr_code[width]=2.5' \
+              -d 'qr_code[bottom]=2.5' \
+              -d 'qr_code[left]=2.5' \
+              -d 'qr_code[pages]=inside,outside'
               --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
               --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
               -d "merge_variables[name]=Harry"
@@ -22581,6 +22611,14 @@ paths:
               outside:
               'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_outside.pdf',
               use_type: 'marketing'
+              qr_code : {
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2.5',
+                bottom: '2.5',
+                left: '2.5',
+                pages: 'inside'
+              }
             });
 
             try {
@@ -22607,6 +22645,14 @@ paths:
                 name: 'Harry'
               },
               use_type: 'marketing'
+              qr_code : {
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2.5',
+                bottom: '2.5',
+                left: '2.5',
+                pages: 'inside'
+              }
             }, function (err, res) {
               console.log(err, res);
             });
@@ -22630,6 +22676,14 @@ paths:
                 name: "Harry"
               },
               use_type: 'marketing'
+              qr_code : {
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2.5',
+                bottom: '2.5',
+                left: '2.5',
+                pages: 'inside'
+              }
             });
 
             selfMailerApi = SelfMailersApi.new(config)
@@ -22659,6 +22713,14 @@ paths:
                 name = "Harry",
               ),
               use_type: "marketing"
+              qr_code : {
+                position: "relative",
+                redirect_url: "https://www.lob.com",
+                width: "2.5",
+                bottom: "2.5",
+                left: "2.5",
+                pages: "inside"
+              }
             )
 
             with ApiClient(configuration) as api_client:
@@ -22691,6 +22753,18 @@ paths:
             $use_type = "marketing";
 
 
+            $qr_code = new OpenAPI\Client\Model\QRCode(
+              array(
+                "position" => "relative",
+                "redirect_url" => "https://www.lob.com",
+                "width" => "2",
+                "bottom" => "2",
+                "left" => "2",
+                "pages" => "inside,outside"
+              )
+            );
+
+
             $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new
             GuzzleHttp\Client());
 
@@ -22703,6 +22777,7 @@ paths:
                 "to"     => $to,
                 "merge_variables"     => $merge_variables,
                 "use_type"    => $use_type
+                "qr_code"   => $qr_code,
               )
             );
 
@@ -22727,6 +22802,14 @@ paths:
             to.setAddressState("CA");
             to.setAddressZip("94107");
 
+            QRCode qrCode = new QRCode();
+            qrCode.setPosition("relative");
+            qrCode.setRedirectUrl("https://www.lob.com");
+            qrCode.setWidth("2");
+            qrCode.setLeft("2");
+            qrCode.setBottom("2");
+            qrCode.setPages("outside");
+
             try {
               SelfMailerEditable selfMailerEditable = new SelfMailerEditable();
               selfMailerEditable.setDescription("Demo Self Mailer job");
@@ -22736,6 +22819,7 @@ paths:
               selfMailerEditable.setTo(to);
               selfMailerEditable.setMergeVariables(merge_variables);
               selfMailerEditable.setUseType("marketing");
+              postcardEditable.setQRCode(qrCode);
 
               SelfMailer result = apiInstance.create(selfMailerEditable, null);
             } catch (ApiException e) {
@@ -22760,6 +22844,14 @@ paths:
                 name: "Harry"
               },
               use_type: "marketing"
+              qr_code: %{
+                position: 'relative',
+                redirect_url: 'https://www.lob.com',
+                width: '2',
+                bottom: '2',
+                left: '2',
+                pages: 'inside,outside'
+              }
             })
           label: ELIXIR
         - lang: CSharp
@@ -22785,6 +22877,16 @@ paths:
             );
 
 
+            QRCode qrCode = new QRCode(
+              "relative",  //position,
+              "https://www.lob.com", //redirect_url
+              "2", //width
+              "2", //left
+              "2", //bottom
+              "inside", //pages
+            );
+
+
             SelfMailerEditable selfMailerEditable = new SelfMailerEditable(
               to.ToJson(),  // to
               "adr_249af768103d2810",  // from
@@ -22796,7 +22898,8 @@ paths:
               default(DateTime),  // sendDate
               "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
               "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
-              "marketing" // use_type 
+              "marketing", // use_type 
+              qrCode
             );
 
 

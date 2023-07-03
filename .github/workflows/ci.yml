@@ -20,6 +20,11 @@ jobs:
           npm i prettier
           npm run pretty
 
+      - name: integration tests
+        shell: bash
+        run: |
+          npm run docsTest
+
       - name: run spectral
         uses: stoplightio/spectral-action@latest
         with:

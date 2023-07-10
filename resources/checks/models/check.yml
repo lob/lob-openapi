@@ -82,6 +82,13 @@ allOf:
       use_type:
         $ref: "../attributes/chk_use_type.yml"
 
+      status:
+        title: The status of the check.
+        enum:
+          - processed
+          - rendered
+          - failed
+
       object:
         type: string
         description: Value is resource type.

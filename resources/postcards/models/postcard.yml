@@ -58,6 +58,13 @@ allOf:
       use_type:
         $ref: "../attributes/psc_use_type.yml"
 
+      status:
+        title: The status of the postcard.
+        enum:
+          - processed
+          - rendered
+          - failed
+
       object:
         type: string
         description: Value is resource type.

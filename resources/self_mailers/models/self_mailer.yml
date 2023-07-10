@@ -58,5 +58,13 @@ allOf:
 
       use_type:
         $ref: "../attributes/sfm_use_type.yml"
+
       url:
         $ref: "../../../shared/attributes/signed_link.yml"
+
+      status:
+        title: The status of the self mailer.
+        enum:
+          - processed
+          - rendered
+          - failed

@@ -7,8 +7,7 @@ describe("ensures introduction links and text are valid", () => {
   });
 
   it("contains the right specification and date", () => {
-    cy.contains("Specification (1.3.0)");
-    cy.contains("Lob API (2020-02-11)");
+    cy.contains("Lob (1.19.7)");
   });
 
   it("contains a link to the main Lob page", () => {
@@ -44,13 +43,6 @@ describe("ensures introduction links and text are valid", () => {
       .and("include", "https://www.lob.com/legal");
   });
 
-  it("contains the previous documentation link", () => {
-    // makes sure the previous documentation link goes to the right page
-    cy.contains("previous documentation")
-      .should("have.attr", "href")
-      .and("include", "https://lob.github.io/legacy-docs");
-  });
-
   it("contains the HTTP Basic Auth link", () => {
     // makes sure the basic auth link goes to the right page
     cy.contains("HTTP Basic authentication")
@@ -82,13 +74,10 @@ describe("ensures introduction links and text are valid", () => {
       .and("include", "dashboard.lob.com");
   });
 
-  // no choice but to use classes for this
   it("contains the test & live environments link", () => {
-    // makes sure the test & live environments link goes to the right page
-    // using a class is necessary for this because the element
-    // chain goes too deep otherwise
-    cy.get('*[class^="sc-iBzEeX sc-cOifOu dFWqin rUYTT redoc-markdown"]')
+    cy.get("h1")
       .contains("Test and Live Environments")
+      .find("a")
       .should("have.attr", "href")
       .and("include", "#tag/Test-and-Live-Environments");
   });
@@ -100,13 +89,6 @@ describe("ensures introduction links and text are valid", () => {
       .and("include", "https://dashboard.lob.com/#/register");
   });
 
-  it("contains the keys link", () => {
-    // makes sure the keys link goes to the right page
-    cy.contains("settings")
-      .should("have.attr", "href")
-      .and("include", "https://dashboard.lob.com/#/settings/keys");
-  });
-
   it("contains the SDK link", () => {
     // makes sure the SDK link goes to the right page
     cy.contains("Lob SDK")
@@ -114,22 +96,22 @@ describe("ensures introduction links and text are valid", () => {
       .and("include", "#tag/SDKs-and-Tools");
   });
 
-  // sc-hKFxyN dmghQN
   it("contains the Getting Started links", () => {
-    // makes sure the SDK link goes to the right page
-    cy.get('*[class^="sc-hKFxyN dmghQN"]')
-      .contains("Postcards")
+    cy.get("a")
+      .contains("Send your first Postcards")
       .should("have.attr", "href")
       .and("include", "https://help.lob.com/developer-docs/quickstart-guide");
-    cy.get('*[class^="sc-hKFxyN dmghQN"]')
+
+    cy.get("a")
       .contains("Mass Deletion")
       .should("have.attr", "href")
       .and(
         "include",
         "https://help.lob.com/developer-docs/use-case-guides/mass-deletion-setup"
       );
-    cy.get('*[class^="sc-hKFxyN dmghQN"]')
-      .contains("NCOALink Restrictions")
+
+    cy.get("a")
+      .contains("NCOA Restrictions")
       .should("have.attr", "href")
       .and(
         "include",

@@ -4922,6 +4922,7 @@ components:
               enum:
                 - processed
                 - rendered
+                - failed
               type: string
             object:
               description: object
@@ -7203,6 +7204,18 @@ components:
               nullable: true
             use_type:
               $ref: '#/components/schemas/chk_use_type'
+            status:
+              title: The status of the check.
+              enum:
+                - processed
+                - rendered
+                - failed
+            failure_reason:
+              type: string
+              description: >-
+                A string describing the reason for failure if the check failed
+                to render.
+              nullable: true
             object:
               type: string
               description: Value is resource type.
@@ -8126,6 +8139,18 @@ components:
               nullable: true
             use_type:
               $ref: '#/components/schemas/ltr_use_type'
+            status:
+              title: The status of the letter.
+              enum:
+                - processed
+                - rendered
+                - failed
+            failure_reason:
+              type: string
+              description: >-
+                A string describing the reason for failure if the letter failed
+                to render.
+              nullable: true
             object:
               type: string
               description: Value is resource type.
@@ -8815,6 +8840,18 @@ components:
               nullable: true
             use_type:
               $ref: '#/components/schemas/psc_use_type'
+            status:
+              title: The status of the postcard.
+              enum:
+                - processed
+                - rendered
+                - failed
+            failure_reason:
+              type: string
+              description: >-
+                A string describing the reason for failure if the postcard
+                failed to render.
+              nullable: true
             object:
               type: string
               description: Value is resource type.
@@ -9136,6 +9173,18 @@ components:
               $ref: '#/components/schemas/sfm_use_type'
             url:
               $ref: '#/components/schemas/signed_link'
+            status:
+              title: The status of the self mailer.
+              enum:
+                - processed
+                - rendered
+                - failed
+            failure_reason:
+              type: string
+              description: >-
+                A string describing the reason for failure if the self mailer
+                failed to render.
+              nullable: true
     self_mailer_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of

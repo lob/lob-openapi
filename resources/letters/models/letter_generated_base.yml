@@ -35,6 +35,18 @@ allOf:
       use_type:
         $ref: "../attributes/ltr_use_type.yml"
 
+      status:
+        title: The status of the letter.
+        enum:
+          - processed
+          - rendered
+          - failed
+
+      failure_reason:
+        type: string
+        description: A string describing the reason for failure if the letter failed to render.
+        nullable: true
+
       object:
         type: string
         description: Value is resource type.

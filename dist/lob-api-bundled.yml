@@ -7129,6 +7129,20 @@ components:
                 The zip code in which the scan event occurred. Null for `Mailed`
                 events.
               nullable: true
+    failure_reason:
+      type: object
+      description: >-
+        During a fatal error in the API, a failure reason object is returned
+        with more details about the error.
+      required:
+        - remediation
+      properties:
+        remediation:
+          type: string
+          description: A human-readable message with more details about the failure.
+          example: >-
+            Your mail piece has failed due to an inaccessible asset. Please
+            check your assets and try again
     check:
       allOf:
         - $ref: '#/components/schemas/check_base'
@@ -7211,10 +7225,7 @@ components:
                 - rendered
                 - failed
             failure_reason:
-              type: string
-              description: >-
-                A string describing the reason for failure if the check failed
-                to render.
+              $ref: '#/components/schemas/failure_reason'
               nullable: true
             object:
               type: string
@@ -8146,10 +8157,7 @@ components:
                 - rendered
                 - failed
             failure_reason:
-              type: string
-              description: >-
-                A string describing the reason for failure if the letter failed
-                to render.
+              $ref: '#/components/schemas/failure_reason'
               nullable: true
             object:
               type: string
@@ -8847,10 +8855,7 @@ components:
                 - rendered
                 - failed
             failure_reason:
-              type: string
-              description: >-
-                A string describing the reason for failure if the postcard
-                failed to render.
+              $ref: '#/components/schemas/failure_reason'
               nullable: true
             object:
               type: string
@@ -9180,10 +9185,7 @@ components:
                 - rendered
                 - failed
             failure_reason:
-              type: string
-              description: >-
-                A string describing the reason for failure if the self mailer
-                failed to render.
+              $ref: '#/components/schemas/failure_reason'
               nullable: true
     self_mailer_deletion:
       description: >-

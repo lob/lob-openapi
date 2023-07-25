@@ -38,5 +38,28 @@ properties:
     type: string
     maxLength: 30
 
+  check_template:
+    type: string
+    enum:
+      - common
+      - jpm
+    description: The check template used for printing. The defualt value is `common`. If you bank with JP Morgan Chase and wish to use Positive Pay use the `jpm` template. `jpm` requires additional information to be provided.
+
+  fractional_routing_number:
+    type: string
+    description: The fractional routing number for your home bank account. Required for the `jpm` check template only. Please contact a bank representative if you do not know the fractional routing number associated with your home bank institution.
+
+  city:
+    type: string
+    description: The city associated with your home bank account. Required for the `jpm` check template only. Please contact a bank representative if you do not know the city associated with your home bank institution.
+
+  state:
+    type: string
+    description: The state associated with your home bank account. Required for the `jpm` check template only. Please contact a bank representative if you do not know the state associated with your home bank institution.
+
+  zipcode:
+    type: string
+    description: The zipcode associated with your home bank account. Required for the `jpm` check template only. Please contact a bank representative if you do not know the zipcode associated with your home bank institution.
+
   metadata:
     $ref: "../../../shared/models/metadata.yml"

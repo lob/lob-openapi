@@ -4615,6 +4615,43 @@ components:
             target="_blank">Dashboard</a>.
           type: string
           maxLength: 30
+        check_template:
+          type: string
+          enum:
+            - common
+            - jpm
+          description: >-
+            The check template used for printing. The defualt value is `common`.
+            If you bank with JP Morgan Chase and wish to use Positive Pay use
+            the `jpm` template. `jpm` requires additional information to be
+            provided.
+        fractional_routing_number:
+          type: string
+          description: >-
+            The fractional routing number for your home bank account. Required
+            for the `jpm` check template only. Please contact a bank
+            representative if you do not know the fractional routing number
+            associated with your home bank institution.
+        city:
+          type: string
+          description: >-
+            The city associated with your home bank account. Required for the
+            `jpm` check template only. Please contact a bank representative if
+            you do not know the city associated with your home bank institution.
+        state:
+          type: string
+          description: >-
+            The state associated with your home bank account. Required for the
+            `jpm` check template only. Please contact a bank representative if
+            you do not know the state associated with your home bank
+            institution.
+        zipcode:
+          type: string
+          description: >-
+            The zipcode associated with your home bank account. Required for the
+            `jpm` check template only. Please contact a bank representative if
+            you do not know the zipcode associated with your home bank
+            institution.
         metadata:
           $ref: '#/components/schemas/metadata'
     signed_link:
@@ -10161,10 +10198,15 @@ components:
             description: Test Bank Account
             metadata: {}
             routing_number: '322271627'
+            fractional_routing_number: 25-3/440
+            check_template: jpm
             account_number: '123456789'
             account_type: company
             signatory: John Doe
-            bank_name: J.P. MORGAN CHASE BANK, N.A.
+            bank_name: J.P. MORGAN CHASE BANK, N.A.,
+            bank_city: Columbus
+            bank_state: OH
+            bank_zip: '43240'
             verified: false
             date_created: '2015-11-06T19:24:24.440Z'
             date_modified: '2015-11-06T19:24:24.440Z'
@@ -13541,10 +13583,15 @@ paths:
                 description: Test Bank Account
                 metadata: {}
                 routing_number: '322271627'
+                fractional_routing_number: 25-3/440
+                check_template: jpm
                 account_number: '123456789'
                 account_type: company
                 signatory: John Doe
-                bank_name: J.P. MORGAN CHASE BANK, N.A.
+                bank_name: J.P. MORGAN CHASE BANK, N.A.,
+                bank_city: Columbus
+                bank_state: OH
+                bank_zip: '43240'
                 verified: false
                 date_created: '2015-11-06T19:24:24.440Z'
                 date_modified: '2015-11-06T19:24:24.440Z'

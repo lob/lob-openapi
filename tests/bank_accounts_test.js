@@ -17,6 +17,7 @@ const payload = {
   account_number: "123456789",
   signatory: "Jane Doe",
   account_type: "individual",
+  check_template: "common",
 };
 
 test("list bank accounts' params", async function (t) {

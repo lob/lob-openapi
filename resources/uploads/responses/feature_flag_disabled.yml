@@ -3,7 +3,15 @@ description: Forbidden Error
 content:
   application/json:
     schema:
-      $ref: "../../../shared/models/error.yml"
+      type: object
+      properties:
+        code:
+          description: The error code
+          type: number
+
+        message:
+          type: string
+          description: Details of the error message with the feature flagged mentioned.
 
     example:
       message: "This feature is not enabled for this account: access_upload_report"

@@ -1,0 +1,59 @@
+schema:
+  type: object
+  required:
+    - data
+    - count
+    - offset
+    - total_count
+  properties:
+    data:
+      type: array
+      items:
+        properties:
+          rowNumber:
+            title: Row Number
+            type: number
+            description: The row number of the csv file containing this data.
+          status:
+            type: string
+            description: The processing status of line item.
+            enum:
+              - Validated
+              - Failed
+              - Processing
+          errorMessage:
+            type: string
+            nullable: true
+            description: The error message detailing the reason why processing the line item failed.
+          mailpieceId:
+            type: string
+            nullable: true
+            description: The mailpiece id created from the line item when it was validated.
+          originalData:
+            type: object
+            description: Key-value pairs where each key is the column header and each value is the value of the column for the row.
+    next_url:
+      type: string
+      description: Url of next page of items in list.
+      nullable: true
+    prev_url:
+      type: string
+      description: Url of previous page of items in list.
+      nullable: true
+    count:
+      $ref: "../../../shared/attributes/count.yml"
+    total_count:
+      type: integer
+      description: >-
+        Indicates the total number of records. Provided when the request
+        specifies an "include" query parameter
+
+example:
+  id: ex_6a94fe68fd151e0f8
+  dateCreated: "2021-07-06T22:51:42.838Z"
+  dateModified: "2022-07-06T22:51:42.838Z"
+  deleted: false
+  s3Url: null
+  state: in_progress
+  type: failures
+  uploadId: upl_71be866e430b11e9

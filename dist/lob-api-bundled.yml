@@ -12158,6 +12158,24 @@ components:
               message: Invalid body, check 'errors' property for more info.
               errors:
                 - type must be a string
+    feature_flag_disabled:
+      description: Forbidden Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                description: The error code
+                type: number
+              message:
+                type: string
+                description: >-
+                  Details of the error message with the feature flagged
+                  mentioned.
+          example:
+            message: 'This feature is not enabled for this account: access_upload_report'
+            code: 403
     us_autocompletions_error:
       description: Error
       content:
@@ -24743,6 +24761,147 @@ paths:
 
             begin
               createdExport = uploadsApi.create_export("upl_71be866e430b11e9", exportModel)
+            rescue => err
+              p err.message
+            end
+          label: RUBY
+  /uploads/{upl_id}/report:
+    parameters:
+      - in: path
+        name: upl_id
+        description: ID of the upload
+        required: true
+        schema:
+          $ref: '#/components/schemas/upl_id'
+      - in: query
+        required: false
+        name: status
+        description: >-
+          The status of line items to filter and retrieve. By default all line
+          items are returned.
+        schema:
+          enum:
+            - Validated
+            - Failed
+            - Processing
+          type: string
+      - in: query
+        required: false
+        name: limit
+        description: How many results to return.
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+          maximum: 100
+          example: 10
+      - $ref: '#/components/parameters/offset'
+    get:
+      operationId: report_retrieve
+      summary: Retrieve Line Item Report
+      description: >-
+        Retrieves the line item data for each row from the csv file associated
+        with the upload id record. NOTE: This endpoint is currently feature
+        flagged. Please reach out to Lob's support team if you  would like
+        access to this API endpoint.
+      tags:
+        - Uploads
+      responses:
+        '200':
+          description: Returns an report object
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - data
+                  - count
+                  - offset
+                  - total_count
+                properties:
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        rowNumber:
+                          title: Row Number
+                          type: number
+                          description: The row number of the csv file containing this data.
+                        status:
+                          type: string
+                          description: The processing status of line item.
+                          enum:
+                            - Validated
+                            - Failed
+                            - Processing
+                        errorMessage:
+                          type: string
+                          nullable: true
+                          description: >-
+                            The error message detailing the reason why
+                            processing the line item failed.
+                        mailpieceId:
+                          type: string
+                          nullable: true
+                          description: >-
+                            The mailpiece id created from the line item when it
+                            was validated.
+                        originalData:
+                          type: object
+                          description: >-
+                            Key-value pairs where each key is the column header
+                            and each value is the value of the column for the
+                            row.
+                  next_url:
+                    type: string
+                    description: Url of next page of items in list.
+                    nullable: true
+                  prev_url:
+                    type: string
+                    description: Url of previous page of items in list.
+                    nullable: true
+                  count:
+                    $ref: '#/components/schemas/count'
+                  total_count:
+                    type: integer
+                    description: >-
+                      Indicates the total number of records. Provided when the
+                      request specifies an "include" query parameter
+              example:
+                id: ex_6a94fe68fd151e0f8
+                dateCreated: '2021-07-06T22:51:42.838Z'
+                dateModified: '2022-07-06T22:51:42.838Z'
+                deleted: false
+                s3Url: null
+                state: in_progress
+                type: failures
+                uploadId: upl_71be866e430b11e9
+        '403':
+          $ref: '#/components/responses/feature_flag_disabled'
+        '404':
+          $ref: '#/components/responses/upload_not_found'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9/report \
+              -u <YOUR API KEY>:
+          label: CURL
+        - lang: Python
+          source: |
+            with ApiClient(configuration) as api_client:
+              api = UploadsApi(api_client)
+
+            try:
+              retrieved_report = api.get_report("upl_71be866e430b11e9")
+            except ApiException as e:
+              print(e)
+          label: PYTHON
+        - lang: Ruby
+          source: |
+            uploadsApi = UploadsApi.new(config)
+
+            begin
+              retrievedreport = uploadsApi.get_report("upl_71be866e430b11e9")
             rescue => err
               p err.message
             end

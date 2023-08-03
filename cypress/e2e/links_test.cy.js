@@ -7,7 +7,7 @@ describe("ensures introduction links and text are valid", () => {
   });
 
   it("contains the right specification and date", () => {
-    cy.contains("Lob (1.19.7)");
+    cy.contains("Lob (1.19.8)");
   });
 
   it("contains a link to the main Lob page", () => {

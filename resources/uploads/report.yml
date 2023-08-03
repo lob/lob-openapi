@@ -1,0 +1,80 @@
+parameters:
+  - in: path
+    name: upl_id
+    description: ID of the upload
+    required: true
+    schema:
+      $ref: "attributes/upl_id.yml"
+  - in: query
+    required: false
+    name: status
+    description: The status of line items to filter and retrieve. By default all line items are returned.
+    schema:
+      enum:
+        - Validated
+        - Failed
+        - Processing
+      type: string
+  - in: query
+    required: false
+    name: limit
+    description: How many results to return.
+    schema:
+      type: integer
+      minimum: 1
+      default: 100
+      maximum: 100
+      example: 10
+
+  - $ref: "../../shared/parameters/offset.yml"
+
+get:
+  operationId: report_retrieve
+
+  summary: Retrieve Line Item Report
+
+  description: >-
+    Retrieves the line item data for each row from the csv file associated with the upload id record.
+    NOTE: This endpoint is currently feature flagged. Please reach out to Lob's support team if you 
+    would like access to this API endpoint.
+
+  tags:
+    - Uploads
+
+  responses:
+    "200":
+      description: Returns an report object
+      content:
+        application/json:
+          $ref: "responses/upload_report.yml"
+    "404":
+      $ref: "responses/upload_not_found.yml"
+    "403":
+      $ref: "responses/feature_flag_disabled.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/uploads/upl_71be866e430b11e9/report \
+          -u <YOUR API KEY>:
+      label: CURL
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = UploadsApi(api_client)
+
+        try:
+          retrieved_report = api.get_report("upl_71be866e430b11e9")
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: Ruby
+      source: |
+        uploadsApi = UploadsApi.new(config)
+
+        begin
+          retrievedreport = uploadsApi.get_report("upl_71be866e430b11e9")
+        rescue => err
+          p err.message
+        end
+      label: RUBY

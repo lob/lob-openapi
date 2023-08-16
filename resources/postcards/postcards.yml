@@ -224,7 +224,7 @@ post:
             top: "2.5"
             right: "2.5"
             pages: "front,back"
-          fsc: "true"
+          fsc: true
 
       application/x-www-form-urlencoded:
         schema:
@@ -272,6 +272,7 @@ post:
             bottom: "2.5"
             right: "2.5"
             pages: "back"
+          fsc: true
         encoding:
           to:
             style: deepObject
@@ -332,6 +333,7 @@ post:
             bottom: "2.5"
             left: "2.5"
             pages: "front"
+          fsc: true
 
   responses:
     "200":
@@ -362,7 +364,8 @@ post:
           -d 'qr_code[width]=2.5' \
           -d 'qr_code[bottom]=2.5' \
           -d 'qr_code[left]=2.5' \
-          -d 'qr_code[pages]=front,back'
+          -d 'qr_code[pages]=front,back' \
+          -d 'fsc=true'
       label: CURL
     - lang: Typescript
       source: |
@@ -387,7 +390,8 @@ post:
           bottom: '2.5',
           left: '2.5',
           pages: 'front'
-        }
+        },
+        fsc: true
         });
 
         try {
@@ -422,7 +426,8 @@ post:
             bottom: '2.5',
             left: '2.5',
             pages: 'back'
-          }
+          },
+          fsc: true
         }, function (err, res) {
           console.log(err, res);
         });
@@ -445,6 +450,7 @@ post:
           merge_variables: {
             name: "Harry"
           },
+          fsc: true
         });
 
         postcardApi = PostcardsApi.new(config)
@@ -481,7 +487,8 @@ post:
             "bottom" : "2.5",
             "left" : "2.5",
             "pages" : "front"
-          }
+          },
+          fsc = true
         )
 
         with ApiClient(configuration) as api_client:
@@ -520,6 +527,8 @@ post:
           )
         );
 
+        $fsc = true;
+
         $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new GuzzleHttp\Client());
         $postcard_editable = new OpenAPI\Client\Model\PostcardEditable(
           array(
@@ -531,6 +540,7 @@ post:
             "merge_variables"   => $merge_variables,
             "use_type" => $use_type,
             "qr_code"   => $qr_code,
+            "fsc" => $fsc
           )
         );
 
@@ -572,6 +582,7 @@ post:
           postcardEditable.setMergeVariables(merge_variables);
           postcardEditable.setUseType("operational");
           postcardEditable.setQRCode(qrCode);
+          postcardEditable.setFsc(true);
 
           Postcard result = apiInstance.create(postcardEditable, null);
         } catch (ApiException e) {
@@ -604,7 +615,8 @@ post:
             bottom: '2',
             left: '2',
             pages: 'front,back'
-          }
+          },
+          fsc: true
         })
       label: ELIXIR
     - lang: CSharp
@@ -636,6 +648,8 @@ post:
           "front", //pages
         );
 
+        Fsc fsc = new Fsc(true);
+
         PostcardEditable postcardEditable = new PostcardEditable(
           to.ToJson(),  // to
           "adr_249af768103d2810",  // from
@@ -648,7 +662,8 @@ post:
           "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",  // front
           "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>", // back
           usetype,
-          qrCode
+          qrCode,
+          fsc
         );
 
         try {
@@ -680,6 +695,7 @@ post:
         postcardCreate.SetFront("<html style='padding: 1in; font-size: 50;'>Front HTML for {{name}}</html>")
         postcardCreate.SetBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>")
         postcardCreate.SetTo(to)
+        postcardCreate.SetFsc(true)
 
 
         createdpostcard, _, err := apiClient.PostcardsApi.Create(context).PostcardEditable(postcardCreate).Execute()

@@ -8143,12 +8143,6 @@ components:
         - operational
         - null
       nullable: true
-    fsc:
-      type: boolean
-      description: >-
-        This is in beta. Contact support@lob.com or your account contact to
-        learn more.
-      default: false
     letter_generated_base:
       allOf:
         - $ref: '#/components/schemas/generated'
@@ -8183,7 +8177,11 @@ components:
             use_type:
               $ref: '#/components/schemas/ltr_use_type'
             fsc:
-              $ref: '#/components/schemas/fsc'
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `A4` letter size.
+              default: false
             status:
               title: The status of the letter.
               enum:
@@ -8798,7 +8796,11 @@ components:
             use_type:
               $ref: '#/components/schemas/ltr_use_type'
             fsc:
-              $ref: '#/components/schemas/fsc'
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `A4` letter size.
+              default: false
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
@@ -8888,7 +8890,11 @@ components:
             use_type:
               $ref: '#/components/schemas/psc_use_type'
             fsc:
-              $ref: '#/components/schemas/fsc'
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `4x6` or `A5` postcard sizes.
+              default: false
             status:
               title: The status of the postcard.
               enum:
@@ -8999,7 +9005,11 @@ components:
             use_type:
               $ref: '#/components/schemas/psc_use_type'
             fsc:
-              $ref: '#/components/schemas/fsc'
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `4x6` or `A5` postcard sizes.
+              default: false
     scans:
       type: object
       properties:
@@ -9225,7 +9235,11 @@ components:
             url:
               $ref: '#/components/schemas/signed_link'
             fsc:
-              $ref: '#/components/schemas/fsc'
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `11x9_bifold` self-mailer size.
+              default: false
             status:
               title: The status of the self mailer.
               enum:
@@ -9310,7 +9324,11 @@ components:
             use_type:
               $ref: '#/components/schemas/sfm_use_type'
             fsc:
-              $ref: '#/components/schemas/fsc'
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `11x9_bifold` self-mailer size.
+              default: false
     template_html:
       type: string
       description: >

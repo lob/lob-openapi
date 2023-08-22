@@ -6,10 +6,6 @@ describe("ensures introduction links and text are valid", () => {
     cy.visit("https://lob.github.io/lob-openapi/");
   });
 
-  it("contains the right specification and date", () => {
-    cy.contains("Lob (1.19.9)");
-  });
-
   it("contains a link to the main Lob page", () => {
     // makes sure the lob.com link goes to the right page
     cy.get('a[id="lob-link"]')

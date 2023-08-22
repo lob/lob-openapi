@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.11
+  version: 1.19.12
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -7050,6 +7050,131 @@ components:
       type: string
       description: Unique identifier prefixed with `vrsn_`.
       pattern: ^vrsn_[a-zA-Z0-9]+$
+    to_address_us_chk:
+      allOf:
+        - $ref: '#/components/schemas/lob_base'
+        - type: object
+          required:
+            - id
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
+          anyOf:
+            - title: address obj with `name` defined
+              required:
+                - name
+            - title: address obj with `company` defined
+              required:
+                - company
+          properties:
+            id:
+              $ref: '#/components/schemas/adr_id'
+            object:
+              type: string
+              description: Value is resource type.
+              enum:
+                - address
+              default: address
+            description:
+              $ref: '#/components/schemas/resource_description'
+            name:
+              type: string
+              description: >
+                Either `name` or `company` is required, you may also add both.
+                Must be no longer than 40 characters. If both `name` and
+                `company` are provided, they will be printed on two separate
+                lines above the rest of the address.
+              maxLength: 40
+              nullable: true
+            company:
+              type: string
+              description: >
+                Either `name` or `company` is required, you may also add both.
+                Must be no longer than 40 characters. If both `name` and
+                `company` are provided, they will be printed on two separate
+                lines above the rest of the address. This field can be used for
+                any secondary recipient information which is not part of the
+                actual mailing address (Company Name, Department, Attention
+                Line, etc).
+              maxLength: 40
+              nullable: true
+            phone:
+              type: string
+              description: Must be no longer than 40 characters.
+              maxLength: 40
+              nullable: true
+            email:
+              type: string
+              description: Must be no longer than 100 characters.
+              maxLength: 100
+              nullable: true
+            address_line1:
+              type: string
+              description: The primary number, street name, and directional information.
+              maxLength: 50
+            address_line2:
+              type: string
+              description: >-
+                An optional field containing any information which can't fit
+                into line 1.
+              maxLength: 50
+              nullable: true
+            address_city:
+              type: string
+              maxLength: 200
+            address_state:
+              type: string
+              description: 2 letter state short-name code
+              pattern: ^[a-zA-Z]{2}$
+            address_zip:
+              type: string
+              description: >
+                Must follow the ZIP format of `12345` or ZIP+4 format of
+                `12345-1234`.
+              pattern: ^\d{5}(-\d{4})?$
+            address_country:
+              type: string
+              enum:
+                - UNITED STATES
+              description: Full name of country
+              minLength: 13
+              maxLength: 13
+            metadata:
+              $ref: '#/components/schemas/metadata'
+            recipient_moved:
+              type: boolean
+              description: >
+                Only returned for accounts on certain <a
+                href="https://dashboard.lob.com/#/settings/editions"
+                target="_blank">Print &amp; Mail Editions</a>. Value is `true`
+                if the address was altered because the recipient filed for a <a
+                href="#tag/National-Change-of-Address">National Change of
+                Address Linkage (NCOALink)</a>, `false` if the NCOALink check
+                was run but no altered address was found, and `null` if the
+                NCOALink check was not run. The NCOALink check does not happen
+                for non-US addresses, for non-deliverable US addresses, or for
+                addresses created before the NCOALink feature was added to your
+                account.
+              nullable: true
+          example:
+            id: adr_e68217bd744d65c8
+            description: Harry - Office
+            name: HARRY ZHANG
+            company: LOB
+            phone: '5555555555'
+            email: harry@lob.com
+            address_line1: 210 KING ST STE 6100
+            address_line2: null
+            address_city: SAN FRANCISCO
+            address_state: CA
+            address_zip: 94107-1741
+            address_country: UNITED STATES
+            metadata: {}
+            recipient_moved: false
+            date_created: '2019-08-12T00:16:00.361Z'
+            date_modified: '2019-08-12T00:16:00.361Z'
+            object: address
     expected_delivery_date:
       type: string
       description: >-
@@ -7219,7 +7344,7 @@ components:
             url:
               $ref: '#/components/schemas/signed_link'
             to:
-              $ref: '#/components/schemas/address_us'
+              $ref: '#/components/schemas/to_address_us_chk'
             carrier:
               type: string
               enum:
@@ -7265,6 +7390,76 @@ components:
               $ref: '#/components/schemas/date_modified'
             deleted:
               $ref: '#/components/schemas/deleted'
+    inline_address_us_chk:
+      allOf:
+        - type: object
+          required:
+            - address_line1
+            - address_city
+            - address_state
+            - address_zip
+          anyOf:
+            - title: address obj with `name` defined
+              required:
+                - name
+            - title: address obj with `company` defined
+              required:
+                - company
+          properties:
+            description:
+              $ref: '#/components/schemas/resource_description'
+            name:
+              type: string
+              description: >
+                Either `name` or `company` is required, you may also add both.
+                Must be no longer than 40 characters. If both `name` and
+                `company` are provided, they will be printed on two separate
+                lines above the rest of the address.
+              maxLength: 40
+              nullable: true
+            company:
+              $ref: '#/components/schemas/company'
+            address_line1:
+              type: string
+              description: The primary number, street name, and directional information.
+              maxLength: 50
+            address_line2:
+              type: string
+              description: >-
+                An optional field for address unit information. Total string sum
+                of this plus `address_line1` may not exceed 50 characters.
+              maxLength: 50
+              nullable: true
+            address_city:
+              type: string
+              maxLength: 200
+            address_state:
+              type: string
+              description: 2 letter state short-name code
+              pattern: ^[a-zA-Z]{2}$
+            address_zip:
+              type: string
+              description: >
+                Must follow the ZIP format of `12345` or ZIP+4 format of
+                `12345-1234`.
+              pattern: ^\d{5}(-\d{4})?$
+            phone:
+              type: string
+              description: Must be no longer than 40 characters.
+              maxLength: 40
+              nullable: true
+            email:
+              type: string
+              description: Must be no longer than 100 characters.
+              maxLength: 100
+              nullable: true
+            address_country:
+              type: string
+              enum:
+                - US
+              default: US
+            metadata:
+              $ref: '#/components/schemas/metadata'
     check_input_to:
       type: object
       properties:
@@ -7290,7 +7485,7 @@ components:
             target="_blank">More about verification of mailing addresses</a>
           oneOf:
             - $ref: '#/components/schemas/adr_id'
-            - $ref: '#/components/schemas/inline_address_us'
+            - $ref: '#/components/schemas/inline_address_us_chk'
     html_string:
       type: string
       description: An HTML string of under 10,000 characters.

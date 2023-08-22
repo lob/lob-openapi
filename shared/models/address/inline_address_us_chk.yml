@@ -1,0 +1,79 @@
+allOf:
+  - type: object
+
+    required:
+      - address_line1
+      - address_city
+      - address_state
+      - address_zip
+    anyOf:
+      - title: address obj with `name` defined
+        required:
+          - name
+      - title: address obj with `company` defined
+        required:
+          - company
+    properties:
+      description:
+        $ref: "../../../shared/attributes/resource_description.yml"
+
+      name:
+        type: string
+        description: >
+          Either `name` or `company` is required,
+          you may also add both. Must be no longer than 40 characters.
+          If both `name` and `company` are provided,
+          they will be printed on two separate lines above the rest of the address.
+        maxLength: 40
+        nullable: true
+
+      company:
+        $ref: "../../../shared/attributes/address/company.yml"
+
+      address_line1:
+        type: string
+        description: The primary number, street name, and directional information.
+        maxLength: 50
+
+      address_line2:
+        type: string
+        description: An optional field for address unit information. Total string sum of this plus `address_line1` may not exceed 50 characters.
+        maxLength: 50
+        nullable: true
+
+      address_city:
+        type: string
+        maxLength: 200
+
+      address_state:
+        type: string
+        description: 2 letter state short-name code
+        pattern: "^[a-zA-Z]{2}$"
+
+      address_zip:
+        type: string
+        description: >
+          Must follow the ZIP format of `12345` or
+          ZIP+4 format of `12345-1234`.
+        pattern: '^\d{5}(-\d{4})?$'
+
+      phone:
+        type: string
+        description: Must be no longer than 40 characters.
+        maxLength: 40
+        nullable: true
+
+      email:
+        type: string
+        description: Must be no longer than 100 characters.
+        maxLength: 100
+        nullable: true
+
+      address_country:
+        type: string
+        enum:
+          - US
+        default: US
+
+      metadata:
+        $ref: "../../../shared/models/metadata.yml"

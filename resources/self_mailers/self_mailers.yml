@@ -200,6 +200,7 @@ post:
             top: "2.5"
             right: "2.5"
             pages: "inside,outside"
+          fsc: true
 
       application/x-www-form-urlencoded:
         schema:
@@ -225,6 +226,7 @@ post:
             top: "2.5"
             right: "2.5"
             pages: "inside,outside"
+          fsc: true
         encoding:
           merge_variables:
             style: deepObject
@@ -257,6 +259,7 @@ post:
             top: "2.5"
             right: "2.5"
             pages: "inside,outside"
+          fsc: true
 
   responses:
     "200":
@@ -286,7 +289,8 @@ post:
           -d 'qr_code[pages]=inside,outside'
           --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
           --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
-          -d "merge_variables[name]=Harry"
+          -d "merge_variables[name]=Harry" \
+          -d 'fsc=true'
       label: CURL
     - lang: Typescript
       source: |
@@ -312,7 +316,8 @@ post:
             bottom: '2.5',
             left: '2.5',
             pages: 'inside'
-          }
+          },
+          fsc: true
         });
 
         try {
@@ -346,7 +351,8 @@ post:
             bottom: '2.5',
             left: '2.5',
             pages: 'inside'
-          }
+          },
+          fsc: true
         }, function (err, res) {
           console.log(err, res);
         });
@@ -377,7 +383,8 @@ post:
             bottom: '2.5',
             left: '2.5',
             pages: 'inside'
-          }
+          },
+          fsc: true
         });
 
         selfMailerApi = SelfMailersApi.new(config)
@@ -406,15 +413,16 @@ post:
           merge_variables = MergeVariables(
             name = "Harry",
           ),
-          use_type: "marketing"
-          qr_code : {
+          use_type = "marketing"
+          qr_code = {
             position: "relative",
             redirect_url: "https://www.lob.com",
             width: "2.5",
             bottom: "2.5",
             left: "2.5",
             pages: "inside"
-          }
+          },
+          fsc = true
         )
 
         with ApiClient(configuration) as api_client:
@@ -442,6 +450,7 @@ post:
         $merge_variables->name = "Harry";
 
         $use_type = "marketing";
+        $fsc = true;
 
         $qr_code = new OpenAPI\Client\Model\QRCode(
           array(
@@ -463,8 +472,9 @@ post:
             "outside"     => "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
             "to"     => $to,
             "merge_variables"     => $merge_variables,
-            "use_type"    => $use_type
+            "use_type"    => $use_type,
             "qr_code"   => $qr_code,
+            "fsc"  => $fsc
           )
         );
 
@@ -505,7 +515,9 @@ post:
           selfMailerEditable.setTo(to);
           selfMailerEditable.setMergeVariables(merge_variables);
           selfMailerEditable.setUseType("marketing");
-          postcardEditable.setQRCode(qrCode);
+          selfMailerEditable.setQRCode(qrCode);
+          selfMailerEditable.setFsc(true);
+
 
           SelfMailer result = apiInstance.create(selfMailerEditable, null);
         } catch (ApiException e) {
@@ -537,7 +549,8 @@ post:
             bottom: '2',
             left: '2',
             pages: 'inside,outside'
-          }
+          },
+          fsc: true
         })
       label: ELIXIR
     - lang: CSharp
@@ -567,6 +580,8 @@ post:
           "inside", //pages
         );
 
+        Fsc fsc = new Fsc(true);
+
         SelfMailerEditable selfMailerEditable = new SelfMailerEditable(
           to.ToJson(),  // to
           "adr_249af768103d2810",  // from
@@ -579,7 +594,8 @@ post:
           "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
           "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
           "marketing", // use_type 
-          qrCode
+          qrCode,
+          fsc
         );
 
         try {
@@ -611,6 +627,7 @@ post:
         selfMailerCreate.SetInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>")
         selfMailerCreate.SetOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
         selfMailerCreate.SetTo(to)
+        selfMailerCreate.SetFsc(true)
 
 
         createdselfMailer, _, err := apiClient.SelfMailersApi.Create(context).SelfMailerEditable(selfMailerCreate).Execute()

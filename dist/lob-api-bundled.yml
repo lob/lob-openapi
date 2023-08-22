@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.9
+  version: 1.19.10
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -8371,6 +8371,12 @@ components:
               nullable: true
             use_type:
               $ref: '#/components/schemas/ltr_use_type'
+            fsc:
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `A4` letter size.
+              default: false
             status:
               title: The status of the letter.
               enum:
@@ -8984,6 +8990,12 @@ components:
               $ref: '#/components/schemas/qr_code'
             use_type:
               $ref: '#/components/schemas/ltr_use_type'
+            fsc:
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `A4` letter size.
+              default: false
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
@@ -9072,6 +9084,12 @@ components:
               nullable: true
             use_type:
               $ref: '#/components/schemas/psc_use_type'
+            fsc:
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `4x6` or `A5` postcard sizes.
+              default: false
             status:
               title: The status of the postcard.
               enum:
@@ -9181,6 +9199,12 @@ components:
               $ref: '#/components/schemas/qr_code'
             use_type:
               $ref: '#/components/schemas/psc_use_type'
+            fsc:
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `4x6` or `A5` postcard sizes.
+              default: false
     scans:
       type: object
       properties:
@@ -9405,6 +9429,12 @@ components:
               $ref: '#/components/schemas/sfm_use_type'
             url:
               $ref: '#/components/schemas/signed_link'
+            fsc:
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `11x9_bifold` self-mailer size.
+              default: false
             status:
               title: The status of the self mailer.
               enum:
@@ -9488,6 +9518,12 @@ components:
               $ref: '#/components/schemas/qr_code'
             use_type:
               $ref: '#/components/schemas/sfm_use_type'
+            fsc:
+              type: boolean
+              description: >-
+                This is in beta. Contact support@lob.com or your account contact
+                to learn more. Not available for `11x9_bifold` self-mailer size.
+              default: false
     template_html:
       type: string
       description: >
@@ -11395,6 +11431,7 @@ components:
                 date_modified: '2019-08-08T17:09:16.850Z'
                 send_date: '2019-08-08'
                 use_type: marketing
+                fsc: false
                 object: letter
               - id: ltr_da8267c6a6545cd6
                 description: Demo Letter
@@ -11460,6 +11497,7 @@ components:
                 send_date: '2019-08-08T17:08:12.224Z'
                 cards: null
                 use_type: marketing
+                fsc: true
                 object: letter
             object: list
             next_url: >-
@@ -11584,6 +11622,7 @@ components:
                 date_modified: '2017-08-05T15:54:53.346Z'
                 object: card
             use_type: marketing
+            fsc: false
             object: letter
     postcard_deleted:
       description: Deleted
@@ -11647,6 +11686,7 @@ components:
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
                 use_type: marketing
+                fsc: false
                 object: postcard
               - id: psc_0e03d1ad7d31f151
                 description: null
@@ -11709,6 +11749,7 @@ components:
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
                 use_type: marketing
+                fsc: false
                 object: postcard
             object: list
             previous_url: null
@@ -11759,6 +11800,7 @@ components:
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
                 use_type: marketing
+                fsc: false
                 object: postcard
             full:
               value:
@@ -11823,6 +11865,7 @@ components:
                 date_modified: '2021-03-24T22:51:42.838Z'
                 send_date: '2021-03-24T22:51:42.838Z'
                 use_type: marketing
+                fsc: false
                 object: postcard
     self_mailer_deleted:
       description: Deleted
@@ -11925,6 +11968,7 @@ components:
                 send_date: '2021-03-16T18:45:40.493Z'
                 deleted: true
                 use_type: marketing
+                fsc: false
                 object: self_mailer
               - id: sfm_8ffbe811dea49dcf
                 description: April Campaign
@@ -11995,6 +12039,7 @@ components:
                 send_date: '2021-03-16T18:45:40.493Z'
                 deleted: true
                 use_type: marketing
+                fsc: true
                 object: self_mailer
             object: list
             next_url: null
@@ -12083,6 +12128,7 @@ components:
             date_modified: '2021-03-16T18:40:40.504Z'
             send_date: '2021-03-16T18:45:40.493Z'
             use_type: marketing
+            fsc: false
             object: self_mailer
     template_error:
       description: Error
@@ -19042,6 +19088,7 @@ paths:
                     date_modified: '2017-08-05T15:54:53.346Z'
                     object: card
                 use_type: marketing
+                fsc: false
                 object: letter
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -19488,6 +19535,7 @@ paths:
                 top: '2'
                 right: '2'
                 pages: 1-2,4-5
+              fsc: true
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/letter_editable'
@@ -19538,6 +19586,7 @@ paths:
                 bottom: '2'
                 right: '2'
                 pages: 1,4
+              fsc: true
             encoding:
               to:
                 style: deepObject
@@ -19601,6 +19650,7 @@ paths:
                 bottom: '2'
                 left: '2'
                 pages: 1,3-5
+              fsc: true
       responses:
         '200':
           $ref: '#/components/responses/post_letter'
@@ -19628,7 +19678,8 @@ paths:
               -d 'qr_code[width]=2' \
               -d 'qr_code[bottom]=2' \
               -d 'qr_code[left]=2' \
-              -d 'qr_code[pages]=3,4-5'
+              -d 'qr_code[pages]=3,4-5' \
+              -d 'fsc=true'
           label: CURL
         - lang: Typescript
           source: |
@@ -19653,7 +19704,8 @@ paths:
                 bottom: '2',
                 left: '2',
                 pages: '2,5'
-              }
+              },
+              fsc: true
             });
 
             try {
@@ -19689,7 +19741,8 @@ paths:
                 bottom: '2',
                 left: '2',
                 pages: '2,4-5'
-              }
+              },
+              fsc: true
             }, function (err, res) {
               console.log(err, res);
             });
@@ -19715,7 +19768,8 @@ paths:
               cards: [
                 "card_c51ae96f5cebf3e",
               ],
-              use_type: "marketing"
+              use_type: "marketing",
+              fsc: true
             });
 
             letterApi = LettersApi.new(config)
@@ -19747,7 +19801,7 @@ paths:
               cards = [
                 "card_c51ae96f5cebf3e",
               ],
-              use_type: "marketing",
+              use_type = "marketing",
               qr_code = {
                 "position" : "relative",
                 "redirect_url" : "https://www.lob.com",
@@ -19755,7 +19809,8 @@ paths:
                 "bottom" : "2",
                 "left" : "2",
                 "pages" : "1,3"
-              }
+              },
+              fsc = true
             )
 
             with ApiClient(configuration) as api_client:
@@ -19799,6 +19854,8 @@ paths:
 
             $use_type = "marketing";
 
+            $fsc = true;
+
 
             $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new
             GuzzleHttp\Client());
@@ -19817,6 +19874,7 @@ paths:
                 ),
                 "use_type" => $use_type;
                 "qr_code"   => $qr_code,
+                "fsc" => $fsc,
               )
             );
 
@@ -19864,6 +19922,7 @@ paths:
               letterEditable.setCards(cards);
               letterEditable.setUseType("operational");
               letterEditable.setQRCode(qrCode);
+              letterEditable.setFsc(true);
 
               Letter result = apiInstance.create(letterEditable, null);
             } catch (ApiException e) {
@@ -19897,7 +19956,8 @@ paths:
                 bottom: '2',
                 left: '2',
                 pages: '1-2,5'
-              }
+              },
+              fsc: true
             })
           label: ELIXIR
         - lang: CSharp
@@ -19936,6 +19996,9 @@ paths:
             );
 
 
+            Fsc fsc = new Fsc(true);
+
+
             List<String> cards = new List<String>();
 
             cards.Add("card_c51ae96f5cebf3e");
@@ -19959,7 +20022,8 @@ paths:
               default(LetterEditable.ExtraServiceEnum?),  // extraService
               cards, // cards
               usetype,
-              qrCode
+              qrCode,
+              fsc
             );
 
 
@@ -20011,6 +20075,8 @@ paths:
             letterCreate.SetColor("true")
 
             letterCreate.SetTo(to)
+
+            letterCreate.SetFsc(true)
 
 
 
@@ -20077,6 +20143,7 @@ paths:
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
                     use_type: marketing
+                    fsc: false
                     object: postcard
                 full:
                   value:
@@ -20141,6 +20208,7 @@ paths:
                     date_modified: '2021-03-24T22:51:42.838Z'
                     send_date: '2021-03-24T22:51:42.838Z'
                     use_type: marketing
+                    fsc: false
                     object: postcard
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -20590,6 +20658,7 @@ paths:
                 top: '2.5'
                 right: '2.5'
                 pages: front,back
+              fsc: true
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/postcard_editable'
@@ -20636,6 +20705,7 @@ paths:
                 bottom: '2.5'
                 right: '2.5'
                 pages: back
+              fsc: true
             encoding:
               to:
                 style: deepObject
@@ -20695,6 +20765,7 @@ paths:
                 bottom: '2.5'
                 left: '2.5'
                 pages: front
+              fsc: true
       responses:
         '200':
           $ref: '#/components/responses/post_postcard'
@@ -20722,7 +20793,8 @@ paths:
               -d 'qr_code[width]=2.5' \
               -d 'qr_code[bottom]=2.5' \
               -d 'qr_code[left]=2.5' \
-              -d 'qr_code[pages]=front,back'
+              -d 'qr_code[pages]=front,back' \
+              -d 'fsc=true'
           label: CURL
         - lang: Typescript
           source: >
@@ -20755,7 +20827,9 @@ paths:
               bottom: '2.5',
               left: '2.5',
               pages: 'front'
-            }
+            },
+
+            fsc: true
 
             });
 
@@ -20792,7 +20866,8 @@ paths:
                 bottom: '2.5',
                 left: '2.5',
                 pages: 'back'
-              }
+              },
+              fsc: true
             }, function (err, res) {
               console.log(err, res);
             });
@@ -20815,6 +20890,7 @@ paths:
               merge_variables: {
                 name: "Harry"
               },
+              fsc: true
             });
 
             postcardApi = PostcardsApi.new(config)
@@ -20851,7 +20927,8 @@ paths:
                 "bottom" : "2.5",
                 "left" : "2.5",
                 "pages" : "front"
-              }
+              },
+              fsc = true
             )
 
             with ApiClient(configuration) as api_client:
@@ -20895,6 +20972,9 @@ paths:
             );
 
 
+            $fsc = true;
+
+
             $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new
             GuzzleHttp\Client());
 
@@ -20908,6 +20988,7 @@ paths:
                 "merge_variables"   => $merge_variables,
                 "use_type" => $use_type,
                 "qr_code"   => $qr_code,
+                "fsc" => $fsc
               )
             );
 
@@ -20950,6 +21031,7 @@ paths:
               postcardEditable.setMergeVariables(merge_variables);
               postcardEditable.setUseType("operational");
               postcardEditable.setQRCode(qrCode);
+              postcardEditable.setFsc(true);
 
               Postcard result = apiInstance.create(postcardEditable, null);
             } catch (ApiException e) {
@@ -20982,7 +21064,8 @@ paths:
                 bottom: '2',
                 left: '2',
                 pages: 'front,back'
-              }
+              },
+              fsc: true
             })
           label: ELIXIR
         - lang: CSharp
@@ -21021,6 +21104,9 @@ paths:
             );
 
 
+            Fsc fsc = new Fsc(true);
+
+
             PostcardEditable postcardEditable = new PostcardEditable(
               to.ToJson(),  // to
               "adr_249af768103d2810",  // from
@@ -21033,7 +21119,8 @@ paths:
               "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>",  // front
               "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>", // back
               usetype,
-              qrCode
+              qrCode,
+              fsc
             );
 
 
@@ -21086,6 +21173,8 @@ paths:
             20;'>Back HTML for {{name}}</html>")
 
             postcardCreate.SetTo(to)
+
+            postcardCreate.SetFsc(true)
 
 
 
@@ -22129,6 +22218,7 @@ paths:
                 date_modified: '2021-03-16T18:40:40.504Z'
                 send_date: '2021-03-16T18:45:40.493Z'
                 use_type: marketing
+                fsc: false
                 object: self_mailer
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -22552,6 +22642,7 @@ paths:
                 top: '2.5'
                 right: '2.5'
                 pages: inside,outside
+              fsc: true
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'
@@ -22576,6 +22667,7 @@ paths:
                 top: '2.5'
                 right: '2.5'
                 pages: inside,outside
+              fsc: true
             encoding:
               merge_variables:
                 style: deepObject
@@ -22607,6 +22699,7 @@ paths:
                 top: '2.5'
                 right: '2.5'
                 pages: inside,outside
+              fsc: true
       responses:
         '200':
           $ref: '#/components/responses/post_self_mailer'
@@ -22633,7 +22726,8 @@ paths:
               -d 'qr_code[pages]=inside,outside'
               --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
               --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
-              -d "merge_variables[name]=Harry"
+              -d "merge_variables[name]=Harry" \
+              -d 'fsc=true'
           label: CURL
         - lang: Typescript
           source: |
@@ -22659,7 +22753,8 @@ paths:
                 bottom: '2.5',
                 left: '2.5',
                 pages: 'inside'
-              }
+              },
+              fsc: true
             });
 
             try {
@@ -22693,7 +22788,8 @@ paths:
                 bottom: '2.5',
                 left: '2.5',
                 pages: 'inside'
-              }
+              },
+              fsc: true
             }, function (err, res) {
               console.log(err, res);
             });
@@ -22724,7 +22820,8 @@ paths:
                 bottom: '2.5',
                 left: '2.5',
                 pages: 'inside'
-              }
+              },
+              fsc: true
             });
 
             selfMailerApi = SelfMailersApi.new(config)
@@ -22753,15 +22850,16 @@ paths:
               merge_variables = MergeVariables(
                 name = "Harry",
               ),
-              use_type: "marketing"
-              qr_code : {
+              use_type = "marketing"
+              qr_code = {
                 position: "relative",
                 redirect_url: "https://www.lob.com",
                 width: "2.5",
                 bottom: "2.5",
                 left: "2.5",
                 pages: "inside"
-              }
+              },
+              fsc = true
             )
 
             with ApiClient(configuration) as api_client:
@@ -22793,6 +22891,8 @@ paths:
 
             $use_type = "marketing";
 
+            $fsc = true;
+
 
             $qr_code = new OpenAPI\Client\Model\QRCode(
               array(
@@ -22817,8 +22917,9 @@ paths:
                 "outside"     => "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
                 "to"     => $to,
                 "merge_variables"     => $merge_variables,
-                "use_type"    => $use_type
+                "use_type"    => $use_type,
                 "qr_code"   => $qr_code,
+                "fsc"  => $fsc
               )
             );
 
@@ -22860,7 +22961,9 @@ paths:
               selfMailerEditable.setTo(to);
               selfMailerEditable.setMergeVariables(merge_variables);
               selfMailerEditable.setUseType("marketing");
-              postcardEditable.setQRCode(qrCode);
+              selfMailerEditable.setQRCode(qrCode);
+              selfMailerEditable.setFsc(true);
+
 
               SelfMailer result = apiInstance.create(selfMailerEditable, null);
             } catch (ApiException e) {
@@ -22892,7 +22995,8 @@ paths:
                 bottom: '2',
                 left: '2',
                 pages: 'inside,outside'
-              }
+              },
+              fsc: true
             })
           label: ELIXIR
         - lang: CSharp
@@ -22928,6 +23032,9 @@ paths:
             );
 
 
+            Fsc fsc = new Fsc(true);
+
+
             SelfMailerEditable selfMailerEditable = new SelfMailerEditable(
               to.ToJson(),  // to
               "adr_249af768103d2810",  // from
@@ -22940,7 +23047,8 @@ paths:
               "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
               "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
               "marketing", // use_type 
-              qrCode
+              qrCode,
+              fsc
             );
 
 
@@ -22993,6 +23101,8 @@ paths:
             20;'>Outside HTML for {{name}}</html>")
 
             selfMailerCreate.SetTo(to)
+
+            selfMailerCreate.SetFsc(true)
 
 
 

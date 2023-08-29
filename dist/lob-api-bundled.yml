@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.12
+  version: 1.19.13
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -656,6 +656,11 @@ tags:
           <td style="white-space: nowrap">A postcard receives a "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
+          <td style="white-space: nowrap"><code>postcard.failed</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A postcard receives a "Failed" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
           <td style="white-space: nowrap"><code>postcard.re-routed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A postcard receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
@@ -734,6 +739,11 @@ tags:
           <td style="white-space: nowrap">A self_mailer receives an "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
+          <td style="white-space: nowrap"><code>self_mailer.failed</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A self_mailer receives an "Failed" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
           <td style="white-space: nowrap"><code>self_mailer.re-routed</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A self_mailer receives a "Re-Routed" <a href='#operation/tracking_event'>tracking event</a>.</td>
@@ -810,6 +820,11 @@ tags:
           <td style="white-space: nowrap"><code>letter.delivered</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A letter receives a "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.failed</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A letter receives a "Failed" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>letter.re-routed</code></td>
@@ -963,6 +978,11 @@ tags:
           <td style="white-space: nowrap"><code>check.delivered</code></td>
           <td style="white-space: nowrap"><code>true</code></td>
           <td style="white-space: nowrap">A check receives a "Delivered" <a href='#operation/tracking_event'>tracking event</a>.</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.failed</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A check receives a "Failed" <a href='#operation/tracking_event'>tracking event</a>.</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>check.re-routed</code></td>
@@ -10066,6 +10086,7 @@ components:
         - postcard.rendered_thumbnails
         - postcard.deleted
         - postcard.delivered
+        - postcard.failed
         - postcard.mailed
         - postcard.in_transit
         - postcard.in_local_area
@@ -10083,6 +10104,7 @@ components:
         - self_mailer.rendered_thumbnails
         - self_mailer.deleted
         - self_mailer.delivered
+        - self_mailer.failed
         - self_mailer.mailed
         - self_mailer.in_transit
         - self_mailer.in_local_area
@@ -10100,6 +10122,7 @@ components:
         - letter.rendered_thumbnails
         - letter.deleted
         - letter.delivered
+        - letter.failed
         - letter.mailed
         - letter.in_transit
         - letter.in_local_area
@@ -10134,6 +10157,7 @@ components:
         - check.rendered_thumbnails
         - check.deleted
         - check.delivered
+        - check.failed
         - check.mailed
         - check.in_transit
         - check.in_local_area

@@ -1,0 +1,39 @@
+writable:
+  description: Properties that the self mailers in your Creative should have.
+
+  required:
+    - color
+
+  properties:
+    mail_type:
+      $ref: "../../../shared/attributes/mail_type.yml"
+
+    size:
+      $ref: "../../self_mailers/attributes/self_mailer_size.yml"
+
+    qr_code:
+      $ref: "../../../shared/models/qr_code_campaigns.yml"
+
+returned:
+  description: Properties that the self mailers in your Creative should have.
+
+  properties:
+    mail_type:
+      $ref: "../../../shared/attributes/mail_type.yml"
+
+    size:
+      $ref: "../../self_mailers/attributes/self_mailer_size.yml"
+
+    inside_original_url:
+      description: The original URL of the `inside` template.
+      maxLength: 2083
+      minLength: 1
+      type: string
+      format: uri
+
+    outside_original_url:
+      description: The original URL of the `outside` template.
+      maxLength: 2083
+      minLength: 1
+      type: string
+      format: uri

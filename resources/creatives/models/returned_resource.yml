@@ -30,3 +30,19 @@ oneOf:
           details:
             $ref: "letter_details.yml#/returned"
       - $ref: "creative_base.yml"
+  - allOf:
+      - title: Self Mailer Creative
+        required:
+          - resource_type
+          - details
+        properties:
+          resource_type:
+            type: string
+            description: Mailpiece type for the creative
+            enum:
+              - self_mailer
+
+          details:
+            $ref: "self_mailer_details.yml#/returned"
+
+      - $ref: "creative_base.yml"

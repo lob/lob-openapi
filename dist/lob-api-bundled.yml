@@ -7763,10 +7763,10 @@ components:
     qr_code_campaigns:
       type: object
       description: >-
-        Customize and place a QR code on all the postcards, letters or self mailers in a
-        campaign. Redirect URLs can either be unique for each recipient, or a
-        single link can be used for the whole campaign. See `redirect_url`
-        attribute below for more details.
+        Customize and place a QR code on all the postcards, letters or self
+        mailers in a campaign. Redirect URLs can either be unique for each
+        recipient, or a single link can be used for the whole campaign. See
+        `redirect_url` attribute below for more details.
       required:
         - position
         - width
@@ -7944,6 +7944,65 @@ components:
       oneOf:
         - $ref: '#/components/schemas/tmpl_id'
         - $ref: '#/components/schemas/local_file_path'
+    crv_inside:
+      description: >
+        The artwork to use as the inside of your self mailer creative.
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 6.25"x18.25", 12.25"x9.25" or
+        11.25"x9.25" at 300 DPI, while supplied HTML template will be rendered
+        to the specified `size`.
+
+        - Be sure to leave room for address and postage information by following
+        the templates provided here:
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_bifold_template.pdf" target="_blank">6x18 bifold template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/11x9_sfm_bifold_template.pdf" target="_blank">11x9 bifold template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/12x9_sfm_bifold_template.pdf" target="_blank">12x9 bifold template</a>
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/local_file_path'
+    crv_outside:
+      description: >
+        The artwork to use as the outside of your self mailer creative.
+
+        Notes:
+
+        - HTML merge variables should not include delimiting whitespace.
+
+        - PDF, PNG, and JPGs must be sized at 6.25"x18.25", 12.25"x9.25" or
+        11.25"x9.25" at 300 DPI, while supplied HTML template will be rendered
+        to the specified `size`.
+
+        - Be sure to leave room for address and postage information by following
+        the templates provided here:
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_bifold_template.pdf" target="_blank">6x18 bifold template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/11x9_sfm_bifold_template.pdf" target="_blank">11x9 bifold template</a>
+          - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/12x9_sfm_bifold_template.pdf" target="_blank">12x9 bifold template</a>
+
+
+        See [here](#section/HTML-Examples) for HTML examples.
+      oneOf:
+        - $ref: '#/components/schemas/tmpl_id'
+        - $ref: '#/components/schemas/local_file_path'
+    self_mailer_details_writable:
+      description: >-
+        Properties that the self mailers in your Creative should have. Check
+        within in order to add a QR code to your creative.
+      required:
+        - color
+      properties:
+        mail_type:
+          $ref: '#/components/schemas/mail_type'
+        size:
+          $ref: '#/components/schemas/self_mailer_size'
+        qr_code:
+          $ref: '#/components/schemas/qr_code_campaigns'
     creative_writable:
       oneOf:
         - allOf:
@@ -7989,6 +8048,29 @@ components:
                   $ref: '#/components/schemas/letter_details_writable'
                 file:
                   $ref: '#/components/schemas/crv_file'
+            - $ref: '#/components/schemas/creative_base'
+        - allOf:
+            - title: Self Mailer Creative
+              required:
+                - inside
+                - outside
+                - campaign_id
+                - resource_type
+                - details
+              properties:
+                resource_type:
+                  type: string
+                  description: Mailpiece type for the creative
+                  enum:
+                    - self_mailer
+                campaign_id:
+                  $ref: '#/components/schemas/cmp_id'
+                inside:
+                  $ref: '#/components/schemas/crv_inside'
+                outside:
+                  $ref: '#/components/schemas/crv_outside'
+                details:
+                  $ref: '#/components/schemas/self_mailer_details_writable'
             - $ref: '#/components/schemas/creative_base'
     recipient_input:
       allOf:

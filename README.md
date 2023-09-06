@@ -1,6 +1,6 @@
 # ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
-- [ Lob OpenAPI v3 Specification](#--lob-openapi-v3-specification)
+- [  Lob OpenAPI v3 Specification](#--lob-openapi-v3-specification)
   - [What is this project?](#what-is-this-project)
   - [Contributing](#contributing)
   - [Design](#design)
@@ -131,6 +131,6 @@ imported into Postman so that you can get started on making requests to Lob API.
 
 ## How to bump version
 
-For a MAJOR breaking change on the api, you should bump the first number i.e. `1.xx.xx` -> `2.xx.xx`. For a MINOR change, you should bump the second set of numbers `1.13.x` -> `1.14.0`. For a MINOR change (You are changing a typo or something that doesn't affect logic) you should bump the final set of numbers i.e. `x.xx.10` -> `x.xx.11`.
-When bumping the version there are three key areas where the version should be bumped. The first is `package.json`, the second is the `package-lock.json`, and the final, is `lob-api-public.yml`. These all hav a property called `version` that should be bumped based on the criteria above.
+For a MAJOR breaking change on the api, you should bump the first number i.e. `1.xx.xx` -> `2.xx.xx`. For a MINOR change, you should bump the second set of numbers `1.13.x` -> `1.14.0`. For a PATCH change (You are changing a typo or something that doesn't affect logic) you should bump the final set of numbers i.e. `x.xx.10` -> `x.xx.11`.
+When bumping the version there are three key areas where the version should be bumped. The first is `package.json`, the second is the `package-lock.json`, and the final, is `lob-api-public.yml`. These all have a property called `version` that should be bumped based on the criteria above.
 The final step is to ensure you run `npm run bundle && npm run pretty && npm run redoc` to actually appply these changes.

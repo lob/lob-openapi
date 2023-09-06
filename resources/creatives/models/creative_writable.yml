@@ -48,3 +48,31 @@ oneOf:
           file:
             $ref: "../attributes/crv_file.yml"
       - $ref: "creative_base.yml"
+  - allOf:
+      - title: Self Mailer Creative
+        required:
+          - inside
+          - outside
+          - campaign_id
+          - resource_type
+          - details
+        properties:
+          resource_type:
+            type: string
+            description: Mailpiece type for the creative
+            enum:
+              - self_mailer
+
+          campaign_id:
+            $ref: "../../campaigns/attributes/cmp_id.yml"
+
+          inside:
+            $ref: "../attributes/crv_inside.yml"
+
+          outside:
+            $ref: "../attributes/crv_outside.yml"
+
+          details:
+            $ref: "self_mailer_details.yml#/writable"
+
+      - $ref: "creative_base.yml"

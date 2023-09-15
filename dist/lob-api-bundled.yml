@@ -13033,6 +13033,39 @@ x-webhooks:
         '200':
           $ref: '#/components/responses/tracking_events'
 paths:
+  /accounts:
+    get:
+      operationId: get_lob_credits_balance
+      summary: Get Lob Credits Balance
+      description: Returns the account's current balance of Lob Credits.
+      tags:
+        - Accounts
+        - Lob Credits
+      responses:
+        '200':
+          description: Returns a lob_credits_balance object.
+          content:
+            description: Account's current balance of Lob Credits
+            content:
+              application/json:
+                schema:
+                  $ref: ../models/lob_credits_balance.yml
+                examples:
+                  empty:
+                    value:
+                      balance: 0
+                  negative:
+                    value:
+                      balance: -1234.56
+                  positive:
+                    value:
+                      balance: 1000
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/accounts/credits_balance \
+              -u <YOUR API KEY>:
+          label: CURL
   /addresses:
     get:
       operationId: addresses_list

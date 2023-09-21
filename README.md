@@ -1,6 +1,6 @@
 # ![CI](https://github.com/lob/lob-openapi/workflows/CI/badge.svg) ![CD](https://github.com/lob/lob-openapi/workflows/CD/badge.svg) Lob [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) Specification
 
-- [  Lob OpenAPI v3 Specification](#--lob-openapi-v3-specification)
+- [ Lob OpenAPI v3 Specification](#--lob-openapi-v3-specification)
   - [What is this project?](#what-is-this-project)
   - [Contributing](#contributing)
   - [Design](#design)

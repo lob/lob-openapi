@@ -10,23 +10,23 @@ properties:
     type: string
     enum:
       - relative
-    description: Sets how a QR code is being positioned in the document. When using position 'relative', you should provide one of 'top' or 'bottom', and one of 'left' or 'right'.
+    description: Sets how a QR code is being positioned in the document. Together with this, you should provide one of 'top' or 'bottom', and one of 'left' or 'right'.
 
   top:
     type: string
-    description: Vertical distance (in inches) to place QR code from the top.
+    description: Vertical distance (in inches) to place QR code from the top. Only allowed if "bottom" isn't provided.
 
   right:
     type: string
-    description: Horizonal distance (in inches) to place QR code from the right.
+    description: Horizonal distance (in inches) to place QR code from the right. Only allowed if "left" isn't provided.
 
   left:
     type: string
-    description: Horizonal distance(in inches) to place QR code from the left.
+    description: Horizonal distance(in inches) to place QR code from the left. Only allowed if "right" isn't provided.
 
   bottom:
     type: string
-    description: Vertical distance (in inches) to place QR code from the bottom.
+    description: Vertical distance (in inches) to place QR code from the bottom. Only allowed if "top" isn't provided.
 
   redirect_url:
     type: string

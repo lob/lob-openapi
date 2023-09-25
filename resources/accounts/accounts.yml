@@ -1,0 +1,24 @@
+get:
+  operationId: get_lob_credits_balance
+
+  summary: Get Lob Credits Balance
+
+  description: >-
+    Returns the account's current balance of Lob Credits.
+
+  tags:
+    - Accounts
+    - Lob Credits
+
+  responses:
+    "200":
+      description: Returns a lob_credits_balance object.
+      content:
+        $ref: responses/lob_credits_balance.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/accounts/credits_balance \
+          -u <YOUR API KEY>:
+      label: CURL

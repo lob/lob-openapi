@@ -7,6 +7,12 @@ required:
   - dpv_cmra
   - dpv_vacant
   - dpv_active
+  - dpv_inactive_reason
+  - dpv_throwback
+  - dpv_non_delivery_day_flag
+  - dpv_non_delivery_day_values
+  - dpv_door_not_accessible
+  - dpv_no_secure_location
   - dpv_footnotes
   - ews_match
   - lacs_indicator
@@ -74,6 +80,72 @@ properties:
 
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "Y"
+
+  dpv_inactive_reason:
+    type: string
+    enum:
+      - "Y"
+      - "N"
+      - ""
+    description: |
+      Indicates that an address was once deliverable, but has become vacant and is no longer receiving deliveries. Possible values are:
+      * `Y` –– Address is vacant.
+      * `N` –– Address is not vacant.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
+    example: "N"
+
+  dpv_throwback:
+    type: string
+    description: |
+      Indicates a street address for which mail is delivered to a PO Box. Possible values are:
+      * `Y` –– Mail delivery does not occur on some days of the week.
+      * `N` –– Mail delivery occurs every day of the week.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
+    example: "N"
+
+  dpv_non_delivery_day_flag:
+    type: string
+    description: |
+      Indicates whether deliveries are not performed on any days of the week at an address. Possible values are:
+      * `Y` –– Mail delivery does not occur on some days of the week.
+      * `N` –– Mail delivery occurs every day of the week.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
+    example: "N"
+
+  dpv_non_delivery_day_values:
+    type: string
+    description: |
+      Indicates days of the week (starting on Sunday) deliveries are not performed at an address. For example, :
+      * `YNNNNNN` –– Mail delivery does not occur on Sunday's.
+      * `NYNNNYN` –– Mail delivery does not occur on Monday's or Friday's.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
+    example: "N"
+
+  dpv_no_secure_location:
+    type: string
+    enum:
+      - "Y"
+      - "N"
+      - ""
+    description: |
+      Indicates that an door is accessible, but packages will not be left due to security concerns. Possible values are:
+      * `Y` –– Address is vacant.
+      * `N` –– Address is not vacant.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
+    example: "N"
+
+  dpv_door_not_accessible:
+    type: string
+    enum:
+      - "Y"
+      - "N"
+      - ""
+    description: |
+      Indicates the door of the address is not accessible for mail delivery. Possible values are:
+      * `Y` –– Door is not accessible.
+      * `N` –– Door is accessible.
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
+    example: "N"
 
   dpv_footnotes:
     type: array

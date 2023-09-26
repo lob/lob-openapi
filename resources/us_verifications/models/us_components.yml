@@ -27,6 +27,7 @@ required:
   - county_fips
   - carrier_route
   - carrier_route_type
+  - po_box_only_flag
 
 properties:
   primary_number:
@@ -185,6 +186,16 @@ properties:
     description: |
       The type of `components[carrier_route]`. For more detailed information about
       each carrier route type, see [US Verification Details](#tag/US-Verification-Types).
+
+  po_box_only_flag:
+    type: string
+    enum:
+      - "Y"
+      - "N"
+      - ""
+    description: |
+      Indicates there is one ZIP Code for a given USPS facility and the facility does not
+      support other forms of delivery besides PO BOX.
 
   latitude:
     type: number

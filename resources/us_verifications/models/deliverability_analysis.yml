@@ -11,8 +11,8 @@ required:
   - dpv_throwback
   - dpv_non_delivery_day_flag
   - dpv_non_delivery_day_values
-  - dpv_door_not_accessible
   - dpv_no_secure_location
+  - dpv_door_not_accessible
   - dpv_footnotes
   - ews_match
   - lacs_indicator
@@ -84,29 +84,45 @@ properties:
   dpv_inactive_reason:
     type: string
     enum:
+      - "01"
+      - "02"
+      - "03"
+      - "04"
+      - "05"
+      - "06"
+      - ""
+    description: |
+      Indicates the reason why an address is vacant or no longer receiving deliveries. Possible values are:
+      * `01` –– Address does not receive mail from the USPS directly, but is serviced by a drop address.
+      * `02` –– Address not yet deliverable.
+      * `03` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
+      * `04` –– Address is a College, Military Zone, or other type.
+      * `05` –– Address no longer receives deliveries.
+      * `06` –– Address is missing required secondary information.
+      * `''` –– A DPV match is not made or the address is active.
+    example: "06"
+
+  dpv_throwback:
+    type: string
+    enum:
       - "Y"
       - "N"
       - ""
     description: |
-      Indicates that an address was once deliverable, but has become vacant and is no longer receiving deliveries. Possible values are:
-      * `Y` –– Address is vacant.
-      * `N` –– Address is not vacant.
-      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
-    example: "N"
-
-  dpv_throwback:
-    type: string
-    description: |
       Indicates a street address for which mail is delivered to a PO Box. Possible values are:
-      * `Y` –– Mail delivery does not occur on some days of the week.
-      * `N` –– Mail delivery occurs every day of the week.
+      * `Y` –– Address is a PO Box throwback delivery point.
+      * `N` –– Address is not a PO Box throwback delivery point.
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "N"
 
   dpv_non_delivery_day_flag:
     type: string
+    enum:
+      - "Y"
+      - "N"
+      - ""
     description: |
-      Indicates whether deliveries are not performed on any days of the week at an address. Possible values are:
+      Indicates whether deliveries are not performed on one or more days of the week at an address. Possible values are:
       * `Y` –– Mail delivery does not occur on some days of the week.
       * `N` –– Mail delivery occurs every day of the week.
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
@@ -115,11 +131,11 @@ properties:
   dpv_non_delivery_day_values:
     type: string
     description: |
-      Indicates days of the week (starting on Sunday) deliveries are not performed at an address. For example, :
+      Indicates days of the week (starting on Sunday) deliveries are not performed at an address. For example:
       * `YNNNNNN` –– Mail delivery does not occur on Sunday's.
       * `NYNNNYN` –– Mail delivery does not occur on Monday's or Friday's.
-      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
-    example: "N"
+      * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string) or address receives mail every day of the week (`deliverability_analysis[dpv_non_delivery_day_flag]` is `N` or an empty string).
+    example: "YNNNNNN"
 
   dpv_no_secure_location:
     type: string
@@ -128,9 +144,9 @@ properties:
       - "N"
       - ""
     description: |
-      Indicates that an door is accessible, but packages will not be left due to security concerns. Possible values are:
-      * `Y` –– Address is vacant.
-      * `N` –– Address is not vacant.
+      Indicates packages to this address will not be left due to security concerns. Possible values are:
+      * `Y` –– Address does not have a secure mailbox.
+      * `N` –– Address has a secure mailbox.
       * `''` –– A DPV match is not made (`deliverability_analysis[dpv_confirmation]` is `N` or an empty string).
     example: "N"
 

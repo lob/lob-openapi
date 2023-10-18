@@ -5041,6 +5041,7 @@ components:
         - county_fips
         - carrier_route
         - carrier_route_type
+        - po_box_only_flag
       properties:
         primary_number:
           $ref: '#/components/schemas/primary_number'
@@ -5200,6 +5201,15 @@ components:
 
             each carrier route type, see [US Verification
             Details](#tag/US-Verification-Types).
+        po_box_only_flag:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+            - ''
+          description: >
+            Indicates the mailing facility for an address only supports PO Box
+            deliveries and other forms of mail delivery are not available.
         latitude:
           type: number
           format: float
@@ -5249,6 +5259,12 @@ components:
         - dpv_cmra
         - dpv_vacant
         - dpv_active
+        - dpv_inactive_reason
+        - dpv_throwback
+        - dpv_non_delivery_day_flag
+        - dpv_non_delivery_day_values
+        - dpv_no_secure_location
+        - dpv_door_not_accessible
         - dpv_footnotes
         - ews_match
         - lacs_indicator
@@ -5339,6 +5355,125 @@ components:
             (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
             string).
           example: 'Y'
+        dpv_inactive_reason:
+          type: string
+          enum:
+            - '01'
+            - '02'
+            - '03'
+            - '04'
+            - '05'
+            - '06'
+            - ''
+          description: >
+            Indicates the reason why an address is vacant or no longer receiving
+            deliveries. Possible values are:
+
+            * `01` –– Address does not receive mail from the USPS directly, but
+            is serviced by a drop address.
+
+            * `02` –– Address not yet deliverable.
+
+            * `03` –– A DPV match is not made
+            (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
+            string).
+
+            * `04` –– Address is a College, Military Zone, or other type.
+
+            * `05` –– Address no longer receives deliveries.
+
+            * `06` –– Address is missing required secondary information.
+
+            * `''` –– A DPV match is not made or the address is active.
+          example: '06'
+        dpv_throwback:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+            - ''
+          description: >
+            Indicates a street address for which mail is delivered to a PO Box.
+            Possible values are:
+
+            * `Y` –– Address is a PO Box throwback delivery point.
+
+            * `N` –– Address is not a PO Box throwback delivery point.
+
+            * `''` –– A DPV match is not made
+            (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
+            string).
+          example: 'N'
+        dpv_non_delivery_day_flag:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+            - ''
+          description: >
+            Indicates whether deliveries are not performed on one or more days
+            of the week at an address. Possible values are:
+
+            * `Y` –– Mail delivery does not occur on some days of the week.
+
+            * `N` –– Mail delivery occurs every day of the week.
+
+            * `''` –– A DPV match is not made
+            (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
+            string).
+          example: 'N'
+        dpv_non_delivery_day_values:
+          type: string
+          description: >
+            Indicates days of the week (starting on Sunday) deliveries are not
+            performed at an address. For example:
+
+            * `YNNNNNN` –– Mail delivery does not occur on Sunday's.
+
+            * `NYNNNYN` –– Mail delivery does not occur on Monday's or Friday's.
+
+            * `''` –– A DPV match is not made
+            (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
+            string) or address receives mail every day of the week
+            (`deliverability_analysis[dpv_non_delivery_day_flag]` is `N` or an
+            empty string).
+          example: YNNNNNN
+        dpv_no_secure_location:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+            - ''
+          description: >
+            Indicates packages to this address will not be left due to security
+            concerns. Possible values are:
+
+            * `Y` –– Address does not have a secure mailbox.
+
+            * `N` –– Address has a secure mailbox.
+
+            * `''` –– A DPV match is not made
+            (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
+            string).
+          example: 'N'
+        dpv_door_not_accessible:
+          type: string
+          enum:
+            - 'Y'
+            - 'N'
+            - ''
+          description: >
+            Indicates the door of the address is not accessible for mail
+            delivery. Possible values are:
+
+            * `Y` –– Door is not accessible.
+
+            * `N` –– Door is accessible.
+
+            * `''` –– A DPV match is not made
+            (`deliverability_analysis[dpv_confirmation]` is `N` or an empty
+            string).
+          example: 'N'
         dpv_footnotes:
           type: array
           description: >
@@ -10807,20 +10942,20 @@ components:
             addresses:
               - id: us_ver_c7cb63d68f8d6
                 recipient: LOB.COM
-                primary_line: 210 KING ST STE 6100
+                primary_line: 210 KING ST
                 secondary_line: ''
                 urbanization: ''
-                last_line: SAN FRANCISCO CA 94107-1728
+                last_line: SAN FRANCISCO CA 94107-1702
                 deliverability: deliverable
                 valid_address: true
                 components:
-                  primary_number: '185'
+                  primary_number: '210'
                   street_predirection: ''
                   street_name: KING
                   street_suffix: ST
                   street_postdirection: ''
-                  secondary_designator: STE
-                  secondary_number: '6100'
+                  secondary_designator: ''
+                  secondary_number: ''
                   pmb_designator: ''
                   pmb_number: ''
                   extra_secondary_designator: ''
@@ -10828,16 +10963,17 @@ components:
                   city: SAN FRANCISCO
                   state: CA
                   zip_code: '94107'
-                  zip_code_plus_4: '1728'
+                  zip_code_plus_4: '1702'
                   zip_code_type: standard
                   delivery_point_barcode: '941071728506'
                   address_type: commercial
-                  record_type: highrise
+                  record_type: street
                   default_building_address: false
                   county: SAN FRANCISCO
                   county_fips: '06075'
-                  carrier_route: C001
+                  carrier_route: C032
                   carrier_route_type: city_delivery
+                  po_box_only_flag: 'N'
                   latitude: 37.77597542841264
                   longitude: -122.3929557343685
                 deliverability_analysis:
@@ -10845,6 +10981,12 @@ components:
                   dpv_cmra: 'N'
                   dpv_vacant: 'N'
                   dpv_active: 'Y'
+                  dpv_inactive_reason: ''
+                  dpv_throwback: 'N'
+                  dpv_non_delivery_day_flag: 'N'
+                  dpv_non_delivery_day_values: ''
+                  dpv_no_secure_location: 'N'
+                  dpv_door_not_accessible: 'N'
                   dpv_footnotes:
                     - AA
                     - BB
@@ -12768,20 +12910,20 @@ components:
               value:
                 id: us_ver_c7cb63d68f8d6
                 recipient: LOB.COM
-                primary_line: 210 KING ST STE 6100
+                primary_line: 210 KING ST
                 secondary_line: ''
                 urbanization: ''
-                last_line: SAN FRANCISCO CA 94107-1728
+                last_line: SAN FRANCISCO CA 94107-1702
                 deliverability: deliverable
                 valid_address: true
                 components:
-                  primary_number: '185'
+                  primary_number: '210'
                   street_predirection: ''
                   street_name: KING
                   street_suffix: ST
                   street_postdirection: ''
-                  secondary_designator: STE
-                  secondary_number: '6100'
+                  secondary_designator: ''
+                  secondary_number: ''
                   pmb_designator: ''
                   pmb_number: ''
                   extra_secondary_designator: ''
@@ -12789,16 +12931,17 @@ components:
                   city: SAN FRANCISCO
                   state: CA
                   zip_code: '94107'
-                  zip_code_plus_4: '1728'
+                  zip_code_plus_4: '1702'
                   zip_code_type: standard
-                  delivery_point_barcode: '941071728506'
+                  delivery_point_barcode: '941071702108'
                   address_type: commercial
-                  record_type: highrise
+                  record_type: street
                   default_building_address: false
                   county: SAN FRANCISCO
                   county_fips: '06075'
-                  carrier_route: C001
+                  carrier_route: C032
                   carrier_route_type: city_delivery
+                  po_box_only_flag: 'N'
                   latitude: 37.77597542841264
                   longitude: -122.3929557343685
                 deliverability_analysis:
@@ -12806,6 +12949,12 @@ components:
                   dpv_cmra: 'N'
                   dpv_vacant: 'N'
                   dpv_active: 'Y'
+                  dpv_inactive_reason: ''
+                  dpv_throwback: 'N'
+                  dpv_non_delivery_day_flag: 'N'
+                  dpv_non_delivery_day_values: ''
+                  dpv_no_secure_location: 'N'
+                  dpv_door_not_accessible: 'N'
                   dpv_footnotes:
                     - AA
                     - BB
@@ -12852,6 +13001,7 @@ components:
                   county_fips: '06075'
                   carrier_route: BOO2
                   carrier_route_type: po_box
+                  po_box_only_flag: ''
                   latitude: 37.75971500260575
                   longitude: -122.69397561170017
                 deliverability_analysis:
@@ -12859,6 +13009,12 @@ components:
                   dpv_cmra: 'N'
                   dpv_vacant: 'N'
                   dpv_active: 'Y'
+                  dpv_inactive_reason: ''
+                  dpv_throwback: ''
+                  dpv_non_delivery_day_flag: ''
+                  dpv_non_delivery_day_values: ''
+                  dpv_no_secure_location: ''
+                  dpv_door_not_accessible: ''
                   dpv_footnotes:
                     - AA
                     - BB

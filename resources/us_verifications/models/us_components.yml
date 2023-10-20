@@ -27,6 +27,7 @@ required:
   - county_fips
   - carrier_route
   - carrier_route_type
+  - po_box_only_flag
 
 properties:
   primary_number:
@@ -185,6 +186,15 @@ properties:
     description: |
       The type of `components[carrier_route]`. For more detailed information about
       each carrier route type, see [US Verification Details](#tag/US-Verification-Types).
+
+  po_box_only_flag:
+    type: string
+    enum:
+      - "Y"
+      - "N"
+      - ""
+    description: |
+      Indicates the mailing facility for an address only supports PO Box deliveries and other forms of mail delivery are not available.
 
   latitude:
     type: number

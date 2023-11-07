@@ -1,0 +1,38 @@
+type: object
+description: Failure error details
+
+properties:
+  url:
+    type: string
+    description: Failed URL of asset
+    nullable: true
+
+  host:
+    type: string
+    description: URL host
+    nullable: true
+
+  path:
+    type: string
+    description: URL path
+    nullable: true
+
+  protocol:
+    type: string
+    description: Network protocol
+    nullable: true
+
+  remediation:
+    type: string
+    description: Instructions on how to resolve the error
+    nullable: true
+
+  error_type:
+    type: string
+    description: HTTP response status code message or service defined error
+    nullable: true
+
+  status_code:
+    type: number
+    description: HTTP response status codes if the error is asset related
+    nullable: true

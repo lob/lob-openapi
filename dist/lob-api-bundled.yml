@@ -7315,6 +7315,55 @@ components:
                 The zip code in which the scan event occurred. Null for `Mailed`
                 events.
               nullable: true
+    failure_reason_error:
+      type: object
+      description: Failure error details
+      properties:
+        url:
+          type: string
+          description: Failed URL of asset
+          nullable: true
+        host:
+          type: string
+          description: URL host
+          nullable: true
+        path:
+          type: string
+          description: URL path
+          nullable: true
+        protocol:
+          type: string
+          description: Network protocol
+          nullable: true
+        remediation:
+          type: string
+          description: Instructions on how to resolve the error
+          nullable: true
+        error_type:
+          type: string
+          description: HTTP response status code message or service defined error
+          nullable: true
+        status_code:
+          type: number
+          description: HTTP response status codes if the error is asset related
+          nullable: true
+    failure_reason:
+      type: object
+      description: >-
+        An object describing the reason for failure if the resource failed to
+        render.
+      properties:
+        remediation:
+          type: string
+          description: Instructions on how to resolve the error
+        failure_reason:
+          type: string
+          description: Reason failure occurred
+        errors:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/failure_reason_error'
     check:
       allOf:
         - $ref: '#/components/schemas/check_base'
@@ -7397,11 +7446,9 @@ components:
                 - rendered
                 - failed
             failure_reason:
-              type: string
-              description: >-
-                A string describing the reason for failure if the check failed
-                to render.
-              nullable: true
+              allOf:
+                - $ref: '#/components/schemas/failure_reason'
+                - nullable: true
             object:
               type: string
               description: Value is resource type.
@@ -7741,12 +7788,12 @@ components:
         right:
           type: string
           description: >-
-            Horizonal distance (in inches) to place QR code from the right. Only
-            allowed if "left" isn't provided.
+            Horizontal distance (in inches) to place QR code from the right.
+            Only allowed if "left" isn't provided.
         left:
           type: string
           description: >-
-            Horizonal distance (in inches) to place QR code from the left. Only
+            Horizontal distance (in inches) to place QR code from the left. Only
             allowed if "right" isn't provided.
         bottom:
           type: string
@@ -8512,11 +8559,9 @@ components:
                 - rendered
                 - failed
             failure_reason:
-              type: string
-              description: >-
-                A string describing the reason for failure if the letter failed
-                to render.
-              nullable: true
+              allOf:
+                - $ref: '#/components/schemas/failure_reason'
+                - nullable: true
             object:
               type: string
               description: Value is resource type.
@@ -9040,12 +9085,12 @@ components:
         right:
           type: string
           description: >-
-            Horizonal distance (in inches) to place QR code from the right. Only
-            allowed if "left" isn't provided.
+            Horizontal distance (in inches) to place QR code from the right.
+            Only allowed if "left" isn't provided.
         left:
           type: string
           description: >-
-            Horizonal distance (in inches) to place QR code from the left. Only
+            Horizontal distance (in inches) to place QR code from the left. Only
             allowed if "right" isn't provided.
         bottom:
           type: string
@@ -9241,11 +9286,9 @@ components:
                 - rendered
                 - failed
             failure_reason:
-              type: string
-              description: >-
-                A string describing the reason for failure if the postcard
-                failed to render.
-              nullable: true
+              allOf:
+                - $ref: '#/components/schemas/failure_reason'
+                - nullable: true
             object:
               type: string
               description: Value is resource type.
@@ -9578,11 +9621,9 @@ components:
                 - rendered
                 - failed
             failure_reason:
-              type: string
-              description: >-
-                A string describing the reason for failure if the self mailer
-                failed to render.
-              nullable: true
+              allOf:
+                - $ref: '#/components/schemas/failure_reason'
+                - nullable: true
     self_mailer_deletion:
       description: >-
         Lob uses RESTful HTTP response codes to indicate success or failure of

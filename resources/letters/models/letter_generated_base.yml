@@ -48,9 +48,9 @@ allOf:
           - failed
 
       failure_reason:
-        type: string
-        description: A string describing the reason for failure if the letter failed to render.
-        nullable: true
+        allOf:
+          - $ref: "../../../shared/models/failure_reason/failure_reason.yml"
+          - nullable: true
 
       object:
         type: string

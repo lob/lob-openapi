@@ -7315,7 +7315,7 @@ components:
                 The zip code in which the scan event occurred. Null for `Mailed`
                 events.
               nullable: true
-    error-2:
+    failure_reason_error:
       type: object
       description: Failure error details
       properties:
@@ -7366,7 +7366,7 @@ components:
           type: array
           nullable: true
           items:
-            $ref: '#/components/schemas/error-2'
+            $ref: '#/components/schemas/failure_reason_error'
     check:
       allOf:
         - $ref: '#/components/schemas/check_base'

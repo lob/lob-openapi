@@ -68,11 +68,7 @@ allOf:
         default: false
 
       status:
-        title: The status of the self mailer.
-        enum:
-          - processed
-          - rendered
-          - failed
+        $ref: "../../../shared/attributes/status.yml"
 
       failure_reason:
         allOf:

@@ -1,12 +1,9 @@
 openapi: 3.0.3
-
 info:
   title: Lob
-  version: "1.19.22"
-  description: >
-    The Lob API is organized around REST. Our API is designed to have predictable,
-    resource-oriented URLs and uses HTTP response codes to indicate any API errors.
-    <p>
+  version: 1.19.22
+  description: |
+    The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
     name: MIT
     url: https://mit-license.org/
@@ -15,11 +12,9 @@ info:
     url: https://support.lob.com/
     email: lob-openapi@lob.com
   termsOfService: https://www.lob.com/legal
-
 servers:
   - url: https://api.lob.com/v1
     description: production
-
 tags:
   - name: Addresses
     description: |
@@ -60,14 +55,12 @@ tags:
         for more information.
         <br><br>
         <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Bank Accounts
     description: |
       Bank Accounts allow you to store your bank account securely in our system. The API provides
       endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts,
       retrieving individual bank accounts, and retrieving a list of bank accounts.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Beta Program
     x-traitTag: true
     description: |
@@ -92,66 +85,55 @@ tags:
       If you are participating in a Beta program and want to provide feedback, please feel free to
       <a href="https://lob.com/support#contact" target="_blank">contact us</a>!
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Billing Groups
     description: |
       The Billing Groups API allows you to create and view labels that can be attached to certain consumption-based
       usages of Letters, Checks, Postcards and Self-Mailers to customize your bill. Please check each
       resource API section to learn more about how to access the Billing Groups API.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Buckslip Orders
     description: |
       The Buckslip Orders endpoint allows you to easily create buckslip orders for existing buckslips.
       The API provides endpoints for creating buckslip orders and listing buckslip orders for a given buckslip.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Buckslips
     description: |
       The Buckslips endpoint allows you to easily create buckslips that can later be used as add-ons for Letters Campaigns. Note that a Letter Campaign with Buckslip add-on requires a minimum send quantity of 5,000 letters.
       The API provides endpoints for creating buckslips, retrieving individual buckslips, creating buckslip orders, and retrieving a list of buckslips.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Bulk Intl Verifications
     description: |
       Verify a list of non-US addresses.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Bulk US Verifications
     description: |
       Verify a list of US addresses.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Campaigns
     description: |
       The campaigns endpoint allows you to create and view campaigns that can be used to send multiple letters or postcards.
       The API provides endpoints for creating campaigns, updating campaigns, retrieving individual campaigns, listing campaigns, and deleting
       campaigns.
-
   - name: Card Orders
     description: |
       The card orders endpoint allows you to easily create card orders for existing cards.
       The API provides endpoints for creating card orders and listing card orders for a given card.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Cards
     description: |
       The cards endpoint allows you to easily create cards that can later be affixed to Letters.
       The API provides endpoints for creating cards, retrieving individual cards, creating card orders, and retrieving a list of cards.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Checks
     description: |
       Checks allow you to send payments via physical checks. The API provides endpoints
       for creating checks, retrieving individual checks, canceling checks, and retrieving a list of checks.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Creatives
     description: |
       The creatives endpoint allows you to create and view creatives. Creatives are used to create
       reusable letter and postcard templates. The API provides endpoints for creating creatives, updating creatives,
       retrieving individual creatives, and deleting creatives.
-
   - name: Errors
     x-traitTag: true
     description: |
@@ -492,7 +474,6 @@ tags:
         </tr>
       </table>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Events
     description: |
       When various notable things happen within the Lob architecture, Events will be created. To get these events sent to your server
@@ -931,7 +912,6 @@ tags:
         </tr>
       </table>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Getting Started
     x-traitTag: true
     description: |
@@ -976,12 +956,10 @@ tags:
       * <a href="https://help.lob.com/developer-docs/use-case-guides/visibility-of-address-changes" target="_blank">Visibility of Address Changes</a>
       * <a href="https://help.lob.com/developer-docs/use-case-guides/ingesting-tracking-events-with-webhooks" target="_blank">Ingesting Tracking Events with Webhooks</a>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Identity Validation
     description: |
       Validates whether a given name is associated with an address.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Intl Autocompletions
     description: |
       Address autocompletion for non-US addresses. Given partial address information, this endpoint returns up to 10 address suggestions.
@@ -1000,7 +978,6 @@ tags:
       See the `test` request & response examples under [Autocomplete Examples](#operation/intl_autocompletions) within the "Autocomplete
       a partial address" section in Intl Autocompletions.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Intl Verifications
     description: |
       Address verification for non-US addresses
@@ -1047,7 +1024,6 @@ tags:
       for addresses. If you wish to try these features out, use our <a href="https://lob.com/address-verification" target="_blank">live demo</a>
       or the free plan (see <a href="https://lob.com/pricing/address-verification" target="_blank">our pricing</a> for details).
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Introduction
     x-traitTag: true
     description: |
@@ -1066,13 +1042,11 @@ tags:
 
       Tracking & Analytics gives you complete visibility of production and delivery for each piece of
       mail you send to meet compliance requirements and measure campaign performance.
-
   - name: Letters
     description: |
       The letters endpoint allows you to easily print and mail letters. The API provides endpoints for
       creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Manage Mail
     x-traitTag: true
     description: |
@@ -1129,7 +1103,6 @@ tags:
           -d "send_date=2021-07-26"
       ```
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: National Change of Address
     x-traitTag: true
     description: |
@@ -1183,13 +1156,11 @@ tags:
       A static address will always be returned, as documented in the `ncoa_us_test` example under [Response samples](#operation/address_create) within the "Create an Address"
       section in Addresses (along with the corresponding request under "Request samples").
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Postcards
     description: |
       The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards,
       retrieving individual postcards, canceling postcards, and retrieving a list of postcards.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: QR Codes
     description: |
 
@@ -1200,36 +1171,18 @@ tags:
       Furthermore, our QR code Analytics endpoint can be used to track the impact and engagement rate of your mail sends. Lob can tell you exactly which recipients opened your mailpiece. Our Analytics endpoint allows you to see exactly which recipient scanned a mailpiece, when they scanned it, and more!
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Rate Limiting
     x-traitTag: true
-    description: >-
-      To prevent misuse, we enforce a rate limit on an API Key and endpoint basis,
-      similar to the way many other APIs enforce rate limits. By default, all accounts
-      and their corresponding Test and Live API Keys have a rate limit of 150 requests
-      per 5 seconds per endpoint. The `POST /v1/us_verifications` and `POST /v1/us_autocompletions`
-      endpoints have a limit of 300 requests per 5 seconds for all accounts.
+    description: |-
+      To prevent misuse, we enforce a rate limit on an API Key and endpoint basis, similar to the way many other APIs enforce rate limits. By default, all accounts and their corresponding Test and Live API Keys have a rate limit of 150 requests per 5 seconds per endpoint. The `POST /v1/us_verifications` and `POST /v1/us_autocompletions` endpoints have a limit of 300 requests per 5 seconds for all accounts.
 
-
-      When your application exceeds the rate limit for a given API endpoint, the
-      Lob API will return an HTTP 429 "Too Many Requests" response code instead of
-      the variety of codes you would find across the other API endpoints.
-
+      When your application exceeds the rate limit for a given API endpoint, the Lob API will return an HTTP 429 "Too Many Requests" response code instead of the variety of codes you would find across the other API endpoints.
 
       **HTTP Headers**
 
+      HTTP headers are returned on each request to a rate limited endpoint. Ensure that you inspect these headers during your requests as they provide relevant data on how many more requests your application is allowed to make for the endpoint you just utilized.
 
-      HTTP headers are returned on each request to a rate limited endpoint. Ensure
-      that you inspect these headers during your requests as they provide relevant
-      data on how many more requests your application is allowed to make for the
-      endpoint you just utilized.
-
-
-      While the headers are documented here in titlecase, HTTP headers are case
-      insensitive and certain libraries may transform them to lowercase. Please
-      inspect your headers carefully to see how they will be represented in your
-      chosen development scenario.
-
+      While the headers are documented here in titlecase, HTTP headers are case insensitive and certain libraries may transform them to lowercase. Please inspect your headers carefully to see how they will be represented in your chosen development scenario.
       <table>
         <tbody>
           <tr>
@@ -1248,9 +1201,7 @@ tags:
         </tbody>
       </table>
 
-
       ### Example HTTP Headers
-
 
       ```bash
         X-Rate-Limit-Limit:150
@@ -1258,13 +1209,9 @@ tags:
         X-Rate-Limit-Reset:1528749846
       ```
 
-
       ### Example Response
 
-
-      If you hit the rate limit on a given endpoint, this is the body of the HTTP
-      429 message that you will see:
-
+      If you hit the rate limit on a given endpoint, this is the body of the HTTP 429 message that you will see:
 
       ```javascript
         {
@@ -1274,9 +1221,7 @@ tags:
             "status_code": 429
           }
         }
-      ```
-      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
+      ``` <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Requests and Responses
     x-traitTag: true
     description: |
@@ -1479,13 +1424,9 @@ tags:
         --------------------------7015ebe79c0a5f8c--
       ```
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Reverse Geocode Lookups
-    description: >
-      Find a list of zip codes associated with a valid US location via latitude and longitude.
-      <br>
-      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
+    description: |
+      Find a list of zip codes associated with a valid US location via latitude and longitude. <br> <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: SDKs and Tools
     x-traitTag: true
     description: |
@@ -1506,13 +1447,11 @@ tags:
 
       <br><br>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Self Mailers
     description: |
       The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints
       for creating self mailers, retrieving individual self mailers, canceling self mailers, and retrieving a list of self mailers.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Template Design
     x-traitTag: true
     description: |
@@ -1798,17 +1737,14 @@ tags:
         </tr>
       </table>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Template Versions
     description: |
       These API endpoints allow you to create, retrieve, update and delete versions of reusable HTML templates for use with the Print & Mail API.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Templates
     description: |
       These API endpoints allow you to create, retrieve, update and delete reusable HTML templates for use with the Print & Mail API.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Test and Live Environments
     x-traitTag: true
     description: |
@@ -1837,7 +1773,6 @@ tags:
       key in your dashboard under Settings; test API keys are always prefixed
       with `test_` and production API keys with `live_`.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Tracking Events
     description: |
       As mailpieces travel through the mail stream, USPS scans their unique barcodes, and Lob processes these mail scans to generate tracking events.
@@ -2021,14 +1956,12 @@ tags:
         </tr>
       </table>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Uploads
     description: |
       The uploads endpoint allows you to upload audience files that are then associated with a given campaign.
       At this time, only CSV files are allowed. The API provides endpoints for creating uploads, uploading audience files,
       and marking uploaded files as ready for processing. The API also provides endpoints for downloading files that
       describe the results, both successful and not, of the processing.
-
   - name: URL Shortener
     description: |
       Lob's URL shortener allows you to generate unique short links, either with Lob's own domain or your own custom domains. Each custom link enables Lob to track mail individually and provide customers the relevant tracking data in their dashboard.
@@ -2038,32 +1971,19 @@ tags:
       Furthermore, you can use our Retrieve endpoints to track the impact and engagement rate of links created. 
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: US Autocompletions
-    description: >
-      Given partial address information, this endpoint returns up to 10 address suggestions.
-      <br>
-      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
+    description: |
+      Given partial address information, this endpoint returns up to 10 address suggestions. <br> <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
       ## Autocompletion Test Env
-
-      Your test API key does not autocomplete US addresses and is used to simulate
-      behavior. With your test API key, requests with specific values for `address_prefix`
-      return predetermined values. When `address_prefix` is set to:
-
-      - `0 suggestions` - Returns no suggestions
-      - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.
+      Your test API key does not autocomplete US addresses and is used to simulate behavior. With your test API key, requests with specific values for `address_prefix` return predetermined values. When `address_prefix` is set to:
+      - `0 suggestions` - Returns no suggestions - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.
         `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.
         Each additional letter in `suggestion` reduces the number of suggestions by one (e.g.
         `1 su` returns 9 suggested addresses). `[PRIMARY NUMBER]` does not affect the number of
         suggestions returned.
 
       City and state filters work as expected and filter the list of predetermined suggested addresses.
-
-      See the `test` request & response examples under [Autocomplete Examples](#operation/autocompletion) within the "Autocomplete
-      a partial address" section in US Autocompletions.
-      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
+      See the `test` request & response examples under [Autocomplete Examples](#operation/autocompletion) within the "Autocomplete a partial address" section in US Autocompletions. <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: US Verification Types
     x-traitTag: true
     description: |
@@ -2229,7 +2149,6 @@ tags:
         </tbody>
       </table>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: US Verifications
     description: |
       Validate, automatically correct, and standardize the addresses in your
@@ -2370,7 +2289,6 @@ tags:
 
       ### Changelog
        <a href="https://app.getbeamer.com/lob/en?all" target="_blank">View our Changelog here.</a>
-
   - name: Webhooks
     x-traitTag: true
     description: |
@@ -2388,12 +2306,9 @@ tags:
       details on how to integrate. Please see the full list of event types available for
       subscription here.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
   - name: Zip Lookups
-    description: >
-      Find a list of cities, states and associated information about a US ZIP code.
-      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-
+    description: |
+      Find a list of cities, states and associated information about a US ZIP code. <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 x-tagGroups:
   - name: Overview
     tags:
@@ -2401,12 +2316,10 @@ x-tagGroups:
       - Authentication
       - Getting Started
       - SDKs and Tools
-
   - name: Address Book
     tags:
       - Addresses
       - National Change of Address
-
   - name: Print and Mail API
     tags:
       - Postcards
@@ -2418,13 +2331,11 @@ x-tagGroups:
       - Template Versions
       - Template Design
       - Manage Mail
-
   - name: Campaigns API (BETA)
     tags:
       - Campaigns
       - Creatives
       - Uploads
-
   - name: Address Verification API
     tags:
       - US Verifications
@@ -2435,13 +2346,11 @@ x-tagGroups:
       - Identity Validation
       - Intl Autocompletions
       - Intl Verifications
-
   - name: Webhooks
     tags:
       - Webhooks
       - Events
       - Tracking Events
-
   - name: Special Features
     tags:
       - Billing Groups
@@ -2451,7 +2360,6 @@ x-tagGroups:
       - Card Orders
       - QR Codes
       - URL Shortener
-
   - name: Appendix
     tags:
       - Beta Program
@@ -2460,16 +2368,13 @@ x-tagGroups:
       - Requests and Responses
       - Test and Live Environments
       - Versioning and Changelog
-
 components:
   securitySchemes:
     basicAuth:
       type: http
       scheme: basic
-
 security:
   - basicAuth: []
-
 x-webhooks:
   events:
     post:
@@ -2491,166 +2396,112 @@ x-webhooks:
       responses:
         "200":
           $ref: shared/resources/tracking_events/responses/tracking_events.yml
-
 paths:
   /accounts:
     $ref: resources/accounts/accounts.yml
-
   /addresses:
     $ref: resources/addresses/addresses.yml
-
   /addresses/{adr_id}:
     $ref: resources/addresses/address.yml
-
   /bank_accounts/{bank_id}/verify:
     $ref: resources/bank_accounts/bank_account_verify.yml
-
   /bank_accounts/{bank_id}:
     $ref: resources/bank_accounts/bank_account.yml
-
   /bank_accounts:
     $ref: resources/bank_accounts/bank_accounts.yml
-
   /billing_groups/{bg_id}:
     $ref: resources/billing_groups/billing_group.yml
-
   /billing_groups:
     $ref: resources/billing_groups/billing_groups.yml
-
   /buckslips:
     $ref: resources/buckslips/buckslips.yml
-
   /buckslips/{buckslip_id}:
     $ref: resources/buckslips/buckslip.yml
-
   /buckslips/{buckslip_id}/orders:
     $ref: resources/buckslips/buckslip_orders/buckslip_orders.yml
-
   /bulk/us_verifications:
     $ref: resources/bulk_us_verifications/bulk_us_verifications.yml
-
   /bulk/intl_verifications:
     $ref: resources/bulk_intl_verifications/bulk_intl_verifications.yml
-
   /campaigns:
     $ref: resources/campaigns/campaigns.yml
-
   /campaigns/{cmp_id}:
     $ref: resources/campaigns/campaign.yml
-
   /campaigns/{cmp_id}/send:
     $ref: resources/campaigns/send.yml
-
   /cards:
     $ref: resources/cards/cards.yml
-
   /cards/{card_id}:
     $ref: resources/cards/card.yml
-
   /cards/{card_id}/orders:
     $ref: resources/cards/card_orders/card_orders.yml
-
   /checks:
     $ref: resources/checks/checks.yml
-
   /checks/{chk_id}:
     $ref: resources/checks/check.yml
-
   /creatives:
     $ref: resources/creatives/creatives.yml
-
   /creatives/{crv_id}:
     $ref: resources/creatives/creative.yml
-
   /identity_validation:
     $ref: resources/identity_validation/identity_validation.yml
-
   /intl_autocompletions:
     $ref: resources/intl_autocompletions/intl_autocompletions.yml
-
   /intl_verifications:
     $ref: resources/intl_verifications/intl_verifications.yml
-
   /letters/{ltr_id}:
     $ref: resources/letters/letter.yml
-
   /letters:
     $ref: resources/letters/letters.yml
-
   /postcards/{psc_id}:
     $ref: resources/postcards/postcard.yml
-
   /postcards:
     $ref: resources/postcards/postcards.yml
-
   /qr_code_analytics:
     $ref: resources/qr_codes/qr_codes.yml
-
   /domains/{domain_id}:
     $ref: resources/url_shortener/domain_id.yml
-
   /domains:
     $ref: resources/url_shortener/domain_non_id.yml
-
   /domains/{domain_id}/links:
     $ref: resources/url_shortener/domains.yml
-
   /links:
     $ref: resources/url_shortener/links_list.yml
-
   /links/{link_id}:
     $ref: resources/url_shortener/links_id.yml
-
   /links/shorten:
     $ref: resources/url_shortener/links_shorten.yml
-
   /links/shorten/bulk:
     $ref: resources/url_shortener/links_bulk.yml
-
   /self_mailers/{sfm_id}:
     $ref: resources/self_mailers/self_mailer.yml
-
   /self_mailers:
     $ref: resources/self_mailers/self_mailers.yml
-
   /templates/{tmpl_id}/versions/{vrsn_id}:
     $ref: resources/templates/template_versions/template_version.yml
-
   /templates/{tmpl_id}/versions:
     $ref: resources/templates/template_versions/template_versions.yml
-
   /templates/{tmpl_id}:
     $ref: resources/templates/template.yml
-
   /templates:
     $ref: resources/templates/templates.yml
-
   /uploads:
     $ref: resources/uploads/uploads.yml
-
   /uploads/{upl_id}:
     $ref: resources/uploads/upload.yml
-
   /uploads/{upl_id}/file:
     $ref: resources/uploads/file.yml
-
   /uploads/{upl_id}/exports:
     $ref: resources/uploads/exports.yml
-
   /uploads/{upl_id}/report:
     $ref: resources/uploads/report.yml
-
   /uploads/{upl_id}/exports/{ex_id}:
     $ref: resources/uploads/export.yml
-
   /us_autocompletions:
     $ref: resources/us_autocompletions/us_autocompletions.yml
-
   /us_reverse_geocode_lookups:
     $ref: resources/reverse_geocode_lookups/reverse_geocode_lookups.yml
-
   /us_verifications:
     $ref: resources/us_verifications/us_verifications.yml
-
   /us_zip_lookups:
     $ref: resources/zip_lookups/zip_lookups.yml

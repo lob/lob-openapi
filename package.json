@@ -1,6 +1,6 @@
 {
   "name": "@lob/openapi",
-  "version": "1.19.21",
+  "version": "1.19.22",
   "engines": {
     "node": ">=14.16.0",
     "npm": ">=7.9.0"
@@ -54,6 +54,7 @@
     }
   },
   "scripts": {
+    "bump-version": "func() { npm version \"$1\" --no-git-tag-version && node ./scripts/yml-version-bump.js; }; func",
     "build": "webpack --config webpack.config.js",
     "bundle": "openapi bundle -o dist/$npm_package_config_bundlefile $npm_package_config_specfile",
     "clean": "rm -rf dist",
@@ -110,9 +111,10 @@
     "sass-loader": "^13.0.0",
     "uuid": "^8.3.2",
     "waypoints": "^4.0.1",
-    "webpack": "^5.72.1",
+    "webpack": "^5.89.0",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^4.9.0"
+    "webpack-dev-server": "^4.9.0",
+    "yaml": "^2.3.4"
   },
   "dependencies": {
     "@redocly/cli": "^1.0.0-beta.102",

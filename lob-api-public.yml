@@ -1,9 +1,11 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.22
-  description: |
-    The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
+  version: 1.19.23
+  description: >
+    The Lob API is organized around REST. Our API is designed to have
+    predictable, resource-oriented URLs and uses HTTP response codes to indicate
+    any API errors. <p>
   license:
     name: MIT
     url: https://mit-license.org/
@@ -17,25 +19,40 @@ servers:
     description: production
 tags:
   - name: Addresses
-    description: |
-      To add an address to your address book, you create a new address object. You can retrieve and delete individual
+    description: >
+      To add an address to your address book, you create a new address object.
+      You can retrieve and delete individual
+
       addresses as well as get a list of addresses. Addresses are identified by a unique random ID.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Authentication
     x-traitTag: true
-    description: |
-      Requests made to the API are protected with <a href="https://en.wikipedia.org/wiki/Basic_access_authentication" target="_blank">HTTP Basic authentication</a>.
+    description: >
+      Requests made to the API are protected with <a
+      href="https://en.wikipedia.org/wiki/Basic_access_authentication"
+      target="_blank">HTTP Basic authentication</a>.
+
       In order to properly authenticate with the API you must use your API key as the username
+
       while leaving the password blank. Requests not properly authenticated will return a `401`
+
       [error code](#tag/Errors). You can find your account's API keys
+
       in your <a href="https://dashboard.lob.com/settings/api-keys" target="_blank">Dashboard Settings</a>.
+
       ### Example Request
+
       curl uses the -u flag to pass basic auth credentials (adding a colon after your API key will prevent it from asking you for a
+
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
+
       ```bash
+
       curl https://api.lob.com/v1/addresses \
         -u test_0dc8dXXXXXXXXXXXXXXXXXXXXXX5b0cc:
       ```
+
       ## API Keys
         Lob authenticates your API requests using your account's API keys.
         If you do not include your key when making an API request, or use
@@ -56,88 +73,142 @@ tags:
         <br><br>
         <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Bank Accounts
-    description: |
-      Bank Accounts allow you to store your bank account securely in our system. The API provides
+    description: >
+      Bank Accounts allow you to store your bank account securely in our system.
+      The API provides
+
       endpoints for creating bank accounts, deleting bank accounts, verifying bank accounts,
+
       retrieving individual bank accounts, and retrieving a list of bank accounts.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Beta Program
     x-traitTag: true
-    description: |
-      At Lob, we pride ourselves on building high quality platform capabilities rapidly
+    description: >
+      At Lob, we pride ourselves on building high quality platform capabilities
+      rapidly
+
       and iteratively, so we can constantly be delivering additional value to our customers.
+
       When evaluating a new product or feature from Lob, you may see that it has been released in Beta.
 
+
       Typically, something in Beta means that the feature is early in its lifecycle here at
+
       Lob. While we fully stand behind the quality of everything we release in Beta, we do
+
       anticipate receiving a higher level of customer feedback on Beta features, as well as a
+
       faster pace of changes from our engineering team in response to that feedback.
 
+
       By participating in a Lob Beta program, you will have the opportunity to get early access
+
       to a new product capability, as well as having a unique opportunity to influence the product's
+
       direction with your feedback.
 
+
       You should also anticipate that features in Beta may have functional or design limitations,
+
       and might change rapidly as we receive customer feedback and make improvements. In particular,
+
       new APIs in Beta may also go through more frequent versioning and version deprecation cycles
+
       than our more mature APIs.
 
+
       If you are participating in a Beta program and want to provide feedback, please feel free to
+
       <a href="https://lob.com/support#contact" target="_blank">contact us</a>!
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Billing Groups
-    description: |
-      The Billing Groups API allows you to create and view labels that can be attached to certain consumption-based
+    description: >
+      The Billing Groups API allows you to create and view labels that can be
+      attached to certain consumption-based
+
       usages of Letters, Checks, Postcards and Self-Mailers to customize your bill. Please check each
+
       resource API section to learn more about how to access the Billing Groups API.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Buckslip Orders
-    description: |
-      The Buckslip Orders endpoint allows you to easily create buckslip orders for existing buckslips.
+    description: >
+      The Buckslip Orders endpoint allows you to easily create buckslip orders
+      for existing buckslips.
+
       The API provides endpoints for creating buckslip orders and listing buckslip orders for a given buckslip.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Buckslips
-    description: |
-      The Buckslips endpoint allows you to easily create buckslips that can later be used as add-ons for Letters Campaigns. Note that a Letter Campaign with Buckslip add-on requires a minimum send quantity of 5,000 letters.
+    description: >
+      The Buckslips endpoint allows you to easily create buckslips that can
+      later be used as add-ons for Letters Campaigns. Note that a Letter
+      Campaign with Buckslip add-on requires a minimum send quantity of 5,000
+      letters.
+
       The API provides endpoints for creating buckslips, retrieving individual buckslips, creating buckslip orders, and retrieving a list of buckslips.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Bulk Intl Verifications
-    description: |
+    description: >
       Verify a list of non-US addresses.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Bulk US Verifications
-    description: |
+    description: >
       Verify a list of US addresses.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Campaigns
-    description: |
-      The campaigns endpoint allows you to create and view campaigns that can be used to send multiple letters or postcards.
+    description: >
+      The campaigns endpoint allows you to create and view campaigns that can be
+      used to send multiple letters or postcards.
+
       The API provides endpoints for creating campaigns, updating campaigns, retrieving individual campaigns, listing campaigns, and deleting
+
       campaigns.
   - name: Card Orders
-    description: |
-      The card orders endpoint allows you to easily create card orders for existing cards.
+    description: >
+      The card orders endpoint allows you to easily create card orders for
+      existing cards.
+
       The API provides endpoints for creating card orders and listing card orders for a given card.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Cards
-    description: |
-      The cards endpoint allows you to easily create cards that can later be affixed to Letters.
+    description: >
+      The cards endpoint allows you to easily create cards that can later be
+      affixed to Letters.
+
       The API provides endpoints for creating cards, retrieving individual cards, creating card orders, and retrieving a list of cards.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Checks
-    description: |
-      Checks allow you to send payments via physical checks. The API provides endpoints
+    description: >
+      Checks allow you to send payments via physical checks. The API provides
+      endpoints
+
       for creating checks, retrieving individual checks, canceling checks, and retrieving a list of checks.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Creatives
-    description: |
-      The creatives endpoint allows you to create and view creatives. Creatives are used to create
+    description: >
+      The creatives endpoint allows you to create and view creatives. Creatives
+      are used to create
+
       reusable letter and postcard templates. The API provides endpoints for creating creatives, updating creatives,
+
       retrieving individual creatives, and deleting creatives.
   - name: Errors
     x-traitTag: true
-    description: |
-      Lob uses RESTful HTTP response codes to indicate success or failure of an API request - read below for more information. In general, 2xx indicates success, 4xx indicate an input error, and 5xx indicates an error on Lob's end.
+    description: >
+      Lob uses RESTful HTTP response codes to indicate success or failure of an
+      API request - read below for more information. In general, 2xx indicates
+      success, 4xx indicate an input error, and 5xx indicates an error on Lob's
+      end.
+
 
       <table>
         <tr>
@@ -158,7 +229,9 @@ tags:
         </tr>
       </table>
 
+
       ### HTTP Status Code Summary
+
 
       <table>
         <tr>
@@ -203,7 +276,9 @@ tags:
         </tr>
       </table>
 
+
       ### Error Codes - Generic
+
 
       <table>
         <tr>
@@ -268,7 +343,9 @@ tags:
         </tr>
       </table>
 
+
       ### Error Codes - Authentication
+
 
       <table>
         <tr>
@@ -473,13 +550,18 @@ tags:
           <td style="white-space: nowrap">The provided PDF contains non-standard unembedded fonts. See description for details.</td>
         </tr>
       </table>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Events
-    description: |
-      When various notable things happen within the Lob architecture, Events will be created. To get these events sent to your server
+    description: >
+      When various notable things happen within the Lob architecture, Events
+      will be created. To get these events sent to your server
+
       automatically when they occur, you can set up [Webhooks](#tag/Webhooks).
 
+
       <h3>Postcards</h3>
+
 
       <table>
         <tr>
@@ -559,7 +641,9 @@ tags:
         </tr>
       </table>
 
+
       <h3>Self Mailers</h3>
+
 
       <table>
         <tr>
@@ -640,7 +724,9 @@ tags:
         </tr>
       </table>
 
+
       <h3>Letters</h3>
+
 
       <table>
         <tr>
@@ -797,7 +883,9 @@ tags:
         </tr>
       </table>
 
+
       <h3>Checks</h3>
+
 
       <table>
         <tr>
@@ -867,7 +955,9 @@ tags:
         </tr>
       </table>
 
+
       <h3>Addresses</h3>
+
 
       <table>
         <tr>
@@ -887,7 +977,9 @@ tags:
         </tr>
       </table>
 
+
       <h3>Bank Accounts</h3>
+
 
       <table>
         <tr>
@@ -911,24 +1003,36 @@ tags:
           <td style="white-space: nowrap">A bank account is successfully verified.</td>
         </tr>
       </table>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Getting Started
     x-traitTag: true
-    description: |
+    description: >
       ### 1. Get Setup
+
       * Create an account at <a href="https://dashboard.lob.com/#/register" target="_blank">Lob.com</a>
+
       * Obtain your API keys in the Lob dashboard <a href="https://dashboard.lob.com/settings/api-keys" target="_blank">settings</a>
+
       * You'll use the format, `test_*.` for your Test API key and `live_*.` for your Live API key.
 
+
       ### 2. Explore
+
       * Try out in Postman:
+
       <div class="postman-run-button"
+
       data-postman-action="collection/fork"
+
       data-postman-var-1="16169677-975ecb9f-ea22-4d8f-a4f9-53a42f2aee03"
+
       data-postman-collection-url="entityId=16169677-975ecb9f-ea22-4d8f-a4f9-53a42f2aee03&entityType=collection&workspaceId=5404d3a5-5a84-4df6-b078-a1547e1a68a7"
+
       style="background:#0099d7;color: white;display: flex;justify-content: center;align-items: center;">
         Run in Postman
       </div>
+
       <script type="text/javascript">
         (function (p,o,s,t,m,a,n) {
           !p[s] && (p[s] = function () { (p[t] || (p[t] = [])).push(arguments); });
@@ -938,58 +1042,92 @@ tags:
           ));
         }(window, document, "_pm", "PostmanRunObject", "https://run.pstmn.io/button.js"));
       </script>
+
       * Launch your terminal and copy/paste a CURL command.
+
       ```bash
+
       curl https://api.lob.com/v1/addresses \
         -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       ```
+
       * Download a [Lob SDK](#tag/SDKs-and-Tools) into your favorite IDE (integrated development environment)
 
+
       ### 3. Learn more
+
       Try our quick start (TypeScript, Python, PHP, Java or Ruby):
+
       * <a href="https://help.lob.com/developer-docs/quickstart-guide" target="_blank">Send your first Postcards</a>
 
+
       Use Case guides
+
       * <a href="https://help.lob.com/developer-docs/use-case-guides/mass-deletion-setup" target="_blank">Mass Deletion Setup</a>
+
       * <a href="https://help.lob.com/developer-docs/use-case-guides/ncoa-restrictions" target="_blank">NCOA Restrictions</a>
+
       * <a href="https://help.lob.com/developer-docs/use-case-guides/override-cancellation-window" target="_blank">Override Cancellation Window</a>
+
       * <a href="https://help.lob.com/developer-docs/use-case-guides/visibility-of-address-changes" target="_blank">Visibility of Address Changes</a>
+
       * <a href="https://help.lob.com/developer-docs/use-case-guides/ingesting-tracking-events-with-webhooks" target="_blank">Ingesting Tracking Events with Webhooks</a>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Identity Validation
-    description: |
+    description: >
       Validates whether a given name is associated with an address.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Intl Autocompletions
-    description: |
-      Address autocompletion for non-US addresses. Given partial address information, this endpoint returns up to 10 address suggestions.
+    description: >
+      Address autocompletion for non-US addresses. Given partial address
+      information, this endpoint returns up to 10 address suggestions.
+
       ## Autocompletion Test Env
+
       Your test API key does not autocomplete international addresses and is used to simulate
+
       behavior. With your test API key, requests with specific values for `address_prefix`
+
       return predetermined values. When `address_prefix` is set to:
+
       - `0 suggestions` - Returns no suggestions
+
       - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.
         `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.
         Each additional letter in `suggestion` reduces the number of suggestions by one (e.g.
         `1 su` returns 9 suggested addresses). `[PRIMARY NUMBER]` does not affect the number of
         suggestions returned.
       Country is a required field.
+
       City and state filters work as expected and filter the list of predetermined suggested addresses.
+
       See the `test` request & response examples under [Autocomplete Examples](#operation/intl_autocompletions) within the "Autocomplete
+
       a partial address" section in Intl Autocompletions.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Intl Verifications
-    description: |
+    description: >
       Address verification for non-US addresses
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
       ## Intl Verifications Test Env
 
+
       When verifying international addresses, you'll likely want to test against
+
       a wide array of addresses to ensure you're handling responses correctly.
+
       With your test API key, requests that use specific values for `primary_line`
+
       let you explore the responses to many types of addresses:
+
 
       <table>
         <tr>
@@ -1014,82 +1152,136 @@ tags:
         </tr>
       </table>
 
+
       See the `test` request & response examples under [Intl Verification Examples](#operation/intl_verification) within the
+
       "Verify an international address section" in Intl Verifications.
 
+
       You can rely on the response from these examples generally matching the response
+
       you'd see in the live environment with an address of that type (excluding the `recipient` field).
 
+
       The test API key does not perform any verification, automatic correction, or standardization
+
       for addresses. If you wish to try these features out, use our <a href="https://lob.com/address-verification" target="_blank">live demo</a>
+
       or the free plan (see <a href="https://lob.com/pricing/address-verification" target="_blank">our pricing</a> for details).
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Introduction
     x-traitTag: true
-    description: |
-      Lob’s Print & Mail and Address Verification APIs help companies transform outdated,
+    description: >
+      Lob’s Print & Mail and Address Verification APIs help companies transform
+      outdated,
+
       manual print-and-mail processes; save 1,000s of hours in processing time by sending mail much more
+
       quickly; and increase ROI on offline communications.
 
+
       Automate direct mail by triggering on-demand postcards, letters, and checks directly from your
+
       CRM or customer data systems.
 
+
       Address Verification corrects, standardizes, and cleanses address data for assured delivery with
+
       instant verification across 240+ countries and territories.
 
+
       Lob's print delivery network eliminates the hassle of vendor management with automated
+
       production and postage across a global network of vetted commercial printers.
 
+
       Tracking & Analytics gives you complete visibility of production and delivery for each piece of
+
       mail you send to meet compliance requirements and measure campaign performance.
   - name: Letters
-    description: |
-      The letters endpoint allows you to easily print and mail letters. The API provides endpoints for
+    description: >
+      The letters endpoint allows you to easily print and mail letters. The API
+      provides endpoints for
+
       creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Manage Mail
     x-traitTag: true
-    description: |
+    description: >
       ## Cancellation Windows
 
+
       By default, all new accounts have a 5 minute cancellation window for postcards,
+
       self mailers, letters, and checks. Within that timeframe, you can cancel
+
       mailings from production, free of charge. Once the window has passed for a
+
       postcard, self mailer, letter, or check, the mailing is no longer cancelable.
+
       In addition, certain customers can customize their cancellation windows by
+
       product in their <a href="https://dashboard.lob.com/#" target="_blank">Dashboard Settings</a>. Upgrade to
+
       the appropriate <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Edition</a>
+
       to automatically gain access to this ability. For more details on this feature,
+
       check out our <a href="https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings#cancellation-windows-4" target="_blank">Cancellation Guide</a>.
 
+
       If you schedule a postcard, self mailer, letter, or check for up to 180 days
+
       in the future by supplying the `send_date` parameter, that will override any
+
       cancellation window you may have for that product.
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
       ## Scheduled Mailings
 
+
       Postcards, self mailers, letters, and checks can be scheduled to be sent up
+
       to 180 days in advance. You can use this feature to:
+
       - Create automated drip campaigns (e.g. send a postcard at 15, 30, and 60
+
       days)
+
       - Schedule recurring sends
+
       - Plan your mailing schedule ahead of time
 
+
       Up until the time a mailing is scheduled for, it can also be canceled.
+
       If you use this feature in conjunction with [a cancellation window](
+
       index.html#section/Cancellation-Windows), the `send_date` parameter will always
+
       take precedence.
 
+
       For implementation details, see documentation below for each respective
+
       endpoint. For more help, see our <a href="https://help.lob.com/print-and-mail/building-a-mail-strategy/choosing-a-delivery-strategy#scheduled-mailings-15" target="_blank">Scheduled Mailings Guide</a>.
 
+
       This feature is exclusive to certain customers. Upgrade to the appropriate
+
       <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Edition</a> to
+
       gain access.
 
+
       ### Example Create Request using Send Date
+
 
       ```bash
         curl https://api.lob.com/v1/postcards \
@@ -1102,87 +1294,143 @@ tags:
           -d "merge_variables[name]=Harry" \
           -d "send_date=2021-07-26"
       ```
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: National Change of Address
     x-traitTag: true
-    description: |
-      National Change of Address Linkage (NCOALink) is a service offered by the USPS, which allows individuals
+    description: >
+      National Change of Address Linkage (NCOALink) is a service offered by the
+      USPS, which allows individuals
+
       or businesses who have recently moved to have any mail forwarded from their previous address
+
       to their new address.
 
+
       As a CASS-certified Address Verification Provider, Lob also offers NCOALink
+
       functionality to our Print & Mail customers. With the Lob NCOALink feature enabled, Postcards,
+
       Letters, Checks and Addresses can automatically be corrected to reflect an individual's or business's
+
       new address in the case that they have moved (only if they have registered for NCOALink with the USPS).
 
+
       Due to privacy concerns and USPS constraints, for customers with NCOALink enabled, our API responses
+
       for a limited set of endpoints differ slightly in the case when an address has been changed through NCOALink.
+
 
       **NOTE**: This feature is exclusive to certain customers. Upgrade to the appropriate <a href='https://dashboard.lob.com/#/settings/editions' target="_blank">Print & Mail Editions</a> to gain access.
 
+
       For more information, see our <a href="https://help.lob.com/print-and-mail/all-about-addresses#national-change-of-address-ncoa-7" target="_blank">NCOALink guide</a>.
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
       ## NCOALink Live Environment
+
       Though there are no changes to API requests, there are significant changes to our API responses, but
+
       only in the event that an address has been changed through NCOALink. If an address has not been changed
+
       through NCOALink, the response would be identical to our standard responses, except the addition of a
+
       `recipient_moved` field, which is `false` for unchanged addresses.
 
+
       If an address has been changed through NCOALink, we are required to suppress the following response
+
       fields for that address:
+
       - `address_line1`
+
       - `address_line2`
+
       - The +4 portion of the ZIP+4 (5-digit ZIP code will still be present)
 
+
       See the `ncoa_us_live` example under [Response samples](#operation/address_create) within the "Create an Address" section in Addresses
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
       ## NCOALink Test Environment
 
+
       In addition to sending live requests, you may also want to simulate what an NCOALink response might
+
       look like so that you can ensure your application behaves as expected. The behavior of NCOALink in
+
       Lob's Test Environment is very similar to our [US Verifications Test Mode](#section/US-Verifications-Test-Env).
 
+
       To simulate an NCOALink request, send a POST request to any of the four endpoints below with an `address_line1` field equal to `NCOA`:
+
       - `POST /v1/addresses`
+
       - `POST /v1/checks`
+
       - `POST /v1/letters`
+
       - `POST /v1/postcards`
+
       - `POST /v1/self_mailers`
 
+
       A static address will always be returned, as documented in the `ncoa_us_test` example under [Response samples](#operation/address_create) within the "Create an Address"
+
       section in Addresses (along with the corresponding request under "Request samples").
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Postcards
-    description: |
-      The postcards endpoint allows you to easily print and mail postcards. The API provides endpoints for creating postcards,
+    description: >
+      The postcards endpoint allows you to easily print and mail postcards. The
+      API provides endpoints for creating postcards,
+
       retrieving individual postcards, canceling postcards, and retrieving a list of postcards.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: QR Codes
-    description: |
+    description: >
 
       Lob QR codes allow you to generate a QR code that is unique to each mailpiece, thereby allowing each and every customers to receive a personalized link. See the Create endpoint for <a href="#tag/Letters/operation/letter_create">Letters</a>, <a href="#tag/Postcards/operation/postcard_create">Postcards</a> or <a href="#tag/Self-Mailers/operation/self_mailer_create">Self Mailers</a> to learn how to embed a QR code into your mail piece.
 
+
       Webhooks can be used to integrate Lob QR code scans into your omni channel marketing strategy. See the <a href="#tag/Webhooks">Webhooks</a> section of our documentation to learn how to enable the `letter.viewed`, `postcard.viewed` and `self_mailer.viewed` event notifications for your mail pieces.
 
+
       Furthermore, our QR code Analytics endpoint can be used to track the impact and engagement rate of your mail sends. Lob can tell you exactly which recipients opened your mailpiece. Our Analytics endpoint allows you to see exactly which recipient scanned a mailpiece, when they scanned it, and more!
+
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Rate Limiting
     x-traitTag: true
-    description: |-
-      To prevent misuse, we enforce a rate limit on an API Key and endpoint basis, similar to the way many other APIs enforce rate limits. By default, all accounts and their corresponding Test and Live API Keys have a rate limit of 150 requests per 5 seconds per endpoint. The `POST /v1/us_verifications` and `POST /v1/us_autocompletions` endpoints have a limit of 300 requests per 5 seconds for all accounts.
+    description: >-
+      To prevent misuse, we enforce a rate limit on an API Key and endpoint
+      basis, similar to the way many other APIs enforce rate limits. By default,
+      all accounts and their corresponding Test and Live API Keys have a rate
+      limit of 150 requests per 5 seconds per endpoint. The `POST
+      /v1/us_verifications` and `POST /v1/us_autocompletions` endpoints have a
+      limit of 300 requests per 5 seconds for all accounts.
+
 
       When your application exceeds the rate limit for a given API endpoint, the Lob API will return an HTTP 429 "Too Many Requests" response code instead of the variety of codes you would find across the other API endpoints.
 
+
       **HTTP Headers**
+
 
       HTTP headers are returned on each request to a rate limited endpoint. Ensure that you inspect these headers during your requests as they provide relevant data on how many more requests your application is allowed to make for the endpoint you just utilized.
 
+
       While the headers are documented here in titlecase, HTTP headers are case insensitive and certain libraries may transform them to lowercase. Please inspect your headers carefully to see how they will be represented in your chosen development scenario.
+
       <table>
         <tbody>
           <tr>
@@ -1201,7 +1449,9 @@ tags:
         </tbody>
       </table>
 
+
       ### Example HTTP Headers
+
 
       ```bash
         X-Rate-Limit-Limit:150
@@ -1209,9 +1459,12 @@ tags:
         X-Rate-Limit-Reset:1528749846
       ```
 
+
       ### Example Response
 
+
       If you hit the rate limit on a given endpoint, this is the body of the HTTP 429 message that you will see:
+
 
       ```javascript
         {
@@ -1224,51 +1477,85 @@ tags:
       ``` <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Requests and Responses
     x-traitTag: true
-    description: |
+    description: >
       ## Asset URLs
 
+
       All asset URLs returned by the Lob API (postcards, letters, thumbnails,
+
       etc) are signed links served over HTTPS. All links returned will expire in
+
       30 days to prevent mis-sharing. Each time a GET request is initiated, a
+
       new signed URL will be generated.
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
       ## Query Parameters
 
+
       Query parameters which consist of lists of strings require that all elements of
+
       the list be double-quoted, as per query filter standards.
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
       ## Idempotent Requests
 
+
       Lob supports idempotency for safely retrying `POST` requests to create
+
       postcards, self mailers, letters, and checks without accidentally creating
+
       duplicates.
 
+
       For example, if a request to create a check fails due to a network error,
+
       you can safely retry the same request with the same idempotency key and
+
       guarantee that only one check will ultimately be created and sent. When a
+
       request is sent with an idempotency key for an already created resource,
+
       the response object for the existing resource will be returned.
 
+
       To perform an idempotent `POST` request to one of the mailpiece product
+
       endpoints, provide an additional `Idempotency-Key` header or an `idempotency_key`
+
       query parameter to the request. If multiple idempotency keys are provided,
+
       the request will fail. How you create unique keys is up to you, but we
+
       suggest using random values, such as V4 UUIDs. Idempotency keys are intended
+
       to prevent issues over a short periods of time, therefore keys expire after
+
       24 hours. Keys are unique by mode (Test vs. Live) as well as by resource
+
       (postcard vs. letter, etc.).
 
+
       By default, all `GET` and `DELETE` requests are idempotent by nature, so
+
       they do not require an additional idempotency key.
 
+
       For more help integrating idempotency keys, refer to our
+
       <a href="https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings#idempotent-requests-12" target="_blank">implementation guide</a>.
 
+
       **Headers**
+
       <table>
         <tbody>
           <tr>
@@ -1286,7 +1573,9 @@ tags:
         </tbody>
       </table>
 
+
       **Query Parameters**
+
       <table>
         <tbody>
           <tr>
@@ -1304,7 +1593,9 @@ tags:
         </tbody>
       </table>
 
+
       ### Example Request
+
 
       ```bash
         curl https://api.lob.com/v1/postcards \
@@ -1316,20 +1607,31 @@ tags:
           --data-urlencode "back=<html style='margin: 130px; font-size: 50;'>Back HTML</html>" \
           -d "merge_variables[name]=Harry"
       ```
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
       ## Metadata
 
+
       When creating any Lob object, you can include a metadata object with up to 20 key-value pairs of
+
       custom data. You can use metadata to store information like `metadata[customer_id] = "987654"` or
+
       `metadata[campaign] = "NEWYORK2015"`. This is especially useful for filtering and matching to internal
+
       systems.
 
+
       Each metadata key must be less than 40 characters long and values must be less than 500 characters.
+
       Metadata does not support nested objects.
 
+
       ### Example Create Request with Metadata
+
 
       ```bash
         curl https://api.lob.com/v1/postcards \
@@ -1343,43 +1645,65 @@ tags:
           -d "merge_variables[name]=Harry"
       ```
 
+
       ### Example List Request with Metadata Filter
+
 
       ```bash
         curl -g "https://api.lob.com/v1/postcards?metadata[campaign]=NEWYORK2015&limit=2" \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
       ```
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
 
       ## Request Body
 
+
       When manually sending a POST HTTP request directly to the Lob API, without
+
       the use of a library, you may represent the body as either a Form URL
+
       Encoded request, a JSON document, or a Multipart Form Data request.
 
+
       However, if you're using one of our [SDKs](#tag/SDKs-and-Tools),
+
       the generation of the request bodies is done for you automatically and you don't
+
       need to worry about the format.
+
 
       ### Form URL Encoded
 
+
       This request body encoding is accompanied with the
+
       `Content-Type: application/x-www-form-urlencoded` header. The content is an
+
       example of what the [Verify a US address](index.html#operation/us_verification)
+
       endpoint accepts. An example of a request body encoded in this format follows.
+
 
 
       ```javascript
         primary_line=210 King Street&city=San Francisco&state=CA&zip_code=94107
       ```
 
+
       ### JSON
 
+
       This request body encoding is accompanied with the `Content-Type: application/json` header.
+
       The content is an example of what the [Verify a US address endpoint](index.html#operation/us_verification)
+
       accepts. An example of a request body encoded in this format follows.
+
 
 
       ```javascript
@@ -1391,12 +1715,18 @@ tags:
         }
       ```
 
+
       ### Multipart Form Data
 
+
       This request body encoding is accompanied with the `Content-Type: multipart/form-data`
+
       header. This is the only format that can be used for uploading a file to the API. The
+
       content is an example of what the [Create a check](index.html#operation/check_create)
+
       endpoint accepts. An example of a request body encoded in this format follows.
+
 
 
       ```javascript
@@ -1423,54 +1753,90 @@ tags:
         true
         --------------------------7015ebe79c0a5f8c--
       ```
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Reverse Geocode Lookups
-    description: |
-      Find a list of zip codes associated with a valid US location via latitude and longitude. <br> <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+    description: >
+      Find a list of zip codes associated with a valid US location via latitude
+      and longitude. <br> <div class="back-to-top" ><a href="#"
+      onclick="toTopLink()">back to top</a></div>
   - name: SDKs and Tools
     x-traitTag: true
-    description: |
-      Please visit our <a href="https://www.github.com/lob" target="_blank">Github</a> for a list of our supported libraries.
+    description: >
+      Please visit our <a href="https://www.github.com/lob"
+      target="_blank">Github</a> for a list of our supported libraries.
+
       - <a href="https://github.com/lob/lob-typescript-sdk" target="_blank">Typescript</a>
+
       - <a href="https://github.com/lob/lob-php" target="_blank">PHP</a>
+
       - <a href="https://github.com/lob/lob-python" target="_blank">Python</a>
+
       - <a href="https://github.com/lob/lob-java" target="_blank">Java</a>
+
       - <a href="https://github.com/lob/lob-ruby/tree/main" target="_blank">Ruby</a>
+
       - <a href="https://github.com/lob/lob-dotnet" target="_blank">CSharp</a>
+
       - <a href="https://github.com/lob/lob-elixir" target="_blank">Elixir</a>
+
       - <a href="https://github.com/lob/lob-go" target="_blank">Go</a>
+
       - <a href="https://github.com/lob/lob-node" target="_blank">Node.js (legacy)</a>
+
       - <a href="https://github.com/lob/lob-java/tree/12.3.7-Legacy" target="_blank">Java (legacy)</a>
+
       - <a href="https://github.com/lob/lob-php/tree/v3-legacy" target="_blank">PHP (legacy)</a>
+
       - <a href="https://github.com/lob/lob-python/tree/legacy_v4" target="_blank">Python (Legacy)</a>
+
       - <a href="https://github.com/lob/lob-ruby/tree/legacy-v5" target="_blank">Ruby (Legacy)</a>
 
+
       <br><br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Self Mailers
-    description: |
-      The self mailer endpoint allows you to easily print and mail self mailers. The API provides endpoints
+    description: >
+      The self mailer endpoint allows you to easily print and mail self mailers.
+      The API provides endpoints
+
       for creating self mailers, retrieving individual self mailers, canceling self mailers, and retrieving a list of self mailers.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Template Design
     x-traitTag: true
-    description: |
+    description: >
       ## HTML Templates
+
       You can save commonly used HTML as templates within Lob to more easily manage them. You can reference
+
       your saved templates in postcard, letter, and check requests instead of having to pass a long HTML
+
       string on each request. Additionally, you can make changes to your HTML templates and update them
+
       independently, without having to touch your API integration. Templates can be created, edited,
+
       and viewed on your <a href="https://dashboard.lob.com/#/templates" target="_blank">Dashboard</a>. To use a template in a postcard,
+
       letter, or check, see the documentation for each endpoint below. For help using templates, check out our
+
       <a href="https://help.lob.com/print-and-mail/designing-mail-creatives/dynamic-personalization#html-templates-1" target="_blank">HTML Templates Guide</a> or get started with a
+
       <a href="https://lob.com/template-gallery" target="_blank">pre-designed template from our gallery</a>. In Live mode, you can only have
+
       as many templates as allotted in your current
+
       <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Edition</a>. There is no limit in Test mode.
 
+
       If you'd like to interact with templates programmatically, check out our Beta Program for API access
+
       to the [HTML Templates Endpoints](#tag/Templates).
 
+
       ### Example Create Request using HTML Templates
+
       ```bash
         curl https://api.lob.com/v1/postcards \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
@@ -1481,82 +1847,143 @@ tags:
           -d "back=tmpl_01b0d396a10c268" \
           -d "merge_variables[name]=Harry"
       ```
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
       ## HTML Examples
+
       Use a pre-designed template from our <a href="https://lob.com/resources/template-gallery" target="_blank">gallery</a> or follow these
+
       basic <a href="https://github.com/lob/examples" target="_blank">guidelines</a> as starting points for creating custom Postcards,
+
       Self Mailers, Letters, and Checks.
 
+
       Please follow the standards used in these templates, such as:
+
       - For any linked assets, you must use a performant file hosting provider with no rate limits such as Amazon
+
       S3.
+
       - Use inline styles or an internal stylesheet, do not link to external stylesheets.
+
       - Link to images that are 300DPI and sized at the final desired size on the physical mailing. For example,
+
       for a photo that is desired to be 1in x 1in on the final postcard, the image asset should be sized at 1in
+
       x 1in at 300DPI (which equates to 300px by 300px).
+
       - The sum of all linked assets should not exceed 5MB in file size.
+
       - Use `-webkit` prefixes for CSS properties when recommended <a href="http://shouldiprefix.com/" target="_blank">here</a>.
 
+
       Because different browsers have varying user-agent styles, the HTML you see in your browser will not
+
       always look identical to what is produced through the API. It is **strongly** recommended that you test all
+
       HTML requests by reviewing the final PDF files in your Test Environment, as these are the files that will be
+
       printed.
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
+
       ## Image Prepping
+
       Currently we support the following file types for all endpoints:
+
       - PDF
+
       - PNG
+
       - JPEG
+
 
       **Templates**
 
+
       You can find pre-made templates that already adhere to all of these guidelines here:
+
       - [Postcards](#tag/Postcards)
+
       - [Letters](#tag/Letters)
+
       - [Checks](#tag/Checks)
+
       - [Self Mailers](#tag/Self-Mailers)
+
 
       **Prepping All Images**
 
+
       The following guidelines apply to image types:
+
       - Images should be 300 dpi or higher - PNG/JPEG files with less than 300 dpi will be rejected.
+
       - Your artwork should include a 1/8" border around the final trim size. This means your final file size will be a total of 0.25" larger than your expected printed piece (ie, a 4"x6" postcard should be submitted as 4.25"x6.25"). There is no need to include crop marks in your submitted content.
+
       - Include a safe zone – make sure no critical elements are within 1/8" from the edge of the final size.
+
       - Do not include any additional postage marks or indicia.
+
       - File sizes should be no larger than 5MB.
+
 
       **Prepping PDFs**
 
+
       To ensure that you are producing PDF's correctly please follow the guidelines below:
+
       - [Make sure all non-standard fonts are embedded.](#section/Standard-PDF-Fonts)
+
       - Generated PDF's need to be be PDF/A compliant.
+
 
       **Prepping PNGs/JPEGs**
 
+
       To ensure that you are producing PNG's/JPEG's correctly please follow the guidelines below:
 
+
       - Minimum 300 dpi. The dpi is calculated as (width of image in pixels) / (width of product in inches) and (length of image in pixels) / (length of product in inches). For Example: 1275px x 1875px image used to create a 4.25" x 6.25" postcard has a dpi of 300.
+
       - Submitted images must have the same length to width ratio as the chosen product. Images will not be cropped or stretched by the API.
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
 
+
       ## Standard PDF Fonts
+
       Ideally, all fonts in provided PDFs should be embedded. Embedding a font in a PDF ensures that the final
+
       printed product will look as it was designed. Fonts can vary greatly in size and shape, even within the
+
       same family. If the exact font that was used to design the artwork is not used to print, the look and
+
       placement of the text is not guaranteed to be the same.
 
+
       In general, requests that provide PDFs with un-embedded fonts will be rejected. We make an exception for
+
       "standard fonts", a set of fonts that we have identified as being common. PDFs that contain un-embedded
+
       fonts that are found in the list, and match the accepted <a href="https://en.wikipedia.org/wiki/Category:Font_formats" target="_blank">font type</a>
+
       will be accepted. Otherwise, the request will be rejected.
 
+
       Font embedding is an essential part of standard PDF workflows. Fonts should be embedded automatically by
+
       PDF editing software that are compliant with PDF standards.
+
 
       <table>
         <tr>
@@ -1736,54 +2163,88 @@ tags:
           <td style="white-space: nowrap">Type 1</td>
         </tr>
       </table>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Template Versions
-    description: |
-      These API endpoints allow you to create, retrieve, update and delete versions of reusable HTML templates for use with the Print & Mail API.
+    description: >
+      These API endpoints allow you to create, retrieve, update and delete
+      versions of reusable HTML templates for use with the Print & Mail API.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Templates
-    description: |
-      These API endpoints allow you to create, retrieve, update and delete reusable HTML templates for use with the Print & Mail API.
+    description: >
+      These API endpoints allow you to create, retrieve, update and delete
+      reusable HTML templates for use with the Print & Mail API.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Test and Live Environments
     x-traitTag: true
-    description: |
+    description: >
       To make the API as explorable as possible, accounts have test and live
+
       environment API keys. You're not charged any fees in the test environment,
+
       so we encourage you to use it to try out services, perform quality
+
       assurance, and run automated testing. Objects―addresses, letters, checks,
+
       etc―in one environment cannot be manipulated by objects in the other.
 
+
       In general, a payment method (either credit card or ACH account) must be
+
       added to your account to make live API requests. However, a payment method
+
       is not required for the first 300 live requests per month to the
+
       `/v1/us_verifications` endpoint. After the first 300 requests, you will
+
       begin receiving errors with status code `403`.
 
+
       Requests made in the test environment always validate request arguments,
+
       simulate live environment behavior, and enforce rate limits. _They never
+
       print, mail nor, for verification services, verify addresses._ The US &
+
       International verification services trigger behavior with specific
+
       argument values, and, if you plan on using those, we recommend reading
+
       [US Verification Test Environment](#tag/US-Verifications-Test-Environment)
+
       and [Intl Verification Test Environment](#tag/Intl-Verifications-Test-Environment).
 
+
       To switch between environments, use the appropriate key for that
+
       environment when performing a request. You can find each environment's API
+
       key in your dashboard under Settings; test API keys are always prefixed
+
       with `test_` and production API keys with `live_`.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Tracking Events
-    description: |
-      As mailpieces travel through the mail stream, USPS scans their unique barcodes, and Lob processes these mail scans to generate tracking events.
+    description: >
+      As mailpieces travel through the mail stream, USPS scans their unique
+      barcodes, and Lob processes these mail scans to generate tracking events.
+
 
       <h3>Certified Tracking Event Details</h3>
 
+
       Letters sent with USPS Certified Mail are fully tracked by USPS, and
+
       therefore their [tracking events](#operation/tracking_event) have an
+
       additional `details` object with more detailed information about the
+
       tracking event. The following table shows the potential values for
+
       the fields in the `details` object mapped to the tracking event `name`.
+
 
       <table>
         <tr>
@@ -1955,27 +2416,43 @@ tags:
           <td style="white-space: nowrap"><code>false</code></td>
         </tr>
       </table>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Uploads
-    description: |
-      The uploads endpoint allows you to upload audience files that are then associated with a given campaign.
+    description: >
+      The uploads endpoint allows you to upload audience files that are then
+      associated with a given campaign.
+
       At this time, only CSV files are allowed. The API provides endpoints for creating uploads, uploading audience files,
+
       and marking uploaded files as ready for processing. The API also provides endpoints for downloading files that
+
       describe the results, both successful and not, of the processing.
   - name: URL Shortener
-    description: |
-      Lob's URL shortener allows you to generate unique short links, either with Lob's own domain or your own custom domains. Each custom link enables Lob to track mail individually and provide customers the relevant tracking data in their dashboard.
+    description: >
+      Lob's URL shortener allows you to generate unique short links, either with
+      Lob's own domain or your own custom domains. Each custom link enables Lob
+      to track mail individually and provide customers the relevant tracking
+      data in their dashboard.
+
 
       Webhooks can be used to integrate Lob's URL Shortener scans into your omni channel marketing stratergy. See the <a href="#tag/Webhooks">Webhooks</a> section of our documentation to learn how to enable the `letter.viewed`, `postcard.viewed` and `self_mailer.viewed` event notifications for your mail pieces.
 
+
       Furthermore, you can use our Retrieve endpoints to track the impact and engagement rate of links created. 
+
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: US Autocompletions
-    description: |
-      Given partial address information, this endpoint returns up to 10 address suggestions. <br> <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+    description: >
+      Given partial address information, this endpoint returns up to 10 address
+      suggestions. <br> <div class="back-to-top" ><a href="#"
+      onclick="toTopLink()">back to top</a></div>
+
       ## Autocompletion Test Env
+
       Your test API key does not autocomplete US addresses and is used to simulate behavior. With your test API key, requests with specific values for `address_prefix` return predetermined values. When `address_prefix` is set to:
+
       - `0 suggestions` - Returns no suggestions - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.
         `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.
         Each additional letter in `suggestion` reduces the number of suggestions by one (e.g.
@@ -1983,13 +2460,17 @@ tags:
         suggestions returned.
 
       City and state filters work as expected and filter the list of predetermined suggested addresses.
+
       See the `test` request & response examples under [Autocomplete Examples](#operation/autocompletion) within the "Autocomplete a partial address" section in US Autocompletions. <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: US Verification Types
     x-traitTag: true
-    description: |
-      These are detailed definitions for various fields in the [US verification object](#operation/us_verification).
+    description: >
+      These are detailed definitions for various fields in the [US verification
+      object](#operation/us_verification).
+
 
       <h3>ZIP Code Types - <code>components[zip_code_type]</code></h3>
+
 
       <table>
         <tbody>
@@ -2016,7 +2497,9 @@ tags:
         </tbody>
       </table>
 
+
       <h3>Record Types - <code>components[record_type]</code></h3>
+
 
       <table>
         <tbody>
@@ -2051,7 +2534,9 @@ tags:
         </tbody>
       </table>
 
+
       <h3>Carrier Route Types - <code>components[carrier_route_type]</code></h3>
+
 
       <table class="table-docs table-docs-code">
         <tbody>
@@ -2082,7 +2567,9 @@ tags:
         </tbody>
       </table>
 
+
       <h3>DPV Footnotes - <code>deliverability_analysis[dpv_footnotes]</code></h3>
+
 
       <table class="table-docs table-docs-code">
         <tbody>
@@ -2148,20 +2635,30 @@ tags:
           </tr>
         </tbody>
       </table>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: US Verifications
-    description: |
+    description: >
       Validate, automatically correct, and standardize the addresses in your
+
       address book based on USPS's <a href="https://postalpro.usps.com/certifications/cass" target="_blank">Coding Accuracy Support System (CASS)</a>.
+
       <br>
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+
 
       ## US Verifications Test Env
 
+
       When verifying US addresses, you'll likely want to test against a wide array of addresses to
+
       ensure you're handling responses correctly. With your test API key, requests that use specific
+
       values for `address` or `primary_line` and (if using `primary_line`) an arbitrary five digit
+
       number for `zip_code` (e.g. "11111") let you explore the responses to many types of addresses:
+
 
       <table>
         <tr>
@@ -2241,30 +2738,47 @@ tags:
         </tr>
       </table>
 
+
       See the `test` request & response examples under [US Verification Examples](#operation/us_verification) within the
+
       "Verify a US or US territory address" section in US Verifications.
 
+
       You can rely on the response from these examples generally matching the response you'd see in the live environment with an
+
       address of that type (excluding the `recipient` field).
 
+
       The test API key does not perform any verification, automatic correction, or standardization for addresses. If you wish to
+
       try these features out, use our <a href="https://lob.com/address-verification" target="_blank">live demo</a> or the free plan (see <a href="https://lob.com/pricing/address-verification" target="_blank">our pricing</a> for details).
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Versioning and Changelog
     x-traitTag: true
-    description: |
+    description: >
       ### API Versioning
 
+
       When backwards-incompatible changes are made to the API, a new dated version
+
       is released. The latest version of the API is version **2020-02-11**. 
+
       All versions prior to, and inclusive of, 2019-02-11 have been sunsetted. You can
+
       view your version and upgrade to the latest version in your
+
       <a href="https://dashboard.lob.com/settings/api-keys" target="_blank">Dashboard Settings</a>. You will
+
       only need to specify a version if you would like to test a newer version of
+
       the API without doing a full upgrade. The API will return an error if a
+
       version older than your current one is passed in.
 
+
       ### Example Request
+
 
       ```bash
         curl https://api.lob.com/v1/addresses \
@@ -2272,43 +2786,71 @@ tags:
           -H "Lob-Version: 2020-02-11"
       ```
 
+
       ### Specification Versioning
+
       You might be wondering why our API and specification use different versioning schemes.
+
       Lob's API predates our specification and follows the <a href="https://stripe.com/blog/api-versioning" target="_blank">Stripe versioning</a>
+
       approach. This works well to manage backwards-incompatible changes to our API.
 
+
       For our API specification (used to create this documentation), we've chosen <a href="https://semver.org/" target="_blank">semantic
+
       versioning</a>. This versioning reflects the backward-compatible
+
       changes that do not require a versioning of Lob's API.
 
+
       Lob's API specification will be used to generate artifacts like documentation, client SDKs,
+
       and other developer tooling. Semantic versioning of our specification will inform how we
+
       version those artifacts like SDKs. It is helpful to know the version of a specification
+
       used to produce an artifact in order reference the specification release notes.
+
 
 
       ### Changelog
        <a href="https://app.getbeamer.com/lob/en?all" target="_blank">View our Changelog here.</a>
   - name: Webhooks
     x-traitTag: true
-    description: |
-      Webhooks are an easy way to get notifications on events happening asynchronously
+    description: >
+      Webhooks are an easy way to get notifications on events happening
+      asynchronously
+
       within Lob's architecture. For example, when a postcard gets a "Processed For
+
       Delivery" tracking event, an event object of type `postcard.processed_for_delivery`
+
       will be created. If you are subscribed to that event type in that Environment
+
       (Test vs. Live), Lob will send that event to any URLs you've specified via an
+
       HTTP POST request. In Live mode, you can only have as many webhooks as allotted
+
       in your current <a href="https://dashboard.lob.com/#/settings/editions" target="_blank">Print & Mail Edition</a>.
+
       There is no limit in Test mode.
+
       You can view and create <a href="https://dashboard.lob.com/#/webhooks" target="_blank">webhooks</a> on the
+
       Lob Dashboard, as well as view your <a href="https://dashboard.lob.com/#/events" target="_blank">events</a>.
+
       See our <a href="https://help.lob.com/print-and-mail/getting-data-and-results/using-webhooks" target="_blank">Webhooks Integration Guide</a> for more
+
       details on how to integrate. Please see the full list of event types available for
+
       subscription here.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Zip Lookups
-    description: |
-      Find a list of cities, states and associated information about a US ZIP code. <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+    description: >
+      Find a list of cities, states and associated information about a US ZIP
+      code. <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to
+      top</a></div>
 x-tagGroups:
   - name: Overview
     tags:
@@ -2401,23 +2943,23 @@ paths:
     $ref: resources/accounts/accounts.yml
   /addresses:
     $ref: resources/addresses/addresses.yml
-  /addresses/{adr_id}:
+  "/addresses/{adr_id}":
     $ref: resources/addresses/address.yml
-  /bank_accounts/{bank_id}/verify:
+  "/bank_accounts/{bank_id}/verify":
     $ref: resources/bank_accounts/bank_account_verify.yml
-  /bank_accounts/{bank_id}:
+  "/bank_accounts/{bank_id}":
     $ref: resources/bank_accounts/bank_account.yml
   /bank_accounts:
     $ref: resources/bank_accounts/bank_accounts.yml
-  /billing_groups/{bg_id}:
+  "/billing_groups/{bg_id}":
     $ref: resources/billing_groups/billing_group.yml
   /billing_groups:
     $ref: resources/billing_groups/billing_groups.yml
   /buckslips:
     $ref: resources/buckslips/buckslips.yml
-  /buckslips/{buckslip_id}:
+  "/buckslips/{buckslip_id}":
     $ref: resources/buckslips/buckslip.yml
-  /buckslips/{buckslip_id}/orders:
+  "/buckslips/{buckslip_id}/orders":
     $ref: resources/buckslips/buckslip_orders/buckslip_orders.yml
   /bulk/us_verifications:
     $ref: resources/bulk_us_verifications/bulk_us_verifications.yml
@@ -2425,23 +2967,23 @@ paths:
     $ref: resources/bulk_intl_verifications/bulk_intl_verifications.yml
   /campaigns:
     $ref: resources/campaigns/campaigns.yml
-  /campaigns/{cmp_id}:
+  "/campaigns/{cmp_id}":
     $ref: resources/campaigns/campaign.yml
-  /campaigns/{cmp_id}/send:
+  "/campaigns/{cmp_id}/send":
     $ref: resources/campaigns/send.yml
   /cards:
     $ref: resources/cards/cards.yml
-  /cards/{card_id}:
+  "/cards/{card_id}":
     $ref: resources/cards/card.yml
-  /cards/{card_id}/orders:
+  "/cards/{card_id}/orders":
     $ref: resources/cards/card_orders/card_orders.yml
   /checks:
     $ref: resources/checks/checks.yml
-  /checks/{chk_id}:
+  "/checks/{chk_id}":
     $ref: resources/checks/check.yml
   /creatives:
     $ref: resources/creatives/creatives.yml
-  /creatives/{crv_id}:
+  "/creatives/{crv_id}":
     $ref: resources/creatives/creative.yml
   /identity_validation:
     $ref: resources/identity_validation/identity_validation.yml
@@ -2449,53 +2991,53 @@ paths:
     $ref: resources/intl_autocompletions/intl_autocompletions.yml
   /intl_verifications:
     $ref: resources/intl_verifications/intl_verifications.yml
-  /letters/{ltr_id}:
+  "/letters/{ltr_id}":
     $ref: resources/letters/letter.yml
   /letters:
     $ref: resources/letters/letters.yml
-  /postcards/{psc_id}:
+  "/postcards/{psc_id}":
     $ref: resources/postcards/postcard.yml
   /postcards:
     $ref: resources/postcards/postcards.yml
   /qr_code_analytics:
     $ref: resources/qr_codes/qr_codes.yml
-  /domains/{domain_id}:
+  "/domains/{domain_id}":
     $ref: resources/url_shortener/domain_id.yml
   /domains:
     $ref: resources/url_shortener/domain_non_id.yml
-  /domains/{domain_id}/links:
+  "/domains/{domain_id}/links":
     $ref: resources/url_shortener/domains.yml
   /links:
     $ref: resources/url_shortener/links_list.yml
-  /links/{link_id}:
+  "/links/{link_id}":
     $ref: resources/url_shortener/links_id.yml
   /links/shorten:
     $ref: resources/url_shortener/links_shorten.yml
   /links/shorten/bulk:
     $ref: resources/url_shortener/links_bulk.yml
-  /self_mailers/{sfm_id}:
+  "/self_mailers/{sfm_id}":
     $ref: resources/self_mailers/self_mailer.yml
   /self_mailers:
     $ref: resources/self_mailers/self_mailers.yml
-  /templates/{tmpl_id}/versions/{vrsn_id}:
+  "/templates/{tmpl_id}/versions/{vrsn_id}":
     $ref: resources/templates/template_versions/template_version.yml
-  /templates/{tmpl_id}/versions:
+  "/templates/{tmpl_id}/versions":
     $ref: resources/templates/template_versions/template_versions.yml
-  /templates/{tmpl_id}:
+  "/templates/{tmpl_id}":
     $ref: resources/templates/template.yml
   /templates:
     $ref: resources/templates/templates.yml
   /uploads:
     $ref: resources/uploads/uploads.yml
-  /uploads/{upl_id}:
+  "/uploads/{upl_id}":
     $ref: resources/uploads/upload.yml
-  /uploads/{upl_id}/file:
+  "/uploads/{upl_id}/file":
     $ref: resources/uploads/file.yml
-  /uploads/{upl_id}/exports:
+  "/uploads/{upl_id}/exports":
     $ref: resources/uploads/exports.yml
-  /uploads/{upl_id}/report:
+  "/uploads/{upl_id}/report":
     $ref: resources/uploads/report.yml
-  /uploads/{upl_id}/exports/{ex_id}:
+  "/uploads/{upl_id}/exports/{ex_id}":
     $ref: resources/uploads/export.yml
   /us_autocompletions:
     $ref: resources/us_autocompletions/us_autocompletions.yml

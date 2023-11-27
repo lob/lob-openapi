@@ -8511,6 +8511,14 @@ components:
       properties:
         from:
           $ref: '#/components/schemas/address'
+    campaign_id:
+      title: campaign_id
+      description: >-
+        Denotes resources created by the provided campaign id, prefixed with
+        `cmp_`.
+      type: string
+      pattern: ^cmp_[a-zA-Z0-9]+$
+      nullable: true
     ltr_use_type:
       description: >-
         The use type for each mailpiece. Can be one of marketing, operational,
@@ -8550,11 +8558,7 @@ components:
                   type: string
                 - $ref: '#/components/schemas/vrsn_id'
             campaign_id:
-              type: string
-              description: >-
-                The unique ID of the associated campaign if the resource was
-                generated from a campaign.
-              nullable: true
+              $ref: '#/components/schemas/campaign_id'
             use_type:
               $ref: '#/components/schemas/ltr_use_type'
             fsc:
@@ -8963,12 +8967,6 @@ components:
           $ref: '#/components/schemas/ltr_id'
         deleted:
           $ref: '#/components/schemas/deleted'
-    campaign_id:
-      type: string
-      pattern: ^cmp_[a-zA-Z0-9]+$
-      description: >
-        optional field which filers resources created by the provided campaign
-        id, prefixed with `cmp_`.
     input_to:
       type: object
       properties:
@@ -9279,11 +9277,7 @@ components:
             url:
               $ref: '#/components/schemas/signed_link'
             campaign_id:
-              type: string
-              description: >-
-                The unique ID of the associated campaign if the resource was
-                generated from a campaign.
-              nullable: true
+              $ref: '#/components/schemas/campaign_id'
             use_type:
               $ref: '#/components/schemas/psc_use_type'
             fsc:
@@ -9625,6 +9619,8 @@ components:
               default: false
             status:
               $ref: '#/components/schemas/status'
+            campaign_id:
+              $ref: '#/components/schemas/campaign_id'
             failure_reason:
               allOf:
                 - $ref: '#/components/schemas/failure_reason'
@@ -10619,9 +10615,9 @@ components:
       in: query
       name: campaign_id
       required: false
-      description: >
-        optional field which filers resources created by the provided campaign
-        id, prefixed with `cmp_`.
+      description: >-
+        Filters resources created by the provided campaign id, prefixed with
+        `cmp_`.
       schema:
         $ref: '#/components/schemas/campaign_id'
   responses:

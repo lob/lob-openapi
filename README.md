@@ -131,6 +131,11 @@ imported into Postman so that you can get started on making requests to Lob API.
 
 ## How to bump version
 
-For a MAJOR breaking change on the api, you should bump the first number i.e. `1.xx.xx` -> `2.xx.xx`. For a MINOR change, you should bump the second set of numbers `1.13.x` -> `1.14.0`. For a PATCH change (You are changing a typo or something that doesn't affect logic) you should bump the final set of numbers i.e. `x.xx.10` -> `x.xx.11`.
-When bumping the version there are three key areas where the version should be bumped. The first is `package.json`, the second is the `package-lock.json`, and the final, is `lob-api-public.yml`. These all have a property called `version` that should be bumped based on the criteria above.
+Run `npm run bump-version <<newversion> | major | minor | patch>`
+
+When bumping the version there are three key areas where the `version` should be bumped. Verify that these versions are updated after running the script
+1. `package.json`
+2. `package-lock.json`
+3. `lob-api-public.yml` 
+
 The final step is to ensure you run `npm run bundle && npm run pretty && npm run redoc` to actually appply these changes.

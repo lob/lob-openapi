@@ -68,11 +68,10 @@ allOf:
         default: false
 
       status:
-        title: The status of the self mailer.
-        enum:
-          - processed
-          - rendered
-          - failed
+        $ref: "../../../shared/attributes/status.yml"
+
+      campaign_id:
+        $ref: "../../../shared/attributes/campaign_id.yml"
 
       failure_reason:
         allOf:

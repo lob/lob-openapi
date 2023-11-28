@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.22
+  version: 1.19.23
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -6970,6 +6970,21 @@ components:
       anyOf:
         - format: date-time
         - format: date
+    status:
+      type: string
+      enum:
+        - processed
+        - rendered
+        - failed
+      description: >
+        A string describing the PDF render status:
+
+        * `processed` - the rendering process is currently in progress.
+
+        * `rendered` - a PDF has been successfully rendered of the mailpiece.
+
+        * `failed` - one or more issues has caused the rendering process to
+        fail.
     merge_variables:
       type: object
       description: >-
@@ -7440,11 +7455,7 @@ components:
             use_type:
               $ref: '#/components/schemas/chk_use_type'
             status:
-              title: The status of the check.
-              enum:
-                - processed
-                - rendered
-                - failed
+              $ref: '#/components/schemas/status'
             failure_reason:
               allOf:
                 - $ref: '#/components/schemas/failure_reason'
@@ -8500,6 +8511,14 @@ components:
       properties:
         from:
           $ref: '#/components/schemas/address'
+    campaign_id:
+      title: campaign_id
+      description: >-
+        Denotes resources created by the provided campaign id, prefixed with
+        `cmp_`.
+      type: string
+      pattern: ^cmp_[a-zA-Z0-9]+$
+      nullable: true
     ltr_use_type:
       description: >-
         The use type for each mailpiece. Can be one of marketing, operational,
@@ -8539,11 +8558,7 @@ components:
                   type: string
                 - $ref: '#/components/schemas/vrsn_id'
             campaign_id:
-              type: string
-              description: >-
-                The unique ID of the associated campaign if the resource was
-                generated from a campaign.
-              nullable: true
+              $ref: '#/components/schemas/campaign_id'
             use_type:
               $ref: '#/components/schemas/ltr_use_type'
             fsc:
@@ -8553,11 +8568,7 @@ components:
                 to learn more. Not available for `A4` letter size.
               default: false
             status:
-              title: The status of the letter.
-              enum:
-                - processed
-                - rendered
-                - failed
+              $ref: '#/components/schemas/status'
             failure_reason:
               allOf:
                 - $ref: '#/components/schemas/failure_reason'
@@ -9266,11 +9277,7 @@ components:
             url:
               $ref: '#/components/schemas/signed_link'
             campaign_id:
-              type: string
-              description: >-
-                The unique ID of the associated campaign if the resource was
-                generated from a campaign.
-              nullable: true
+              $ref: '#/components/schemas/campaign_id'
             use_type:
               $ref: '#/components/schemas/psc_use_type'
             fsc:
@@ -9280,11 +9287,7 @@ components:
                 to learn more. Not available for `4x6` or `A5` postcard sizes.
               default: false
             status:
-              title: The status of the postcard.
-              enum:
-                - processed
-                - rendered
-                - failed
+              $ref: '#/components/schemas/status'
             failure_reason:
               allOf:
                 - $ref: '#/components/schemas/failure_reason'
@@ -9615,11 +9618,9 @@ components:
                 to learn more. Not available for `11x9_bifold` self-mailer size.
               default: false
             status:
-              title: The status of the self mailer.
-              enum:
-                - processed
-                - rendered
-                - failed
+              $ref: '#/components/schemas/status'
+            campaign_id:
+              $ref: '#/components/schemas/campaign_id'
             failure_reason:
               allOf:
                 - $ref: '#/components/schemas/failure_reason'
@@ -10574,6 +10575,16 @@ components:
                   - date_created
               - required:
                   - send_date
+    status:
+      in: query
+      name: status
+      description: |
+        A string describing the render status:
+        * `processed` - the rendering process is currently underway.
+        * `rendered` - the rendering process has completed successfully.
+        * `failed` - the rendering process has failed.
+      schema:
+        $ref: '#/components/schemas/status'
     idem-header:
       in: header
       name: Idempotency-Key
@@ -10600,6 +10611,15 @@ components:
         type: string
         maxLength: 256
         example: 026e7634-24d7-486c-a0bb-4a17fd0eebc5
+    campaign_id:
+      in: query
+      name: campaign_id
+      required: false
+      description: >-
+        Filters resources created by the provided campaign id, prefixed with
+        `cmp_`.
+      schema:
+        $ref: '#/components/schemas/campaign_id'
   responses:
     address_error:
       description: Error
@@ -17693,6 +17713,7 @@ paths:
         - $ref: '#/components/parameters/send_date'
         - $ref: '#/components/parameters/mail_type'
         - $ref: '#/components/parameters/sort_by'
+        - $ref: '#/components/parameters/status'
       responses:
         '200':
           $ref: '#/components/responses/all_checks'
@@ -19740,6 +19761,8 @@ paths:
         - $ref: '#/components/parameters/include'
         - $ref: '#/components/parameters/date_created'
         - $ref: '#/components/parameters/metadata'
+        - $ref: '#/components/parameters/campaign_id'
+        - $ref: '#/components/parameters/status'
         - in: query
           name: color
           description: >-
@@ -20861,6 +20884,8 @@ paths:
         - $ref: '#/components/parameters/include'
         - $ref: '#/components/parameters/date_created'
         - $ref: '#/components/parameters/metadata'
+        - $ref: '#/components/parameters/campaign_id'
+        - $ref: '#/components/parameters/status'
         - in: query
           name: size
           description: >-
@@ -22884,6 +22909,8 @@ paths:
         - $ref: '#/components/parameters/send_date'
         - $ref: '#/components/parameters/mail_type'
         - $ref: '#/components/parameters/sort_by'
+        - $ref: '#/components/parameters/campaign_id'
+        - $ref: '#/components/parameters/status'
       responses:
         '200':
           $ref: '#/components/responses/all_self_mailers'

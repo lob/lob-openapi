@@ -20,7 +20,7 @@ allOf:
         $ref: "../attributes/extra_service.yml"
 
       cards:
-        description: A single-element array containing an existing card id in a string format. See [cards](#tag/Cards) for more information.
+        description: A single-element array containing an existing card id in a string format. See [cards](#tag/Cards) for more information. Not available for `us_legal` letter size.
         type: array
         items:
           $ref: "../../../shared/attributes/model_ids/card_id.yml"
@@ -69,5 +69,8 @@ allOf:
 
       fsc:
         type: boolean
-        description: This is in beta. Contact support@lob.com or your account contact to learn more. Not available for `A4` letter size.
+        description: This is in beta. Contact support@lob.com or your account contact to learn more. Not available for `A4` and `us_legal` letter size.
         default: false
+
+      size:
+        $ref: "../attributes/ltr_size.yml"

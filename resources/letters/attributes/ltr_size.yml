@@ -1,10 +1,17 @@
 type: string
 
 enum:
+  - us_letter
   - us_legal
 
 description: >
-  Specifies the size of the letter. Currently only applicable for legal letters.
-  To use `us_legal`, set the [Lob-Version header](#tag/Versioning-and-Changelog) to `2024-01-01`. Do not include this attribute as well the header version set to 2024-01-01 if you are not sending a legal letter.
+  Specifies the size of the letter. It accepts two values `us_letter` and `us_legal`.
+  If the [Lob-Version header](#tag/Versioning-and-Changelog) in the request is set to `2024-01-01` and above,
+  the `size` property is automatically included with the default value of `us_letter`,
+  unless explicitly specified.
 
-default: us_legal
+
+  Please note that attempting to include the `size` property in the request with the `Lob-Version` header
+  predating to `2024-01-01` will result in an error.
+
+default: us_letter

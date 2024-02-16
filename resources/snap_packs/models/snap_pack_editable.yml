@@ -1,0 +1,68 @@
+allOf:
+  - $ref: "snap_pack_base.yml"
+  - $ref: "../../../shared/models/form_factor/input_to.yml"
+  - $ref: "../../../shared/models/form_factor/input_from_us.yml"
+
+  - type: object
+
+    required:
+      - to
+      - inside
+      - outside
+      - use_type
+
+    properties:
+      inside:
+        description: >
+          The artwork to use as the inside of your snap pack.
+
+
+          Notes:
+
+          - HTML merge variables should not include delimiting whitespace.
+
+          - PDF, PNG, and JPGs must be sized at 8.5"x11" at 300 DPI, while supplied
+          HTML will be rendered to the specified `size`.
+
+          - Be sure to leave room for address and postage information by following
+          the template provided here:
+            - <a href="https://s3.us-west-2.amazonaws.com/public.lob.com/assets/8.5x11_Snappack_template_address.pdf" target="_blank">8.5x11 snap pack template</a>
+
+
+          See [here](#section/HTML-Examples) for HTML examples.
+        oneOf:
+          - $ref: "../../../shared/attributes/html_string.yml"
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - $ref: "../../../shared/attributes/remote_file_url.yml"
+          - $ref: "../../../shared/attributes/local_file_path.yml"
+
+      outside:
+        description: >
+          The artwork to use as the outside of your snap pack.
+
+
+          Notes:
+
+          - HTML merge variables should not include delimiting whitespace.
+
+          - PDF, PNG, and JPGs must be sized at 6"x18" at 300 DPI, while supplied
+          HTML will be rendered to the specified `size`.
+
+
+          See [here](#section/HTML-Examples) for HTML examples.
+        oneOf:
+          - $ref: "../../../shared/attributes/html_string.yml"
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+          - $ref: "../../../shared/attributes/remote_file_url.yml"
+          - $ref: "../../../shared/attributes/local_file_path.yml"
+
+      billing_group_id:
+        $ref: "../../../shared/attributes/billing_group_id.yml"
+
+      use_type:
+        $ref: "../attributes/snap_pack_use_type.yml"
+
+      color:
+        allOf:
+          - $ref: "../attributes/color.yml"
+          - default: false

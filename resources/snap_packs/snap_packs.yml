@@ -1,0 +1,353 @@
+post:
+  operationId: snap_pack_create
+
+  summary: Create
+
+  description: >-
+    Creates a new snap_pack given information
+
+  tags:
+    - Snap Packs
+
+  parameters:
+    - $ref: "../../shared/parameters/idempotency.yml#/idem-header"
+    - $ref: "../../shared/parameters/idempotency.yml#/idem-query"
+    - $ref: "parameters/lob_version.yml#/lob-version"
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/snap_pack_editable.yml"
+        example:
+          description: Demo Snap Pack Job
+          to: adr_bae820679f3f536b
+          from: adr_210a8d4b0b76d77b
+          inside: "https://lob.com/snappackinside.pdf"
+          outside: "https://lob.com/snappackoutside.pdf"
+          size: 8.5x11
+          metadata:
+            spiffy: "true"
+          mail_type: usps_standard
+          merge_variables:
+            name: Harry
+          send_date: "2017-11-01T00:00:00.000Z"
+          use_type: marketing
+
+      multipart/form-data:
+        schema:
+          $ref: "models/snap_pack_editable.yml"
+        example:
+          description: Demo Snap Pack job
+          to: adr_bae820679f3f536b
+          from: adr_210a8d4b0b76d77b
+          inside: "https://lob.com/snappackinside.pdf"
+          outside: "https://lob.com/snappackoutside.pdf"
+          size: 8.5x11
+          metadata:
+            spiffy: "true"
+          mail_type: usps_standard
+          merge_variables:
+            name: Harry
+          send_date: "2017-11-01T00:00:00.000Z"
+          use_type: marketing
+
+  responses:
+    "200":
+      $ref: responses/post_snap_pack.yml
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/snap_packs \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "description=Demo Snap Pack job" \
+          -d "to[name]=Harry Zhang" \
+          -d "to[address_line1]=210 King St" \
+          -d "to[address_city]=San Francisco" \
+          -d "to[address_state]=CA" \
+          -d "to[address_zip]=94107" \
+          -d "from=adr_210a8d4b0b76d77b" \
+          -d "use_type=marketing" \
+          --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
+          --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
+          -d "merge_variables[name]=Harry" \
+          -d 'fsc=false'
+      label: CURL
+    - lang: Typescript
+      source: |
+        const snapPackCreate = new SnapPackEditable({
+          to: {
+          name: 'Harry Zhang',
+          address_line1: '210 King St',
+          address_line2: '# 6100',
+          address_city: 'San Francisco',
+          address_state: 'CA',
+          address_zip: '94107',
+        },
+          from: 'adr_xxxx',
+          inside:
+          'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/8.5x11_Snappack_template_address.pdf',
+          outside:
+          'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/8.5x11_Snappack_template_address.pdf',
+          use_type: 'marketing'
+          fsc: false
+        });
+
+        try {
+          const mySnapPack = await new SnapPacksApi(config).create(snapPackCreate);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.snapPacks.create({
+          description: 'Demo Snap Packs job',
+          to: {
+            name: 'Harry Zhang',
+            address_line1: '210 King St',
+            address_city: 'San Francisco',
+            address_state: 'CA',
+            address_zip: '94107'
+          },
+          from: 'adr_210a8d4b0b76d77b',
+          inside: '<html style="padding: 1in; font-size: 50;">Inside HTML for {{name}}</html>',
+          outside: '<html style="padding: 1in; font-size: 20;">Outside HTML for {{name}}</html>',
+          merge_variables: {
+            name: 'Harry'
+          },
+          use_type: 'marketing'
+          fsc: false
+        }, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        snapPackCreate = SnapPackEditable.new({
+          description: "Demo Snap Pack job",
+          from: "adr_210a8d4b0b76d77b",
+          inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+          outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+          to: AddressEditable.new({
+            name: "Harry Zhang",
+            address_line1: "210 King St",
+            address_line2: "# 6100",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107",
+          }),
+          merge_variables: {
+            name: "Harry"
+          },
+          use_type: 'marketing',
+          fsc: true
+        });
+
+        snapPackApi = SnapPacksApi.new(config)
+
+        begin
+          createdSnapPack = snapPackApi.create(snapPackCreate)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Python
+      source: |
+        snap_pack_editable = SnapPackEditable(
+          description = "Demo Snap Pack job",
+          _from = "adr_210a8d4b0b76d77b",
+          inside = "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+          outside = "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+          to = AddressEditable(
+            name = "Harry Zhang",
+            address_line1 = "210 King St",
+            address_line2 = "# 6100",
+            address_city = "San Francisco",
+            address_state = "CA",
+            address_zip = "94107",
+          ),
+          merge_variables = MergeVariables(
+            name = "Harry",
+          ),
+          use_type = "marketing",
+          fsc = true
+        )
+
+        with ApiClient(configuration) as api_client:
+          api = SnapPacksApi(api_client)
+
+        try:
+          created_snap_pack = api.create(snap_pack_editable)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $to = new OpenAPI\Client\Model\AddressEditable(
+          array(
+            "name"     => "Harry Zhang",
+            "address_line1"     => "210 King St",
+            "address_line2"     => "# 6100",
+            "address_city"     => "San Francisco",
+            "address_state"     => "CA",
+            "address_zip"     => "94107",
+          )
+        );
+
+        $merge_variables = new stdClass;
+        $merge_variables->name = "Harry";
+
+        $use_type = "marketing";
+        $fsc = true;
+
+        $apiInstance = new OpenAPI\Client\Api\SnapPacksApi($config, new GuzzleHttp\Client());
+        $snap_pack_editable = new OpenAPI\Client\Model\SnapPackEditable(
+          array(
+            "description"     => "Demo Snap Pack job",
+            "from"     => "adr_210a8d4b0b76d77b",
+            "inside"     => "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+            "outside"     => "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+            "to"     => $to,
+            "merge_variables"     => $merge_variables,
+            "use_type"    => $use_type,
+            "fsc"  => $fsc
+          )
+        );
+
+        try {
+            $result = $apiInstance->create($snap_pack_editable);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
+    - lang: Java
+      source: |
+        Map<String, String> merge_variables = new HashMap<String, String>();
+        merge_variables.put("name", "Harry");
+
+        SnapPacksApi apiInstance = new SnapPacksApi(config);
+
+        AddressEditable to = new AddressEditable();
+        to.setName("Harry Zhang");
+        to.setAddressLine1("210 King St");
+        to.setAddressLine2("# 6100");
+        to.setAddressCity("San Francisco");
+        to.setAddressState("CA");
+        to.setAddressZip("94107");
+
+        try {
+          SnapPackEditable SnapPackEditable = new SnapPackEditable();
+          SnapPackEditable.setDescription("Demo Snap Pack job");
+          SnapPackEditable.setFrom("adr_210a8d4b0b76d77b");
+          SnapPackEditable.setInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>");
+          SnapPackEditable.setOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>");
+          SnapPackEditable.setTo(to);
+          SnapPackEditable.setMergeVariables(merge_variables);
+          SnapPackEditable.setUseType("marketing");
+          SnapPackEditable.setFsc(true);
+
+
+          SnapPack result = apiInstance.create(SnapPackEditable, null);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.SnapPack.create(%{
+          description: "Demo Snap Pack job",
+          to: %{
+            name: "Harry Zhang",
+            address_line1: "210 King St",
+            address_city: "San Francisco",
+            address_state: "CA",
+            address_zip: "94107"
+          },
+          from: "adr_210a8d4b0b76d77b",
+          inside: "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",
+          outside: "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>",
+          merge_variables: %{
+            name: "Harry"
+          },
+          use_type: "marketing",
+          fsc: true
+        })
+      label: ELIXIR
+    - lang: CSharp
+      source: |
+        Dictionary<string, string> mergeVariables = new Dictionary<string, string>();
+        mergeVariables.Add("name", "Harry");
+
+        SnapPacksApi api = new SnapPacksApi(config);
+
+        AddressEditable to = new AddressEditable(
+          "210 King St",  // addressLine1
+          "# 6100",  // addressLine2
+          "San Francisco",  // addressCity
+          "CA",  // addressState
+          "94107",  // addressZip
+          default(CountryExtended),  // addressCounty
+          null,  // description
+          "Harry Zhang" // name
+        );
+
+        Fsc fsc = new Fsc(true);
+
+        SnapPackEditable SnapPackEditable = new SnapPackEditable(
+          to.ToJson(),  // to
+          "adr_249af768103d2810",  // from
+          default(SnapPacksize),  // size
+          "Demo Snap Pack Job",  // description
+          default(Dictionary<string, string>),  // metadata
+          default(MailType),  // mailType
+          mergeVariables,  // mergeVariables
+          default(DateTime),  // sendDate
+          "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
+          "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
+          "marketing", // use_type
+          fsc
+        );
+
+        try {
+          SnapPack result = api.create(SnapPackEditable, null);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        var to = *lob.NewAddressEditable()
+        to.SetAddressLine1("210 King St")
+        to.SetAddressLine2("# 6100")
+        to.SetAddressCity("San Francisco")
+        to.SetAddressState("CA")
+        to.SetAddressZip("94107")
+        to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
+        to.SetDescription("")
+        to.SetName("Harry Zhang")
+
+        var SnapPackCreate = *lob.NewSnapPackEditable()
+        SnapPackCreate.SetDescription("Demo Snap Pack job")
+        SnapPackCreate.SetFrom("adr_210a8d4b0b76d77b")
+        SnapPackCreate.SetInside("<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>")
+        SnapPackCreate.SetOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
+        SnapPackCreate.SetTo(to)
+        SnapPackCreate.SetFsc(true)
+
+
+        createdSnapPack, _, err := apiClient.SnapPacksApi.Create(context).SnapPackEditable(SnapPackCreate).Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

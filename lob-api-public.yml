@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.28
+  version: 1.19.29
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -1362,6 +1362,10 @@ tags:
       However, if you're using one of our [SDKs](#tag/SDKs-and-Tools),
       the generation of the request bodies is done for you automatically and you don't
       need to worry about the format.
+
+      For fields that are intended to accept only string values, submitting JSON objects in string format (stringified JSON objects) is not supported. 
+      Our system automatically parses and validates incoming data according to their expected types. 
+      As a result, providing a stringified JSON object in a field designated for string input can cause parsing errors or lead to unexpected validation results.
 
       ### Form URL Encoded
 

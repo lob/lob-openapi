@@ -28,11 +28,12 @@ properties:
     description: Vertical distance (in inches) to place QR code from the bottom. Only allowed if "top" isn't provided.
 
   redirect_url:
-    description: >
-      Redirect all mail recipients to either a single URL or a custom personalized URL for each recipient. 
-      To redirect to a single URL for the whole campaign, add a `redirect_url` in the request body along with the url as string.
-      To redirect to a custom URL for each recipient, do not provide any value for `redirect_url`. Instead, create an extra column in the [audience file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide) with a unique link against each address row and while creating an upload, map `qr_code_redirect_url` to this column.
-      If the QR code section is used but a redirection url is not provided or mapped while creating an upload, then there might be failures in creating individual mail pieces.
+    description: |
+      Redirect all mail recipients to either a single URL or specify a unique URL for each recipient.
+      To redirect all mail recipients in a campaign to the same URL, assign the desired URL to this field.
+      To redirect each mail recipient to a unique URL, leave this field empty and specify the redirect link for each row in the [audience file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide). Then, when creating a new upload, map this column to the `qr_code_redirect_url` key in the `mergeVariableColumnMapping` property. 
+
+      Note: Failing to set or map the redirect URL when using QR codes may lead to errors in generating mail pieces.
     oneOf:
       - $ref: "../attributes/single_redirect_url.yml"
       - $ref: "../attributes/customized_redirect_url.yml"

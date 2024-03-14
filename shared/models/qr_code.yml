@@ -13,19 +13,19 @@ properties:
     description: Sets how a QR code is being positioned in the document. Together with this, you should provide one of 'top' or 'bottom', and one of 'left' or 'right'.
 
   top:
-    type: string
+    type: number
     description: Vertical distance (in inches) to place QR code from the top. Only allowed if "bottom" isn't provided.
 
   right:
-    type: string
+    type: number
     description: Horizontal distance (in inches) to place QR code from the right. Only allowed if "left" isn't provided.
 
   left:
-    type: string
+    type: number
     description: Horizontal distance (in inches) to place QR code from the left. Only allowed if "right" isn't provided.
 
   bottom:
-    type: string
+    type: number
     description: Vertical distance (in inches) to place QR code from the bottom. Only allowed if "top" isn't provided.
 
   redirect_url:
@@ -33,7 +33,7 @@ properties:
     description: The url to redirect the user when a QR code is scanned. The url must start with `https://`
 
   width:
-    type: string
+    type: number
     description: The size (in inches) of the QR code with a minimum of 1 inch. All QR codes are generated as a square.
 
   pages:

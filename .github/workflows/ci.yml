@@ -41,7 +41,7 @@ jobs:
 
       - name: invoke build
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: benc-uk/workflow-dispatch@v1.1.0
+        uses: benc-uk/workflow-dispatch@v1
         with:
           workflow: CD
           token: ${{ secrets.WORKFLOW_TOKEN }}

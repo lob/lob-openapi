@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.28
+  version: 1.19.31
   description: >
     The Lob API is organized around REST. Our API is designed to have
     predictable, resource-oriented URLs and uses HTTP response codes to indicate
@@ -1846,6 +1846,17 @@ tags:
       don't
 
       need to worry about the format.
+
+
+      For fields that are intended to accept only string values, submitting JSON
+      objects in string format (stringified JSON objects) is not supported. 
+
+      Our system automatically parses and validates incoming data according to
+      their expected types. 
+
+      As a result, providing a stringified JSON object in a field designated for
+      string input can cause parsing errors or lead to unexpected validation
+      results.
 
 
       ### Form URL Encoded
@@ -6047,8 +6058,8 @@ components:
       default: 4x6
     returned:
       description: >-
-        Properties that the postcards in your Creative should have. Check within
-        in order to add a QR code to your creative.
+        Properties that the postcards in your Creative should have. See the
+        `qr_code` attribute below to add a QR code to your creative.
       properties:
         mail_type:
           $ref: '#/components/schemas/mail_type'
@@ -6171,8 +6182,8 @@ components:
       nullable: true
     letter_details_returned:
       description: >-
-        Properties that the letters in your Creative should have. Check within
-        in order to add a QR code to your creative.
+        Properties that the letters in your Creative should have. See the
+        `qr_code` attribute below to add a QR code to your creative.
       properties:
         address_placement:
           $ref: '#/components/schemas/address_placement'
@@ -6222,8 +6233,8 @@ components:
       default: 6x18_bifold
     self_mailer_details_returned:
       description: >-
-        Properties that the self mailers in your Creative should have. Check
-        within in order to add a QR code to your creative.
+        Properties that the self mailers in your Creative should have. See the
+        `qr_code` attribute below to add a QR code to your creative.
       properties:
         mail_type:
           $ref: '#/components/schemas/mail_type'
@@ -6537,6 +6548,7 @@ components:
       example:
         name: recipient_name
         gift_code: code
+        qr_code_redirect_url: redirect_url
       description: >-
         The mapping of column headers in your file to the merge variables
         present in your creative. See our <a
@@ -6548,9 +6560,10 @@ components:
         a different value is provided, then when the campaign is processing it
         will get overwritten with the mapped value present in the
         `requiredAddressColumnMapping` or `optionalAddressColumnMapping`
-        objects. If using customized QR code redirect from the Audience file,
-        then a `qr_code_redirect_url` must be mapped to the column header as
-        used in the CSV.
+        objects. To use custom redirect URLs for each recipient with QR codes,
+        be sure to include a column containing the custom redirect URL for each
+        address in your audience file and map the 'qr_code_redirect_url' field
+        name to that respective column header.
     upload_writable:
       type: object
       required:
@@ -7834,18 +7847,22 @@ components:
             allowed if "top" isn't provided.
         redirect_url:
           description: >
-            Redirect all mail recipients to either a single URL or a custom
-            personalized URL for each recipient.  To redirect to a single URL
-            for the whole campaign, add a `redirect_url` in the request body
-            along with the url as string. To redirect to a custom URL for each
-            recipient, do not provide any value for `redirect_url`. Instead,
-            create an extra column in the [audience
-            file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide)
-            with a unique link against each address row and while creating an
-            upload, map `qr_code_redirect_url` to this column. If the QR code
-            section is used but a redirection url is not provided or mapped
-            while creating an upload, then there might be failures in creating
-            individual mail pieces.
+            Redirect all mail recipients to either a single URL or specify a
+            unique URL for each recipient.
+
+            To redirect all mail recipients in a campaign to the same URL,
+            assign the desired URL to this field.
+
+            To redirect each mail recipient to a unique URL, leave this field
+            empty and specify the redirect link for each row in the [audience
+            file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide).
+            Then, when creating a new upload, map this column to the
+            `qr_code_redirect_url` key in the `mergeVariableColumnMapping`
+            property. 
+
+
+            Note: Failing to set or map the redirect URL when using QR codes may
+            lead to errors in generating mail pieces.
           oneOf:
             - $ref: '#/components/schemas/single_redirect_url'
             - $ref: '#/components/schemas/customized_redirect_url'
@@ -7869,8 +7886,8 @@ components:
             of both ("1,3,5-7").
     writable:
       description: >-
-        Properties that the postcards in your Creative should have. Check within
-        in order to add a QR code to your creative.
+        Properties that the postcards in your Creative should have. See the
+        `qr_code` attribute below to add a QR code to your creative.
       required:
         - color
       properties:
@@ -7901,8 +7918,8 @@ components:
       pattern: ^env_[a-zA-Z0-9]+$
     letter_details_writable:
       description: >-
-        Properties that the letters in your Creative should have. Check within
-        in order to add a QR code to your creative.
+        Properties that the letters in your Creative should have. See the
+        `qr_code` attribute below to add a QR code to your creative.
       required:
         - color
       properties:
@@ -8034,8 +8051,8 @@ components:
         - $ref: '#/components/schemas/local_file_path'
     self_mailer_details_writable:
       description: >-
-        Properties that the self mailers in your Creative should have. Check
-        within in order to add a QR code to your creative.
+        Properties that the self mailers in your Creative should have. See the
+        `qr_code` attribute below to add a QR code to your creative.
       required:
         - color
       properties:
@@ -10842,7 +10859,7 @@ components:
       description: >
         A string representing the version of the API being used. For more
         information on versioning, refer to our [Versioning and
-        Changelog]((#tag/Versioning-and-Changelog) documentation.
+        Changelog](#tag/Versioning-and-Changelog) documentation.
       schema:
         type: string
         example: '2024-01-01'

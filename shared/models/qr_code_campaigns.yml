@@ -1,5 +1,5 @@
 type: object
-description: Customize and place a QR code on all the postcards, letters or self mailers in a campaign. Redirect URLs can either be unique for each recipient, or a single link can be used for the whole campaign. See `redirect_url` attribute below for more details.
+description: Customize and place a QR code on all the postcards, letters or self mailers in a campaign. Redirect URLs are fully customizable i.e. they can be standard single URLs for the whole campaign, or variables can be used to customize them for each recipient. More details on customizing redirect URLs can be found in <a href="https://help.lob.com/print-and-mail/designing-mail-creatives/adding-qr-codes#destination-url-and-redirects" target="_blank">our help center.</a>
 required:
   - position
   - width
@@ -29,14 +29,8 @@ properties:
 
   redirect_url:
     description: |
-      Redirect all mail recipients to either a single URL or specify a unique URL for each recipient.
-      To redirect all mail recipients in a campaign to the same URL, assign the desired URL to this field.
-      To redirect each mail recipient to a unique URL, leave this field empty and specify the redirect link for each row in the [audience file](https://help.lob.com/print-and-mail/building-a-mail-strategy/campaign-or-triggered-sends/campaign-audience-guide). Then, when creating a new upload, map this column to the `qr_code_redirect_url` key in the `mergeVariableColumnMapping` property. 
-
-      Note: Failing to set or map the redirect URL when using QR codes may lead to errors in generating mail pieces.
-    oneOf:
-      - $ref: "../attributes/single_redirect_url.yml"
-      - $ref: "../attributes/customized_redirect_url.yml"
+      The url to redirect the user when a QR code is scanned. The URL can be a standard URL for all recipients in the campaign or customized per recipient. To customize for each recipient, use a mustache style template with merge variables enclosed in curly braces(for example, `https://www.example.com` or `{{name}}` or `https://www.google.com?q={{name}}`). If a merge variable is used in the URL, a mapping to that merge variable should be provided in the `mergeVariableColumnMapping` property when creating an upload. If the variable is not provided/does not exist, then the templated URL will be used. More details on customizing redirect URLs can be found in <a href="https://help.lob.com/print-and-mail/designing-mail-creatives/adding-qr-codes#destination-url-and-redirects" target="_blank">our help center.</a>.
+      Note: Please use unique variable names between HTML templates and Redirect URLs to avoid conflicts. For example, if you are using `{{name}}` in the HTML template, use `{{name_redirect}}` in the Redirect URL. They can still be mapped to the same column in the audience file. Failing to set or map the redirect URL when using QR codes may lead to errors in generating mail pieces.
 
   width:
     type: string

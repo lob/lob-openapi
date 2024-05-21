@@ -30,7 +30,7 @@ properties:
 
   redirect_url:
     type: string
-    description: The url to redirect the user when a QR code is scanned. The url must start with `https://`
+    description: The url to redirect the user when a QR code is scanned. The URL can be an inline URI or a merge_variable(enclosed in curly braces) or a combination of both. For example, `https://www.example.com` or `{{name}}` or `https://www.google.com?q={{name}}`. When the URL is/has a merge variable, it is replaced with data from merge_variables. If the variable does not exist, then nothing with be replaced and the destination URL will be the same as the input URL. More details on merge variables can be found in <a href="https://help.lob.com/print-and-mail/designing-mail-creatives/adding-qr-codes#destination-url-and-redirects" target="_blank">our help center</a>.
 
   width:
     type: number

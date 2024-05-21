@@ -1,7 +1,7 @@
 type: object
 
 description: >-
-  You can input a merge variable payload object to your template to render
+  You can input a merge variable payload object to your template or QR code redirect URLs to render
   dynamic content. For example, if you have a template like:
   `{{variable_name}}`, pass in `{"variable_name": "Harry"}` to render
   `Harry`. `merge_variables` must be an object. Any type of value is accepted
@@ -15,7 +15,7 @@ description: >-
   <a href="https://help.lob.com/print-and-mail/designing-mail-creatives/dynamic-personalization#using-html-and-merge-variables-10" target="_blank">our guide to using html and merge variables</a>. Depending
   on your <a href="https://dashboard.lob.com/#/settings/account" target="_blank">Merge Variable strictness</a> setting, if you
   define variables in your HTML but do not pass them here, you will either
-  receive an error or the variable will render as an empty string.
+  receive an error or the variable will render as an empty string. These settings only apply on HTML templates and not on QR code redirect URLs.
 
 maxLength: 25000
 nullable: true

@@ -1,3 +1,156 @@
+get:
+  operationId: snap_packs_list
+
+  summary: List
+
+  description: >-
+    Returns a list of your snap_packs. The snap_packs are returned sorted by
+    creation date, with the most recently created snap_packs appearing first.
+
+  tags:
+    - Snap Packs
+
+  parameters:
+    - $ref: "../../shared/parameters/limit.yml"
+    - $ref: "../../shared/parameters/before_after.yml"
+    - $ref: "../../shared/parameters/include.yml"
+    - $ref: "../../shared/parameters/date_created.yml"
+    - $ref: "../../shared/parameters/metadata.yml"
+    - $ref: "../../shared/parameters/send_date.yml"
+    - $ref: "../../shared/parameters/mail_type.yml"
+    - $ref: "../../shared/parameters/sort_by.yml"
+    - $ref: "../../shared/parameters/campaign_id.yml"
+    - $ref: "../../shared/parameters/status.yml"
+
+  responses:
+    "200":
+      $ref: responses/all_snap_packs.yml
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/snap_packs?limit=2" \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      label: CURL
+    - lang: typescript
+      source: |
+        try {
+          const snapPacks = await new snapPacksApi(config).list(2);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.snapPacks.list({limit: 2}, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        snapPacksApi = SnapPacksApi.new(config)
+
+        begin
+          snapPacks = snapPacksApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = SnapPacksApi(api_client)
+
+        try:
+          snap_packs = api.list(limit=2)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $apiInstance = new OpenAPI\Client\Api\SnapPacksApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              2, // limit
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
+    - lang: Java
+      source: |
+        SnapPacksApi apiInstance = new SnapPacksApi(config);
+
+        try {
+          SnapPackList response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+            null, // metadata
+            null, // size
+            null, // scheduled
+            null, // sendDate
+            null, // mailType
+            null // sortBy
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.SnapPack.list(%{limit: 2})
+      label: ELIXIR
+    - lang: CSharp
+      source: |
+        SnapPacksApi api = new SnapPacksApi(config);
+
+        List<string> includeList = new List<string>();
+        includeList.Add("total_count");
+        Dictionary<String, String> metadata = new Dictionary<String, String>();
+        metadata.Add("name", "Harry");
+        Dictionary<String, DateTime> dateCreated = new Dictionary<String, DateTime>();
+        DateTime dateCreatedDate = DateTime.Today.AddMonths(-1);
+        dateCreated.Add("lt", dateCreatedDate);
+        Dictionary<String, String> sendDate = new Dictionary<String, String>();
+        sendDate.Add("lt", DateTime.Now.ToString("yyyy-MM-ddTHH\\:mm\\:ss.fffffffzzz"));
+        SortBy3 sortBy = new SortBy3(SortBy3.DateCreatedEnum.Asc);
+
+        try {
+          SnapPackList response = api.list(
+            2, // limit
+            null, // before
+            null, // after
+            includeList, // include
+            dateCreated, // dateCreated
+            metadata, // metadata
+            null, // size
+            true, // scheduled
+            sendDate, // sendDate
+            MailType.FirstClass, // mailType
+            sortBy // sortBy
+          );
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        SnapPackList = apiClient.SnapPacksApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO
+
 post:
   operationId: snap_pack_create
 

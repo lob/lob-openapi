@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.32
+  version: 1.19.33
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -1535,9 +1535,7 @@ tags:
 
       **Prepping PDFs**
 
-      To ensure that you are producing PDF's correctly please follow the guidelines below:
-      - [Make sure all non-standard fonts are embedded.](#section/Standard-PDF-Fonts)
-      - Generated PDF's need to be be PDF/A compliant.
+      To ensure that you are producing PDF's correctly please follow the guidelines [outlined in our help center here](https://help.lob.com/print-and-mail/designing-mail-creatives/creative-formatting/pdf-preflight-checklist#requirements-for-static-pdfs)
 
       **Prepping PNGs/JPEGs**
 
@@ -1562,6 +1560,8 @@ tags:
       Font embedding is an essential part of standard PDF workflows. Fonts should be embedded automatically by
       PDF editing software that are compliant with PDF standards.
 
+      Please note, only standard base14 fonts can be Type 1.
+
       <table>
         <tr>
           <th style="white-space: nowrap">FONT NAME</th>
@@ -1569,15 +1569,15 @@ tags:
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>Arial</code></td>
-          <td style="white-space: nowrap">Type 1, TrueType, CID TrueType</td>
+          <td style="white-space: nowrap">TrueType, CID TrueType</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>Arial,Bold</code></td>
-          <td style="white-space: nowrap">Type 1, TrueType, CID TrueType</td>
+          <td style="white-space: nowrap">TrueType, CID TrueType</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>Arial,BoldItalic</code></td>
-          <td style="white-space: nowrap">Type 1, TrueType, CID TrueType</td>
+          <td style="white-space: nowrap">TrueType, CID TrueType</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>Arial,Italic</code></td>

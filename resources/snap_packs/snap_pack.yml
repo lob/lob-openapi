@@ -1,0 +1,223 @@
+parameters:
+  - in: path
+    name: snap_pack_id
+    description: id of the snap_pack
+    required: true
+    schema:
+      $ref: "attributes/snap_pack_id.yml"
+
+get:
+  operationId: snap_pack_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing snap_pack. You need only supply
+    the unique snap_pack identifier that was returned upon snap_pack creation.
+
+  tags:
+    - Snap Packs
+
+  responses:
+    "200":
+      description: Returns a snap_pack object
+      content:
+        $ref: responses/snap_pack.yml
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/snap_packs/ord_0d6a16a3fff6318ac8f8008dc1" \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      label: CURL
+    - lang: typescript
+      source: |
+        try {
+          const snapPack = await new SnapPacksApi(config).get('ord_xxxx');
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.snapPacks.retrieve('ord_0d6a16a3fff6318ac8f8008dc1', function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+
+    - lang: Ruby
+      source: |
+        snapPackApi = SnapPacksApi.new(config)
+
+        begin
+          retrievedSnapPack = snapPackApi.get("ord_0d6a16a3fff6318ac8f8008dc1")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = SnapPacksApi(api_client)
+
+        try:
+          snap_pack = api.get("ord_0d6a16a3fff6318ac8f8008dc1")
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $apiInstance = new OpenAPI\Client\Api\SnapPacksApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->get("ord_0d6a16a3fff6318ac8f8008dc1");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
+    - lang: Java
+      source: |
+        SnapPacksApi apiInstance = new SnapPacksApi(config);
+
+        try {
+          SnapPack response = apiInstance.get("ord_0d6a16a3fff6318ac8f8008dc1");
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.SnapPack.find("ord_0d6a16a3fff6318ac8f8008dc1")
+      label: ELIXIR
+    - lang: CSharp
+      source: |
+        SnapPacksApi api = new SnapPacksApi(config);
+
+        try {
+          SnapPack response = api.get("ord_0d6a16a3fff6318ac8f8008dc1");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        fetchedSnapPack, _, err := apiClient.SnapPacksApi.Get(context,"ord_0d6a16a3fff6318ac8f8008dc1").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO
+
+delete:
+  operationId: snap_pack_delete
+
+  summary: Delete
+
+  description: >-
+    Completely removes a snap pack from production. This can only be done if the snap pack's
+    `send_date` has not yet passed. If the snap pack is successfully canceled, you will not
+    be charged for it.
+
+  tags:
+    - Snap Packs
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/snap_pack_deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X DELETE https://api.lob.com/v1/snap_packs/ord_0d6a16a3fff6318ac8f8008dc1 \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+      label: CURL
+    - lang: typescript
+      source: |
+        try {
+          const deleteSnapPack = await new SnapPacksApi(config).delete('ord_xxxx');
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.snapPacks.delete('ord_0d6a16a3fff6318ac8f8008dc1', function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        snapPackApi = SnapPacksApi.new(config)
+
+        begin
+          deletedSnapPack = snapPackApi.delete("ord_0d6a16a3fff6318ac8f8008dc1")
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = SnapPacksApi(api_client)
+
+        try:
+          deleted_resource = api.delete("ord_0d6a16a3fff6318ac8f8008dc1")
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $apiInstance = new OpenAPI\Client\Api\SnapPacksApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->delete("ord_0d6a16a3fff6318ac8f8008dc1");
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
+    - lang: Java
+      source: |
+        SnapPacksApi apiInstance = new SnapPacksApi(config);
+
+        try {
+            SnapPackDeletion response = apiInstance.delete("ord_0d6a16a3fff6318ac8f8008dc1");
+        } catch (ApiException e) {
+            e.printStackTrace();
+        }
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.SnapPack.destroy("ord_0d6a16a3fff6318ac8f8008dc1")
+      label: ELIXIR
+    - lang: CSharp
+      source: |
+        SnapPacksApi api = new SnapPacksApi(config);
+
+        try {
+          SnapPackDeletion response = api.delete("ord_0d6a16a3fff6318ac8f8008dc1");
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+
+        deletedSnapPack, _, err := apiClient.SnapPacksApi.Delete(context, "ord_0d6a16a3fff6318ac8f8008dc1").Execute()
+
+        if err != nil {
+            return err
+        }
+      label: GO

@@ -1,0 +1,34 @@
+allOf:
+  - $ref: "../../../shared/models/form_factor/input_to.yml"
+  - $ref: "../../../shared/models/form_factor/input_from.yml"
+  - $ref: "../../../shared/models/form_factor/editable.yml"
+
+  - type: object
+
+    # color is not a required for booklets
+    required:
+      - to
+      - from
+      - file
+      - use_type
+
+    properties:
+      file:
+        $ref: "../attributes/booklet_file.yml"
+
+      mail_type:
+        $ref: "../../../shared/attributes/mail_type.yml"
+
+      billing_group_id:
+        $ref: "../../../shared/attributes/billing_group_id.yml"
+
+      qr_code:
+        $ref: "../../../shared/models/qr_code.yml"
+
+      use_type:
+        $ref: "../attributes/booklet_use_type.yml"
+
+      fsc:
+        type: boolean
+        description: This is in beta. Contact support@lob.com or your account contact to learn more. Not available for `A4` and `us_legal` letter size.
+        default: false

@@ -4,7 +4,7 @@ post:
   summary: Create
 
   description: >-
-    Create a new booklet.
+    Creates a new booklet.
 
   tags:
     - Booklets
@@ -56,6 +56,7 @@ post:
             right: "2"
             pages: "1-2,4-5"
           fsc: true
+          size: "9x6"
 
       application/x-www-form-urlencoded:
         schema:
@@ -97,6 +98,7 @@ post:
             right: "2"
             pages: "1-2,4-5"
           fsc: true
+          size: "9x6"
 
       multipart/form-data:
         schema:
@@ -138,3 +140,11 @@ post:
             right: "2"
             pages: "1-2,4-5"
           fsc: true
+          size: "9x6"
+
+  responses:
+    "200":
+      $ref: responses/post_booklet.yml
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"

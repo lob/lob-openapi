@@ -1,0 +1,29 @@
+allOf:
+  - type: object
+
+    properties:
+      tracking_events:
+        description: An array of tracking events ordered by ascending `time`.
+        type: array
+        items:
+          $ref: "../../../shared/resources/tracking_events/models/tracking_event_normal.yml"
+
+      description:
+        $ref: "../../../shared/attributes/resource_description.yml"
+
+      metadata:
+        $ref: "../../../shared/models/metadata.yml"
+
+      merge_variables:
+        $ref: "../../../shared/models/merge_variables.yml"
+
+      send_date:
+        $ref: "../../../shared/attributes/send_date.yml"
+
+      mail_type:
+        $ref: "../../../shared/attributes/mail_type.yml"
+
+      color:
+        $ref: "../attributes/color.yml"
+
+  - $ref: "booklet_generated_base.yml"

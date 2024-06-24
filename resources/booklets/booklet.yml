@@ -1,0 +1,48 @@
+parameters:
+  - in: path
+    name: booklet_id
+    description: id of the booklet
+    required: true
+    schema:
+      $ref: "attributes/booklet_id.yml"
+
+get:
+  operationId: booklet_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing booklet. You need to only supply
+    the unique booklet identifier that was returned upon booklet creation.
+
+  tags:
+    - Booklets
+
+  responses:
+    "200":
+      description: Returns a booklet object
+      content:
+        $ref: responses/booklet.yml
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"
+
+delete:
+  operationId: booklet_delete
+
+  summary: Delete
+
+  description: >-
+    Completely removes a booklet from production. This can only be done if the booklet's
+    `send_date` has not yet passed. If the booklet is successfully canceled, you will not
+    be charged for it.
+
+  tags:
+    - Booklets
+
+  responses:
+    "200":
+      $ref: "../../shared/responses/booklet_deleted.yml"
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"

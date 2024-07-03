@@ -1,0 +1,21 @@
+description: >-
+  Notes:
+
+  - HTML merge variables should not include delimiting whitespace.
+
+  - All pages of a supplied PDF file must be sized per the `size` attribute,
+  while supplied HTML will be rendered and trimmed to as many `size` pages
+  as necessary.
+
+  - For design specifications, please see our
+  <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/letter_template.pdf" target="_blank">PDF</a>
+  and [HTML](#section/HTML-Examples) templates.
+
+  See <a href="https://lob.com/pricing/print-mail#compare" target="_blank">pricing</a> for extra costs incurred.
+
+oneOf:
+  - $ref: "../../../shared/attributes/html_string.yml"
+  - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+  - $ref: "../../../shared/attributes/remote_file_url.yml"
+  - type: string
+    pattern: "^(?!https://)[a-zA-Z0-9@:%._+~#=/]{1,256}.(html?|pdf)$"

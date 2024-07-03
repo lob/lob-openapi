@@ -1,0 +1,54 @@
+allOf:
+  - $ref: "../../../shared/models/form_factor/generated.yml"
+  - $ref: "../../../shared/models/form_factor/from.yml"
+
+  - type: object
+
+    required:
+      - id
+      - from
+      - use_type
+
+    properties:
+      url:
+        $ref: "../../../shared/attributes/signed_link.yml"
+
+      id:
+        $ref: "../attributes/booklet_id.yml"
+
+      template_id:
+        allOf:
+          - description: The unique ID of the HTML template used for the booklet.
+          - $ref: "../../../shared/attributes/model_ids/tmpl_id.yml"
+
+      template_version_id:
+        allOf:
+          - description: The unique ID of the specific version of the HTML template used for the booklet.
+            type: string
+          - $ref: "../../../shared/attributes/model_ids/vrsn_id.yml"
+
+      campaign_id:
+        $ref: "../../../shared/attributes/campaign_id.yml"
+
+      use_type:
+        $ref: "../attributes/booklet_use_type.yml"
+
+      fsc: # Forest Stewardship Council
+        type: boolean
+        description: This is in beta. Contact support@lob.com or your account contact to learn more.
+        default: false
+
+      status:
+        $ref: "../../../shared/attributes/status.yml"
+
+      failure_reason:
+        allOf:
+          - $ref: "../../../shared/models/failure_reason/failure_reason.yml"
+          - nullable: true
+
+      object:
+        type: string
+        description: Value is resource type.
+        enum:
+          - booklet
+        default: booklet

@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.35
+  version: 1.19.36
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -2347,6 +2347,7 @@ x-tagGroups:
       - Letters
       - Checks
       - Snap Packs
+      - Booklets
       - Bank Accounts
       - Templates
       - Template Versions
@@ -2434,6 +2435,10 @@ paths:
     $ref: resources/billing_groups/billing_group.yml
   /billing_groups:
     $ref: resources/billing_groups/billing_groups.yml
+  /booklets/{booklet_id}:
+    $ref: resources/booklets/booklet.yml
+  /booklets:
+    $ref: resources/booklets/booklets.yml
   /buckslips:
     $ref: resources/buckslips/buckslips.yml
   /buckslips/{buckslip_id}:

@@ -87,24 +87,7 @@ get:
   parameters:
     - $ref: "../../shared/parameters/limit.yml"
     - $ref: "../../shared/parameters/offset.yml"
-    - $ref: "../../shared/parameters/include.yml"
-    - $ref: "../../shared/parameters/date_created.yml"
     - $ref: "../../shared/parameters/metadata.yml"
-    - in: query
-      name: campaign_id
-      description: Filter the links generated for a particular campaign using its campaign id.
-      schema:
-        $ref: "../campaigns/attributes/cmp_id.yml"
-    - in: query
-      name: clicked
-      description: Retrieve the list of links that have been opened.
-      schema:
-        type: boolean
-    - in: query
-      name: billing_group_id
-      description: Filter the links generated for a particular billing group id.
-      schema:
-        $ref: "../../shared/attributes/billing_group_id.yml"
 
   responses:
     "200":

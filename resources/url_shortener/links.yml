@@ -1,6 +1,83 @@
+post:
+  operationId: link_create
+  summary: Create Link
+
+  description: >-
+    Given a long URL, shorten your URL either by using a custom domain or Lob's own short domain.
+
+  tags:
+    - URL Shortener
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: models/link_single.yml
+        examples:
+          basic:
+            value:
+              redirect_link: "https://www.lob.com"
+              slug: "a1b2c3"
+          test:
+            value:
+              redirect_link: "https://www.lob.com"
+              slug: "a1b2c3"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: models/link_single.yml
+        examples:
+          basic:
+            value:
+              redirect_link: "https://www.lob.com"
+              domain: "lob.st"
+          test:
+            value:
+              redirect_link: "https://www.lob.com"
+              domain: "lob.st"
+
+      multipart/form-data:
+        schema:
+          $ref: models/link_single.yml
+        examples:
+          basic:
+            value:
+              redirect_link: "https://www.lob.com"
+          test:
+            value:
+              redirect_link: "https://www.lob.com"
+
+  responses:
+    "200":
+      description: Returns a successfully created link.
+      content:
+        application/json:
+          schema:
+            $ref: responses/link_response.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+          example:
+            error:
+              code: invalid
+              message: redirect_link is required
+              status_code: 422
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/links/shorten \
+          -u <YOUR_LIVE_API_KEY>: \
+          -d "redirect_link=https://www.lob.com"
+      label: CURL
+
 get:
   operationId: links_list
-  summary: Retrieve all shortened links
+  summary: List all links
   description: >-
     Retrieves a list of shortened links. The list is sorted by 
     creation date, with the most recently created appearing first.
@@ -10,24 +87,6 @@ get:
   parameters:
     - $ref: "../../shared/parameters/limit.yml"
     - $ref: "../../shared/parameters/offset.yml"
-    - $ref: "../../shared/parameters/include.yml"
-    - $ref: "../../shared/parameters/date_created.yml"
-    - $ref: "../../shared/parameters/metadata.yml"
-    - in: query
-      name: campaign_id
-      description: Filter the links generated for a particular campaign using its campaign id.
-      schema:
-        $ref: "../campaigns/attributes/cmp_id.yml"
-    - in: query
-      name: clicked
-      description: Retrieve the list of links that have been opened.
-      schema:
-        type: boolean
-    - in: query
-      name: billing_group_id
-      description: Filter the links generated for a particular billing group id.
-      schema:
-        $ref: "../../shared/attributes/billing_group_id.yml"
 
   responses:
     "200":
@@ -46,7 +105,7 @@ get:
   x-codeSamples:
     - lang: Shell
       source: |
-        curl -X GET "https://api.lob.com/v1/links/?limit=2" \
+        curl -X GET "https://api.lob.com/v1/links?limit=2" \
           -u <YOUR_LIVE_API_KEY>:
       label: CURL
     - lang: Typescript

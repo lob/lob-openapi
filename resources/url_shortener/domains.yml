@@ -1,24 +1,182 @@
-parameters:
-  - in: path
-    name: domain_id
-    required: true
-    description: Unique identifier for a domain.
-    schema:
-      type: string
-
-delete:
-  operationId: domain_delete_links
-  summary: Delete all links for a domain
+post:
+  operationId: domain_create
+  summary: Create Domain
 
   description: >-
-    Delete all associated links for a domain
+    Add a new custom domain that can be used to create custom links.
+
+  tags:
+    - URL Shortener
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/domains.yml"
+        examples:
+          basic:
+            value:
+              domain: "lob.st"
+          test:
+            value:
+              domain: "lob.st"
+
+      application/x-www-form-urlencoded:
+        schema:
+          $ref: models/domains.yml
+        examples:
+          basic:
+            value:
+              domain: "lob.st"
+          test:
+            value:
+              domain: "lob.st"
+
+      multipart/form-data:
+        schema:
+          $ref: models/domains.yml
+        examples:
+          basic:
+            value:
+              domain: "lob.st"
+          test:
+            value:
+              domain: "lob.st"
+
+  responses:
+    "200":
+      description: Returns a domain object with details.
+      content:
+        application/json:
+          schema:
+            $ref: responses/domain_response.yml
+    default:
+      description: Error
+      content:
+        application/json:
+          schema:
+            $ref: ../../shared/models/error.yml
+          example:
+            error:
+              code: invalid
+              message: domain is required
+              status_code: 422
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/domains \
+          -u <YOUR_LIVE_API_KEY>: \
+          -d "domain=lob.st"
+      label: CURL
+    - lang: Typescript
+      source: |
+        const domainApi = await new DomainsApi(config);
+        const domainData: DomainsWritable = {
+          domain: 'lob.st'
+        }
+        try {
+          const createdDomain = await domainApi.createDomain(domainData);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.domains.create({
+          domain: 'lob.st'
+        }, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        domainsAPI = DomainsApi.new(config)
+
+        domainsData = DomainsWritable.new({
+          domain: "lob.st"
+        })
+
+        begin
+          createdDomain = domainsAPI.create(domainsData)
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = DomainsApi(api_client)
+
+        domains_data = DomainsWritable(
+          domain: "lob.st"
+        )
+
+        try:
+          domain = api.create(domains_data)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $apiInstance = new OpenAPI\Client\Api\DomainsApi($config, new GuzzleHttp\Client());
+
+        $domainsData = new OpenAPI\Client\Model\DomainsWritable(array(
+          'domain' => 'lob.st',
+        ));
+
+        try {
+            $result = $apiInstance->create($domainsData);
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
+    - lang: Java
+      source: |
+        DomainsWritable domain = new DomainsWritable();
+        domain.setDomain("lob.st");
+
+        DomainsApi apiInstance = new DomainsApi(config);
+
+        try {
+          apiInstance.create(domain);
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.Domain.create(%{
+          domain: "lob.st"
+        })
+      label: ELIXIR
+    - lang: CSharp
+      source: |
+        DomainsWritable domain = new DomainsWritable(
+          "lob.st"
+        )
+
+        DomainsApi api = new DomainsApi(config);
+
+        try {
+          api.create(domain, null);
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
+
+get:
+  operationId: domain_list
+  summary: List all domains
+  description: >-
+    Retrieve a list of all created domains.
 
   tags:
     - URL Shortener
 
   responses:
     "200":
-      description: Returns the deleted objects.
+      description: Returns a list of all domains.
       content:
         application/json:
           schema:
@@ -29,3 +187,102 @@ delete:
         application/json:
           schema:
             $ref: ../../shared/models/error.yml
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X GET "https://api.lob.com/v1/domains?limit=2" \
+          -u <YOUR_LIVE_API_KEY>:
+      label: CURL
+    - lang: Typescript
+      source: |
+        try {
+          const domains = await new DomainsApi(config).list(2);
+        } catch (err: any) {
+          console.error(err);
+        }
+      label: TYPESCRIPT
+    - lang: Javascript
+      source: |
+        Lob.domains.list({limit: 2}, function (err, res) {
+          console.log(err, res);
+        });
+      label: NODE
+    - lang: Ruby
+      source: |
+        domainsApi = DomainsApi.new(config)
+
+        begin
+          domains = domainsApi.list({ limit: 2 })
+        rescue => err
+          p err.message
+        end
+      label: RUBY
+    - lang: Python
+      source: |
+        with ApiClient(configuration) as api_client:
+          api = DomainsApi(api_client)
+
+        try:
+          domains = api.list(limit=2)
+        except ApiException as e:
+          print(e)
+      label: PYTHON
+    - lang: PHP
+      source: |
+        $apiInstance = new OpenAPI\Client\Api\DomainsApi($config, new GuzzleHttp\Client());
+
+        try {
+            $result = $apiInstance->list(
+              2, // limit
+            );
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+        }
+    - lang: Java
+      source: |
+        DomainsApi apiInstance = new DomainsApi(config);
+
+        try {
+          DomainsList response = apiInstance.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+          );
+        } catch (ApiException e) {
+          e.printStackTrace();
+        }
+      label: JAVA
+    - lang: Elixir
+      source: |
+        Lob.Domains.list(%{limit: 2})
+      label: ELIXIR
+    - lang: CSharp
+      source: |
+        DomainsApi api = new DomainsApi(config);
+
+        try {
+          DomainsList response = api.list(
+            2, // limit
+            null, // before
+            null, // after
+            null, // include
+            null, // dateCreated
+          );
+        } catch (ApiException e) {
+          Console.WriteLine(e.ToString());
+        }
+      label: CSHARP
+    - lang: Go
+      source: |
+        var context = context.Background()
+        context = context.WithValue(suite.ctx, lob.ContextBasicAuth, lob.BasicAuth{UserName: os.Getenv("<YOUR_API_KEY>")})
+
+        var apiClient = *lob.NewAPIClient(configuration)
+        DomainsList = apiClient.DomainsApi.List(context).Execute()
+        if err != nil {
+            return err
+        }
+      label: GO

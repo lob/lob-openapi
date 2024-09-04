@@ -1,0 +1,62 @@
+get:
+  operationId: informed_delivery_campaign_list
+
+  summary: List
+
+  description: >-
+    List Informed Delivery campaigns
+
+  tags:
+    - Informed Delivery Campaign
+
+  responses:
+    "200":
+      $ref: "responses/all_informed_delivery_campaigns.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/informed_delivery_campaign \
+          -u <YOUR API KEY>:
+      label: CURL
+
+post:
+  operationId: informed_delivery_campaign_create
+
+  summary: Create
+
+  description: >-
+    Creates a new Informed Delivery campaign
+
+  tags:
+    - Informed Delivery Campaign
+
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: "models/create.yml"
+
+  responses:
+    "200":
+      description: Creative created successfully
+      content:
+        $ref: "responses/informed_delivery_campaign.yml"
+
+    "422":
+      $ref: "responses/writeable_422.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl --request POST \
+          --url https://api.lob.com/v1/informed_delivery_campaigns \
+          -u <YOUR API KEY>: \
+          --header 'Content-Type: multipart/form-data' \
+          --form ride_along_url=https://www.lob.com \
+          --form 'ride_along_image=@/path/to/ride_along.jpg' \
+          --form quantity=2 \
+          --form start_date=2024-01-01 \
+          --form status=pending_approval
+      label: CURL

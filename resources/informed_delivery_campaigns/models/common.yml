@@ -1,0 +1,40 @@
+allOf:
+  - type: object
+
+    properties:
+      quantity:
+        type: integer
+        minimum: 2
+        maximum: 10000000
+        description: |
+          The number of mail pieces that will be part of this Informed Delivery campaign. USPS requires that IMB Codes are in sequence, so any mail pieces sent beyond this quantity will be rejected.
+      status:
+        type: string
+      ride_along_url:
+        type: string
+        minLength: 10
+        maxLength: 255
+        pattern: '^https:\/\/.{5,247}$'
+        description: |
+          To qualify as part of a promotion, the base domain must match the domain used to register the promotion.
+          I.e. If the promo was registered with https://lob.com then you could use any variation of https://lob.com such as
+          https://lob.com/promotions/promo_123
+      start_date:
+        type: string
+        format: date
+        description: |
+          The first date that mail can be handed off to USPS and still included in the informed delivery campaign.
+          The start date must be at least two days in the future. The end date will be automatically calculated to be 45 days from the start.
+          For Target Delivery Date, recommended to set the start date to the earliest possible date (2 days from now).
+      brand_name:
+        type: string
+        description: The brand name you would like included in the informed delivery email. Will default to the “company” on the users account.
+      usps_title:
+        type: string
+        description: Unique title for the campaign. One will be auto generated if not provided.
+      lob_campaign_id:
+        type: string
+        pattern: "^cmp_[a-zA-Z0-9]+$"
+        nullable: true
+        description: |
+          When sending as part of Lob’s campaign workflow, include the lob_campaign_id as part of the request to associate this Informed Delivery campaign with the Lob campaign

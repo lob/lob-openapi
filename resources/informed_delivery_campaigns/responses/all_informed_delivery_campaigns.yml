@@ -1,0 +1,72 @@
+description: >-
+  A dictionary with a data property that contains an array of
+  up to `limit` Informed Delivery campaigns. Each entry in the array is a separate
+  campaign. The previous and next page of campaigns can be retrieved
+  by calling the endpoint contained in the `previous_url` and
+  `next_url` fields in the API response respectively. If no
+  more campaigns are available beyond the current set of returned results,
+  the `next_url` field will be empty.
+
+content:
+  application/json:
+    schema:
+      allOf:
+        - $ref: "../../../shared/models/list.yml"
+        - type: object
+          properties:
+            data:
+              type: array
+              description: list of Informed Delivery campaigns
+              items:
+                $ref: "../models/response.yml"
+
+    example:
+      data:
+        - id: infd_234g5324g324g23
+          object: informed_delivery_campaign
+          account_id: xxxxxxxxxxxxxxxxxxxx
+          quantity: 20
+          usps_campaign_id: "1234567890"
+          usps_title: "Campaign: 1a1a1a1a-9657-423b-b3c7-2"
+          start_date: "2024-08-31T00:00:00.000Z"
+          end_date: "2024-10-15T00:00:00.000Z"
+          start_serial: 3183487
+          end_serial: 3183506
+          ride_along_url: https://www.lob.com
+          ride_along_image_s3_link: "https://lob-assets.com/informed-delivery/infd_234g5324g324g23_ride_along.jpg"
+          representative_image_s3_link: null
+          status: approved
+          date_created: "2024-08-30T23:30:02.980Z"
+          date_modified: "2024-08-30T23:30:05.027Z"
+          mode: live
+          lob_campaign_id: null
+          deleted: false
+          campaign_code: 1a1a1a1a-9657-423b-b3c7-2+Code
+          brand_name: Lob
+          service_request_number: null
+        - id: infd_23g23g234g23g42
+          object: informed_delivery_campaign
+          account_id: xxxxxxxxxxxxxxxxxxxx
+          quantity: 5
+          usps_campaign_id: "23452345"
+          usps_title: "Campaign: 133d228e-f9e9-4056-aaea-f"
+          start_date: "2024-08-31T00:00:00.000Z"
+          end_date: "2024-10-15T00:00:00.000Z"
+          start_serial: null
+          end_serial: null
+          ride_along_url: https://www.lob.com
+          ride_along_image_s3_link: "https://lob-assets.com/informed-delivery/infd_23g23g234g23g42_ride_along.jpg"
+          representative_image_s3_link: null
+          status: pending_approval
+          date_created: "2024-08-30T23:30:02.980Z"
+          date_modified: "2024-09-30T23:30:05.027Z"
+          mode: live
+          lob_campaign_id: null
+          deleted: false
+          campaign_code: 133d228e-f9e9-4056-aaea-f+Code
+          brand_name: Lob
+          service_request_number: null
+      object: list
+      next_url:
+      previous_url:
+      count: 2

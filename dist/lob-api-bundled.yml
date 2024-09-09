@@ -616,6 +616,11 @@ tags:
           <td style="white-space: nowrap">A postcard is successfully created (Lob returns a 200 status code).</td>
         </tr>
         <tr>
+          <td style="white-space: nowrap"><code>postcard.rejected</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A postcard was not successfully created (Usually happens when one or more postcards fail the creation step during a batch request)</td>
+        </tr>
+        <tr>
           <td style="white-space: nowrap"><code>postcard.rendered_pdf</code></td>
           <td style="white-space: nowrap"><code>false</code></td>
           <td style="white-space: nowrap">A postcard's PDF proof is successfully rendered.</td>
@@ -696,6 +701,11 @@ tags:
           <td style="white-space: nowrap"><code>self_mailer.created</code></td>
           <td style="white-space: nowrap"><code>false</code></td>
           <td style="white-space: nowrap">A self_mailer is successfully created (Lob returns a 200 status code).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>self_mailer.rejected</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A self_mailer was not successfully created (Usually happens when one or more self_mailers fail the creation step during a batch request)</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>self_mailer.rendered_pdf</code></td>
@@ -779,6 +789,11 @@ tags:
           <td style="white-space: nowrap"><code>letter.created</code></td>
           <td style="white-space: nowrap"><code>false</code></td>
           <td style="white-space: nowrap">A letter is successfully created (Lob returns a 200 status code).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>letter.rejected</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A letter was not successfully created (Usually happens when one or more letters fail the creation step during a batch request)</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>letter.rendered_pdf</code></td>
@@ -938,6 +953,11 @@ tags:
           <td style="white-space: nowrap"><code>check.created</code></td>
           <td style="white-space: nowrap"><code>false</code></td>
           <td style="white-space: nowrap">A check is successfully created (Lob returns a 200 status code).</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap"><code>check.rejected</code></td>
+          <td style="white-space: nowrap"><code>false</code></td>
+          <td style="white-space: nowrap">A check was not successfully created (Usually happens when one or more checks fail the creation step during a batch request)</td>
         </tr>
         <tr>
           <td style="white-space: nowrap"><code>check.rendered_pdf</code></td>
@@ -10498,6 +10518,7 @@ components:
       description: Unique identifier referring to status of postcard
       enum:
         - postcard.created
+        - postcard.rejected
         - postcard.rendered_pdf
         - postcard.rendered_thumbnails
         - postcard.deleted
@@ -10516,6 +10537,7 @@ components:
       description: Unique identifier referring to status of self mailer
       enum:
         - self_mailer.created
+        - self_mailer.rejected
         - self_mailer.rendered_pdf
         - self_mailer.rendered_thumbnails
         - self_mailer.deleted
@@ -10534,6 +10556,7 @@ components:
       description: Unique identifier referring to status of letter
       enum:
         - letter.created
+        - letter.rejected
         - letter.rendered_pdf
         - letter.rendered_thumbnails
         - letter.deleted
@@ -10569,6 +10592,7 @@ components:
       description: Unique identifier referring to status of check
       enum:
         - check.created
+        - check.rejected
         - check.rendered_pdf
         - check.rendered_thumbnails
         - check.deleted

@@ -1,0 +1,74 @@
+parameters:
+  - in: path
+    name: usps_campaign_id
+    description: usps_campaign_id of the Informed Delivery campaign
+    required: true
+    schema:
+      $ref: "attributes/usps_campaign_id.yml"
+
+get:
+  operationId: informed_delivery_campaign_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing Informed Delivery campaign. You need only supply
+    the `usps_campaign_id` returned in the campaign creation request.
+
+  tags:
+    - Informed Delivery Campaign
+
+  responses:
+    "200":
+      description: Returns a informed delivery campaign object
+      content:
+        $ref: "responses/informed_delivery_campaign.yml"
+
+    "404":
+      $ref: "responses/404.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/informed_delivery_campaign/1200772869 \
+          -u <YOUR API KEY>:
+      label: CURL
+
+patch:
+  operationId: informed_delivery_campaign_update
+
+  summary: Update
+
+  description: >-
+    Update the details of an existing Informed Delivery campaign.<br>
+    **NOTE:** you can only update a campaign in the `pending_approval` status.
+
+  tags:
+    - Informed Delivery Campaign
+
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: "models/update.yml"
+
+  responses:
+    "200":
+      description: Returns an Informed Delivery campaign object
+      content:
+        $ref: "responses/informed_delivery_campaign.yml"
+
+    "404":
+      $ref: "responses/404.yml"
+
+    "422":
+      $ref: "responses/writeable_422.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X PATCH https://api.lob.com/v1/creatives/crv_2a3b096c409b32c \
+          -u <YOUR API KEY>: \
+          -d '{"status":"approved"}'
+      label: CURL

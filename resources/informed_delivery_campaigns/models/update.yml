@@ -1,0 +1,11 @@
+allOf:
+  - $ref: "writable_base.yml"
+  - type: object
+    properties:
+      status:
+        type: string
+        enum:
+          - approved
+        description: |
+          After setting an Informed Delivery campaign to “approved” said campaign will activate, and you can start sending mail using it.
+          You will no longer be able to edit an Informed Delivery campaign in this status.

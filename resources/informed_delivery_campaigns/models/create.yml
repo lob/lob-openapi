@@ -1,0 +1,20 @@
+allOf:
+  - $ref: "writable_base.yml"
+
+  - type: object
+
+    required:
+      - quantity
+      - ride_along_image
+      - ride_along_url
+      - start_date
+
+    properties:
+      status:
+        type: string
+        enum:
+          - pending_approval
+        description: |
+          If setting a campaign to `pending_approval` the Informed Delivery campaign will not be active, and you can not send mail using it.
+          It will be editable in this status however, and changes can be made until `approved`.
+          **NOTE** that the default status is `approved` which makes the campaign active, but un-editable.

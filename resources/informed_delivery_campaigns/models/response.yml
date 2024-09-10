@@ -1,0 +1,85 @@
+allOf:
+  - $ref: "common.yml"
+
+  - type: object
+
+    required:
+      - id
+      - object
+      - account_id
+      - quantity
+      - usps_campaign_id
+      - usps_title
+      - start_date
+      - end_date
+      - start_serial
+      - end_serial
+      - ride_along_url
+      - ride_along_image_s3_link
+      - representative_image_s3_link
+      - status
+      - date_created
+      - date_modified
+      - mode
+      - lob_campaign_id
+      - deleted
+      - campaign_code
+      - brand_name
+      - service_request_number
+
+    properties:
+      id:
+        $ref: "../attributes/infd_id.yml"
+      object:
+        type: string
+        description: Value is the resource type.
+        enum:
+          - informed_delivery_campaign
+      account_id:
+        type: string
+        description: Your Lob account id.
+      usps_campaign_id:
+        $ref: "../attributes/usps_campaign_id.yml"
+      end_date:
+        type: string
+        format: date-time
+        description: A timestamp in ISO 8601 format of the date the campaign ends.
+      start_serial:
+        type: integer
+        nullable: true
+        description: |
+          The first serial number in the range of serial numbers for this campaign.
+          Only non-null when campaign is approved.
+      end_serial:
+        type: integer
+        nullable: true
+        description: |
+          The last serial number in the range of serial numbers for this campaign.
+          Only non-null when campaign is approved.
+      ride_along_image_s3_link:
+        type: string
+        description: A URL link to the campaigns ride along image.
+      representative_image_s3_link:
+        type: string
+        nullable: true
+        description: A URL link to the campaigns representative image.
+      date_created:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+      date_modified:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+      mode:
+        type: string
+        description: The mode of the Informed Delivery campaign. This is set by the API token you used to create the campaign.
+        enum:
+          - live
+          - test
+      deleted:
+        type: boolean
+        description: Whether the resource has been deleted.
+      campaign_code:
+        type: string
+        description: The campaign code associated with the Informed Delivery campaign.
+      service_request_number:
+        type: string
+        nullable: true
+        description: The USPS promotion service request number used to create this campaign (if there was one used).

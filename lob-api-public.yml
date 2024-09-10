@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.41
+  version: 1.19.42
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -959,6 +959,10 @@ tags:
   - name: Identity Validation
     description: |
       Validates whether a given name is associated with an address.
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+  - name: Informed Delivery Campaign
+    description: |
+      The Informed Delivery campaigns API allows you to create and view Informed Delivery campaigns.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Intl Autocompletions
     description: |
@@ -2358,6 +2362,9 @@ x-tagGroups:
       - Campaigns
       - Creatives
       - Uploads
+  - name: Informed Delivery Campaign API
+    tags:
+      - Informed Delivery Campaign
   - name: Address Verification API
     tags:
       - US Verifications
@@ -2471,6 +2478,10 @@ paths:
     $ref: resources/creatives/creative.yml
   /identity_validation:
     $ref: resources/identity_validation/identity_validation.yml
+  /informed_delivery_campaigns:
+    $ref: resources/informed_delivery_campaigns/informed_delivery_campaigns.yml
+  /informed_delivery_campaigns/{usps_campaign_id}:
+    $ref: resources/informed_delivery_campaigns/informed_delivery_campaign.yml
   /intl_autocompletions:
     $ref: resources/intl_autocompletions/intl_autocompletions.yml
   /intl_verifications:

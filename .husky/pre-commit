@@ -10,7 +10,6 @@ readonly CAMPAIGNS="campaigns"
 readonly CHECKS="checks"
 readonly CREATIVES="creatives"
 readonly IDENTITY_VALIDATION="identity_validation"
-readonly INTL_AUTOCOMPLETIONS="intl_autocompletions"
 readonly INTL_VERIFICATIONS_BULK="intl_verifications_bulk"
 readonly INTL_VERIFICATIONS="intl_verifications"
 readonly LETTERS="letters"
@@ -44,9 +43,6 @@ if [[ $files_changed == *"creative"* ]]; then
 fi
 if [[ $files_changed == *"identity_validation"* ]]; then
   tests_to_run+=($IDENTITY_VALIDATION)
-fi
-if [[ $files_changed == *"intl_autocompletion"* ]]; then
-  tests_to_run+=($INTL_AUTOCOMPLETIONS)
 fi
 if [[ $files_changed == *"intl_verification"* ]]; then
   tests_to_run+=($INTL_VERIFICATIONS $INTL_VERIFICATIONS_BULK)
@@ -89,7 +85,7 @@ if [[ ${#tests_to_run[@]} == 0 ]]; then
     select yn in "Yes" "No"; do
         case $yn in
             Yes )
-                tests_to_run=($ADDRESSES $BANK_ACCOUNTS $CAMPAIGNS $CHECKS $CREATIVES $IDENTITY_VALIDATION $INTL_AUTOCOMPLETIONS $INTL_VERIFICATIONS_BULK $INTL_VERIFICATIONS $LETTERS $POSTCARDS $SELF_MAILERS $TEMPLATE_VERSIONS $TEMPLATES $UPLOADS $US_AUTOCOMPLETIONS $US_REVERSE_GEOCODE $US_VERIFICATIONS_BULK $US_VERIFICATIONS $ZIP_LOOKUPS);
+                tests_to_run=($ADDRESSES $BANK_ACCOUNTS $CAMPAIGNS $CHECKS $CREATIVES $IDENTITY_VALIDATION $INTL_VERIFICATIONS_BULK $INTL_VERIFICATIONS $LETTERS $POSTCARDS $SELF_MAILERS $TEMPLATE_VERSIONS $TEMPLATES $UPLOADS $US_AUTOCOMPLETIONS $US_REVERSE_GEOCODE $US_VERIFICATIONS_BULK $US_VERIFICATIONS $ZIP_LOOKUPS);
                 break;;
             No ) break;;
         esac

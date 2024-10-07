@@ -1,8 +1,9 @@
-type: object
-
-properties:
-  data:
-    type: array
-    description: List of domains.
-    items:
-      $ref: "domain_response.yml"
+allOf:
+  - $ref: "../../../shared/models/list.yml"
+  - type: object
+    properties:
+      data:
+        type: array
+        description: List of domains.
+        items:
+          $ref: "domain_response.yml"

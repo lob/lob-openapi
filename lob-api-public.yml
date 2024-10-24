@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.19.43
+  version: 1.20.0
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -983,24 +983,6 @@ tags:
   - name: Informed Delivery Campaign
     description: |
       The Informed Delivery campaigns API allows you to create and view Informed Delivery campaigns.
-      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
-  - name: Intl Autocompletions
-    description: |
-      Address autocompletion for non-US addresses. Given partial address information, this endpoint returns up to 10 address suggestions.
-      ## Autocompletion Test Env
-      Your test API key does not autocomplete international addresses and is used to simulate
-      behavior. With your test API key, requests with specific values for `address_prefix`
-      return predetermined values. When `address_prefix` is set to:
-      - `0 suggestions` - Returns no suggestions
-      - `[PRIMARY NUMBER] s[uggestion]` - Returns a maximum of ten predefined suggested addresses.
-        `[PRIMARY NUMBER]` does not have to be a valid primary number when sending a test request.
-        Each additional letter in `suggestion` reduces the number of suggestions by one (e.g.
-        `1 su` returns 9 suggested addresses). `[PRIMARY NUMBER]` does not affect the number of
-        suggestions returned.
-      Country is a required field.
-      City and state filters work as expected and filter the list of predetermined suggested addresses.
-      See the `test` request & response examples under [Autocomplete Examples](#operation/intl_autocompletions) within the "Autocomplete
-      a partial address" section in Intl Autocompletions.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Intl Verifications
     description: |
@@ -2393,7 +2375,6 @@ x-tagGroups:
       - Reverse Geocode Lookups
       - Zip Lookups
       - Identity Validation
-      - Intl Autocompletions
       - Intl Verifications
   - name: Webhooks
     tags:
@@ -2502,8 +2483,6 @@ paths:
     $ref: resources/informed_delivery_campaigns/informed_delivery_campaigns.yml
   /informed_delivery_campaigns/{usps_campaign_id}:
     $ref: resources/informed_delivery_campaigns/informed_delivery_campaign.yml
-  /intl_autocompletions:
-    $ref: resources/intl_autocompletions/intl_autocompletions.yml
   /intl_verifications:
     $ref: resources/intl_verifications/intl_verifications.yml
   /letters/{ltr_id}:

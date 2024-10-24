@@ -7,8 +7,14 @@ properties:
     description: The registered domain/hostname.
     type: string
   error_redirect_link:
-    description: The 404 error redirect link.
+    description: URL to redirect customers if a short link is broken or inactive.
     type: string
+  status:
+    description: The configuration status of the domain.
+    type: string
+    enum:
+      - configured
+      - not_configured
   created_at:
     description: The date and time the domain was created.
     type: string

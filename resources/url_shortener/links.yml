@@ -86,7 +86,14 @@ get:
     - URL Shortener
   parameters:
     - $ref: "../../shared/parameters/limit.yml"
-    - $ref: "../../shared/parameters/offset.yml"
+    - $ref: "../../shared/parameters/before_after.yml"
+    - $ref: "../../shared/parameters/campaign_id.yml"
+    - in: query
+      name: domain_id
+      description: Filters links by the provided domain id.
+      schema:
+        type: string
+        pattern: "^(dom)_[a-zA-Z0-9]+$"
 
   responses:
     "200":

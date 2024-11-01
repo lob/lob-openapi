@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.20.1
+  version: 1.20.2
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -14544,8 +14544,6 @@ paths:
                 state: in_progress
                 type: failures
                 uploadId: upl_71be866e430b11e9
-        '403':
-          $ref: '#/components/responses/feature_flag_disabled'
         '404':
           $ref: '#/components/responses/upload_not_found'
       x-codeSamples:
@@ -24469,22 +24467,6 @@ components:
               message: Invalid body, check 'errors' property for more info.
               errors:
                 - type must be a string
-    feature_flag_disabled:
-      description: Forbidden Error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              code:
-                description: The error code
-                type: number
-              message:
-                type: string
-                description: Details of the error message with the feature flagged mentioned.
-          example:
-            message: 'This feature is not enabled for this account: access_upload_report'
-            code: 403
     us_autocompletions_error:
       description: Error
       content:

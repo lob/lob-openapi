@@ -148,14 +148,14 @@ delete:
     - lang: Typescript
       source: |
         try {
-          const deleteLetter = await new LettersApi(config).delete('ltr_xxxx')
+          const deleteLetter = await new LettersApi(config).cancel('ltr_xxxx')
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.letters.delete('ltr_4868c3b754655f90', function (err, res) {
+        Lob.letters.cancel('ltr_4868c3b754655f90', function (err, res) {
           console.log(err, res);
         });
       label: NODE

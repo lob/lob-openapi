@@ -7442,14 +7442,14 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteCheck = await new ChecksApi(config).delete('chk_xxxx');
+              const deleteCheck = await new ChecksApi(config).cancel('chk_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.checks.delete('chk_534f10783683daa0', function (err, res) {
+            Lob.checks.cancel('chk_534f10783683daa0', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -8441,14 +8441,14 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deleteLetter = await new LettersApi(config).delete('ltr_xxxx')
+              const deleteLetter = await new LettersApi(config).cancel('ltr_xxxx')
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.letters.delete('ltr_4868c3b754655f90', function (err, res) {
+            Lob.letters.cancel('ltr_4868c3b754655f90', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -9458,23 +9458,23 @@ paths:
         - lang: Typescript
           source: |
             try {
-              const deletePostcard = await new PostcardsApi(config).delete('psc_xxxx');
+              const deletePostcard = await new PostcardsApi(config).cancel('psc_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.postcards.delete('psc_5c002b86ce47537a', function (err, res) {
+            Lob.postcards.cancel('psc_5c002b86ce47537a', function (err, res) {
               console.log(err, res);
             });
           label: NODE
         - lang: Ruby
           source: |
-            letterApi = LettersApi.new(config)
+            postcardApi = PostcardsApi.new(config)
 
             begin
-              deletedLetter = letterApi.cancel("ltr_4868c3b754655f90")
+              deletedPostcard = postcardApi.cancel("psc_4868c3b754655f90")
             rescue => err
               p err.message
             end
@@ -9517,7 +9517,7 @@ paths:
             PostcardsApi api = new PostcardsApi(config);
 
             try {
-              PostcardDeletion response = api.delete("psc_5c002b86ce47537a");
+              PostcardDeletion response = api.cancel("psc_5c002b86ce47537a");
             } catch (ApiException e) {
               Console.WriteLine(e.ToString());
             }
@@ -9529,7 +9529,7 @@ paths:
 
             var apiClient = *lob.NewAPIClient(configuration)
 
-            deletedPostcard, _, err := apiClient.PostcardsApi.Delete(context, "psc_5c002b86ce47537a").Execute()
+            deletedPostcard, _, err := apiClient.PostcardsApi.Cancel(context, "psc_5c002b86ce47537a").Execute()
 
             if err != nil {
                 return err
@@ -11220,14 +11220,14 @@ paths:
         - lang: typescript
           source: |
             try {
-              const deleteSelfMailer = await new SelfMailersApi(config).delete('sfm_xxxx');
+              const deleteSelfMailer = await new SelfMailersApi(config).cancel('sfm_xxxx');
             } catch (err: any) {
               console.error(err);
             }
           label: TYPESCRIPT
         - lang: Javascript
           source: |
-            Lob.selfMailers.delete('sfm_8ffbe811dea49dcf', function (err, res) {
+            Lob.selfMailers.cancel('sfm_8ffbe811dea49dcf', function (err, res) {
               console.log(err, res);
             });
           label: NODE
@@ -11236,7 +11236,7 @@ paths:
             selfMailerApi = SelfMailersApi.new(config)
 
             begin
-              deletedSelfMailer = selfMailerApi.delete("sfm_8ffbe811dea49dcf")
+              deletedSelfMailer = selfMailerApi.cancel("sfm_8ffbe811dea49dcf")
             rescue => err
               p err.message
             end
@@ -11247,7 +11247,7 @@ paths:
               api = SelfMailersApi(api_client)
 
             try:
-              deleted_resource = api.delete("sfm_8ffbe811dea49dcf")
+              deleted_resource = api.cancel("sfm_8ffbe811dea49dcf")
             except ApiException as e:
               print(e)
           label: PYTHON
@@ -11256,7 +11256,7 @@ paths:
             $apiInstance = new OpenAPI\Client\Api\SelfMailersApi($config, new GuzzleHttp\Client());
 
             try {
-                $result = $apiInstance->delete("sfm_8ffbe811dea49dcf");
+                $result = $apiInstance->cancel("sfm_8ffbe811dea49dcf");
             } catch (Exception $e) {
                 echo $e->getMessage(), PHP_EOL;
             }
@@ -11265,7 +11265,7 @@ paths:
             SelfMailersApi apiInstance = new SelfMailersApi(config);
 
             try {
-                SelfMailerDeletion response = apiInstance.delete("sfm_8ffbe811dea49dcf");
+                SelfMailerDeletion response = apiInstance.cancel("sfm_8ffbe811dea49dcf");
             } catch (ApiException e) {
                 e.printStackTrace();
             }
@@ -11279,7 +11279,7 @@ paths:
             SelfMailersApi api = new SelfMailersApi(config);
 
             try {
-              SelfMailerDeletion response = api.delete("sfm_8ffbe811dea49dcf");
+              SelfMailerDeletion response = api.cancel("sfm_8ffbe811dea49dcf");
             } catch (ApiException e) {
               Console.WriteLine(e.ToString());
             }
@@ -11291,7 +11291,7 @@ paths:
 
             var apiClient = *lob.NewAPIClient(configuration)
 
-            deletedSelfMailer, _, err := apiClient.SelfMailersApi.Delete(context, "sfm_8ffbe811dea49dcf").Execute()
+            deletedSelfMailer, _, err := apiClient.SelfMailersApi.Cancel(context, "sfm_8ffbe811dea49dcf").Execute()
 
             if err != nil {
                 return err

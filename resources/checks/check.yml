@@ -150,14 +150,14 @@ delete:
     - lang: Typescript
       source: |
         try {
-          const deleteCheck = await new ChecksApi(config).delete('chk_xxxx');
+          const deleteCheck = await new ChecksApi(config).cancel('chk_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.checks.delete('chk_534f10783683daa0', function (err, res) {
+        Lob.checks.cancel('chk_534f10783683daa0', function (err, res) {
           console.log(err, res);
         });
       label: NODE

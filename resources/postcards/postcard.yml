@@ -148,23 +148,23 @@ delete:
     - lang: Typescript
       source: |
         try {
-          const deletePostcard = await new PostcardsApi(config).delete('psc_xxxx');
+          const deletePostcard = await new PostcardsApi(config).cancel('psc_xxxx');
         } catch (err: any) {
           console.error(err);
         }
       label: TYPESCRIPT
     - lang: Javascript
       source: |
-        Lob.postcards.delete('psc_5c002b86ce47537a', function (err, res) {
+        Lob.postcards.cancel('psc_5c002b86ce47537a', function (err, res) {
           console.log(err, res);
         });
       label: NODE
     - lang: Ruby
       source: |
-        letterApi = LettersApi.new(config)
+        postcardApi = PostcardsApi.new(config)
 
         begin
-          deletedLetter = letterApi.cancel("ltr_4868c3b754655f90")
+          deletedPostcard = postcardApi.cancel("psc_4868c3b754655f90")
         rescue => err
           p err.message
         end
@@ -207,7 +207,7 @@ delete:
         PostcardsApi api = new PostcardsApi(config);
 
         try {
-          PostcardDeletion response = api.delete("psc_5c002b86ce47537a");
+          PostcardDeletion response = api.cancel("psc_5c002b86ce47537a");
         } catch (ApiException e) {
           Console.WriteLine(e.ToString());
         }
@@ -219,7 +219,7 @@ delete:
 
         var apiClient = *lob.NewAPIClient(configuration)
 
-        deletedPostcard, _, err := apiClient.PostcardsApi.Delete(context, "psc_5c002b86ce47537a").Execute()
+        deletedPostcard, _, err := apiClient.PostcardsApi.Cancel(context, "psc_5c002b86ce47537a").Execute()
 
         if err != nil {
             return err

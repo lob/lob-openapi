@@ -138,4 +138,9 @@ When bumping the version there are three key areas where the `version` should be
 2. `package-lock.json`
 3. `lob-api-public.yml` 
 
-The final step is to ensure you run `npm run bundle && npm run pretty && npm run redoc` to actually appply these changes.
+Ensure you run `npm run bundle && npm run pretty && npm run redoc` to actually appply changes to package and package-lock. You will need to change lob-api-public.yml manually.
+
+## Deployment
+The last step is to [create a new release](https://github.com/lob/lob-openapi/releases/new). Create a new tag to match the version you're deploying and provide a brief description. You can monitor the deployment at the [Deploy to Netlify Action](https://github.com/lob/lob-openapi/actions/workflows/deploy.yml).
+
+[Video Tutorial](https://www.notion.so/lob/Deploying-Lob-OpenAPI-Docs-28f349ae90b4498a8b862881db6a834e)

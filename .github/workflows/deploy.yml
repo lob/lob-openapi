@@ -14,10 +14,10 @@ jobs:
         with:
           token: ${{ secrets.LOBOT_TOKEN }}
           ref: "main"
-      - name: Use Node.js 14.x
+      - name: Use .node-version Node.js version
         uses: actions/setup-node@v4
         with:
-          node-version: 14.x
+          node-version-file: '.node-version'
       - name: create necessary files to push to deployment
         run: |
           npm install

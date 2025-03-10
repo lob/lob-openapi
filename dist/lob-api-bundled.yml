@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.20.4
+  version: 1.20.5
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -2284,7 +2284,7 @@ tags:
       ### API Versioning
 
       When backwards-incompatible changes are made to the API, a new dated version
-      is released. The latest version of the API is version **2024-01-01**. 
+      is released. The latest version of the API is version **2020-02-11**. 
       All versions prior to, and inclusive of, 2019-02-11 have been sunsetted. You can
       view your version and upgrade to the latest version in your
       <a href="https://dashboard.lob.com/settings/api-keys" target="_blank">Dashboard Settings</a>. You will
@@ -2297,7 +2297,7 @@ tags:
       ```bash
         curl https://api.lob.com/v1/addresses \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
-          -H "Lob-Version: 2024-01-01"
+          -H "Lob-Version: 2020-02-11"
       ```
 
       ### Specification Versioning
@@ -7872,7 +7872,7 @@ paths:
               --form ride_along_url=https://www.lob.com \
               --form 'ride_along_image=@/path/to/ride_along.jpg' \
               --form quantity=2 \
-              --form start_date=2024-01-01 \
+              --form start_date=2020-02-11 \
               --form status=pending_approval
           label: CURL
   /informed_delivery_campaigns/{usps_campaign_id}:
@@ -20547,9 +20547,9 @@ components:
         - us_letter
         - us_legal
       description: |
-        Specifies the size of the letter. It accepts two values `us_letter` and `us_legal`. If the [Lob-Version header](#tag/Versioning-and-Changelog) in the request is set to `2024-01-01` and above, the `size` property is automatically included with the default value of `us_letter`, unless explicitly specified.
+        Specifies the size of the letter. It accepts two values `us_letter` and `us_legal`. If the [Lob-Version header](#tag/Versioning-and-Changelog) in the request is set to `2020-02-11` and above, the `size` property is automatically included with the default value of `us_letter`, unless explicitly specified.
 
-        Please note that attempting to include the `size` property in the request with the `Lob-Version` header predating to `2024-01-01` will result in an error.
+        Please note that attempting to include the `size` property in the request with the `Lob-Version` header predating to `2020-02-11` will result in an error.
       default: us_letter
     letter_editable:
       allOf:
@@ -22020,10 +22020,10 @@ components:
       name: Lob-Version
       required: false
       description: |
-        A string representing the version of the API being used. Specifically for letters, if this header is set to `2024-01-01` and above, the `size` property is automatically included with the default value of `us_letter`. Refer to `size` for all possible values. For more information on versioning, refer to our [Versioning and Changelog](#tag/Versioning-and-Changelog) documentation.
+        A string representing the version of the API being used. Specifically for letters, if this header is set to `2020-02-11` and above, the `size` property is automatically included with the default value of `us_letter`. Refer to `size` for all possible values. For more information on versioning, refer to our [Versioning and Changelog](#tag/Versioning-and-Changelog) documentation.
       schema:
         type: string
-        example: '2024-01-01'
+        example: '2020-02-11'
         pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}$
   responses:
     '404':

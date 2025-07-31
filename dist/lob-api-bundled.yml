@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.20.5
+  version: 1.20.7
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -1035,7 +1035,7 @@ tags:
   - name: Introduction
     x-traitTag: true
     description: |
-      Lob’s Print & Mail and Address Verification APIs help companies transform outdated,
+      Lob's Print & Mail and Address Verification APIs help companies transform outdated,
       manual print-and-mail processes; save 1,000s of hours in processing time by sending mail much more
       quickly; and increase ROI on offline communications.
 
@@ -2316,7 +2316,7 @@ tags:
 
 
       ### Changelog
-       <a href="https://app.getbeamer.com/lob/en?all" target="_blank">View our Changelog here.</a>
+       We are in the process of renovating our changelog, and will link it here shortly.
   - name: Webhooks
     x-traitTag: true
     description: |
@@ -4184,6 +4184,7 @@ paths:
                 send_date: '2021-03-16T18:45:40.493Z'
                 use_type: marketing
                 fsc: false
+                sla: '2'
                 object: booklet
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -4292,6 +4293,7 @@ paths:
                 pages: 1-2,4-5
               fsc: true
               size: 8.375x5.375
+              print_speed: core
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/booklet_editable'
@@ -4333,6 +4335,7 @@ paths:
                 pages: 1-2,4-5
               fsc: true
               size: 8.375x5.375
+              print_speed: core
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/booklet_editable'
@@ -4374,6 +4377,7 @@ paths:
                 pages: 1-2,4-5
               fsc: true
               size: 8.375x5.375
+              print_speed: core
       responses:
         '200':
           $ref: '#/components/responses/post_booklet'
@@ -4400,7 +4404,8 @@ paths:
               -d 'qr_code[bottom]=2' \
               -d 'qr_code[left]=2' \
               -d 'qr_code[pages]=3,4-5' \
-              -d 'fsc=true'
+              -d 'fsc=true' \
+              -d 'print_speed=core'
           label: CURL
   /buckslips:
     get:
@@ -5427,6 +5432,7 @@ paths:
               name: My Demo Campaign
               description: My Campaign's description
               schedule_type: immediate
+              print_speed: core
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/campaign_writable'
@@ -5438,6 +5444,7 @@ paths:
               name: My Demo Campaign
               description: My Campaign's description
               schedule_type: immediate
+              print_speed: core
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/campaign_writable'
@@ -5445,6 +5452,7 @@ paths:
               name: My Demo Campaign
               description: My Campaign's description
               schedule_type: immediate
+              print_speed: core
       responses:
         '200':
           description: Campaign created successfully
@@ -5477,13 +5485,15 @@ paths:
             curl https://api.lob.com/v1/campaigns \
               -u <YOUR API KEY>: \
               -d "name=My First Campaign" \
-              -d "schedule_type=immediate"
+              -d "schedule_type=immediate" \
+              -d "print_speed=core"
           label: CURL
         - lang: Ruby
           source: |
             campaignCreate = CampaignWritable.new({
               name: "My First Campaign",
               schedule_type: "immediate",
+              print_speed: "core",
             });
 
             campaignApi = CampaignsApi.new(config)
@@ -6839,6 +6849,7 @@ paths:
               use_type: operational
               mail_type: usps_first_class
               check_number: 10001
+              print_speed: core
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/check_editable'
@@ -6876,6 +6887,7 @@ paths:
               send_date: '2017-11-01T00:00:00.000Z'
               mail_type: usps_first_class
               check_number: 10001
+              print_speed: core
             encoding:
               to:
                 style: deepObject
@@ -6927,6 +6939,7 @@ paths:
               use_type: operational
               mail_type: usps_first_class
               check_number: 10001
+              print_speed: core
             encoding:
               logo:
                 contentType: image/png, image/jpeg
@@ -6954,7 +6967,8 @@ paths:
               -d 'memo=rent' \
               --data-urlencode 'logo=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png' \
               --data-urlencode 'check_bottom=<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>' \
-              -d 'merge_variables[name]=Harry'
+              -d 'merge_variables[name]=Harry' \
+              -d 'print_speed=core'
           label: CURL
         - lang: Typescript
           source: |
@@ -6970,7 +6984,8 @@ paths:
             from: 'adr_xxxx',
             bank_account: 'bank_xxxx',
             amount: 100,
-            use_type: 'operational'
+            use_type: 'operational',
+            print_speed: 'core'
             });
 
             try {
@@ -7000,7 +7015,8 @@ paths:
               check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
               merge_variables: {
                 name: 'Harry'
-              }
+              },
+              print_speed: 'core'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -7026,7 +7042,8 @@ paths:
               merge_variables: {
                 name: "Harry"
               },
-              use_type: "operational"
+              use_type: "operational",
+              print_speed: "core"
             });
 
             checkApi = ChecksApi.new(config)
@@ -7058,7 +7075,8 @@ paths:
               merge_variables = MergeVariables(
                 name = "Harry",
               ),
-              use_type = "operational"
+              use_type = "operational",
+              print_speed = "core"
             )
 
             with ApiClient(configuration) as api_client:
@@ -7099,7 +7117,8 @@ paths:
                 "from"     => "adr_210a8d4b0b76d77b",
                 "to"     => $to,
                 "merge_variables"     => $merge_variables,
-                "use_type" => $use_type
+                "use_type" => $use_type,
+                "print_speed" => "core"
               )
             );
 
@@ -7135,6 +7154,7 @@ paths:
               checkEditable.setTo(to);
               checkEditable.setMergeVariables(merge_variables);
               checkEditable.setUseType("operational");
+              checkEditable.setPrintSpeed("core");
 
               Check result = apiInstance.create(checkEditable, null);
             } catch (ApiException e) {
@@ -7162,7 +7182,8 @@ paths:
               merge_variables: %{
                 name: 'Harry'
               },
-              use_type: 'operational'
+              use_type: 'operational',
+              print_speed: 'core'
             })
           label: ELIXIR
         - lang: CSharp
@@ -7197,7 +7218,8 @@ paths:
               default(DateTime),  // sendDate
               CheckEditable.MailTypeEnum.UspsFirstClass,  // mailType
               "rent", // memo
-              "operational" // use_type
+              "operational", // use_type
+              "core" // print_speed
             );
 
             try {
@@ -7232,6 +7254,7 @@ paths:
             checkCreate.SetCheckBottom("<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>")
             checkCreate.SetFrom("adr_210a8d4b0b76d77b")
             checkCreate.SetTo(to)
+            checkCreate.SetPrintSpeed("core")
 
 
             createdcheck, _, err := apiClient.ChecksApi.Create(context).CheckEditable(checkCreate).Execute()
@@ -7333,6 +7356,7 @@ paths:
                 check_bottom_template_version_id: vrsn_a
                 attachment_template_version_id: vrsn_a
                 use_type: operational
+                sla: '2'
                 deleted: true
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -8332,6 +8356,7 @@ paths:
                     object: card
                 use_type: marketing
                 fsc: false
+                sla: '2'
                 object: letter
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -8730,6 +8755,7 @@ paths:
                 right: '2'
                 pages: 1-2,4-5
               fsc: true
+              print_speed: core
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/letter_editable'
@@ -8779,6 +8805,7 @@ paths:
                 right: '2'
                 pages: 1,4
               fsc: true
+              print_speed: core
             encoding:
               to:
                 style: deepObject
@@ -8840,7 +8867,8 @@ paths:
                 bottom: '2'
                 left: '2'
                 pages: 1,3-5
-              fsc: true
+              fsc: true,
+              print_speed: core
       responses:
         '200':
           $ref: '#/components/responses/post_letter'
@@ -8869,7 +8897,8 @@ paths:
               -d 'qr_code[bottom]=2' \
               -d 'qr_code[left]=2' \
               -d 'qr_code[pages]=3,4-5' \
-              -d 'fsc=true'
+              -d 'fsc=true' \
+              -d 'print_speed=core'
           label: CURL
         - lang: Typescript
           source: |
@@ -8895,7 +8924,8 @@ paths:
                 left: '2',
                 pages: '2,5'
               },
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             });
 
             try {
@@ -8932,7 +8962,8 @@ paths:
                 left: '2',
                 pages: '2,4-5'
               },
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -8959,7 +8990,8 @@ paths:
                 "card_c51ae96f5cebf3e",
               ],
               use_type: "marketing",
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             });
 
             letterApi = LettersApi.new(config)
@@ -9000,7 +9032,8 @@ paths:
                 "left" : "2",
                 "pages" : "1,3"
               },
-              fsc = true
+              fsc = true,
+              print_speed = 'core'
             )
 
             with ApiClient(configuration) as api_client:
@@ -9040,6 +9073,7 @@ paths:
 
             $use_type = "marketing";
             $fsc = true;
+            $print_speed = 'core';
 
             $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new GuzzleHttp\Client());
             $letter_editable = new OpenAPI\Client\Model\LetterEditable(
@@ -9057,6 +9091,7 @@ paths:
                 "use_type" => $use_type;
                 "qr_code"   => $qr_code,
                 "fsc" => $fsc,
+                "print_speed" => $print_speed,
               )
             );
 
@@ -9104,6 +9139,7 @@ paths:
               letterEditable.setUseType("operational");
               letterEditable.setQRCode(qrCode);
               letterEditable.setFsc(true);
+              letterEditable.setPrintSpeed("core");
 
               Letter result = apiInstance.create(letterEditable, null);
             } catch (ApiException e) {
@@ -9138,7 +9174,8 @@ paths:
                 left: '2',
                 pages: '1-2,5'
               },
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             })
           label: ELIXIR
         - lang: CSharp
@@ -9171,6 +9208,7 @@ paths:
             );
 
             Fsc fsc = new Fsc(true);
+            PrintSpeed printSpeed = new PrintSpeed("core");
 
             List<String> cards = new List<String>();
             cards.Add("card_c51ae96f5cebf3e");
@@ -9194,7 +9232,8 @@ paths:
               cards, // cards
               usetype,
               qrCode,
-              fsc
+              fsc,
+              printSpeed
             );
 
             try {
@@ -9227,7 +9266,7 @@ paths:
             letterCreate.SetColor("true")
             letterCreate.SetTo(to)
             letterCreate.SetFsc(true)
-
+            letterCreate.SetPrintSpeed("core")
 
             createdletter, _, err := apiClient.LettersApi.Create(context).LetterEditable(letterCreate).Execute()
 
@@ -9288,6 +9327,7 @@ paths:
                     send_date: '2021-03-24T22:51:42.838Z'
                     use_type: marketing
                     fsc: false
+                    sla: '2'
                     object: postcard
                 full:
                   value:
@@ -9349,6 +9389,8 @@ paths:
                     send_date: '2021-03-24T22:51:42.838Z'
                     use_type: marketing
                     fsc: false
+                    print_speed: core
+                    sla: '2'
                     object: postcard
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -9748,6 +9790,7 @@ paths:
                 right: '2.5'
                 pages: front,back
               fsc: true
+              print_speed: core
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/postcard_editable'
@@ -9795,6 +9838,7 @@ paths:
                 right: '2.5'
                 pages: back
               fsc: true
+              print_speed: core
             encoding:
               to:
                 style: deepObject
@@ -9855,6 +9899,7 @@ paths:
                 left: '2.5'
                 pages: front
               fsc: true
+              print_speed: core
       responses:
         '200':
           $ref: '#/components/responses/post_postcard'
@@ -9883,7 +9928,8 @@ paths:
               -d 'qr_code[bottom]=2.5' \
               -d 'qr_code[left]=2.5' \
               -d 'qr_code[pages]=front,back' \
-              -d 'fsc=true'
+              -d 'fsc=true' \
+              -d 'print_speed=core'
           label: CURL
         - lang: Typescript
           source: |
@@ -9909,7 +9955,8 @@ paths:
               left: '2.5',
               pages: 'front'
             },
-            fsc: true
+            fsc: true,
+            print_speed: 'core'
             });
 
             try {
@@ -9945,7 +9992,8 @@ paths:
                 left: '2.5',
                 pages: 'back'
               },
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -9968,7 +10016,8 @@ paths:
               merge_variables: {
                 name: "Harry"
               },
-              fsc: true
+              fsc: true,
+              print_speed: "core"
             });
 
             postcardApi = PostcardsApi.new(config)
@@ -10006,7 +10055,8 @@ paths:
                 "left" : "2.5",
                 "pages" : "front"
               },
-              fsc = true
+              fsc = true,
+              print_speed = "core"
             )
 
             with ApiClient(configuration) as api_client:
@@ -10046,6 +10096,7 @@ paths:
             );
 
             $fsc = true;
+            $print_speed = 'core';
 
             $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new GuzzleHttp\Client());
             $postcard_editable = new OpenAPI\Client\Model\PostcardEditable(
@@ -10058,7 +10109,8 @@ paths:
                 "merge_variables"   => $merge_variables,
                 "use_type" => $use_type,
                 "qr_code"   => $qr_code,
-                "fsc" => $fsc
+                "fsc" => $fsc,
+                "print_speed" => "core"
               )
             );
 
@@ -10101,6 +10153,7 @@ paths:
               postcardEditable.setUseType("operational");
               postcardEditable.setQRCode(qrCode);
               postcardEditable.setFsc(true);
+              postcardEditable.setPrintSpeed("core");
 
               Postcard result = apiInstance.create(postcardEditable, null);
             } catch (ApiException e) {
@@ -10134,7 +10187,8 @@ paths:
                 left: '2',
                 pages: 'front,back'
               },
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             })
           label: ELIXIR
         - lang: CSharp
@@ -10167,6 +10221,7 @@ paths:
             );
 
             Fsc fsc = new Fsc(true);
+            PrintSpeed printSpeed = new PrintSpeed("core");
 
             PostcardEditable postcardEditable = new PostcardEditable(
               to.ToJson(),  // to
@@ -10181,7 +10236,8 @@ paths:
               "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>", // back
               usetype,
               qrCode,
-              fsc
+              fsc,
+              "core"  // printSpeed
             );
 
             try {
@@ -10214,6 +10270,7 @@ paths:
             postcardCreate.SetBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>")
             postcardCreate.SetTo(to)
             postcardCreate.SetFsc(true)
+            postcardCreate.SetPrintSpeed("core")
 
 
             createdpostcard, _, err := apiClient.PostcardsApi.Create(context).PostcardEditable(postcardCreate).Execute()
@@ -11111,6 +11168,7 @@ paths:
                 send_date: '2021-03-16T18:45:40.493Z'
                 use_type: marketing
                 fsc: false
+                sla: '2'
                 object: self_mailer
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -11486,6 +11544,7 @@ paths:
                 right: '2.5'
                 pages: inside,outside
               fsc: true
+              print_speed: core
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/self_mailer_editable'
@@ -11511,6 +11570,7 @@ paths:
                 right: '2.5'
                 pages: inside,outside
               fsc: true
+              print_speed: core
             encoding:
               merge_variables:
                 style: deepObject
@@ -11543,6 +11603,7 @@ paths:
                 right: '2.5'
                 pages: inside,outside
               fsc: true
+              print_speed: core
       responses:
         '200':
           $ref: '#/components/responses/post_self_mailer'
@@ -11570,7 +11631,8 @@ paths:
               --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
               --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
               -d "merge_variables[name]=Harry" \
-              -d 'fsc=true'
+              -d 'fsc=true' \
+              -d 'print_speed=core'
           label: CURL
         - lang: Typescript
           source: |
@@ -11597,7 +11659,8 @@ paths:
                 left: '2.5',
                 pages: 'inside'
               },
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             });
 
             try {
@@ -11632,7 +11695,8 @@ paths:
                 left: '2.5',
                 pages: 'inside'
               },
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -11664,7 +11728,8 @@ paths:
                 left: '2.5',
                 pages: 'inside'
               },
-              fsc: true
+              fsc: true,
+              print_speed: "core"
             });
 
             selfMailerApi = SelfMailersApi.new(config)
@@ -11702,7 +11767,8 @@ paths:
                 left: "2.5",
                 pages: "inside"
               },
-              fsc = true
+              fsc = true,
+              print_speed = "core"
             )
 
             with ApiClient(configuration) as api_client:
@@ -11731,6 +11797,7 @@ paths:
 
             $use_type = "marketing";
             $fsc = true;
+            $print_speed = 'core';
 
             $qr_code = new OpenAPI\Client\Model\QRCode(
               array(
@@ -11754,7 +11821,8 @@ paths:
                 "merge_variables"     => $merge_variables,
                 "use_type"    => $use_type,
                 "qr_code"   => $qr_code,
-                "fsc"  => $fsc
+                "fsc"  => $fsc,
+                "print_speed" => "core"
               )
             );
 
@@ -11797,6 +11865,7 @@ paths:
               selfMailerEditable.setUseType("marketing");
               selfMailerEditable.setQRCode(qrCode);
               selfMailerEditable.setFsc(true);
+              selfMailerEditable.setPrintSpeed("core");
 
 
               SelfMailer result = apiInstance.create(selfMailerEditable, null);
@@ -11830,7 +11899,8 @@ paths:
                 left: '2',
                 pages: 'inside,outside'
               },
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             })
           label: ELIXIR
         - lang: CSharp
@@ -11861,6 +11931,7 @@ paths:
             );
 
             Fsc fsc = new Fsc(true);
+            PrintSpeed printSpeed = new PrintSpeed("core");
 
             SelfMailerEditable selfMailerEditable = new SelfMailerEditable(
               to.ToJson(),  // to
@@ -11875,7 +11946,8 @@ paths:
               "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
               "marketing", // use_type 
               qrCode,
-              fsc
+              fsc,
+              "core" // print_speed
             );
 
             try {
@@ -11908,6 +11980,7 @@ paths:
             selfMailerCreate.SetOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
             selfMailerCreate.SetTo(to)
             selfMailerCreate.SetFsc(true)
+            selfMailerCreate.SetPrintSpeed("core")
 
 
             createdselfMailer, _, err := apiClient.SelfMailersApi.Create(context).SelfMailerEditable(selfMailerCreate).Execute()
@@ -12001,6 +12074,7 @@ paths:
                 use_type: marketing
                 fsc: false
                 color: false
+                sla: '2'
                 object: snap_pack
         default:
           $ref: '#/components/responses/mailpiece_error'
@@ -12360,6 +12434,7 @@ paths:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
               use_type: marketing
+              print_speed: core
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/snap_pack_editable'
@@ -12377,6 +12452,7 @@ paths:
                 name: Harry
               send_date: '2017-11-01T00:00:00.000Z'
               use_type: marketing
+              print_speed: core
       responses:
         '200':
           $ref: '#/components/responses/post_snap_pack'
@@ -12398,7 +12474,8 @@ paths:
               --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
               --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
               -d "merge_variables[name]=Harry" \
-              -d 'fsc=false'
+              -d 'fsc=false' \
+              -d 'print_speed=core'
           label: CURL
         - lang: Typescript
           source: |
@@ -12417,7 +12494,8 @@ paths:
               outside:
               'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/8.5x11_Snappack_template_address.pdf',
               use_type: 'marketing'
-              fsc: false
+              fsc: false,
+              print_speed: 'core'
             });
 
             try {
@@ -12444,7 +12522,8 @@ paths:
                 name: 'Harry'
               },
               use_type: 'marketing'
-              fsc: false
+              fsc: false,
+              print_speed: 'core'
             }, function (err, res) {
               console.log(err, res);
             });
@@ -12468,7 +12547,8 @@ paths:
                 name: "Harry"
               },
               use_type: 'marketing',
-              fsc: true
+              fsc: true,
+              print_speed: "core"
             });
 
             snapPackApi = SnapPacksApi.new(config)
@@ -12498,7 +12578,8 @@ paths:
                 name = "Harry",
               ),
               use_type = "marketing",
-              fsc = true
+              fsc = true,
+              print_speed = "core"
             )
 
             with ApiClient(configuration) as api_client:
@@ -12527,6 +12608,7 @@ paths:
 
             $use_type = "marketing";
             $fsc = true;
+            $print_speed = 'core';
 
             $apiInstance = new OpenAPI\Client\Api\SnapPacksApi($config, new GuzzleHttp\Client());
             $snap_pack_editable = new OpenAPI\Client\Model\SnapPackEditable(
@@ -12538,7 +12620,8 @@ paths:
                 "to"     => $to,
                 "merge_variables"     => $merge_variables,
                 "use_type"    => $use_type,
-                "fsc"  => $fsc
+                "fsc"  => $fsc,
+                "print_speed" => "core"
               )
             );
 
@@ -12572,6 +12655,7 @@ paths:
               SnapPackEditable.setMergeVariables(merge_variables);
               SnapPackEditable.setUseType("marketing");
               SnapPackEditable.setFsc(true);
+              SnapPackEditable.setPrintSpeed("core");
 
 
               SnapPack result = apiInstance.create(SnapPackEditable, null);
@@ -12597,7 +12681,8 @@ paths:
                 name: "Harry"
               },
               use_type: "marketing",
-              fsc: true
+              fsc: true,
+              print_speed: 'core'
             })
           label: ELIXIR
         - lang: CSharp
@@ -12619,6 +12704,7 @@ paths:
             );
 
             Fsc fsc = new Fsc(true);
+            PrintSpeed printSpeed = new PrintSpeed("core");
 
             SnapPackEditable SnapPackEditable = new SnapPackEditable(
               to.ToJson(),  // to
@@ -12632,7 +12718,8 @@ paths:
               "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
               "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
               "marketing", // use_type
-              fsc
+              fsc,
+              "core" // print_speed
             );
 
             try {
@@ -12665,6 +12752,7 @@ paths:
             SnapPackCreate.SetOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
             SnapPackCreate.SetTo(to)
             SnapPackCreate.SetFsc(true)
+            SnapPackCreate.SetPrintSpeed("core")
 
 
             createdSnapPack, _, err := apiClient.SnapPacksApi.Create(context).SnapPackEditable(SnapPackCreate).Execute()
@@ -17035,6 +17123,19 @@ components:
           oneOf:
             - $ref: '#/components/schemas/adr_id'
             - $ref: '#/components/schemas/inline_address'
+    print_speed:
+      type: string
+      enum:
+        - core
+        - rapid
+      description: |
+        A string designating the mail speed type:
+        * `core` - 2 production business days
+        * `rapid` - 1 production business day
+
+        **Note:** This field is feature-flagged. It is only available to customers who have been approved for the feature.
+      default: core
+      nullable: true
     editable:
       type: object
       properties:
@@ -17048,6 +17149,8 @@ components:
           $ref: '#/components/schemas/merge_variables'
         send_date:
           $ref: '#/components/schemas/send_date'
+        print_speed:
+          $ref: '#/components/schemas/print_speed'
     html_string:
       type: string
       description: An HTML string of under 10,000 characters.
@@ -17162,6 +17265,8 @@ components:
               $ref: '#/components/schemas/booklet_pages'
             source_material:
               $ref: '#/components/schemas/booklet_source_material'
+            print_speed:
+              $ref: '#/components/schemas/print_speed'
     buckslip_description:
       type: string
       description: Description of the buckslip.
@@ -18253,6 +18358,8 @@ components:
         auto_cancel_if_ncoa:
           description: Whether or not a mail piece should be automatically canceled and not sent if the address is updated via NCOA.
           type: boolean
+        print_speed:
+          $ref: '#/components/schemas/print_speed'
     cmp_id:
       type: string
       title: Campaign id
@@ -19477,6 +19584,8 @@ components:
               $ref: '#/components/schemas/billing_group_id'
             use_type:
               $ref: '#/components/schemas/chk_use_type'
+            print_speed:
+              $ref: '#/components/schemas/print_speed'
     check_editable:
       oneOf:
         - title: words at check bottom
@@ -20606,6 +20715,8 @@ components:
               default: false
             size:
               $ref: '#/components/schemas/ltr_size'
+            print_speed:
+              $ref: '#/components/schemas/print_speed'
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
@@ -20761,6 +20872,8 @@ components:
               type: boolean
               description: This is in beta. Contact support@lob.com or your account contact to learn more. Not available for `4x6` or `A5` postcard sizes.
               default: false
+            print_speed:
+              $ref: '#/components/schemas/print_speed'
     scans:
       type: object
       properties:
@@ -21066,6 +21179,8 @@ components:
               type: boolean
               description: This is in beta. Contact support@lob.com or your account contact to learn more. Not available for `11x9_bifold` self-mailer size.
               default: false
+            print_speed:
+              $ref: '#/components/schemas/print_speed'
     snap_pack_id:
       type: string
       description: Unique identifier prefixed with `ord_`.
@@ -21217,6 +21332,8 @@ components:
                 - default: false
             qr_code:
               $ref: '#/components/schemas/qr_code'
+            print_speed:
+              $ref: '#/components/schemas/print_speed'
     template_html:
       type: string
       description: |
@@ -22574,6 +22691,7 @@ components:
             send_date: '2021-03-16T18:45:40.493Z'
             use_type: marketing
             fsc: false
+            sla: '2'
             object: booklet
     buckslip_error:
       description: Error
@@ -23061,6 +23179,7 @@ components:
             check_bottom_template_version_id: vrsn_a
             attachment_template_version_id: vrsn_a
             use_type: operational
+            sla: '2'
             deleted: true
     check_canceled:
       description: Deleted
@@ -23514,6 +23633,7 @@ components:
                 object: card
             use_type: marketing
             fsc: false
+            sla: '2'
             object: letter
     postcard_deleted:
       description: Deleted
@@ -23680,6 +23800,7 @@ components:
                 send_date: '2021-03-24T22:51:42.838Z'
                 use_type: marketing
                 fsc: false
+                sla: '2'
                 object: postcard
             full:
               value:
@@ -23741,6 +23862,8 @@ components:
                 send_date: '2021-03-24T22:51:42.838Z'
                 use_type: marketing
                 fsc: false
+                print_speed: core
+                sla: '2'
                 object: postcard
     self_mailer_deleted:
       description: Deleted
@@ -23976,6 +24099,7 @@ components:
             send_date: '2021-03-16T18:45:40.493Z'
             use_type: marketing
             fsc: false
+            sla: '2'
             object: self_mailer
     snap_pack_deleted:
       description: Deleted
@@ -24210,6 +24334,7 @@ components:
             use_type: marketing
             fsc: false
             color: false
+            sla: '2'
             object: snap_pack
     template_error:
       description: Error

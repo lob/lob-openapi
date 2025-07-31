@@ -61,6 +61,7 @@ post:
           name: My Demo Campaign
           description: My Campaign's description
           schedule_type: immediate
+          print_speed: core
 
       application/x-www-form-urlencoded:
         schema:
@@ -73,6 +74,7 @@ post:
           name: My Demo Campaign
           description: My Campaign's description
           schedule_type: immediate
+          print_speed: core
 
       multipart/form-data:
         schema:
@@ -81,6 +83,7 @@ post:
           name: My Demo Campaign
           description: My Campaign's description
           schedule_type: immediate
+          print_speed: core
 
   responses:
     "200":
@@ -97,13 +100,15 @@ post:
         curl https://api.lob.com/v1/campaigns \
           -u <YOUR API KEY>: \
           -d "name=My First Campaign" \
-          -d "schedule_type=immediate"
+          -d "schedule_type=immediate" \
+          -d "print_speed=core"
       label: CURL
     - lang: Ruby
       source: |
         campaignCreate = CampaignWritable.new({
           name: "My First Campaign",
           schedule_type: "immediate",
+          print_speed: "core",
         });
 
         campaignApi = CampaignsApi.new(config)

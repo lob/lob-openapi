@@ -205,6 +205,7 @@ post:
           use_type: operational
           mail_type: usps_first_class
           check_number: 10001
+          print_speed: core
 
       application/x-www-form-urlencoded:
         schema:
@@ -243,6 +244,7 @@ post:
           send_date: "2017-11-01T00:00:00.000Z"
           mail_type: usps_first_class
           check_number: 10001
+          print_speed: core
         encoding:
           to:
             style: deepObject
@@ -295,6 +297,7 @@ post:
           use_type: operational
           mail_type: usps_first_class
           check_number: 10001
+          print_speed: core
         encoding:
           logo:
             contentType: image/png, image/jpeg
@@ -325,7 +328,8 @@ post:
           -d 'memo=rent' \
           --data-urlencode 'logo=https://s3-us-west-2.amazonaws.com/public.lob.com/assets/check_logo.png' \
           --data-urlencode 'check_bottom=<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>' \
-          -d 'merge_variables[name]=Harry'
+          -d 'merge_variables[name]=Harry' \
+          -d 'print_speed=core'
       label: CURL
     - lang: Typescript
       source: |
@@ -341,7 +345,8 @@ post:
         from: 'adr_xxxx',
         bank_account: 'bank_xxxx',
         amount: 100,
-        use_type: 'operational'
+        use_type: 'operational',
+        print_speed: 'core'
         });
 
         try {
@@ -371,7 +376,8 @@ post:
           check_bottom: '<h1 style="padding-top:4in;">Demo Check for {{name}}</h1>',
           merge_variables: {
             name: 'Harry'
-          }
+          },
+          print_speed: 'core'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -397,7 +403,8 @@ post:
           merge_variables: {
             name: "Harry"
           },
-          use_type: "operational"
+          use_type: "operational",
+          print_speed: "core"
         });
 
         checkApi = ChecksApi.new(config)
@@ -429,7 +436,8 @@ post:
           merge_variables = MergeVariables(
             name = "Harry",
           ),
-          use_type = "operational"
+          use_type = "operational",
+          print_speed = "core"
         )
 
         with ApiClient(configuration) as api_client:
@@ -470,7 +478,8 @@ post:
             "from"     => "adr_210a8d4b0b76d77b",
             "to"     => $to,
             "merge_variables"     => $merge_variables,
-            "use_type" => $use_type
+            "use_type" => $use_type,
+            "print_speed" => "core"
           )
         );
 
@@ -506,6 +515,7 @@ post:
           checkEditable.setTo(to);
           checkEditable.setMergeVariables(merge_variables);
           checkEditable.setUseType("operational");
+          checkEditable.setPrintSpeed("core");
 
           Check result = apiInstance.create(checkEditable, null);
         } catch (ApiException e) {
@@ -533,7 +543,8 @@ post:
           merge_variables: %{
             name: 'Harry'
           },
-          use_type: 'operational'
+          use_type: 'operational',
+          print_speed: 'core'
         })
       label: ELIXIR
     - lang: CSharp
@@ -568,7 +579,8 @@ post:
           default(DateTime),  // sendDate
           CheckEditable.MailTypeEnum.UspsFirstClass,  // mailType
           "rent", // memo
-          "operational" // use_type
+          "operational", // use_type
+          "core" // print_speed
         );
 
         try {
@@ -603,6 +615,7 @@ post:
         checkCreate.SetCheckBottom("<h1 style='padding-top:4in;'>Demo Check for {{name}}</h1>")
         checkCreate.SetFrom("adr_210a8d4b0b76d77b")
         checkCreate.SetTo(to)
+        checkCreate.SetPrintSpeed("core")
 
 
         createdcheck, _, err := apiClient.ChecksApi.Create(context).CheckEditable(checkCreate).Execute()

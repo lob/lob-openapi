@@ -186,6 +186,7 @@ post:
             name: Harry
           send_date: "2017-11-01T00:00:00.000Z"
           use_type: marketing
+          print_speed: core
 
       multipart/form-data:
         schema:
@@ -204,6 +205,7 @@ post:
             name: Harry
           send_date: "2017-11-01T00:00:00.000Z"
           use_type: marketing
+          print_speed: core
 
   responses:
     "200":
@@ -228,7 +230,8 @@ post:
           --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
           --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
           -d "merge_variables[name]=Harry" \
-          -d 'fsc=false'
+          -d 'fsc=false' \
+          -d 'print_speed=core'
       label: CURL
     - lang: Typescript
       source: |
@@ -247,7 +250,8 @@ post:
           outside:
           'https://s3.us-west-2.amazonaws.com/public.lob.com/assets/8.5x11_Snappack_template_address.pdf',
           use_type: 'marketing'
-          fsc: false
+          fsc: false,
+          print_speed: 'core'
         });
 
         try {
@@ -274,7 +278,8 @@ post:
             name: 'Harry'
           },
           use_type: 'marketing'
-          fsc: false
+          fsc: false,
+          print_speed: 'core'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -298,7 +303,8 @@ post:
             name: "Harry"
           },
           use_type: 'marketing',
-          fsc: true
+          fsc: true,
+          print_speed: "core"
         });
 
         snapPackApi = SnapPacksApi.new(config)
@@ -328,7 +334,8 @@ post:
             name = "Harry",
           ),
           use_type = "marketing",
-          fsc = true
+          fsc = true,
+          print_speed = "core"
         )
 
         with ApiClient(configuration) as api_client:
@@ -357,6 +364,7 @@ post:
 
         $use_type = "marketing";
         $fsc = true;
+        $print_speed = 'core';
 
         $apiInstance = new OpenAPI\Client\Api\SnapPacksApi($config, new GuzzleHttp\Client());
         $snap_pack_editable = new OpenAPI\Client\Model\SnapPackEditable(
@@ -368,7 +376,8 @@ post:
             "to"     => $to,
             "merge_variables"     => $merge_variables,
             "use_type"    => $use_type,
-            "fsc"  => $fsc
+            "fsc"  => $fsc,
+            "print_speed" => "core"
           )
         );
 
@@ -402,6 +411,7 @@ post:
           SnapPackEditable.setMergeVariables(merge_variables);
           SnapPackEditable.setUseType("marketing");
           SnapPackEditable.setFsc(true);
+          SnapPackEditable.setPrintSpeed("core");
 
 
           SnapPack result = apiInstance.create(SnapPackEditable, null);
@@ -427,7 +437,8 @@ post:
             name: "Harry"
           },
           use_type: "marketing",
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         })
       label: ELIXIR
     - lang: CSharp
@@ -449,6 +460,7 @@ post:
         );
 
         Fsc fsc = new Fsc(true);
+        PrintSpeed printSpeed = new PrintSpeed("core");
 
         SnapPackEditable SnapPackEditable = new SnapPackEditable(
           to.ToJson(),  // to
@@ -462,7 +474,8 @@ post:
           "<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>",  // inside
           "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
           "marketing", // use_type
-          fsc
+          fsc,
+          "core" // print_speed
         );
 
         try {
@@ -495,6 +508,7 @@ post:
         SnapPackCreate.SetOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
         SnapPackCreate.SetTo(to)
         SnapPackCreate.SetFsc(true)
+        SnapPackCreate.SetPrintSpeed("core")
 
 
         createdSnapPack, _, err := apiClient.SnapPacksApi.Create(context).SnapPackEditable(SnapPackCreate).Execute()

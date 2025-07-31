@@ -227,6 +227,7 @@ post:
             right: "2.5"
             pages: "front,back"
           fsc: true
+          print_speed: core
 
       application/x-www-form-urlencoded:
         schema:
@@ -275,6 +276,7 @@ post:
             right: "2.5"
             pages: "back"
           fsc: true
+          print_speed: core
         encoding:
           to:
             style: deepObject
@@ -336,6 +338,7 @@ post:
             left: "2.5"
             pages: "front"
           fsc: true
+          print_speed: core
 
   responses:
     "200":
@@ -367,7 +370,8 @@ post:
           -d 'qr_code[bottom]=2.5' \
           -d 'qr_code[left]=2.5' \
           -d 'qr_code[pages]=front,back' \
-          -d 'fsc=true'
+          -d 'fsc=true' \
+          -d 'print_speed=core'
       label: CURL
     - lang: Typescript
       source: |
@@ -393,7 +397,8 @@ post:
           left: '2.5',
           pages: 'front'
         },
-        fsc: true
+        fsc: true,
+        print_speed: 'core'
         });
 
         try {
@@ -429,7 +434,8 @@ post:
             left: '2.5',
             pages: 'back'
           },
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -452,7 +458,8 @@ post:
           merge_variables: {
             name: "Harry"
           },
-          fsc: true
+          fsc: true,
+          print_speed: "core"
         });
 
         postcardApi = PostcardsApi.new(config)
@@ -490,7 +497,8 @@ post:
             "left" : "2.5",
             "pages" : "front"
           },
-          fsc = true
+          fsc = true,
+          print_speed = "core"
         )
 
         with ApiClient(configuration) as api_client:
@@ -530,6 +538,7 @@ post:
         );
 
         $fsc = true;
+        $print_speed = 'core';
 
         $apiInstance = new OpenAPI\Client\Api\PostcardsApi($config, new GuzzleHttp\Client());
         $postcard_editable = new OpenAPI\Client\Model\PostcardEditable(
@@ -542,7 +551,8 @@ post:
             "merge_variables"   => $merge_variables,
             "use_type" => $use_type,
             "qr_code"   => $qr_code,
-            "fsc" => $fsc
+            "fsc" => $fsc,
+            "print_speed" => "core"
           )
         );
 
@@ -585,6 +595,7 @@ post:
           postcardEditable.setUseType("operational");
           postcardEditable.setQRCode(qrCode);
           postcardEditable.setFsc(true);
+          postcardEditable.setPrintSpeed("core");
 
           Postcard result = apiInstance.create(postcardEditable, null);
         } catch (ApiException e) {
@@ -618,7 +629,8 @@ post:
             left: '2',
             pages: 'front,back'
           },
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         })
       label: ELIXIR
     - lang: CSharp
@@ -651,6 +663,7 @@ post:
         );
 
         Fsc fsc = new Fsc(true);
+        PrintSpeed printSpeed = new PrintSpeed("core");
 
         PostcardEditable postcardEditable = new PostcardEditable(
           to.ToJson(),  // to
@@ -665,7 +678,8 @@ post:
           "<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>", // back
           usetype,
           qrCode,
-          fsc
+          fsc,
+          "core"  // printSpeed
         );
 
         try {
@@ -698,6 +712,7 @@ post:
         postcardCreate.SetBack("<html style='padding: 1in; font-size: 20;'>Back HTML for {{name}}</html>")
         postcardCreate.SetTo(to)
         postcardCreate.SetFsc(true)
+        postcardCreate.SetPrintSpeed("core")
 
 
         createdpostcard, _, err := apiClient.PostcardsApi.Create(context).PostcardEditable(postcardCreate).Execute()

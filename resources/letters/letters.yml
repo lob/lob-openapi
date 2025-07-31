@@ -226,6 +226,7 @@ post:
             right: "2"
             pages: "1-2,4-5"
           fsc: true
+          print_speed: core
 
       application/x-www-form-urlencoded:
         schema:
@@ -276,6 +277,7 @@ post:
             right: "2"
             pages: "1,4"
           fsc: true
+          print_speed: core
         encoding:
           to:
             style: deepObject
@@ -338,7 +340,8 @@ post:
             bottom: "2"
             left: "2"
             pages: "1,3-5"
-          fsc: true
+          fsc: true,
+          print_speed: core
 
   responses:
     "200":
@@ -370,7 +373,8 @@ post:
           -d 'qr_code[bottom]=2' \
           -d 'qr_code[left]=2' \
           -d 'qr_code[pages]=3,4-5' \
-          -d 'fsc=true'
+          -d 'fsc=true' \
+          -d 'print_speed=core'
       label: CURL
     - lang: Typescript
       source: |
@@ -396,7 +400,8 @@ post:
             left: '2',
             pages: '2,5'
           },
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         });
 
         try {
@@ -433,7 +438,8 @@ post:
             left: '2',
             pages: '2,4-5'
           },
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -460,7 +466,8 @@ post:
             "card_c51ae96f5cebf3e",
           ],
           use_type: "marketing",
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         });
 
         letterApi = LettersApi.new(config)
@@ -501,7 +508,8 @@ post:
             "left" : "2",
             "pages" : "1,3"
           },
-          fsc = true
+          fsc = true,
+          print_speed = 'core'
         )
 
         with ApiClient(configuration) as api_client:
@@ -541,6 +549,7 @@ post:
 
         $use_type = "marketing";
         $fsc = true;
+        $print_speed = 'core';
 
         $apiInstance = new OpenAPI\Client\Api\LettersApi($config, new GuzzleHttp\Client());
         $letter_editable = new OpenAPI\Client\Model\LetterEditable(
@@ -558,6 +567,7 @@ post:
             "use_type" => $use_type;
             "qr_code"   => $qr_code,
             "fsc" => $fsc,
+            "print_speed" => $print_speed,
           )
         );
 
@@ -605,6 +615,7 @@ post:
           letterEditable.setUseType("operational");
           letterEditable.setQRCode(qrCode);
           letterEditable.setFsc(true);
+          letterEditable.setPrintSpeed("core");
 
           Letter result = apiInstance.create(letterEditable, null);
         } catch (ApiException e) {
@@ -639,7 +650,8 @@ post:
             left: '2',
             pages: '1-2,5'
           },
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         })
       label: ELIXIR
     - lang: CSharp
@@ -672,6 +684,7 @@ post:
         );
 
         Fsc fsc = new Fsc(true);
+        PrintSpeed printSpeed = new PrintSpeed("core");
 
         List<String> cards = new List<String>();
         cards.Add("card_c51ae96f5cebf3e");
@@ -695,7 +708,8 @@ post:
           cards, // cards
           usetype,
           qrCode,
-          fsc
+          fsc,
+          printSpeed
         );
 
         try {
@@ -728,7 +742,7 @@ post:
         letterCreate.SetColor("true")
         letterCreate.SetTo(to)
         letterCreate.SetFsc(true)
-
+        letterCreate.SetPrintSpeed("core")
 
         createdletter, _, err := apiClient.LettersApi.Create(context).LetterEditable(letterCreate).Execute()
 

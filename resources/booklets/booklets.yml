@@ -95,6 +95,7 @@ post:
             pages: "1-2,4-5"
           fsc: true
           size: "8.375x5.375"
+          print_speed: core
 
       application/x-www-form-urlencoded:
         schema:
@@ -137,6 +138,7 @@ post:
             pages: "1-2,4-5"
           fsc: true
           size: "8.375x5.375"
+          print_speed: core
 
       multipart/form-data:
         schema:
@@ -179,6 +181,7 @@ post:
             pages: "1-2,4-5"
           fsc: true
           size: "8.375x5.375"
+          print_speed: core
 
   responses:
     "200":
@@ -208,7 +211,8 @@ post:
           -d 'qr_code[bottom]=2' \
           -d 'qr_code[left]=2' \
           -d 'qr_code[pages]=3,4-5' \
-          -d 'fsc=true'
+          -d 'fsc=true' \
+          -d 'print_speed=core'
       label: CURL
   #   - lang: Typescript
   #     source: |

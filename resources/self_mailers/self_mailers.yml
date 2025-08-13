@@ -203,6 +203,7 @@ post:
             right: "2.5"
             pages: "inside,outside"
           fsc: true
+          print_speed: core
 
       application/x-www-form-urlencoded:
         schema:
@@ -229,6 +230,7 @@ post:
             right: "2.5"
             pages: "inside,outside"
           fsc: true
+          print_speed: core
         encoding:
           merge_variables:
             style: deepObject
@@ -262,6 +264,7 @@ post:
             right: "2.5"
             pages: "inside,outside"
           fsc: true
+          print_speed: core
 
   responses:
     "200":
@@ -292,7 +295,8 @@ post:
           --data-urlencode "inside=<html style='padding: 1in; font-size: 50;'>Inside HTML for {{name}}</html>" \
           --data-urlencode "outside=<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>" \
           -d "merge_variables[name]=Harry" \
-          -d 'fsc=true'
+          -d 'fsc=true' \
+          -d 'print_speed=core'
       label: CURL
     - lang: Typescript
       source: |
@@ -319,7 +323,8 @@ post:
             left: '2.5',
             pages: 'inside'
           },
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         });
 
         try {
@@ -354,7 +359,8 @@ post:
             left: '2.5',
             pages: 'inside'
           },
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -386,7 +392,8 @@ post:
             left: '2.5',
             pages: 'inside'
           },
-          fsc: true
+          fsc: true,
+          print_speed: "core"
         });
 
         selfMailerApi = SelfMailersApi.new(config)
@@ -424,7 +431,8 @@ post:
             left: "2.5",
             pages: "inside"
           },
-          fsc = true
+          fsc = true,
+          print_speed = "core"
         )
 
         with ApiClient(configuration) as api_client:
@@ -453,6 +461,7 @@ post:
 
         $use_type = "marketing";
         $fsc = true;
+        $print_speed = 'core';
 
         $qr_code = new OpenAPI\Client\Model\QRCode(
           array(
@@ -476,7 +485,8 @@ post:
             "merge_variables"     => $merge_variables,
             "use_type"    => $use_type,
             "qr_code"   => $qr_code,
-            "fsc"  => $fsc
+            "fsc"  => $fsc,
+            "print_speed" => "core"
           )
         );
 
@@ -519,6 +529,7 @@ post:
           selfMailerEditable.setUseType("marketing");
           selfMailerEditable.setQRCode(qrCode);
           selfMailerEditable.setFsc(true);
+          selfMailerEditable.setPrintSpeed("core");
 
 
           SelfMailer result = apiInstance.create(selfMailerEditable, null);
@@ -552,7 +563,8 @@ post:
             left: '2',
             pages: 'inside,outside'
           },
-          fsc: true
+          fsc: true,
+          print_speed: 'core'
         })
       label: ELIXIR
     - lang: CSharp
@@ -583,6 +595,7 @@ post:
         );
 
         Fsc fsc = new Fsc(true);
+        PrintSpeed printSpeed = new PrintSpeed("core");
 
         SelfMailerEditable selfMailerEditable = new SelfMailerEditable(
           to.ToJson(),  // to
@@ -597,7 +610,8 @@ post:
           "<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>", // outside
           "marketing", // use_type 
           qrCode,
-          fsc
+          fsc,
+          "core" // print_speed
         );
 
         try {
@@ -630,6 +644,7 @@ post:
         selfMailerCreate.SetOutside("<html style='padding: 1in; font-size: 20;'>Outside HTML for {{name}}</html>")
         selfMailerCreate.SetTo(to)
         selfMailerCreate.SetFsc(true)
+        selfMailerCreate.SetPrintSpeed("core")
 
 
         createdselfMailer, _, err := apiClient.SelfMailersApi.Create(context).SelfMailerEditable(selfMailerCreate).Execute()

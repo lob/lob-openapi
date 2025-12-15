@@ -20335,6 +20335,10 @@ components:
         object:
           type: string
           description: Value is resource type.
+    mail_sort:
+      type: string
+      description: An optional numeric string used to separate mail into batches. When provided, pieces with the same mail_sort value will be batched together, and pieces with different values will be placed in separate batches. This field is only available for specific accounts and requires the `mail_sort` LaunchDarkly feature flag to be enabled. Contact support@lob.com or your account contact to learn more.
+      nullable: true
     ltr_use_type:
       description: The use type for each mailpiece. Can be one of marketing, operational, or null. Null use_type is only allowed if an account default use_type is selected in Account Settings. For more information on use_type, see our  [Help Center article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
       type: string
@@ -20436,9 +20440,7 @@ components:
             custom_envelope:
               $ref: '#/components/schemas/custom_envelope_returned'
             mail_sort:
-              type: string
-              description: An optional string used to separate mail into batches. When provided, pieces with the same mail_sort value will be batched together, and pieces with different values will be placed in separate batches. This field is only available for specific accounts and requires the `mail_sort` LaunchDarkly feature flag to be enabled. Contact support@lob.com or your account contact to learn more.
-              nullable: true
+              $ref: '#/components/schemas/mail_sort'
         - $ref: '#/components/schemas/letter_generated_base'
     registered:
       allOf:
@@ -20493,9 +20495,7 @@ components:
             custom_envelope:
               $ref: '#/components/schemas/custom_envelope_returned'
             mail_sort:
-              type: string
-              description: An optional string used to separate mail into batches. When provided, pieces with the same mail_sort value will be batched together, and pieces with different values will be placed in separate batches. This field is only available for specific accounts and requires the `mail_sort` LaunchDarkly feature flag to be enabled. Contact support@lob.com or your account contact to learn more.
-              nullable: true
+              $ref: '#/components/schemas/mail_sort'
         - $ref: '#/components/schemas/letter_generated_base'
     tracking_event_details:
       type: object
@@ -20680,9 +20680,7 @@ components:
             custom_envelope:
               $ref: '#/components/schemas/custom_envelope_returned'
             mail_sort:
-              type: string
-              description: An optional string used to separate mail into batches. When provided, pieces with the same mail_sort value will be batched together, and pieces with different values will be placed in separate batches. This field is only available for specific accounts and requires the `mail_sort` LaunchDarkly feature flag to be enabled. Contact support@lob.com or your account contact to learn more.
-              nullable: true
+              $ref: '#/components/schemas/mail_sort'
         - $ref: '#/components/schemas/letter_generated_base'
     letter:
       oneOf:
@@ -20796,9 +20794,7 @@ components:
             print_speed:
               $ref: '#/components/schemas/print_speed'
             mail_sort:
-              type: string
-              description: An optional string used to separate mail into batches. When provided, pieces with the same mail_sort value will be batched together, and pieces with different values will be placed in separate batches. This field is only available for specific accounts and requires the `mail_sort` LaunchDarkly feature flag to be enabled. Contact support@lob.com or your account contact to learn more.
-              nullable: true
+              $ref: '#/components/schemas/mail_sort'
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.

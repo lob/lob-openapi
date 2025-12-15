@@ -76,9 +76,6 @@ allOf:
         $ref: "../attributes/custom_envelope.yml#/returned"
 
       mail_sort:
-        type: string
-        description: >-
-          An optional string used to separate mail into batches. When provided, pieces with the same mail_sort value will be batched together, and pieces with different values will be placed in separate batches. This field is only available for specific accounts and requires the `mail_sort` LaunchDarkly feature flag to be enabled. Contact support@lob.com or your account contact to learn more.
-        nullable: true
+        $ref: "../../../shared/attributes/mail_sort.yml"
 
   - $ref: "letter_generated_base.yml"

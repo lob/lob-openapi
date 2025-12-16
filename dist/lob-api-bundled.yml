@@ -1117,9 +1117,9 @@ tags:
 
       ## Mail Sorting and Batching
 
-      The `mail_sort` field allows you to separate mail into batches for specific use cases, such as the Capital One MAAS (Mail as a Service) program. When provided, pieces with the same `mail_sort` value will be batched together, and pieces with different values will be placed in separate batches. This enables per-dealership USPS 3602 postage statements for MAAS customers.
+      The `mail_sort` field allows you to separate mail into batches for specific use cases. When provided, pieces with the same `mail_sort` value will be batched together, and pieces with different values will be placed in separate batches.
 
-      **Note:** The `mail_sort` field is feature-flagged and requires the `mail_sort` LaunchDarkly feature flag to be enabled. This field is currently available only to specific accounts. If you need access to this feature, please contact support@lob.com or your account contact. Unauthorized usage will result in a validation error.
+      **Note:** The `mail_sort` field is feature-flagged and is currently only available to specific accounts. If you need access to this feature, please contact support@lob.com or your account contact. Unauthorized usage will result in a validation error.
 
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Manage Mail
@@ -20337,7 +20337,7 @@ components:
           description: Value is resource type.
     mail_sort:
       type: string
-      description: An optional numeric string used to separate mail into batches. When provided, pieces with the same mail_sort value will be batched together, and pieces with different values will be placed in separate batches. This field is only available for specific accounts and requires the `mail_sort` LaunchDarkly feature flag to be enabled. Contact support@lob.com or your account contact to learn more.
+      description: An optional numeric string used to separate mail into batches. When provided, pieces with the same mail_sort value are batched together, and pieces with different values are placed in separate batches. This field is available only to specific accounts and is feature-flagged. Contact support@lob.com or your account contact to learn more.
       nullable: true
     ltr_use_type:
       description: The use type for each mailpiece. Can be one of marketing, operational, or null. Null use_type is only allowed if an account default use_type is selected in Account Settings. For more information on use_type, see our  [Help Center article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).

@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.20.8
+  version: 1.20.9
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -1114,6 +1114,13 @@ tags:
     description: |
       The letters endpoint allows you to easily print and mail letters. The API provides endpoints for
       creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
+
+      ## Mail Partitioning and Batching
+
+      The `mail_partition` field allows you to separate mail into batches for specific use cases. When provided, pieces with the same `mail_partition` value will be batched together, and pieces with different values will be placed in separate batches.
+
+      **Note:** The `mail_partition` field is feature-flagged and is currently only available to specific accounts. If you need access to this feature, please contact support@lob.com or your account contact. Unauthorized usage will result in a validation error.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Manage Mail
     x-traitTag: true
@@ -8416,6 +8423,7 @@ paths:
                     object: card
                 use_type: marketing
                 fsc: false
+                mail_partition: '1076'
                 sla: '2'
                 object: letter
         default:
@@ -8816,6 +8824,7 @@ paths:
                 pages: 1-2,4-5
               fsc: true
               print_speed: core
+              mail_partition: '1076'
           application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/letter_editable'
@@ -8866,6 +8875,7 @@ paths:
                 pages: 1,4
               fsc: true
               print_speed: core
+              mail_partition: '1122'
             encoding:
               to:
                 style: deepObject
@@ -20325,6 +20335,10 @@ components:
         object:
           type: string
           description: Value is resource type.
+    mail_partition:
+      type: string
+      description: An optional numeric string used to separate mail into batches. When provided, pieces with the same mail_partition value are batched together, and pieces with different values are placed in separate batches. This field is available only to specific accounts and is feature-flagged. Contact support@lob.com or your account contact to learn more.
+      nullable: true
     ltr_use_type:
       description: The use type for each mailpiece. Can be one of marketing, operational, or null. Null use_type is only allowed if an account default use_type is selected in Account Settings. For more information on use_type, see our  [Help Center article](https://help.lob.com/print-and-mail/building-a-mail-strategy/managing-mail-settings/declaring-mail-use-type).
       type: string
@@ -20425,6 +20439,8 @@ components:
               nullable: true
             custom_envelope:
               $ref: '#/components/schemas/custom_envelope_returned'
+            mail_partition:
+              $ref: '#/components/schemas/mail_partition'
         - $ref: '#/components/schemas/letter_generated_base'
     registered:
       allOf:
@@ -20478,6 +20494,8 @@ components:
               nullable: true
             custom_envelope:
               $ref: '#/components/schemas/custom_envelope_returned'
+            mail_partition:
+              $ref: '#/components/schemas/mail_partition'
         - $ref: '#/components/schemas/letter_generated_base'
     tracking_event_details:
       type: object
@@ -20661,6 +20679,8 @@ components:
               nullable: true
             custom_envelope:
               $ref: '#/components/schemas/custom_envelope_returned'
+            mail_partition:
+              $ref: '#/components/schemas/mail_partition'
         - $ref: '#/components/schemas/letter_generated_base'
     letter:
       oneOf:
@@ -20773,6 +20793,8 @@ components:
               $ref: '#/components/schemas/ltr_size'
             print_speed:
               $ref: '#/components/schemas/print_speed'
+            mail_partition:
+              $ref: '#/components/schemas/mail_partition'
     psc_id:
       type: string
       description: Unique identifier prefixed with `psc_`.
@@ -23517,6 +23539,7 @@ components:
                 send_date: '2019-08-08'
                 use_type: marketing
                 fsc: false
+                mail_partition: '1076'
                 object: letter
               - id: ltr_da8267c6a6545cd6
                 description: Demo Letter
@@ -23689,6 +23712,7 @@ components:
                 object: card
             use_type: marketing
             fsc: false
+            mail_partition: '1076'
             sla: '2'
             object: letter
     postcard_deleted:

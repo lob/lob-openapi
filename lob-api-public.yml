@@ -1112,6 +1112,13 @@ tags:
     description: |
       The letters endpoint allows you to easily print and mail letters. The API provides endpoints for
       creating letters, retrieving individual letters, canceling letters, and retrieving a list of letters.
+
+      ## Mail Partitioning and Batching
+
+      The `mail_partition` field allows you to separate mail into batches for specific use cases. When provided, pieces with the same `mail_partition` value will be batched together, and pieces with different values will be placed in separate batches.
+
+      **Note:** The `mail_partition` field is feature-flagged and is currently only available to specific accounts. If you need access to this feature, please contact support@lob.com or your account contact. Unauthorized usage will result in a validation error.
+
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Manage Mail
     x-traitTag: true

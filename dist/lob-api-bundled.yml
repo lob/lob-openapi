@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Lob
-  version: 1.20.8
+  version: 1.20.9
   description: |
     The Lob API is organized around REST. Our API is designed to have predictable, resource-oriented URLs and uses HTTP response codes to indicate any API errors. <p>
   license:
@@ -1495,6 +1495,10 @@ tags:
         true
         --------------------------7015ebe79c0a5f8c--
       ```
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+  - name: Resource Proofs
+    description: |
+      The resource proofs endpoint allows you to create a final rendering of any template. This is best practice to ensure that you are visually validating your creative before any mail pieces use the template. The API provides endpoints for creating, updating, and retrieving template proofs.
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Reverse Geocode Lookups
     description: |
@@ -11143,6 +11147,133 @@ paths:
                 return err
             }
           label: GO
+  /resource_proofs/{res_prf_id}:
+    parameters:
+      - in: path
+        name: res_prf_id
+        description: id of the resource proof
+        required: true
+        schema:
+          $ref: '#/components/schemas/res_prf_id'
+    get:
+      operationId: resource_proof_retrieve
+      summary: Retrieve
+      description: Retrieves the details of an existing resource proof. You need only supply the unique resource proof identifier.
+      tags:
+        - Resource Proofs
+      responses:
+        '200':
+          description: Returns a resource proof object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resource_proof'
+              example:
+                id: res_prf_example123
+                template_id: null
+                resource_type: postcard
+                status: completed
+                thumbnails:
+                  - small: https://lob-assets.com/resource-proofs/res_prf_example123_thumb_small_1.png
+                    medium: https://lob-assets.com/resource-proofs/res_prf_example123_thumb_medium_1.png
+                    large: https://lob-assets.com/resource-proofs/res_prf_example123_thumb_large_1.png
+                url: https://lob-assets.com/resource-proofs/res_prf_example123.pdf
+                errors: []
+                date_created: '2017-11-07T22:56:10.962Z'
+                date_modified: '2017-11-07T22:56:10.962Z'
+                object: resource_proof
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/resource_proofs/res_prf_example123 \
+              -u <YOUR API KEY>:
+          label: CURL
+    patch:
+      operationId: resource_proof_update
+      summary: Update
+      description: Updates the specified resource proof.
+      tags:
+        - Resource Proofs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/resource_proof_updatable'
+            example:
+              template_id: tmpl_a1234dddg
+      responses:
+        '200':
+          description: Returns an updated resource proof object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resource_proof'
+              example:
+                id: res_prf_example123
+                template_id: null
+                resource_type: postcard
+                status: completed
+                thumbnails:
+                  - small: https://lob-assets.com/resource-proofs/res_prf_example123_thumb_small_1.png
+                    medium: https://lob-assets.com/resource-proofs/res_prf_example123_thumb_medium_1.png
+                    large: https://lob-assets.com/resource-proofs/res_prf_example123_thumb_large_1.png
+                url: https://lob-assets.com/resource-proofs/res_prf_example123.pdf
+                errors: []
+                date_created: '2017-11-07T22:56:10.962Z'
+                date_modified: '2017-11-07T22:56:10.962Z'
+                object: resource_proof
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl -X PATCH https://api.lob.com/v1/resource_proofs/res_prf_example123 \
+              -u <YOUR API KEY>: \
+              -H "Content-Type: application/json" \
+              -d '{"template_id": "tmpl_a1234dddg"}'
+          label: CURL
+  /resource_proofs:
+    post:
+      operationId: resource_proof_create
+      summary: Create
+      description: Creates a new resource proof with the provided properties.
+      tags:
+        - Resource Proofs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/resource_proof_editable'
+            example:
+              resource_type: postcard
+              resource_parameters:
+                front: tmpl_a1234dddg
+                back: tmpl_a1234dddg
+                to: adr_a1234dddg
+      responses:
+        '201':
+          $ref: '#/components/responses/post_resource_proof'
+        default:
+          $ref: '#/components/responses/mailpiece_error'
+      x-codeSamples:
+        - lang: Shell
+          source: |
+            curl https://api.lob.com/v1/resource_proofs \
+              -u <YOUR API KEY>: \
+              -H "Content-Type: application/json" \
+              -d '{
+                "resource_type": "postcard",
+                "resource_parameters": {
+                  "front": "tmpl_a1234dddg",
+                  "back": "tmpl_a1234dddg",
+                  "to": "adr_a1234dddg"
+                }
+              }'
+          label: CURL
   /self_mailers/{sfm_id}:
     parameters:
       - in: path
@@ -15621,6 +15752,51 @@ components:
       type: http
       scheme: basic
   schemas:
+    '0':
+      title: Postcard Resource Proof
+      type: object
+      properties:
+        template_id:
+          type: string
+          nullable: true
+          description: The template ID to associate with the resource proof.
+        resource_type:
+          type: string
+          enum:
+            - postcard
+          description: The type of resource to generate a proof for.
+        resource_parameters:
+          $ref: '#/components/schemas/postcard_resource_parameters'
+    '1':
+      title: Letter Resource Proof
+      type: object
+      properties:
+        template_id:
+          type: string
+          nullable: true
+          description: The template ID to associate with the resource proof.
+        resource_type:
+          type: string
+          enum:
+            - letter
+          description: The type of resource to generate a proof for.
+        resource_parameters:
+          $ref: '#/components/schemas/letter_resource_parameters'
+    '2':
+      title: Self Mailer Resource Proof
+      type: object
+      properties:
+        template_id:
+          type: string
+          nullable: true
+          description: The template ID to associate with the resource proof.
+        resource_type:
+          type: string
+          enum:
+            - self_mailer
+          description: The type of resource to generate a proof for.
+        resource_parameters:
+          $ref: '#/components/schemas/self_mailer_resource_parameters'
     lob_credits_balance:
       type: object
       required:
@@ -21090,6 +21266,240 @@ components:
           type: string
         metadata:
           $ref: '#/components/schemas/metadata'
+    res_prf_id:
+      type: string
+      description: Unique identifier prefixed with `res_prf_`.
+      pattern: ^res_prf_[a-zA-Z0-9]+$
+    res_prf_resource_type:
+      type: string
+      description: The type of resource to generate a proof for.
+      enum:
+        - postcard
+        - letter
+        - self_mailer
+    res_prf_status:
+      type: string
+      description: The processing status of the resource proof.
+      enum:
+        - processing
+        - completed
+        - failed
+    issue_entry:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: A machine-readable error code.
+        message:
+          type: string
+          description: A human-readable description of the issue.
+        urls:
+          type: array
+          description: Relevant URLs for more information.
+          items:
+            type: string
+    resource_proof_base:
+      type: object
+      properties:
+        template_id:
+          type: string
+          nullable: true
+          description: The template ID associated with the resource proof, if any.
+        resource_type:
+          $ref: '#/components/schemas/res_prf_resource_type'
+        status:
+          $ref: '#/components/schemas/res_prf_status'
+        thumbnails:
+          type: array
+          description: Thumbnail images of the resource proof.
+          items:
+            $ref: '#/components/schemas/thumbnail'
+        url:
+          type: string
+          nullable: true
+          description: A URL to the resource proof PDF.
+        errors:
+          type: array
+          description: Errors encountered during processing.
+          items:
+            $ref: '#/components/schemas/issue_entry'
+    resource_proof:
+      allOf:
+        - $ref: '#/components/schemas/resource_proof_base'
+        - type: object
+          required:
+            - id
+            - resource_type
+            - status
+            - thumbnails
+            - errors
+            - date_created
+            - date_modified
+            - object
+          properties:
+            id:
+              $ref: '#/components/schemas/res_prf_id'
+            date_created:
+              $ref: '#/components/schemas/date_created'
+            date_modified:
+              $ref: '#/components/schemas/date_modified'
+            object:
+              type: string
+              description: Value is resource type.
+              default: resource_proof
+    resource_proof_updatable:
+      type: object
+      properties:
+        template_id:
+          type: string
+          nullable: true
+          description: The template ID to associate with the resource proof.
+    postcard_resource_parameters:
+      allOf:
+        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_from_us'
+        - type: object
+          required:
+            - to
+            - front
+            - back
+          properties:
+            size:
+              $ref: '#/components/schemas/postcard_size'
+            merge_variables:
+              $ref: '#/components/schemas/merge_variables'
+            front:
+              $ref: '#/components/schemas/psc_front'
+            back:
+              $ref: '#/components/schemas/psc_back'
+    letter_resource_parameters:
+      allOf:
+        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_from'
+        - type: object
+          required:
+            - to
+            - from
+            - file
+            - color
+          properties:
+            merge_variables:
+              $ref: '#/components/schemas/merge_variables'
+            file:
+              $ref: '#/components/schemas/ltr_file'
+            color:
+              allOf:
+                - $ref: '#/components/schemas/color'
+                - default: false
+            double_sided:
+              $ref: '#/components/schemas/double_sided'
+            address_placement:
+              $ref: '#/components/schemas/address_placement'
+            size:
+              $ref: '#/components/schemas/ltr_size'
+    self_mailer_resource_parameters:
+      allOf:
+        - $ref: '#/components/schemas/input_to'
+        - $ref: '#/components/schemas/input_from_us'
+        - type: object
+          required:
+            - to
+            - inside
+            - outside
+          properties:
+            size:
+              $ref: '#/components/schemas/self_mailer_size'
+            merge_variables:
+              $ref: '#/components/schemas/merge_variables'
+            inside:
+              description: |
+                The artwork to use as the inside of your self mailer.
+
+                Notes:
+                - HTML merge variables should not include delimiting whitespace.
+                - PDF, PNG, and JPGs must be sized at 6"x18" at 300 DPI, while supplied HTML will be rendered to the specified `size`.
+                - Be sure to leave room for address and postage information by following the templates provided here:
+                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/6x18_sfm_bifold_template.pdf" target="_blank">6x18 bifold template</a>
+                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/12x9_sfm_bifold_template.pdf" target="_blank">12x9 bifold template</a>
+                  - <a href="https://s3-us-west-2.amazonaws.com/public.lob.com/assets/templates/self_mailers/17_75x9_trifold_sfm_template.pdf" target="_blank">17.75x9 trifold template</a>
+
+
+                See [here](#section/HTML-Examples) for HTML examples.
+              oneOf:
+                - $ref: '#/components/schemas/html_string'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+            outside:
+              description: |
+                The artwork to use as the outside of your self mailer.
+
+                Notes:
+                - HTML merge variables should not include delimiting whitespace.
+                - PDF, PNG, and JPGs must be sized at 6"x18" at 300 DPI, while supplied HTML will be rendered to the specified `size`.
+
+                See [here](#section/HTML-Examples) for HTML examples.
+              oneOf:
+                - $ref: '#/components/schemas/html_string'
+                - $ref: '#/components/schemas/tmpl_id'
+                - $ref: '#/components/schemas/remote_file_url'
+                - $ref: '#/components/schemas/local_file_path'
+    resource_proof_editable:
+      required:
+        - resource_type
+        - resource_parameters
+      oneOf:
+        - title: Postcard Resource Proof
+          type: object
+          properties:
+            template_id:
+              type: string
+              nullable: true
+              description: The template ID to associate with the resource proof.
+            resource_type:
+              type: string
+              enum:
+                - postcard
+              description: The type of resource to generate a proof for.
+            resource_parameters:
+              $ref: '#/components/schemas/postcard_resource_parameters'
+        - title: Letter Resource Proof
+          type: object
+          properties:
+            template_id:
+              type: string
+              nullable: true
+              description: The template ID to associate with the resource proof.
+            resource_type:
+              type: string
+              enum:
+                - letter
+              description: The type of resource to generate a proof for.
+            resource_parameters:
+              $ref: '#/components/schemas/letter_resource_parameters'
+        - title: Self Mailer Resource Proof
+          type: object
+          properties:
+            template_id:
+              type: string
+              nullable: true
+              description: The template ID to associate with the resource proof.
+            resource_type:
+              type: string
+              enum:
+                - self_mailer
+              description: The type of resource to generate a proof for.
+            resource_parameters:
+              $ref: '#/components/schemas/self_mailer_resource_parameters'
+      discriminator:
+        propertyName: resource_type
+        mapping:
+          postcard: '#/components/schemas/0'
+          letter: '#/components/schemas/1'
+          self_mailer: '#/components/schemas/2'
     sfm_id:
       type: string
       description: Unique identifier prefixed with `sfm_`.
@@ -23921,6 +24331,33 @@ components:
                 print_speed: core
                 sla: '2'
                 object: postcard
+    post_resource_proof:
+      description: Returns a resource proof object
+      headers:
+        ratelimit-limit:
+          $ref: '#/components/headers/ratelimit-limit'
+        ratelimit-remaining:
+          $ref: '#/components/headers/ratelimit-remaining'
+        ratelimit-reset:
+          $ref: '#/components/headers/ratelimit-reset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/resource_proof'
+          example:
+            id: res_prf_example123
+            template_id: null
+            resource_type: postcard
+            status: completed
+            thumbnails:
+              - small: https://lob-assets.com/resource-proofs/res_prf_example123_thumb_small_1.png
+                medium: https://lob-assets.com/resource-proofs/res_prf_example123_thumb_medium_1.png
+                large: https://lob-assets.com/resource-proofs/res_prf_example123_thumb_large_1.png
+            url: https://lob-assets.com/resource-proofs/res_prf_example123.pdf
+            errors: []
+            date_created: '2017-11-07T22:56:10.962Z'
+            date_modified: '2017-11-07T22:56:10.962Z'
+            object: resource_proof
     self_mailer_deleted:
       description: Deleted
       content:
@@ -25093,6 +25530,7 @@ x-tagGroups:
       - Booklets
       - Bank Accounts
       - Templates
+      - Resource Proofs
       - Template Versions
       - Template Design
       - Manage Mail

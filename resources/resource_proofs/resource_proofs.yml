@@ -1,0 +1,46 @@
+post:
+  operationId: resource_proof_create
+
+  summary: Create
+
+  description: >-
+    Creates a new resource proof with the provided properties.
+
+  tags:
+    - Resource Proofs
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/resource_proof_editable.yml"
+        example:
+          resource_type: postcard
+          resource_parameters:
+            front: "tmpl_a1234dddg"
+            back: "tmpl_a1234dddg"
+            to: "adr_a1234dddg"
+
+  responses:
+    "201":
+      $ref: responses/post_resource_proof.yml
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/resource_proofs \
+          -u <YOUR API KEY>: \
+          -H "Content-Type: application/json" \
+          -d '{
+            "resource_type": "postcard",
+            "resource_parameters": {
+              "front": "tmpl_a1234dddg",
+              "back": "tmpl_a1234dddg",
+              "to": "adr_a1234dddg"
+            }
+          }'
+      label: CURL

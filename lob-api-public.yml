@@ -1494,6 +1494,10 @@ tags:
         --------------------------7015ebe79c0a5f8c--
       ```
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
+  - name: Resource Proofs
+    description: |
+      The resource proofs endpoint allows you to create a final rendering of any template. This is best practice to ensure that you are visually validating your creative before any mail pieces use the template. The API provides endpoints for creating, updating, and retrieving template proofs.
+      <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
   - name: Reverse Geocode Lookups
     description: |
       Find a list of zip codes associated with a valid US location via latitude and longitude. <br> <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
@@ -2416,6 +2420,7 @@ x-tagGroups:
       - Booklets
       - Bank Accounts
       - Templates
+      - Resource Proofs
       - Template Versions
       - Template Design
       - Manage Mail
@@ -2563,6 +2568,10 @@ paths:
     $ref: resources/url_shortener/links_id.yml
   /links:
     $ref: resources/url_shortener/links.yml
+  /resource_proofs/{res_prf_id}:
+    $ref: resources/resource_proofs/resource_proof.yml
+  /resource_proofs:
+    $ref: resources/resource_proofs/resource_proofs.yml
   /self_mailers/{sfm_id}:
     $ref: resources/self_mailers/self_mailer.yml
   /self_mailers:

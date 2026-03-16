@@ -1,0 +1,23 @@
+allOf:
+  - $ref: "../../../shared/models/form_factor/input_to.yml"
+  - $ref: "../../../shared/models/form_factor/input_from_us.yml"
+
+  - type: object
+
+    required:
+      - to
+      - front
+      - back
+
+    properties:
+      size:
+        $ref: "../../postcards/attributes/postcard_size.yml"
+
+      merge_variables:
+        $ref: "../../../shared/models/merge_variables.yml"
+
+      front:
+        $ref: "../../postcards/attributes/psc_front.yml"
+
+      back:
+        $ref: "../../postcards/attributes/psc_back.yml"

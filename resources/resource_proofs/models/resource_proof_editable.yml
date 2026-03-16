@@ -1,0 +1,56 @@
+required:
+  - resource_type
+  - resource_parameters
+
+oneOf:
+  - title: Postcard Resource Proof
+    type: object
+    properties:
+      template_id:
+        type: string
+        nullable: true
+        description: The template ID to associate with the resource proof.
+      resource_type:
+        type: string
+        enum:
+          - postcard
+        description: The type of resource to generate a proof for.
+      resource_parameters:
+        $ref: "postcard_resource_parameters.yml"
+
+  - title: Letter Resource Proof
+    type: object
+    properties:
+      template_id:
+        type: string
+        nullable: true
+        description: The template ID to associate with the resource proof.
+      resource_type:
+        type: string
+        enum:
+          - letter
+        description: The type of resource to generate a proof for.
+      resource_parameters:
+        $ref: "letter_resource_parameters.yml"
+
+  - title: Self Mailer Resource Proof
+    type: object
+    properties:
+      template_id:
+        type: string
+        nullable: true
+        description: The template ID to associate with the resource proof.
+      resource_type:
+        type: string
+        enum:
+          - self_mailer
+        description: The type of resource to generate a proof for.
+      resource_parameters:
+        $ref: "self_mailer_resource_parameters.yml"
+
+discriminator:
+  propertyName: resource_type
+  mapping:
+    postcard: "#/oneOf/0"
+    letter: "#/oneOf/1"
+    self_mailer: "#/oneOf/2"

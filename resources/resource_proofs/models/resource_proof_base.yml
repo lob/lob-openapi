@@ -1,0 +1,30 @@
+type: object
+
+properties:
+  template_id:
+    type: string
+    nullable: true
+    description: The template ID associated with the resource proof, if any.
+
+  resource_type:
+    $ref: "../attributes/res_prf_resource_type.yml"
+
+  status:
+    $ref: "../attributes/res_prf_status.yml"
+
+  thumbnails:
+    type: array
+    description: Thumbnail images of the resource proof.
+    items:
+      $ref: "../../../shared/models/thumbnail.yml"
+
+  url:
+    type: string
+    nullable: true
+    description: A URL to the resource proof PDF.
+
+  errors:
+    type: array
+    description: Errors encountered during processing.
+    items:
+      $ref: "issue_entry.yml"

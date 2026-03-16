@@ -1,0 +1,27 @@
+allOf:
+  - $ref: "resource_proof_base.yml"
+
+  - type: object
+    required:
+      - id
+      - resource_type
+      - status
+      - thumbnails
+      - errors
+      - date_created
+      - date_modified
+      - object
+    properties:
+      id:
+        $ref: "../attributes/res_prf_id.yml"
+
+      date_created:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_created"
+
+      date_modified:
+        $ref: "../../../shared/attributes/timestamps.yml#/date_modified"
+
+      object:
+        type: string
+        description: Value is resource type.
+        default: "resource_proof"

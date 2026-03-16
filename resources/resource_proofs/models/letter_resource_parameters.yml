@@ -1,0 +1,32 @@
+allOf:
+  - $ref: "../../../shared/models/form_factor/input_to.yml"
+  - $ref: "../../../shared/models/form_factor/input_from.yml"
+
+  - type: object
+
+    required:
+      - to
+      - from
+      - file
+      - color
+
+    properties:
+      merge_variables:
+        $ref: "../../../shared/models/merge_variables.yml"
+
+      file:
+        $ref: "../../letters/attributes/ltr_file.yml"
+
+      color:
+        allOf:
+          - $ref: "../../letters/attributes/color.yml"
+          - default: false
+
+      double_sided:
+        $ref: "../../letters/attributes/double_sided.yml"
+
+      address_placement:
+        $ref: "../../letters/attributes/address_placement.yml"
+
+      size:
+        $ref: "../../letters/attributes/ltr_size.yml"

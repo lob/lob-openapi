@@ -1,0 +1,73 @@
+parameters:
+  - in: path
+    name: res_prf_id
+    description: id of the resource proof
+    required: true
+    schema:
+      $ref: "attributes/res_prf_id.yml"
+
+get:
+  operationId: resource_proof_retrieve
+
+  summary: Retrieve
+
+  description: >-
+    Retrieves the details of an existing resource proof. You need only supply
+    the unique resource proof identifier.
+
+  tags:
+    - Resource Proofs
+
+  responses:
+    "200":
+      description: Returns a resource proof object
+      content:
+        $ref: "responses/resource_proof.yml"
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl https://api.lob.com/v1/resource_proofs/res_prf_example123 \
+          -u <YOUR API KEY>:
+      label: CURL
+
+patch:
+  operationId: resource_proof_update
+
+  summary: Update
+
+  description: >-
+    Updates the specified resource proof.
+
+  tags:
+    - Resource Proofs
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "models/resource_proof_updatable.yml"
+        example:
+          template_id: "tmpl_a1234dddg"
+
+  responses:
+    "200":
+      description: Returns an updated resource proof object
+      content:
+        $ref: "responses/resource_proof.yml"
+
+    default:
+      $ref: "../../shared/responses/mailpiece_error.yml"
+
+  x-codeSamples:
+    - lang: Shell
+      source: |
+        curl -X PATCH https://api.lob.com/v1/resource_proofs/res_prf_example123 \
+          -u <YOUR API KEY>: \
+          -H "Content-Type: application/json" \
+          -d '{"template_id": "tmpl_a1234dddg"}'
+      label: CURL

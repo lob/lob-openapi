@@ -34,7 +34,7 @@ tags:
       password). One of our test API keys has been filled into all the examples on the page, so you can test out any example right away.
       ```bash
       curl https://api.lob.com/v1/addresses \
-        -u test_0dc8dXXXXXXXXXXXXXXXXXXXXXX5b0cc:
+        -u <YOUR_TEST_API_KEY>:
       ```
       ## API Keys
         Lob authenticates your API requests using your account's API keys.
@@ -1021,7 +1021,7 @@ tags:
       * Launch your terminal and copy/paste a CURL command.
       ```bash
       curl https://api.lob.com/v1/addresses \
-        -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+        -u <YOUR_TEST_API_KEY>:
       ```
       * Download a [Lob SDK](#tag/SDKs-and-Tools) into your favorite IDE (integrated development environment)
 
@@ -1159,7 +1159,7 @@ tags:
 
       ```bash
         curl https://api.lob.com/v1/postcards \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u <YOUR_TEST_API_KEY>: \
           -d "description=Demo Future Postcard" \
           -d "to=adr_bae820679f3f536b" \
           -d "from=adr_210a8d4b0b76d77b" \
@@ -1374,7 +1374,7 @@ tags:
 
       ```bash
         curl https://api.lob.com/v1/postcards \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u <YOUR_TEST_API_KEY>: \
           -H "Idempotency-Key: 026e7634-24d7-486c-a0bb-4a17fd0eebc5" \
           -d "to=adr_bae820679f3f536b" \
           -d "from=adr_210a8d4b0b76d77b" \
@@ -1399,7 +1399,7 @@ tags:
 
       ```bash
         curl https://api.lob.com/v1/postcards \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u <YOUR_TEST_API_KEY>: \
           -d "description=Demo Postcard job" \
           -d "metadata[campaign]=NEWYORK2015" \
           -d "to=adr_bae820679f3f536b" \
@@ -1413,7 +1413,7 @@ tags:
 
       ```bash
         curl -g "https://api.lob.com/v1/postcards?metadata[campaign]=NEWYORK2015&limit=2" \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          -u <YOUR_TEST_API_KEY>:
       ```
       <br>
       <div class="back-to-top" ><a href="#" onclick="toTopLink()">back to top</a></div>
@@ -1547,7 +1547,7 @@ tags:
       ### Example Create Request using HTML Templates
       ```bash
         curl https://api.lob.com/v1/postcards \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u <YOUR_TEST_API_KEY>: \
           -d "description=Demo Postcard job" \
           -d "to=adr_78c304d54912c502" \
           -d "from=adr_61a0865c8c573139" \
@@ -2358,7 +2358,7 @@ tags:
 
       ```bash
         curl https://api.lob.com/v1/addresses \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u <YOUR_TEST_API_KEY>: \
           -H "Lob-Version: 2020-02-11"
       ```
 

@@ -28,7 +28,7 @@ get:
     - lang: Shell
       source: |
         curl -X GET "https://api.lob.com/v1/bank_accounts?limit=2" \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          -u <YOUR_TEST_API_KEY>:
       label: CURL
     - lang: Typescript
       source: |
@@ -201,7 +201,7 @@ post:
     - lang: Shell
       source: |
         curl https://api.lob.com/v1/bank_accounts \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u <YOUR_TEST_API_KEY>: \
           -d "description=Test Bank Account" \
           -d "routing_number=322271627" \
           -d "account_number=123456789" \

@@ -28,7 +28,7 @@ get:
     - lang: Shell
       source: |
         curl -X GET "https://api.lob.com/v1/templates?limit=2" \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc:
+          -u <YOUR_TEST_API_KEY>:
       label: CURL
     - lang: Typescript
       source: |
@@ -202,7 +202,7 @@ post:
     - lang: Shell
       source: |
         curl https://api.lob.com/v1/templates \
-          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -u <YOUR_TEST_API_KEY>: \
           -d "description=Test Template" \
           --data-urlencode "html=<html>HTML for {{name}}</html>"
       label: CURL

@@ -1,6 +1,26 @@
 # Mock server: Prism
 
-This file documents **Prism**, the HTTP mock server engine used by the `api-mocker` service defined in the [`Dockerfile`](Dockerfile).
+This file documents **Prism**, the HTTP mock server engine used to power the `api-mocker` service defined in the [`Dockerfile`](Dockerfile).
+
+The idea is for other Lob teams to simply run this Docker container to emulate Lob API responses locally and be able to test components in an isolated fashion without the need of an actual integrated environment, such as Staging.
+
+---
+
+## Building the `lob/api-mocker:local` Docker image
+
+The Docker image is maintained in on the branch **`platform/local-api-mocking-server`**. That branch contains a Dockerfile. At a high level, it installs `@stoplight/prism-cli`, copies the repository into `/openapi`, exposes port **4010**, and runs:
+
+`prism mock -h 0.0.0.0 /openapi/lob-api-public.yml`
+
+Using **`-h 0.0.0.0`** is required so the mock listens on all interfaces inside the container; binding only to `localhost` would make the service unreachable from other Docker containers (see the [Prism overview FAQ](https://docs.stoplight.io/docs/prism/674b27b261c3c-prism-overview)).
+
+From a clone of lob-openapi:
+
+```bash
+git fetch origin platform/local-api-mocking-server
+git checkout platform/local-api-mocking-server
+docker build -t lob/api-mocker:local .
+```
 
 ---
 

@@ -7,8 +7,8 @@ oneOf:
     properties:
       amounts:
         description: >-
-          In live mode, an array containing the two micro deposits (in cents)
-          placed in the bank account. In test mode, no micro deposits will be
+          In live mode, an array containing the two microdeposit amounts (in cents)
+          placed in the bank account. In test mode, no microdeposits will be
           placed, so any two integers between `1` and `100` will work.
         type: array
         minItems: 2
@@ -25,8 +25,7 @@ oneOf:
       descriptor_code:
         description: >-
           The 6-character code (beginning with `SM`) found in the statement
-          descriptor of the micro deposit Stripe placed in the bank account.
-          Used when `microdeposit_type` is `descriptor_code`.
+          descriptor of the $0.01 microdeposit placed in the bank account.
         type: string
         minLength: 6
         maxLength: 6

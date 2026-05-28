@@ -1,6 +1,7 @@
 oneOf:
   - title: BankAccountVerifyAmounts
     type: object
+    additionalProperties: false
     required:
       - amounts
     properties:
@@ -17,6 +18,7 @@ oneOf:
 
   - title: BankAccountVerifyDescriptorCode
     type: object
+    additionalProperties: false
     required:
       - descriptor_code
     properties:
@@ -28,4 +30,4 @@ oneOf:
         type: string
         minLength: 6
         maxLength: 6
-        pattern: "^SM[A-Z0-9]{4}$"
+        pattern: "^[Ss][Mm][A-Za-z0-9]{4}$"

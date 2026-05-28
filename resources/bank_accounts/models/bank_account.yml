@@ -36,13 +36,13 @@ allOf:
 
       microdeposit_type:
         description: >-
-          The type of micro deposit verification required for this bank account.
-          Present only while the account is unverified. Use this value to
-          determine which field to submit to `POST /v1/bank_accounts/:id/verify`:
-          `amounts` (an array of two integers) or `descriptor_code` (the 6-character
-          code from the bank statement). Defaults to `amounts` for bank accounts
-          created before this field was introduced.
+          The type of microdeposit verification required for this bank account.
+          Always present when `verified` is `false`; `null` once the account is
+          verified. Use this value to determine which field to submit to
+          `POST /v1/bank_accounts/:id/verify`: `amounts` (an array of two integers)
+          or `descriptor_code` (the 6-character code from the bank statement).
         type: string
+        nullable: true
         enum:
           - amounts
           - descriptor_code

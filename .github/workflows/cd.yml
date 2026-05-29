@@ -12,6 +12,11 @@ jobs:
         with:
           token: ${{ secrets.LOBOT_TOKEN }}
 
+      - name: Use .node-version Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+
       - name: bundle
         uses: hilary/openapi-cli-bundle-action@v0.0.2
         with:
@@ -35,5 +40,5 @@ jobs:
 
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        run: echo "branch=${GITHUB_REF#refs/heads/}" >> "$GITHUB_OUTPUT"
         id: extract_branch

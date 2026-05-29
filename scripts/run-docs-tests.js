@@ -9,23 +9,23 @@ const { spawn, spawnSync } = require("child_process");
 const root = path.resolve(__dirname, "..");
 const docsRoot = fs.mkdtempSync(path.join(os.tmpdir(), "lob-openapi-docs-"));
 const docsFile = path.join(docsRoot, "index.html");
-const publicAssetRoots = [
-  { requestPrefix: "/docs/chunks/", directory: path.join(root, "docs/chunks") },
-  { requestPrefix: "/docs/js/", directory: path.join(root, "docs/js") },
-];
+// Keep this list closed so request paths never become filesystem paths.
+const publicFiles = new Map([
+  ["/docs/index.html", docsFile],
+  ["/docs/chunks/bundle.js", path.join(root, "docs/chunks/bundle.js")],
+  [
+    "/docs/chunks/styles.min.css",
+    path.join(root, "docs/chunks/styles.min.css"),
+  ],
+  [
+    "/docs/js/determine_widget.js",
+    path.join(root, "docs/js/determine_widget.js"),
+  ],
+  ["/docs/js/map_old_links.js", path.join(root, "docs/js/map_old_links.js")],
+]);
 
 const cleanup = () => {
   fs.rmSync(docsRoot, { recursive: true, force: true });
-};
-
-const isPathWithin = (parent, child) => {
-  const relativePath = path.relative(parent, child);
-
-  return (
-    relativePath &&
-    !relativePath.startsWith("..") &&
-    !path.isAbsolute(relativePath)
-  );
 };
 
 const contentTypes = {
@@ -41,32 +41,13 @@ const contentTypes = {
 };
 
 const server = http.createServer((request, response) => {
-  const requestPath = decodeURIComponent(
-    new URL(request.url, "http://127.0.0.1").pathname
-  );
-  const isGeneratedDocs = requestPath === "/docs/index.html";
-  const assetRoot = publicAssetRoots.find(({ requestPrefix }) =>
-    requestPath.startsWith(requestPrefix)
-  );
-  let filePath = null;
+  const requestPath = new URL(request.url, "http://127.0.0.1").pathname;
+  const filePath = publicFiles.get(requestPath);
 
-  if (isGeneratedDocs) {
-    filePath = docsFile;
-  } else if (assetRoot) {
-    filePath = path.join(root, requestPath);
-  }
-
-  if (
-    !filePath ||
-    (assetRoot && !isPathWithin(assetRoot.directory, filePath))
-  ) {
+  if (!filePath) {
     response.writeHead(403);
     response.end("Forbidden");
     return;
-  }
-
-  if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
-    filePath = path.join(filePath, "index.html");
   }
 
   fs.readFile(filePath, (error, content) => {

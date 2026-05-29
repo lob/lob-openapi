@@ -62,13 +62,13 @@
     "mock": "prism mock $npm_package_config_--dynamic $npm_package_config_specfile",
     "singleTest": "func() { ava --timeout=55s ./tests/\"$1\"_test.js; }; func",
     "pergoalie": "node actions/contract_tests/goalieruns.js",
-    "postinstall": "husky install && npx patch-package",
+    "postinstall": "husky install",
     "postman": "npm run bundle && openapi2postmanv2 --pretty --spec dist/$npm_package_config_bundlefile --output dist/$npm_package_config_postmanfile -O folderStrategy=Tags",
     "pretty": "prettier --write .",
     "pretty-one": "prettier --write \"$1\".js",
     "pretty:check": "prettier --check .",
     "proxy": "prism proxy --errors $npm_package_config_specfile https://api.lob.com/v1",
-    "redoc": "redoc-cli build $npm_package_config_specfile -t actions/redoc/template.hbs --templateOptions.segmentKey=0ysbW8vXHeRAnY2saZPMlRSZFfPwd1RO --templateOptions.SUPPORT_URL=https://support.lob.com/hc/en-us --templateOptions.LOB_ASSETS_URL=https://s3-us-west-2.amazonaws.com/public.lob.com --templateOptions.canonicalUrl=https://docs.lob.com/ --templateOptions.keywords=\"Direct Mail, Address Verification\" --templateOptions.description=\"Detailed developer documentation for Lob's address verification API and print & mail API. Learn how to easily integrate Lob's APIs within your product or technology stack.\" --templateOptions.LOB_URL=https://lob.com --templateOptions.image=https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/lob-logo.svg --templateOptions.DASHBOARD_URL=https://dashboard.lob.com/# --templateOptions.HELP_URL=https://help.lob.com/ --templateOptions.LOB_BACKUP_ASSETS_URL=https://assets-global.website-files.com/5e1e5c62fa3d4447af417098/ --options=docs/redocOptions.json --title=\"Lob API documentation\" -o docs/index.html",
+    "redoc": "redocly build-docs $npm_package_config_specfile --config .redocly.yaml -t actions/redoc/template.hbs --templateOptions.segmentKey=0ysbW8vXHeRAnY2saZPMlRSZFfPwd1RO --templateOptions.SUPPORT_URL=https://support.lob.com/hc/en-us --templateOptions.LOB_ASSETS_URL=https://s3-us-west-2.amazonaws.com/public.lob.com --templateOptions.canonicalUrl=https://docs.lob.com/ --templateOptions.keywords=\"Direct Mail, Address Verification\" --templateOptions.description=\"Detailed developer documentation for Lob's address verification API and print & mail API. Learn how to easily integrate Lob's APIs within your product or technology stack.\" --templateOptions.LOB_URL=https://lob.com --templateOptions.image=https://s3-us-west-2.amazonaws.com/public.lob.com/dashboard/navbar/lob-logo.svg --templateOptions.DASHBOARD_URL=https://dashboard.lob.com/# --templateOptions.HELP_URL=https://help.lob.com/ --templateOptions.LOB_BACKUP_ASSETS_URL=https://assets-global.website-files.com/5e1e5c62fa3d4447af417098/ --title=\"Lob API documentation\" -o docs/index.html",
     "spectral": "spectral lint lob-api-public.yml --fail-severity=error --display-only-failures",
     "spectral-warn": "spectral lint lob-api-public.yml --fail-severity=warn --display-only-failures",
     "start:dev-server": "webpack serve --open",
@@ -91,6 +91,7 @@
   "devDependencies": {
     "@actions/core": "^1.8.2",
     "@ava/babel": "^2.0.0",
+    "@redocly/cli": "^2.31.5",
     "@slack/web-api": "^6.7.1",
     "@stoplight/prism-cli": "^4.10.0",
     "@stoplight/spectral-cli": "^6.4.1",
@@ -105,7 +106,6 @@
     "mini-css-extract-plugin": "^2.6.0",
     "openapi-to-postmanv2": "^3.2.0",
     "prettier": "^2.6.2",
-    "redoc-cli": "^0.13.16",
     "sass": "^1.52.1",
     "sass-loader": "^13.0.0",
     "uuid": "^8.3.2",
@@ -114,9 +114,5 @@
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^4.9.0",
     "yaml": "^2.3.4"
-  },
-  "dependencies": {
-    "@redocly/cli": "^1.0.0-beta.102",
-    "patch-package": "^6.4.7"
   }
 }

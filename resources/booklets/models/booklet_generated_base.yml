@@ -51,9 +51,10 @@ allOf:
         $ref: "../attributes/booklet_source_material.yml"
 
       failure_reason:
+        type: object
+        nullable: true
         allOf:
           - $ref: "../../../shared/models/failure_reason/failure_reason.yml"
-          - nullable: true
 
       object:
         type: string

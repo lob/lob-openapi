@@ -74,9 +74,10 @@ allOf:
         $ref: "../../../shared/attributes/campaign_id.yml"
 
       failure_reason:
+        type: object
+        nullable: true
         allOf:
           - $ref: "../../../shared/models/failure_reason/failure_reason.yml"
-          - nullable: true
 
       color:
         $ref: "../attributes/color.yml"

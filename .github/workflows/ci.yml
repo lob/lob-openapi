@@ -13,6 +13,11 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: Use .node-version Node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+
       - name: am I pretty?
         shell: bash
         run: |

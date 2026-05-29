@@ -188,19 +188,19 @@ post:
             company: "Lob"
             email: "harry@lob.com"
             phone: "5555555555"
-            address_line1: "210 King St"
+            address_line1: "42 Example Rd"
             address_line2: "# 6100"
-            address_city: "San Francisco"
-            address_state: "CA"
-            address_zip: "94107"
+            address_city: "Anytown"
+            address_state: "MA"
+            address_zip: "02134"
             address_country: "US"
           from:
             name: Harry
-            address_line1: 210 King St
+            address_line1: 42 Example Rd
             address_line2: "# 6100"
-            address_city: San Francisco
-            address_state: CA
-            address_zip: "94107"
+            address_city: Anytown
+            address_state: MA
+            address_zip: "02134"
           file: "<html style='padding-top: 3in; margin: .5in;'>HTML Letter for {{name}}</html>"
           color: true
           cards:
@@ -357,11 +357,11 @@ post:
           -u YOUR_API_KEY \
           -d 'description=Demo Letter' \
           -d 'to[name]=Harry Zhang' \
-          -d 'to[address_line1]=210 King St' \
+          -d 'to[address_line1]=42 Example Rd' \
           -d 'to[address_line2]=# 6100' \
-          -d 'to[address_city]=San Francisco' \
-          -d 'to[address_state]=CA' \
-          -d 'to[address_zip]=94107' \
+          -d 'to[address_city]=Anytown' \
+          -d 'to[address_state]=MA' \
+          -d 'to[address_zip]=02134' \
           -d 'from=adr_210a8d4b0b76d77b' \
           --data-urlencode 'file=<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>' \
           -d 'merge_variables[name]=Harry' \
@@ -381,11 +381,11 @@ post:
         const letterCreate = new LetterEditable({
           to: {
             name: 'Harry Zhang',
-            address_line1: '210 King St',
+            address_line1: '42 Example Rd',
             address_line2: '# 6100',
-            address_city: 'San Francisco',
-            address_state: 'CA',
-            address_zip: '94107'
+            address_city: 'Anytown',
+            address_state: 'MA',
+            address_zip: '02134'
           },
           from: 'adr_xxxx',
           color: true,
@@ -416,11 +416,11 @@ post:
           description: 'Demo Letter',
           to: {
             name: 'Harry Zhang',
-            address_line1: '210 King St',
+            address_line1: '42 Example Rd',
             address_line2: '# 6100',
-            address_city: 'San Francisco',
-            address_state: 'CA',
-            address_zip: '94107'
+            address_city: 'Anytown',
+            address_state: 'MA',
+            address_zip: '02134'
           },
           from: 'adr_210a8d4b0b76d77b',
           file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
@@ -453,11 +453,11 @@ post:
           color: "true",
           to: AddressEditable.new({
             name: "Harry Zhang",
-            address_line1: "210 King St",
+            address_line1: "42 Example Rd",
             address_line2: "# 6100",
-            address_city: "San Francisco",
-            address_state: "CA",
-            address_zip: "94107",
+            address_city: "Anytown",
+            address_state: "MA",
+            address_zip: "02134",
           }),
           merge_variables: {
             name: "Harry"
@@ -487,11 +487,11 @@ post:
           color = True,
           to = AddressEditable(
             name = "Harry Zhang",
-            address_line1 = "210 King St",
+            address_line1 = "42 Example Rd",
             address_line2 = "# 6100",
-            address_city = "San Francisco",
-            address_state = "CA",
-            address_zip = "94107",
+            address_city = "Anytown",
+            address_state = "MA",
+            address_zip = "02134",
           ),
           merge_variables = MergeVariables(
             name = "Harry",
@@ -525,11 +525,11 @@ post:
         $to = new OpenAPI\Client\Model\AddressEditable(
           array(
             "name"     => "Harry Zhang",
-            "address_line1"     => "210 King St",
+            "address_line1"     => "42 Example Rd",
             "address_line2"     => "# 6100",
-            "address_city"     => "San Francisco",
-            "address_state"     => "CA",
-            "address_zip"     => "94107",
+            "address_city"     => "Anytown",
+            "address_state"     => "MA",
+            "address_zip"     => "02134",
           )
         );
 
@@ -585,11 +585,11 @@ post:
 
         AddressEditable to = new AddressEditable();
         to.setName("Harry Zhang");
-        to.setAddressLine1("210 King St");
+        to.setAddressLine1("42 Example Rd");
         to.setAddressLine2("# 6100");
-        to.setAddressCity("San Francisco");
-        to.setAddressState("CA");
-        to.setAddressZip("94107");
+        to.setAddressCity("Anytown");
+        to.setAddressState("MA");
+        to.setAddressZip("02134");
 
         QRCode qrCode = new QRCode();
         qrCode.setPosition("relative");
@@ -628,11 +628,11 @@ post:
           description: 'Demo Letter',
           to: %{
             name: 'Harry Zhang',
-            address_line1: '210 King St',
+            address_line1: '42 Example Rd',
             address_line2: '# 6100',
-            address_city: 'San Francisco',
-            address_state: 'CA',
-            address_zip: '94107'
+            address_city: 'Anytown',
+            address_state: 'MA',
+            address_zip: '02134'
           },
           from: 'adr_210a8d4b0b76d77b',
           file: '<html style="padding-top: 3in; margin: .5in;">HTML Letter for {{name}}</html>',
@@ -662,11 +662,11 @@ post:
         LettersApi api = new LettersApi(config);
 
         AddressEditable to = new AddressEditable(
-          "210 King St",  // addressLine1
+          "42 Example Rd",  // addressLine1
           "# 6100",  // addressLine2
-          "San Francisco",  // addressCity
-          "CA",  // addressState
-          "94107",  // addressZip
+          "Anytown",  // addressCity
+          "MA",  // addressState
+          "02134",  // addressZip
           default(CountryExtended),  // addressCounty
           null,  // description
           "Harry Zhang" // name
@@ -726,11 +726,11 @@ post:
         var apiClient = *lob.NewAPIClient(configuration)
 
         var to = *lob.NewAddressEditable()
-        to.SetAddressLine1("210 King St")
+        to.SetAddressLine1("42 Example Rd")
         to.SetAddressLine2("# 6100")
-        to.SetAddressCity("San Francisco")
-        to.SetAddressState("CA")
-        to.SetAddressZip("94107")
+        to.SetAddressCity("Anytown")
+        to.SetAddressState("MA")
+        to.SetAddressZip("02134")
         to.SetAddressCountry(lob.COUNTRYEXTENDED_US)
         to.SetDescription("")
         to.SetName("Harry Zhang")

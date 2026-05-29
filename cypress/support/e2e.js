@@ -18,13 +18,3 @@ import "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-
-// The Redoc search index (lunr.js) throws "Out of order word insertion" as an
-// unhandled promise rejection when building its client-side index. This is a
-// known lunr issue with the word ordering in the generated index and does not
-// affect page functionality or any assertion made by these tests.
-Cypress.on("uncaught:exception", (err) => {
-  if (err.message.includes("Out of order word insertion")) {
-    return false;
-  }
-});

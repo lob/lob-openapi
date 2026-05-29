@@ -1,4 +1,4 @@
-FROM node:24-alpine
+FROM node:24.15.0-alpine
 
 # Copy code file from action repository to "/" in the container
 COPY entrypoint.sh /entrypoint.sh

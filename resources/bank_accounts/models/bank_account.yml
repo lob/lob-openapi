@@ -34,6 +34,19 @@ allOf:
         type: boolean
         default: false
 
+      microdeposit_type:
+        description: >-
+          The type of microdeposit verification required for this bank account.
+          Always present when `verified` is `false`; `null` once the account is
+          verified. Use this value to determine which field to submit to
+          `POST /v1/bank_accounts/:id/verify`: `amounts` (an array of two integers)
+          or `descriptor_code` (the 6-character code from the bank statement).
+        type: string
+        nullable: true
+        enum:
+          - amounts
+          - descriptor_code
+
       object:
         type: string
         description: Value is resource type.
@@ -45,14 +58,15 @@ example:
   id: bank_a
   signature_url: https://lob-assets.com/bank-accounts/asd_asdfghjkqwertyui.pdf?expires=1234567890&signature=aksdf
   bank_name: JPMORGAN CHASE BANK
-  verified: true
+  verified: false
+  microdeposit_type: amounts
   object: bank_account
   description: "Test Bank Account"
   routing_number: "322271627"
   account_number: "123456789"
   signatory: "Jane Doe"
   account_type: "individual"
-  metadat:
+  metadata:
     spiffy: "true"
   date_created: "2019-08-08T19:34:47.571Z"
   date_modified: "2019-08-08T19:34:47.571Z"

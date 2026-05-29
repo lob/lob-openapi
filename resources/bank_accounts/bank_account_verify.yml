@@ -11,7 +11,22 @@ post:
 
   summary: Verify
 
-  description: Verify a bank account in order to create a check.
+  description: >-
+    Verify a bank account in order to create a check.
+
+
+    Check the `microdeposit_type` field returned by `GET /v1/bank_accounts/:id`
+    to determine which parameter to submit:
+
+    - `amounts` — provide the two microdeposit amounts (in cents) that appeared
+      in the bank account statement.
+
+    - `descriptor_code` — provide the 6-character code (beginning with `SM`)
+      from the bank statement descriptor of the single $0.01 microdeposit.
+
+
+    Submitting the wrong parameter type for the account's `microdeposit_type`
+    will return an error.
 
   tags:
     - Bank Accounts
@@ -22,26 +37,47 @@ post:
       application/json:
         schema:
           $ref: "models/bank_account_verify.yml"
-        example:
+        examples:
           amounts:
-            - 1
-            - 100
+            summary: Verify with two deposit amounts
+            value:
+              amounts:
+                - 25
+                - 63
+          descriptor_code:
+            summary: Verify with a statement descriptor code
+            value:
+              descriptor_code: SMABCD
 
       application/x-www-form-urlencoded:
         schema:
           $ref: "models/bank_account_verify.yml"
-        example:
+        examples:
           amounts:
-            - 1
-            - 100
+            summary: Verify with two deposit amounts
+            value:
+              amounts:
+                - 25
+                - 63
+          descriptor_code:
+            summary: Verify with a statement descriptor code
+            value:
+              descriptor_code: SMABCD
 
       multipart/form-data:
         schema:
           $ref: "models/bank_account_verify.yml"
-        example:
+        examples:
           amounts:
-            - 1
-            - 100
+            summary: Verify with two deposit amounts
+            value:
+              amounts:
+                - 25
+                - 63
+          descriptor_code:
+            summary: Verify with a statement descriptor code
+            value:
+              descriptor_code: SMABCD
 
   responses:
     "200":
@@ -53,16 +89,32 @@ post:
   x-codeSamples:
     - lang: Shell
       source: |
+        # Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        # microdeposit_type: amounts
         curl https://api.lob.com/v1/bank_accounts/bank_dfceb4a2a05b57e/verify \
           -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
           -d "amounts[]=25" \
           -d "amounts[]=63"
+
+        # microdeposit_type: descriptor_code
+        curl https://api.lob.com/v1/bank_accounts/bank_dfceb4a2a05b57e/verify \
+          -u test_0dc8d51e0acffcb1880e0f19c79b2f5b0cc: \
+          -d "descriptor_code=SMABCD"
       label: CURL
     - lang: Typescript
       source: |
+        // Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        // microdeposit_type: amounts
         const verificationData = new BankAccountVerify({
-          amounts: [11, 35],
+          amounts: [25, 63],
         });
+
+        // microdeposit_type: descriptor_code
+        // const verificationData = new BankAccountVerify({
+        //   descriptor_code: 'SMABCD',
+        // });
 
         try {
           const verifiedAccount = await new BankAccountsApi(config).verify('bank_xxxx', verificationData);
@@ -72,20 +124,35 @@ post:
       label: TYPESCRIPT
     - lang: Javascript
       source: |
+        // Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        // microdeposit_type: amounts
         Lob.bankAccounts.verify('bank_dfceb4a2a05b57e', {
           amounts: [25, 63]
         }, function (err, res) {
           console.log(err, res);
         });
+
+        // microdeposit_type: descriptor_code
+        // Lob.bankAccounts.verify('bank_dfceb4a2a05b57e', {
+        //   descriptor_code: 'SMABCD'
+        // }, function (err, res) {
+        //   console.log(err, res);
+        // });
       label: NODE
     - lang: Ruby
       source: |
+        # Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        # microdeposit_type: amounts
         verificationData = BankAccountVerify.new({
-          amounts: [
-            25,
-            63,
-          ],
+          amounts: [25, 63],
         })
+
+        # microdeposit_type: descriptor_code
+        # verificationData = BankAccountVerify.new({
+        #   descriptor_code: 'SMABCD',
+        # })
 
         bankAccountsApi = BankAccountsApi.new(config)
 
@@ -97,12 +164,17 @@ post:
       label: RUBY
     - lang: Python
       source: |
+        # Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        # microdeposit_type: amounts
         verification_data = BankAccountVerify(
-          amounts = [
-            25,
-            63,
-          ],
+          amounts=[25, 63],
         )
+
+        # microdeposit_type: descriptor_code
+        # verification_data = BankAccountVerify(
+        #   descriptor_code='SMABCD',
+        # )
 
         with ApiClient(configuration) as api_client:
           api = BankAccountsApi(api_client)
@@ -116,11 +188,15 @@ post:
       source: |
         $apiInstance = new OpenAPI\Client\Api\BankAccountsApi($config, new GuzzleHttp\Client());
 
+        // Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        // microdeposit_type: amounts
         $bankVerify = new OpenAPI\Client\Model\BankAccountVerify();
-        $bankVerify->setAmounts([
-          25,
-          63,
-        ]);
+        $bankVerify->setAmounts([25, 63]);
+
+        // microdeposit_type: descriptor_code
+        // $bankVerify = new OpenAPI\Client\Model\BankAccountVerify();
+        // $bankVerify->setDescriptorCode('SMABCD');
 
         try {
             $result = $apiInstance->verify(
@@ -131,9 +207,16 @@ post:
         }
     - lang: Java
       source: |
+        // Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        // microdeposit_type: amounts
         BankAccountVerify verification = new BankAccountVerify();
         verification.addAmountsItem(25);
         verification.addAmountsItem(63);
+
+        // microdeposit_type: descriptor_code
+        // BankAccountVerify verification = new BankAccountVerify();
+        // verification.setDescriptorCode("SMABCD");
 
         BankAccountsApi apiInstance = new BankAccountsApi(config);
 
@@ -145,15 +228,27 @@ post:
       label: JAVA
     - lang: Elixir
       source: |
+        # Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        # microdeposit_type: amounts
         Lob.BankAccount.verify("bank_dfceb4a2a05b57e", %{amounts: [25, 63]})
+
+        # microdeposit_type: descriptor_code
+        # Lob.BankAccount.verify("bank_dfceb4a2a05b57e", %{descriptor_code: "SMABCD"})
       label: ELIXIR
     - lang: CSharp
       source: |
+        // Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        // microdeposit_type: amounts
         List<int> amounts = new List<int>();
         amounts.Add(25);
         amounts.Add(63);
-
         BankAccountVerify verification = new BankAccountVerify(amounts);
+
+        // microdeposit_type: descriptor_code
+        // BankAccountVerify verification = new BankAccountVerify();
+        // verification.DescriptorCode = "SMABCD";
 
         BankAccountsApi api = new BankAccountsApi(config);
 
@@ -174,8 +269,15 @@ post:
 
         createdBankAccount, _, _ := apiClient.BankAccountsApi.Create(context).BankAccountWritable(bankAccountWritable).Execute()
 
-        verifyAmounts := []int32{11, 35}
+        // Check microdeposit_type from GET /v1/bank_accounts/:id to choose the right variant:
+
+        // microdeposit_type: amounts
+        verifyAmounts := []int32{25, 63}
         verify := *lob.NewBankAccountVerify(verifyAmounts)
+
+        // microdeposit_type: descriptor_code
+        // verify := *lob.NewBankAccountVerify(nil)
+        // verify.DescriptorCode = lob.PtrString("SMABCD")
 
         verifiedAccount, _, err := apiClient.BankAccountsApi.Verify(context, createdBankAccount.Id).BankAccountVerify(verify).Execute()
 

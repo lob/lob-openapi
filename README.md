@@ -113,6 +113,8 @@ If your tests fail, it is because your hook is looking for specific keys in your
 ## E2E Testing
 
 You can run the currently available end-to-end tests with the command `npm run docsTest`.
+This builds docs locally and runs Cypress against the generated output.
+Use `npm run docsTest:deployed` to run the same prerendered docs smoke tests against the GitHub Pages deployment.
 
 ## Bundled spec
 

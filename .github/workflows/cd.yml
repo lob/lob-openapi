@@ -18,17 +18,15 @@ jobs:
           node-version-file: ".node-version"
 
       - name: bundle
-        uses: hilary/openapi-cli-bundle-action@v0.0.2
-        with:
-          base-spec: "./lob-api-public.yml"
-          bundled-spec: "dist/lob-api-bundled.yml"
-
-      - name: build zero-dependency docs
         shell: bash
         run: |
           set -x
           npm install
-          npm run redoc
+          npm run bundle
+
+      - name: build zero-dependency docs
+        shell: bash
+        run: npm run redoc
 
       - name: build postman collection
         uses: ./actions/contract_tests

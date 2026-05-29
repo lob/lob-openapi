@@ -25,3 +25,21 @@ describe("ensures CSS styling is valid", () => {
       });
   });
 });
+
+describe("ensures Redoc runtime is valid", () => {
+  it("hydrates generated docs without runtime errors", () => {
+    const uncaughtErrors = [];
+
+    cy.on("uncaught:exception", (error) => {
+      uncaughtErrors.push(error.message);
+      return false;
+    });
+
+    cy.visitDocs({ hydrate: true });
+
+    cy.window().should((win) => {
+      expect(win.Redoc?.hydrate?.toString()).not.to.eq("function() {}");
+      expect(uncaughtErrors).to.deep.eq([]);
+    });
+  });
+});

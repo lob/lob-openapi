@@ -1,9 +1,6 @@
 describe("ensures introduction links and text are valid", () => {
-  // This link leads to the staging docs which are built off main right now.
-  // We will change it to the live docs after a new release is created, since
-  // some things used in the tests––like the ID––aren't live yet.
   beforeEach(() => {
-    cy.visit("https://lob.github.io/lob-openapi/");
+    cy.visitDocs();
   });
 
   it("contains a link to the main Lob page", () => {
@@ -71,8 +68,8 @@ describe("ensures introduction links and text are valid", () => {
   });
 
   it("contains the test & live environments link", () => {
-    cy.get("h1")
-      .contains("Test and Live Environments")
+    cy.get('[data-section-id="tag/Test-and-Live-Environments"]')
+      .contains("h2", "Test and Live Environments")
       .find("a")
       .should("have.attr", "href")
       .and("include", "#tag/Test-and-Live-Environments");

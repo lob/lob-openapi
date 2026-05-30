@@ -9,6 +9,8 @@ const { spawn, spawnSync } = require("child_process");
 const root = path.resolve(__dirname, "..");
 const docsRoot = fs.mkdtempSync(path.join(os.tmpdir(), "lob-openapi-docs-"));
 const docsFile = path.join(docsRoot, "index.html");
+const npmBin = process.platform === "win32" ? "npm.cmd" : "npm";
+const cypressBin = process.platform === "win32" ? "npx.cmd" : "npx";
 // Keep this list closed so request paths never become filesystem paths.
 const publicFileSpecs = [
   {
@@ -37,29 +39,13 @@ const publicFileSpecs = [
     contentType: "text/javascript",
   },
 ];
-let publicFiles = new Map();
+let server;
 
-const cleanup = () => {
+function cleanup() {
   fs.rmSync(docsRoot, { recursive: true, force: true });
-};
+}
 
-const server = http.createServer((request, response) => {
-  const requestPath = new URL(request.url, "http://127.0.0.1").pathname;
-  const publicFile = publicFiles.get(requestPath);
-
-  if (!publicFile) {
-    response.writeHead(403);
-    response.end("Forbidden");
-    return;
-  }
-
-  response.writeHead(200, {
-    "Content-Type": publicFile.contentType,
-  });
-  response.end(publicFile.content);
-});
-
-const shutdown = ({ code, signal } = {}) => {
+function shutdown({ code, signal } = {}) {
   const finalize = () => {
     cleanup();
 
@@ -71,30 +57,31 @@ const shutdown = ({ code, signal } = {}) => {
     process.exit(code ?? 1);
   };
 
-  if (server.listening) {
+  if (server?.listening) {
     server.close(finalize);
     return;
   }
 
   finalize();
-};
-
-const npmBin = process.platform === "win32" ? "npm.cmd" : "npm";
-const redoc = spawnSync(npmBin, ["run", "redoc"], {
-  cwd: root,
-  env: {
-    ...process.env,
-    REDOC_OUTPUT: docsFile,
-  },
-  stdio: "inherit",
-});
-
-if (redoc.status !== 0) {
-  shutdown({ code: redoc.status ?? 1 });
 }
 
-try {
-  publicFiles = new Map(
+function buildDocs() {
+  const redoc = spawnSync(npmBin, ["run", "redoc"], {
+    cwd: root,
+    env: {
+      ...process.env,
+      REDOC_OUTPUT: docsFile,
+    },
+    stdio: "inherit",
+  });
+
+  if (redoc.status !== 0) {
+    shutdown({ code: redoc.status ?? 1 });
+  }
+}
+
+function loadPublicFiles() {
+  return new Map(
     publicFileSpecs.map(({ requestPath, filePath, contentType }) => [
       requestPath,
       {
@@ -103,14 +90,27 @@ try {
       },
     ])
   );
-} catch (error) {
-  console.error(error);
-  shutdown({ code: 1 });
 }
 
-server.listen(0, "127.0.0.1", () => {
-  const { port } = server.address();
-  const cypressBin = process.platform === "win32" ? "npx.cmd" : "npx";
+function createDocsServer(publicFiles) {
+  return http.createServer((request, response) => {
+    const requestPath = new URL(request.url, "http://127.0.0.1").pathname;
+    const publicFile = publicFiles.get(requestPath);
+
+    if (!publicFile) {
+      response.writeHead(403);
+      response.end("Forbidden");
+      return;
+    }
+
+    response.writeHead(200, {
+      "Content-Type": publicFile.contentType,
+    });
+    response.end(publicFile.content);
+  });
+}
+
+function runCypress(port) {
   const cypress = spawn(
     cypressBin,
     [
@@ -135,4 +135,23 @@ server.listen(0, "127.0.0.1", () => {
   cypress.on("exit", (code, signal) => {
     shutdown({ code, signal });
   });
-});
+}
+
+function main() {
+  buildDocs();
+
+  try {
+    const publicFiles = loadPublicFiles();
+    server = createDocsServer(publicFiles);
+  } catch (error) {
+    console.error(error);
+    shutdown({ code: 1 });
+  }
+
+  server.listen(0, "127.0.0.1", () => {
+    const { port } = server.address();
+    runCypress(port);
+  });
+}
+
+main();

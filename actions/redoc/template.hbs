@@ -773,8 +773,13 @@
     .react-tabs__tab-panel > div > pre > .token.string, .react-tabs__tab-panel > div > pre > .token.builtin{color:#416581}
     .react-tabs__tab-panel > div > pre > .token.operator,
     .react-tabs__tab-panel > div > pre > .token.variable{color:#324350}
-    pre > code[class*='language-'],
-    pre > code[class*='language-'] * { color:#000000 !important;text-shadow:none !important }
+    {{!-- Match Redoc's top-level tag heading without affecting operation headings. --}}
+    div[id^='tag/']:not([id*='/operation/']) > div > div > h2{font-size:1.85714em;line-height:1.6em;margin:0.67em 0;}
+    .redoc-json .token.property.string,
+    .redoc-json .token.string{color:#416581;}
+    .redoc-markdown code[class*='language-']{color:#000000;text-shadow:none;}
+    .redoc-markdown code[class*='language-'] .token.string{color:#416581;}
+    .redoc-markdown code[class*='language-'] .token.parameter.variable{color:#000000;}
     div.react-tabs__tab-panel.react-tabs__tab-panel--selected{border-radius:10px}
 
     {{!-- sidebars fontweight --}}

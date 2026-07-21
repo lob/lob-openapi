@@ -1,0 +1,22 @@
+type: string
+
+description: >-
+  The service request number (SR#) of an approved USPS promotion (for example,
+  the Integrated Technology promotion) to apply to this mailpiece. Supported on
+  letters, postcards, self mailers, and checks.
+
+
+  This must be a **top-level** field in the create request, alongside `size`,
+  `front`, and `back` — **not** nested inside `merge_variables` or any other
+  object. A misplaced `service_request_number` is silently ignored: the
+  mailpiece is created successfully with no promotion applied and no error
+  returned.
+
+
+  The SR# must be approved for your account and cover the resource type, size,
+  and mail type of this mailpiece for the promotion to apply. If omitted, no
+  promotion is applied. See our
+  <a href="https://help.lob.com/print-and-mail/building-a-mail-strategy/usps-promotions-through-lob" target="_blank">guide to USPS promotions through Lob</a>
+  for more information.
+
+nullable: true

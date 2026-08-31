@@ -6,8 +6,8 @@ post:
   description: >-
     Verify a US or US territory address _with a live API key_. The
     address can be in components (e.g. `primary_line` is
-    "210 King Street", `zip_code` is "94107") or as a
-    single string (e.g. "210 King Street 94107"), but not as both.
+    "42 Example Road", `zip_code` is "02134") or as a
+    single string (e.g. "42 Example Road 02134"), but not as both.
     Requests using a test API key validate required fields but
     return empty values unless specific `primary_line`
     values are provided. See the [US Verifications Test
@@ -41,10 +41,10 @@ post:
         examples:
           basic:
             value:
-              primary_line: 210 King Street
-              city: San Francisco
-              state: CA
-              zip_code: "94107"
+              primary_line: 42 Example Road
+              city: Anytown
+              state: MA
+              zip_code: "02134"
           full_payload:
             value:
               recipient: Walgreens
@@ -56,7 +56,7 @@ post:
               zip_code: "00926"
           single_line:
             value:
-              address: "210 King Street 94107"
+              address: "42 Example Road 02134"
           test:
             value:
               primary_line: "po box"
@@ -68,10 +68,10 @@ post:
         examples:
           basic:
             value:
-              primary_line: 210 King Street
-              city: San Francisco
-              state: CA
-              zip_code: "94107"
+              primary_line: 42 Example Road
+              city: Anytown
+              state: MA
+              zip_code: "02134"
           full_payload:
             value:
               recipient: Walgreens
@@ -83,7 +83,7 @@ post:
               zip_code: "00926"
           single_line:
             value:
-              address: "210 King Street 94107"
+              address: "42 Example Road 02134"
           test:
             value:
               primary_line: "po box"
@@ -95,10 +95,10 @@ post:
         examples:
           basic:
             value:
-              primary_line: 210 King Street
-              city: San Francisco
-              state: CA
-              zip_code: "94107"
+              primary_line: 42 Example Road
+              city: Anytown
+              state: MA
+              zip_code: "02134"
           full_payload:
             value:
               recipient: Walgreens
@@ -110,7 +110,7 @@ post:
               zip_code: "00926"
           single_line:
             value:
-              address: "210 King Street 94107"
+              address: "42 Example Road 02134"
           test:
             value:
               primary_line: "po box"
@@ -128,19 +128,19 @@ post:
       source: |
         curl https://api.lob.com/v1/us_verifications \
           -u <YOUR_LIVE_API_KEY>: \
-          -d "primary_line=210 King Street" \
-          -d "city=San Francisco" \
-          -d "state=CA" \
-          -d "zip_code=94107"
+          -d "primary_line=42 Example Road" \
+          -d "city=Anytown" \
+          -d "state=MA" \
+          -d "zip_code=02134"
       label: CURL
     - lang: Typescript
       source: |
         const UsVerification = new USVerificationsApi(av_config);
         const verificationData1: UsVerificationsWritable = {
-          primary_line: '210 King Street',
-          city: 'San Francisco',
-          state: 'CA',
-          zip_code: '94107'
+          primary_line: '42 Example Road',
+          city: 'Anytown',
+          state: 'MA',
+          zip_code: '02134'
         };
 
         try {
@@ -152,10 +152,10 @@ post:
     - lang: Javascript
       source: |
         Lob.usVerifications.verify({
-          primary_line: '210 King Street',
-          city: 'San Francisco',
-          state: 'CA',
-          zip_code: '94107'
+          primary_line: '42 Example Road',
+          city: 'Anytown',
+          state: 'MA',
+          zip_code: '02134'
         }, function (err, res) {
           console.log(err, res);
         });
@@ -165,10 +165,10 @@ post:
         usVerificationsApi = UsVerificationsApi.new(config)
 
         verificationData = UsVerificationsWritable.new({
-          primary_line: "210 King Street",
-          city: "San Francisco",
-          state: "CA",
-          zip_code: "94017",
+          primary_line: "42 Example Road",
+          city: "Anytown",
+          state: "MA",
+          zip_code: "02134",
         })
 
         begin
@@ -182,10 +182,10 @@ post:
         with ApiClient(configuration) as api_client:
           api = UsVerificationsApi(api_client)
         verification_data_1 = UsVerificationsWritable(
-          primary_line = "210 King Street",
-          city = "San Francisco",
-          state = "CA",
-          zip_code = "94017",
+          primary_line = "42 Example Road",
+          city = "Anytown",
+          state = "MA",
+          zip_code = "02134",
         )
 
         try:
@@ -198,10 +198,10 @@ post:
         $apiInstance = new OpenAPI\Client\Api\UsVerificationsApi($config, new GuzzleHttp\Client());
 
         $verificationData = new OpenAPI\Client\Model\UsVerificationsWritable(array(
-          'primary_line'     => '210 King Street',
-          'city'     => 'San Francisco',
-          'state'     => 'CA',
-          'zip_code'     => '94017',
+          'primary_line'     => '42 Example Road',
+          'city'     => 'Anytown',
+          'state'     => 'MA',
+          'zip_code'     => '02134',
         ));
 
         try {
@@ -212,10 +212,10 @@ post:
     - lang: Java
       source: |
         UsVerificationsWritable singleVerify = new UsVerificationsWritable();
-        singleVerify.setPrimaryLine("210 King Street");
-        singleVerify.setCity("San Francisco");
-        singleVerify.setState("CA");
-        singleVerify.setZipCode("94017");
+        singleVerify.setPrimaryLine("42 Example Road");
+        singleVerify.setCity("Anytown");
+        singleVerify.setState("MA");
+        singleVerify.setZipCode("02134");
 
         UsVerificationsApi apiInstance = new UsVerificationsApi(config);
         try {
@@ -227,10 +227,10 @@ post:
     - lang: Elixir
       source: |
         Lob.USVerification.verify(%{
-          primary_line: "210 King Street",
-          city: "San Francisco",
-          state: "CA",
-          zip_code: "94107"
+          primary_line: "42 Example Road",
+          city: "Anytown",
+          state: "MA",
+          zip_code: "02134"
         })
       label: ELIXIR
     - lang: CSharp

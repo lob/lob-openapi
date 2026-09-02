@@ -18,5 +18,5 @@ Cypress.Commands.add("visitDocs", ({ hydrate = false } = {}) => {
     });
   }
 
-  cy.visit(Cypress.env("docsUrl") || DEPLOYED_DOCS_URL);
+  cy.visit(Cypress.expose("docsUrl") || DEPLOYED_DOCS_URL);
 });

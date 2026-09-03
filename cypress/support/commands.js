@@ -26,8 +26,11 @@ Cypress.Commands.add("visitDocs", ({ hydrate = false } = {}) => {
     cy.intercept("GET", docsUrl, (req) => {
       req.continue((res) => {
         res.body = res.body.replace(
-          /<script([^>]*\bsrc="https:\/\/cdn\.redocly\.com\/redoc\/[^"]*")[^>]*>/,
-          "<script$1>"
+          /<script\b[^>]*\bsrc=(["']).*?cdn\.redocly\.com\/redoc\/.*?\1[^>]*>/g,
+          (scriptTag) =>
+            scriptTag
+              .replace(/\s+(?:integrity|crossorigin)=(["']).*?\1/g, "")
+              .replace(/\s+crossorigin\b(?!=)/g, "")
         );
       });
     });

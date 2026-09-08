@@ -118,7 +118,7 @@ function runCypress(port) {
       "run",
       "--spec",
       "cypress/e2e/*",
-      "--env",
+      "--expose",
       `docsUrl=http://127.0.0.1:${port}/docs/index.html`,
     ],
     {

@@ -768,8 +768,10 @@
     div.react-tabs__tab-panel > div > div > span{color:#416581}
     div.react-tabs__tab-panel > div > div > div > span{color:#416581}
     ul > li.react-tabs__tab.react-tabs__tab--selected{color:#ecf0f5}
-    ul > li.tab-success.react-tabs__tab--selected{color:#F6FFF4}
-    ul > li.tab-error.react-tabs__tab--selected{color:#fbf1f0}
+    ul[role="tablist"] > li.tab-success[aria-selected="false"]{color:#1d8127}
+    ul[role="tablist"] > li.tab-error[aria-selected="false"]{color:#d41f1c}
+    ul[role="tablist"] > li.tab-success.react-tabs__tab--selected{color:#F6FFF4}
+    ul[role="tablist"] > li.tab-error.react-tabs__tab--selected{color:#fbf1f0}
     .react-tabs__tab-panel > div > pre > .token.string, .react-tabs__tab-panel > div > pre > .token.builtin{color:#416581}
     .react-tabs__tab-panel > div > pre > .token.operator,
     .react-tabs__tab-panel > div > pre > .token.variable{color:#324350}

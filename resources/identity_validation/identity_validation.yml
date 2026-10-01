@@ -17,33 +17,33 @@ post:
           $ref: "./models/identity_validation_writable.yml"
         example:
           recipient: "Larry Lobster"
-          primary_line: "210 King St."
+          primary_line: "42 Example Rd."
           secondary_line: ""
-          city: "San Francisco"
-          state: "CA"
-          zip_code: "94107"
+          city: "Anytown"
+          state: "MA"
+          zip_code: "02134"
 
       application/x-www-form-urlencoded:
         schema:
           $ref: "./models/identity_validation_writable.yml"
         example:
           recipient: "Larry Lobster"
-          primary_line: "210 King St."
+          primary_line: "42 Example Rd."
           secondary_line: ""
-          city: "San Francisco"
-          state: "CA"
-          zip_code: "94107"
+          city: "Anytown"
+          state: "MA"
+          zip_code: "02134"
 
       multipart/form-data:
         schema:
           $ref: "./models/identity_validation_writable.yml"
         example:
           recipient: "Larry Lobster"
-          primary_line: "210 King St."
+          primary_line: "42 Example Rd."
           secondary_line: ""
-          city: "San Francisco"
-          state: "CA"
-          zip_code: "94107"
+          city: "Anytown"
+          state: "MA"
+          zip_code: "02134"
 
   responses:
     "200":
@@ -58,10 +58,10 @@ post:
         curl https://api.lob.com/v1/identity_validation \
           -u <YOUR_LIVE_API_KEY>: \
           -d "recipient=Larry Lobster" \
-          -d "primary_line=210 King St" \
+          -d "primary_line=42 Example Rd" \
           -d "secondary_line=" \
           -d "urbanization=" \
-          -d "city=San Francsico" \
-          -d "state=CA" \
-          -d "zip_code=94107" \
+          -d "city=Anytown" \
+          -d "state=MA" \
+          -d "zip_code=02134" \
       label: CURL

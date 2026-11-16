@@ -73,8 +73,11 @@ allOf:
           at 300 DPI, while supplied HTML will be rendered and trimmed to as
           many 8.5"x11" pages as necessary.
 
-          - If a PDF is provided, it must be 6
-          pages or fewer.
+          - The attachment can be at most 6 pages (60 if your account has
+          long check attachments enabled). A longer PDF is rejected when the
+          check is created. HTML and templates are only measured once
+          rendered, so a longer one is not caught when the check is created
+          and pages past the limit are not printed.
 
           - The attachment will be printed double-sided in black &
           white and will be included in the envelope after the check
